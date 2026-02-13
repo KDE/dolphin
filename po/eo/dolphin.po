@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-12 00:46+0000\n"
+"POT-Creation-Date: 2026-02-13 00:46+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -2930,7 +2930,7 @@ msgstr "Artisto"
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
 #: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2834
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Audio"
 msgstr "Aŭdio"
@@ -2945,7 +2945,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Albumo"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "Duration"
 msgstr "Daŭro"
@@ -2966,60 +2966,87 @@ msgid "Release Year"
 msgstr "Eldonjaro"
 
 #: kitemviews/kfileitemmodel.cpp:2836
+#, fuzzy
+#| msgctxt "@item:inlistbox"
+#| msgid "Audio Files"
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "Sondosieroj"
+
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Bildformato"
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2837
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Framfrekvenco"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Video"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Video"
+
+#: kitemviews/kfileitemmodel.cpp:2841
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Color Space"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Path"
 msgstr "Vojo"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
 #: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Other"
 msgstr "Alia"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Dosiera Etendo"
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Tempo de Forigo"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Liga Celo"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Elŝutite de"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Permesoj"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3028,17 +3055,17 @@ msgstr ""
 "La formato de permesoj povas esti ŝanĝata en agordoj. Elektebloj estas "
 "Simbola, Numera (okuma) aŭ Kombinita formato"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Owner"
 msgstr "Posedanto"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "User Group"
 msgstr "Uzantgrupo"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -7064,10 +7091,6 @@ msgstr "Zomi"
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Images"
 #~ msgstr "Bildoj"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Sondosieroj"
 
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Videos"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-12 00:46+0000\n"
+"POT-Creation-Date: 2026-02-13 00:46+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -2720,7 +2720,7 @@ msgstr "အနုပညာရှင်"
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
 #: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2834
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Audio"
 msgstr "အသံ"
@@ -2735,7 +2735,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "အယ်ဘမ်"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "Duration"
 msgstr "ကြာချိန်"
@@ -2756,77 +2756,104 @@ msgid "Release Year"
 msgstr "ထုတ်ဝေသည့်နှစ်"
 
 #: kitemviews/kfileitemmodel.cpp:2836
+#, fuzzy
+#| msgctxt "@item:inlistbox"
+#| msgid "Audio Files"
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "အော်ဒီယိုဖိုင်လ်များ"
+
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "အချိုးအစား"
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2837
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Video"
 msgstr "ဗီဒီယို"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "ဖရိန်ပြောင်းနှုန်း"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Video"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "ဗီဒီယို"
+
+#: kitemviews/kfileitemmodel.cpp:2841
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Color Space"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Path"
 msgstr "လမ်းကြောင်း"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
 #: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Other"
 msgstr "အခြား"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "File Extension"
 msgstr "ဖိုင်လ်တိုးချဲ့အမည်"
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "ဖျက်မည့်အချိန်"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "လင့်ခ် ဦးတည်နေရာ"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "မှဒေါင်းလုတ်ဆွဲခဲ့သည်"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Permissions"
 msgstr "ခွင့်ပြုချက်များ"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Owner"
 msgstr "ပိုင်ရှင်"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "User Group"
 msgstr "အသုံးပြုသူအုပ်စု"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6787,10 +6814,6 @@ msgstr "ဇွန်း"
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Images"
 #~ msgstr "ပုံရိပ်များ"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "အော်ဒီယိုဖိုင်လ်များ"
 
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Videos"

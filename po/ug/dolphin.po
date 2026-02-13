@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-12 00:46+0000\n"
+"POT-Creation-Date: 2026-02-13 00:46+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -2811,7 +2811,7 @@ msgstr "ئورۇنلىغۇچى"
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
 #: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2834
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Audio"
 msgstr "ئۈن"
@@ -2826,7 +2826,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "ئالبوم"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "Duration"
 msgstr "ۋاقتى"
@@ -2850,12 +2850,21 @@ msgid "Release Year"
 msgstr "‹%1› نى قويۇۋەت"
 
 #: kitemviews/kfileitemmodel.cpp:2836
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Audio Files"
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "ئۈن ھۆججەتلىرى"
+
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2837
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2863,30 +2872,48 @@ msgctxt "@label"
 msgid "Video"
 msgstr "سىنلار"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "سىنلار"
+
+#: kitemviews/kfileitemmodel.cpp:2841
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Color Space"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Path"
 msgstr "يول"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
 #: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Other"
 msgstr "باشقا"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2845
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2894,12 +2921,12 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "تاللاش"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "ئۇلانما نىشانى"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2847
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Copied From"
@@ -2907,29 +2934,29 @@ msgctxt "@label"
 msgid "Downloaded From"
 msgstr "كۆچۈرۈلگەن ئورۇن"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Permissions"
 msgstr "ئىمتىيازلار"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Owner"
 msgstr "ئىگىسى"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "User Group"
 msgstr "ئىشلەتكۈچى گۇرۇپپىسى"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -7079,13 +7106,6 @@ msgstr "كېڭەيت-تارايت"
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Images"
 #~ msgstr "سۈرەتلەر"
-
-#, fuzzy
-#~| msgctxt "@option:check"
-#~| msgid "Audio Files"
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "ئۈن ھۆججەتلىرى"
 
 #, fuzzy
 #~| msgctxt "@option:check"

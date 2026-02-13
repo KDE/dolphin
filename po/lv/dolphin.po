@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-12 00:46+0000\n"
+"POT-Creation-Date: 2026-02-13 00:46+0000\n"
 "PO-Revision-Date: 2025-11-09 11:07+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2910,7 +2910,7 @@ msgstr "Izpildītājs"
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
 #: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2834
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Audio"
 msgstr "Audio"
@@ -2925,7 +2925,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Albums"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "Duration"
 msgstr "Ilgums"
@@ -2946,60 +2946,87 @@ msgid "Release Year"
 msgstr "Izdošanas gads"
 
 #: kitemviews/kfileitemmodel.cpp:2836
+#, fuzzy
+#| msgctxt "@item:inlistbox"
+#| msgid "Audio Files"
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "Audio datnes"
+
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Malu attiecība"
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2837
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Kadru ātrums"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Video"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Video"
+
+#: kitemviews/kfileitemmodel.cpp:2841
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Color Space"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Path"
 msgstr "Ceļš"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
 #: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Other"
 msgstr "Citi"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Datnes paplašinājums"
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Dzēšanas laiks"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Saites mērķis"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Lejupielādēts no"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Atļaujas"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3008,17 +3035,17 @@ msgstr ""
 "Atļauju attēlošanas formātu varat mainīt iestatījumos. Iespējas ir "
 "simbolisks, skaitlisks (oktāls) vai kombinēts formāts"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Owner"
 msgstr "Īpašnieks"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "User Group"
 msgstr "Lietotāju grupa"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -7036,10 +7063,6 @@ msgstr "Tālummaiņa"
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Images"
 #~ msgstr "Attēli"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Audio datnes"
 
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Videos"

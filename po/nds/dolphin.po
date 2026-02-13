@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-12 00:46+0000\n"
+"POT-Creation-Date: 2026-02-13 00:46+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -2833,7 +2833,7 @@ msgstr "Künstler"
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
 #: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2834
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Audio"
 msgstr "Klang"
@@ -2851,7 +2851,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "Duration"
 msgstr "Afspeelduer"
@@ -2878,12 +2878,21 @@ msgid "Release Year"
 msgstr "%1 freegeven"
 
 #: kitemviews/kfileitemmodel.cpp:2836
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Audio Files"
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "Klangdateien"
+
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2837
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2891,7 +2900,7 @@ msgctxt "@label"
 msgid "Video"
 msgstr "Filmdateien"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2838
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Sample Rate"
@@ -2899,25 +2908,46 @@ msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Aftast-Wedderhalen"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Filmdateien"
+
+#: kitemviews/kfileitemmodel.cpp:2841
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2842
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Color Depth"
+msgctxt "@label"
+msgid "Color Space"
+msgstr "Klöördeepde"
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Path"
 msgstr "Padd"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
 #: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
 #: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Other"
 msgstr "Anner"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2845
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2925,12 +2955,12 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Köör"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Link-Teel"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2847
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Copied From"
@@ -2938,29 +2968,29 @@ msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Kopeert vun"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Verlöven"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Owner"
 msgstr "Eegner"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "User Group"
 msgstr "Brukerkoppel"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -7174,13 +7204,6 @@ msgstr "Ansichtgrött"
 
 #, fuzzy
 #~| msgctxt "@option:check"
-#~| msgid "Audio Files"
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Klangdateien"
-
-#, fuzzy
-#~| msgctxt "@option:check"
 #~| msgid "Videos"
 #~ msgctxt "@item:inlistbox"
 #~ msgid "Videos"
@@ -8759,10 +8782,6 @@ msgstr "Ansichtgrött"
 #~ msgctxt "@label"
 #~ msgid "Codec"
 #~ msgstr "Kodek"
-
-#~ msgctxt "@label"
-#~ msgid "Color Depth"
-#~ msgstr "Klöördeepde"
 
 #, fuzzy
 #~| msgctxt "@label"
