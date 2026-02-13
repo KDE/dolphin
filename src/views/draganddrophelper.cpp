@@ -34,7 +34,7 @@ bool DragAndDropHelper::urlListMatchesUrl(const QList<QUrl> &urls, const QUrl &d
     return *m_urlListMatchesUrlCache.insert(destUrl, destUrlMatches);
 }
 
-KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window)
+KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window, KIO::DropJobFlags dropjobFlags)
 {
     const QMimeData *mimeData = event->mimeData();
     if (isArkDndMimeType(mimeData)) {
@@ -53,7 +53,7 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
         }
 
         // Drop into a directory or a desktop-file
-        KIO::DropJob *job = KIO::drop(event, destUrl);
+        KIO::DropJob *job = KIO::drop(event, destUrl, dropjobFlags);
         KJobWidgets::setWindow(job, window);
         return job;
     }

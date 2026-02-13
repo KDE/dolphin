@@ -11,6 +11,7 @@
 #include "dolphin_export.h"
 
 #include <KFileItem>
+#include <KIO/DropJob>
 
 #include <QList>
 #include <QString>
@@ -33,14 +34,16 @@ public:
      * offered to the user. The drag destination must represent a directory or
      * a desktop-file, otherwise the dropping gets ignored.
      *
-     * @param destUrl   URL of the item destination. Is used only if destItem::isNull()
-     *                  is true.
-     * @param event     Drop event.
-     * @param window    Widget where the drop happened, will be used as parent of the drop menu.
-     * @return          KIO::DropJob pointer or null in case the destUrl is contained
-     *                  in the mimeData url list.
+     * @param destUrl       URL of the item destination. Is used only if destItem::isNull()
+     *                      is true.
+     * @param event         Drop event.
+     * @param window        Widget where the drop happened, will be used as parent of the drop menu.
+     * @param dropjobFlags  Additional KIO::DropJobFlags passed to KIO::drop
+     * @return              KIO::DropJob pointer or null in case the destUrl is contained
+     *                      in the mimeData url list.
      */
-    static KIO::DropJob *dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window);
+    static KIO::DropJob *
+    dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window, KIO::DropJobFlags dropjobFlags = KIO::DropJobFlag::DropJobDefaultFlags);
 
     /**
      * Checks if the destination supports dropping.
