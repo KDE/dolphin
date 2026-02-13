@@ -36,6 +36,7 @@
 #include <KDesktopFile>
 #include <KDirModel>
 #include <KFileItemListProperties>
+#include <KFilePlacesView>
 #include <KFormat>
 #include <KIO/CopyJob>
 #include <KIO/DeleteOrTrashJob>
@@ -560,10 +561,16 @@ bool DolphinView::sortHiddenLast() const
 
 void DolphinView::setVisibleRoles(const QList<QByteArray> &roles)
 {
-    const QList<QByteArray> &previousRoles = roles;
+    const QList<QByteArray> &previousRoles = m_visibleRoles;
+    auto previousSortRole = sortRole();
 
     ViewProperties props(viewPropertiesUrl());
     props.setVisibleRoles(roles);
+
+    // change the sort role if it changed
+    if (sortRole() != props.sortRole() && previousRoles.contains(previousSortRole)) {
+        setSortRole(props.sortRole());
+    }
 
     m_visibleRoles = roles;
     m_view->setVisibleRoles(roles);
@@ -1328,8 +1335,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
                 visibleRoles.removeOne(selectedRole);
             }
 
-            view->setVisibleRoles(visibleRoles);
-            props.setVisibleRoles(visibleRoles);
+            setVisibleRoles(visibleRoles);
 
             QList<int> columnWidths;
             if (!header->automaticColumnResizing()) {
@@ -1426,7 +1432,16 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *even
 
 void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget)
 {
-    KIO::DropJob *job = DragAndDropHelper::dropUrls(destUrl, dropEvent, dropWidget);
+    KIO::DropJobFlags dropjobFlags;
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 23, 0)
+    if (qobject_cast<KFilePlacesView *>(dropEvent->source())) {
+        // this drop comes from Places View so we want to avoid
+        // potentially destructive Move-like plugins actions
+        dropjobFlags |= KIO::DropJobFlag::ExcludePluginsActions;
+    }
+#endif
+
+    KIO::DropJob *job = DragAndDropHelper::dropUrls(destUrl, dropEvent, dropWidget, dropjobFlags);
 
     if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
@@ -2148,14 +2163,7 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray> &curre
     Q_UNUSED(previous)
     Q_ASSERT(m_container->controller()->view()->visibleRoles() == current);
 
-    const QList<QByteArray> previousVisibleRoles = m_visibleRoles;
-
-    m_visibleRoles = current;
-
-    ViewProperties props(viewPropertiesUrl());
-    props.setVisibleRoles(m_visibleRoles);
-
-    Q_EMIT visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
+    setVisibleRoles(current);
 }
 
 void DolphinView::slotRoleEditingCanceled()

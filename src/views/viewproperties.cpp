@@ -389,6 +389,21 @@ void ViewProperties::setVisibleRoles(const QList<QByteArray> &roles)
         }
     }
 
+    if (!newVisibleRoles.contains("text")) {
+        newVisibleRoles.push_back("text");
+    }
+
+    // change the sortRole if it becomes hidden
+    if (!roles.contains(m_node->sortRole())) {
+        auto it = newVisibleRoles.begin();
+        auto newSortRole = *it;
+        while (newSortRole == CustomizedDetailsString) {
+            ++it;
+            newSortRole = *it;
+        }
+        m_node->setSortRole(newSortRole);
+    }
+
     // Add the updated values for the current view-mode
     newVisibleRoles.reserve(roles.count());
     for (const QByteArray &role : roles) {

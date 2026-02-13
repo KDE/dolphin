@@ -228,6 +228,9 @@ int KItemListView::maximumVisibleItems() const
 
 void KItemListView::setVisibleRoles(const QList<QByteArray> &roles)
 {
+    if (roles == m_visibleRoles) {
+        return;
+    }
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
     onVisibleRolesChanged(roles, previousRoles);
