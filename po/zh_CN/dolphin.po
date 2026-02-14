@@ -2818,12 +2818,9 @@ msgid "Release Year"
 msgstr "发行年份"
 
 #: kitemviews/kfileitemmodel.cpp:2836
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Audio"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "音频"
+msgstr "音频编码"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2843,22 +2840,19 @@ msgid "Frame Rate"
 msgstr "帧率"
 
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "视频"
+msgstr "视频编码"
 
 #: kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "像素格式"
 
 #: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "色彩空间"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -4886,7 +4880,7 @@ msgstr "总是显示标签页栏"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr ""
+msgstr "标签页宽度："
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
@@ -4898,13 +4892,13 @@ msgstr "显示标签页的关闭按钮"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "标签页宽度按文件夹名称调整"
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "标签页使用相同的固定宽度"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format

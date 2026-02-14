@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 00:46+0000\n"
-"PO-Revision-Date: 2026-02-02 09:09+0100\n"
+"PO-Revision-Date: 2026-02-12 21:27+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -5192,12 +5192,10 @@ msgid "Always show tab bar"
 msgstr "Toujours afficher une barre d'onglets"
 
 #: settings/interface/folderstabssettingspage.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Largeur de l'intitulé :"
+msgstr "Largeur de l'onglet :"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
@@ -5209,15 +5207,13 @@ msgstr "Afficher un bouton de fermeture dans les onglets"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "La largeur de l'onglet s'adapte au nom du dossier"
 
 #: settings/interface/folderstabssettingspage.cpp:128
-#, fuzzy, kde-format
-#| msgctxt "@option:radio size as in tab size"
-#| msgid "Tabs have all the same fixed size"
+#, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr "Les onglets ont tous la même taille fixe"
+msgstr "Les onglets possède tous la même taille fixe"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format

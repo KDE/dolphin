@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 00:46+0000\n"
-"PO-Revision-Date: 2026-02-11 11:57+0100\n"
+"PO-Revision-Date: 2026-02-13 14:13+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2946,12 +2946,9 @@ msgid "Release Year"
 msgstr "Jaar van uitgave"
 
 #: kitemviews/kfileitemmodel.cpp:2836
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Audio-bestanden"
+msgstr "Audio-codec"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2971,22 +2968,19 @@ msgid "Frame Rate"
 msgstr "Framesnelheid"
 
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Video-codec"
 
 #: kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Pixelformaat"
 
 #: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Kleurruimte"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"

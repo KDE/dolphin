@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 00:46+0000\n"
-"PO-Revision-Date: 2026-02-11 12:45+0100\n"
+"PO-Revision-Date: 2026-02-13 11:30+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2944,12 +2944,9 @@ msgid "Release Year"
 msgstr "Anno de liberation"
 
 #: kitemviews/kfileitemmodel.cpp:2836
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Files Audio"
+msgstr "Codec Audio"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2969,22 +2966,19 @@ msgid "Frame Rate"
 msgstr "Frequentia de photogramma (Frame)"
 
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Codec Video"
 
 #: kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Formato de Pixel"
 
 #: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Spatio de color"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
