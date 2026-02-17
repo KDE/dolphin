@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2026-02-13 09:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2937,30 +2937,30 @@ msgctxt "@label"
 msgid "Image"
 msgstr "Зображення"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Розміри"
 
-#: kitemviews/kfileitemmodel.cpp:2826
-msgctxt "@label"
-msgid "Width"
-msgstr "Ширина"
-
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Height"
 msgstr "Висота"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2827
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Орієнтація"
 
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
+msgctxt "@label"
+msgid "Width"
+msgstr "Ширина"
+
 #: kitemviews/kfileitemmodel.cpp:2829
 msgctxt "@label"
-msgid "Artist"
-msgstr "Виконавець"
+msgid "Album"
+msgstr "Альбом"
 
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
@@ -2972,28 +2972,28 @@ msgstr "Звук"
 
 #: kitemviews/kfileitemmodel.cpp:2830
 msgctxt "@label"
-msgid "Genre"
-msgstr "Жанр"
+msgid "Artist"
+msgstr "Виконавець"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
-msgid "Album"
-msgstr "Альбом"
+msgid "Audio Codec"
+msgstr "Аудіокодек"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-msgctxt "@label"
-msgid "Duration"
-msgstr "Тривалість"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Бітова швидкість"
 
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Duration"
+msgstr "Тривалість"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
-msgid "Track"
-msgstr "Композиція"
+msgid "Genre"
+msgstr "Жанр"
 
 #: kitemviews/kfileitemmodel.cpp:2835
 msgctxt "@label"
@@ -3002,8 +3002,8 @@ msgstr "Рік випуску"
 
 #: kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Аудіокодек"
+msgid "Track"
+msgstr "Композиція"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -3013,69 +3013,72 @@ msgstr "Співвідношення розмірів"
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Video"
 msgstr "Відео"
 
-#: kitemviews/kfileitemmodel.cpp:2838
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "Частота кадрів"
-
 #: kitemviews/kfileitemmodel.cpp:2840
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "Відеокодек"
-
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr "Розміри у пікселях"
-
-#: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Color Space"
 msgstr "Простір кольорів"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Частота кадрів"
+
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr "Розміри у пікселях"
+
+#: kitemviews/kfileitemmodel.cpp:2846
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Відеокодек"
+
+#: kitemviews/kfileitemmodel.cpp:2848
+msgctxt "@label"
 msgid "Path"
 msgstr "Шлях"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Other"
 msgstr "Інше"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Суфікс назви файла"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Час вилучення"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Призначення посилання"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Джерело отримання"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Права доступу"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3084,17 +3087,17 @@ msgstr ""
 "Формат запису прав доступу можна змінити у параметрах. Можна вибрати "
 "«символічний», «числовий (вісімковий)» або «комбінований» формат."
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr "Власник"
 
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "User Group"
 msgstr "Група користувачів"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

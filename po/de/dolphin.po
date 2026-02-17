@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2025-12-27 15:16+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -2910,30 +2910,30 @@ msgctxt "@label"
 msgid "Image"
 msgstr "Bild"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Abmessungen"
 
-#: kitemviews/kfileitemmodel.cpp:2826
-msgctxt "@label"
-msgid "Width"
-msgstr "Breite"
-
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Height"
 msgstr "Höhe"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2827
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Ausrichtung"
 
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
+msgctxt "@label"
+msgid "Width"
+msgstr "Breite"
+
 #: kitemviews/kfileitemmodel.cpp:2829
 msgctxt "@label"
-msgid "Artist"
-msgstr "Künstler"
+msgid "Album"
+msgstr "Album"
 
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
@@ -2945,28 +2945,31 @@ msgstr "Audio"
 
 #: kitemviews/kfileitemmodel.cpp:2830
 msgctxt "@label"
-msgid "Genre"
-msgstr "Genre"
+msgid "Artist"
+msgstr "Künstler"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
+#, fuzzy
+#| msgctxt "@item:inlistbox"
+#| msgid "Audio Files"
 msgctxt "@label"
-msgid "Album"
-msgstr "Album"
+msgid "Audio Codec"
+msgstr "Audio-Dateien"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-msgctxt "@label"
-msgid "Duration"
-msgstr "Dauer"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Bitrate"
 
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Duration"
+msgstr "Dauer"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
-msgid "Track"
-msgstr "Stück"
+msgid "Genre"
+msgstr "Genre"
 
 #: kitemviews/kfileitemmodel.cpp:2835
 msgctxt "@label"
@@ -2974,12 +2977,9 @@ msgid "Release Year"
 msgstr "Jahr der Veröffentlichung"
 
 #: kitemviews/kfileitemmodel.cpp:2836
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Audio-Dateien"
+msgid "Track"
+msgstr "Stück"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2989,29 +2989,14 @@ msgstr "Seitenverhältnis"
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2838
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "Bildwiederholrate"
-
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "Video"
-
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr ""
-
-#: kitemviews/kfileitemmodel.cpp:2842
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Color Depth"
@@ -3021,43 +3006,61 @@ msgstr "Farbtiefe"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Bildwiederholrate"
+
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2846
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Video"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Video"
+
+#: kitemviews/kfileitemmodel.cpp:2848
+msgctxt "@label"
 msgid "Path"
 msgstr "Pfad"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Other"
 msgstr "Weitere"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Dateierweiterung"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Löschzeitpunkt"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Verknüpfungsziel"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Heruntergeladen von"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3067,17 +3070,17 @@ msgstr ""
 "werden. Möglich ist die symbolische, die numerische (oktale) Darstellung "
 "sowie eine Kombination daraus"
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr "Eigentümer"
 
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "User Group"
 msgstr "Benutzergruppe"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

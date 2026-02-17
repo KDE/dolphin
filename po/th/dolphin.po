@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -2804,25 +2804,17 @@ msgctxt "@label"
 msgid "Image"
 msgstr "ภาพต่าง ๆ"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2826
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Width"
-msgctxt "@label"
-msgid "Width"
-msgstr "ความกว้าง"
-
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Height"
 msgstr "ความสูง"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2827
 #, fuzzy
 #| msgctxt "@label EXIF"
 #| msgid "Orientation"
@@ -2830,10 +2822,21 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "ทิศทางของภาพ"
 
-#: kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Width"
 msgctxt "@label"
-msgid "Artist"
-msgstr ""
+msgid "Width"
+msgstr "ความกว้าง"
+
+#: kitemviews/kfileitemmodel.cpp:2829
+#, fuzzy
+#| msgctxt "@label music album"
+#| msgid "Album"
+msgctxt "@label"
+msgid "Album"
+msgstr "อัลบั้ม"
 
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
@@ -2844,30 +2847,19 @@ msgid "Audio"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2830
-#, fuzzy
-#| msgctxt "@label music genre"
-#| msgid "Genre"
 msgctxt "@label"
-msgid "Genre"
-msgstr "หมวดหมู่"
+msgid "Artist"
+msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
 #, fuzzy
-#| msgctxt "@label music album"
-#| msgid "Album"
+#| msgctxt "@action:inmenu View"
+#| msgid "Show Hidden Files"
 msgctxt "@label"
-msgid "Album"
-msgstr "อัลบั้ม"
+msgid "Audio Codec"
+msgstr "แสดงแฟ้มที่ซ่อนไว้"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-#, fuzzy
-#| msgctxt "@info:credit"
-#| msgid "Documentation"
-msgctxt "@label"
-msgid "Duration"
-msgstr "เอกสารคู่มือ"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Average Bitrate"
@@ -2875,13 +2867,21 @@ msgctxt "@label"
 msgid "Bitrate"
 msgstr "อัตราบิทเฉลี่ย"
 
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+#, fuzzy
+#| msgctxt "@info:credit"
+#| msgid "Documentation"
+msgctxt "@label"
+msgid "Duration"
+msgstr "เอกสารคู่มือ"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 #, fuzzy
-#| msgctxt "@label music track number"
-#| msgid "Track"
+#| msgctxt "@label music genre"
+#| msgid "Genre"
 msgctxt "@label"
-msgid "Track"
-msgstr "แทร็ก"
+msgid "Genre"
+msgstr "หมวดหมู่"
 
 #: kitemviews/kfileitemmodel.cpp:2835
 #, fuzzy
@@ -2893,11 +2893,11 @@ msgstr "ลบออกแล้ว"
 
 #: kitemviews/kfileitemmodel.cpp:2836
 #, fuzzy
-#| msgctxt "@action:inmenu View"
-#| msgid "Show Hidden Files"
+#| msgctxt "@label music track number"
+#| msgid "Track"
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "แสดงแฟ้มที่ซ่อนไว้"
+msgid "Track"
+msgstr "แทร็ก"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2907,32 +2907,14 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Sample Rate"
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "อัตราสุ่มตัวอย่าง"
-
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Codec"
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "ตัวถอด/เข้ารหัส"
-
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr ""
-
-#: kitemviews/kfileitemmodel.cpp:2842
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Color Depth"
@@ -2941,14 +2923,35 @@ msgid "Color Space"
 msgstr "ความลึกสี"
 
 #: kitemviews/kfileitemmodel.cpp:2843
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Sample Rate"
+msgctxt "@label"
+msgid "Frame Rate"
+msgstr "อัตราสุ่มตัวอย่าง"
+
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2846
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Codec"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "ตัวถอด/เข้ารหัส"
+
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Path"
 msgstr "ตำแหน่ง"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2956,12 +2959,12 @@ msgctxt "@label"
 msgid "Other"
 msgstr "อื่น ๆ"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2969,34 +2972,34 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "การเลือก"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "ปลายทางการเชื่อมโยง"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr "สิทธิ์อนุญาต"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr "เจ้าของ"
 
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Group"
@@ -3004,7 +3007,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "กลุ่ม"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

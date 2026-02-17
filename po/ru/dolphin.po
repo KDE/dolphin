@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2026-02-13 16:29+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -2979,30 +2979,30 @@ msgctxt "@label"
 msgid "Image"
 msgstr "Изображение"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Размеры"
 
-#: kitemviews/kfileitemmodel.cpp:2826
-msgctxt "@label"
-msgid "Width"
-msgstr "Ширина"
-
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Height"
 msgstr "Высота"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2827
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Расположение"
 
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
+msgctxt "@label"
+msgid "Width"
+msgstr "Ширина"
+
 #: kitemviews/kfileitemmodel.cpp:2829
 msgctxt "@label"
-msgid "Artist"
-msgstr "Исполнитель"
+msgid "Album"
+msgstr "Альбом"
 
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
@@ -3014,28 +3014,28 @@ msgstr "Звуковые файлы"
 
 #: kitemviews/kfileitemmodel.cpp:2830
 msgctxt "@label"
-msgid "Genre"
-msgstr "Жанр"
+msgid "Artist"
+msgstr "Исполнитель"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
-msgid "Album"
-msgstr "Альбом"
+msgid "Audio Codec"
+msgstr "Аудиокодек"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-msgctxt "@label"
-msgid "Duration"
-msgstr "Длительность"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Битрейт"
 
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Duration"
+msgstr "Длительность"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
-msgid "Track"
-msgstr "Дорожка"
+msgid "Genre"
+msgstr "Жанр"
 
 #: kitemviews/kfileitemmodel.cpp:2835
 msgctxt "@label"
@@ -3044,8 +3044,8 @@ msgstr "Год выпуска"
 
 #: kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Аудиокодек"
+msgid "Track"
+msgstr "Дорожка"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -3055,70 +3055,73 @@ msgstr "Соотношение сторон"
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Video"
 msgstr "Видео"
 
-#: kitemviews/kfileitemmodel.cpp:2838
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "Частота кадров"
-
 #: kitemviews/kfileitemmodel.cpp:2840
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "Видеокодек"
-
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr "Формат пикселей"
-
-#: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Color Space"
 msgstr "Цветовое пространство"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Частота кадров"
+
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr "Формат пикселей"
+
+#: kitemviews/kfileitemmodel.cpp:2846
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Видеокодек"
+
+#: kitemviews/kfileitemmodel.cpp:2848
+msgctxt "@label"
 msgid "Path"
 msgstr "Полный путь"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Other"
 msgstr "Другое"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Расширение файла"
 
 # Translated in sync with "Modified" -> "Дата изменения" --aspotashev
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Дата удаления"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Адрес ссылки"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Источник в Интернете"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3127,17 +3130,17 @@ msgstr ""
 "Формат просмотра прав доступа можно выбрать в настройках. Доступные "
 "варианты: символический, числовой и комбинированный."
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr "Владелец"
 
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "User Group"
 msgstr "Группа пользователя"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

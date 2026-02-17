@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2011-05-08 17:45+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -2827,25 +2827,17 @@ msgctxt "@label"
 msgid "Image"
 msgstr "Slike"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2826
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Width"
-msgctxt "@label"
-msgid "Width"
-msgstr "Širina"
-
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Height"
 msgstr "Visina"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2827
 #, fuzzy
 #| msgctxt "@label EXIF"
 #| msgid "Orientation"
@@ -2853,10 +2845,21 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "Orijentacija"
 
-#: kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Width"
 msgctxt "@label"
-msgid "Artist"
-msgstr ""
+msgid "Width"
+msgstr "Širina"
+
+#: kitemviews/kfileitemmodel.cpp:2829
+#, fuzzy
+#| msgctxt "@label music album"
+#| msgid "Album"
+msgctxt "@label"
+msgid "Album"
+msgstr "Album"
 
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2832
@@ -2867,30 +2870,19 @@ msgid "Audio"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2830
-#, fuzzy
-#| msgctxt "@label music genre"
-#| msgid "Genre"
 msgctxt "@label"
-msgid "Genre"
-msgstr "Žanr"
+msgid "Artist"
+msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
 #, fuzzy
-#| msgctxt "@label music album"
-#| msgid "Album"
+#| msgctxt "@action:inmenu View"
+#| msgid "Show Hidden Files"
 msgctxt "@label"
-msgid "Album"
-msgstr "Album"
+msgid "Audio Codec"
+msgstr "Prikaži skrivene datoteke"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-#, fuzzy
-#| msgctxt "@info:credit"
-#| msgid "Documentation"
-msgctxt "@label"
-msgid "Duration"
-msgstr "Dokumentacija"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Average Bitrate"
@@ -2898,13 +2890,21 @@ msgctxt "@label"
 msgid "Bitrate"
 msgstr "Prosječni protok bitova"
 
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+#, fuzzy
+#| msgctxt "@info:credit"
+#| msgid "Documentation"
+msgctxt "@label"
+msgid "Duration"
+msgstr "Dokumentacija"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 #, fuzzy
-#| msgctxt "@label music track number"
-#| msgid "Track"
+#| msgctxt "@label music genre"
+#| msgid "Genre"
 msgctxt "@label"
-msgid "Track"
-msgstr "Traka"
+msgid "Genre"
+msgstr "Žanr"
 
 #: kitemviews/kfileitemmodel.cpp:2835
 msgctxt "@label"
@@ -2913,11 +2913,11 @@ msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2836
 #, fuzzy
-#| msgctxt "@action:inmenu View"
-#| msgid "Show Hidden Files"
+#| msgctxt "@label music track number"
+#| msgid "Track"
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Prikaži skrivene datoteke"
+msgid "Track"
+msgstr "Traka"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2927,32 +2927,14 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Sample Rate"
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "Sample Rate"
-
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Codec"
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "Kodek"
-
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr ""
-
-#: kitemviews/kfileitemmodel.cpp:2842
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Color Depth"
@@ -2961,14 +2943,35 @@ msgid "Color Space"
 msgstr "Dubina boja"
 
 #: kitemviews/kfileitemmodel.cpp:2843
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Sample Rate"
+msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Sample Rate"
+
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2846
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Codec"
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Kodek"
+
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Path"
 msgstr "Putanja"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2976,12 +2979,12 @@ msgctxt "@label"
 msgid "Other"
 msgstr "Ostali"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2989,34 +2992,34 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Odabrano"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Odredište linka"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Dopuštenja"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr "Vlasnik"
 
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Group"
@@ -3024,7 +3027,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "Grupa"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

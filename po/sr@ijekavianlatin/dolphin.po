@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-16 00:50+0000\n"
+"POT-Creation-Date: 2026-02-17 00:49+0000\n"
 "PO-Revision-Date: 2017-12-17 18:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -2848,12 +2848,25 @@ msgstr ""
 "slika|/|$[svojstva naredbeno 'detalji:\n"
 "slika' spiskovno 'dopunski detalji: slika']"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2826
+#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2844
+msgctxt "@label"
+msgid "Height"
+msgstr ""
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2827
+msgctxt "@label"
+msgid "Orientation"
+msgstr ""
+"orijentacija|/|$[svojstva naredbeno 'detalji:\n"
+"orijentacija' spiskovno 'dopunski detalji: orijentacija']"
+
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2847
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Width:"
@@ -2861,26 +2874,13 @@ msgctxt "@label"
 msgid "Width"
 msgstr "Širina:"
 
-#: kitemviews/kfileitemmodel.cpp:2827
-msgctxt "@label"
-msgid "Height"
-msgstr ""
-
-# >> @item
-#: kitemviews/kfileitemmodel.cpp:2828
-msgctxt "@label"
-msgid "Orientation"
-msgstr ""
-"orijentacija|/|$[svojstva naredbeno 'detalji:\n"
-"orijentacija' spiskovno 'dopunski detalji: orijentacija']"
-
 # >> @item
 #: kitemviews/kfileitemmodel.cpp:2829
 msgctxt "@label"
-msgid "Artist"
+msgid "Album"
 msgstr ""
-"izvođač|/|$[svojstva naredbeno 'detalji:\n"
-"izvođač' spiskovno 'dopunski detalji: izvođač']"
+"album|/|$[svojstva naredbeno 'detalji:\n"
+"album' spiskovno 'dopunski detalji: album']"
 
 # >> @item
 #: kitemviews/kfileitemmodel.cpp:2829 kitemviews/kfileitemmodel.cpp:2830
@@ -2893,30 +2893,23 @@ msgstr ""
 "audio|/|$[svojstva naredbeno 'detalji:\n"
 "audio' spiskovno 'dopunski detalji: audio']"
 
+# >> @item
 #: kitemviews/kfileitemmodel.cpp:2830
 msgctxt "@label"
-msgid "Genre"
+msgid "Artist"
 msgstr ""
-"žanr|/|$[svojstva naredbeno 'detalji:\n"
-"žanr' spiskovno 'dopunski detalji: žanr']"
+"izvođač|/|$[svojstva naredbeno 'detalji:\n"
+"izvođač' spiskovno 'dopunski detalji: izvođač']"
 
-# >> @item
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Audio Files"
 msgctxt "@label"
-msgid "Album"
-msgstr ""
-"album|/|$[svojstva naredbeno 'detalji:\n"
-"album' spiskovno 'dopunski detalji: album']"
+msgid "Audio Codec"
+msgstr "Audio fajlovi"
 
-# >> @item
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
-msgctxt "@label"
-msgid "Duration"
-msgstr ""
-"trajanje|/|$[svojstva naredbeno 'detalji:\n"
-"trajanje' spiskovno 'dopunski detalji: trajanje']"
-
-#: kitemviews/kfileitemmodel.cpp:2833
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
@@ -2924,12 +2917,19 @@ msgstr ""
 "bitski protok' spiskovno 'dopunski detalji: bitski protok']"
 
 # >> @item
+#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2842
+msgctxt "@label"
+msgid "Duration"
+msgstr ""
+"trajanje|/|$[svojstva naredbeno 'detalji:\n"
+"trajanje' spiskovno 'dopunski detalji: trajanje']"
+
 #: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
-msgid "Track"
+msgid "Genre"
 msgstr ""
-"numera|/|$[svojstva naredbeno 'detalji:\n"
-"numera' spiskovno 'dopunski detalji: numera']"
+"žanr|/|$[svojstva naredbeno 'detalji:\n"
+"žanr' spiskovno 'dopunski detalji: žanr']"
 
 # >> @item
 #: kitemviews/kfileitemmodel.cpp:2835
@@ -2939,13 +2939,13 @@ msgstr ""
 "godina izdanja|/|$[svojstva naredbeno 'detalji:\n"
 "godina izdanja' spiskovno 'dopunski detalji: godina izdanja']"
 
+# >> @item
 #: kitemviews/kfileitemmodel.cpp:2836
-#, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Audio Files"
 msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Audio fajlovi"
+msgid "Track"
+msgstr ""
+"numera|/|$[svojstva naredbeno 'detalji:\n"
+"numera' spiskovno 'dopunski detalji: numera']"
 
 #: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
@@ -2955,6 +2955,9 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
 #: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
 #: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2847
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2962,12 +2965,22 @@ msgctxt "@label"
 msgid "Video"
 msgstr "Video fajlovi"
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2840
+msgctxt "@label"
+msgid "Color Space"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2845
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2846
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2975,40 +2988,30 @@ msgctxt "@label"
 msgid "Video Codec"
 msgstr "Video fajlovi"
 
-#: kitemviews/kfileitemmodel.cpp:2841
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr ""
-
-#: kitemviews/kfileitemmodel.cpp:2842
-msgctxt "@label"
-msgid "Color Space"
-msgstr ""
-
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Path"
 msgstr ""
 "putanja|/|$[svojstva naredbeno 'detalji:\n"
 "putanja' spiskovno 'dopunski detalji: putanja']"
 
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2848 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2850 kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2852 kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Other"
 msgstr ""
 "drugo|/|$[svojstva naredbeno 'detalji:\n"
 "drugo' spiskovno 'dopunski detalji: drugo']"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr ""
@@ -3016,7 +3019,7 @@ msgstr ""
 "vreme brisanja' spiskovno 'dopunski detalji: vreme brisanja']"
 
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Link Destination"
 msgstr ""
@@ -3024,7 +3027,7 @@ msgstr ""
 "odredište veze' spiskovno 'dopunski detalji: odredište veze']"
 
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
@@ -3032,14 +3035,14 @@ msgstr ""
 "preuzeto sa' spiskovno 'dopunski detalji: preuzeto sa']"
 
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Permissions"
 msgstr ""
 "dozvole|/|$[svojstva naredbeno 'detalji:\n"
 "dozvole' spiskovno 'dopunski detalji: dozvole']"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3047,7 +3050,7 @@ msgid ""
 msgstr ""
 
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Owner"
 msgstr ""
@@ -3055,14 +3058,14 @@ msgstr ""
 "vlasnik' spiskovno 'dopunski detalji: vlasnik']"
 
 # >> @item
-#: kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "User Group"
 msgstr ""
 "korisnička grupa|/|$[svojstva naredbeno 'detalji:\n"
 "korisnička grupa' spiskovno 'dopunski detalji: korisnička grupa']"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
