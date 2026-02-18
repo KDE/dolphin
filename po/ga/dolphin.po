@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 02:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:38+0000\n"
+"PO-Revision-Date: 2026-02-17 03:45+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@yahoo.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "Language: ga\n"
@@ -16,13 +16,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
-"3 : 4\n"
+"3 : 4;\n"
 "X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kevin Scannell, Aindriú Mac Giolla Eoin"
+msgstr "Kevin Scannell,Aindriú Mac Giolla Eoin"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1461,9 +1461,7 @@ msgid "Close left view"
 msgstr "Dún an t-amharc ar chlé"
 
 #: dolphinmainwindow.cpp:2827
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Dún an Radharc Clé"

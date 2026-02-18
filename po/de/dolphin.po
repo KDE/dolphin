@@ -10,13 +10,13 @@
 # SPDX-FileCopyrightText: 2021, 2024, 2025 Frank Steinmetzger <dev@felsenfleischer.de>
 # SPDX-FileCopyrightText: 2022, 2024, 2025 Alois Spitzbart <spitz234@hotmail.com>
 # SPDX-FileCopyrightText: 2024, 2025 Flori G <Renner03@protonmail.com>
-# SPDX-FileCopyrightText: 2025 Philipp Kiemle <l10n.daphipz@fastmail.de>
+# SPDX-FileCopyrightText: 2025, 2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 02:41+0000\n"
-"PO-Revision-Date: 2025-12-27 15:16+0100\n"
+"PO-Revision-Date: 2026-02-13 15:28+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5996,17 +5996,17 @@ msgstr "Filelight wird installiert …"
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Statistik über Festplattenbelegung - aktueller Ordner"
+msgstr "Statistik über Festplattenbelegung – aktueller Ordner"
 
 #: statusbar/diskspaceusagemenu.cpp:96
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "Statistik über Festplattenbelegung - aktuelles Gerät"
+msgstr "Statistik über Festplattenbelegung – aktuelles Gerät"
 
 #: statusbar/diskspaceusagemenu.cpp:109
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr "Statistik über Festplattenbelegung - alle Geräte"
+msgstr "Statistik über Festplattenbelegung – alle Geräte"
 
 #: statusbar/diskspaceusagemenu.cpp:122
 #, kde-format
