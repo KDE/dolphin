@@ -10,13 +10,13 @@
 # SPDX-FileCopyrightText: 2021, 2024, 2025 Frank Steinmetzger <dev@felsenfleischer.de>
 # SPDX-FileCopyrightText: 2022, 2024, 2025 Alois Spitzbart <spitz234@hotmail.com>
 # SPDX-FileCopyrightText: 2024, 2025 Flori G <Renner03@protonmail.com>
-# SPDX-FileCopyrightText: 2025 Philipp Kiemle <l10n.daphipz@fastmail.de>
+# SPDX-FileCopyrightText: 2025, 2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-17 00:49+0000\n"
-"PO-Revision-Date: 2025-12-27 15:16+0100\n"
+"PO-Revision-Date: 2026-02-13 15:28+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1255,7 +1255,7 @@ msgstr "Tastaturfokus in und aus der Terminalleiste bewegen."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Ordnerwechsel folgen"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1264,6 +1264,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Gibt an, ob der aktuelle Arbeitsordner der Ordneransicht und der des "
+"Terminals bei einem Wechsel synchron gehalten wird."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -4675,25 +4677,23 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
 msgstr ""
-"Legt fest, ob im Fenstertitel der vollständige Pfad angezeigt werden soll."
+"Legt fest, ob die Unterfensterleiste immer angezeigt werden soll, selbst "
+"wenn es nur ein Unterfenster gibt"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Legt fest, ob Unterfenster „Schließen“-Knöpfe haben sollen"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Datumsstil:"
+msgstr "Unterfensterstil"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -5128,12 +5128,10 @@ msgid "Show filter bar"
 msgstr "Filterleiste anzeigen"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Am Ende der Unterfensterleiste"
+msgstr "Unterfensterleiste immer anzeigen"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, fuzzy, kde-format
@@ -5144,12 +5142,10 @@ msgid "Tab width:"
 msgstr "Beschriftungsbreite:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Persönlichen Ordner beim Start anzeigen"
+msgstr "„Schließen“-Knopf auf Unterfenstern anzeigen"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -5167,15 +5163,13 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Unterfensterreiter nutzen verfügbare Breite"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Datumsstil:"
+msgstr "Unterfensterstil: "
 
 #: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
@@ -5817,6 +5811,7 @@ msgstr "Schriftart für Beschriftung:"
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
+"Einige Schriftstile sind von Dolphin reserviert und könnten ignoriert werden."
 
 #: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
@@ -6134,17 +6129,17 @@ msgstr "Filelight wird installiert …"
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Statistik über Festplattenbelegung - aktueller Ordner"
+msgstr "Statistik über Festplattenbelegung – aktueller Ordner"
 
 #: statusbar/diskspaceusagemenu.cpp:96
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "Statistik über Festplattenbelegung - aktuelles Gerät"
+msgstr "Statistik über Festplattenbelegung – aktuelles Gerät"
 
 #: statusbar/diskspaceusagemenu.cpp:109
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr "Statistik über Festplattenbelegung - alle Geräte"
+msgstr "Statistik über Festplattenbelegung – alle Geräte"
 
 #: statusbar/diskspaceusagemenu.cpp:122
 #, kde-format
