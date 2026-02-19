@@ -44,6 +44,10 @@ public:
     void setViewMode(DolphinView::Mode mode);
     DolphinView::Mode viewMode() const;
 
+    void setZoomLevel(int zoomLevel);
+    /// -1 is the default zoom
+    int zoomLevel() const;
+
     void setPreviewsShown(bool show);
     bool previewsShown() const;
 

@@ -229,6 +229,7 @@ ViewProperties::ViewProperties(const QUrl &url)
         } else {
             m_changedProps = false;
         }
+        setZoomLevel(-1);
     }
 
     if (m_node->version() < CurrentViewPropertiesVersion) {
@@ -267,6 +268,19 @@ ViewProperties::~ViewProperties()
 
     delete m_node;
     m_node = nullptr;
+}
+
+void ViewProperties::setZoomLevel(int zoomLevel)
+{
+    if (m_node->zoomLevel() != zoomLevel) {
+        m_node->setZoomLevel(zoomLevel);
+        update();
+    }
+}
+
+int ViewProperties::zoomLevel() const
+{
+    return m_node->zoomLevel();
 }
 
 void ViewProperties::setViewMode(DolphinView::Mode mode)
@@ -487,6 +501,7 @@ QList<int> ViewProperties::headerColumnWidths() const
 void ViewProperties::setDirProperties(const ViewProperties &props)
 {
     setViewMode(props.viewMode());
+    setZoomLevel(props.zoomLevel());
     setPreviewsShown(props.previewsShown());
     setHiddenFilesShown(props.hiddenFilesShown());
     setGroupedSorting(props.groupedSorting());

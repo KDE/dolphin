@@ -62,6 +62,8 @@ private:
 
 private:
     int m_zoomLevel;
+    int m_previewSize = 0;
+    int m_iconSize = 0;
 };
 
 #endif

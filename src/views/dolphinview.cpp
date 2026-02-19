@@ -479,9 +479,16 @@ void DolphinView::selectItems(const QRegularExpression &regexp, bool enabled)
 
 void DolphinView::setZoomLevel(int level)
 {
+    if (m_defaultZoomLevel < 0) {
+        updateDefaultZoomLevel();
+    }
+
     const int oldZoomLevel = zoomLevel();
     m_view->setZoomLevel(level);
     if (zoomLevel() != oldZoomLevel) {
+        ViewProperties props(viewPropertiesUrl());
+        props.setZoomLevel(level == m_defaultZoomLevel ? -1 : level);
+
         hideToolTip();
         Q_EMIT zoomLevelChanged(zoomLevel(), oldZoomLevel);
     }
@@ -1798,10 +1805,10 @@ Qt::SortOrder DolphinView::defaultSortOrderForRole(const QByteArray &role)
 
 void DolphinView::resetZoomLevel()
 {
-    ViewModeSettings settings{m_mode};
-    const int userDefaultIconSize = settings.iconSize();
-
-    setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize)));
+    if (m_defaultZoomLevel < 0) {
+        updateDefaultZoomLevel();
+    }
+    setZoomLevel(m_defaultZoomLevel);
 }
 
 void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition)
@@ -2312,10 +2319,15 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 {
     m_view->beginTransaction();
 
+    // Caches old zoom level change for signal emitting
+    int zoomLevelChangeFrom = -1;
+
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
         const Mode previousMode = m_mode;
         m_mode = mode;
+
+        updateDefaultZoomLevel();
 
         // Changing the mode might result in changing
         // the zoom level. Remember the old zoom level so
@@ -2326,7 +2338,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
         Q_EMIT modeChanged(m_mode, previousMode);
 
         if (m_view->zoomLevel() != oldZoomLevel) {
-            Q_EMIT zoomLevelChanged(m_view->zoomLevel(), oldZoomLevel);
+            zoomLevelChangeFrom = oldZoomLevel;
         }
     }
 
@@ -2383,8 +2395,26 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 
         // Changing the preview-state might result in a changed zoom-level
         if (oldZoomLevel != zoomLevel()) {
-            Q_EMIT zoomLevelChanged(zoomLevel(), oldZoomLevel);
+            zoomLevelChangeFrom = oldZoomLevel;
         }
+    }
+
+    // Only check for folder zoom changes if we're using local view props
+    if (!GeneralSettings::globalViewProps()) {
+        const int propZoomLevel = props.zoomLevel();
+        if (m_defaultZoomLevel < 0) {
+            updateDefaultZoomLevel();
+        }
+
+        const int nextZoomLevel = propZoomLevel < 0 ? m_defaultZoomLevel : propZoomLevel;
+        if (nextZoomLevel != m_view->zoomLevel()) {
+            zoomLevelChangeFrom = m_view->zoomLevel();
+            m_view->setZoomLevel(nextZoomLevel);
+        }
+    }
+
+    if (zoomLevelChangeFrom > -1) {
+        Q_EMIT zoomLevelChanged(m_view->zoomLevel(), zoomLevelChangeFrom);
     }
 
     KItemListView *itemListView = m_container->controller()->view();
@@ -2407,6 +2437,14 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     }
 
     m_view->endTransaction();
+}
+
+void DolphinView::updateDefaultZoomLevel()
+{
+    ViewModeSettings settings{m_mode};
+    const int userDefaultIconSize = settings.iconSize();
+
+    m_defaultZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize));
 }
 
 void DolphinView::applyModeToView()

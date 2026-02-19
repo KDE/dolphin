@@ -1144,6 +1144,9 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     QCOMPARE(view->m_mode, DolphinView::DetailsView);
     QVERIFY(!ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 
+    // store parent current zoom level
+    const int parentZoomLevel = view->zoomLevel();
+
     // go to child folder and make sure view mode change to "Details" is permanent
     m_mainWindow->openFiles({testDirUrl + "/a"}, false);
     view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
@@ -1151,6 +1154,47 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
     QCOMPARE(view->m_mode, DolphinView::DetailsView);
     QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+
+    // still on child, change view zoom level
+    const int childZoomLevel = view->zoomLevel();
+    view->setZoomLevel(childZoomLevel + 2);
+
+    // go back to parent folder and check for zoom level
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    view->m_model->loadDirectory(testDir->url());
+    view->setUrl(testDir->url());
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->zoomLevel(), parentZoomLevel);
+    QVERIFY(!ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+
+    // go to child and check if zoom level is permanent
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
+    view->setUrl(QUrl(testDirUrl + "/a"));
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->zoomLevel(), childZoomLevel + 2);
+    QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+
+    // test for global views
+    settings->setGlobalViewProps(true);
+    settings->save();
+
+    // go back to parent folder and set zoom level
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    view->m_model->loadDirectory(testDir->url());
+    view->setUrl(testDir->url());
+    view->setZoomLevel(parentZoomLevel + 1);
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE_WITH_TIMEOUT(view->zoomLevel(), parentZoomLevel + 1, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed(), 400);
+
+    // go to child and check if zoom level remains the same
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
+    view->setUrl(QUrl(testDirUrl + "/a"));
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE_WITH_TIMEOUT(view->zoomLevel(), parentZoomLevel + 1, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed(), 400);
 }
 
 void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()

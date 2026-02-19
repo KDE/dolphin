@@ -45,13 +45,22 @@ void DolphinItemListView::setZoomLevel(int level)
 
     m_zoomLevel = level;
 
+    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
     ViewModeSettings settings(itemLayout());
+
     if (previewsShown()) {
-        const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        settings.setPreviewSize(previewSize);
+        m_previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        // Only update the icon size settings if we're using global view props
+        // to prevent inconsistent state on zoom level changes
+        if (useGlobalViewProps) {
+            settings.setPreviewSize(m_previewSize);
+        }
     } else {
-        const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        settings.setIconSize(iconSize);
+        // Same as above
+        m_iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        if (useGlobalViewProps) {
+            settings.setIconSize(m_iconSize);
+        }
     }
 
     updateGridSize();
@@ -167,9 +176,11 @@ void DolphinItemListView::updateFont()
 void DolphinItemListView::updateGridSize()
 {
     const ViewModeSettings settings(itemLayout());
+    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
     // Calculate the size of the icon
-    const int iconSize = previewsShown() ? settings.previewSize() : settings.iconSize();
+    // Only use zoom stored in settings if we're using global view props
+    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : (previewsShown() ? m_previewSize : m_iconSize);
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption option = styleOption();
 

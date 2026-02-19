@@ -27,6 +27,12 @@
             <default code="true">DolphinView::IconsView</default>
         </entry>
 
+        <entry name="ZoomLevel" type="Int" >
+            <label context="@label">Zoom Level</label>
+            <whatsthis context="@info:whatsthis">Zoom level of the folder.</whatsthis>
+            <default>-1</default>
+        </entry>
+
         <entry name="PreviewsShown" type="Bool" >
             <label context="@label">Previews shown</label>
             <whatsthis context="@info:whatsthis">When this option is enabled, a preview of the file content is shown as an icon.</whatsthis>

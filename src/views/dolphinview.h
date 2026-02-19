@@ -791,6 +791,11 @@ private Q_SLOTS:
     void updateSortFoldersFirst(bool foldersFirst);
 
     /**
+     * Cache out zoom mode changes to prevent constant Settings requests
+     */
+    void updateDefaultZoomLevel();
+
+    /**
      * Updates the view properties of the current URL to the
      * sorting of hidden files given by \a hiddenLast.
      */
@@ -1006,6 +1011,9 @@ private:
     // Used for tracking the accumulated scroll amount (for zooming with high
     // resolution scroll wheels)
     int m_controlWheelAccumulatedDelta;
+
+    // Cached out default zoom level after view mode changes
+    int m_defaultZoomLevel = -1;
 
     QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5 and file operations
     bool m_clearSelectionBeforeSelectingNewItems;
