@@ -49,6 +49,7 @@ class KToolBarPopupAction;
 class QToolButton;
 class PlacesPanel;
 class TerminalPanel;
+class ServiceMenuShortcutManager;
 
 /** Used to identify that a custom command should be triggered on a view background double-click.*/
 constexpr QLatin1String customCommand{"CUSTOM_COMMAND"};
@@ -801,6 +802,7 @@ private:
     QMenu m_searchTools;
     KConfigWatcher::Ptr m_serviceMenuConfigWatcher;
     KFileItemActions *m_fileItemActions = nullptr;
+    ServiceMenuShortcutManager *m_serviceMenuShortcutManager = nullptr;
 
     QTimer *m_sessionSaveTimer;
     QFutureWatcher<void> *m_sessionSaveWatcher;

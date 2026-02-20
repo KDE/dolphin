@@ -268,8 +268,6 @@ void DolphinContextMenu::addItemContextMenu()
 
     const KFileItemListProperties &selectedItemsProps = selectedItemsProperties();
 
-    m_fileItemActions->setItemListProperties(selectedItemsProps);
-
     if (m_selectedItems.count() == 1) {
         // single files
         if (m_fileInfo.isDir()) {

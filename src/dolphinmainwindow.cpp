@@ -28,6 +28,9 @@
 #include "panels/terminal/terminalpanel.h"
 #include "search/dolphinquery.h"
 #include "selectionmode/actiontexthelper.h"
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 24, 0)
+#include "servicemenushortcutmanager.h"
+#endif
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/diskspaceusagemenu.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -206,6 +209,11 @@ DolphinMainWindow::DolphinMainWindow()
 
     setupDockWidgets();
 
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 24, 0)
+    m_serviceMenuShortcutManager = new ServiceMenuShortcutManager(actionCollection(), this);
+#endif
+    setupFileItemActions();
+
     const bool usePhoneUi{KRuntimePlatform::runtimePlatform().contains(QLatin1String("phone"))};
     setupGUI(Save | Create | ToolBar, usePhoneUi ? QStringLiteral("dolphinuiforphones.rc") : QString() /* load the default dolphinui.rc file */);
     stateChanged(QStringLiteral("new_file"));
@@ -255,8 +263,6 @@ DolphinMainWindow::DolphinMainWindow()
     connect(KSycoca::self(), &KSycoca::databaseChanged, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
-
-    setupFileItemActions();
 
     m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc")));
     connect(m_serviceMenuConfigWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup & /*group*/, const QByteArrayList & /*names*/) {
@@ -430,6 +436,10 @@ void DolphinMainWindow::slotEditableStateChanged(bool editable)
 void DolphinMainWindow::slotSelectionChanged(const KFileItemList &selection)
 {
     updateFileAndEditActions();
+
+    if (m_fileItemActions) {
+        m_fileItemActions->setItemListProperties(KFileItemListProperties(selection));
+    }
 
     const int selectedUrlsCount = m_tabWidget->currentTabPage()->selectedItemsCount();
 
@@ -1783,6 +1793,10 @@ void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString &mo
 
 void DolphinMainWindow::slotKeyBindings()
 {
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 24, 0)
+    m_serviceMenuShortcutManager->cleanupStaleShortcuts(this);
+#endif
+
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
     dialog.addCollection(actionCollection());
     if (m_terminalPanel) {
@@ -2624,6 +2638,10 @@ void DolphinMainWindow::setupFileItemActions()
     connect(m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
         showErrorMessage(errorMessage);
     });
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 24, 0)
+    m_serviceMenuShortcutManager->refresh(m_fileItemActions);
+#endif
 }
 
 void DolphinMainWindow::updateFileAndEditActions()

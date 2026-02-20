@@ -457,6 +457,13 @@ if(HAVE_KUSERFEEDBACK)
     )
 endif()
 
+if(KF6KIO_VERSION VERSION_GREATER_EQUAL "6.24.0")
+    target_sources(dolphinstatic PRIVATE
+        servicemenushortcutmanager.cpp
+        servicemenushortcutmanager.h
+    )
+endif()
+
 kconfig_add_kcfg_files(dolphinstatic
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
