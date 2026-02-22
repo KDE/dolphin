@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-13 05:39+0100\n"
+"PO-Revision-Date: 2026-02-21 03:54+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4155,12 +4155,10 @@ msgid "Exit Selection Mode"
 msgstr "მონიშვნის რეჟიმიდან გასვლა"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "კონტექსტური მენიუ"
+msgstr "კონტექსტური მენიუს ქმედებები"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format

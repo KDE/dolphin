@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-13 11:34+0100\n"
+"PO-Revision-Date: 2026-02-21 07:20+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4207,12 +4207,10 @@ msgid "Exit Selection Mode"
 msgstr "Izhod iz načina zbora"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Vsebinski meni"
+msgstr "Dejavnosti kontekstnega menija"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
