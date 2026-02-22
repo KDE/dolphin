@@ -1707,6 +1707,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
     case GroupRole:
     case DestinationRole:
     case PathRole:
+    case FolderRole:
     case DeletionTimeRole:
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
@@ -1997,6 +1998,13 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
         const int index = path.lastIndexOf(item.text());
         path = path.mid(0, index - 1);
         data.insert(sharedValue("path"), path);
+    }
+
+    if (m_requestRole[FolderRole]) {
+        QUrl parentUrl =
+            (item.url().scheme() == QLatin1String("trash")) ? QUrl::fromLocalFile(item.entry().stringValue(KIO::UDSEntry::UDS_EXTRA)) : item.targetUrl();
+        QString folderName = parentUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).fileName();
+        data.insert(sharedValue("folder"), folderName);
     }
 
     if (m_requestRole[DeletionTimeRole]) {
@@ -2846,6 +2854,7 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { "videoCodec",          VideoCodecRole,          kli18nc("@label", "Video Codec"),          kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
         { "width",               WidthRole,               kli18nc("@label", "Width"),                kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
         { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "folder",              FolderRole,              kli18nc("@label", "Folder Name"),          kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "extension",           ExtensionRole,           kli18nc("@label", "File Extension"),       kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },

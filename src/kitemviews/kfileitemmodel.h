@@ -322,6 +322,7 @@ private:
         ExtensionRole,
         DestinationRole,
         PathRole,
+        FolderRole,
         DeletionTimeRole,
         // User visible roles available with Baloo:
         CommentRole,
