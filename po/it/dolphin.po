@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-07 11:22+0100\n"
+"PO-Revision-Date: 2026-02-21 20:41+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2935,12 +2935,9 @@ msgid "Artist"
 msgstr "Artista"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "File audio"
+msgstr "Codificatore audio"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2985,7 +2982,7 @@ msgstr "Video"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Spazio di colori"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2995,15 +2992,12 @@ msgstr "Velocità"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Formato pixel"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Codificatore video"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4197,12 +4191,10 @@ msgid "Exit Selection Mode"
 msgstr "Esci dalla modalità di selezione"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Menu contestuale"
+msgstr "Azioni nel menu contestuale"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
@@ -5111,12 +5103,10 @@ msgid "Always show tab bar"
 msgstr "Mostra sempre la barra delle schede"
 
 #: settings/interface/folderstabssettingspage.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Larghezza delle etichette:"
+msgstr "Larghezza delle schede:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
@@ -5128,15 +5118,13 @@ msgstr "Mostra il pulsante di chiusura sulle schede"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "La larghezza delle schede si adatta al nome della cartella"
 
 #: settings/interface/folderstabssettingspage.cpp:128
-#, fuzzy, kde-format
-#| msgctxt "@option:radio size as in tab size"
-#| msgid "Tabs have all the same fixed size"
+#, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr "Le schede hanno tutte la stessa dimensione fissa"
+msgstr "Le schede hanno tutte la stessa larghezza fissa"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
