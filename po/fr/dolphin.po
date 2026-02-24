@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-21 08:46+0100\n"
+"PO-Revision-Date: 2026-02-22 07:52+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4267,12 +4267,10 @@ msgid "Exit Selection Mode"
 msgstr "Quitter le mode de sélection"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Menu contextuel"
+msgstr "Actions de menu contextuel"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
