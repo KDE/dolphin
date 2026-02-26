@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-02 13:21+0000\n"
+"PO-Revision-Date: 2026-02-25 11:45+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2920,12 +2920,9 @@ msgid "Artist"
 msgstr "Flytjandi"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Hljóðskrár"
+msgstr "Hljóðkóðunarlykill"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2970,7 +2967,7 @@ msgstr "Myndskeið"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Litrýmd"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2980,15 +2977,12 @@ msgstr "Rammatíðni"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Snið mynddíla"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Myndskeið"
+msgstr "Myndmerkiskóðun"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4170,12 +4164,10 @@ msgid "Exit Selection Mode"
 msgstr "Hætta í valstilllingu"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Samhengisvalmynd"
+msgstr "Aðgerðir samhengisvalmyndar"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
@@ -5066,12 +5058,10 @@ msgid "Always show tab bar"
 msgstr "Alltaf sýna flipastikuna"
 
 #: settings/interface/folderstabssettingspage.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Breidd textalínu:"
+msgstr "Breidd flipa:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
@@ -5083,12 +5073,10 @@ msgstr "Sýna lokunarhnappa á flipum"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Breidd flipa aðlagast heiti möppu"
 
 #: settings/interface/folderstabssettingspage.cpp:128
-#, fuzzy, kde-format
-#| msgctxt "@option:radio size as in tab size"
-#| msgid "Tabs have all the same fixed size"
+#, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
 msgstr "Flipar eru allir með sömu föstu breidd"
