@@ -4012,12 +4012,10 @@ msgid "Exit Selection Mode"
 msgstr "退出选择模式"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "右键菜单"
+msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
