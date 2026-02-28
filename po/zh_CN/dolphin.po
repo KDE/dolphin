@@ -4015,7 +4015,7 @@ msgstr "退出选择模式"
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr ""
+msgstr "右键菜单操作"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format

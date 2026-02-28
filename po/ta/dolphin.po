@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-01 15:50+0530\n"
+"PO-Revision-Date: 2026-02-27 21:34+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2810,12 +2810,9 @@ msgid "Artist"
 msgstr "கலைஞர்:"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "ஒலிக்கோப்புகள்"
+msgstr "ஒலிக்குறிமுறை"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2860,7 +2857,7 @@ msgstr "ஒளிக்காட்சி"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "நிற வகை"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2870,15 +2867,12 @@ msgstr "சட்டக விகிதம்"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "பிக்செல் வடிவம்"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "ஒளிக்காட்சி"
+msgstr "நிகழ்பட குறிமுறை"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4025,12 +4019,10 @@ msgid "Exit Selection Mode"
 msgstr "தேர்வு பயன்முறையிலிருந்து வெளியேறு"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "வலது-க்ளிக் பட்டி"
+msgstr "வலது-க்ளிக் பட்டியிலுள்ளவை"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
@@ -4918,12 +4910,10 @@ msgid "Always show tab bar"
 msgstr "கீற்றுப் பட்டையை எப்போதும் காட்டு"
 
 #: settings/interface/folderstabssettingspage.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "பெயர்களின் அகலம்:"
+msgstr "கீற்றுகளின் அகலம்:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
@@ -4935,15 +4925,13 @@ msgstr "கீற்றுகளை மூடும் பட்டன்கள�
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "அடைவின் பெயரைப் பொறுத்து அகலத்தை அமை"
 
 #: settings/interface/folderstabssettingspage.cpp:128
-#, fuzzy, kde-format
-#| msgctxt "@option:radio size as in tab size"
-#| msgid "Tabs have all the same fixed size"
+#, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr "கீற்றுகளுக்கு நிலையான அகலத்தையே பயன்படுத்து"
+msgstr "அனைத்துக்கும் ஒரே நிலையான அகலத்தைப் பயன்படுத்து"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
