@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 02:41+0000\n"
-"PO-Revision-Date: 2026-01-28 21:32+0000\n"
+"PO-Revision-Date: 2026-02-16 23:49+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -4312,17 +4312,15 @@ msgstr "Poziția coloanelor"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Umplutură laterală"
+msgstr "Umplutură din stânga"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Umplutură laterală"
+msgstr "Umplutură din dreapta"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -5419,12 +5417,17 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin va adăuga metadate în sistemul de fișiere pentru dosarele ale căror "
+"proprietăți de vizualizare sunt modificate. Dacă acest lucru nu e posibil, "
+"atunci se va crea un fișier ascuns .directory."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:50
 #, kde-format
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"Folosește regim de vizualizare cu pictograme în locuri ce conțin în mare "
+"parte fișiere multimedia"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
@@ -5939,6 +5942,9 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Instalați programe suplimentare pentru a vedea statisticile de "
+"utilizare<nl/>a discurilor și pentru a identifica fișierele și dosarele mari."
+"</para>"
 
 #: statusbar/diskspaceusagemenu.cpp:174
 #, kde-format
@@ -6129,7 +6135,7 @@ msgstr "0 dosare, 0 fișiere"
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
-msgstr "Copiere %1"
+msgstr "Copie %1"
 
 #: views/dolphinview.cpp:1138
 #, kde-format
