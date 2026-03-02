@@ -22,6 +22,7 @@
 #include <kwidgetsaddons_version.h>
 
 #include <KNSWidgets/Button>
+#include <KStandardAction>
 #include <QtGlobal>
 
 #include <QApplication>
@@ -29,6 +30,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QPushButton>
 #include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
@@ -53,16 +55,36 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
 {
     QVBoxLayout *topLayout = new QVBoxLayout(this);
 
-    QLabel *label = new QLabel(i18nc("@label:textbox",
-                                     "Select which services should "
-                                     "be shown in the context menu:"),
-                               this);
-    label->setWordWrap(true);
+    auto *searchLayout = new QHBoxLayout();
     m_searchLineEdit = new QLineEdit(this);
     m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search…"));
     connect(m_searchLineEdit, &QLineEdit::textChanged, this, [this](const QString &filter) {
         m_sortModel->setFilterFixedString(filter);
     });
+    searchLayout->addWidget(m_searchLineEdit);
+
+#ifndef Q_OS_WIN
+    using NewStuffButton = KNSWidgets::Button;
+    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download Services…"), QStringLiteral("servicemenu.knsrc"), this);
+    connect(downloadButton, &NewStuffButton::dialogFinished, this, [this](const auto &changedEntries) {
+        if (!changedEntries.isEmpty()) {
+            m_serviceModel->clear();
+            loadServices();
+        }
+    });
+    searchLayout->addWidget(downloadButton);
+#endif // Q_OS_WIN
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 24, 0)
+    auto *shortcutsButton = new QPushButton(QIcon::fromTheme(QStringLiteral("configure-shortcuts")), i18nc("@action:button", "Shortcuts…"), this);
+    connect(shortcutsButton, &QPushButton::clicked, this, [this] {
+        if (auto *action = m_actions->action(KStandardAction::name(KStandardAction::KeyBindings))) {
+            action->trigger();
+        }
+    });
+    searchLayout->addWidget(shortcutsButton);
+#endif
+    topLayout->addLayout(searchLayout);
 
     m_listView = new QListView(this);
     QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
@@ -78,21 +100,7 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, &QListView::clicked, this, &ContextMenuSettingsPage::changed);
 
-    topLayout->addWidget(label);
-    topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_listView);
-
-#ifndef Q_OS_WIN
-    using NewStuffButton = KNSWidgets::Button;
-    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services…"), QStringLiteral("servicemenu.knsrc"), this);
-    connect(downloadButton, &NewStuffButton::dialogFinished, this, [this](const auto &changedEntries) {
-        if (!changedEntries.isEmpty()) {
-            m_serviceModel->clear();
-            loadServices();
-        }
-    });
-    topLayout->addWidget(downloadButton);
-#endif // Q_OS_WIN
 
     m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
