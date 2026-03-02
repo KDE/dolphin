@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 00:48+0000\n"
-"PO-Revision-Date: 2026-02-12 16:19+0900\n"
+"PO-Revision-Date: 2026-03-02 05:32+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 26.03.70\n"
+"X-Generator: Lokalize 25.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2799,12 +2799,9 @@ msgid "Artist"
 msgstr "演出者"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "音訊檔案"
+msgstr "音訊編碼"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2849,7 +2846,7 @@ msgstr "影片"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "色彩空間"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2859,15 +2856,12 @@ msgstr "影格速率"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "像素格式"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "影片"
+msgstr "視訊編碼"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4023,12 +4017,10 @@ msgid "Exit Selection Mode"
 msgstr "離開選取模式"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "內文選單"
+msgstr "內文選單動作"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
