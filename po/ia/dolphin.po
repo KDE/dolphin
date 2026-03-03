@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-21 00:48+0000\n"
+"POT-Creation-Date: 2026-03-03 00:50+0000\n"
 "PO-Revision-Date: 2026-02-23 15:14+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -2093,13 +2093,30 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Trovava nulle elementos."
 
-#: dolphinviewcontainer.cpp:893
+#: dolphinviewcontainer.cpp:737
+#, fuzzy, kde-format
+#| msgctxt "Textual representation of files. %1 is the number of files."
+#| msgid "One File"
+#| msgid_plural "%1 Files"
+msgctxt "@action"
+msgid "Open as File"
+msgstr "Un File"
+
+#: dolphinviewcontainer.cpp:754
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Could not access <filename>%1</filename>."
+msgctxt "@info"
+msgid "Trying to open a file as a folder: <filename>%1</filename>"
+msgstr "On non pote acceder <filename>%1</filename>."
+
+#: dolphinviewcontainer.cpp:906
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non supporta paginas web, le navigator web ha essite lanceate"
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:909
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2108,43 +2125,43 @@ msgstr ""
 "Protocollo non supportate per Dolphin, application predefinite ha essite "
 "lanceate"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:916
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocollo invalide '%1'"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:918
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocollo invalide"
 
-#: dolphinviewcontainer.cpp:1006
+#: dolphinviewcontainer.cpp:1019
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Authorization requirite per entrar iste dossier."
 
-#: dolphinviewcontainer.cpp:1011
+#: dolphinviewcontainer.cpp:1024
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Creava dossier mancante"
 
-#: dolphinviewcontainer.cpp:1028
+#: dolphinviewcontainer.cpp:1041
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Crea ledossier a iste percurso e aperi lo"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1044
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Tu non ha le permission a crear le dossier."
 
-#: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
+#: dolphinviewcontainer.cpp:1088 dolphinviewcontainer.cpp:1091
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4179,45 +4196,47 @@ msgctxt "@title:group"
 msgid "Context Menu Actions"
 msgstr "Actiones de menu de contexto"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:57
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Select which services should be shown in the context menu:"
-msgstr "Selige qual servicios deberea esser monstrate in le menu de contexto:"
-
-#: settings/contextmenu/contextmenusettingspage.cpp:62
+#: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
 msgstr "Cerca..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:87
-#, kde-format
+#: settings/contextmenu/contextmenusettingspage.cpp:68
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services…"
 msgctxt "@action:button"
-msgid "Download New Services…"
+msgid "Download Services…"
 msgstr "Discarga nove servicios..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:226
+#: settings/contextmenu/contextmenusettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Shortcuts…"
+msgstr ""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Dele"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:229
-#: settings/contextmenu/contextmenusettingspage.cpp:236
-#: settings/contextmenu/contextmenusettingspage.cpp:247
+#: settings/contextmenu/contextmenusettingspage.cpp:237
+#: settings/contextmenu/contextmenusettingspage.cpp:244
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
 msgstr "Dolphin incorporate"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:233
+#: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Commandos de 'Copia a' e 'Move a'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:279
+#: settings/contextmenu/contextmenusettingspage.cpp:287
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -6965,6 +6984,11 @@ msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
 
+#~ msgctxt "@label:textbox"
+#~ msgid "Select which services should be shown in the context menu:"
+#~ msgstr ""
+#~ "Selige qual servicios deberea esser monstrate in le menu de contexto:"
+
 #~ msgctxt "@label:checkbox"
 #~ msgid "Tab bar:"
 #~ msgstr "Barra de Scheda:"
@@ -7323,10 +7347,6 @@ msgstr "Zoom"
 #~ msgctxt "@label:textbox"
 #~ msgid "Search..."
 #~ msgstr "Cerca..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "On non pote acceder <filename>%1</filename>."
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr ""

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-21 00:48+0000\n"
+"POT-Creation-Date: 2026-03-03 00:50+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2124,7 +2124,24 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nem találhatók elemek."
 
-#: dolphinviewcontainer.cpp:893
+#: dolphinviewcontainer.cpp:737
+#, fuzzy, kde-format
+#| msgctxt "Textual representation of files. %1 is the number of files."
+#| msgid "One File"
+#| msgid_plural "%1 Files"
+msgctxt "@action"
+msgid "Open as File"
+msgstr "1 fájl"
+
+#: dolphinviewcontainer.cpp:754
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Could not access <filename>%1</filename>."
+msgctxt "@info"
+msgid "Trying to open a file as a folder: <filename>%1</filename>"
+msgstr "Nem lehet hozzáférni a(z) <filename>%1</filename> fájlhoz."
+
+#: dolphinviewcontainer.cpp:906
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -2132,7 +2149,7 @@ msgstr ""
 "A program nem tud közvetlenül weboldalakat kezelni, ezért elindult egy "
 "webböngésző"
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:909
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2141,25 +2158,25 @@ msgstr ""
 "A Dolphin nem támogatja ezt a protokollt, ezért az alapértelmezett "
 "alkalmazás indul el"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:916
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Érvénytelen protokoll: „%1”"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:918
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Érvénytelen protokoll"
 
-#: dolphinviewcontainer.cpp:1006
+#: dolphinviewcontainer.cpp:1019
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1011
+#: dolphinviewcontainer.cpp:1024
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2167,13 +2184,13 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "A mappa létrejött."
 
-#: dolphinviewcontainer.cpp:1028
+#: dolphinviewcontainer.cpp:1041
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1044
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Cannot paste: You do not have permission to write into this folder."
@@ -2181,7 +2198,7 @@ msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Nem lehet beilleszteni: Nincs jogosultsága írni ebbe a mappába."
 
-#: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
+#: dolphinviewcontainer.cpp:1088 dolphinviewcontainer.cpp:1091
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4270,45 +4287,47 @@ msgctxt "@title:group"
 msgid "Context Menu Actions"
 msgstr "Helyi menü"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:57
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Select which services should be shown in the context menu:"
-msgstr "A helyi menüben megjelenítendő szolgáltatások kiválasztása:"
-
-#: settings/contextmenu/contextmenusettingspage.cpp:62
+#: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
 msgstr "Keresés…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:87
-#, kde-format
+#: settings/contextmenu/contextmenusettingspage.cpp:68
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services…"
 msgctxt "@action:button"
-msgid "Download New Services…"
+msgid "Download Services…"
 msgstr "Új szolgáltatások letöltése…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:226
+#: settings/contextmenu/contextmenusettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Shortcuts…"
+msgstr ""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Törlés"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:229
-#: settings/contextmenu/contextmenusettingspage.cpp:236
-#: settings/contextmenu/contextmenusettingspage.cpp:247
+#: settings/contextmenu/contextmenusettingspage.cpp:237
+#: settings/contextmenu/contextmenusettingspage.cpp:244
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:233
+#: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "„Másolás” és „Áthelyezés” parancs"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:279
+#: settings/contextmenu/contextmenusettingspage.cpp:287
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -7084,6 +7103,10 @@ msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Nagyítás"
 
+#~ msgctxt "@label:textbox"
+#~ msgid "Select which services should be shown in the context menu:"
+#~ msgstr "A helyi menüben megjelenítendő szolgáltatások kiválasztása:"
+
 #~ msgctxt "@info"
 #~ msgid ""
 #~ "Dolphin must be restarted to apply the updated version control system "
@@ -7414,10 +7437,6 @@ msgstr "Nagyítás"
 #~ msgctxt "@label:textbox"
 #~ msgid "Search..."
 #~ msgstr "Keresés…"
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "Nem lehet hozzáférni a(z) <filename>%1</filename> fájlhoz."
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr "Egy vagy több fájl az eszközről meg van nyitva egy alkalmazásban."
