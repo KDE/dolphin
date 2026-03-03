@@ -47,7 +47,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     QFormLayout *topLayout = new QFormLayout(this);
     topLayout->setFormAlignment(Qt::AlignHCenter);
 
-    QLabel *confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
+    QLabel *confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in KDE applications when:"), this);
     confirmLabelKde->setWordWrap(true);
 
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Moving files or folders to trash"), this);
