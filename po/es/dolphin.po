@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-03 00:50+0000\n"
-"PO-Revision-Date: 2026-02-22 00:32+0100\n"
+"POT-Creation-Date: 2026-03-04 00:48+0000\n"
+"PO-Revision-Date: 2026-03-03 13:57+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2111,19 +2111,16 @@ msgid "No items found."
 msgstr "Ningún elemento encontrado."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "1 archivo"
+msgstr "Abrir como archivo"
 
 #: dolphinviewcontainer.cpp:754
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr ""
+msgstr "Intentando abrir un archivo como una carpeta: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -4226,18 +4223,16 @@ msgid "Search…"
 msgstr "Buscar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Descargar nuevos servicios…"
+msgstr "Descargar servicios…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Atajos de teclado…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4953,89 +4948,91 @@ msgstr "Tiene cambios sin guardar. ¿Desea aplicar los cambios o descartarlos?"
 msgid "Warning"
 msgstr "Advertencia"
 
-#: settings/interface/confirmationssettingspage.cpp:49
-#, kde-format
+#: settings/interface/confirmationssettingspage.cpp:50
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation in all KDE applications when:"
 msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
+msgid "Ask for confirmation in KDE applications when:"
 msgstr "Pedir confirmación en todas las aplicaciones de KDE al:"
 
-#: settings/interface/confirmationssettingspage.cpp:52
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "Mover archivos o carpetas a la papelera"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Vaciar la papelera"
 
-#: settings/interface/confirmationssettingspage.cpp:54
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "Borrar archivos o carpetas"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Pedir confirmación en Dolphin para:"
 
-#: settings/interface/confirmationssettingspage.cpp:59
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "Cerrar ventanas con varias pestañas"
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Cerrar ventanas con un programa ejecutándose en el panel del terminal"
 
-#: settings/interface/confirmationssettingspage.cpp:66
+#: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "Abrir muchas carpetas a la vez"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr "Abrir muchas terminales a la vez"
 
-#: settings/interface/confirmationssettingspage.cpp:68
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
 msgstr "Cambiando a operar como administrador"
 
-#: settings/interface/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
 msgstr "El cambio de nombre de un archivo modifica su tipo"
 
-#: settings/interface/confirmationssettingspage.cpp:71
+#: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "Al abrir un archivo ejecutable:"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Always ask"
 msgstr "Preguntar siempre"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Open in application"
 msgstr "Abrir en aplicación"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Run script"
 msgstr "Ejecutar script"
@@ -7018,7 +7015,3 @@ msgstr "Ampliar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Ampliar"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Select which services should be shown in the context menu:"
-#~ msgstr "Seleccione qué servicios se mostrarán en el menú de contexto:"

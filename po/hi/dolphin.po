@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-03 00:50+0000\n"
+"POT-Creation-Date: 2026-03-04 00:48+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4897,49 +4897,51 @@ msgstr ""
 msgid "Warning"
 msgstr "चेतावनी"
 
-#: settings/interface/confirmationssettingspage.cpp:49
-#, kde-format
+#: settings/interface/confirmationssettingspage.cpp:50
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation in all KDE applications when:"
 msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
+msgid "Ask for confirmation in KDE applications when:"
 msgstr "सभी केडीई अनुप्रयोगों में पुष्टि के लिए पूछें जब :"
 
-#: settings/interface/confirmationssettingspage.cpp:52
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "फ़ाइलों या फ़ोल्डरों को कूडे़ में डाला जा रहा है"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "कूडा खाली किया जा रहा है"
 
-#: settings/interface/confirmationssettingspage.cpp:54
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "फ़ाइलों या फ़ोल्डरों को मिटाया जा रहा है"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "डॉल्फ़िन में पुष्टिकरण के लिए पूछें जब :"
 
-#: settings/interface/confirmationssettingspage.cpp:59
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "एकाधिक टैब के साथ विंडो बंद करना"
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:66
+#: settings/interface/confirmationssettingspage.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open files and folders:"
@@ -4947,41 +4949,41 @@ msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "फ़इल व फोल्डरों को खोलें :"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:68
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:71
+#: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "निष्पादन योग्य फ़ाइल खोलते समय :"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Always ask"
 msgstr "हमेशा पूछें"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Open in application"
 msgstr "अनुप्रयोग में खोलें"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Run script"
 msgstr "स्क्रिप्ट चलाएँ"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-03 00:50+0000\n"
+"POT-Creation-Date: 2026-03-04 00:48+0000\n"
 "PO-Revision-Date: 2023-10-11 18:21+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -5101,89 +5101,91 @@ msgstr ""
 msgid "Warning"
 msgstr "Xəbərdarlıq"
 
-#: settings/interface/confirmationssettingspage.cpp:49
-#, kde-format
+#: settings/interface/confirmationssettingspage.cpp:50
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation in all KDE applications when:"
 msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
+msgid "Ask for confirmation in KDE applications when:"
 msgstr "Bütün KDE tətbiqlərində əməliyyatln təsdiq edilməsini soruşmaq:"
 
-#: settings/interface/confirmationssettingspage.cpp:52
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "Faylları və qovluqları səbətə atmaq"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Səbətin boşaldılması"
 
-#: settings/interface/confirmationssettingspage.cpp:54
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "Faylları və qovluqları silmək"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Təsdiq etmə soruşulsun:"
 
-#: settings/interface/confirmationssettingspage.cpp:59
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "Bir neçə vərəq açıq olan pəncərəni bağlayarkən"
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Terminalda əmr icra olunduğu zaman pəncərənin bağlanması"
 
-#: settings/interface/confirmationssettingspage.cpp:66
+#: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "Çoxsaylı qovluqların eyni vaxtda açılması"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr "Çoxsaylı terminalların eyni vaxtda açılması"
 
-#: settings/interface/confirmationssettingspage.cpp:68
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:71
+#: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "İcra faylını açarkən"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Always ask"
 msgstr "Həmişə soruşmaq"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Open in application"
 msgstr "Tətbiqdə açmaq"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Run script"
 msgstr "Əmrlər faylını başlatmaq"

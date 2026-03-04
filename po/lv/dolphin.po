@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-03 00:50+0000\n"
+"POT-Creation-Date: 2026-03-04 00:48+0000\n"
 "PO-Revision-Date: 2025-11-09 11:07+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -4940,89 +4940,91 @@ msgstr ""
 msgid "Warning"
 msgstr "Brīdinājums"
 
-#: settings/interface/confirmationssettingspage.cpp:49
-#, kde-format
+#: settings/interface/confirmationssettingspage.cpp:50
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation in all KDE applications when:"
 msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
+msgid "Ask for confirmation in KDE applications when:"
 msgstr "Prasīt apstiprinājumu visās KDE programmās, kad:"
 
-#: settings/interface/confirmationssettingspage.cpp:52
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "Pārvieto datnes vai mapes uz atkritni"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Iztukšo atkritni"
 
-#: settings/interface/confirmationssettingspage.cpp:54
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "Dzēš datnes vai mapes"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Prasīt apstiprinājumu „Dolphin“ programmā, kad:"
 
-#: settings/interface/confirmationssettingspage.cpp:59
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "Aizver logus ar vairākām cilnēm"
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Aizver logus, kad termināļa panelī ir palaista programma"
 
-#: settings/interface/confirmationssettingspage.cpp:66
+#: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "Vairāku mapju vienlaicīga atvēršana"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr "Vairāku termināļu vienlaicīga atvēršana"
 
-#: settings/interface/confirmationssettingspage.cpp:68
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
 msgstr "Pārslēgties, lai rīkotos kā administratoram"
 
-#: settings/interface/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
 msgstr "Datnes pārdēvēšana mainīs tās tipu"
 
-#: settings/interface/confirmationssettingspage.cpp:71
+#: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "Kad atver izpildāmu datni:"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Always ask"
 msgstr "Vienmēr vaicāt"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Open in application"
 msgstr "Atvērt programmā"
 
-#: settings/interface/confirmationssettingspage.cpp:75
+#: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Run script"
 msgstr "Palaist skriptu"
