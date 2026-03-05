@@ -1747,7 +1747,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
             row->setPressed(true);
         }
 
-        if (rightClick && hitTargetIsRowEmptyRegion) {
+        if (rightClick && hitTargetIsRowEmptyRegion && !m_view->highlightEntireRow()) {
             // We have a right click outside the icon and text rect but within the hover highlight area.
             // We don't want items to get selected through this, so we return now.
             return true;
