@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-04 00:48+0000\n"
-"PO-Revision-Date: 2026-02-21 20:41+0100\n"
+"PO-Revision-Date: 2026-03-04 14:52+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2107,21 +2107,16 @@ msgid "No items found."
 msgstr "Nessun elemento trovato."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Un file"
+msgstr "Apri come file"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Impossibile accedere a <filename>%1</filename>."
+msgstr "Tentativo di aprire un file come cartella: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -4220,18 +4215,16 @@ msgid "Search…"
 msgstr "Cerca…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Scarica nuovi servizi…"
+msgstr "Scarica servizi…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Scorciatoie…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4954,12 +4947,10 @@ msgid "Warning"
 msgstr "Avviso"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Chiedi conferma in tutte le applicazioni di KDE per:"
+msgstr "Chiedi conferma nelle applicazioni di KDE per:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format

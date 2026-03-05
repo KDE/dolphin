@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-04 00:48+0000\n"
-"PO-Revision-Date: 2026-03-03 17:06+0100\n"
+"PO-Revision-Date: 2026-03-04 16:27+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -4920,12 +4920,10 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Demanda confirmation in omne applicationes de KDE quando:"
+msgstr "Demanda confirmation in applicationes de KDE quando:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format

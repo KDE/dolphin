@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-04 00:48+0000\n"
-"PO-Revision-Date: 2026-03-03 08:38-0300\n"
+"PO-Revision-Date: 2026-03-04 07:32-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -4936,12 +4936,10 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Solicitar confirmação em todos os aplicativos do KDE quando:"
+msgstr "Solicitar confirmação em aplicativos do KDE quando:"
 
 # Usar "Lixeira" em maiúsculo aqui.(Alvarenga)
 #: settings/interface/confirmationssettingspage.cpp:53
