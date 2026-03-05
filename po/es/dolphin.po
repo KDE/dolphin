@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-02 02:41+0000\n"
-"PO-Revision-Date: 2026-01-18 12:37+0100\n"
+"POT-Creation-Date: 2026-03-05 02:40+0000\n"
+"PO-Revision-Date: 2026-03-04 12:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -2081,13 +2081,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ningún elemento encontrado."
 
-#: dolphinviewcontainer.cpp:895
+#: dolphinviewcontainer.cpp:887
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin no puede mostrar páginas web, se ha lanzado un navegador web"
 
-#: dolphinviewcontainer.cpp:898
+#: dolphinviewcontainer.cpp:890
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2096,43 +2096,43 @@ msgstr ""
 "Protocolo no permitido por Dolphin. Se ha lanzado la aplicación "
 "predeterminada."
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:897
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocolo «%1» no válido"
 
-#: dolphinviewcontainer.cpp:907
+#: dolphinviewcontainer.cpp:899
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocolo no válido"
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1001
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Se necesita autorización para entrar en esta carpeta."
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1006
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Crear la carpeta que falta"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1023
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Crear la carpeta en esta ruta y abrirla"
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1026
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "No tiene permiso para crear la carpeta"
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1070 dolphinviewcontainer.cpp:1073
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6872,15 +6872,3 @@ msgstr "Ampliar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Ampliar"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr ""
-#~ "Debe reiniciar Dolphin para que se apliquen las preferencias actualizadas "
-#~ "del sistema de control de versiones."
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "¿Reiniciar ahora?"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-02 02:41+0000\n"
-"PO-Revision-Date: 2026-02-16 23:49+0000\n"
+"POT-Creation-Date: 2026-03-05 02:40+0000\n"
+"PO-Revision-Date: 2026-03-03 19:23+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -2051,13 +2051,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Niciun element găsit."
 
-#: dolphinviewcontainer.cpp:895
+#: dolphinviewcontainer.cpp:887
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nu susține pagini web - a fost lansat navigatorul de Internet"
 
-#: dolphinviewcontainer.cpp:898
+#: dolphinviewcontainer.cpp:890
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2065,43 +2065,43 @@ msgid ""
 msgstr ""
 "Protocolul nu este susținut de Dolphin, a fost lansată aplicația implicită"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:897
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocol nevalid „%1”"
 
-#: dolphinviewcontainer.cpp:907
+#: dolphinviewcontainer.cpp:899
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocol nevalid"
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1001
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "E nevoie de autorizare pentru a intra în acest dosar."
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1006
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Creează dosarul lipsă"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1023
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Creează dosarul la această cale și îl deschide"
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1026
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Nu aveți permisiuni suficiente pentru a crea dosarul"
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1070 dolphinviewcontainer.cpp:1073
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3668,6 +3668,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Căutarea în <filename>%1</filename> folosind <application>%2</"
+"application> nu este posibilă acum deoarece <application>%2</application> e "
+"configurat să nu creeze niciodată un index al căutării pentru acea amplasare."
+"</para>"
 
 #: search/popup.cpp:283
 #, kde-kuit-format
@@ -3677,6 +3681,10 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Căutarea în conținutul fișierelor folosind <application>%1</"
+"application> nu este posibilă acum deoarece <application>%1</application> e "
+"configurat să nu creeze niciodată un index al căutării pentru conținuturile "
+"fișierelor.</para>"
 
 #: search/popup.cpp:292
 #, kde-format
