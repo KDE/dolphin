@@ -848,14 +848,7 @@ void DolphinMainWindow::createDirectory()
     // just check if we are already running one. This prevents opening multiple
     // dialogs. BUG:481401
     if (!m_newFileMenu->isCreateDirectoryRunning()) {
-        QUrl targetDirectory = activeViewContainer()->view()->url();
-        if (const auto itemOpt = activeViewContainer()->view()->firstSelectedItem()) {
-            if (itemOpt->isDir()) {
-                targetDirectory = itemOpt->url();
-            }
-        }
-
-        m_newFileMenu->setWorkingDirectory(targetDirectory);
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
         m_newFileMenu->createDirectory();
     }
 }
@@ -864,14 +857,7 @@ void DolphinMainWindow::createFile()
 {
     // Use the same logic as in createDirectory()
     if (!m_newFileMenu->isCreateFileRunning()) {
-        QUrl targetDirectory = activeViewContainer()->view()->url();
-        if (const auto itemOpt = activeViewContainer()->view()->firstSelectedItem()) {
-            if (itemOpt->isDir()) {
-                targetDirectory = itemOpt->url();
-            }
-        }
-
-        m_newFileMenu->setWorkingDirectory(targetDirectory);
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
         m_newFileMenu->createFile();
     }
 }
