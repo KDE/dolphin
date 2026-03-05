@@ -48,6 +48,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     , m_closeSplitComboBox(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     // Show on startup
     m_rememberOpenedTabsRadioButton = new QRadioButton(i18nc("@option:radio Show on startup", "Folders, tabs, and window state from last time"), this);
@@ -58,12 +59,14 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     m_homeUrlRadioButton->setAccessibleName(i18nc("@option:radio", "Show home location on startup"));
     QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(m_homeUrlBoxLayoutContainer);
     homeUrlBoxLayout->setContentsMargins(0, 0, 0, 0);
+    homeUrlBoxLayout->setSizeConstraint(QLayout::SetFixedSize);
 
     m_homeUrl = new QLineEdit();
     m_homeUrl->setClearButtonEnabled(true);
     // i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
     m_homeUrl->setPlaceholderText(i18nc("@info:placeholder", "Enter home location path"));
-    homeUrlBoxLayout->addWidget(m_homeUrl);
+    homeUrlBoxLayout->addWidget(m_homeUrl, 0, topLayout->formAlignment());
+    m_homeUrl->setMinimumWidth(m_homeUrl->fontMetrics().horizontalAdvance(m_homeUrl->placeholderText()) * 2);
 
     QPushButton *selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString());
     homeUrlBoxLayout->addWidget(selectHomeUrlButton);

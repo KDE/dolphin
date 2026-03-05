@@ -26,7 +26,13 @@ PanelSettingsPage::PanelSettingsPage(QWidget *parent)
     , m_dateFormatShort(nullptr)
 
 {
-    QFormLayout *topLayout = new QFormLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setVerticalSizeConstraint(QLayout::SetFixedSize);
+
+    QFormLayout *topLayout = new QFormLayout();
+    layout->addLayout(topLayout);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
+    topLayout->setSizeConstraint(QLayout::SizeConstraint::SetFixedSize);
 
     KFormat formatter;
     QString m_longDateTime = formatter.formatRelativeDateTime(QDateTime(QDate(2024, 02, 28), QTime(10, 0)), QLocale::LongFormat);
@@ -47,13 +53,13 @@ PanelSettingsPage::PanelSettingsPage(QWidget *parent)
     topLayout->addRow(QString(), m_showHovered);
     topLayout->addRow(QString(), m_dateFormatLong);
     topLayout->addRow(QString(), m_dateFormatShort);
-    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     QLabel *contextMenuHint =
         new QLabel(i18nc("@info", "Panel settings are also available through their context menu. Open it by pressing the right mouse button on a panel."),
                    this);
     contextMenuHint->setWordWrap(true);
-    topLayout->addRow(contextMenuHint);
+    contextMenuHint->setMinimumWidth(topLayout->minimumSize().width());
+    layout->addWidget(contextMenuHint, 0, Qt::AlignTop | Qt::AlignHCenter);
 
     loadSettings();
 

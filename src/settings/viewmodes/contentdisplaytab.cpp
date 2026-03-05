@@ -33,6 +33,7 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     , m_elideEnding(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     // Sorting Order
     m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural"));

@@ -36,6 +36,7 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     foldersTabsPage = foldersPage;
 
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     // Status bar
     m_statusBarButtonGroup = new QButtonGroup(this);

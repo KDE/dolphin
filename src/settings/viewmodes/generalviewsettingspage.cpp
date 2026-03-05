@@ -29,6 +29,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     , m_url(url)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     // Display style
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common display style for all folders"));
@@ -180,6 +181,12 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     topLayout->addRow(QString(), m_doubleClickViewCustomActionInfo);
     // END double click view background
     // --------------------- //
+
+    // make sure the labels don't expand too much
+    for (auto label : {localViewPropsLabel, globalViewPropsLabel}) {
+        label->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum));
+        label->setMinimumWidth(m_dynamicView->width());
+    }
 
     loadSettings();
 

@@ -39,6 +39,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     , m_expandableFolders(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     // Create "Icon Size" section
     const int minRange = ZoomLevelInfo::minimumLevel();
