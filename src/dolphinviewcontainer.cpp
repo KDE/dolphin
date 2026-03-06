@@ -984,16 +984,18 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
     m_view->setZoomLevel(zoomLevel);
 }
 
-bool DolphinViewContainer::isTopMostParentFolderWritable(QUrl url)
+bool DolphinViewContainer::isTopMostExistingParentFolderWritable(QUrl url)
 {
     Q_ASSERT(url.isLocalFile());
-    while (url.isValid()) {
+
+    while (!url.toLocalFile().isEmpty()) {
         url = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+
         QFileInfo info(url.toLocalFile());
+
         if (info.exists()) {
             return info.isWritable();
-        }
-        if (info.isSymLink()) {
+        } else if (info.isSymLink()) {
             return false;
         }
     }
@@ -1036,7 +1038,7 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
                 });
             });
         }
-        if (isTopMostParentFolderWritable(m_view->url())) {
+        if (isTopMostExistingParentFolderWritable(m_view->url())) {
             m_createFolderAction->setEnabled(true);
             m_createFolderAction->setToolTip(i18nc("@info:tooltip", "Create the folder at this path and open it"));
         } else {
