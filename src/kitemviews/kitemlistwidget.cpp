@@ -617,17 +617,13 @@ void KItemListWidget::setPressed(bool enabled)
 
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
+    painter->save();
     QStyleOptionViewItem viewItemOption;
-    constexpr int roundness = 5; // From Breeze style.
-    constexpr qreal penWidth = 1.25;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRectFull().toRect();
-    QPainterPath path;
-    const qreal adjustment = 0.5 * penWidth; // Use same adjustments as Breeze strokedRect uses, to snap to pixelGrid.
-    path.addRoundedRect(selectionRectFull().adjusted(adjustment, adjustment, -adjustment, -adjustment), roundness, roundness);
     QColor backgroundColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
@@ -649,18 +645,21 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
         }
     }
 
-    painter->fillPath(path, backgroundColor);
+    viewItemOption.backgroundBrush = backgroundColor;
+    style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 
     // Focus decoration
     if (current) {
+        QStyleOptionFocusRect focusRectOption;
+        initStyleOption(&focusRectOption);
         QColor focusColor{widget->palette().color(QPalette::Accent)};
-        focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
-        focusColor.setAlphaF(m_selected || m_hovered ? 1.0 : 0.8);
         // Set the pen color lighter or darker depending on background color
-        QPen pen{focusColor, penWidth};
-        pen.setCosmetic(true);
-        painter->strokePath(path, pen);
+        focusRectOption.state = QStyle::State_HasFocus;
+        focusRectOption.rect = viewItemOption.rect;
+        focusRectOption.backgroundColor = focusColor;
+        style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
     }
+    painter->restore();
 }
 
 #include "moc_kitemlistwidget.cpp"
