@@ -624,7 +624,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRectFull().toRect();
-    QColor backgroundColor{widget->palette().color(QPalette::Accent)};
+    QColor backgroundColor{widget->palette().color(QPalette::Highlight)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
 
@@ -652,7 +652,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     if (current) {
         QStyleOptionFocusRect focusRectOption;
         initStyleOption(&focusRectOption);
-        QColor focusColor{widget->palette().color(QPalette::Accent)};
+        QColor focusColor{widget->palette().color(QPalette::Highlight)};
         // Set the pen color lighter or darker depending on background color
         focusRectOption.state = QStyle::State_HasFocus;
         focusRectOption.rect = viewItemOption.rect;
