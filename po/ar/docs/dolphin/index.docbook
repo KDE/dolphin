@@ -1,0 +1,3367 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>كتيّب دولفين</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>صفا</firstname
+><surname
+>الفليج</surname
+><affiliation
+><address
+><email
+>safa1996alfulaij@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2022-01-17</date>
+<releaseinfo
+>ترس كيدي 22.04</releaseinfo>
+
+<abstract>
+<para
+>دولفين هو مدير الملفّات الافتراضي من كيدي والمصمّم على أساس سهولة الاستخدام. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>كِيدِي</keyword>
+<keyword
+>دولفين</keyword>
+<keyword
+>مدير ملفات</keyword>
+<keyword
+>ملف</keyword>
+<keyword
+>إدارة</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>مقدّمة</title>
+
+<para
+>دولفين هو مدير الملفّات الافتراضيّ في بلازما. يهدف دولفين إلى تحسين الاستخدام على مستوى واجهة المستخدم. يركّز البرنامج على أن يكون مدير ملفّات فحسب، بينما تكون وظيفة كنكرر (والذي كان مدير الملفّات الافتراضيّ في كيدي ٣، ويمكنك استخدامه لإدارة الملفّات) هي العرض العالميّ للعديد من أنواع الملفّات. </para>
+
+<para
+>يتيح أسلوب التّصميم هذا المطوّرين على التّركيز على تحسين واجهة المستخدم لمهمّة إدارة الملفّات فحسب. </para>
+
+<para
+>رجاءً أبلغ عن أيّة مشاكل أو طلبات مزايا إلى مؤلّف دولفين عبر حواريّ الإبلاغ عن العلل. يمكنك الوصول إليه من زرّ <guibutton
+>تحكّم</guibutton
+> يسار شريط الأدوات في الوضع الافتراضيّ دون شريط قوائم، أو من قائمة <menuchoice
+><guimenu
+>مساعدة</guimenu
+><guimenuitem
+>أبلغ عن علّة</guimenuitem
+></menuchoice
+> في التّطبيق، إن كان شريط القوائم ظاهرًا. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>استخدام دولفين</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>واجهة المستخدم في دولفين</title>
+
+<para
+>تعرض لقطة الشّاشة أدناه واجهة دولفين الافتراضيّة: </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لواجهة دولفين الافتراضيّة</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>واجهة دولفين الافتراضيّة</phrase>
+</textobject>
+<caption
+><para
+>واجهة دولفين الافتراضيّة</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>عناصر واجهة المستخدم الافتراضيّة هي: <itemizedlist>
+
+<listitem
+><para
+>شريط الأدوات، والذي يمكن استخدامه للوصول السّريع لأكثر الإجراءات استخدامًا. يمكن تخصيص شريط الأدوات بنقره مستخدمًا &RMB; واختيار <menuchoice
+><guimenuitem
+>اضبط أشرطة الأدوات...</guimenuitem
+></menuchoice
+> من قائمة السّياق، أو من <guimenuitem
+>اضبط أشرطة الأدوات...</guimenuitem
+> من زرّ <guibutton
+>تحكّم</guibutton
+> يسار شريط الأدوات أو عبر <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guimenuitem
+>اضبط أشرطة الأدوات...</guimenuitem
+></menuchoice
+> من القائمة الرّئيسيّة. </para>
+<screenshot>
+<screeninfo
+>لقطة شاشة لشريط أدوات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط الأدوات الافتراضيّ.</phrase>
+</textobject>
+<caption>
+<para
+>عناصر شريط الأدوات التي تكفي أيقوناتها لمعرفة الأمر لا تحتوي على نص بجانب الأيقونات. يمكن تغيير هذا بنقر &RMB; واختيار نص العنصر أسفل <guilabel
+>أظهر النص</guilabel
+>. لا يُعرض زر <guibutton
+>تحكّم</guibutton
+> في الجانب الأيمن من شريط الأدوات إلا إذا كان شريط القوائم مخفيًا. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>شريط المكان، وهو يعرض دائمًا مسار المجلّد الحاليّ. يمكن التّبديل بين وضعي عرض مختلفين، طالع <link linkend="location-bar"
+>القسم المتعلّق بشريط المكان</link
+> للتّفاصيل. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>المنظور</link
+> والذي يعرض كلّ الملفّات والمجلّدات في المجلّد الحاليّ. </para
+></listitem>
+
+<listitem
+><para
+>لوحة <link linkend="places-panel"
+><guilabel
+>الأماكن</guilabel
+></link
+>، التي توفر وصولاً سريعاً إلى المواقع المرجعية والأقراص أو الوسائط الأخرى. </para>
+<para
+>إذا فُعّل بحث سطح المكتب وفهرسة الملفات في وحدة <guilabel
+>بحث سطح المكتب</guilabel
+> في إعدادات النظام، فستوفر اللوحة العناصر <guilabel
+>الحديثة</guilabel
+> وتتيح لك البحث عن <guilabel
+>المستندات</guilabel
+>، و<guilabel
+>الصور</guilabel
+>، و<guilabel
+>ملفات الصوت</guilabel
+> و<guilabel
+>الفيديو</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>شريط الحالة. يعرض اسم الملف وحجمه ونوعه الذي تحوم الفأرة فوقه حاليًا، أو عدد وحجم الملفات المحددة. يوجد في اليمين منزلق تقريب يتيح لك ضبط حجم الأيقونات في المنظور. </para
+></listitem>
+
+<listitem
+><para
+>شريط القوائم (مخفيّ افتراضيًّا) يقدّم وصولًا إلى كلّ الأوامر وخيارات الضّبط. طالع <link linkend="commands-menubar"
+>مرجع الأوامر</link
+> لتجد كلّ أوامر القوائم. يمكن تبديل ظهور شريط القوائم عبر <guimenuitem
+>أظهر شريط القوائم</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) من قائمة <guimenu
+>إعدادات</guimenu
+> أو من زرّ <guibutton
+>تحكّم</guibutton
+>. </para>
+<para
+>إن كان شريط القوائم مخفيًّا، فستكون كلّ الإجراءات فيه متوفّرة في زرّ <guibutton
+>تحكّم</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>تكون لوحات <guilabel
+>المعلومات</guilabel
+> و<guilabel
+>المجلدات</guilabel
+> و<guilabel
+>الطرفية</guilabel
+> الإضافية مخفية بشكل مبدئي، لمزيد من المعلومات انظر <link linkend="panels"
+>لوحات</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>منظور دولفين</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>استخدام المنظور</title>
+
+<para
+>يعرض المنظور كلّ الملفّات والمجلّدات في المجلّد الحاليّ. يمكن الوصول إلى هذه الأيقونات وتعديلها بطرق عدّة: </para>
+<itemizedlist>
+
+<listitem
+><para
+>يمكن فتح ملف أو مجلد بنقره بزر الفأرة الأيسر (أو بالنقر المزدوج، إذا فُعّل خيار <guilabel
+>افتح بالنقر المزدوج بدلاً من ذلك</guilabel
+> في إعدادات النظام في وحدة <menuchoice
+><guimenu
+>مساحة العمل</guimenu
+> <guimenuitem
+>السلوك العام</guimenuitem
+></menuchoice
+>). </para
+></listitem>
+
+<listitem
+><para
+>نقر أيّ عنصر أو نقر المساحة الفارغة حول الأيقونات باستخدام &RMB; يفتح قائمة سياق تقدّم عددًا من أكثر الإجراءات استخدامًا لذلك العنصر أو المجلّد الحاليّ، حسب المكان الذي نقرت فيه. </para
+></listitem>
+
+<listitem
+><para
+>إن نقرت عنصرًا باستخدام &LMB;، ولكنّك لم تزل يدك عن الزّرّ، فيمكن سحب العنصر وإسقاطه في مجلّد آخر في المنظور الحاليّ أو في منظور دولفين آخر (في نافذة دولفين أخرى أو في نفس النّافذة إن كان المنظور مقسومًا، طالع أدناه)، وذلك لنقله أو نسخه أو إنشاء رابط رمزيّ له. يمكن أيضًا إسقاط العناصر في التّطبيقات الأخرى لفتحها بتلك التّطبيقات. </para
+></listitem>
+
+</itemizedlist>
+<para
+>يتذكّر دولفين تأريخ المجلّدات المزارة. للتّنقّل في التّأريخ أمامًا ووراءً، يمكن استخدام الأزرار المناسبة في شريط الأدوات: </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لشريط أدوات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>زرّا العودة والتّقدّم في شريط الأدوات.</phrase>
+</textobject>
+<caption>
+<para
+>يمكن استخدام زرّي <guibutton
+>عُد</guibutton
+> و<guibutton
+>تقدّم</guibutton
+> في شريط الأدوات للتّنقّل في التّأريخ. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>إذا نُقر باستخدام &MMB; فسيُفتح العنصر الموجود في التأريخ في لسان جديد، وبذلك يُحتفظ باللسان الحالي بمحتواه. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>مظهر منظور دولفين</title>
+
+<para
+>يحتوي شريط الأدوات على أزرار للتحكّم بمظهر المنظور: </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لشريط أدوات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>الأزرار في شريط الأدوات التي تتحكّم بمظهر المنظور.</phrase>
+</textobject>
+<caption
+><para
+>الأزرار في شريط الأدوات التي تتحكّم بمظهر المنظور. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>كل الإعدادات المذكورة أدناه والخيارات الأخرى المتعلقة بفرز الملفات في المجلد الحالي مثلاً، يمكن تعديلها أيضاً في قائمة <guimenu
+>عرض</guimenu
+> وفي <link linkend="view-properties-dialog"
+>حوار نمط عرض العرض</link
+>. تُحفظ هذه الإعدادات مبدئياً لكل مجلد على حدة. يمكن تغيير هذا السلوك في قسم <link linkend="preferences-dialog-general"
+><quote
+>عام</quote
+></link
+> في الإعدادات. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>أوضاع المنظور</title>
+
+<para
+>أوّل ثلاثة أزرار من لقطة الشّاشة أعلاه تبدّل بين أوضاع منظور دولفين. <itemizedlist>
+
+<listitem
+><para
+>في منظور <guibutton
+>الأيقونات</guibutton
+> المبدئي، تُمثّل الملفات بأيقونة تصور نوع الملف، وتُعرض أيقونة مجلد للمجلدات الفرعية. تُعرض أسماء المجلدات والملفات والعناصر المفعلة في <menuchoice
+><guimenu
+>منظور</guimenu
+><guisubmenu
+>معلومات إضافية</guisubmenu
+></menuchoice
+> أسفل الأيقونات. </para
+></listitem>
+
+<listitem
+><para
+>يعرض المنظور <guilabel
+>المتراص</guilabel
+> محتويات المجلد كأيقونات مع الاسم بجانبها والعناصر المفعلة في <menuchoice
+><guimenu
+>منظور</guimenu
+><guisubmenu
+>معلومات إضافية</guisubmenu
+></menuchoice
+> أسفل الاسم. تُجمع العناصر في أعمدة مشابهة لـ <guilabel
+>المنظور القصير</guilabel
+> في حواري ملف كيدي. </para
+></listitem>
+
+<listitem
+><para
+>في منظور <guibutton
+>التفاصيل</guibutton
+>، تُعرض محتويات المجلد كقائمة مفصلة تحتوي على الاسم والحجم ووقت آخر تعديل لكل عنصر. يمكن إضافة أعمدة إضافية بنقر ترويسة العمود باستخدام &RMB;. </para>
+<para
+>في القائمة السياقية لسطر الترويسة، يمكنك إضافة الحاشية الجانبية أو إزالتها عبر تحديد عنصر القائمة المقابل أو إلغاء تحديده، والاختيار بين عرض عمود مخصص أو آلي. يضبط العرض الآلي عرض كافة الأعمدة مرة واحدة لعرض أطول عنصر في العمود بالكامل، باستثناء عمود <guilabel
+>الاسم</guilabel
+> حيث يُستبدل الامتداد بـ <quote
+>...</quote
+> </para>
+<para
+>يمكن تغيير ترتيب الأعمدة بسحب وإسقاط ترويسات الأعمدة، باستثناء ترويسة <guilabel
+>الاسم</guilabel
+> التي تكون دائمًا العمود الأول في هذا المنظور. </para>
+<para
+>يتيح منظور التفاصيل عرض المجلد الحالي بطريقة تشبه الشجرة إذا فُعّلت <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>المجلدات القابلة للتوسيع</guilabel
+></link
+>: يمكن <quote
+>توسيع</quote
+> أو <quote
+>طي</quote
+> كل مجلد فرعي للمجلد الحالي بنقر أيقونة <guiicon
+>
+></guiicon
+> أو <guiicon
+>v</guiicon
+> المجاورة له.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>المنظور المجمع</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>المنظور المجمع</phrase>
+</textobject>
+<caption
+><para
+>تدعم كافة أوضاع المنظور التجميع حسب نوع الفرز المختار في <menuchoice
+><guimenu
+>منظور</guimenu
+><guisubmenu
+>فرز حسب</guisubmenu
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>المعلومات في المنظور</title>
+<para
+>يعرض دولفين في كافة أوضاع المنظور أيقونة واسمًا لكل عنصر على الأقل. باستخدام <guisubmenu
+>معلومات إضافية</guisubmenu
+> في قائمة <guimenu
+>منظور</guimenu
+> أو قائمة السياق للترويسة في وضع <guilabel
+>التفاصيل</guilabel
+>، يمكنك تحديد مزيد من المعلومات لكل عنصر لتُعرض: </para>
+
+<para
+><guimenuitem
+>الحجم</guimenuitem
+>، أو <guimenuitem
+>التاريخ</guimenuitem
+>، أو <guimenuitem
+>النوع</guimenuitem
+>، أو <guimenuitem
+>التقييم</guimenuitem
+>، أو <guimenuitem
+>الوسوم</guimenuitem
+> أو <guimenuitem
+>التعليق</guimenuitem
+>. </para>
+
+<para
+>اعتمادًا على نوع الملف، يمكن أيضًا تحديد معايير فرز إضافية: <simplelist>
+  <member
+><guimenuitem
+>مستند</guimenuitem
+>: عدد الكلمات والأسطر</member>
+  <member
+><guimenuitem
+>صورة</guimenuitem
+>: الحجم والاتجاه</member>
+  <member
+><guimenuitem
+>صوت</guimenuitem
+>: الفنان، والألبوم، والمدة، والمقطوعة</member>
+</simplelist>
+</para>
+
+<para
+>تتيح قائمة <guisubmenu
+>أخرى</guisubmenu
+> الفرعية تحديد <guimenuitem
+>المسار</guimenuitem
+>، أو <guimenuitem
+>وجهة الرابط</guimenuitem
+>، أو <guimenuitem
+>نُسخ من</guimenuitem
+>، أو <guimenuitem
+>الأذونات</guimenuitem
+>، أو <guimenuitem
+>المالك</guimenuitem
+> أو <guimenuitem
+>مجموعة المستخدم</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>المعاينة</title>
+
+<para
+>إذا فُعّل زر <guibutton
+>معاينة</guibutton
+>، فستعتمد الأيقونات على محتويات الملف أو المجلد الفعلية؛ فمثلاً للصور، تُعرض معاينة مصغرة للصورة. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>اقسم</title>
+
+<para
+>إذا نُقر على <guibutton
+>اقسم</guibutton
+>، فسيُعرض منظوران يمكنهما عرض محتويات مجلدات مختلفة. قد يكون هذا مناسبًا لنقل الملفات أو نسخها. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>تحديد العناصر في المنظور</title>
+
+<para
+>توجد طرق عدة لتحديد العناصر في المنظور. بمجرد تحديد مجموعة من العناصر، فإن كافة الإجراءات، مثل <menuchoice
+><guimenuitem
+>قص</guimenuitem
+></menuchoice
+>، و<menuchoice
+><guimenuitem
+>نسخ</guimenuitem
+></menuchoice
+>، و<menuchoice
+><guimenuitem
+>نقل إلى المهملات</guimenuitem
+></menuchoice
+>، وعمليات السحب والإفلات، تؤثر على كافة العناصر المحددة. </para>
+
+<sect3 id="selection-mouse">
+<title
+>تحديد العناصر باستخدام الفأرة</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>يمكنك الضغط بزر الفأرة الأيسر في أي مكان في المنظور ورسم مستطيل حول مجموعة من العناصر قبل إفلات الزر. سيؤدي هذا إلى تحديد كافة العناصر الموجودة داخل المستطيل ومسح التحديد السابق. إذا ضُغط على مفتاح &Shift; أثناء عملية التحديد، يُحتفظ بالتحديد السابق. </para
+></listitem>
+
+<listitem
+><para
+>إذا ضُغط على مفتاح &Ctrl; أثناء نكر عنصر بزر الفأرة الأيسر، تُبدل حالة تحديد هذا العنصر. وإذا ضُغط على مفتاح &Ctrl; أثناء رسم مستطيل حول مجموعة من العناصر كما هو موضح أعلاه، ستُبدل حالة تحديد كافة العناصر الموجودة في المستطيل. </para
+></listitem>
+
+<listitem
+><para
+>إذا ضُغط على مفتاح &Shift; أثناء نكر عنصر بزر الفأرة الأيسر، فستُحدد كافة العناصر الموجودة بين العنصر الحالي السابق والعنصر المنقور. </para
+></listitem>
+
+<listitem
+><para
+>إذا فُعّل خيار <guilabel
+>إظهار علامة التحديد</guilabel
+> في تبويب <link linkend="preferences-dialog-general-behavior"
+><quote
+>السلوك</quote
+> في قسم <guilabel
+>عام</guilabel
+> من الإعدادات</link
+>، فسيظهر زر <guiicon
+>+</guiicon
+> أو <guiicon
+>-</guiicon
+> صغير في الزاوية العلوية اليسرى للعنصر الذي تحوم فوقه الفأرة حاليًا. يؤدي النقر فوق هذه العلامة إلى تحديد العنصر أو إلغاء تحديده. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>تحديد العناصر باستخدام لوحة المفاتيح</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>إذا ضُغط على مفتاح سهم، أو <keycap
+>Page Up</keycap
+>، أو <keycap
+>Page Down</keycap
+>، أو <keycap
+>Home</keycap
+>، أو <keycap
+>End</keycap
+>، فسيُحدد العنصر الحالي الجديد، ويُمسح التحديد السابق. </para
+></listitem>
+
+<listitem
+><para
+>إذا استُمر في الضغط على مفتاح &Ctrl; أثناء الضغط على أحد المفاتيح المذكورة أعلاه، يبقى التحديد دون تغيير. </para
+></listitem>
+
+<listitem
+><para
+>إذا استُمر في الضغط على مفتاح &Shift; أثناء الضغط على أحد المفاتيح المذكورة أعلاه، فستُحدد كافة العناصر الموجودة بين العنصر الحالي السابق والعنصر الحالي الجديد. </para
+></listitem>
+
+<listitem
+><para
+>إذا ضُغط على <keycombo action="simul"
+>&Ctrl;<keysym
+>Space</keysym
+></keycombo
+>، تُبدل حالة تحديد العنصر الحالي. </para
+></listitem>
+
+<listitem
+><para
+>يحدد الاختصار <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> كافة العناصر في المنظور. </para
+></listitem>
+
+<listitem
+><para
+>يبدل الاختصار <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> حالة تحديد كافة العناصر في المنظور. </para
+></listitem>
+
+<listitem
+><para
+>حدد ملفًا أو مجلدًا بكتابة الأحرف القليلة الأولى من اسمه وسيُحدد أول عنصر مطابق. لمسح التحديد وإلغاء البحث بلوحة المفاتيح، اضغط على &Esc; أو انتظر لمدة تزيد عن ثانية واحدة. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>شريط المكان</title>
+
+<para
+>يعرض شريط المكان (الموجود أعلى منظور دولفين) مسار المجلّد الحاليّ. لشريط المكان وضعين إثنين. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>وضع فتات الخبز</title>
+
+<para
+>في وضع <quote
+>فتات الخبز</quote
+> المبدئي، يمثل كل اسم مجلد في المسار إلى المجلد الحالي زرًا يمكن نقره لفتح ذلك المجلد بسرعة. علاوة على ذلك، يؤدي النقر فوق علامة <quote
+>&gt;</quote
+> الموجودة على يمين المجلد إلى فتح قائمة تتيح لك فتح مجلد فرعي من ذلك المجلد بسرعة. </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لشريط المكان في وضع فتات الخبز</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط المكان في وضع فتات الخبز.</phrase>
+</textobject>
+<caption
+><para
+>شريط المكان في وضع فتات الخبز.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>الوضع القابل للتحرير</title>
+
+<para
+>عندما تكون في وضع فتات الخبز، يؤدي النقر بزر الفأرة الأيسر في المنطقة الرمادية على يمين المسار إلى تحويل شريط المكان إلى وضع <quote
+>قابل للتحرير</quote
+>، حيث يمكن تحرير المسار باستخدام لوحة المفاتيح. للعودة إلى وضع فتات الخبز، انقر فوق علامة الاختيار الموجودة على يمين شريط المكان بزر الفأرة الأيسر. </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لشريط المكان في وضع قابل للتحرير</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط المكان في وضع قابل للتحرير.</phrase>
+</textobject>
+<caption
+><para
+>شريط المكان في وضع قابل للتحرير.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>استخدام «توابع KIO»</title>
+
+<para
+>إذا كان شريط الموقع فارغاً في الوضع القابل للتحرير، فسيظهر مربع منسدل أمام الشريط يسرد كل توابع KIO (kioslaves) المتوفرة في نظامك. توابع KIO هي برامج مدمجة في كيدي تضيف دعماً للعديد من البروتوكولات المختلفة إلى دولفين وتطبيقات كيدي الأخرى.</para
+> 
+
+<para
+>على سبيل المثال، باستخدام تابع KIO‏ <quote
+>fish</quote
+>، يمكن استخدام دولفين لإدارة الملفات والمجلدات على مضيف بعيد يمكن الوصول إليه عبر <acronym
+>SSH</acronym
+>. للقيام بذلك، اكتب <userinput
+>fish://username@remotehost</userinput
+> في شريط المكان. ويمكن إجراء إدارة مماثلة للملفات البعيدة على المضيفات التي يمكن الوصول إليها عبر بروتوكولات &FTP;‎ أو &NFS;‎ أو SFTP أو &SMB;‎‏ (&CIFS;‎) أو webdav.</para>
+
+<para
+>من الممكن أيضًا استخدام مربع القائمة المنسدلة لتوابع KIO للوصول إلى إعدادات النظام، والخطوط، والمهملات، والبرامج والأجهزة الأخرى المتصلة بالحاسوب. انظر مربع القائمة المنسدلة للحصول على القائمة الكاملة للإمكانيات المتاحة من توابع KIO في نظامك. </para>
+<screenshot>
+<screeninfo
+>لقطة شاشة بقائمة من «توابع KIO»</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط المكان يعرض قائمة بتوابع KIO المتوفرة.</phrase>
+</textobject>
+<caption
+><para
+>قائمة التّوابع المتوفّرة.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>الأماكن والسياق</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>إذا كانت لوحة <guilabel
+>الأماكن</guilabel
+> مخفية؛ فسيُعرض في كلا الوضعين أيقونة إضافية أمام المسار. يمكن نكر هذه الأيقونة بزر الفأرة الأيسر لفتح قائمة توفر وصولاً سريعًا إلى <quote
+>الأماكن</quote
+> ووسائط التخزين. راجع <link linkend="places-panel"
+>القسم الخاص بلوحة الأماكن</link
+> لمزيد من التفاصيل. </para>
+
+<screenshot>
+<screeninfo
+>شريط المكان مع أيقونة الأماكن</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط المكان مع أيقونة الأماكن</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>توفر القائمة السياقية لشريط المكان إجراءات للتبديل بين الأوضاع ونسخ المسار ولصقه باستخدام الحافظة. حدد الخيار الأخير في هذه القائمة السياقية لعرض المسار الكامل بدءًا من المجلد الجذري لنظام الملفات أو لعرض المسار بدءًا من مدخلة الأماكن الحالية. </para>
+
+<screenshot>
+<screeninfo
+>القائمة السياقية لشريط المكان</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>القائمة السياقية لشريط المكان</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>اللوحات</title>
+
+<para
+>يتيح دولفين وضع عدد من الألواح بجانب المنظور. يمكن تفعيل هذه الألواح من <menuchoice
+><guimenu
+>عرض</guimenu
+><guisubmenu
+>إظهار الألواح</guisubmenu
+></menuchoice
+>. وعبر فك قفل الألواح ونقر عنوان اللوحة وسحبه، يمكن نقل اللوحة إلى موضع مختلف، حتى خارج النافذة. </para>
+
+<sect2 id="places-panel">
+<title
+>الأماكن</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>تقع لوحة <guilabel
+>الأماكن</guilabel
+> على يسار النافذة بشكل مبدئي. تعرض لوحة <guilabel
+>الأماكن</guilabel
+> أي مواقع وضعت لها علامة مرجعية. كما تعرض أي قرص أو وسائط متصلة بالحاسوب، والعناصر التي تم الوصول إليها حديثًا، وتسمح لك بالبحث عن أنواع معينة من الملفات. يمكن تغيير ترتيب هذه المدخلات عن طريق السحب والإفلات. </para>
+
+<para
+>أسهل طريقة لإضافة مجلد إلى لوحة <guilabel
+>الأماكن</guilabel
+> هي سحبه وإفلاته في اللوحة. علاوة على ذلك، يمكنك النقر داخل اللوحة بزر الفأرة الأيمن واختيار <menuchoice
+><guimenuitem
+>أضف مدخلة...</guimenuitem
+></menuchoice
+> من القائمة السياقية. ينشئ الإجراء الأول علامة مرجعية على مستوى النظام، بينما يمكن استخدام الإجراء الثاني لإضافة المسار الحالي لشريط المكان أو أي مجلد أو جهاز تريده. يفتح حواري حيث يمكن تحرير التسمية والمكان والأيقونة ويمكن تقييد استخدام هذه المدخلة بدولفين فقط. </para>
+
+<para
+>تفتح النقرة بزر الفأرة الأيمن القائمة السياقية لتحرير المدخلات أو إضافتها أو إخفائها أو إزالتها وتغيير حجم الأيقونة إلى إحدى القيم المحددة مسبقًا أو قفل/فك قفل الألواح. </para>
+<para
+>تحتوي القائمة السياقية على إجراء لفتح المدخلة في لسان جديد. يمكن فصل الأجهزة باستخدام القائمة السياقية. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>معلومات</title>
+
+<para
+>تعرض لوحة <guilabel
+>المعلومات</guilabel
+> معلومات موسعة حول العناصر المحددة أو حول المجلد الحالي أو الملف الذي تحوم فوقه الفأرة حاليًا، بما في ذلك الحجم والنوع وتاريخ آخر تعديل. كما تتميز بمعاينة كبيرة للعنصر المحدد وتسمح لك بتعيين تقييم ووسوم وتعليقات له. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>المجلّدات</title>
+
+<para
+>تعرض لوحة <guilabel
+>المجلدات</guilabel
+> بنية شجرية لنظام الملفات. وتعرض المجلدات فقط. يؤدي نكر مجلد بزر الفأرة الأيسر إلى فتح هذا المجلد في منظور دولفين. </para>
+<para
+>استخدم خيار <guilabel
+>التقييد بمجلد المنزل</guilabel
+> لإخفاء كافة المجلدات من المنظور الشجري باستثناء مجلد <guilabel
+>المنزل</guilabel
+> الخاص بك. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>الطرفية</title>
+
+<para
+>تحتوي هذه اللوحة على طرفية. ستفتح الطرفية في المجلد المعروض حاليًا في منظور دولفين. يؤدي تغيير المجلد في منظور دولفين النشط إلى تحديث مجلد العمل في الطرفية. كما يؤدي تغيير الدليل في الطرفية إلى تحديث مجلد العمل في منظور دولفين. تعمل الطرفية مع الوسائط المحلية فقط. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>تلميحات سريعة</title>
+
+<para
+>فيما يلي عدد من التلميحات لتوفير الوقت عند استخدام دولفين. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>وضع علامة مرجعية سريع</title>
+
+<para
+>لإنشاء علامة مرجعية بسرعة في لوحة <guilabel
+>الأماكن</guilabel
+> للمجلد الحالي، انقر بزر الفأرة الأيمن في مساحة العمل وانقر فوق <menuchoice
+><guimenuitem
+>أضف إلى الأماكن</guimenuitem
+></menuchoice
+> في القائمة السياقية. </para>
+
+<note>
+    <para
+>يمكن تبديل رؤية عنصر القائمة المقابل عبر <link linkend="preferences-dialog-context-menu"
+>إعدادات القائمة السياقية لدولفين</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>ترشيح الملفات</title>
+
+<para
+>يستطيع دولفين ترشيح الملفات، أي إظهار العناصر التي يحتوي اسمها على نص معين فقط في المنظور. على سبيل المثال، إذا كنت ترغب في إظهار ملفات <acronym
+>MP3</acronym
+> فقط داخل مجلد ما، يمكنك الترشيح لـ <quote
+>.mp3</quote
+>. سيؤدي هذا إلى ترشيح كافة الملفات التي لا يحتوي اسمها على <quote
+>.mp3</quote
+>. </para>
+
+<para
+>لترشيح الملفات، فعّل أولاً شريط الترشيح، إما بالضغط على الاختصار <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> أو عبر القائمة: <menuchoice
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>ترشيح...</guimenuitem
+> </menuchoice
+>. يمكنك بعد ذلك إدخال النص المراد الترشيح بناءً عليه في شريط الترشيح. يمكن تعطيل شريط الترشيح إما بالضغط على &Esc;، أو بنقر أيقونة <guiicon
+>إخفاء شريط الترشيح</guiicon
+> بزر الفأرة الأيسر. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>إيجاد الملفات والبحث في الملفات</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>يستطيع دولفين البحث عن الملفات وعن المحتوى داخل الملفات. إذا ضُغط على الاختصار <keycombo action="simul"
+> &Ctrl;<keycap
+>F</keycap
+></keycombo
+> أو استُخدم <menuchoice
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>بحث...</guimenuitem
+> </menuchoice
+>، فسيفتح شريط <guilabel
+>البحث</guilabel
+> معدًا مسبقًا للبحث عن الملفات داخل المجلد الحالي وأي مجلدات فرعية. ابدأ الكتابة في مربع إدخال البحث وسيبدأ البحث فورًا. <screenshot>
+<screeninfo
+>البحث عن الملفات وعن المحتوى في الملفات</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>البحث عن الملفات وعن المحتوى في الملفات</phrase>
+</textobject>
+<caption
+><para
+>دولفين يبحث عن الملفات وعن المحتوى في الملفات.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>البحث غير حساس لحالة الأحرف، ولا يتطلب محارف بديلة محيطة ‏(<userinput
+>*foo*</userinput
+> و <userinput
+>foo</userinput
+> متكافئان)، ولكن يمكنك استخدام المحارف البديلة داخل مصطلح البحث. تطابق العلامة <userinput
+>*</userinput
+> صفرًا أو أكثر من المحارف، وتطابق العلامة <userinput
+>?</userinput
+> محرفًا واحدًا فقط.</para>
+<para
+>يمكن استخدام هذه الميزة مع تشغيل خدمات Baloo؛ وبدون هذه الخدمات، يُشغل تابع KIO لتوفير نتائج البحث.</para>
+<para
+>يبحث خيار <guilabel
+>في كل مكان</guilabel
+> مع تفعيل خدمات Baloo في كافة المجلدات المفهرسة، وبدون Baloo يبدأ هذا الخيار البحث من مجلد <replaceable
+>المنزل</replaceable
+> للمستخدم.</para>
+<screenshot>
+<screeninfo
+>البحث مع خيارات أكثر</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>البحث مع خيارات أكثر</phrase>
+</textobject>
+<caption
+><para
+>دولفين يبحث مع خيارات أكثر.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>استخدم زر <guilabel
+>خيارات أكثر</guilabel
+> لتوسيع شريط <guilabel
+>البحث</guilabel
+>. يوفر هذا طريقة مريحة للغاية للمستخدم لتقليص عدد نتائج البحث.</para>
+<para
+>لبدء البحث، حدد نوع ملف واحد أو أكثر (<guilabel
+>المستندات</guilabel
+>، و<guilabel
+>الصوت</guilabel
+>، و<guilabel
+>الفيديو</guilabel
+>، و<guilabel
+>الصور</guilabel
+>)، وفترة زمنية، وتقييمًا، ووسمًا، إذا كنت قد حددت أيًا منها عبر <userinput
+>tag:<replaceable
+>foo</replaceable
+></userinput
+> في مربع الإدخال.</para>
+ 
+ <para
+>يمكن مسح التحديد باستخدام زر <guibutton
+>امسح التحديد</guibutton
+>.</para>
+
+<para
+>بدلاً من ذلك، يمكنك استخدام هذه الخيارات في لوحة <guilabel
+>الأماكن</guilabel
+> جنبًا إلى جنب مع شريط <guilabel
+>الترشيح</guilabel
+> للعثور على الملفات باستخدام Baloo أو حصر البحث في الملفات التي تطابق تعبير الترشيح.</para>
+
+<para
+>استخدم أيقونة الحفظ لحفظ بحث في قسم <guilabel
+>البحث عن</guilabel
+> في لوحة <guilabel
+>الأماكن</guilabel
+> للوصول إليه بسرعة مرة أخرى في المستقبل. </para>
+
+<para
+>استخدم قائمة <guilabel
+>المزيد من أدوات البحث</guilabel
+> المنسدلة لاختيار أدوات بحث أخرى غير Baloo. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>وصل وسائط التخزين</title>
+
+<para
+>تتمثل الطريقة السريعة لوصل وسائط التخزين في النقر فوق الجهاز في لوحة <guilabel
+>الأماكن</guilabel
+>. سيؤدي هذا إلى وصل الجهاز وفتحه في دولفين. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>التراجع عن الإجراءات</title>
+
+<para
+>يستطيع دولفين التراجع عن التغييرات التي أجريتها على الملفات. على سبيل المثال إذا نقلت ملفًا إلى المهملات، فيمكن لدولفين التراجع عن ذلك وإعادته إلى موقعه الأصلي. للتراجع عن إجراء ما، اضغط على <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> أو اختر <menuchoice
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>تراجع: (اسم الإجراء)</guimenuitem
+> </menuchoice
+> في القائمة، مثل <guimenuitem
+>تراجع: إعادة التسمية</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>إعادة تسمية دفعة من الملفات</title>
+<para
+>يستطيع دولفين إعادة تسمية عدد من الملفات في نفس الوقت. سيحصل كل ملف على اسم الملف المحدد، بما في ذلك رقم، مثل Image1.jpg، و Image2.jpg، و Image3.jpg. يمكن أن يكون هذا مفيدًا، على سبيل المثال، للصور الملتقطة بكاميرا رقمية. </para>
+<!--double click-->
+<para
+>إذا كنت ترغب في إعادة تسمية دفعة من الملفات، فحدد أولاً الملفات المراد إعادة تسميتها. يمكن القيام بذلك عن طريق الضغط بزر الفأرة الأيسر ورسم مستطيل حول الملفات المراد إعادة تسميتها قبل إفلاته، أو عن طريق الاستمرار في الضغط على &Ctrl; ونقر كل ملف مراد إعادة تسميته (راجع <link linkend="selection"
+>تحديد العناصر في المنظور</link
+> لمزيد من التفاصيل حول تحديد العناصر). ثم افتح حواري إعادة تسمية الدفعة بالضغط على <keycap
+>F2</keycap
+> أو عبر قائمة ملف: <menuchoice
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>إعادة تسمية...</guimenuitem
+> </menuchoice
+> </para>
+
+<para
+>ثم أدخل الاسم الذي ترغب في إعطائه للملفات. يجب أن يكون محرف # موجودًا داخل الاسم. ستتم إعادة تسمية الملفات بعد ذلك، حيث يُستبدل محرف <userinput
+>#</userinput
+> برقم متسلسل مختلف لكل ملف. </para>
+
+<para
+>إذا كانت جميع امتدادات الملفات في تحديدك مختلفة، فيمكن تغيير اسم جميع الملفات دون استخدام نائب <userinput
+>#</userinput
+> مع الحفاظ على امتدادات الملفات. هذا مفيد مثلاً لإعادة تسمية ملف فيديو وكافة ملفات الترجمة المرتبطة به، والتي لها نفس اسم الملف ولكن بامتدادات مختلفة. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>مقارنة تحديد من الملفات أو المجلدات</title>
+
+<para
+>إذا كان تطبيق كومبير مثبتًا، فيمكنك استخدامه لرؤية الفروق بين ملفين أو مجلدين. </para>
+
+<para
+>أولاً حدد الملفين أو المجلدين المراد مقارنتهما. ثم شغل تطبيق كومبير عبر قائمة أدوات: <menuchoice
+> <guimenu
+>أدوات</guimenu
+> <guimenuitem
+>قارن الملفات</guimenuitem
+> </menuchoice
+>. سيفتح كومبير بعد ذلك عارضًا الفروق بين الملفات أو المجلدات. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>ضبط دولفين</title>
+
+<para
+>يفرّق دولفين بين نوعين من الإعدادات: <itemizedlist>
+
+<listitem
+><para
+>الإعدادات التي تؤثّر على السّلوك العامّ لِ‍ دولفين. يمكن ضبط هذه عبر <link linkend="preferences-dialog"
+>حواري التّفضيلات</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>الإعدادات التي تحدد كيفية عرض محتويات المجلد في دولفين. تسمى هذه الإعدادات <link linkend="view-properties"
+>أنماط عرض العرض</link
+> ويمكن التحكم بها باستخدام أزرار شريط الأدوات، أو عبر قائمة <guimenu
+>عرض</guimenu
+>، ومن خلال <link linkend="view-properties-dialog"
+>حوار نمط عرض العرض</link
+>. في الضبط المبدئي، تستخدم كل المجلدات نفس نمط العرض، ولكن يمكن أيضاً ضبط دولفين ليحفظ نمط عرض كل مجلد على حدة في قسم <link linkend="preferences-dialog-general-behavior"
+><quote
+>عام</quote
+></link
+> في الإعدادات. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>حواريّ تفضيلات دولفين</title>
+<para
+>يُفتح حواري التفضيلات عبر <menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>اضبط دولفين...</guimenuitem
+></menuchoice
+> في القائمة في نافذة دولفين الرئيسية. تُقسم الإعدادات إلى مجموعات عدة يمكن الوصول إليها بنقر الأيقونة المقابلة على يسار الحواري. </para>
+
+<para
+>كافة الإعدادات باستثناء صفحة <guilabel
+>بدء التشغيل</guilabel
+> وتبويب <guilabel
+>شريط الحالة</guilabel
+> في صفحة <guilabel
+>عام</guilabel
+> مشتركة مع كنكرر في وضع مدير الملفات. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>عام</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في السلوك العام لدولفين. تنقسم المجموعة كذلك إلى أربع مجموعات فرعية يمكن الوصول إليها باستخدام شريط التبويبات في الأعلى. <screenshot>
+<screeninfo
+>لقطة شاشة للإعدادات العامة في حواري تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات عامة.</phrase>
+</textobject>
+<caption
+><para
+>الإعدادات العامة في حواري تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>تبويب السلوك</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>في قسم <guilabel
+>المنظور</guilabel
+>، يمكنك ضبط ما إذا كان نفس <link linkend="view-properties"
+>نمط عرض المنظور</link
+> مشتركًا بين كافة المجلدات أو إذا كانت المجلدات تتذكر أنماط عرض المنظور الفردية الخاصة بها. </para
+></listitem>
+
+<listitem
+><para
+>يتحكم <guilabel
+>وضع الفرز</guilabel
+> في كيفية فرز العناصر في المنظور. إذا فُعّل <guilabel
+>الفرز الطبيعي</guilabel
+>، فسيكون ترتيب فرز ثلاثة ملفات أمثلة هو <orderedlist
+> <listitem
+><para
+>File1،</para
+></listitem
+> <listitem
+><para
+>File2،</para
+></listitem
+> <listitem
+><para
+>File10.</para
+></listitem
+> </orderedlist
+> وإذا عُطل هذا الخيار، فسيُستخدم الفرز الأبجدي العادي الحساس لحالة الأحرف أو غير الحساس لها، مما يؤدي إلى ترتيب الفرز <orderedlist>
+<listitem
+><para
+>File1،</para
+></listitem>
+<listitem
+><para
+>File10،</para
+></listitem>
+<listitem
+><para
+>File2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>عند الحوم فوق ملف أو مجلد بالفأرة، تُعرض نافذة صغيرة تحتوي على معلومات ذات صلة إذا فُعّل خيار <guilabel
+>إظهار تلميحات الأدوات</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>يعرض خيار <guilabel
+>إظهار علامة التحديد</guilabel
+> زر <guibutton
+>+</guibutton
+> أو <guibutton
+>-</guibutton
+> صغيرًا فوق أيقونة العنصر إذا حامت الفأرة فوق العنصر. ويمكن استخدام هذه الأزرار لتحديد العنصر أو إلغاء تحديده. </para
+></listitem>
+
+<listitem
+><para
+>فعل خيار <guilabel
+>إعادة تسمية مضمنة</guilabel
+> لاستخدام هذا الوضع إذا كان هناك عنصر واحد فقط محدد حاليًا. إذا عُطل هذا الخيار أو حُددت عناصر عدة، فسيُعرض حواري لإعادة التسمية. </para
+></listitem>
+
+<listitem
+><para
+>يسمح تفعيل <guilabel
+>بدّل بين الأجزاء المنقسمة بمفتاح Tab</guilabel
+> بالتبديل بين طرق العرض المنقسمة باستخدام مفتاح &Tab;. </para
+></listitem>
+
+<listitem
+><para
+>عطّل <guilabel
+>إيقاف العرض المنقسم يغلق الجزء النشط</guilabel
+> لإغلاق الجزء غير النشط عند إيقاف وضع العرض المنقسم، مثلاً عند الضغط على <keycap
+>F3</keycap
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>لسان تبويب المعاينات</title>
+
+<para
+>يمكنك في لسان التبويب هذا ضبط أنواع الملفات التي تظهر لها معاينات. علاوة على ذلك، يمكن اختيار الحجم الأقصى للملفات المحلية والبعيدة التي تولّد لها معاينات. </para>
+<para
+>إذا فُعّلت المعاينات للمجلدات، فستظهر معاينات لبعض الملفات الموجودة في المجلد داخل أيقونة المجلد. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>لسان تبويب التأكيدات</title>
+<para
+>في قسم طلب التأكيد، يمكنك تفعيل حوارات التحذير التي تظهر قبل الإجراءات الضارة المحتملة. </para>
+<para
+>من الممكن أيضاً اختيار الإجراء المبدئي <guilabel
+>عند فتح ملف تنفيذي</guilabel
+>. هناك ثلاثة خيارات، وهي <guimenuitem
+>اسأل دائماً</guimenuitem
+>، و<guimenuitem
+>افتح في تطبيق</guimenuitem
+>، و<guimenuitem
+>شغل السكربت</guimenuitem
+>. </para>
+<warning
+><para
+>تؤثر إعدادات التأكيد لـ <guilabel
+>نقل الملفات أو المجلدات إلى المهملات</guilabel
+> و <guilabel
+>حذف الملفات أو المجلدات</guilabel
+> على عمليات الملفات في دولفين، وكونكرر، وجوينفيو وجميع تطبيقات كيدي التي تستخدم حوار ملف كيدي المبدئي، بينما يعد <guilabel
+>إغلاق نوافذ دولفين بألسنة تبويب متعددة</guilabel
+> إعداداً خاصاً بدولفين.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>لسان تبويب شريط الحالة</title>
+
+<para
+>في لسان التبويب هذا، يمكن تفعيل بعض العناصر الإضافية لشريط الحالة، بشرط أن يكون شريط الحالة عريضاً بما يكفي: <itemizedlist>
+
+<listitem
+><para
+>يمكن استخدام عنصر <guilabel
+>أظهر شريط الحالة</guilabel
+> لتبديل رؤية شريط الحالة. </para
+></listitem>
+
+<listitem
+><para
+>يسمح عنصر <guilabel
+>أظهر منزلق التقريب</guilabel
+> بتبديل رؤية ودجت حجم الأيقونة. </para
+></listitem>
+
+<listitem
+><para
+>يمكن استخدام عنصر <guilabel
+>أظهر معلومات المساحة</guilabel
+> لتشغيل وإيقاف شريط يعرض مقدار المساحة الحرة على القرص الحالي. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>بدء التشغيل</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في مظهر دولفين عند بدء التشغيل. <screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات بدء التشغيل في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات بدء التشغيل.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات بدء التشغيل في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>يسمح خيار <guilabel
+>أظهر عند بدء التشغيل</guilabel
+> باختيار المجلد الذي يُفتح عند بدء التشغيل. </para>
+<para
+>إذا اختير عنصر <guimenuitem
+>المجلدات، وألسنة التبويب، وحالة النافذة من المرة الأخيرة</guimenuitem
+> فحينئذٍ </para>
+<itemizedlist>
+    <listitem>
+        <para
+>عند إطلاقه من واجهة المستخدم الرسومية أو سطر الأوامر بدون أي روابط، يستعيد دولفين الجلسة</para>
+    </listitem>
+    <listitem>
+        <para
+>عند إعادة التشغيل ودولفين مفتوح، تُستعاد الجلسة بشكل طبيعي بعد عودة النظام</para>
+    </listitem>
+    <listitem>
+        <para
+>عند إطلاقه مع روابط، تُفتح نافذة دولفين لتعرض تلك الروابط بدلاً من استعادة الجلسة</para>
+    </listitem>
+    <listitem>
+        <para
+>عندما يكون دولفين قيد التشغيل بالفعل وتُفتح نافذة جديدة، تعرض تلك النافذة الجديدة لساناً واحداً بنفس الرابط الذي كان ظاهراً في نسخة دولفين المفتوحة مسبقاً</para>
+    </listitem>
+</itemizedlist>
+<para
+>يمكن أيضاً إدخال مكان المجلد مباشرة أو اختياره في حوار يمكن فتحه بالنقر على الزر الذي يظهر أيقونة <quote
+>مجلد</quote
+>. علاوة على ذلك، يمكن استخدام المكان الحالي أو المكان المبدئي (وهو مجلد المنزل للمستخدم) كمجلد بدء التشغيل بالنقر على الزر المقابل. </para
+></listitem>
+
+<listitem
+><para
+>يتحكم <guilabel
+>ابدأ في وضع العرض المنقسم</guilabel
+> فيما إذا كان <link linkend="dolphin-view"
+>عرض دولفين</link
+> ينقسم عند بدء التشغيل أم لا للنوافذ الجديدة. </para
+></listitem>
+
+<listitem
+><para
+>يتحكم <guilabel
+>أظهر شريط الترشيح</guilabel
+> فيما إذا كان شريط الترشيح يظهر عند بدء التشغيل أم لا. انظر <link linkend="filter-files"
+>القسم الخاص بشريط الترشيح</link
+> للتفاصيل. </para
+></listitem>
+
+<listitem
+><para
+>يتحكم خيار <guilabel
+>اجعل شريط الموقع قابلاً للتحرير</guilabel
+> فيما إذا كان شريط الموقع في الوضع القابل للتحرير عند البدء. وإلا فسيُستخدم وضع فتات الخبز لشريط الموقع. انظر <link linkend="location-bar"
+>القسم المتعلق بشريط الموقع</link
+> للحصول على تفاصيل حول هذين الوضعين. </para
+></listitem>
+
+<listitem
+><para
+>يتحكم <guilabel
+>افتح المجلدات الجديدة في ألسنة تبويب</guilabel
+> فيما إذا كان على دولفين فتح مجلد جديد في لسان تبويب جديد في النسخة الحالية عند استدعائه خارجياً. إذا لم يُفعّل، فستُفتح المجلدات الجديدة في نسخ جديدة من دولفين. هذا الخيار مُفعّل مبدئياً. </para
+></listitem>
+
+<listitem
+><para
+>إذا فُعّل <guilabel
+>أظهر المسار الكامل داخل شريط المكان</guilabel
+>، فسيظهر المسار الكامل للمكان الحالي في وضع فتات الخبز لشريط المكان. خلاف ذلك، يظهر إصدار مختصر من المسار إذا كان يبدأ بمسار أحد الأماكن في لوحة <guilabel
+>الأماكن</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>يجعل <guilabel
+>أظهر المسار الكامل في شريط العنوان</guilabel
+> من السهل التمييز بين الملفات أو المجلدات التي لها نفس الاسم في مجلدات مختلفة. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>أوضاع المنظور</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في سلوك أوضاع عرض دولفين. أوضاع العرض الثلاثة (أيقونات، مدمج، وتفاصيل) يمكن الوصول إليها عبر شريط ألسنة التبويب في الأعلى. <screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات عرض الأيقونات في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات أوضاع العرض.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات أوضاع العرض في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>إعدادات مشتركة لجميع أوضاع العرض</title>
+
+<para
+>تمتلك جميع أوضاع العرض الثلاثة بعض الإعدادات المشتركة: </para>
+<itemizedlist>
+
+<listitem
+><para
+>المنزلقات التي تتحكم في حجم الأيقونات. تُستخدم أحجام <guilabel
+>المبدئي</guilabel
+> أو <guilabel
+>المعاينة</guilabel
+> إذا عُطلت المعاينات أو فُعلت، على التوالي. لاحظ أنه يمكن تغيير حجم الأيقونة بسهولة باستخدام منزلق التقريب في شريط الحالة إذا فُعّل الخيار المقابل في <link linkend="preferences-dialog-general-statusbar"
+>قسم <quote
+>عام</quote
+> في الإعدادات</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>إعداد للخط المستخدم في وضع العرض: يمكن اختيار إما خط النظام أو خط مخصص. </para
+></listitem>
+
+</itemizedlist>
+<para
+>تُناقش الإعدادات الأخرى في قسم <guilabel
+>النص</guilabel
+> التي تنطبق على وضع عرض واحد فقط أدناه. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>الأيقونات</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>يتحكم <guilabel
+>العرض</guilabel
+> في الحد الأدنى للعرض المحجوز لنص عنصر الملف. </para
+></listitem>
+<listitem
+><para
+>يعني <guilabel
+>أقصى عدد من الأسطر</guilabel
+> الحد الأقصى لعدد أسطر النص تحت الأيقونة. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>مُدمج</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>يتحكم <guilabel
+>أقصى عرض</guilabel
+> في الحد الأقصى للعرض المحجوز لنص عنصر الملف. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>التفاصيل</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>يحدد <guilabel
+>مجلدات قابلة للتوسيع</guilabel
+> ما إذا كانت أي مجلدات تحتوي على مجلدات فرعية ستُعرض في عرض شجري، حيث يمكن توسيع العناصر الفرعية عن طريق النقر بزر الفأرة الأيسر على أيقونة <guiicon
+>&gt;</guiicon
+> وطيها بالنقر على أيقونة <guiicon
+>v</guiicon
+>. </para>
+<para
+>يسمح <guilabel
+>حجم المجلد</guilabel
+> بتعريف الخاصية المستخدمة لفرز المجلدات حسب حجمها. من الممكن فرز المجلدات حسب عدد العناصر باختيار <guilabel
+>أظهر عدد العناصر</guilabel
+> أو حسب حجم المحتويات باختيار <guilabel
+>أظهر حجم المحتويات</guilabel
+>. يمكن تحديد مستوى التكرار، مما قد يكون مفيداً لتقييد التكرارات غير الضرورية في هياكل المجلدات العميقة أو على أنظمة الملفات البطيئة. من الممكن أيضاً تعطيل عرض حجم المجلد باختيار <guilabel
+>لا تظهر الحجم</guilabel
+> (مما قد يحسن الأداء في حالات نادرة، ولكنه يؤثر على ميزات أخرى مثل الفرز). </para>
+<para
+>يمكن استخدام خيار <guilabel
+>نمط التاريخ</guilabel
+> لضبط وضع عرض التواريخ في دولفين. من الممكن الاختيار بين <guilabel
+>نسبي</guilabel
+> (مثلاً <quote
+>أمس، 3:00 مساءً</quote
+>) أو <guilabel
+>مطلق</guilabel
+> (مثلاً <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>التّنقّل</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في كيفية عمل التنقل في هيكل المجلدات وفي الأرشيفات. <screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات التنقل في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات التنقل.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات التنقل في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>خيار فتح العناصر بنقرة واحدة أو نقرتين هو إعداد على مستوى النظام ويمكن تغييره في إعدادات النظام في وحدة <menuchoice
+><guimenu
+>مساحة العمل</guimenu
+> <guimenuitem
+>السلوك العام</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>ستُفتح الأرشيفات داخل دولفين، وليس في تطبيق خارجي، إذا فُعّل خيار <guilabel
+>افتح الأرشيفات كمجلد</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>إذا فُعّل <guilabel
+>افتح المجلدات أثناء عمليات السحب</guilabel
+>، فإن سحب عنصر بالفأرة والحوم فوق مجلد به لفترة قصيرة سيفتح ذلك المجلد. يسمح لك هذا بنقل أو نسخ العناصر بسرعة إلى مجلدات أعمق بعدة مستويات في هرمية المجلدات. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>الخدمات</title>
+
+<para
+>تقدم هذه المجموعة مجموعة مختارة من الخدمات التي يمكن عرضها في القائمة الفرعية <guisubmenu
+>إجراءات</guisubmenu
+> من قائمة سياق دولفين التي تظهر عند النقر على ملف أو مجلد بزر الفأرة الأيمن. </para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات قائمة الخدمات في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات الخدمات.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات الخدمات في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>باستخدام <guibutton
+>نزل خدمات جديدة</guibutton
+> يمكنك جلب خدمات إضافية لقائمة السياق. </para>
+<para
+>إذا ثبت ملحقات دولفين لـ <guilabel
+>Bazaar</guilabel
+> أو <guilabel
+>Mercurial</guilabel
+> أو <guilabel
+>Git</guilabel
+> أو <guilabel
+>Subversion</guilabel
+> من وحدة kdesdk فستظهر هذه الخدمات في القائمة. إذا فُعلت هذه الملحقات ودخلت مجلداً تحت نظام التحكم في الإصدارات، فستتم الإشارة إلى حالة الإصدار (مُغير محلياً، مُحدّث، إلخ) بواسطة أيقونات وستجد مدخلات إضافية في قائمة السياق مثل إيداع، تحديث، إضافة، حذف، إلخ. </para>
+<para
+>في قائمة الخدمات يمكنك أيضاً اختيار ما إذا كانت أوامر <guimenuitem
+>انسخ إلى</guimenuitem
+>، و<guimenuitem
+>انقل إلى</guimenuitem
+>، و<guimenuitem
+>أضف إلى الأماكن</guimenuitem
+>، و<guimenuitem
+>افرز حسب</guimenuitem
+>، و<guimenuitem
+>وضع العرض</guimenuitem
+>، و<guimenuitem
+>افتح في لسان تبويب جديد</guimenuitem
+>، و<guimenuitem
+>افتح في نافذة جديدة</guimenuitem
+>، و<guimenuitem
+>انسخ المكان</guimenuitem
+>، و<guimenuitem
+>كرر هنا</guimenuitem
+> ستظهر في قائمة السياق. </para>
+<para
+>يجب إعادة تشغيل دولفين لتفعيل التغييرات لبعض هذه الإعدادات. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>المهملات</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في سلوك سلة المهملات. <screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات المهملات في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات المهملات.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات المهملات في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>يمكن حذف الملفات التي هي أقدم من عدد أيام قابل للضبط آلياً. </para
+></listitem>
+
+<listitem
+><para
+>يمكن تحديد حجم سلة المهملات بنسبة مئوية قابلة للضبط من حجم القرص. إذا وُصل إلى هذا الحد، يمكن إصدار تحذير، أو حذف الملفات الأقدم أو الأكبر آلياً. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>ملاحظات المستخدم</title>
+
+<para
+>تحتوي هذه المجموعة على إعدادات تتحكم في مساهمتك بالمعلومات حول استخدام دولفين لمطوريه. <screenshot>
+<screeninfo
+>لقطة شاشة لإعدادات ملاحظات المستخدم في حوار تفضيلات دولفين</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إعدادات ملاحظات المستخدم.</phrase>
+</textobject>
+<caption
+><para
+>إعدادات ملاحظات المستخدم في حوار تفضيلات دولفين.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>يمكنك المساهمة ببعض الملاحظات حول دولفين إذا رغبت في ذلك. استخدم المنزلقات لضبط مستوى مشاركتك. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>نمط عرض عرض المجلد</title>
+
+<para
+>تتحكم الإعدادات التالية في كيفية عرض محتويات المجلد في عرض دولفين، وتُحفظ لكل مجلد على حدة بشكل مبدئي: </para>
+<itemizedlist>
+
+<listitem
+><para
+>وضع العرض (أيقونات، مدمج، تفاصيل) </para
+></listitem>
+
+<listitem
+><para
+>فرز العناصر، الذي يتحدد بترتيب الفرز (تصاعدي، تنازلي) والسمة (مثل الاسم، الحجم، ...) التي تُفرز العناصر بناءً عليها </para
+></listitem>
+
+<listitem
+><para
+>فرز المجلدات والملفات &ndash; هل تظهر المجلدات أولاً أم لا؟ </para
+></listitem>
+
+<listitem
+><para
+>المعاينات &ndash; هل تُعرض بدلاً من الأيقونات (بناءً على الإعدادات التي أُجريت في <link linkend="preferences-dialog-general-previews"
+>لسان تبويب <guilabel
+>المعاينات</guilabel
+> في إعدادات دولفين العامة</link
+>) أم لا؟ </para
+></listitem>
+
+<listitem
+><para
+>هل تُعرض العناصر في مجموعات في العروض؟ </para
+></listitem>
+
+<listitem
+><para
+>هل تُعرض الملفات المخفية؟ </para
+></listitem>
+
+<listitem
+><para
+>ما هي المعلومات الإضافية (بجانب الاسم) التي تظهر في عرض الأيقونات أو التفاصيل؟ </para
+></listitem>
+
+</itemizedlist>
+<para
+>يمكن ضبط نمط عرض العرض في قائمة <menuchoice
+><guimenu
+>عرض</guimenu
+></menuchoice
+>، ويمكن تغيير بعضها (مثل وضع العرض) باستخدام أزرار شريط الأدوات. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>حوار نمط عرض العرض</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>لقطة شاشة لحوار نمط عرض العرض</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>حوار نمط عرض العرض.</phrase>
+</textobject>
+<caption
+><para
+>حوار نمط عرض العرض.</para
+></caption>
+</mediaobject>
+</screenshot
+>يمكن استخدام حوار <guilabel
+>نمط عرض العرض</guilabel
+> لتعديل أنماط عرض العرض للعديد من المجلدات بسرعة في وقت واحد. يُفعل ذلك للمجلد الحالي، أو للمجلد الحالي بما في ذلك جميع المجلدات الفرعية، أو حتى لجميع المجلدات، اعتماداً على الاختيار الذي أُجري في قسم <guilabel
+>طبق على</guilabel
+>. </para>
+
+<para
+>إذا فُعّل <guilabel
+>استخدم كإعدادات عرض مبدئية</guilabel
+>، فستُستخدم خصائص العرض المختارة أيضاً لجميع المجلدات التي ليس لديها خصائص عرض مخصصة بعد. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>مرجع الأوامر</title>
+<para
+>مبدئياً لا يظهر شريط القوائم. جميع الإجراءات الموصوفة هنا يمكن الوصول إليها إما بأزرار شريط الأدوات أو عبر العناصر في قائمة زر شريط الأدوات <guibutton
+>تحكم</guibutton
+>.</para>
+
+<sect1 id="commands-menubar">
+<title
+>شريط القوائم في نافذة دولفين الرئيسية</title>
+
+<sect2>
+<title
+>قائمة ملف</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+> <guisubmenu
+>أنشئ جديداً</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يُنشئ كائناً جديداً (مثل مجلد أو ملف نصي) في المجلد الحالي.</action
+></para>
+<para
+>ستجد شرحاً لجميع الكائنات المتاحة في دليل كونكرر في فصل <ulink url="help:/konqueror/making.html"
+>أنشئ جديداً</ulink
+>.</para>
+<note>
+    <para
+>من الممكن إنشاء عناصر قائمة فرعية خاصة بك في <guisubmenu
+>أنشئ جديداً...</guisubmenu
+>. استخدم الملفات من <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>مستودع مصادر KIO</ulink
+> كمرجع وضع ملف <filename role="extension"
+>.desktop</filename
+> الناتج في <filename role="directory"
+>.local/share/templates</filename
+> في مجلد منزلك (يمكن تحديد العنوان باستخدام أمر <userinput
+>kf5-config --path templates</userinput
+> في كونسول)، ثم أعد تشغيل دولفين. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>نافذة جديدة</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح نافذة دولفين جديدة.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>لسان تبويب جديد</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح لسانًا جديدًا.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>أغلق اللسان</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يغلق اللسان الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>تراجع عن إغلاق اللسان</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعيد فتح آخر لسان أُغلق.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>غيّر التسمية</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يغير تسمية العنصر المحدد حالياً في مكانه. يفتح <link linkend="batch-rename"
+>حوار تغيير التسمية الدفعي</link
+> إذا حُدّدت عدة عناصر.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>انقل إلى المهملات</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينقل العناصر المحددة حاليًا إلى المهملات.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>احذف</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يحذف العناصر المحددة حاليًا نهائيًا. لا تُنقل العناصر إلى المهملات ولا يمكن استعادتها.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>أظهر الهدف</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>يبرز هذا الإجراء هدف الارتباط في نافذة دولفين جديدة. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>كرر هنا</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينشئ نسخاً مكررة من العناصر المحددة مع إلحاق <replaceable
+> copy</replaceable
+> بنهاية أسمائها.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Return</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>خصائص</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يظهر حوار الخصائص للعناصر المحددة حاليًا.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>أنهِ</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يخرج من دولفين.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>قائمة تحرير</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>تراجع</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يتراجع عن آخر إجراء نفذه دولفين.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>قص</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يقص العناصر المحددة حاليًا.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>انسخ</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينسخ العناصر المحددة حاليًا.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>ألصق محتويات الحافظة...</guimenuitem
+></menuchoice
+> أو <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>ألصق ملفاً واحداً</guimenuitem
+></menuchoice
+> أو <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>ألصق مجلداً واحداً</guimenuitem
+></menuchoice
+> أو <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>ألصق x عنصراً</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يلصق العناصر المنسوخة/المقصوصة حاليًا في المجلد الحالي. إذا لم تحتوي الحافظة على ملفات أو مجلدات، فستُلصق محتويات الحافظة (مثل البيانات النصية أو الصور) في ملف جديد. يجب إدخال اسم هذا الملف في حوار. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>انسخ إلى عرض التقسيم غير النشط</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينسخ العناصر المحددة حاليًا من عرض التقسيم النشط إلى عرض التقسيم غير النشط.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>انقل إلى عرض التقسيم غير النشط</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينقل العناصر المحددة حاليًا من عرض التقسيم النشط إلى عرض التقسيم غير النشط. يُعطّل إذا لم يملك المستخدم الحالي إذن الكتابة على العناصر المحددة.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>مرشّح...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يُمكّن ويُعطّل <link linkend="filter-files"
+>شريط المرشّح</link
+>.</action
+> يمكنك أيضاً استخدام الاختصار البديل <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+> لهذا الإجراء.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>ابحث...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح شريط البحث. أدخل مصطلح البحث في صندوق التحرير وحدد البحث عن اسم الملف أو في محتويات الملفات بدءاً من المجلد الحالي أو في كل مكان.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>حدد الكل</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يحدد كل الملفات والمجلدات في المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>تحرير</guimenu
+> <guimenuitem
+>اعكس التحديد</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يحدد كل العناصر غير المحددة ويلغي تحديد كل العناصر المحددة في المجلد الحالي. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>قائمة عرض</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>قرب</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يزيد حجم الأيقونات في العرض.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>بعد</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينقص حجم الأيقونات في العرض.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>صفر التقريب</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعيد حجم الأيقونات في العرض إلى الحجم المبدئي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guisubmenu
+>وضع العرض</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يغير وضع العرض إلى <guimenuitem
+>أيقونات</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>)، أو <guimenuitem
+>مدمج</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) أو <guimenuitem
+>تفاصيل</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guisubmenu
+>فرز حسب</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يغير ما إذا كانت العناصر تُفرز</action
+> حسب <guimenuitem
+>الاسم</guimenuitem
+> أو المعايير الأخرى الموضحة في <link linkend="dolphin-view-information"
+>المعلومات في العرض</link
+>.</para>
+<para
+><guimenuitem
+>تنازلي</guimenuitem
+> يعكس ترتيب الفرز. <guimenuitem
+>المجلدات أولاً</guimenuitem
+> يفرز المجلدات قبل الملفات. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guisubmenu
+>أظهر معلومات إضافية</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعرض معلومات إضافية</action
+> موضحة في <link linkend="dolphin-view-information"
+>المعلومات في العرض</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>أظهر المعاينات</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعرض معاينة رمزية لمحتويات الملف</action
+> في أوضاع العرض المختلفة.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>أظهر في مجموعات</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعرض</action
+> محتويات المجلد الحالي مجمعة حسب الخيار المحدد في <guimenuitem
+>فرز حسب</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>أظهر الملفات المخفية</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يظهر كل الملفات والمجلدات الفرعية المخفية داخل المجلد الحالي.</action
+> يوجد اختصار بديل <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+> لهذا الإجراء.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>قسّم</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يُمكّن ويُعطّل وضع عرض التقسيم.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guimenuitem
+>أعد التحميل</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يعيد تحميل المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>أوقف</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يوقف تحميل/قراءة محتويات المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guisubmenu
+>أظهر اللوحات</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يُمكّن ويُعطّل</action
+> الـ <link linkend="panels"
+>لوحات</link
+> المختلفة: <guimenuitem
+>الأماكن</guimenuitem
+> (<keycap
+>F9</keycap
+>)، <guimenuitem
+>المعلومات</guimenuitem
+> (<keycap
+>F11</keycap
+>)، <guimenuitem
+>المجلدات</guimenuitem
+> (<keycap
+>F7</keycap
+>)، <guimenuitem
+>الطرفية</guimenuitem
+> (<keycap
+>F4</keycap
+>). مع <guimenuitem
+>اقفل اللوحات</guimenuitem
+>، يُخفى ترويسة اللوحة مع التسمية التوضيحية والزرين لتوفير المساحة وتكون اللوحات غير قابلة للتغيير، ومع <guimenuitem
+>افتح قفل اللوحات</guimenuitem
+>، تظهر الترويسة ويمكن نقل اللوحة إلى اليمين أو اليسار أو حتى خارج النافذة الرئيسية. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guisubmenu
+>شريط الموقع</guisubmenu
+> <guimenuitem
+>موقع قابل للتحرير</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يغير شريط الموقع بين الوضعين؛ <link linkend="location-bar-bread-crumb"
+>وضع فتات الخبز</link
+> و <link linkend="location-bar-editable"
+>الوضع القابل للتحرير</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>عرض</guimenu
+> <guisubmenu
+>شريط الموقع</guisubmenu
+> <guimenuitem
+>استبدل الموقع</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يحول شريط الموقع إلى <link linkend="location-bar-editable"
+>الوضع القابل للتحرير</link
+>، إذا لزم الأمر، ويحدد الموقع بحيث يمكن استبداله بسرعة. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>اضبط نمط عرض العرض...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح <link linkend="view-properties-dialog"
+>حوار نمط عرض العرض</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>قائمة اذهب</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Up</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>اذهب</guimenu
+> <guimenuitem
+>لأعلى</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينتقل إلى المجلد الموجود فوق المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Left</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>اذهب</guimenu
+> <guimenuitem
+>للخلف</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينتقل إلى المجلد الذي عُرض سابقاً.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Right</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>اذهب</guimenu
+> <guimenuitem
+>للأمام</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يتراجع</action
+> عن إجراء <quote
+>اذهب للخلف</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>اذهب</guimenu
+> <guimenuitem
+>المنزل</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>ينتقل إلى مجلد منزل المستخدم، مثلاً /home/Peter/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>اذهب</guimenu
+> <guisubmenu
+>الألسنة المغلقة حديثاً</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يظهر قائمة بالألسنة التي أُغلقت حديثاً والتي يمكن إعادة فتحها.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>قائمة أدوات</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>أدوات</guimenu
+> <guimenuitem
+>افتح الطرفية</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح كونسول (Konsole) داخل المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>أدوات</guimenu
+> <guimenuitem
+>افتح أداة البحث المفضلة</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يفتح أداة البحث المفضلة في المجلد الحالي.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guimenuitem
+>قارن الملفات</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يقارن الملفات أو المجلدات المحددة حالياً باستخدام كومبير (Kompare). يُمكّن هذا الإجراء فقط إذا حُدّد ملفان أو مجلدان.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guisubmenu
+>حدد طقم المحارف البعيد</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>يسمح لك باختيار طقم المحارف المستخدم في اتصال بعيد يدوياً.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>قائمتا إعدادات ومساعدة</title
+> 
+<para
+>يحتوي دولفين على عناصر قائمة <guimenu
+>الإعدادات</guimenu
+> و <guimenu
+>مساعدة</guimenu
+> الشائعة في كيدي، لمزيد من المعلومات اقرأ الأقسام المتعلقة بـ <ulink url="help:/fundamentals/menus.html#menus-settings"
+>قائمة الإعدادات</ulink
+> و <ulink url="help:/fundamentals/menus.html#menus-help"
+>قائمة المساعدة</ulink
+> في أساسيات كيدي. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>أسئلة متنوّعة</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>هل استبدل دولفين كنكرر (Konqueror)؟</para>
+</question>
+<answer>
+<para
+>ليس المقصود من دولفين أن يكون منافساً لكنكرر (Konqueror): يعمل كنكرر كعارض عام قادر على عرض صفحات HTML والوثائق النصية والمجلدات وغير ذلك الكثير، بينما يركز دولفين على كونه مديراً للملفات فقط. يسمح هذا النهج بتحسين واجهة المستخدم لمهمة إدارة الملفات. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>كيف أساهم في تطوير دولفين؟</para>
+</question>
+<answer>
+<para
+>أسهل طريقة للمشاركة في دولفين هي الاشتراك في القائمة البريدية للمطورين <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> وإرسال بريد إلكتروني إليها. أخبرهم عما يمكنك القيام به، وكم من الوقت يمكنك تخصيصه وما إلى ذلك، وسيعلمك المطورون بما يمكنك فعله في المشروع. إذا كنت ترغب في المساهمة في التوثيق، فيرجى مراسلة قائمة <ulink url="mailto:kde-doc-english@kde.org"
+>فريق توثيق كيدي</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>كيف أرسل تقارير العلل؟</para>
+</question>
+<answer>
+<para
+>القناة الرسمية لإرسال تقارير الأخطاء هي عبر نظام تتبع أخطاء كيدي. يمكن العثور على متتبع أخطاء كيدي في <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>هل يمكنني إرسال طلبات المزايا؟</para>
+</question>
+<answer>
+<para
+>القناة الرسمية لإرسال طلبات الميزات هي عبر نظام تتبع أخطاء كيدي. يمكن العثور على متتبع أخطاء كيدي في <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>الرّخصة والإشادات</title>
+
+<para
+>دولفين </para>
+<para
+>حقوق نشر البرنامج 2006&ndash;2014 محفوظة لـ Peter Penz <email
+>peter.penz@gmx.at</email
+>، و Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> و Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>المساهمون: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>التّوثيق محفوظ الحقوق ٢٠٠٥ Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>التّوثيق محفوظ الحقوق ٢٠٠٦ &Orville.Bennett; &Orville.Bennett.mail; </para>
+<para
+>التّوثيق محفوظ الحقوق ٢٠٠٦ Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>التّوثيق محفوظ الحقوق ٢٠٠٩ Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>التّرجمة: صفا الفليج <email
+>safa1996alfulaij@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->
