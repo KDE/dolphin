@@ -358,7 +358,7 @@ void ViewProperties::setViewMode(DolphinView::Mode mode)
 
 DolphinView::Mode ViewProperties::viewMode() const
 {
-    const int mode = qBound(0, m_node->viewMode(), 2);
+    const int mode = qBound(0, m_node->viewMode(), 3);
     return static_cast<DolphinView::Mode>(mode);
 }
 
@@ -761,6 +761,9 @@ QString ViewProperties::viewModePrefix() const
         break;
     case DolphinView::DetailsView:
         prefix = QStringLiteral("Details_");
+        break;
+    case DolphinView::ColumnsView:
+        prefix = QStringLiteral("Columns_");
         break;
     default:
         qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";

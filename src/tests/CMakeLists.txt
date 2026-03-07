@@ -75,6 +75,16 @@ if(NOT WIN32)
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 endif()
 
+# DolphinColumnsViewTest
+ecm_add_test(dolphincolumnsviewtest.cpp testdir.cpp
+TEST_NAME dolphincolumnsviewtest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
+# DolphinViewContainerTest
+ecm_add_test(dolphinviewcontainertest.cpp testdir.cpp
+TEST_NAME dolphinviewcontainertest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 

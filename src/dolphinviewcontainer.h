@@ -235,8 +235,8 @@ public:
 public Q_SLOTS:
     /**
      * Sets the view mode. If the new mode requires a different view
-     * class, the container swaps the view proactively. Also persists
-     * the mode in ViewProperties.
+     * class (e.g. ColumnsView vs. regular), the container swaps the
+     * view proactively. Also persists the mode in ViewProperties.
      */
     void setViewMode(DolphinView::Mode mode);
 
@@ -286,7 +286,7 @@ Q_SIGNALS:
 
     /**
      * Is emitted after the internal DolphinView instance has been replaced
-     * (e.g. when switching to a view mode that needs a different view class).
+     * (e.g. when switching between ColumnsView and other view modes).
      * Listeners that hold a pointer to the old view must reconnect.
      */
     void viewReplaced();
@@ -465,8 +465,8 @@ private:
     void connectViewSignals();
 
     /**
-     * Replaces m_view with a new DolphinView for \a mode.
-     * Preserves URL and re-wires signals.
+     * Replaces m_view with a DolphinView or DolphinColumnsView
+     * depending on \a mode. Preserves URL and re-wires signals.
      */
     void swapView(DolphinView::Mode mode);
 

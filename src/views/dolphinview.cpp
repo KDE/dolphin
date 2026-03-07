@@ -2576,6 +2576,9 @@ void DolphinView::applyModeToView()
     case DetailsView:
         m_view->setItemLayout(KFileItemListView::DetailsLayout);
         break;
+    case ColumnsView:
+        // Handled by DolphinColumnsView::applyModeToView() override.
+        break;
     }
 }
 
