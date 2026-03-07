@@ -1762,6 +1762,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
 
         case SingleSelection:
             m_selectionManager->setSelected(m_pressedIndex.value());
+            Q_FALLTHROUGH();
 
         case MultiSelection:
             if (controlPressed && !shiftPressed && leftClick) {

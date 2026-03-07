@@ -973,8 +973,6 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     const KFileItemList items = m_pendingPreviewItems;
     m_pendingPreviewItems.clear();
 
-    const KFileItem &referenceItem = items.first();
-
     KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
     if (job->uiDelegate()) {
