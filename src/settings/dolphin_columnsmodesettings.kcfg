@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <include>kiconloader.h</include>
+    <include>QFontDatabase</include>
+    <kcfgfile name="dolphinrc"/>
+    <group name="ColumnsMode">
+        <entry name="ViewFont" type="Font">
+            <default code="true">QFont()</default>
+        </entry>
+        <entry name="UseSystemFont" type="Bool">
+            <label>Use system font</label>
+            <default>true</default>
+        </entry>
+        <entry name="IconSize" type="Int">
+            <label>Icon size</label>
+            <default code="true">KIconLoader::SizeSmall</default>
+        </entry>
+        <entry name="PreviewSize" type="Int">
+            <label>Preview size</label>
+            <default code="true">KIconLoader::SizeLarge</default>
+        </entry>
+        <entry name="MinColumnWidth" type="Int">
+            <label>Minimum column width in pixels</label>
+            <default>320</default>
+        </entry>
+        <entry name="MaxVisibleColumns" type="Int">
+            <label>Maximum number of visible columns before scrolling</label>
+            <default>4</default>
+        </entry>
+    </group>
+</kcfg>
