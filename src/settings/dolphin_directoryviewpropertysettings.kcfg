@@ -23,7 +23,7 @@
 
         <entry name="ViewMode" type="Int" >
             <label context="@label">View Mode</label>
-            <whatsthis context="@info:whatsthis">This option controls the style of the view. Currently supported values include icons (0), details (1) and column (2) views.</whatsthis>
+            <whatsthis context="@info:whatsthis">This option controls the style of the view. Currently supported values include icons (0), details (1), compact (2) and columns (3) views.</whatsthis>
             <default code="true">DolphinView::IconsView</default>
         </entry>
 

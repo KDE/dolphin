@@ -1,0 +1,6 @@
+File=dolphin_columnsmodesettings.kcfg
+ClassName=ColumnsModeSettings
+Singleton=yes
+Mutators=true
+IncludeFiles=dolphin_export.h
+Visibility=DOLPHIN_EXPORT
