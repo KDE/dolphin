@@ -49,6 +49,7 @@ InformationPanel::~InformationPanel()
 void InformationPanel::setSelection(const KFileItemList &selection)
 {
     m_selection = selection;
+    m_hoveredItem = KFileItem(); // Selection supersedes any stale hover
 
     if (!isVisible()) {
         return;
