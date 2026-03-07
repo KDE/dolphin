@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="48">
+<gui name="dolphin" version="49">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -124,6 +124,7 @@
         <Action priority="0" name="icons"/>
         <Action priority="0" name="compact"/>
         <Action priority="0" name="details"/>
+        <Action priority="0" name="columns"/>
         <Action priority="0" name="view_mode" />
         <Action priority="0" name="view_settings" />
         <Action priority="0" name="view_zoom_in"/>

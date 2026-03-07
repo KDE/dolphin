@@ -25,6 +25,7 @@
 #include <QWidget>
 
 #include <memory>
+#include <optional>
 
 using CommandType = KIO::FileUndoManager::CommandType;
 class QVBoxLayout;
@@ -34,6 +35,7 @@ class KItemListContainer;
 class KItemModelBase;
 class KItemSet;
 class ToolTipManager;
+class KItemListSelectionManager;
 class VersionControlObserver;
 class ViewProperties;
 class QLabel;
@@ -79,14 +81,20 @@ public:
          * The items are shown as icons with the name-label aligned
          * to the right side.
          */
-        CompactView
+        CompactView,
+
+        /**
+         * Miller Columns: each directory level is shown in its own
+         * vertical column, cascading horizontally from left to right.
+         */
+        ColumnsView
     };
 
     /**
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    DolphinView(const QUrl &url, QWidget *parent);
+    explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
 
     ~DolphinView() override;
 
@@ -100,7 +108,7 @@ public:
      * If \a active is true, the view will marked as active. The active
      * view is defined as view where all actions are applied to.
      */
-    void setActive(bool active);
+    virtual void setActive(bool active);
     bool isActive() const;
 
     /**
@@ -346,7 +354,7 @@ public:
     /**
      * Returns the root item which represents the current URL.
      */
-    KFileItem rootItem() const;
+    virtual KFileItem rootItem() const;
 
     /**
      * Sets a context that is used for remembering the view-properties.
@@ -413,13 +421,13 @@ public:
 
 public Q_SLOTS:
 
-    void reload();
+    virtual void reload();
 
     /**
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).
      */
-    void setUrl(const QUrl &url);
+    virtual void setUrl(const QUrl &url);
 
     /**
      * Selects all items.
@@ -472,7 +480,7 @@ public Q_SLOTS:
     void moveSelectedItems(const KFileItemList &selection, const QUrl &destinationUrl);
 
     /** Pastes the clipboard data to this view. */
-    void paste();
+    virtual void paste();
 
     /**
      * Pastes the clipboard data into the currently selected
@@ -497,7 +505,7 @@ public Q_SLOTS:
      */
     void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget);
 
-    void stopLoading();
+    virtual void stopLoading();
 
     /**
      * Applies the state that has been restored by restoreViewState()
@@ -737,6 +745,62 @@ protected:
     void hideEvent(QHideEvent *event) override;
     bool event(QEvent *event) override;
 
+    /** @internal Accessors for subclasses (e.g. DolphinColumnsView). */
+    QVBoxLayout *topLayout() const;
+    KItemListContainer *itemListContainer() const;
+    ToolTipManager *toolTipManager() const
+    {
+        return m_toolTipManager;
+    }
+    bool isDragging() const
+    {
+        return m_dragging;
+    }
+    void setBaseModel(KFileItemModel *model)
+    {
+        m_model = model;
+    }
+
+    /**
+     * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
+     * Pastes the clipboard data into the URL \a url.
+     */
+    void pasteToUrl(const QUrl &url);
+
+    /**
+     * Update the tracked URL without triggering a directory load.
+     * Used by subclasses that manage their own directory loading.
+     */
+    void updateUrl(const QUrl &url);
+
+    /**
+     * Applies the m_mode property to the corresponding
+     * itemlayout-property of the KItemListView.
+     * Subclasses can override to add custom view modes.
+     */
+    virtual void applyModeToView();
+
+    /**
+     * Returns the MIME data for all selected items.
+     */
+    QMimeData *selectionMimeData() const;
+
+    /**
+     * Handles a drop event on item @p index using the given @p model.
+     * Falls back to @p fallbackUrl when the drop target is not a directory.
+     */
+    void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event);
+
+    /**
+     * Returns the selection manager for the currently active view.
+     */
+    virtual KItemListSelectionManager *activeSelectionManager() const;
+
+    /**
+     * Returns the model for the currently active view.
+     */
+    virtual KFileItemModel *activeModel() const;
+
 private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
@@ -916,12 +980,6 @@ private:
     void applyViewProperties(const ViewProperties &props);
 
     /**
-     * Applies the m_mode property to the corresponding
-     * itemlayout-property of the KItemListView.
-     */
-    void applyModeToView();
-
-    /**
      * Changes the current view based on the content of the directory.
      */
     void applyDynamicView();
@@ -938,22 +996,11 @@ private:
     void emitStatusBarText(const int folderCount, const int fileCount, KIO::filesize_t totalFileSize, const Selection selection);
 
     /**
-     * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
-     * Pastes the clipboard data into the URL \a url.
-     */
-    void pasteToUrl(const QUrl &url);
-
-    /**
      * Returns a list of URLs for all selected items. The list is
      * simplified, so that when the URLs are part of different tree
      * levels, only the parent is returned.
      */
     QList<QUrl> simplifiedSelectedUrls() const;
-
-    /**
-     * Returns the MIME data for all selected items.
-     */
-    QMimeData *selectionMimeData() const;
 
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by

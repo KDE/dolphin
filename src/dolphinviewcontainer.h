@@ -236,6 +236,13 @@ public:
 
 public Q_SLOTS:
     /**
+     * Sets the view mode. If the new mode requires a different view
+     * class (e.g. ColumnsView vs. regular), the container swaps the
+     * view proactively. Also persists the mode in ViewProperties.
+     */
+    void setViewMode(DolphinView::Mode mode);
+
+    /**
      * Sets the current active URL, where all actions are applied. The
      * URL navigator is synchronized with this URL. The signals
      * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
@@ -277,6 +284,13 @@ Q_SIGNALS:
      * state.
      */
     void writeStateChanged(bool isFolderWritable);
+
+    /**
+     * Is emitted after the internal DolphinView instance has been replaced
+     * (e.g. when switching between ColumnsView and other view modes).
+     * Listeners that hold a pointer to the old view must reconnect.
+     */
+    void viewReplaced();
 
     /**
      * Is emitted when the Caption has been changed.
@@ -445,6 +459,18 @@ private Q_SLOTS:
     void slotOpenUrlFinished(KJob *job);
 
 private:
+    /**
+     * Connects all signals from m_view to the container's slots.
+     * Called from the constructor and after each view swap.
+     */
+    void connectViewSignals();
+
+    /**
+     * Replaces m_view with a DolphinView or DolphinColumnsView
+     * depending on \a mode. Preserves URL and re-wires signals.
+     */
+    void swapView(DolphinView::Mode mode);
+
     /**
      * Saves the state of the current view: contents position,
      * root URL, ...

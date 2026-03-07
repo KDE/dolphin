@@ -105,6 +105,8 @@ target_sources(dolphinprivate PRIVATE
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     selectionmode/actiontexthelper.cpp
+    views/dolphincolumnpane.cpp
+    views/dolphincolumnsview.cpp
     views/dolphinfileitemlistwidget.cpp
     views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
@@ -159,6 +161,8 @@ target_sources(dolphinprivate PRIVATE
     settings/viewpropertiesdialog.h
     settings/viewpropsprogressinfo.h
     selectionmode/actiontexthelper.h
+    views/dolphincolumnpane.h
+    views/dolphincolumnsview.h
     views/dolphinfileitemlistwidget.h
     views/dolphinitemlistview.h
     views/dolphinnewfilemenuobserver.h
@@ -197,6 +201,7 @@ if(HAVE_BALOO)
 endif()
 
 kconfig_add_kcfg_files(dolphinprivate
+    settings/dolphin_columnsmodesettings.kcfgc
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -628,6 +633,7 @@ install(
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
                settings/dolphin_contextmenusettings.kcfg
+               settings/dolphin_columnsmodesettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
                settings/dolphin_iconsmodesettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg

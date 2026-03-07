@@ -190,6 +190,11 @@ DolphinMainWindow::DolphinMainWindow()
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
     connect(m_actionHandler, &DolphinViewActionHandler::createFileTriggered, this, &DolphinMainWindow::createFile);
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
+    connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, this, [this](DolphinView::Mode mode) {
+        if (m_activeViewContainer) {
+            m_activeViewContainer->setViewMode(mode);
+        }
+    });
 
     QAction *newDirAction = actionCollection()->action(QStringLiteral("create_dir"));
     Q_ASSERT(newDirAction);
@@ -2808,6 +2813,14 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(container, &DolphinViewContainer::captionChanged, this, &DolphinMainWindow::updateWindowTitle);
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
+
+    // When the view inside a container is swapped (e.g. switching to/from ColumnsView),
+    // re-wire all view-level signals by re-running activeViewChanged().
+    connect(container, &DolphinViewContainer::viewReplaced, this, [this, container]() {
+        if (container == m_activeViewContainer) {
+            activeViewChanged(container);
+        }
+    });
 
     // Make the toggled state of the selection mode actions visually follow the selection mode state of the view.
     auto toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));

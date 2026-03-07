@@ -97,6 +97,13 @@ Q_SIGNALS:
     /** Used to request either entering or leaving of selection mode */
     void selectionModeChangeTriggered(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
 
+    /**
+     * Emitted when the user requested a view mode change via the toolbar/menu.
+     * The receiver (DolphinMainWindow or DolphinPart) is responsible for
+     * applying the mode to the correct view or container.
+     */
+    void viewModeChangeRequested(DolphinView::Mode mode);
+
 private Q_SLOTS:
     /**
      * Emitted when the user requested a change of view mode
@@ -276,6 +283,12 @@ private:
      * Helper method for createActions();
      */
     KToggleAction *detailsModeAction();
+
+    /**
+     * Returns the "switch to columns mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction *columnsModeAction();
 
     KActionCollection *m_actionCollection;
     DolphinView *m_currentView;

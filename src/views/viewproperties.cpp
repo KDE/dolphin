@@ -293,7 +293,7 @@ void ViewProperties::setViewMode(DolphinView::Mode mode)
 
 DolphinView::Mode ViewProperties::viewMode() const
 {
-    const int mode = qBound(0, m_node->viewMode(), 2);
+    const int mode = qBound(0, m_node->viewMode(), 3);
     return static_cast<DolphinView::Mode>(mode);
 }
 
@@ -636,10 +636,17 @@ void ViewProperties::save()
             // free the space used by viewproperties from the file metadata
             metaData.setAttribute(MetaDataKey, QString());
             qCWarning(DolphinDebug) << "could not save viewproperties to extended attributes for dir " << m_filePath << ", no space available in attributes";
+            // fallback: write to .directory file
+            const QString dotDirectoryPath = m_filePath + QDir::separator() + ViewPropertiesFileName;
+            QFile fallbackFile(dotDirectoryPath);
+            if (fallbackFile.open(QIODevice::WriteOnly)) {
+                fallbackFile.write(viewPropertiesString.toUtf8());
+            } else {
+                qCWarning(DolphinDebug) << "could not write viewproperties to .directory for dir" << m_filePath;
+            }
         } else {
             qCWarning(DolphinDebug) << "could not save viewproperties to extended attributes for dir " << m_filePath << "error:" << result;
         }
-        // keep .directory file
         return;
     }
     cleanDotDirectoryFile();
@@ -667,6 +674,9 @@ QString ViewProperties::viewModePrefix() const
         break;
     case DolphinView::DetailsView:
         prefix = QStringLiteral("Details_");
+        break;
+    case DolphinView::ColumnsView:
+        prefix = QStringLiteral("Columns_");
         break;
     default:
         qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";

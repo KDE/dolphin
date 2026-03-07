@@ -66,6 +66,16 @@ ecm_add_test(dolphinmainwindowtest.cpp testdir.cpp ${CMAKE_SOURCE_DIR}/src/dolph
 TEST_NAME dolphinmainwindowtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 
+# DolphinColumnsViewTest
+ecm_add_test(dolphincolumnsviewtest.cpp testdir.cpp
+TEST_NAME dolphincolumnsviewtest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
+# DolphinViewContainerTest
+ecm_add_test(dolphinviewcontainertest.cpp testdir.cpp
+TEST_NAME dolphinviewcontainertest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 

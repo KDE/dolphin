@@ -198,6 +198,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     KToggleAction *iconsAction = iconsModeAction();
     KToggleAction *compactAction = compactModeAction();
     KToggleAction *detailsAction = detailsModeAction();
+    KToggleAction *columnsAction = columnsModeAction();
 
     iconsAction->setWhatsThis(xi18nc("@info:whatsthis Icons view mode",
                                      "<para>This switches to a view mode that focuses on the folder "
@@ -219,6 +220,11 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                        "view the contents of a folder without leaving the current "
                                        "location by clicking the region to the left of it. This way you can "
                                        "view the contents of multiple folders in the same list.</para>"));
+    columnsAction->setWhatsThis(xi18nc("@info:whatsthis Columns view mode",
+                                       "<para>This switches to a columns view mode (Miller Columns). "
+                                       "Each directory level is shown in its own column, cascading "
+                                       "horizontally from left to right.</para><para>Selecting a folder "
+                                       "opens its contents in the next column to the right.</para>"));
 
     KSelectAction *viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
     viewModeActions->setText(i18nc("@action:intoolbar", "Change View Mode"));
@@ -226,10 +232,11 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewModeActions->addAction(iconsAction);
     viewModeActions->addAction(compactAction);
     viewModeActions->addAction(detailsAction);
+    viewModeActions->addAction(columnsAction);
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
     viewModeActions->setToolButtonPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
     connect(viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
-    connect(viewModeActions, &KSelectAction::triggered, this, [this, viewModeActions, iconsAction, compactAction, detailsAction]() {
+    connect(viewModeActions, &KSelectAction::triggered, this, [this, viewModeActions, iconsAction, compactAction, detailsAction, columnsAction]() {
         // Loop through the actions when button is clicked
         const auto currentAction = viewModeActions->currentAction();
         if (currentAction == iconsAction) {
@@ -237,6 +244,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
         } else if (currentAction == compactAction) {
             slotViewModeActionTriggered(detailsAction);
         } else if (currentAction == detailsAction) {
+            slotViewModeActionTriggered(columnsAction);
+        } else if (currentAction == columnsAction) {
             slotViewModeActionTriggered(iconsAction);
         }
     });
@@ -458,7 +467,7 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
 {
     const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
-    m_currentView->setViewMode(mode);
+    Q_EMIT viewModeChangeRequested(mode);
 
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
@@ -523,6 +532,8 @@ QString DolphinViewActionHandler::currentViewModeActionName() const
         return QStringLiteral("details");
     case DolphinView::CompactView:
         return QStringLiteral("compact");
+    case DolphinView::ColumnsView:
+        return QStringLiteral("columns");
     default:
         Q_ASSERT(false);
         break;
@@ -713,6 +724,17 @@ KToggleAction *DolphinViewActionHandler::detailsModeAction()
     detailsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-tree")));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
+}
+
+KToggleAction *DolphinViewActionHandler::columnsModeAction()
+{
+    KToggleAction *columnsView = m_actionCollection->add<KToggleAction>(QStringLiteral("columns"));
+    columnsView->setText(i18nc("@action:inmenu View Mode", "Columns"));
+    columnsView->setToolTip(i18nc("@info", "Columns view mode"));
+    m_actionCollection->setDefaultShortcut(columnsView, Qt::CTRL | Qt::Key_4);
+    columnsView->setIcon(QIcon::fromTheme(QStringLiteral("view-file-columns")));
+    columnsView->setData(QVariant::fromValue(DolphinView::ColumnsView));
+    return columnsView;
 }
 
 void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray &role)

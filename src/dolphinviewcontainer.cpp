@@ -21,6 +21,8 @@
 #include "search/bar.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphincolumnsview.h"
+#include "views/viewproperties.h"
 
 #include <KActionCollection>
 #include <KApplicationTrader>
@@ -115,50 +117,29 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_filterBar, &FilterBar::closeRequest, this, &DolphinViewContainer::closeFilterBar);
     connect(m_filterBar, &FilterBar::focusViewRequest, this, &DolphinViewContainer::requestFocus);
 
-    // Initialize the main view
-    m_view = new DolphinView(url, this);
-    connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
-    connect(m_view, &DolphinView::urlChanged, m_messageWidget, &KMessageWidget::hide);
-    // m_urlNavigator stays in sync with m_view's location changes and
-    // keeps track of them so going back and forth in the history works.
-    connect(m_view, &DolphinView::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    // Initialize the main view with the correct type based on saved properties.
+    {
+        ViewProperties props(url);
+        props.setAutoSaveEnabled(false);
+        const auto mode = props.viewMode();
+        if (mode == DolphinView::ColumnsView) {
+            m_view = new DolphinColumnsView(url, this, mode);
+        } else {
+            m_view = new DolphinView(url, this, mode);
+        }
+    }
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlAboutToBeChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlSelectionRequested, this, &DolphinViewContainer::slotUrlSelectionRequested);
-    connect(m_view, &DolphinView::writeStateChanged, this, &DolphinViewContainer::writeStateChanged);
-    connect(m_view, &DolphinView::requestItemInfo, this, &DolphinViewContainer::showItemInfo);
-    connect(m_view, &DolphinView::itemActivated, this, &DolphinViewContainer::slotItemActivated);
-    connect(m_view, &DolphinView::fileMiddleClickActivated, this, &DolphinViewContainer::slotfileMiddleClickActivated);
-    connect(m_view, &DolphinView::itemsActivated, this, &DolphinViewContainer::slotItemsActivated);
-    connect(m_view, &DolphinView::redirection, this, &DolphinViewContainer::redirect);
-    connect(m_view, &DolphinView::directoryLoadingStarted, this, &DolphinViewContainer::slotDirectoryLoadingStarted);
-    connect(m_view, &DolphinView::directoryLoadingCompleted, this, &DolphinViewContainer::slotDirectoryLoadingCompleted);
-    connect(m_view, &DolphinView::directoryLoadingCanceled, this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
-    connect(m_view, &DolphinView::itemCountChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::selectionChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::slotErrorMessageFromView);
-    connect(m_view, &DolphinView::urlIsFileError, this, &DolphinViewContainer::slotUrlIsFileError);
-    connect(m_view, &DolphinView::activated, this, &DolphinViewContainer::activate);
-    connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
-    connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
-    connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
-    connect(m_view, &DolphinView::urlChanged, m_statusBar, &DolphinStatusBar::setUrl);
-    connect(m_view, &DolphinView::zoomLevelChanged, m_statusBar, &DolphinStatusBar::setZoomLevel);
-    connect(m_view, &DolphinView::infoMessage, m_statusBar, &DolphinStatusBar::setText);
-    connect(m_view, &DolphinView::operationCompletedMessage, m_statusBar, &DolphinStatusBar::setText);
-    connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::setDefaultText);
-    connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::resetToDefaultText);
-    connect(m_view, &DolphinView::directoryLoadingProgress, m_statusBar, [this](int percent) {
-        m_statusBar->showProgress(i18nc("@info:progress", "Loading folder…"), percent);
-    });
-    connect(m_view, &DolphinView::directorySortingProgress, m_statusBar, [this](int percent) {
-        m_statusBar->showProgress(i18nc("@info:progress", "Sorting…"), percent);
-    });
+
+    // Connect all m_view signals (to container, statusBar, etc.)
+    connectViewSignals();
+
     connect(m_statusBar, &DolphinStatusBar::stopPressed, this, &DolphinViewContainer::stopDirectoryLoading);
     connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged, this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
     connect(m_statusBar, &DolphinStatusBar::showMessage, this, [this](const QString &message, KMessageWidget::MessageType messageType) {
@@ -200,10 +181,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 
     setSearchBarVisible(isSearchUrl(url));
 
-    // Update view as the ContentDisplaySettings change
-    // this happens here and not in DolphinView as DolphinviewContainer and DolphinView are not in the same build target ATM
-    connect(ContentDisplaySettings::self(), &KCoreConfigSkeleton::configChanged, m_view, &DolphinView::reload);
-
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
     connect(placesModel, &KFilePlacesModel::dataChanged, this, &DolphinViewContainer::slotPlacesModelChanged);
     connect(placesModel, &KFilePlacesModel::rowsInserted, this, &DolphinViewContainer::slotPlacesModelChanged);
@@ -217,6 +194,94 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 }
 
 DolphinViewContainer::~DolphinViewContainer() = default;
+
+void DolphinViewContainer::connectViewSignals()
+{
+    connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
+    connect(m_view, &DolphinView::urlChanged, m_messageWidget, &KMessageWidget::hide);
+    // m_urlNavigator stays in sync with m_view's location changes and
+    // keeps track of them so going back and forth in the history works.
+    connect(m_view, &DolphinView::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    connect(m_view, &DolphinView::writeStateChanged, this, &DolphinViewContainer::writeStateChanged);
+    connect(m_view, &DolphinView::requestItemInfo, this, &DolphinViewContainer::showItemInfo);
+    connect(m_view, &DolphinView::itemActivated, this, &DolphinViewContainer::slotItemActivated);
+    connect(m_view, &DolphinView::fileMiddleClickActivated, this, &DolphinViewContainer::slotfileMiddleClickActivated);
+    connect(m_view, &DolphinView::itemsActivated, this, &DolphinViewContainer::slotItemsActivated);
+    connect(m_view, &DolphinView::redirection, this, &DolphinViewContainer::redirect);
+    connect(m_view, &DolphinView::directoryLoadingStarted, this, &DolphinViewContainer::slotDirectoryLoadingStarted);
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, &DolphinViewContainer::slotDirectoryLoadingCompleted);
+    connect(m_view, &DolphinView::directoryLoadingCanceled, this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
+    connect(m_view, &DolphinView::itemCountChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::selectionChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::slotErrorMessageFromView);
+    connect(m_view, &DolphinView::urlIsFileError, this, &DolphinViewContainer::slotUrlIsFileError);
+    connect(m_view, &DolphinView::activated, this, &DolphinViewContainer::activate);
+    connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
+    connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
+    connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
+
+    // Status bar connections (m_statusBar may be null during initial construction)
+    if (m_statusBar) {
+        connect(m_view, &DolphinView::urlChanged, m_statusBar, &DolphinStatusBar::setUrl);
+        connect(m_view, &DolphinView::zoomLevelChanged, m_statusBar, &DolphinStatusBar::setZoomLevel);
+        connect(m_view, &DolphinView::infoMessage, m_statusBar, &DolphinStatusBar::setText);
+        connect(m_view, &DolphinView::operationCompletedMessage, m_statusBar, &DolphinStatusBar::setText);
+        connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::setDefaultText);
+        connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::resetToDefaultText);
+        connect(m_view, &DolphinView::directoryLoadingProgress, m_statusBar, [this](int percent) {
+            m_statusBar->showProgress(i18nc("@info:progress", "Loading folder…"), percent);
+        });
+        connect(m_view, &DolphinView::directorySortingProgress, m_statusBar, [this](int percent) {
+            m_statusBar->showProgress(i18nc("@info:progress", "Sorting…"), percent);
+        });
+    }
+
+    // ContentDisplaySettings reload
+    connect(ContentDisplaySettings::self(), &KCoreConfigSkeleton::configChanged, m_view, &DolphinView::reload);
+}
+
+void DolphinViewContainer::swapView(DolphinView::Mode mode)
+{
+    const QUrl savedUrl = m_view->url();
+    const bool wasActive = m_view->isActive();
+
+    m_topLayout->removeWidget(m_view);
+    m_view->hide();
+    m_view->deleteLater();
+
+    if (mode == DolphinView::ColumnsView) {
+        m_view = new DolphinColumnsView(savedUrl, this, mode);
+    } else {
+        m_view = new DolphinView(savedUrl, this, mode);
+    }
+
+    m_topLayout->addWidget(m_view, positionFor.view, 0);
+    connectViewSignals();
+
+    if (wasActive) {
+        m_view->setActive(true);
+    }
+
+    m_statusBar->setUrl(m_view->url());
+    m_statusBar->setZoomLevel(m_view->zoomLevel());
+
+    Q_EMIT viewReplaced();
+}
+
+void DolphinViewContainer::setViewMode(DolphinView::Mode mode)
+{
+    const bool needsColumns = (mode == DolphinView::ColumnsView);
+    const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
+
+    if (needsColumns != isColumns) {
+        swapView(mode);
+        // Persist mode to disk for next session
+        ViewProperties props(m_view->url());
+        props.setViewMode(mode);
+    } else {
+        m_view->setViewMode(mode);
+    }
+}
 
 QUrl DolphinViewContainer::url() const
 {
@@ -907,6 +972,14 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
             // Hide the search bar because it shows an outdated search which the user does not care about anymore.
             setSearchBarVisible(false);
+        }
+
+        // Proactively swap the view if the target URL requires a different view type
+        ViewProperties props(url);
+        const bool needsColumns = (props.viewMode() == DolphinView::ColumnsView);
+        const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
+        if (needsColumns != isColumns) {
+            swapView(props.viewMode());
         }
 
         m_view->setUrl(url);
