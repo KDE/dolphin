@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-06 00:47+0000\n"
+"POT-Creation-Date: 2026-03-07 00:47+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -1907,13 +1907,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ínvalid protocol"
 
-#: dolphinviewcontainer.cpp:1019
+#: dolphinviewcontainer.cpp:1021
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Fólder es vacui"
 
-#: dolphinviewcontainer.cpp:1024
+#: dolphinviewcontainer.cpp:1026
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1921,19 +1921,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Creat un fólder."
 
-#: dolphinviewcontainer.cpp:1041
+#: dolphinviewcontainer.cpp:1043
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1044
+#: dolphinviewcontainer.cpp:1046
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Collar"
 
-#: dolphinviewcontainer.cpp:1088 dolphinviewcontainer.cpp:1091
+#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
 #, fuzzy, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

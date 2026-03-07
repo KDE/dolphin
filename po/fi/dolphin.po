@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-06 00:47+0000\n"
+"POT-Creation-Date: 2026-03-07 00:47+0000\n"
 "PO-Revision-Date: 2026-01-02 11:47+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2127,31 +2127,31 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Virheellinen yhteyskäytäntö"
 
-#: dolphinviewcontainer.cpp:1019
+#: dolphinviewcontainer.cpp:1021
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Kansioon siirtymiseksi vaaditaan tunnistautuminen."
 
-#: dolphinviewcontainer.cpp:1024
+#: dolphinviewcontainer.cpp:1026
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Luo puuttuva kansio"
 
-#: dolphinviewcontainer.cpp:1041
+#: dolphinviewcontainer.cpp:1043
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Luo tähän sijaintiin kansio ja avaa se"
 
-#: dolphinviewcontainer.cpp:1044
+#: dolphinviewcontainer.cpp:1046
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Sinulla ei ole käyttöoikeutta kansion luomiseksi"
 
-#: dolphinviewcontainer.cpp:1088 dolphinviewcontainer.cpp:1091
+#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
