@@ -81,7 +81,13 @@ public:
          * The items are shown as icons with the name-label aligned
          * to the right side.
          */
-        CompactView
+        CompactView,
+
+        /**
+         * Miller Columns: each directory level is shown in its own
+         * vertical column, cascading horizontally from left to right.
+         */
+        ColumnsView
     };
 
     /**
@@ -774,7 +780,7 @@ protected:
     void hideEvent(QHideEvent *event) override;
     bool event(QEvent *event) override;
 
-    /** @internal Accessors for subclasses. */
+    /** @internal Accessors for subclasses (e.g. DolphinColumnsView). */
     QVBoxLayout *topLayout() const;
     KItemListContainer *itemListContainer() const;
     ToolTipManager *toolTipManager() const
