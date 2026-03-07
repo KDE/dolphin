@@ -283,6 +283,11 @@ private:
 
     void updateGroupByActions();
 
+    /**
+     * Returns the "switch to columns mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction *columnsModeAction();
     KActionCollection *m_actionCollection;
     DolphinView *m_currentView;
 

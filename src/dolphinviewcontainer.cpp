@@ -21,6 +21,7 @@
 #include "search/bar.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphincolumnsview.h"
 #include "views/viewproperties.h"
 
 #include <KActionCollection>
@@ -121,7 +122,11 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         ViewProperties props(url);
         props.setAutoSaveEnabled(false);
         const auto mode = props.viewMode();
-        m_view = new DolphinView(url, this, mode);
+        if (mode == DolphinView::ColumnsView) {
+            m_view = new DolphinColumnsView(url, this, mode);
+        } else {
+            m_view = new DolphinView(url, this, mode);
+        }
     }
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlAboutToBeChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
@@ -245,7 +250,11 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     m_view->hide();
     m_view->deleteLater();
 
-    m_view = new DolphinView(savedUrl, this, mode);
+    if (mode == DolphinView::ColumnsView) {
+        m_view = new DolphinColumnsView(savedUrl, this, mode);
+    } else {
+        m_view = new DolphinView(savedUrl, this, mode);
+    }
 
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     connectViewSignals();
@@ -262,7 +271,17 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
 
 void DolphinViewContainer::setViewMode(DolphinView::Mode mode)
 {
-    m_view->setViewMode(mode);
+    const bool needsColumns = (mode == DolphinView::ColumnsView);
+    const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
+
+    if (needsColumns != isColumns) {
+        swapView(mode);
+        // Persist mode to disk for next session
+        ViewProperties props(m_view->url());
+        props.setViewMode(mode);
+    } else {
+        m_view->setViewMode(mode);
+    }
 }
 
 QUrl DolphinViewContainer::url() const
@@ -944,6 +963,14 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
             // Hide the search bar because it shows an outdated search which the user does not care about anymore.
             setSearchBarVisible(false);
+        }
+
+        // Proactively swap the view if the target URL requires a different view type
+        ViewProperties props(url);
+        const bool needsColumns = (props.viewMode() == DolphinView::ColumnsView);
+        const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
+        if (needsColumns != isColumns) {
+            swapView(props.viewMode());
         }
 
         m_view->setUrl(url);
