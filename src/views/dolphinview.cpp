@@ -296,6 +296,10 @@ DolphinView::~DolphinView()
         m_statJobForStatusBarText->kill(KJob::Quietly);
     }
     disconnect(m_container->controller(), &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
+
+    // Persist mode to disk for next session
+    ViewProperties props(url());
+    props.setViewMode(m_mode);
 }
 
 QUrl DolphinView::url() const
@@ -1368,7 +1372,7 @@ void DolphinView::slotItemContextMenuRequested(int index, const QPointF &pos)
         abortTwoClicksRenaming();
     }
 
-    const KFileItem item = m_model->fileItem(index);
+    const KFileItem item = activeModel()->fileItem(index);
     Q_EMIT requestContextMenu(pos.toPoint(), item, selectedItems(), url());
 }
 
@@ -1856,9 +1860,9 @@ void DolphinView::saveState(QDataStream &stream)
     stream << quint32(1); // View state version
 
     // Save the current item that has the keyboard focus
-    const int currentIndex = m_container->controller()->selectionManager()->currentItem();
+    const int currentIndex = activeSelectionManager()->currentItem();
     if (currentIndex != -1) {
-        KFileItem item = m_model->fileItem(currentIndex);
+        KFileItem item = activeModel()->fileItem(currentIndex);
         Q_ASSERT(!item.isNull()); // If the current index is valid a item must exist
         QUrl currentItemUrl = item.url();
         stream << currentItemUrl;
@@ -2108,7 +2112,7 @@ void DolphinView::updateSelectionState()
 void DolphinView::updateViewState()
 {
     if (m_currentItemUrl != QUrl()) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = activeSelectionManager();
 
         // if there is a selection already, leave it that way
         if (!selectionManager->hasSelection()) {
@@ -2176,7 +2180,7 @@ bool DolphinView::handleSpaceAsNormalKey() const
 
 void DolphinView::slotTwoClicksRenamingTimerTimeout()
 {
-    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+    const KItemListSelectionManager *selectionManager = activeSelectionManager();
 
     // verify that only one item is selected
     if (selectionManager->selectedItems().count() == 1) {
@@ -2688,7 +2692,7 @@ void DolphinView::applyDynamicView()
      * - the current view mode is already Icon View
      * - dynamic view has previously changed the view mode
      */
-    if (!GeneralSettings::dynamicView() || m_mode == IconsView) {
+    if (!GeneralSettings::dynamicView() || m_mode == IconsView || m_mode == ColumnsView) {
         return;
     }
 
