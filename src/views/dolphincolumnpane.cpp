@@ -42,7 +42,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
 
     m_container = new KItemListContainer(m_controller, this);
-    m_container->setEnabledFrame(false);
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_view->setAccessibleParentsObject(m_container);
@@ -66,10 +65,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     connect(m_controller, &KItemListController::itemActivated, this, &DolphinColumnPane::slotItemActivated);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
-
-    // Context menu signals
-    connect(m_controller, &KItemListController::itemContextMenuRequested, this, &DolphinColumnPane::slotItemContextMenuRequested);
-    connect(m_controller, &KItemListController::viewContextMenuRequested, this, &DolphinColumnPane::slotViewContextMenuRequested);
 }
 
 DolphinColumnPane::~DolphinColumnPane() = default;
@@ -175,22 +170,4 @@ void DolphinColumnPane::slotCurrentChanged(int current, int previous)
     if (!item.isNull()) {
         Q_EMIT currentItemChanged(item);
     }
-}
-
-void DolphinColumnPane::slotItemContextMenuRequested(int index, const QPointF &pos)
-{
-    if (index < 0 || index >= m_model->count()) {
-        return;
-    }
-
-    const KFileItem item = m_model->fileItem(index);
-    if (!item.isNull()) {
-        Q_EMIT itemContextMenuRequested(item, pos);
-    }
-}
-
-void DolphinColumnPane::slotViewContextMenuRequested(const QPointF &pos)
-{
-    // pos is already in screen coordinates from the controller
-    Q_EMIT viewContextMenuRequested(pos);
 }
