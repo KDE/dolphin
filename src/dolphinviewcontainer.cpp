@@ -242,12 +242,11 @@ void DolphinViewContainer::connectViewSignals()
 
 void DolphinViewContainer::swapView(DolphinView::Mode mode)
 {
-    const QUrl savedUrl = m_view->url();
-    const bool wasActive = m_view->isActive();
+    auto oldView = m_view;
+    const QUrl savedUrl = oldView->url();
+    const bool wasActive = oldView->isActive();
 
-    m_topLayout->removeWidget(m_view);
-    m_view->hide();
-    m_view->deleteLater();
+    m_topLayout->removeWidget(oldView);
 
     if (mode == DolphinView::ColumnsView) {
         m_view = new DolphinColumnsView(savedUrl, this, mode);
@@ -262,6 +261,8 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
         m_view->setActive(true);
     }
 
+    oldView->deleteLater();
+
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
 
@@ -275,9 +276,6 @@ void DolphinViewContainer::setViewMode(DolphinView::Mode mode)
 
     if (needsColumns != isColumns) {
         swapView(mode);
-        // Persist mode to disk for next session
-        ViewProperties props(m_view->url());
-        props.setViewMode(mode);
     } else {
         m_view->setViewMode(mode);
     }
@@ -972,14 +970,6 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
             // Hide the search bar because it shows an outdated search which the user does not care about anymore.
             setSearchBarVisible(false);
-        }
-
-        // Proactively swap the view if the target URL requires a different view type
-        ViewProperties props(url);
-        const bool needsColumns = (props.viewMode() == DolphinView::ColumnsView);
-        const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
-        if (needsColumns != isColumns) {
-            swapView(props.viewMode());
         }
 
         m_view->setUrl(url);
