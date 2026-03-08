@@ -1990,13 +1990,13 @@ msgstr "未找到项目。"
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr ""
+msgstr "作为文件打开"
 
 #: dolphinviewcontainer.cpp:754
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr ""
+msgstr "正在尝试将文件作为文件夹打开： <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -4039,13 +4039,13 @@ msgstr "搜索…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr ""
+msgstr "下载服务…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "快捷键…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4352,7 +4352,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
-msgstr "这个选项定义正在被排序的属性 (文字、大小、日期等)。"
+msgstr "这个选项定义正在被排序的属性 (文本、大小、日期等)。"
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -4733,8 +4733,6 @@ msgstr "警告"
 
 #: settings/interface/confirmationssettingspage.cpp:50
 #, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
 msgstr "在所有 KDE 程序中进行以下操作时请求确认："
@@ -5951,7 +5949,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 "<para>这是<emphasis>状态栏</emphasis>。它默认包含了三个元素：(从左到"
-"右)<list><item><emphasis>文字区域</emphasis>，显示选中项目的大小。在选中单个"
+"右)<list><item><emphasis>文本区域</emphasis>，显示选中项目的大小。在选中单个"
 "项目时，将同时显示它的文件类型。</item><item><emphasis>缩放滑动条</"
 "emphasis>，用于调整视图中图标的大小。</item><item><emphasis>空间信息</"
 "emphasis>，用于显示当前位置的存储设备的可用空间。</item></list></para>"
