@@ -2017,7 +2017,7 @@ context menu Icon Size? No different entries ?-->
 
 <sect2 id="view-properties-dialog">
 <title
->Görünüm Özellikleri iletişim kutusu</title>
+>Görünüm Özellikleri İletişim Kutusu</title>
 
 <para>
 
@@ -2046,7 +2046,7 @@ context menu Icon Size? No different entries ?-->
 
 <para
 ><guilabel
->Varsayılan görünüm ayarları olarak kullan</guilabel
+>Öntanımlı görünüm ayarları olarak kullan</guilabel
 > etkinleştirilirse seçili görünüm özellikleri, henüz özelleştirilmiş görünüm özelliklerine sahip olmayan tüm klasörler için de kullanılacaktır. </para>
 
 </sect2>
@@ -3319,7 +3319,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >&dolphin; </para>
 <para
->Program telif hakkı 2006&ndash;2014 Peter Penz <email
+>Program telif hakkı © 2006&ndash;2014 Peter Penz <email
 >peter.penz@gmx.at</email
 >, Frank Reininghaus <email
 >frank78ac@googlemail.com</email
@@ -3354,17 +3354,17 @@ context menu Icon Size? No different entries ?-->
 </para>
 
 <para
->Belgelendirme telif hakları 2005 Peter Penz <email
+>Belgelendirme telif hakkı © 2005 Peter Penz <email
 >peter.penz@gmx.at</email
 > </para>
 <para
->Belgelendirme telif hakları 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
+>Belgelendirme telif hakkı © 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
 <para
->Belgelendirme telif hakları 2006 Michael Austin <email
+>Belgelendirme telif hakkı © 2006 Michael Austin <email
 >tuxedup@users.sourceforge.net</email
 > </para>
 <para
->Belgelendirme telif hakları 2009 Frank Reininghaus <email
+>Belgelendirme telif hakkı © 2009 Frank Reininghaus <email
 >frank78ac@googlemail.com</email
 > </para>
 

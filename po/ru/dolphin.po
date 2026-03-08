@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-06 00:47+0000\n"
-"PO-Revision-Date: 2026-02-21 14:05+0200\n"
+"POT-Creation-Date: 2026-03-07 00:47+0000\n"
+"PO-Revision-Date: 2026-03-06 14:11+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -2132,21 +2132,16 @@ msgid "No items found."
 msgstr "Ничего не найдено."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "%1 файл"
+msgstr "Открыть как файл"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Не удалось получить доступ к <filename>%1</filename>."
+msgstr "Попытка открыть файл в качестве папки: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -2177,31 +2172,31 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Неверный протокол"
 
-#: dolphinviewcontainer.cpp:1019
+#: dolphinviewcontainer.cpp:1021
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Для входа в эту папку требуется авторизация."
 
-#: dolphinviewcontainer.cpp:1024
+#: dolphinviewcontainer.cpp:1026
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Создать отсутствующую папку"
 
-#: dolphinviewcontainer.cpp:1041
+#: dolphinviewcontainer.cpp:1043
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Создать и открыть папку в этом расположении"
 
-#: dolphinviewcontainer.cpp:1044
+#: dolphinviewcontainer.cpp:1046
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "У вас недостаточно прав доступа для создания этой папки"
 
-#: dolphinviewcontainer.cpp:1088 dolphinviewcontainer.cpp:1091
+#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4324,18 +4319,16 @@ msgid "Search…"
 msgstr "Поиск…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Загрузить новые действия…"
+msgstr "Загрузить действия…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Комбинации клавиш…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -5049,12 +5042,10 @@ msgid "Warning"
 msgstr "Предупреждение"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Запрашивать подтверждение во всех приложениях KDE:"
+msgstr "Запрашивать подтверждение в приложениях KDE:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
