@@ -216,6 +216,9 @@ void DolphinColumnsView::setActiveColumn(int index)
     setFocusProxy(newPane->container());
     newPane->container()->setFocus();
     ensureActiveColumnVisible();
+
+    updateUrl(newPane->dirUrl());
+    Q_EMIT urlChanged(newPane->dirUrl());
 }
 
 void DolphinColumnsView::applyModeToView()
@@ -484,7 +487,7 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
     // Splitter handle double-click: cycle column width
-    if (event->type() == QEvent::MouseButtonDblClick) {
+    if (event->type() == QEvent::MouseButtonDblClick && watched == m_splitter) {
         for (int i = 1; i < m_splitter->count(); ++i) {
             if (m_splitter->handle(i) == watched) {
                 cycleColumnWidth(i - 1);
@@ -883,10 +886,32 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
     auto *selectionManager = controller->selectionManager();
 
     // Selection changed with timer batching (like base view)
-    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this](const KItemSet &current, const KItemSet &previous) {
+    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this, newPane](const KItemSet &current, const KItemSet &previous) {
         const bool stateChanged = (current.isEmpty() != previous.isEmpty());
         m_columnsSelectionTimer->setInterval(stateChanged ? 0 : 300);
         m_columnsSelectionTimer->start();
+
+        if (current.count() != 1) {
+            return;
+        }
+
+        auto currentColumnIndex = m_columns.indexOf(newPane);
+        auto item = newPane->model()->fileItem(current.first());
+        if (item.isNull() || !item.isDir()) {
+            popAfter(currentColumnIndex);
+            return;
+        }
+
+        if (currentColumnIndex != -1) {
+            newPane->controller()->selectionManager()->blockSignals(true);
+            openChild(currentColumnIndex, item.url());
+
+            setActiveColumn(currentColumnIndex + 1);
+            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
+            Q_EMIT urlChanged(url());
+
+            newPane->controller()->selectionManager()->blockSignals(false);
+        }
     });
 
     connect(controller, &KItemListController::itemContextMenuRequested, this, [this, newPane](int index, const QPointF &pos) {
