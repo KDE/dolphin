@@ -216,6 +216,9 @@ void DolphinColumnsView::setActiveColumn(int index)
     setFocusProxy(newPane->container());
     newPane->container()->setFocus();
     ensureActiveColumnVisible();
+
+    updateUrl(newPane->dirUrl());
+    Q_EMIT urlChanged(newPane->dirUrl());
 }
 
 void DolphinColumnsView::applyModeToView()
@@ -266,10 +269,10 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
         return;
     }
 
-    // During rubber band (multi-select) or mouse-driven selection the
-    // current item changes as the mouse moves, but we must not navigate —
-    // only select.  Mouse-click navigation is handled by mouseButtonPressed.
-    if (QGuiApplication::mouseButtons() & Qt::LeftButton) {
+    // The current item also changes during mouse selection and on a
+    // context-menu right-click; do not navigate then, only select. Mouse
+    // navigation is handled by mouseButtonPressed.
+    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
         return;
     }
 
@@ -277,6 +280,8 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
     if (colIndex < 0) {
         return;
     }
+
+    senderPane->controller()->selectionManager()->blockSignals(true);
 
     // Directory → open child column (no auto-select in the child)
     const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
@@ -298,6 +303,8 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
 
         Q_EMIT urlChanged(m_columns.at(colIndex)->dirUrl());
     }
+
+    senderPane->controller()->selectionManager()->blockSignals(false);
 }
 
 void DolphinColumnsView::slotPaneLoadingCompleted()
@@ -456,15 +463,6 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     });
     connect(pane, &DolphinColumnPane::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
-    // Drop handling: reuse base class helper
-    connect(pane->controller(), &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
-        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
-    });
-
-    connect(pane->controller(), &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
-        handleMouseButtonPressed(pane, itemIndex, buttons);
-    });
-
     pane->container()->installEventFilter(this);
     // Also filter the viewport for mouse events
     pane->container()->viewport()->installEventFilter(this);
@@ -478,13 +476,44 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         }
     });
 
+    // Drop handling: reuse base class helper
+    auto controller = pane->controller();
+    connect(controller, &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
+        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
+    });
+
+    connect(controller, &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
+        handleMouseButtonPressed(pane, itemIndex, buttons);
+    });
+
+    connect(controller, &KItemListController::itemHovered, this, [this, pane, controller](int index) {
+        const KFileItem item = pane->model()->fileItem(index);
+        if (GeneralSettings::showToolTips() && !isDragging()) {
+            QRectF itemRect = controller->view()->itemContextRect(index);
+            const QPoint pos = pane->container()->mapToGlobal(itemRect.topLeft().toPoint());
+            itemRect.moveTo(pos);
+#if HAVE_BALOO
+            auto nativeParent = nativeParentWidget();
+            if (nativeParent && toolTipManager()) {
+                toolTipManager()->showToolTip(item, itemRect, nativeParent->windowHandle());
+            }
+#endif
+        }
+        Q_EMIT requestItemInfo(item);
+    });
+
+    connect(controller, &KItemListController::itemUnhovered, this, [this](int) {
+        hideToolTip();
+        Q_EMIT requestItemInfo(KFileItem());
+    });
+
     return pane;
 }
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
     // Splitter handle double-click: cycle column width
-    if (event->type() == QEvent::MouseButtonDblClick) {
+    if (event->type() == QEvent::MouseButtonDblClick && watched == m_splitter) {
         for (int i = 1; i < m_splitter->count(); ++i) {
             if (m_splitter->handle(i) == watched) {
                 cycleColumnWidth(i - 1);
@@ -503,7 +532,10 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     }
 
     if (sourceColumn < 0) {
-        return DolphinView::eventFilter(watched, event);
+        m_blockNavigation = true;
+        auto ret = DolphinView::eventFilter(watched, event);
+        m_blockNavigation = false;
+        return ret;
     }
 
     if (event->type() == QEvent::KeyPress) {
@@ -591,8 +623,7 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = m_columns.at(childCol);
         }
         setActiveColumn(childCol);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
+        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
 }
 
@@ -627,9 +658,8 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         } else {
             m_pendingAutoSelect = m_columns.at(childCol);
         }
-        setActiveColumn(childCol);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
+        updateUrl(m_columns.at(childCol)->dirUrl());
+        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
     return true;
 }
@@ -782,7 +812,12 @@ void DolphinColumnsView::recalculateColumnWidths()
     }
 
     const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns);
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), viewportWidth / divisor);
+    const int handleWidth = m_splitter->handleWidth();
+    // Reserve room for the handles between visible columns so a full set of
+    // default-width columns fits the viewport exactly, instead of overflowing it
+    // by a few pixels and tripping the horizontal scrollbar.
+    const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
+    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
@@ -801,9 +836,12 @@ void DolphinColumnsView::recalculateColumnWidths()
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += sizes.at(i);
     }
-    totalWidth += (numColumns - 1) * m_splitter->handleWidth();
+    totalWidth += (numColumns - 1) * handleWidth;
 
-    if (totalWidth > viewportWidth) {
+    // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
+    // width under fractional scaling does not flip the scrollbar on and off
+    // while resizing.
+    if (totalWidth > viewportWidth + handleWidth) {
         m_splitter->setMinimumWidth(totalWidth);
     } else {
         m_splitter->setMinimumWidth(0);
@@ -820,7 +858,9 @@ void DolphinColumnsView::cycleColumnWidth(int colIndex)
     const int optimalWidth = m_columns.at(colIndex)->calculateOptimalWidth();
     const int viewportWidth = m_scrollArea->viewport()->width();
     const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), m_columns.size());
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), viewportWidth / divisor);
+    const int handleWidth = m_splitter->handleWidth();
+    const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
+    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
     const bool hasCustom = m_customColumnWidths.contains(colIndex);
     const int customWidth = hasCustom ? m_customColumnWidths.value(colIndex) : 0;
 
@@ -846,8 +886,8 @@ void DolphinColumnsView::cycleColumnWidth(int colIndex)
     for (int i = 0; i < m_columns.size(); ++i) {
         totalWidth += sizes.at(i);
     }
-    totalWidth += (m_columns.size() - 1) * m_splitter->handleWidth();
-    m_splitter->setMinimumWidth(totalWidth > m_scrollArea->viewport()->width() ? totalWidth : 0);
+    totalWidth += (m_columns.size() - 1) * handleWidth;
+    m_splitter->setMinimumWidth(totalWidth > viewportWidth + handleWidth ? totalWidth : 0);
 }
 
 void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane)
@@ -860,8 +900,6 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         disconnect(controller, &KItemListController::itemContextMenuRequested, this, nullptr);
         disconnect(controller, &KItemListController::viewContextMenuRequested, this, nullptr);
         disconnect(controller, &KItemListController::itemMiddleClicked, this, nullptr);
-        disconnect(controller, &KItemListController::itemHovered, this, nullptr);
-        disconnect(controller, &KItemListController::itemUnhovered, this, nullptr);
         disconnect(controller, &KItemListController::escapePressed, this, nullptr);
         disconnect(controller, &KItemListController::increaseZoom, this, nullptr);
         disconnect(controller, &KItemListController::decreaseZoom, this, nullptr);
@@ -883,10 +921,37 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
     auto *selectionManager = controller->selectionManager();
 
     // Selection changed with timer batching (like base view)
-    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this](const KItemSet &current, const KItemSet &previous) {
+    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this, newPane](const KItemSet &current, const KItemSet &previous) {
         const bool stateChanged = (current.isEmpty() != previous.isEmpty());
         m_columnsSelectionTimer->setInterval(stateChanged ? 0 : 300);
         m_columnsSelectionTimer->start();
+
+        if (current.count() != 1) {
+            return;
+        }
+
+        auto currentColumnIndex = m_columns.indexOf(newPane);
+        auto currentUrl = newPane->dirUrl();
+        auto item = newPane->model()->fileItem(current.first());
+        if (!item.isNull() && item.isDir()) {
+            for (int i = m_columns.size() - 1; i > 0; --i) {
+                if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
+                    popAfter(i - 1);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (item.isDir() && currentColumnIndex != -1) {
+            newPane->controller()->selectionManager()->blockSignals(true);
+            openChild(currentColumnIndex, item.url());
+
+            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
+            Q_EMIT urlChanged(url());
+
+            newPane->controller()->selectionManager()->blockSignals(false);
+        }
     });
 
     connect(controller, &KItemListController::itemContextMenuRequested, this, [this, newPane](int index, const QPointF &pos) {
@@ -921,27 +986,6 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         } else {
             Q_EMIT fileMiddleClickActivated(item);
         }
-    });
-
-    connect(controller, &KItemListController::itemHovered, this, [this, newPane, controller](int index) {
-        const KFileItem item = newPane->model()->fileItem(index);
-        if (GeneralSettings::showToolTips() && !isDragging()) {
-            QRectF itemRect = controller->view()->itemContextRect(index);
-            const QPoint pos = newPane->container()->mapToGlobal(itemRect.topLeft().toPoint());
-            itemRect.moveTo(pos);
-#if HAVE_BALOO
-            auto nativeParent = nativeParentWidget();
-            if (nativeParent && toolTipManager()) {
-                toolTipManager()->showToolTip(item, itemRect, nativeParent->windowHandle());
-            }
-#endif
-        }
-        Q_EMIT requestItemInfo(item);
-    });
-
-    connect(controller, &KItemListController::itemUnhovered, this, [this](int) {
-        hideToolTip();
-        Q_EMIT requestItemInfo(KFileItem());
     });
 
     connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
