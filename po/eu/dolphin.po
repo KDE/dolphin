@@ -1,18 +1,18 @@
 # Translation for dolphin.po to Euskara/Basque (eu).
-# Copyright (C) 2007-2025 This file is copyright:
+# Copyright (C) 2007-2026 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
 # SPDX-FileCopyrightText: 2023, 2024, 2025, 2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2008, 2010.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2009, 2010, 2011, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2009, 2010, 2011, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-07 00:47+0000\n"
-"PO-Revision-Date: 2026-01-25 14:11+0100\n"
+"PO-Revision-Date: 2026-03-08 15:29+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1240,7 +1240,7 @@ msgstr "Eraman teklatuaren fokua Terminal panele-ra/tik."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Menu-aldaketari jarraitu"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1249,6 +1249,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Direktorioa aldatzen denean Laneko uneko direktorioa terminalarekin "
+"sinkronizatu behar den zehazten du."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -2077,7 +2079,7 @@ msgstr "Karpeta zamatzen…"
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Sailkatzen…"
+msgstr "Ordenatzen…"
 
 #: dolphinviewcontainer.cpp:682
 #, kde-format
@@ -2092,21 +2094,18 @@ msgid "No items found."
 msgstr "Ez da elementurik aurkitu."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Fitxategi bat"
+msgstr "Ireki fitxategi gisa"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Ezin izan da atzitu <filename>%1</filename>."
+msgstr ""
+"Fitxategi bat karpeta gisa irekitzen saiatzen ari da: <filename>%1</"
+"filename>."
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -2932,12 +2931,9 @@ msgid "Artist"
 msgstr "Artista"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Audio-fitxategiak"
+msgstr "Audio kodeka"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2982,7 +2978,7 @@ msgstr "Bideoa"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Kolore-eremua"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2992,15 +2988,12 @@ msgstr "Fotograma-abiadura"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Pixel-formatua"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Bideoa"
+msgstr "Bideo kodeka"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4188,12 +4181,10 @@ msgid "Exit Selection Mode"
 msgstr "Irten hautapen modutik"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Testuinguru-menua"
+msgstr "Laster-menuko ekintzak"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4202,18 +4193,16 @@ msgid "Search…"
 msgstr "Bilatu…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Zama-jaitsi zerbitzu berriak…"
+msgstr "Zerbitzuak zama-jaitsi…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Lasterbideak…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4645,24 +4634,22 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Bide-izen osoa helbide-barran erakutsi behar den"
+msgstr ""
+"Fitxa-barra beti, fitxa bakarra dagoenean ere, erakutsi beharko litzateke"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Fitxek ixteko botoiak izan beharko lituzkete"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Data estiloa:"
+msgstr "Fitxen estiloa"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4929,12 +4916,10 @@ msgid "Warning"
 msgstr "Abisua"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Eskatu berrespena KDEren aplikazio guztietan kasu hauetan:"
+msgstr "Eskatu baieztatzea KDEren aplikazioetan kasu hauetan:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5091,54 +5076,46 @@ msgid "Show filter bar"
 msgstr "Erakutsi iragazki-barra"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Fitxa-barraren amaieran"
+msgstr "Erakutsi beti fitxa-barra"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Etiketaren zabalera:"
+msgstr "Fitxen zabalera:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Abiatzean erakutsi etxeko kokalekua"
+msgstr "Fitxetan ixteko botoia erakutsi"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Fitxaren zabalera karpetaren izenera egokitzen da"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Fitxategi guztiek zabalera finko bera dute"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Fitxek zabalera erabilgarria hartzen dute"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Data estiloa:"
+msgstr "Fitxen estiloa: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
@@ -5782,6 +5759,8 @@ msgstr "Etiketen letra-tipoa:"
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
+"Letra-tipo batzuk Dolphinek bere erabilerarako gordeta ditu, eta gainidatzi "
+"daitezke."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
