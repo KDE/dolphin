@@ -764,6 +764,7 @@ void KItemListView::editRole(int index, const QByteArray &role)
     }
 
     m_editingRole = true;
+    m_controller->selectionManager()->beginAnchoredSelection(index);
     m_controller->selectionManager()->setCurrentItem(index);
     widget->setEditedRole(role);
 
