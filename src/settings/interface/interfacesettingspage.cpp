@@ -36,6 +36,7 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);
     tabWidget->addTab(foldersTabsPage, i18nc("@title:tab Folders & Tabs settings", "Folders && Tabs"));
     connect(foldersTabsPage, &FoldersTabsSettingsPage::changed, this, &InterfaceSettingsPage::changed);
+    connect(foldersTabsPage, &FoldersTabsSettingsPage::validChanged, this, &InterfaceSettingsPage::validChanged);
 
     // initialize 'Previews' tab
     PreviewsSettingsPage *previewsPage = new PreviewsSettingsPage(tabWidget);

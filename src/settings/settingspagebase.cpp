@@ -15,4 +15,17 @@ SettingsPageBase::~SettingsPageBase()
 {
 }
 
+void SettingsPageBase::setValid(bool valid)
+{
+    if (valid != m_valid) {
+        m_valid = valid;
+        Q_EMIT validChanged(valid);
+    }
+}
+
+bool SettingsPageBase::isValid() const
+{
+    return m_valid;
+}
+
 #include "moc_settingspagebase.cpp"

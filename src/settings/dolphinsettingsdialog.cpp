@@ -105,6 +105,16 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     }
 #endif
 
+    for (auto page : m_pages) {
+        connect(page, &SettingsPageBase::validChanged, this, [this](bool valid) {
+            if (valid) {
+                enableApply();
+            } else {
+                disableApply();
+            }
+        });
+    }
+
     // Create the buttons last so they are also last in the keyboard Tab focus order.
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults);
     box->button(QDialogButtonBox::Apply)->setEnabled(false);
@@ -129,6 +139,13 @@ void DolphinSettingsDialog::enableApply()
 {
     buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(true);
     m_unsavedChanges = true;
+    buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(true);
+}
+
+void DolphinSettingsDialog::disableApply()
+{
+    buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(false);
+    buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void DolphinSettingsDialog::applySettings()

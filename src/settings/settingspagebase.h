@@ -32,9 +32,19 @@ public:
      */
     virtual void restoreDefaults() = 0;
 
+    [[__nodiscard__]] bool isValid() const;
+
+public Q_SLOTS:
+    void setValid(bool valid = true);
+
 Q_SIGNALS:
     /** Is emitted if a setting has been changed. */
     void changed();
+
+    void validChanged(bool valid);
+
+private:
+    bool m_valid = true;
 };
 
 #endif
