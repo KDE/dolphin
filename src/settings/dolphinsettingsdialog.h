@@ -34,6 +34,7 @@ Q_SIGNALS:
 private Q_SLOTS:
     /** Enables the Apply button. */
     void enableApply();
+    void disableApply();
     void applySettings();
     void restoreDefaults();
 

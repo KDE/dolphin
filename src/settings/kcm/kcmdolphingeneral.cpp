@@ -38,6 +38,9 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KP
     FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);
     tabWidget->addTab(foldersTabsPage, i18nc("@title:tab Behavior settings", "Behavior"));
     connect(foldersTabsPage, &FoldersTabsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
+    connect(foldersTabsPage, &FoldersTabsSettingsPage::validChanged, this, [this](bool valid) {
+        setNeedsSave(!valid || needsSave());
+    });
 
     // initialize 'Previews' tab
     PreviewsSettingsPage *previewsPage = new PreviewsSettingsPage(tabWidget);
@@ -60,7 +63,9 @@ DolphinGeneralConfigModule::~DolphinGeneralConfigModule() = default;
 void DolphinGeneralConfigModule::save()
 {
     for (SettingsPageBase *page : std::as_const(m_pages)) {
-        page->applySettings();
+        if (page->isValid()) {
+            page->applySettings();
+        }
     }
 }
 

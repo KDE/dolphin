@@ -172,7 +172,22 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
 
     updateInitialViewOptions();
 
-    connect(m_homeUrl, &QLineEdit::textChanged, this, &FoldersTabsSettingsPage::slotSettingsChanged);
+    connect(m_homeUrl, &QLineEdit::textChanged, this, [this]() {
+        const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
+        if (url.isValid() && KProtocolManager::supportsListing(url)) {
+            KIO::StatJob *job = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+            connect(job, &KJob::result, job, [this, url](KJob *job) {
+                if (job->error() == 0 && qobject_cast<KIO::StatJob *>(job)->statResult().isDir()) {
+                    setValid(true);
+                    slotSettingsChanged();
+                } else {
+                    setValid(false);
+                }
+            });
+        } else {
+            setValid(false);
+        }
+    });
     connect(m_rememberOpenedTabsRadioButton, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::slotSettingsChanged);
     connect(m_homeUrlRadioButton, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::slotSettingsChanged);
 
@@ -209,16 +224,9 @@ void FoldersTabsSettingsPage::applySettings()
 
     const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
     if (url.isValid() && KProtocolManager::supportsListing(url)) {
-        KIO::StatJob *job = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
-        connect(job, &KJob::result, this, [this, settings, url](KJob *job) {
-            if (job->error() == 0 && qobject_cast<KIO::StatJob *>(job)->statResult().isDir()) {
-                settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
-            } else {
-                showSetDefaultDirectoryError();
-            }
-        });
-    } else {
-        showSetDefaultDirectoryError();
+        // this was already checked in textchanged signal
+        GeneralSettings *settings = GeneralSettings::self();
+        settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
     }
 
     // Remove saved state if "remember open tabs" has been turned off
@@ -335,11 +343,6 @@ void FoldersTabsSettingsPage::loadSettings()
     m_tabStyleAutoWidth->setChecked(GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::AutoSize);
     m_tabStyleFixed->setChecked(GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FixedSize);
     m_tabStyleFullWidth->setChecked(GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth);
-}
-
-void FoldersTabsSettingsPage::showSetDefaultDirectoryError()
-{
-    KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
 }
 
 #include "moc_folderstabssettingspage.cpp"

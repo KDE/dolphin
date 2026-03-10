@@ -49,7 +49,6 @@ private Q_SLOTS:
 
 private:
     void loadSettings();
-    void showSetDefaultDirectoryError();
 
 private:
     QUrl m_url;
