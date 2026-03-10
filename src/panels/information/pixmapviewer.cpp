@@ -54,6 +54,7 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
 void PixmapViewer::setSizeHint(const QSize &size)
 {
     if (m_animatedImage && size != m_sizeHint) {
+        m_animatedImage->setScaledSize(QSize());
         m_animatedImage->stop();
     }
 
@@ -104,10 +105,12 @@ void PixmapViewer::updateAnimatedImageFrame()
     Q_ASSERT(m_animatedImage);
 
     m_pixmap = m_animatedImage->currentPixmap();
-    if (m_pixmap.width() > m_sizeHint.width() || m_pixmap.height() > m_sizeHint.height()) {
-        m_pixmap = m_pixmap.scaled(m_sizeHint, Qt::KeepAspectRatio);
+    const auto physicalSize = m_sizeHint * devicePixelRatio();
+    if (m_pixmap.width() > physicalSize.width() || m_pixmap.height() > physicalSize.height()) {
+        m_pixmap = m_pixmap.scaled(physicalSize, Qt::KeepAspectRatio);
         m_animatedImage->setScaledSize(m_pixmap.size());
     }
+    m_pixmap.setDevicePixelRatio(devicePixelRatio());
     update();
 }
 
