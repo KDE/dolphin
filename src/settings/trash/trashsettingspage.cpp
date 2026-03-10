@@ -15,11 +15,7 @@
 TrashSettingsPage::TrashSettingsPage(QWidget *parent)
     : SettingsPageBase(parent)
 {
-    QFormLayout *topLayout = new QFormLayout(this);
-
-    m_kcm = KCModuleLoader::loadModule(KPluginMetaData(QStringLiteral("kcm_trash")));
-
-    topLayout->addRow(m_kcm->widget());
+    m_kcm = KCModuleLoader::loadModule(KPluginMetaData(QStringLiteral("kcm_trash")), this);
 
     loadSettings();
 
