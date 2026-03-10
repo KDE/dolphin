@@ -2368,7 +2368,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(lockLayoutAction, &KDualAction::triggered, this, &DolphinMainWindow::togglePanelLockState);
 
     // Setup "Information"
-    DolphinDockWidget *infoDock = new DolphinDockWidget(i18nc("@title:window", "Information"));
+    DolphinDockWidget *infoDock = new DolphinDockWidget(i18nc("@title:window", "Information"), this);
     infoDock->setLocked(lock);
     infoDock->setObjectName(QStringLiteral("infoDock"));
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
