@@ -48,7 +48,9 @@ void TestDir::createFile(const QString &path, const QByteArray &data, const QDat
     makePathAbsoluteAndCreateParents(absolutePath);
 
     QFile f(absolutePath);
-    f.open(QIODevice::WriteOnly);
+    if (!f.open(QIODevice::WriteOnly)) {
+        qFatal() << "could not open" << absolutePath;
+    }
     f.write(data);
     f.close();
 
