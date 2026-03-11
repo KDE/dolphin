@@ -50,6 +50,7 @@ public:
     SeekSlider(Qt::Orientation orientation, QWidget *parent = nullptr)
         : QSlider(orientation, parent)
     {
+        grabGesture(Qt::TapAndHoldGesture);
     }
 
 protected:
@@ -131,6 +132,15 @@ protected:
         } else {
             QSlider::keyPressEvent(event);
         }
+    }
+
+    bool event(QEvent *event) override
+    {
+        if (event->type() == QEvent::Gesture) {
+            event->ignore();
+            return true;
+        }
+        return QSlider::event(event);
     }
 };
 
