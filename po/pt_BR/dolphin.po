@@ -18,15 +18,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-10 00:46+0000\n"
-"PO-Revision-Date: 2026-03-06 16:15-0300\n"
-"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
+"PO-Revision-Date: 2026-03-10 09:16-0300\n"
+"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3025,12 +3025,9 @@ msgid "Other"
 msgstr "Outros"
 
 #: kitemviews/kfileitemmodel.cpp:2857
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Folder size:"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Tamanho da pasta:"
+msgstr "Nome da pasta"
 
 #: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"

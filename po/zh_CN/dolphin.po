@@ -2884,12 +2884,9 @@ msgid "Other"
 msgstr "其他"
 
 #: kitemviews/kfileitemmodel.cpp:2857
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Folder size:"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "文件夹大小："
+msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"

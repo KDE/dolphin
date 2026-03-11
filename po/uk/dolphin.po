@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-10 00:46+0000\n"
-"PO-Revision-Date: 2026-03-04 14:41+0200\n"
+"PO-Revision-Date: 2026-03-10 14:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3067,12 +3067,9 @@ msgid "Other"
 msgstr "Інше"
 
 #: kitemviews/kfileitemmodel.cpp:2857
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Folder size:"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Розмір теки:"
+msgstr "Назва теки"
 
 #: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"

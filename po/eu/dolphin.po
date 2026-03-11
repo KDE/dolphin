@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-10 00:46+0000\n"
-"PO-Revision-Date: 2026-03-08 15:29+0100\n"
+"PO-Revision-Date: 2026-03-10 20:08+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3010,12 +3010,9 @@ msgid "Other"
 msgstr "Beste bat"
 
 #: kitemviews/kfileitemmodel.cpp:2857
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Folder size:"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Karpetaren neurria:"
+msgstr "Karpetaren izena"
 
 #: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"
