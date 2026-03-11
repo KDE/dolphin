@@ -150,9 +150,3 @@ msgstr "Es requereix el camí a l'arxiu."
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Ordre no admesa %1"
-
-#~ msgid "Failed to run process: %1 %2"
-#~ msgstr "Ha fallat en executar el procés: %1 %2"
-
-#~ msgid "Failed to run xdg-mime %1: %2"
-#~ msgstr "Ha fallat en executar el «xdg-mime» %1: %2"
