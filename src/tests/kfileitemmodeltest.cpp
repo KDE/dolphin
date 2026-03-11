@@ -94,6 +94,7 @@ private Q_SLOTS:
     void testInsertAfterExpand();
     void testCurrentDirRemoved();
     void testSizeSortingAfterRefresh();
+    void testFilterModesAndCaseSensitivity();
 
 private:
     QStringList itemsInModel() const;
@@ -2710,6 +2711,118 @@ void KFileItemModelTest::testCurrentDirRemoved()
     QVERIFY(m_model->isConsistent());
     QVERIFY(m_model->m_itemData.isEmpty());
     QCOMPARE(m_model->count(), 0);
+}
+
+void KFileItemModelTest::testFilterModesAndCaseSensitivity()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+
+    m_testDir->createFiles({"1_abc.txt", "2_aBc.txt", "3_a[b]c.txt", "4_test.txt", "5_test.cpp"});
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    m_model->setSortRole("text");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "1_abc.txt"
+                           << "2_aBc.txt"
+                           << "3_a[b]c.txt"
+                           << "4_test.txt"
+                           << "5_test.cpp");
+
+    // Glob + case insensitive
+    // no need to set the these options here as they are the default ones
+    m_model->setNameFilter("*a?c*");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt");
+
+    m_model->setNameFilter("*.txt");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt" << "3_a[b]c.txt" << "4_test.txt");
+
+    m_model->setNameFilter("*a*c*");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt" << "3_a[b]c.txt");
+
+    // Glob + case sensitive
+    m_model->setFilterCaseSensitive(true);
+
+    m_model->setNameFilter("*bc*");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt");
+
+    m_model->setNameFilter("*Bc*");
+    QCOMPARE(itemsInModel(), QStringList() << "2_aBc.txt");
+
+    m_model->setNameFilter("*.TXT");
+    QCOMPARE(itemsInModel(), QStringList());
+
+    // PlainText + case insensitive
+    m_model->setFilterMode(KFileItemModelFilter::PlainText);
+    m_model->setFilterCaseSensitive(false);
+
+    m_model->setNameFilter("bc");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt");
+
+    m_model->setNameFilter("[b]");
+    QCOMPARE(itemsInModel(), QStringList() << "3_a[b]c.txt");
+
+    // PlainText + case sensitive
+    m_model->setFilterCaseSensitive(true);
+
+    m_model->setNameFilter("bc");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt");
+
+    m_model->setNameFilter("Bc");
+    QCOMPARE(itemsInModel(), QStringList() << "2_aBc.txt");
+
+    m_model->setNameFilter("[b]");
+    QCOMPARE(itemsInModel(), QStringList() << "3_a[b]c.txt");
+
+    // Regex + case insensitive
+    m_model->setFilterMode(KFileItemModelFilter::Regex);
+    m_model->setFilterCaseSensitive(false);
+
+    m_model->setNameFilter("a.c");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt");
+
+    m_model->setNameFilter("a[a-z]c");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt");
+
+    m_model->setNameFilter("a.*c");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt" << "3_a[b]c.txt");
+
+    m_model->setNameFilter("\\.txt$");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt" << "2_aBc.txt" << "3_a[b]c.txt" << "4_test.txt");
+
+    // Regex + case sensitive
+    m_model->setFilterCaseSensitive(true);
+
+    m_model->setNameFilter("a[a-z]c");
+    QCOMPARE(itemsInModel(), QStringList() << "1_abc.txt");
+
+    m_model->setNameFilter("a[A-Z]c");
+    QCOMPARE(itemsInModel(), QStringList() << "2_aBc.txt");
+
+    m_model->setNameFilter("a\\[b\\]c");
+    QCOMPARE(itemsInModel(), QStringList() << "3_a[b]c.txt");
+
+    // Invalid Glob
+    m_model->setFilterMode(KFileItemModelFilter::Glob);
+
+    m_model->setNameFilter("a[");
+    QCOMPARE(itemsInModel(), QStringList());
+
+    // Invalid Regex
+    m_model->setFilterMode(KFileItemModelFilter::Regex);
+
+    m_model->setNameFilter("(abc");
+    QCOMPARE(itemsInModel(), QStringList());
+
+    // Clear filter, very that all the items reappear
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(),
+             QStringList() << "1_abc.txt"
+                           << "2_aBc.txt"
+                           << "3_a[b]c.txt"
+                           << "4_test.txt"
+                           << "5_test.cpp");
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
