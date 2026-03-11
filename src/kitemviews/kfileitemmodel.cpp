@@ -817,6 +817,34 @@ QStringList KFileItemModel::mimeTypeFilters() const
     return m_filter.mimeTypes();
 }
 
+void KFileItemModel::setFilterMode(KFileItemModelFilter::FilterMode mode)
+{
+    if (m_filter.filterMode() != mode) {
+        dispatchPendingItemsToInsert();
+        m_filter.setFilterMode(mode);
+        applyFilters();
+    }
+}
+
+KFileItemModelFilter::FilterMode KFileItemModel::filterMode() const
+{
+    return m_filter.filterMode();
+}
+
+void KFileItemModel::setFilterCaseSensitive(bool caseSensitive)
+{
+    if (m_filter.isCaseSensitive() != caseSensitive) {
+        dispatchPendingItemsToInsert();
+        m_filter.setCaseSensitive(caseSensitive);
+        applyFilters();
+    }
+}
+
+bool KFileItemModel::isFilterCaseSensitive() const
+{
+    return m_filter.isCaseSensitive();
+}
+
 void KFileItemModel::setExcludeMimeTypeFilter(const QStringList &filters)
 {
     if (m_filter.excludeMimeTypes() != filters) {

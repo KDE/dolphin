@@ -639,6 +639,26 @@ QStringList DolphinView::mimeTypeFilters() const
     return m_model->mimeTypeFilters();
 }
 
+void DolphinView::setFilterMode(KFileItemModelFilter::FilterMode mode)
+{
+    m_model->setFilterMode(mode);
+}
+
+KFileItemModelFilter::FilterMode DolphinView::filterMode() const
+{
+    return m_model->filterMode();
+}
+
+void DolphinView::setFilterCaseSensitive(bool caseSensitive)
+{
+    m_model->setFilterCaseSensitive(caseSensitive);
+}
+
+bool DolphinView::isFilterCaseSensitive() const
+{
+    return m_model->isFilterCaseSensitive();
+}
+
 void DolphinView::requestStatusBarText()
 {
     if (m_statJobForStatusBarText) {

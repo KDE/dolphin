@@ -10,6 +10,7 @@
 
 #include "dolphin_export.h"
 #include "dolphintabwidget.h"
+#include "kitemviews/private/kfileitemmodelfilter.h"
 #include "tooltips/tooltipmanager.h"
 
 #include "config-dolphin.h"
@@ -275,6 +276,18 @@ public:
      */
     void setMimeTypeFilters(const QStringList &filters);
     QStringList mimeTypeFilters() const;
+
+    /**
+     * Sets the filtering mode of the currently used nameFilter.
+     */
+    void setFilterMode(KFileItemModelFilter::FilterMode mode);
+    KFileItemModelFilter::FilterMode filterMode() const;
+
+    /**
+     * Enables or disable the caseSensitive matching of the currently used nameFilter.
+     */
+    void setFilterCaseSensitive(bool caseSensitive);
+    bool isFilterCaseSensitive() const;
 
     /**
      * Tells the view to generate an updated status bar text. The result

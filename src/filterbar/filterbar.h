@@ -10,9 +10,12 @@
 #define FILTERBAR_H
 
 #include "animatedheightwidget.h"
+#include "kitemviews/private/kfileitemmodelfilter.h"
 
 class QLineEdit;
 class QToolButton;
+class QComboBox;
+class QAction;
 
 /**
  * @brief Provides an input field for filtering the currently shown items.
@@ -35,6 +38,9 @@ public:
      */
     void selectAll();
 
+    KFileItemModelFilter::FilterMode filterMode() const;
+    bool isCaseSensitive() const;
+
 public Q_SLOTS:
     /** Clears the input field. */
     void clear();
@@ -49,6 +55,16 @@ Q_SIGNALS:
      * changed to \a nameFilter.
      */
     void filterChanged(const QString &nameFilter);
+
+    /**
+     * Emitted when the case sensitive mode has been changed
+     */
+    void caseSensitiveChanged(bool caseSensitive);
+
+    /**
+     * Emitted when the filter mode has been changed
+     */
+    void filterModeChanged(KFileItemModelFilter::FilterMode mode);
 
     /**
      * Emitted as soon as the filterbar should get closed.
@@ -70,6 +86,12 @@ protected:
 private:
     QLineEdit *m_filterInput;
     QToolButton *m_lockButton;
+    QToolButton *m_caseSensitiveButton;
+    QComboBox *m_filterModeComboBox;
+    QAction *m_invalidPatternAction;
+
+    /** Enable or disable the alterative view for when a pattern is invalid */
+    void updateInvalidPatternView();
 };
 
 #endif

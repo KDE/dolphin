@@ -184,6 +184,12 @@ public:
     void setMimeTypeFilters(const QStringList &filters);
     QStringList mimeTypeFilters() const;
 
+    void setFilterMode(KFileItemModelFilter::FilterMode mode);
+    KFileItemModelFilter::FilterMode filterMode() const;
+
+    void setFilterCaseSensitive(bool caseSensitive);
+    bool isFilterCaseSensitive() const;
+
     void setExcludeMimeTypeFilter(const QStringList &filters);
     QStringList excludeMimeTypeFilter() const;
 

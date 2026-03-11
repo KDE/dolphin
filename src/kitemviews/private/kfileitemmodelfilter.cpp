@@ -13,7 +13,8 @@
 #include <KFileItem>
 
 KFileItemModelFilter::KFileItemModelFilter()
-    : m_useRegExp(false)
+    : m_filterMode(Glob)
+    , m_caseSensitive(false)
     , m_regExp(nullptr)
     , m_lowerCasePattern()
     , m_pattern()
@@ -31,21 +32,54 @@ void KFileItemModelFilter::setPattern(const QString &filter)
     m_pattern = filter;
     m_lowerCasePattern = filter.toLower();
 
-    if (filter.contains(QLatin1Char('*')) || filter.contains(QLatin1Char('?')) || filter.contains(QLatin1Char('['))) {
-        if (!m_regExp) {
-            m_regExp = new QRegularExpression();
-            m_regExp->setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-        }
-        m_regExp->setPattern(QRegularExpression::wildcardToRegularExpression(filter));
-        m_useRegExp = m_regExp->isValid();
-    } else {
-        m_useRegExp = false;
-    }
+    updateFilter();
+}
+
+void KFileItemModelFilter::setFilterMode(FilterMode mode)
+{
+    m_filterMode = mode;
+    updateFilter();
+}
+
+KFileItemModelFilter::FilterMode KFileItemModelFilter::filterMode() const
+{
+    return m_filterMode;
+}
+
+void KFileItemModelFilter::setCaseSensitive(bool caseSensitive)
+{
+    m_caseSensitive = caseSensitive;
+    updateFilter();
+}
+
+bool KFileItemModelFilter::isCaseSensitive() const
+{
+    return m_caseSensitive;
 }
 
 QString KFileItemModelFilter::pattern() const
 {
     return m_pattern;
+}
+
+void KFileItemModelFilter::updateFilter()
+{
+    if (m_filterMode == PlainText) {
+        return;
+    }
+
+    if (!m_regExp) {
+        m_regExp = new QRegularExpression();
+    }
+
+    QRegularExpression::PatternOptions options = m_caseSensitive ? QRegularExpression::NoPatternOption : QRegularExpression::CaseInsensitiveOption;
+    if (m_filterMode == Regex) {
+        m_regExp->setPattern(m_pattern);
+        m_regExp->setPatternOptions(options);
+    } else if (m_filterMode == Glob) {
+        m_regExp->setPattern(QRegularExpression::wildcardToRegularExpression(m_pattern, QRegularExpression::UnanchoredWildcardConversion));
+        m_regExp->setPatternOptions(options);
+    }
 }
 
 void KFileItemModelFilter::setMimeTypes(const QStringList &types)
@@ -98,8 +132,10 @@ bool KFileItemModelFilter::matches(const KFileItem &item) const
 
 bool KFileItemModelFilter::matchesPattern(const KFileItem &item) const
 {
-    if (m_useRegExp) {
-        return m_regExp->match(item.text()).hasMatch();
+    if (m_filterMode == Glob || m_filterMode == Regex) {
+        return m_regExp->isValid() && m_regExp->match(item.text()).hasMatch();
+    } else if (m_caseSensitive) {
+        return item.text().contains(m_pattern);
     } else {
         return item.text().toLower().contains(m_lowerCasePattern);
     }

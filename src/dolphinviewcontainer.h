@@ -372,6 +372,16 @@ private Q_SLOTS:
     void setNameFilter(const QString &nameFilter);
 
     /**
+     * Set the filtering mode of the filter.
+     */
+    void setFilterMode(const KFileItemModelFilter::FilterMode mode);
+
+    /**
+     * Enable or disable the case sensitive filtering.
+     */
+    void setFilterCaseSensitive(const bool caseSensitive);
+
+    /**
      * Marks the view container as active
      * (see DolphinViewContainer::setActive()).
      */

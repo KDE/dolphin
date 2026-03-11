@@ -28,14 +28,34 @@ public:
     KFileItemModelFilter();
     virtual ~KFileItemModelFilter();
 
+    /** Filtering modes of KFileItemModelFilter */
+    enum FilterMode {
+        /** Substring matching. */
+        PlainText = 0,
+        /** Matching with glob, default. */
+        Glob,
+        /** Matching with regex. */
+        Regex
+    };
+
     /**
      * Sets the pattern that is used for a comparison with the item
-     * in KFileItemModelFilter::matches(). Per default the pattern
-     * defines a sub-string. As soon as the pattern contains at least
-     * a '*', '?' or '[' the pattern represents a regular expression.
+     * in KFileItemModelFilter::matches().
      */
     void setPattern(const QString &pattern);
     QString pattern() const;
+
+    /**
+     * Sets the filtering mode used in KFileItemModelFilter::matches().
+     */
+    void setFilterMode(FilterMode mode);
+    FilterMode filterMode() const;
+
+    /**
+     * Enable or disable the case sensitive filtering.
+     */
+    void setCaseSensitive(bool caseSensitive);
+    bool isCaseSensitive() const;
 
     /**
      * Set the list of mimetypes that are used for comparison with the
@@ -73,8 +93,14 @@ private:
      */
     bool matchesType(const KFileItem &item) const;
 
-    bool m_useRegExp; // If true, m_regExp is used for filtering,
-                      // otherwise m_lowerCaseFilter is used.
+    /**
+     * Instantiate and configure m_regExp according to m_filterMode and m_caseSensitive.
+     */
+    void updateFilter();
+
+    FilterMode m_filterMode; // The current filtering mode.
+    bool m_caseSensitive; // If true the matching will be case sensitive.
+
     QRegularExpression *m_regExp;
     QString m_lowerCasePattern; // Lowercase version of m_filter for
                                 // faster comparison in matches().
