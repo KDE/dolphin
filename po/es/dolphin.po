@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
 "PO-Revision-Date: 2026-03-04 12:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -3433,12 +3433,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 elemento seleccionado"
 msgstr[1] "%1 elementos seleccionados"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "reproducir"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "pausar"

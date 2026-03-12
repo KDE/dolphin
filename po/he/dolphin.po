@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
 "PO-Revision-Date: 2026-03-05 06:59+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -3367,12 +3367,12 @@ msgstr[1] "שני פריטים נבחרו"
 msgstr[2] "%1 פריטים נבחרו"
 msgstr[3] "%1 פריטים נבחרו"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "ניגון"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "השהיה"

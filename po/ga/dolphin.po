@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
 "PO-Revision-Date: 2026-02-20 08:39+0000\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -3506,12 +3506,12 @@ msgstr[2] "%1 mhír roghnaithe"
 msgstr[3] "%1 mhír roghnaithe"
 msgstr[4] "%1 mhír roghnaithe"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "seinn"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "sos"

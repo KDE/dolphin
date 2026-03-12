@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
 "PO-Revision-Date: 2026-02-25 19:17+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -3422,12 +3422,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "Маркиран е %1 елемент"
 msgstr[1] "Маркирани са %1 елемента"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "възпроизвеждане"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "пауза"

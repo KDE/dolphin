@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
-"PO-Revision-Date: 2026-03-04 13:11+0300\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
+"PO-Revision-Date: 2026-03-11 15:47+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1650,8 +1650,8 @@ msgstr ""
 "tıklayın ve uygulamanın herhangi bir bileşeninin üzerine tıklayarak “Bu "
 "Nedir?” arayüzünü etkinleştirin. Bir nokta için kullanılabilir yardım yoksa "
 "fare imleci biçim değiştirir.</para><para>Yardım almanın iki yolu daha "
-"vardır: <link url='help:/dolphin/index.html'>Dolphin El Kitabı</link> "
-"ve<link url='https://userbase.kde.org/Dolphin/File_Management'>KDE Kullanıcı "
+"vardır: <link url='help:/dolphin/index.html'>Dolphin El Kitabı</link> ve "
+"<link url='https://userbase.kde.org/Dolphin/File_Management'>KDE Kullanıcı "
 "Tabanı Vikisi</link>.</para><para>“Bu Nedir?” yardımı genelde diğer "
 "uygulamalarda bulunmayabilir, o yüzden buna çok alışmayın.</para>"
 
@@ -3384,12 +3384,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 öge seçili"
 msgstr[1] "%1 öge seçili"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "oynat"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "duraklat"

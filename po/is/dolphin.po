@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-07 00:47+0000\n"
-"PO-Revision-Date: 2026-02-25 11:45+0000\n"
+"POT-Creation-Date: 2026-03-12 02:39+0000\n"
+"PO-Revision-Date: 2026-03-11 23:56+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2100,21 +2100,16 @@ msgid "No items found."
 msgstr "Engir hlutir fundust."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Ein skrá"
+msgstr "Opna sem skrá"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Tókst ekki að opna <filename>%1</filename>."
+msgstr "Reyni að opna skrá sem möppu: <filename>%1</filename>."
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -3416,12 +3411,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 atriði valið"
 msgstr[1] "%1 atriði valin"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "spila"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "setja á pásu"
@@ -4193,18 +4188,16 @@ msgid "Search…"
 msgstr "Leita…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Sækja nýjar þjónustur…"
+msgstr "Sækja þjónustur…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Flýtilyklar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4911,12 +4904,10 @@ msgid "Warning"
 msgstr "Aðvörun"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Biðja um staðfestingu í öllum KDE-forritum þegar:"
+msgstr "Biðja um staðfestingu í KDE-forritum þegar:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
