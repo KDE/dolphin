@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-10 00:46+0000\n"
+"POT-Creation-Date: 2026-03-12 00:47+0000\n"
 "PO-Revision-Date: 2010-01-28 23:53+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -305,7 +305,7 @@ msgstr ""
 "напуштите?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2257
 #, kde-format
 msgid "Do not ask again"
 msgstr "Не прашувај повторно"
@@ -3452,12 +3452,12 @@ msgstr[0] "Избран е %1 елемент"
 msgstr[1] "Избрани се %1 елементи"
 msgstr[2] "Избрани се %1 елементи"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "пушти"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr ""
@@ -4558,8 +4558,22 @@ msgstr ""
 "Оваа опција го контролира стилот на прегледување. Во моментот тоа може да "
 "бидат прегледи како: икони (0), детали (1) или колони (2)."
 
-#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
+#, kde-format
+msgctxt "@label"
+msgid "Zoom Level"
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "Zoom level of the folder."
+msgstr ""
+
+#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:37
 #, fuzzy, kde-format
 #| msgctxt "@title:tab Previews settings"
 #| msgid "Previews"
@@ -4568,7 +4582,7 @@ msgid "Previews shown"
 msgstr "Прегледи"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#: settings/dolphin_directoryviewpropertysettings.kcfg:38
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4579,7 +4593,7 @@ msgstr ""
 "прикажан како икона."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:37
+#: settings/dolphin_directoryviewpropertysettings.kcfg:43
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Categorized Sorting"
@@ -4588,7 +4602,7 @@ msgid "Grouped Sorting"
 msgstr "Подредување по категории"
 
 #. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:38
+#: settings/dolphin_directoryviewpropertysettings.kcfg:44
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -4602,14 +4616,14 @@ msgstr ""
 "нивната категорија."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:43
+#: settings/dolphin_directoryviewpropertysettings.kcfg:49
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
 msgstr "Подреди датотеки според"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:44
+#: settings/dolphin_directoryviewpropertysettings.kcfg:50
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -4624,21 +4638,21 @@ msgstr ""
 "прави подредувањето."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:49
+#: settings/dolphin_directoryviewpropertysettings.kcfg:55
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
 msgstr "Редослед на подредување на датотеките"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#: settings/dolphin_directoryviewpropertysettings.kcfg:62
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
 msgstr "Прикажи ги папките први при подредување на датотеки и папки"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:61
+#: settings/dolphin_directoryviewpropertysettings.kcfg:67
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Show preview of files and folders"
@@ -4647,14 +4661,14 @@ msgid "Show hidden files and folders last"
 msgstr "Прикажи преглед на папките и датотеките"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:66
+#: settings/dolphin_directoryviewpropertysettings.kcfg:72
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
 msgstr ""
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:71
+#: settings/dolphin_directoryviewpropertysettings.kcfg:77
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@label"
@@ -4662,28 +4676,28 @@ msgid "Header column widths"
 msgstr "Ширина на колона"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:76
+#: settings/dolphin_directoryviewpropertysettings.kcfg:82
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
 msgstr "Својства последно променети"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#: settings/dolphin_directoryviewpropertysettings.kcfg:83
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "Последен пат кога овие својства биле изменети од корисникот."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
 msgstr ""
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:87
+#: settings/dolphin_directoryviewpropertysettings.kcfg:93
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Additional Information"
@@ -6505,7 +6519,7 @@ msgstr "Стандардно"
 msgid "Reload"
 msgstr "Превчитај"
 
-#: views/dolphinview.cpp:685
+#: views/dolphinview.cpp:692
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6517,7 +6531,7 @@ msgstr[0] "Избрана е %1 папка."
 msgstr[1] "Избрани се %1 папки."
 msgstr[2] "Избрани се %1 папки."
 
-#: views/dolphinview.cpp:686
+#: views/dolphinview.cpp:693
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6529,7 +6543,7 @@ msgstr[0] "Избрана е %1 датотека"
 msgstr[1] "Избрани се %1 датотеки"
 msgstr[2] "Избрани се %1 датотеки"
 
-#: views/dolphinview.cpp:688
+#: views/dolphinview.cpp:695
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -6540,7 +6554,7 @@ msgstr[0] "Папка"
 msgstr[1] "Папка"
 msgstr[2] "Папка"
 
-#: views/dolphinview.cpp:689
+#: views/dolphinview.cpp:696
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6551,19 +6565,19 @@ msgstr[0] "bobibobi@freemail.com.mk"
 msgstr[1] "bobibobi@freemail.com.mk"
 msgstr[2] "bobibobi@freemail.com.mk"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:700
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:702
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:699
+#: views/dolphinview.cpp:706
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -6571,13 +6585,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "Прво папките"
 
-#: views/dolphinview.cpp:941 views/dolphinview.cpp:950
+#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1143
+#: views/dolphinview.cpp:1150
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6585,7 +6599,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: views/dolphinview.cpp:1148
+#: views/dolphinview.cpp:1155
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -6596,27 +6610,27 @@ msgstr[0] "Вметни"
 msgstr[1] "Вметни"
 msgstr[2] "Вметни"
 
-#: views/dolphinview.cpp:1281
+#: views/dolphinview.cpp:1288
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1285
+#: views/dolphinview.cpp:1292
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Ширина на колона"
 
-#: views/dolphinview.cpp:1290
+#: views/dolphinview.cpp:1297
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Ширина на колона"
 
-#: views/dolphinview.cpp:2020
+#: views/dolphinview.cpp:2027
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Delete operation completed."
@@ -6624,48 +6638,48 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Бришењето е завршено."
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Бришењето е завршено."
 
-#: views/dolphinview.cpp:2198
+#: views/dolphinview.cpp:2205
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Директно преименување"
 
-#: views/dolphinview.cpp:2202
+#: views/dolphinview.cpp:2209
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2204
+#: views/dolphinview.cpp:2211
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Прикажи скриени датотеки"
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Домашна папка"
 
-#: views/dolphinview.cpp:2227
+#: views/dolphinview.cpp:2234
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6673,7 +6687,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Преименувај..."
 
-#: views/dolphinview.cpp:2237
+#: views/dolphinview.cpp:2244
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6682,7 +6696,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2241
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6691,7 +6705,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2247
+#: views/dolphinview.cpp:2254
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6699,95 +6713,95 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Тип:"
 
-#: views/dolphinview.cpp:2291
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Локацијата е празна."
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Локацијата „%1“ не е валидна."
 
-#: views/dolphinview.cpp:2643
+#: views/dolphinview.cpp:2681
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Вчитувам папка..."
 
-#: views/dolphinview.cpp:2672
+#: views/dolphinview.cpp:2710
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Вчитувам папка..."
 
-#: views/dolphinview.cpp:2674
+#: views/dolphinview.cpp:2712
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Изберете ги сите елементи што одговараат на овој шаблон:"
 
-#: views/dolphinview.cpp:2676
+#: views/dolphinview.cpp:2714
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Изберете ги сите елементи што одговараат на овој шаблон:"
 
-#: views/dolphinview.cpp:2678
+#: views/dolphinview.cpp:2716
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Локацијата е празна."
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2719
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2684
+#: views/dolphinview.cpp:2722
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2688
+#: views/dolphinview.cpp:2726
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Скорешни затворени ливчиња"
 
-#: views/dolphinview.cpp:2690
+#: views/dolphinview.cpp:2728
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2692
+#: views/dolphinview.cpp:2730
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2694
+#: views/dolphinview.cpp:2732
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2696
+#: views/dolphinview.cpp:2734
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Не се пронајдени ставки."
 
-#: views/dolphinview.cpp:2698
+#: views/dolphinview.cpp:2736
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2700
+#: views/dolphinview.cpp:2738
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

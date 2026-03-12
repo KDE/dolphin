@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-10 00:46+0000\n"
+"POT-Creation-Date: 2026-03-12 00:47+0000\n"
 "PO-Revision-Date: 2024-11-01 13:55+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -318,7 +318,7 @@ msgstr ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2257
 #, kde-format
 msgid "Do not ask again"
 msgstr "Do not ask again"
@@ -3511,12 +3511,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 item selected"
 msgstr[1] "%1 items selected"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "play"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "pause"
@@ -4590,15 +4590,31 @@ msgstr ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 
-#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Reset Zoom Level"
+msgctxt "@label"
+msgid "Zoom Level"
+msgstr "Reset Zoom Level"
+
+#. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "Zoom level of the folder."
+msgstr ""
+
+#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:37
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
 msgstr "Previews shown"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#: settings/dolphin_directoryviewpropertysettings.kcfg:38
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4609,14 +4625,14 @@ msgstr ""
 "icon."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:37
+#: settings/dolphin_directoryviewpropertysettings.kcfg:43
 #, kde-format
 msgctxt "@label"
 msgid "Grouped Sorting"
 msgstr "Grouped Sorting"
 
 #. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:38
+#: settings/dolphin_directoryviewpropertysettings.kcfg:44
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4625,14 +4641,14 @@ msgstr ""
 "When this option is enabled, the sorted items are categorised into groups."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:43
+#: settings/dolphin_directoryviewpropertysettings.kcfg:49
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
 msgstr "Sort files by"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:44
+#: settings/dolphin_directoryviewpropertysettings.kcfg:50
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4643,63 +4659,63 @@ msgstr ""
 "performed on."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:49
+#: settings/dolphin_directoryviewpropertysettings.kcfg:55
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
 msgstr "Order in which to sort files"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#: settings/dolphin_directoryviewpropertysettings.kcfg:62
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
 msgstr "Show folders first when sorting files and folders"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:61
+#: settings/dolphin_directoryviewpropertysettings.kcfg:67
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
 msgstr "Show hidden files and folders last"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:66
+#: settings/dolphin_directoryviewpropertysettings.kcfg:72
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
 msgstr "Visible roles"
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:71
+#: settings/dolphin_directoryviewpropertysettings.kcfg:77
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
 msgstr "Header column widths"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:76
+#: settings/dolphin_directoryviewpropertysettings.kcfg:82
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
 msgstr "Properties last changed"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#: settings/dolphin_directoryviewpropertysettings.kcfg:83
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "The last time these properties were changed by the user."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
 msgstr ""
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:87
+#: settings/dolphin_directoryviewpropertysettings.kcfg:93
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -6383,7 +6399,7 @@ msgstr "Default"
 msgid "Reload"
 msgstr "Reload"
 
-#: views/dolphinview.cpp:685
+#: views/dolphinview.cpp:692
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6391,7 +6407,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 Folder selected"
 msgstr[1] "%1 folders selected"
 
-#: views/dolphinview.cpp:686
+#: views/dolphinview.cpp:693
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6399,7 +6415,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 file selected"
 msgstr[1] "%1 Files selected"
 
-#: views/dolphinview.cpp:688
+#: views/dolphinview.cpp:695
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6407,7 +6423,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 Folder"
 msgstr[1] "%1 folders"
 
-#: views/dolphinview.cpp:689
+#: views/dolphinview.cpp:696
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6415,38 +6431,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 file"
 msgstr[1] "%1 files"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:700
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:702
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:699
+#: views/dolphinview.cpp:706
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 folders, 0 files"
 
-#: views/dolphinview.cpp:941 views/dolphinview.cpp:950
+#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 copy"
 
-#: views/dolphinview.cpp:1143
+#: views/dolphinview.cpp:1150
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Are you sure you want to open 1 item?"
 msgstr[1] "Are you sure you want to open %1 items?"
 
-#: views/dolphinview.cpp:1148
+#: views/dolphinview.cpp:1155
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6454,43 +6470,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Open %1 Item"
 msgstr[1] "Open %1 Items"
 
-#: views/dolphinview.cpp:1281
+#: views/dolphinview.cpp:1288
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Side Padding"
 
-#: views/dolphinview.cpp:1285
+#: views/dolphinview.cpp:1292
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatic Column Widths"
 
-#: views/dolphinview.cpp:1290
+#: views/dolphinview.cpp:1297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Custom Column Widths"
 
-#: views/dolphinview.cpp:2020
+#: views/dolphinview.cpp:2027
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Wastebin operation completed."
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Delete operation completed."
 
-#: views/dolphinview.cpp:2198
+#: views/dolphinview.cpp:2205
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Rename and Hide"
 
-#: views/dolphinview.cpp:2202
+#: views/dolphinview.cpp:2209
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6499,7 +6515,7 @@ msgstr ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 
-#: views/dolphinview.cpp:2204
+#: views/dolphinview.cpp:2211
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6508,17 +6524,17 @@ msgstr ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, kde-format
 msgid "Hide this File?"
 msgstr "Hide this File?"
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Hide this Folder?"
 
-#: views/dolphinview.cpp:2227
+#: views/dolphinview.cpp:2234
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6526,7 +6542,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Rename…"
 
-#: views/dolphinview.cpp:2237
+#: views/dolphinview.cpp:2244
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6535,7 +6551,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2241
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6544,7 +6560,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2247
+#: views/dolphinview.cpp:2254
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6552,84 +6568,84 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Type:"
 
-#: views/dolphinview.cpp:2291
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "The location is empty."
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "The location '%1' is invalid."
 
-#: views/dolphinview.cpp:2643
+#: views/dolphinview.cpp:2681
 #, kde-format
 msgid "Loading…"
 msgstr "Loading…"
 
-#: views/dolphinview.cpp:2672
+#: views/dolphinview.cpp:2710
 #, kde-format
 msgid "Loading canceled"
 msgstr "Loading cancelled"
 
-#: views/dolphinview.cpp:2674
+#: views/dolphinview.cpp:2712
 #, kde-format
 msgid "No items matching the filter"
 msgstr "No items matching the filter"
 
-#: views/dolphinview.cpp:2676
+#: views/dolphinview.cpp:2714
 #, kde-format
 msgid "No items matching the search"
 msgstr "No items matching the search"
 
-#: views/dolphinview.cpp:2678
+#: views/dolphinview.cpp:2716
 #, kde-format
 msgid "Trash is empty"
 msgstr "Wastebin is empty"
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2719
 #, kde-format
 msgid "No tags"
 msgstr "No tags"
 
-#: views/dolphinview.cpp:2684
+#: views/dolphinview.cpp:2722
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "No files tagged with \"%1\""
 
-#: views/dolphinview.cpp:2688
+#: views/dolphinview.cpp:2726
 #, kde-format
 msgid "No recently used items"
 msgstr "No recently used items"
 
-#: views/dolphinview.cpp:2690
+#: views/dolphinview.cpp:2728
 #, kde-format
 msgid "No shared folders found"
 msgstr "No shared folders found"
 
-#: views/dolphinview.cpp:2692
+#: views/dolphinview.cpp:2730
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "No relevant network resources found"
 
-#: views/dolphinview.cpp:2694
+#: views/dolphinview.cpp:2732
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "No MTP-compatible devices found"
 
-#: views/dolphinview.cpp:2696
+#: views/dolphinview.cpp:2734
 #, kde-format
 msgid "No Apple devices found"
 msgstr "No Apple devices found"
 
-#: views/dolphinview.cpp:2698
+#: views/dolphinview.cpp:2736
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "No Bluetooth devices found"
 
-#: views/dolphinview.cpp:2700
+#: views/dolphinview.cpp:2738
 #, kde-format
 msgid "Folder is empty"
 msgstr "Folder is empty"

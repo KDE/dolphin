@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-10 00:46+0000\n"
+"POT-Creation-Date: 2026-03-12 00:47+0000\n"
 "PO-Revision-Date: 2026-02-20 08:39+0000\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -320,7 +320,7 @@ msgstr ""
 "mian leat scor?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2257
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ná fiafraigh díom arís"
@@ -3515,12 +3515,12 @@ msgstr[2] "%1 mhír roghnaithe"
 msgstr[3] "%1 mhír roghnaithe"
 msgstr[4] "%1 mhír roghnaithe"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:262
 #, kde-format
 msgid "play"
 msgstr "seinn"
 
-#: panels/information/mediawidget.cpp:258
+#: panels/information/mediawidget.cpp:268
 #, kde-format
 msgid "pause"
 msgstr "sos"
@@ -4613,15 +4613,31 @@ msgstr ""
 "Rialaíonn an rogha seo stíl an amhairc.  Faoi láthair, tacaítear leis na "
 "luachanna seo a leanas: deilbhíní (0), mionsonraí (1), agus colúin (2)."
 
-#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Reset Zoom Level"
+msgctxt "@label"
+msgid "Zoom Level"
+msgstr "Athshocraigh Leibhéal Súmála"
+
+#. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "Zoom level of the folder."
+msgstr ""
+
+#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:37
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
 msgstr "Taispeáin réamhamhairc"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#: settings/dolphin_directoryviewpropertysettings.kcfg:38
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4632,14 +4648,14 @@ msgstr ""
 "dheilbhín."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:37
+#: settings/dolphin_directoryviewpropertysettings.kcfg:43
 #, kde-format
 msgctxt "@label"
 msgid "Grouped Sorting"
 msgstr "Sórtáil Ghrúpáilte"
 
 #. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:38
+#: settings/dolphin_directoryviewpropertysettings.kcfg:44
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4647,14 +4663,14 @@ msgid ""
 msgstr "Leis an rogha seo, cuirfear na míreanna sórtáilte i ngrúpaí."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:43
+#: settings/dolphin_directoryviewpropertysettings.kcfg:49
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
 msgstr "Sórtáil comhaid de réir"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:44
+#: settings/dolphin_directoryviewpropertysettings.kcfg:50
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4665,63 +4681,63 @@ msgstr ""
 "sórtálfar air."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:49
+#: settings/dolphin_directoryviewpropertysettings.kcfg:55
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
 msgstr "Ord sórtála comhad"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#: settings/dolphin_directoryviewpropertysettings.kcfg:62
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
 msgstr "Taispeáin fillteáin ar dtús nuair atá comhaid agus fillteáin á sórtáil"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:61
+#: settings/dolphin_directoryviewpropertysettings.kcfg:67
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
 msgstr "Taispeáin comhaid agus fillteáin fholaithe sa deireadh"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:66
+#: settings/dolphin_directoryviewpropertysettings.kcfg:72
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
 msgstr "Róil infheicthe"
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:71
+#: settings/dolphin_directoryviewpropertysettings.kcfg:77
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
 msgstr "Leithead colún ceanntásca"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:76
+#: settings/dolphin_directoryviewpropertysettings.kcfg:82
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
 msgstr "Athrú is déanaí"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#: settings/dolphin_directoryviewpropertysettings.kcfg:83
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "An t-am is déanaí a d'athraigh an t-úsáideoir na hairíonna seo."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
 msgstr "Athraíodh an modh radhairc uair amháin leis an radharc dinimiciúil"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:87
+#: settings/dolphin_directoryviewpropertysettings.kcfg:93
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -6395,7 +6411,7 @@ msgstr "Réamhshocrú"
 msgid "Reload"
 msgstr "Athluchtaigh"
 
-#: views/dolphinview.cpp:685
+#: views/dolphinview.cpp:692
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6406,7 +6422,7 @@ msgstr[2] "%1 fillteán roghnaithe"
 msgstr[3] "%1 fillteán roghnaithe"
 msgstr[4] "%1 fillteán roghnaithe"
 
-#: views/dolphinview.cpp:686
+#: views/dolphinview.cpp:693
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6417,7 +6433,7 @@ msgstr[2] "%1 comhad roghnaithe"
 msgstr[3] "%1 comhad roghnaithe"
 msgstr[4] "%1 comhad roghnaithe"
 
-#: views/dolphinview.cpp:688
+#: views/dolphinview.cpp:695
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6428,7 +6444,7 @@ msgstr[2] "%1 fillteán"
 msgstr[3] "%1 fillteán"
 msgstr[4] "%1 fillteán"
 
-#: views/dolphinview.cpp:689
+#: views/dolphinview.cpp:696
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6439,31 +6455,31 @@ msgstr[2] "%1 comhad"
 msgstr[3] "%1 comhad"
 msgstr[4] "%1 comhad"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:700
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:702
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:699
+#: views/dolphinview.cpp:706
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 fillteán, 0 comhad"
 
-#: views/dolphinview.cpp:941 views/dolphinview.cpp:950
+#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 cóip"
 
-#: views/dolphinview.cpp:1143
+#: views/dolphinview.cpp:1150
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6473,7 +6489,7 @@ msgstr[2] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[3] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[4] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 
-#: views/dolphinview.cpp:1148
+#: views/dolphinview.cpp:1155
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6484,43 +6500,43 @@ msgstr[2] "Oscail %1 Míreanna"
 msgstr[3] "Oscail %1 Míreanna"
 msgstr[4] "Oscail %1 Míreanna"
 
-#: views/dolphinview.cpp:1281
+#: views/dolphinview.cpp:1288
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Páipéar Taobh"
 
-#: views/dolphinview.cpp:1285
+#: views/dolphinview.cpp:1292
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Leithid Uathoibríocha Colún"
 
-#: views/dolphinview.cpp:1290
+#: views/dolphinview.cpp:1297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Leithid Saincheaptha Colún"
 
-#: views/dolphinview.cpp:2020
+#: views/dolphinview.cpp:2027
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Oibríocht bruscair críochnaithe."
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Oibríocht scriosta curtha i gcrích."
 
-#: views/dolphinview.cpp:2198
+#: views/dolphinview.cpp:2205
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Athainmnigh agus Folaigh"
 
-#: views/dolphinview.cpp:2202
+#: views/dolphinview.cpp:2209
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6529,7 +6545,7 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an chomhaid seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2204
+#: views/dolphinview.cpp:2211
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6538,23 +6554,23 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an fhillteáin seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, kde-format
 msgid "Hide this File?"
 msgstr "An comhad seo a cheilt?"
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2213
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "An bhfuil tú ag iarraidh an fillteán seo a cheilt?"
 
-#: views/dolphinview.cpp:2227
+#: views/dolphinview.cpp:2234
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Athainmnigh"
 
-#: views/dolphinview.cpp:2237
+#: views/dolphinview.cpp:2244
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6567,7 +6583,7 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2241
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6580,90 +6596,90 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2247
+#: views/dolphinview.cpp:2254
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Athraigh Cineál Comhaid"
 
-#: views/dolphinview.cpp:2291
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Tá an suíomh folamh."
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Tá suíomh '%1' neamhbhailí."
 
-#: views/dolphinview.cpp:2643
+#: views/dolphinview.cpp:2681
 #, kde-format
 msgid "Loading…"
 msgstr "Ag lódáil…"
 
-#: views/dolphinview.cpp:2672
+#: views/dolphinview.cpp:2710
 #, kde-format
 msgid "Loading canceled"
 msgstr "Cealaíodh an luchtú"
 
-#: views/dolphinview.cpp:2674
+#: views/dolphinview.cpp:2712
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Níl aon mhíreanna a mheaitseálann an scagaire"
 
-#: views/dolphinview.cpp:2676
+#: views/dolphinview.cpp:2714
 #, kde-format
 msgid "No items matching the search"
 msgstr "Níl aon mhíreanna a mheaitseálann an cuardach"
 
-#: views/dolphinview.cpp:2678
+#: views/dolphinview.cpp:2716
 #, kde-format
 msgid "Trash is empty"
 msgstr "Tá an bruscar folamh"
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2719
 #, kde-format
 msgid "No tags"
 msgstr "Gan clibeanna"
 
-#: views/dolphinview.cpp:2684
+#: views/dolphinview.cpp:2722
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Gan aon chomhaid atá clibthe le \"%1\""
 
-#: views/dolphinview.cpp:2688
+#: views/dolphinview.cpp:2726
 #, kde-format
 msgid "No recently used items"
 msgstr "Gan aon earraí a úsáideadh le déanaí"
 
-#: views/dolphinview.cpp:2690
+#: views/dolphinview.cpp:2728
 #, kde-format
 msgid "No shared folders found"
 msgstr "Níor aimsíodh aon fhillteáin chomhroinnte"
 
-#: views/dolphinview.cpp:2692
+#: views/dolphinview.cpp:2730
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Níor aimsíodh aon acmhainní líonra ábhartha"
 
-#: views/dolphinview.cpp:2694
+#: views/dolphinview.cpp:2732
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ní bhfuarthas aon ghléasanna atá comhoiriúnach le MTP"
 
-#: views/dolphinview.cpp:2696
+#: views/dolphinview.cpp:2734
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Apple"
 
-#: views/dolphinview.cpp:2698
+#: views/dolphinview.cpp:2736
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Bluetooth"
 
-#: views/dolphinview.cpp:2700
+#: views/dolphinview.cpp:2738
 #, kde-format
 msgid "Folder is empty"
 msgstr "Tá an fillteán folamh"
