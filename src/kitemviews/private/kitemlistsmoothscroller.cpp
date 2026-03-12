@@ -214,6 +214,7 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent *event)
     QWheelEvent *copy = event->clone();
     QApplication::sendEvent(m_scrollBar, copy);
     event->setAccepted(copy->isAccepted());
+    delete copy;
 
     m_smoothScrolling = previous;
 }
