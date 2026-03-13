@@ -791,9 +791,7 @@ void DolphinView::clearSelection()
 void DolphinView::renameSelectedItems()
 {
     const KFileItemList items = selectedItems();
-    if (items.isEmpty()) {
-        return;
-    }
+    Q_ASSERT(!items.isEmpty());
 
     if (items.count() == 1 && GeneralSettings::renameInline()) {
         const int index = m_model->index(items.first());
@@ -2303,8 +2301,15 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
         }
         if (retVal.direction != EditDone) {
             const short indexShift = retVal.direction == EditNext ? 1 : -1;
-            m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
-            m_container->controller()->selectionManager()->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
+
+            // if the renamed file is the first or last, no need to select/deselect anything
+            // this will endup with no selection for the first item case and bugs down the line,
+            // and deselect/reselect needlessly for the last one
+            if (index + indexShift >= 0 && index + indexShift <= m_model->count()) {
+                m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
+                m_container->controller()->selectionManager()->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
+            }
+
             renameSelectedItems();
         }
     }
