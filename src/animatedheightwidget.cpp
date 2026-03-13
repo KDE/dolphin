@@ -33,6 +33,11 @@ AnimatedHeightWidget::AnimatedHeightWidget(QWidget *parent)
     m_contentsContainerParent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_contentsContainerParent->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_contentsContainerParent->setWidgetResizable(true);
+    // Prevent the internal scroll area from reacting to navigation keys and
+    // scrolling the contents (scrollbars are hidden but scrolling still changes
+    // the visible region).
+    m_contentsContainerParent->installEventFilter(this);
+    m_contentsContainerParent->viewport()->installEventFilter(this);
     // Disables manual scrolling, for example with mouse scrollwheel.
     m_contentsContainerParent->verticalScrollBar()->setEnabled(false);
     m_contentsContainerParent->horizontalScrollBar()->setEnabled(false);
@@ -88,7 +93,6 @@ QWidget *AnimatedHeightWidget::prepareContentsContainer(QWidget *contentsContain
     contentsContainer->setParent(m_contentsContainerParent);
     m_contentsContainerParent->setWidget(contentsContainer);
     m_contentsContainerParent->setFocusProxy(contentsContainer);
-    contentsContainer->installEventFilter(this);
     return contentsContainer;
 }
 
@@ -99,12 +103,20 @@ bool AnimatedHeightWidget::isAnimationRunning() const
 
 bool AnimatedHeightWidget::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::KeyPress) {
+    if ((obj == m_contentsContainerParent || obj == m_contentsContainerParent->viewport()) && event->type() == QEvent::KeyPress) {
         auto *keyEvent = static_cast<QKeyEvent *>(event);
-        // Ignore PageUp/PageDown to prevent QScrollArea (invisible scrollbar) from scrolling
-        if (keyEvent->key() == Qt::Key_PageUp || keyEvent->key() == Qt::Key_PageDown) {
+        // Ignore navigation keys to prevent the internal QScrollArea (with
+        // invisible scrollbars) from scrolling and visually moving child bars
+        // such as the search bar.
+        switch (keyEvent->key()) {
+        case Qt::Key_Up:
+        case Qt::Key_Down:
+        case Qt::Key_PageUp:
+        case Qt::Key_PageDown:
             keyEvent->accept();
             return true;
+        default:
+            break;
         }
     }
     return QWidget::eventFilter(obj, event);

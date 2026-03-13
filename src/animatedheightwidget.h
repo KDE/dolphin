@@ -57,8 +57,9 @@ protected:
 
 protected:
     /**
-     * Ignore PageUp/PageDown key events to prevent the internal QScrollArea
-     * (with an invisible scrollbar) from scrolling while editing inside child widgets.
+     * Ignore Up/Down/PageUp/PageDown key events for the internal QScrollArea
+     * (with an invisible scrollbar) to prevent it from scrolling and moving the
+     * visible region of contained widgets such as the search bar.
      */
     bool eventFilter(QObject *obj, QEvent *event) override;
 
