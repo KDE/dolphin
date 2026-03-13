@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-12 00:47+0000\n"
+"POT-Creation-Date: 2026-03-13 00:46+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -306,7 +306,7 @@ msgstr ""
 "zatvoriti ?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2257
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ne pitaj više"
@@ -1898,7 +1898,7 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:155
+#: dolphinviewcontainer.cpp:157
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1906,7 +1906,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Učitavanje direktorija..."
 
-#: dolphinviewcontainer.cpp:158
+#: dolphinviewcontainer.cpp:160
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1914,7 +1914,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sortiranje:"
 
-#: dolphinviewcontainer.cpp:682
+#: dolphinviewcontainer.cpp:688
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1922,13 +1922,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pretražujem..."
 
-#: dolphinviewcontainer.cpp:702
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nema pronađenih stavki."
 
-#: dolphinviewcontainer.cpp:737
+#: dolphinviewcontainer.cpp:743
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File"
@@ -1937,7 +1937,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "%1 datoteka"
 
-#: dolphinviewcontainer.cpp:754
+#: dolphinviewcontainer.cpp:760
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:status"
 #| msgid "Access denied. Could not write to <filename>%1</filename>"
@@ -1945,13 +1945,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Pristup zabranjen. Ne mogu pisati u <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:906
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ne podržava web stranice, pokrenut je web preglednik."
 
-#: dolphinviewcontainer.cpp:909
+#: dolphinviewcontainer.cpp:927
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1960,7 +1960,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podržava protokol, pokrenut je Konqueror."
 
-#: dolphinviewcontainer.cpp:916
+#: dolphinviewcontainer.cpp:934
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1968,19 +1968,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:936
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:1021
+#: dolphinviewcontainer.cpp:1039
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1026
+#: dolphinviewcontainer.cpp:1044
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1988,38 +1988,69 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Direktorij napravljen,."
 
-#: dolphinviewcontainer.cpp:1043
+#: dolphinviewcontainer.cpp:1061
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1046
+#: dolphinviewcontainer.cpp:1064
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
+#: dolphinviewcontainer.cpp:1108 dolphinviewcontainer.cpp:1111
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:29
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Čuvaj filter prilikom izmjene direktorija"
 
-#: filterbar/filterbar.cpp:36
+#: filterbar/filterbar.cpp:43
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgid "Filter…"
 msgstr "Filter:"
 
-#: filterbar/filterbar.cpp:44
+#: filterbar/filterbar.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Invalid protocol"
+msgid "Invalid expression"
+msgstr "Protokol nije valjan"
+
+#: filterbar/filterbar.cpp:60
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Match case"
+msgstr ""
+
+#: filterbar/filterbar.cpp:66
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Plain Text"
+msgstr ""
+
+#: filterbar/filterbar.cpp:67
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Glob Pattern"
+msgstr ""
+
+#: filterbar/filterbar.cpp:68
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Regular Expression"
+msgstr ""
+
+#: filterbar/filterbar.cpp:78
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2445,61 +2476,61 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2400
+#: kitemviews/kfileitemmodel.cpp:2428
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2430
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Ostali"
 
-#: kitemviews/kfileitemmodel.cpp:2434
+#: kitemviews/kfileitemmodel.cpp:2462
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Direktoriji"
 
-#: kitemviews/kfileitemmodel.cpp:2442
+#: kitemviews/kfileitemmodel.cpp:2470
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Mala"
 
-#: kitemviews/kfileitemmodel.cpp:2444
+#: kitemviews/kfileitemmodel.cpp:2472
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Srednja"
 
-#: kitemviews/kfileitemmodel.cpp:2446
+#: kitemviews/kfileitemmodel.cpp:2474
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Velika"
 
-#: kitemviews/kfileitemmodel.cpp:2492
+#: kitemviews/kfileitemmodel.cpp:2520
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Danas"
 
-#: kitemviews/kfileitemmodel.cpp:2495
+#: kitemviews/kfileitemmodel.cpp:2523
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Juče"
 
-#: kitemviews/kfileitemmodel.cpp:2498
+#: kitemviews/kfileitemmodel.cpp:2526
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2502
+#: kitemviews/kfileitemmodel.cpp:2530
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2508,31 +2539,31 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2535
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Prije jednu sedmicu"
 
-#: kitemviews/kfileitemmodel.cpp:2510
+#: kitemviews/kfileitemmodel.cpp:2538
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Prije dvije sedmice"
 
-#: kitemviews/kfileitemmodel.cpp:2513
+#: kitemviews/kfileitemmodel.cpp:2541
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Prije tri sedmice"
 
-#: kitemviews/kfileitemmodel.cpp:2517
+#: kitemviews/kfileitemmodel.cpp:2545
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Ranije ovog mjeseca"
 
-#: kitemviews/kfileitemmodel.cpp:2531
+#: kitemviews/kfileitemmodel.cpp:2559
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2546,7 +2577,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "Juče (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2538
+#: kitemviews/kfileitemmodel.cpp:2566
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2556,7 +2587,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2551
+#: kitemviews/kfileitemmodel.cpp:2579
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2568,7 +2599,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "Juče (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2555
+#: kitemviews/kfileitemmodel.cpp:2583
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2578,7 +2609,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2563
+#: kitemviews/kfileitemmodel.cpp:2591
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2592,7 +2623,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "Prije jednu sedmicu (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2598
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2602,7 +2633,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2584
+#: kitemviews/kfileitemmodel.cpp:2612
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2616,7 +2647,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "Prije dvije sedmice (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2591
+#: kitemviews/kfileitemmodel.cpp:2619
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2626,7 +2657,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2605
+#: kitemviews/kfileitemmodel.cpp:2633
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2640,7 +2671,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "Prije tri sedmice (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2612
+#: kitemviews/kfileitemmodel.cpp:2640
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2650,7 +2681,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2626
+#: kitemviews/kfileitemmodel.cpp:2654
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2664,7 +2695,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "Ranije %B, %Y"
 
-#: kitemviews/kfileitemmodel.cpp:2633
+#: kitemviews/kfileitemmodel.cpp:2661
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2674,7 +2705,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2675
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2682,7 +2713,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2651
+#: kitemviews/kfileitemmodel.cpp:2679
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2692,62 +2723,62 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2704
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Čitaj, "
 
-#: kitemviews/kfileitemmodel.cpp:2694 kitemviews/kfileitemmodel.cpp:2707
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2722 kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2748
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Piši, "
 
-#: kitemviews/kfileitemmodel.cpp:2697 kitemviews/kfileitemmodel.cpp:2710
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2725 kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2751
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Izvrši, "
 
-#: kitemviews/kfileitemmodel.cpp:2699 kitemviews/kfileitemmodel.cpp:2712
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2753
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Zabranjeno"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2755
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Korisnik: %1 | Grupa: %2 | Drugi: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Name"
 msgstr "Ime"
 
-#: kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Size"
 msgstr "Veličina"
 
-#: kitemviews/kfileitemmodel.cpp:2819
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Modified"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2819 kitemviews/kfileitemmodel.cpp:2820
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2820
+#: kitemviews/kfileitemmodel.cpp:2848
 #, fuzzy
 #| msgctxt "@title:menu Create new folder, file, link, etc."
 #| msgid "Create New"
@@ -2755,54 +2786,54 @@ msgctxt "@label"
 msgid "Created"
 msgstr "Kreiraj novi"
 
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2822
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Type"
 msgstr "Tip"
 
-#: kitemviews/kfileitemmodel.cpp:2823
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Rating"
 msgstr "Rejting"
 
-#: kitemviews/kfileitemmodel.cpp:2824
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Tags"
 msgstr "Oznake"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Comment"
 msgstr "Komentar"
 
-#: kitemviews/kfileitemmodel.cpp:2826
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Title"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2827
-#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2829
-#: kitemviews/kfileitemmodel.cpp:2830 kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
 msgctxt "@label"
 msgid "Document"
 msgstr "Dokument"
 
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2856
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2857
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Line Count"
@@ -2810,44 +2841,44 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Broj linija"
 
-#: kitemviews/kfileitemmodel.cpp:2830
+#: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Broj riječi"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2859
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Broj linija"
 
-#: kitemviews/kfileitemmodel.cpp:2832
+#: kitemviews/kfileitemmodel.cpp:2860
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2833
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2835
-#: kitemviews/kfileitemmodel.cpp:2836
+#: kitemviews/kfileitemmodel.cpp:2860 kitemviews/kfileitemmodel.cpp:2861
+#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2863
+#: kitemviews/kfileitemmodel.cpp:2864
 msgctxt "@label"
 msgid "Image"
 msgstr "Slika"
 
-#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2861 kitemviews/kfileitemmodel.cpp:2877
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2852
+#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2880
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2863
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Orijentacija"
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2864 kitemviews/kfileitemmodel.cpp:2883
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Width:"
@@ -2855,25 +2886,25 @@ msgctxt "@label"
 msgid "Width"
 msgstr "Širina:"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2865
 msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2865 kitemviews/kfileitemmodel.cpp:2866
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2868
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2870
+#: kitemviews/kfileitemmodel.cpp:2871 kitemviews/kfileitemmodel.cpp:2872
 msgctxt "@label"
 msgid "Audio"
 msgstr "Audio"
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2866
 msgctxt "@label"
 msgid "Artist"
 msgstr "Izvođač"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2874
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Audio Files"
@@ -2881,22 +2912,22 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Audio datoteke"
 
-#: kitemviews/kfileitemmodel.cpp:2840 kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2868 kitemviews/kfileitemmodel.cpp:2875
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2878
 msgctxt "@label"
 msgid "Duration"
 msgstr "Trajanje"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2870
 msgctxt "@label"
 msgid "Genre"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2871
 #, fuzzy
 #| msgctxt "@item"
 #| msgid "Release '%1'"
@@ -2904,22 +2935,22 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "Otpustite  '%1'"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2872
 msgctxt "@label"
 msgid "Track"
 msgstr "Numera"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2873
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
-#: kitemviews/kfileitemmodel.cpp:2851 kitemviews/kfileitemmodel.cpp:2852
-#: kitemviews/kfileitemmodel.cpp:2853 kitemviews/kfileitemmodel.cpp:2854
-#: kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2873 kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875 kitemviews/kfileitemmodel.cpp:2876
+#: kitemviews/kfileitemmodel.cpp:2877 kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2879 kitemviews/kfileitemmodel.cpp:2880
+#: kitemviews/kfileitemmodel.cpp:2881 kitemviews/kfileitemmodel.cpp:2882
+#: kitemviews/kfileitemmodel.cpp:2883
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2927,22 +2958,22 @@ msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2876
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2879
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2881
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2854
+#: kitemviews/kfileitemmodel.cpp:2882
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2950,21 +2981,21 @@ msgctxt "@label"
 msgid "Video Codec"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2856
+#: kitemviews/kfileitemmodel.cpp:2884
 msgctxt "@label"
 msgid "Path"
 msgstr "Putanja"
 
-#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
-#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
-#: kitemviews/kfileitemmodel.cpp:2860 kitemviews/kfileitemmodel.cpp:2861
-#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2863
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2884 kitemviews/kfileitemmodel.cpp:2885
+#: kitemviews/kfileitemmodel.cpp:2886 kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2888 kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2890 kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2892
 msgctxt "@label"
 msgid "Other"
 msgstr "Ostalo"
 
-#: kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2885
 #, fuzzy
 #| msgctxt "@title:window"
 #| msgid "Folders"
@@ -2972,12 +3003,12 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "Direktoriji"
 
-#: kitemviews/kfileitemmodel.cpp:2858
+#: kitemviews/kfileitemmodel.cpp:2886
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2859
+#: kitemviews/kfileitemmodel.cpp:2887
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2985,12 +3016,12 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Odabir"
 
-#: kitemviews/kfileitemmodel.cpp:2860
+#: kitemviews/kfileitemmodel.cpp:2888
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Odredište veze"
 
-#: kitemviews/kfileitemmodel.cpp:2861
+#: kitemviews/kfileitemmodel.cpp:2889
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Copied From"
@@ -2998,29 +3029,29 @@ msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Kopirano sa"
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Ovlaštenja"
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2863
+#: kitemviews/kfileitemmodel.cpp:2891
 msgctxt "@label"
 msgid "Owner"
 msgstr "Vlasnik"
 
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2892
 msgctxt "@label"
 msgid "User Group"
 msgstr "Korisnička grupa"
 
-#: kitemviews/kfileitemmodel.cpp:2965
+#: kitemviews/kfileitemmodel.cpp:2993
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6421,7 +6452,7 @@ msgstr "Podrazumijevano"
 msgid "Reload"
 msgstr "Učitaj ponovo"
 
-#: views/dolphinview.cpp:692
+#: views/dolphinview.cpp:712
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6433,7 +6464,7 @@ msgstr[0] "%1 direktorij odabran"
 msgstr[1] "%1 direktorija odabrana"
 msgstr[2] "%1 direktorija odabranih"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:713
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6445,7 +6476,7 @@ msgstr[0] "%1 datoteka odabrana"
 msgstr[1] "%1 datoteke odabrane"
 msgstr[2] "%1 datoteka odabrano"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:715
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -6457,7 +6488,7 @@ msgstr[0] "%1 direktorij"
 msgstr[1] "%1 direktorija"
 msgstr[2] "%1 direktorija"
 
-#: views/dolphinview.cpp:696
+#: views/dolphinview.cpp:716
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6474,19 +6505,19 @@ msgstr[2] ""
 "Ai@etf.ba,nedimmuminovic@gmail.com,samir.ribic@etf.unsa.ba,amustafic2@etf."
 "unsa.ba,vljubovic@smartnet.ba"
 
-#: views/dolphinview.cpp:700
+#: views/dolphinview.cpp:720
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:702
+#: views/dolphinview.cpp:722
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:706
+#: views/dolphinview.cpp:726
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -6494,14 +6525,14 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 Direktorija, 0 Datoteka"
 
-#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
+#: views/dolphinview.cpp:968 views/dolphinview.cpp:977
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
 #         translations.
-#: views/dolphinview.cpp:1150
+#: views/dolphinview.cpp:1170
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6509,7 +6540,7 @@ msgstr[0] "Jeste li sigurni da želite otvoriti %1 stavku?"
 msgstr[1] "Jeste li sigurni da želite otvoriti %1 stavke?"
 msgstr[2] "Jeste li sigurni da želite otvoriti %1 stavki?"
 
-#: views/dolphinview.cpp:1155
+#: views/dolphinview.cpp:1175
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path in New Tab"
@@ -6520,25 +6551,25 @@ msgstr[0] "Otvori stazu u novoj kartici"
 msgstr[1] "Otvori stazu u novoj kartici"
 msgstr[2] "Otvori stazu u novoj kartici"
 
-#: views/dolphinview.cpp:1288
+#: views/dolphinview.cpp:1308
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1292
+#: views/dolphinview.cpp:1312
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatski postavljanje širine kolona"
 
-#: views/dolphinview.cpp:1297
+#: views/dolphinview.cpp:1317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Slobodno određivanje širine kolone"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2047
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Delete operation completed."
@@ -6546,48 +6577,48 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:2037
+#: views/dolphinview.cpp:2057
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:2205
+#: views/dolphinview.cpp:2225
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj unutar linije"
 
-#: views/dolphinview.cpp:2209
+#: views/dolphinview.cpp:2229
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2211
+#: views/dolphinview.cpp:2231
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Prikaži skrivene datoteke"
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Početni direktorij"
 
-#: views/dolphinview.cpp:2234
+#: views/dolphinview.cpp:2254
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6595,7 +6626,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Preimenuj..."
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2264
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6604,7 +6635,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2268
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6613,7 +6644,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2274
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -6621,95 +6652,95 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "&Izmijeni tip datoteke..."
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2318
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacija '%1' nije valjana."
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2701
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2710
+#: views/dolphinview.cpp:2730
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2712
+#: views/dolphinview.cpp:2732
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2714
+#: views/dolphinview.cpp:2734
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2716
+#: views/dolphinview.cpp:2736
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2719
+#: views/dolphinview.cpp:2739
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2722
+#: views/dolphinview.cpp:2742
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2726
+#: views/dolphinview.cpp:2746
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Nedavno zatvorene kartice"
 
-#: views/dolphinview.cpp:2728
+#: views/dolphinview.cpp:2748
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2730
+#: views/dolphinview.cpp:2750
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2732
+#: views/dolphinview.cpp:2752
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2734
+#: views/dolphinview.cpp:2754
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nema pronađenih stavki."
 
-#: views/dolphinview.cpp:2736
+#: views/dolphinview.cpp:2756
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2738
+#: views/dolphinview.cpp:2758
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

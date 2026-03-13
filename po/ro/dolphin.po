@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-12 00:47+0000\n"
+"POT-Creation-Date: 2026-03-13 00:46+0000\n"
 "PO-Revision-Date: 2026-03-03 19:23+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -301,7 +301,7 @@ msgstr ""
 "închideți fereastra?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2257
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgid "Do not ask again"
 msgstr "Nu mai întreba"
@@ -2054,49 +2054,49 @@ msgstr "Nu puteți scrie în acest dosar."
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Rularea Dolphin ca root poate fi periculoasă. Aveți grijă."
 
-#: dolphinviewcontainer.cpp:155
+#: dolphinviewcontainer.cpp:157
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Se încarcă dosarul…"
 
-#: dolphinviewcontainer.cpp:158
+#: dolphinviewcontainer.cpp:160
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Se sortează…"
 
-#: dolphinviewcontainer.cpp:682
+#: dolphinviewcontainer.cpp:688
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Se caută…"
 
-#: dolphinviewcontainer.cpp:702
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Niciun element găsit."
 
-#: dolphinviewcontainer.cpp:737
+#: dolphinviewcontainer.cpp:743
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Deschide ca fișier"
 
-#: dolphinviewcontainer.cpp:754
+#: dolphinviewcontainer.cpp:760
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Se încearcă deschiderea unui fișier ca dosar: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:906
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nu susține pagini web - a fost lansat navigatorul de Internet"
 
-#: dolphinviewcontainer.cpp:909
+#: dolphinviewcontainer.cpp:927
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2104,61 +2104,92 @@ msgid ""
 msgstr ""
 "Protocolul nu este susținut de Dolphin, a fost lansată aplicația implicită"
 
-#: dolphinviewcontainer.cpp:916
+#: dolphinviewcontainer.cpp:934
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocol nevalid „%1”"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:936
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocol nevalid"
 
-#: dolphinviewcontainer.cpp:1021
+#: dolphinviewcontainer.cpp:1039
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "E nevoie de autorizare pentru a intra în acest dosar."
 
-#: dolphinviewcontainer.cpp:1026
+#: dolphinviewcontainer.cpp:1044
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Creează dosarul lipsă"
 
-#: dolphinviewcontainer.cpp:1043
+#: dolphinviewcontainer.cpp:1061
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Creează dosarul la această cale și îl deschide"
 
-#: dolphinviewcontainer.cpp:1046
+#: dolphinviewcontainer.cpp:1064
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Nu aveți permisiuni suficiente pentru a crea dosarul"
 
-#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
+#: dolphinviewcontainer.cpp:1108 dolphinviewcontainer.cpp:1111
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 "Amplasarea actuală s-a schimbat, <filename>%1</filename> nu mai e accesibil."
 
-#: filterbar/filterbar.cpp:29
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Păstrează filtrul la schimbarea dosarului"
 
-#: filterbar/filterbar.cpp:36
+#: filterbar/filterbar.cpp:43
 #, kde-format
 msgid "Filter…"
 msgstr "Filtrează…"
 
-#: filterbar/filterbar.cpp:44
+#: filterbar/filterbar.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Invalid protocol"
+msgid "Invalid expression"
+msgstr "Protocol nevalid"
+
+#: filterbar/filterbar.cpp:60
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Match case"
+msgstr ""
+
+#: filterbar/filterbar.cpp:66
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Plain Text"
+msgstr ""
+
+#: filterbar/filterbar.cpp:67
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Glob Pattern"
+msgstr ""
+
+#: filterbar/filterbar.cpp:68
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Regular Expression"
+msgstr ""
+
+#: filterbar/filterbar.cpp:78
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2553,92 +2584,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2400
+#: kitemviews/kfileitemmodel.cpp:2428
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2430
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Altele"
 
-#: kitemviews/kfileitemmodel.cpp:2434
+#: kitemviews/kfileitemmodel.cpp:2462
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Dosare"
 
-#: kitemviews/kfileitemmodel.cpp:2442
+#: kitemviews/kfileitemmodel.cpp:2470
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Mică"
 
-#: kitemviews/kfileitemmodel.cpp:2444
+#: kitemviews/kfileitemmodel.cpp:2472
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Medie"
 
-#: kitemviews/kfileitemmodel.cpp:2446
+#: kitemviews/kfileitemmodel.cpp:2474
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Mare"
 
-#: kitemviews/kfileitemmodel.cpp:2492
+#: kitemviews/kfileitemmodel.cpp:2520
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Azi"
 
-#: kitemviews/kfileitemmodel.cpp:2495
+#: kitemviews/kfileitemmodel.cpp:2523
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: kitemviews/kfileitemmodel.cpp:2498
+#: kitemviews/kfileitemmodel.cpp:2526
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "zzzz"
 
-#: kitemviews/kfileitemmodel.cpp:2502
+#: kitemviews/kfileitemmodel.cpp:2530
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2535
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Acum o săptămână"
 
-#: kitemviews/kfileitemmodel.cpp:2510
+#: kitemviews/kfileitemmodel.cpp:2538
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Acum două săptămâni"
 
-#: kitemviews/kfileitemmodel.cpp:2513
+#: kitemviews/kfileitemmodel.cpp:2541
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Acum trei săptămâni"
 
-#: kitemviews/kfileitemmodel.cpp:2517
+#: kitemviews/kfileitemmodel.cpp:2545
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Mai demult, luna aceasta"
 
-#: kitemviews/kfileitemmodel.cpp:2531
+#: kitemviews/kfileitemmodel.cpp:2559
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2648,7 +2679,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Ieri' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2538
+#: kitemviews/kfileitemmodel.cpp:2566
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2656,7 +2687,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2551
+#: kitemviews/kfileitemmodel.cpp:2579
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2664,7 +2695,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2555
+#: kitemviews/kfileitemmodel.cpp:2583
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2673,7 +2704,7 @@ msgid "%1"
 msgstr "%1"
 
 # Keep the single quotes as they are here
-#: kitemviews/kfileitemmodel.cpp:2563
+#: kitemviews/kfileitemmodel.cpp:2591
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2683,7 +2714,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Acum o săptămână' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2598
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2692,7 +2723,7 @@ msgid "%1"
 msgstr "%1"
 
 # Keep the single quotes as they are here
-#: kitemviews/kfileitemmodel.cpp:2584
+#: kitemviews/kfileitemmodel.cpp:2612
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2702,7 +2733,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Acum două săptămâni' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2591
+#: kitemviews/kfileitemmodel.cpp:2619
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2711,7 +2742,7 @@ msgid "%1"
 msgstr "%1"
 
 # Keep the single quotes as they are here
-#: kitemviews/kfileitemmodel.cpp:2605
+#: kitemviews/kfileitemmodel.cpp:2633
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2721,7 +2752,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Acum trei săptămâni' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2612
+#: kitemviews/kfileitemmodel.cpp:2640
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2730,7 +2761,7 @@ msgid "%1"
 msgstr "%1"
 
 # Keep the single quotes as they are here
-#: kitemviews/kfileitemmodel.cpp:2626
+#: kitemviews/kfileitemmodel.cpp:2654
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2740,7 +2771,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Mai demult' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2633
+#: kitemviews/kfileitemmodel.cpp:2661
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2748,7 +2779,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2675
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2756,7 +2787,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2651
+#: kitemviews/kfileitemmodel.cpp:2679
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2764,258 +2795,258 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2704
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Citire, "
 
-#: kitemviews/kfileitemmodel.cpp:2694 kitemviews/kfileitemmodel.cpp:2707
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2722 kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2748
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Scriere, "
 
-#: kitemviews/kfileitemmodel.cpp:2697 kitemviews/kfileitemmodel.cpp:2710
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2725 kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2751
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Execuție, "
 
-#: kitemviews/kfileitemmodel.cpp:2699 kitemviews/kfileitemmodel.cpp:2712
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2753
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Interzis"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2755
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Utilizator: %1 | Grup: %2 | Alții: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Name"
 msgstr "Denumire"
 
-#: kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Size"
 msgstr "Dimensiune"
 
-#: kitemviews/kfileitemmodel.cpp:2819
+#: kitemviews/kfileitemmodel.cpp:2847
 msgctxt "@label"
 msgid "Modified"
 msgstr "Modificat"
 
-#: kitemviews/kfileitemmodel.cpp:2819 kitemviews/kfileitemmodel.cpp:2820
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Formatul datei poate fi ales în configurări."
 
-#: kitemviews/kfileitemmodel.cpp:2820
+#: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
 msgid "Created"
 msgstr "Creat"
 
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Accesat"
 
-#: kitemviews/kfileitemmodel.cpp:2822
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Type"
 msgstr "Tip"
 
-#: kitemviews/kfileitemmodel.cpp:2823
+#: kitemviews/kfileitemmodel.cpp:2851
 msgctxt "@label"
 msgid "Rating"
 msgstr "Evaluare"
 
-#: kitemviews/kfileitemmodel.cpp:2824
+#: kitemviews/kfileitemmodel.cpp:2852
 msgctxt "@label"
 msgid "Tags"
 msgstr "Marcaje"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2853
 msgctxt "@label"
 msgid "Comment"
 msgstr "Comentariu"
 
-#: kitemviews/kfileitemmodel.cpp:2826
+#: kitemviews/kfileitemmodel.cpp:2854
 msgctxt "@label"
 msgid "Title"
 msgstr "Titlu"
 
-#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2827
-#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2829
-#: kitemviews/kfileitemmodel.cpp:2830 kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
 msgctxt "@label"
 msgid "Document"
 msgstr "Document"
 
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Author"
 msgstr "Autor"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2856
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Emitent"
 
-#: kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2857
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Număr de pagini"
 
-#: kitemviews/kfileitemmodel.cpp:2830
+#: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Număr de cuvinte"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2859
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Număr de linii"
 
-#: kitemviews/kfileitemmodel.cpp:2832
+#: kitemviews/kfileitemmodel.cpp:2860
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Data fotografierii"
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2833
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2835
-#: kitemviews/kfileitemmodel.cpp:2836
-msgctxt "@label"
-msgid "Image"
-msgstr "Imagine"
-
-#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2849
-msgctxt "@label width x height"
-msgid "Dimensions"
-msgstr "Dimensiuni"
-
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2852
-msgctxt "@label"
-msgid "Height"
-msgstr "Înălțime"
-
-#: kitemviews/kfileitemmodel.cpp:2835
-msgctxt "@label"
-msgid "Orientation"
-msgstr "Orientare"
-
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2855
-msgctxt "@label"
-msgid "Width"
-msgstr "Lățime"
-
-#: kitemviews/kfileitemmodel.cpp:2837
-msgctxt "@label"
-msgid "Album"
-msgstr "Album"
-
-#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
-msgctxt "@label"
-msgid "Audio"
-msgstr "Audio"
-
-#: kitemviews/kfileitemmodel.cpp:2838
-msgctxt "@label"
-msgid "Artist"
-msgstr "Interpret"
-
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2846
-msgctxt "@label"
-msgid "Audio Codec"
-msgstr "Codec audio"
-
-#: kitemviews/kfileitemmodel.cpp:2840 kitemviews/kfileitemmodel.cpp:2847
-msgctxt "@label"
-msgid "Bitrate"
-msgstr "Rată de biți"
-
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2850
-msgctxt "@label"
-msgid "Duration"
-msgstr "Durată"
-
-#: kitemviews/kfileitemmodel.cpp:2842
-msgctxt "@label"
-msgid "Genre"
-msgstr "Gen"
-
-#: kitemviews/kfileitemmodel.cpp:2843
-msgctxt "@label"
-msgid "Release Year"
-msgstr "Anul lansării"
-
-#: kitemviews/kfileitemmodel.cpp:2844
-msgctxt "@label"
-msgid "Track"
-msgstr "Pistă"
-
-#: kitemviews/kfileitemmodel.cpp:2845
-msgctxt "@label"
-msgid "Aspect Ratio"
-msgstr "Raport de aspect"
-
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
-#: kitemviews/kfileitemmodel.cpp:2851 kitemviews/kfileitemmodel.cpp:2852
-#: kitemviews/kfileitemmodel.cpp:2853 kitemviews/kfileitemmodel.cpp:2854
-#: kitemviews/kfileitemmodel.cpp:2855
-msgctxt "@label"
-msgid "Video"
-msgstr "Video"
-
-#: kitemviews/kfileitemmodel.cpp:2848
-msgctxt "@label"
-msgid "Color Space"
-msgstr "Spațiu de culoare"
-
-#: kitemviews/kfileitemmodel.cpp:2851
-msgctxt "@label"
-msgid "Frame Rate"
-msgstr "Frecvență cadre"
-
-#: kitemviews/kfileitemmodel.cpp:2853
-msgctxt "@label"
-msgid "Pixel Format"
-msgstr "Format pixeli"
-
-#: kitemviews/kfileitemmodel.cpp:2854
-msgctxt "@label"
-msgid "Video Codec"
-msgstr "Codec video"
-
-#: kitemviews/kfileitemmodel.cpp:2856
-msgctxt "@label"
-msgid "Path"
-msgstr "Cale"
-
-#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
-#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
 #: kitemviews/kfileitemmodel.cpp:2860 kitemviews/kfileitemmodel.cpp:2861
 #: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2863
 #: kitemviews/kfileitemmodel.cpp:2864
 msgctxt "@label"
+msgid "Image"
+msgstr "Imagine"
+
+#: kitemviews/kfileitemmodel.cpp:2861 kitemviews/kfileitemmodel.cpp:2877
+msgctxt "@label width x height"
+msgid "Dimensions"
+msgstr "Dimensiuni"
+
+#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2880
+msgctxt "@label"
+msgid "Height"
+msgstr "Înălțime"
+
+#: kitemviews/kfileitemmodel.cpp:2863
+msgctxt "@label"
+msgid "Orientation"
+msgstr "Orientare"
+
+#: kitemviews/kfileitemmodel.cpp:2864 kitemviews/kfileitemmodel.cpp:2883
+msgctxt "@label"
+msgid "Width"
+msgstr "Lățime"
+
+#: kitemviews/kfileitemmodel.cpp:2865
+msgctxt "@label"
+msgid "Album"
+msgstr "Album"
+
+#: kitemviews/kfileitemmodel.cpp:2865 kitemviews/kfileitemmodel.cpp:2866
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2868
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2870
+#: kitemviews/kfileitemmodel.cpp:2871 kitemviews/kfileitemmodel.cpp:2872
+msgctxt "@label"
+msgid "Audio"
+msgstr "Audio"
+
+#: kitemviews/kfileitemmodel.cpp:2866
+msgctxt "@label"
+msgid "Artist"
+msgstr "Interpret"
+
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2874
+msgctxt "@label"
+msgid "Audio Codec"
+msgstr "Codec audio"
+
+#: kitemviews/kfileitemmodel.cpp:2868 kitemviews/kfileitemmodel.cpp:2875
+msgctxt "@label"
+msgid "Bitrate"
+msgstr "Rată de biți"
+
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2878
+msgctxt "@label"
+msgid "Duration"
+msgstr "Durată"
+
+#: kitemviews/kfileitemmodel.cpp:2870
+msgctxt "@label"
+msgid "Genre"
+msgstr "Gen"
+
+#: kitemviews/kfileitemmodel.cpp:2871
+msgctxt "@label"
+msgid "Release Year"
+msgstr "Anul lansării"
+
+#: kitemviews/kfileitemmodel.cpp:2872
+msgctxt "@label"
+msgid "Track"
+msgstr "Pistă"
+
+#: kitemviews/kfileitemmodel.cpp:2873
+msgctxt "@label"
+msgid "Aspect Ratio"
+msgstr "Raport de aspect"
+
+#: kitemviews/kfileitemmodel.cpp:2873 kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875 kitemviews/kfileitemmodel.cpp:2876
+#: kitemviews/kfileitemmodel.cpp:2877 kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2879 kitemviews/kfileitemmodel.cpp:2880
+#: kitemviews/kfileitemmodel.cpp:2881 kitemviews/kfileitemmodel.cpp:2882
+#: kitemviews/kfileitemmodel.cpp:2883
+msgctxt "@label"
+msgid "Video"
+msgstr "Video"
+
+#: kitemviews/kfileitemmodel.cpp:2876
+msgctxt "@label"
+msgid "Color Space"
+msgstr "Spațiu de culoare"
+
+#: kitemviews/kfileitemmodel.cpp:2879
+msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Frecvență cadre"
+
+#: kitemviews/kfileitemmodel.cpp:2881
+msgctxt "@label"
+msgid "Pixel Format"
+msgstr "Format pixeli"
+
+#: kitemviews/kfileitemmodel.cpp:2882
+msgctxt "@label"
+msgid "Video Codec"
+msgstr "Codec video"
+
+#: kitemviews/kfileitemmodel.cpp:2884
+msgctxt "@label"
+msgid "Path"
+msgstr "Cale"
+
+#: kitemviews/kfileitemmodel.cpp:2884 kitemviews/kfileitemmodel.cpp:2885
+#: kitemviews/kfileitemmodel.cpp:2886 kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2888 kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2890 kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2892
+msgctxt "@label"
 msgid "Other"
 msgstr "Altele"
 
-#: kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2885
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Filenames"
@@ -3023,32 +3054,32 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "Denumiri fișiere"
 
-#: kitemviews/kfileitemmodel.cpp:2858
+#: kitemviews/kfileitemmodel.cpp:2886
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Extensie de fișier"
 
-#: kitemviews/kfileitemmodel.cpp:2859
+#: kitemviews/kfileitemmodel.cpp:2887
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Data ștergerii"
 
-#: kitemviews/kfileitemmodel.cpp:2860
+#: kitemviews/kfileitemmodel.cpp:2888
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Destinația legăturii"
 
-#: kitemviews/kfileitemmodel.cpp:2861
+#: kitemviews/kfileitemmodel.cpp:2889
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Descărcat de la"
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Permisiuni"
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3057,17 +3088,17 @@ msgstr ""
 "Formatul permisiunilor poate fi schimbat în configurări. Puteți alege între "
 "formatele simbolic, numeric (octal), sau combinat"
 
-#: kitemviews/kfileitemmodel.cpp:2863
+#: kitemviews/kfileitemmodel.cpp:2891
 msgctxt "@label"
 msgid "Owner"
 msgstr "Proprietar"
 
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2892
 msgctxt "@label"
 msgid "User Group"
 msgstr "Grup utilizator"
 
-#: kitemviews/kfileitemmodel.cpp:2965
+#: kitemviews/kfileitemmodel.cpp:2993
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6253,7 +6284,7 @@ msgstr "Implicit"
 msgid "Reload"
 msgstr "Reîncarcă"
 
-#: views/dolphinview.cpp:692
+#: views/dolphinview.cpp:712
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6262,7 +6293,7 @@ msgstr[0] "1 dosar ales"
 msgstr[1] "%1 dosare alese"
 msgstr[2] "%1 de dosare alese"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:713
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6271,7 +6302,7 @@ msgstr[0] "1 fișier ales"
 msgstr[1] "%1 fișiere alese"
 msgstr[2] "%1 de fișiere alese"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:715
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6280,7 +6311,7 @@ msgstr[0] "1 dosar"
 msgstr[1] "%1 dosare"
 msgstr[2] "%1 de dosare"
 
-#: views/dolphinview.cpp:696
+#: views/dolphinview.cpp:716
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6289,31 +6320,31 @@ msgstr[0] "1 fișier"
 msgstr[1] "%1 fișiere"
 msgstr[2] "%1 de fișiere"
 
-#: views/dolphinview.cpp:700
+#: views/dolphinview.cpp:720
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:702
+#: views/dolphinview.cpp:722
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:706
+#: views/dolphinview.cpp:726
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 dosare, 0 fișiere"
 
-#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
+#: views/dolphinview.cpp:968 views/dolphinview.cpp:977
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "Copie %1"
 
-#: views/dolphinview.cpp:1150
+#: views/dolphinview.cpp:1170
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6321,7 +6352,7 @@ msgstr[0] "Sigur deschideți 1 element?"
 msgstr[1] "Sigur deschideți %1 elemente?"
 msgstr[2] "Sigur deschideți %1 de elemente?"
 
-#: views/dolphinview.cpp:1155
+#: views/dolphinview.cpp:1175
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6330,43 +6361,43 @@ msgstr[0] "Deschide %1 element"
 msgstr[1] "Deschide %1 elemente"
 msgstr[2] "Deschide %1 de elemente"
 
-#: views/dolphinview.cpp:1288
+#: views/dolphinview.cpp:1308
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Umplutură laterală"
 
-#: views/dolphinview.cpp:1292
+#: views/dolphinview.cpp:1312
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Lățimi automate pentru coloane"
 
-#: views/dolphinview.cpp:1297
+#: views/dolphinview.cpp:1317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Lățimi personalizate pentru coloane"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2047
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operația coșului de gunoi încheiată."
 
-#: views/dolphinview.cpp:2037
+#: views/dolphinview.cpp:2057
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operație de ștergere încheiată."
 
-#: views/dolphinview.cpp:2205
+#: views/dolphinview.cpp:2225
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Redenumește și ascunde"
 
-#: views/dolphinview.cpp:2209
+#: views/dolphinview.cpp:2229
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6376,7 +6407,7 @@ msgstr ""
 "vizualizare.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2211
+#: views/dolphinview.cpp:2231
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6386,23 +6417,23 @@ msgstr ""
 "vizualizare.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, kde-format
 msgid "Hide this File?"
 msgstr "Ascundeți acest fișier?"
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Ascundeți acest dosar?"
 
-#: views/dolphinview.cpp:2234
+#: views/dolphinview.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Redenumește"
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2264
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6415,7 +6446,7 @@ msgstr ""
 "recunoască.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2268
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6428,90 +6459,90 @@ msgstr ""
 "recunoască.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2274
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Schimbă tipul fișierului"
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2318
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Amplasarea este goală."
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Amplasarea „%1” nu este validă."
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2701
 #, kde-format
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: views/dolphinview.cpp:2710
+#: views/dolphinview.cpp:2730
 #, kde-format
 msgid "Loading canceled"
 msgstr "Încărcare anulată"
 
-#: views/dolphinview.cpp:2712
+#: views/dolphinview.cpp:2732
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Niciun element care să se potrivească filtrului"
 
-#: views/dolphinview.cpp:2714
+#: views/dolphinview.cpp:2734
 #, kde-format
 msgid "No items matching the search"
 msgstr "Niciun element care să se potrivească căutării"
 
-#: views/dolphinview.cpp:2716
+#: views/dolphinview.cpp:2736
 #, kde-format
 msgid "Trash is empty"
 msgstr "Gunoiul e gol"
 
-#: views/dolphinview.cpp:2719
+#: views/dolphinview.cpp:2739
 #, kde-format
 msgid "No tags"
 msgstr "Niciun marcaj"
 
-#: views/dolphinview.cpp:2722
+#: views/dolphinview.cpp:2742
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Niciun fișier marcat cu „%1”"
 
-#: views/dolphinview.cpp:2726
+#: views/dolphinview.cpp:2746
 #, kde-format
 msgid "No recently used items"
 msgstr "Niciun element folosit recent"
 
-#: views/dolphinview.cpp:2728
+#: views/dolphinview.cpp:2748
 #, kde-format
 msgid "No shared folders found"
 msgstr "Niciun dosar partajat găsit"
 
-#: views/dolphinview.cpp:2730
+#: views/dolphinview.cpp:2750
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nicio resursă de rețea relevantă găsită"
 
-#: views/dolphinview.cpp:2732
+#: views/dolphinview.cpp:2752
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Niciun dispozitiv compatibil cu MTP găsit"
 
-#: views/dolphinview.cpp:2734
+#: views/dolphinview.cpp:2754
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Niciun dispozitiv Apple găsit"
 
-#: views/dolphinview.cpp:2736
+#: views/dolphinview.cpp:2756
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Niciun dispozitiv Bluetooth găsit"
 
-#: views/dolphinview.cpp:2738
+#: views/dolphinview.cpp:2758
 #, kde-format
 msgid "Folder is empty"
 msgstr "Dosarul e gol"

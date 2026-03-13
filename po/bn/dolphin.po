@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-12 00:47+0000\n"
+"POT-Creation-Date: 2026-03-13 00:46+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -297,7 +297,7 @@ msgid ""
 msgstr "এই উইণ্ডোয় একাধিক ট্যাব খোলা রয়েছে। আপনি কি প্রস্থান করার ব্যাপারে নিশ্চিত?"
 
 #: dolphinmainwindow.cpp:684 dolphinmainwindow.cpp:734
-#: views/dolphinview.cpp:2257
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgid "Do not ask again"
 msgstr "আর জিজ্ঞাসা করার প্রয়োজন নেই"
@@ -1899,7 +1899,7 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:155
+#: dolphinviewcontainer.cpp:157
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1907,7 +1907,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: dolphinviewcontainer.cpp:158
+#: dolphinviewcontainer.cpp:160
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1915,7 +1915,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "সাজানো:"
 
-#: dolphinviewcontainer.cpp:682
+#: dolphinviewcontainer.cpp:688
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1923,13 +1923,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "অনুসন্ধান চলছে..."
 
-#: dolphinviewcontainer.cpp:702
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "কোন মিল পাওয়া যায়নি।"
 
-#: dolphinviewcontainer.cpp:737
+#: dolphinviewcontainer.cpp:743
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste One File"
@@ -1937,7 +1937,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "একটি ফাইল পেস্ট করো"
 
-#: dolphinviewcontainer.cpp:754
+#: dolphinviewcontainer.cpp:760
 #, fuzzy, kde-kuit-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the item <filename>%1</filename> to:"
@@ -1945,13 +1945,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "<filename>%1</filename> বস্তুটির নাম বদলে করো:"
 
-#: dolphinviewcontainer.cpp:906
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ডলফিন ওয়েব-পেজ সমর্থন করো না, ওয়েব ব্রাউজার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:909
+#: dolphinviewcontainer.cpp:927
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1960,7 +1960,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ডলফিন এই প্রোটোকল-টি সমর্থন করে না, কনকরার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:916
+#: dolphinviewcontainer.cpp:934
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1968,19 +1968,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:936
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:1021
+#: dolphinviewcontainer.cpp:1039
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1026
+#: dolphinviewcontainer.cpp:1044
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1988,38 +1988,69 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "ফোল্ডার তৈরী করা হয়েছে।"
 
-#: dolphinviewcontainer.cpp:1043
+#: dolphinviewcontainer.cpp:1061
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1046
+#: dolphinviewcontainer.cpp:1064
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1090 dolphinviewcontainer.cpp:1093
+#: dolphinviewcontainer.cpp:1108 dolphinviewcontainer.cpp:1111
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:29
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr ""
 
-#: filterbar/filterbar.cpp:36
+#: filterbar/filterbar.cpp:43
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgid "Filter…"
 msgstr "ফিল্টার:"
 
-#: filterbar/filterbar.cpp:44
+#: filterbar/filterbar.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Invalid protocol"
+msgid "Invalid expression"
+msgstr "অবৈধ প্রোটোকল"
+
+#: filterbar/filterbar.cpp:60
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Match case"
+msgstr ""
+
+#: filterbar/filterbar.cpp:66
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Plain Text"
+msgstr ""
+
+#: filterbar/filterbar.cpp:67
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Glob Pattern"
+msgstr ""
+
+#: filterbar/filterbar.cpp:68
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Regular Expression"
+msgstr ""
+
+#: filterbar/filterbar.cpp:78
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2435,13 +2466,13 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2400
+#: kitemviews/kfileitemmodel.cpp:2428
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2430
 #, fuzzy, kde-format
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2449,56 +2480,56 @@ msgctxt "@title:group"
 msgid "Others"
 msgstr "অন্যান্য"
 
-#: kitemviews/kfileitemmodel.cpp:2434
+#: kitemviews/kfileitemmodel.cpp:2462
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "ফোল্ডার"
 
-#: kitemviews/kfileitemmodel.cpp:2442
+#: kitemviews/kfileitemmodel.cpp:2470
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "ছোট"
 
-#: kitemviews/kfileitemmodel.cpp:2444
+#: kitemviews/kfileitemmodel.cpp:2472
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "মাঝারি"
 
-#: kitemviews/kfileitemmodel.cpp:2446
+#: kitemviews/kfileitemmodel.cpp:2474
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "বড়"
 
-#: kitemviews/kfileitemmodel.cpp:2492
+#: kitemviews/kfileitemmodel.cpp:2520
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "আজ"
 
-#: kitemviews/kfileitemmodel.cpp:2495
+#: kitemviews/kfileitemmodel.cpp:2523
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "গতকাল"
 
-#: kitemviews/kfileitemmodel.cpp:2498
+#: kitemviews/kfileitemmodel.cpp:2526
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2502
+#: kitemviews/kfileitemmodel.cpp:2530
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2535
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Three Weeks Ago"
@@ -2506,25 +2537,25 @@ msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "তিন সপ্তাহ আগে"
 
-#: kitemviews/kfileitemmodel.cpp:2510
+#: kitemviews/kfileitemmodel.cpp:2538
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "দুই সপ্তাহ আগে"
 
-#: kitemviews/kfileitemmodel.cpp:2513
+#: kitemviews/kfileitemmodel.cpp:2541
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "তিন সপ্তাহ আগে"
 
-#: kitemviews/kfileitemmodel.cpp:2517
+#: kitemviews/kfileitemmodel.cpp:2545
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "এই মাসের গোড়ার দিকে"
 
-#: kitemviews/kfileitemmodel.cpp:2531
+#: kitemviews/kfileitemmodel.cpp:2559
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2538,7 +2569,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "গতকাল (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2538
+#: kitemviews/kfileitemmodel.cpp:2566
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2546,7 +2577,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2551
+#: kitemviews/kfileitemmodel.cpp:2579
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2558,7 +2589,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "গতকাল (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2555
+#: kitemviews/kfileitemmodel.cpp:2583
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2566,7 +2597,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2563
+#: kitemviews/kfileitemmodel.cpp:2591
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2580,7 +2611,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "তিন সপ্তাহ আগে (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2598
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2588,7 +2619,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2584
+#: kitemviews/kfileitemmodel.cpp:2612
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2602,7 +2633,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "দুই সপ্তাহ আগে (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2591
+#: kitemviews/kfileitemmodel.cpp:2619
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2610,7 +2641,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2605
+#: kitemviews/kfileitemmodel.cpp:2633
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2624,7 +2655,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "তিন সপ্তাহ আগে (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2612
+#: kitemviews/kfileitemmodel.cpp:2640
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2632,7 +2663,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2626
+#: kitemviews/kfileitemmodel.cpp:2654
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2646,7 +2677,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "আগে, %B, %Y-তে"
 
-#: kitemviews/kfileitemmodel.cpp:2633
+#: kitemviews/kfileitemmodel.cpp:2661
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2654,7 +2685,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2675
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2662,7 +2693,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2651
+#: kitemviews/kfileitemmodel.cpp:2679
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2670,35 +2701,35 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2704
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "পড়া,"
 
-#: kitemviews/kfileitemmodel.cpp:2694 kitemviews/kfileitemmodel.cpp:2707
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2722 kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2748
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "লেখা,"
 
-#: kitemviews/kfileitemmodel.cpp:2697 kitemviews/kfileitemmodel.cpp:2710
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2725 kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2751
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "চালানো,"
 
-#: kitemviews/kfileitemmodel.cpp:2699 kitemviews/kfileitemmodel.cpp:2712
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2753
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "নিষিদ্ধ"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2755
 #, fuzzy, kde-format
 #| msgctxt "@title:group Files and folders by permissions"
 #| msgid "(User: %1) (Group: %2) (Others: %3)"
@@ -2706,7 +2737,7 @@ msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "(ব্যবহারকারী: %1) (গ্রুপ: %2) (অন্যান্য: %3)"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2845
 #, fuzzy
 #| msgctxt "@action:inmenu Sort By"
 #| msgid "Name"
@@ -2714,12 +2745,12 @@ msgctxt "@label"
 msgid "Name"
 msgstr "নাম"
 
-#: kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2846
 msgctxt "@label"
 msgid "Size"
 msgstr "মাপ"
 
-#: kitemviews/kfileitemmodel.cpp:2819
+#: kitemviews/kfileitemmodel.cpp:2847
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Modified:"
@@ -2727,13 +2758,13 @@ msgctxt "@label"
 msgid "Modified"
 msgstr "পরিবর্তিত:"
 
-#: kitemviews/kfileitemmodel.cpp:2819 kitemviews/kfileitemmodel.cpp:2820
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2820
+#: kitemviews/kfileitemmodel.cpp:2848
 #, fuzzy
 #| msgctxt "@title:menu Create new folder, file, link, etc."
 #| msgid "Create New"
@@ -2741,17 +2772,17 @@ msgctxt "@label"
 msgid "Created"
 msgstr "নতুন তৈরি করো"
 
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2849
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2822
+#: kitemviews/kfileitemmodel.cpp:2850
 msgctxt "@label"
 msgid "Type"
 msgstr "ধরন"
 
-#: kitemviews/kfileitemmodel.cpp:2823
+#: kitemviews/kfileitemmodel.cpp:2851
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2759,7 +2790,7 @@ msgctxt "@label"
 msgid "Rating"
 msgstr "সাজানো:"
 
-#: kitemviews/kfileitemmodel.cpp:2824
+#: kitemviews/kfileitemmodel.cpp:2852
 #, fuzzy
 #| msgctxt "@label Indicator when no tags defined"
 #| msgid "No Tags"
@@ -2767,7 +2798,7 @@ msgctxt "@label"
 msgid "Tags"
 msgstr "কোন ট্যাগ নেই"
 
-#: kitemviews/kfileitemmodel.cpp:2825
+#: kitemviews/kfileitemmodel.cpp:2853
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2775,7 +2806,7 @@ msgctxt "@label"
 msgid "Comment"
 msgstr "মন্তব্য যোগ করো..."
 
-#: kitemviews/kfileitemmodel.cpp:2826
+#: kitemviews/kfileitemmodel.cpp:2854
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Title:"
@@ -2783,9 +2814,9 @@ msgctxt "@label"
 msgid "Title"
 msgstr "শিরোনাম:"
 
-#: kitemviews/kfileitemmodel.cpp:2826 kitemviews/kfileitemmodel.cpp:2827
-#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2829
-#: kitemviews/kfileitemmodel.cpp:2830 kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2854 kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2793,17 +2824,17 @@ msgctxt "@label"
 msgid "Document"
 msgstr "ডকুমেনটেশন"
 
-#: kitemviews/kfileitemmodel.cpp:2827
+#: kitemviews/kfileitemmodel.cpp:2855
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2856
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2857
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Change Comment..."
@@ -2811,24 +2842,24 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "মন্তব্য পরিবর্তন করো..."
 
-#: kitemviews/kfileitemmodel.cpp:2830
+#: kitemviews/kfileitemmodel.cpp:2858
 msgctxt "@label"
 msgid "Word Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2859
 msgctxt "@label"
 msgid "Line Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2832
+#: kitemviews/kfileitemmodel.cpp:2860
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2833
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2835
-#: kitemviews/kfileitemmodel.cpp:2836
+#: kitemviews/kfileitemmodel.cpp:2860 kitemviews/kfileitemmodel.cpp:2861
+#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2863
+#: kitemviews/kfileitemmodel.cpp:2864
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Images"
@@ -2836,17 +2867,17 @@ msgctxt "@label"
 msgid "Image"
 msgstr "ছবি"
 
-#: kitemviews/kfileitemmodel.cpp:2833 kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2861 kitemviews/kfileitemmodel.cpp:2877
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2834 kitemviews/kfileitemmodel.cpp:2852
+#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2880
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2835
+#: kitemviews/kfileitemmodel.cpp:2863
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2854,7 +2885,7 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "ডকুমেনটেশন"
 
-#: kitemviews/kfileitemmodel.cpp:2836 kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2864 kitemviews/kfileitemmodel.cpp:2883
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Width:"
@@ -2862,7 +2893,7 @@ msgctxt "@label"
 msgid "Width"
 msgstr "প্রস্থ:"
 
-#: kitemviews/kfileitemmodel.cpp:2837
+#: kitemviews/kfileitemmodel.cpp:2865
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Album:"
@@ -2870,15 +2901,15 @@ msgctxt "@label"
 msgid "Album"
 msgstr "অ্যালবাম:"
 
-#: kitemviews/kfileitemmodel.cpp:2837 kitemviews/kfileitemmodel.cpp:2838
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2840
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2842
-#: kitemviews/kfileitemmodel.cpp:2843 kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2865 kitemviews/kfileitemmodel.cpp:2866
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2868
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2870
+#: kitemviews/kfileitemmodel.cpp:2871 kitemviews/kfileitemmodel.cpp:2872
 msgctxt "@label"
 msgid "Audio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2866
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Artist:"
@@ -2886,7 +2917,7 @@ msgctxt "@label"
 msgid "Artist"
 msgstr "শিল্পী:"
 
-#: kitemviews/kfileitemmodel.cpp:2839 kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2874
 #, fuzzy
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
@@ -2894,12 +2925,12 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "লুকানো ফাইল দেখাও"
 
-#: kitemviews/kfileitemmodel.cpp:2840 kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2868 kitemviews/kfileitemmodel.cpp:2875
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2841 kitemviews/kfileitemmodel.cpp:2850
+#: kitemviews/kfileitemmodel.cpp:2869 kitemviews/kfileitemmodel.cpp:2878
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2907,7 +2938,7 @@ msgctxt "@label"
 msgid "Duration"
 msgstr "ডকুমেনটেশন"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2870
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Genre:"
@@ -2915,7 +2946,7 @@ msgctxt "@label"
 msgid "Genre"
 msgstr "গোত্র:"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2871
 #, fuzzy
 #| msgctxt "@action:inmenu View"
 #| msgid "Reload"
@@ -2923,7 +2954,7 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "নতুন করে পড়ো"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2872
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Track:"
@@ -2931,51 +2962,51 @@ msgctxt "@label"
 msgid "Track"
 msgstr "ট্র্যাক:"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2873
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845 kitemviews/kfileitemmodel.cpp:2846
-#: kitemviews/kfileitemmodel.cpp:2847 kitemviews/kfileitemmodel.cpp:2848
-#: kitemviews/kfileitemmodel.cpp:2849 kitemviews/kfileitemmodel.cpp:2850
-#: kitemviews/kfileitemmodel.cpp:2851 kitemviews/kfileitemmodel.cpp:2852
-#: kitemviews/kfileitemmodel.cpp:2853 kitemviews/kfileitemmodel.cpp:2854
-#: kitemviews/kfileitemmodel.cpp:2855
+#: kitemviews/kfileitemmodel.cpp:2873 kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875 kitemviews/kfileitemmodel.cpp:2876
+#: kitemviews/kfileitemmodel.cpp:2877 kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2879 kitemviews/kfileitemmodel.cpp:2880
+#: kitemviews/kfileitemmodel.cpp:2881 kitemviews/kfileitemmodel.cpp:2882
+#: kitemviews/kfileitemmodel.cpp:2883
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2848
+#: kitemviews/kfileitemmodel.cpp:2876
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2879
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2881
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2854
+#: kitemviews/kfileitemmodel.cpp:2882
 msgctxt "@label"
 msgid "Video Codec"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2856
+#: kitemviews/kfileitemmodel.cpp:2884
 msgctxt "@label"
 msgid "Path"
 msgstr "পাথ"
 
-#: kitemviews/kfileitemmodel.cpp:2856 kitemviews/kfileitemmodel.cpp:2857
-#: kitemviews/kfileitemmodel.cpp:2858 kitemviews/kfileitemmodel.cpp:2859
-#: kitemviews/kfileitemmodel.cpp:2860 kitemviews/kfileitemmodel.cpp:2861
-#: kitemviews/kfileitemmodel.cpp:2862 kitemviews/kfileitemmodel.cpp:2863
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2884 kitemviews/kfileitemmodel.cpp:2885
+#: kitemviews/kfileitemmodel.cpp:2886 kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2888 kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2890 kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2892
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2983,7 +3014,7 @@ msgctxt "@label"
 msgid "Other"
 msgstr "অন্যান্য"
 
-#: kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2885
 #, fuzzy
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -2991,12 +3022,12 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "ফাইল ম্যানেজার"
 
-#: kitemviews/kfileitemmodel.cpp:2858
+#: kitemviews/kfileitemmodel.cpp:2886
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2859
+#: kitemviews/kfileitemmodel.cpp:2887
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3004,34 +3035,34 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "নির্বাচন"
 
-#: kitemviews/kfileitemmodel.cpp:2860
+#: kitemviews/kfileitemmodel.cpp:2888
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "লিঙ্ক-এর গন্তব্য"
 
-#: kitemviews/kfileitemmodel.cpp:2861
+#: kitemviews/kfileitemmodel.cpp:2889
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@label"
 msgid "Permissions"
 msgstr "অনুমতি"
 
-#: kitemviews/kfileitemmodel.cpp:2862
+#: kitemviews/kfileitemmodel.cpp:2890
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2863
+#: kitemviews/kfileitemmodel.cpp:2891
 msgctxt "@label"
 msgid "Owner"
 msgstr "মালিক"
 
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2892
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Group"
@@ -3039,7 +3070,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "গ্রুপ"
 
-#: kitemviews/kfileitemmodel.cpp:2965
+#: kitemviews/kfileitemmodel.cpp:2993
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6449,7 +6480,7 @@ msgstr "ডিফল্ট"
 msgid "Reload"
 msgstr "নতুন করে পড়ো"
 
-#: views/dolphinview.cpp:692
+#: views/dolphinview.cpp:712
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6460,7 +6491,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "একটি ফোল্ডার নির্বাচিত"
 msgstr[1] "%1-টি ফোল্ডার নির্বাচিত"
 
-#: views/dolphinview.cpp:693
+#: views/dolphinview.cpp:713
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6471,7 +6502,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "একটি ফাইল নির্বাচিত"
 msgstr[1] "%1-টি ফাইল নির্বাচিত"
 
-#: views/dolphinview.cpp:695
+#: views/dolphinview.cpp:715
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -6481,7 +6512,7 @@ msgid_plural "%1 folders"
 msgstr[0] "ফোল্ডার"
 msgstr[1] "ফোল্ডার"
 
-#: views/dolphinview.cpp:696
+#: views/dolphinview.cpp:716
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6491,19 +6522,19 @@ msgid_plural "%1 files"
 msgstr[0] "deepayan.sarkar@gmail.com"
 msgstr[1] "deepayan.sarkar@gmail.com"
 
-#: views/dolphinview.cpp:700
+#: views/dolphinview.cpp:720
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:702
+#: views/dolphinview.cpp:722
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:706
+#: views/dolphinview.cpp:726
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -6511,20 +6542,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "প্রথমে ফোল্ডার"
 
-#: views/dolphinview.cpp:948 views/dolphinview.cpp:957
+#: views/dolphinview.cpp:968 views/dolphinview.cpp:977
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1150
+#: views/dolphinview.cpp:1170
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1155
+#: views/dolphinview.cpp:1175
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -6534,27 +6565,27 @@ msgid_plural "Open %1 Items"
 msgstr[0] "পাথ"
 msgstr[1] "পাথ"
 
-#: views/dolphinview.cpp:1288
+#: views/dolphinview.cpp:1308
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1292
+#: views/dolphinview.cpp:1312
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "কলাম প্রস্থ"
 
-#: views/dolphinview.cpp:1297
+#: views/dolphinview.cpp:1317
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "কলাম প্রস্থ"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2047
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -6562,48 +6593,48 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "আবর্জনার বাক্সে সরানো সম্পন্ন।"
 
-#: views/dolphinview.cpp:2037
+#: views/dolphinview.cpp:2057
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "মুছে ফেলা শেষ।"
 
-#: views/dolphinview.cpp:2205
+#: views/dolphinview.cpp:2225
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "নিজস্থানে নামান্তর করো"
 
-#: views/dolphinview.cpp:2209
+#: views/dolphinview.cpp:2229
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2211
+#: views/dolphinview.cpp:2231
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "লুকানো ফাইল দেখাও"
 
-#: views/dolphinview.cpp:2213
+#: views/dolphinview.cpp:2233
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "গৃহ ফোল্ডার"
 
-#: views/dolphinview.cpp:2234
+#: views/dolphinview.cpp:2254
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6611,7 +6642,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "নাম বদলাও..."
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2264
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6620,7 +6651,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2268
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6629,7 +6660,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2274
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6637,93 +6668,93 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ধরন:"
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2318
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "অবস্থান ফাঁকা।"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "অবস্থান '%1' অবৈধ।"
 
-#: views/dolphinview.cpp:2681
+#: views/dolphinview.cpp:2701
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: views/dolphinview.cpp:2710
+#: views/dolphinview.cpp:2730
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: views/dolphinview.cpp:2712
+#: views/dolphinview.cpp:2732
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2714
+#: views/dolphinview.cpp:2734
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2716
+#: views/dolphinview.cpp:2736
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "অবস্থান ফাঁকা।"
 
-#: views/dolphinview.cpp:2719
+#: views/dolphinview.cpp:2739
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2722
+#: views/dolphinview.cpp:2742
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2726
+#: views/dolphinview.cpp:2746
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 
-#: views/dolphinview.cpp:2728
+#: views/dolphinview.cpp:2748
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2730
+#: views/dolphinview.cpp:2750
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2732
+#: views/dolphinview.cpp:2752
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2734
+#: views/dolphinview.cpp:2754
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "কোন মিল পাওয়া যায়নি।"
 
-#: views/dolphinview.cpp:2736
+#: views/dolphinview.cpp:2756
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2738
+#: views/dolphinview.cpp:2758
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
