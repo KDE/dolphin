@@ -16,9 +16,11 @@
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemlistwidget.h"
+#include "settings/viewmodes/viewmodesettings.h"
 #include "testdir.h"
 #include "views/dolphinitemlistview.h"
 #include "views/viewproperties.h"
+#include "views/zoomlevelinfo.h"
 
 #include <KActionCollection>
 #include <KConfig>
@@ -1077,6 +1079,7 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
 void DolphinMainWindowTest::testViewModeAfterDynamicView()
 {
     GeneralSettings *settings = GeneralSettings::self();
+    settings->setGlobalViewProps(true);
     settings->setDynamicView(true);
     settings->save();
 
@@ -1156,8 +1159,8 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 
     // still on child, change view zoom level
-    const int childZoomLevel = view->zoomLevel();
-    view->setZoomLevel(childZoomLevel + 2);
+    const int childZoomLevel = view->zoomLevel() + 2;
+    view->setZoomLevel(childZoomLevel);
 
     // go back to parent folder and check for zoom level
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
@@ -1172,29 +1175,42 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
     view->setUrl(QUrl(testDirUrl + "/a"));
     QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QCOMPARE(view->zoomLevel(), childZoomLevel + 2);
+    QCOMPARE(view->zoomLevel(), childZoomLevel);
     QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 
     // test for global views
     settings->setGlobalViewProps(true);
     settings->save();
+    QVERIFY(GeneralSettings::globalViewProps());
 
     // go back to parent folder and set zoom level
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
     view->m_model->loadDirectory(testDir->url());
     view->setUrl(testDir->url());
-    view->setZoomLevel(parentZoomLevel + 1);
     QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QTRY_COMPARE_WITH_TIMEOUT(view->zoomLevel(), parentZoomLevel + 1, 400);
-    QTRY_VERIFY_WITH_TIMEOUT(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed(), 400);
+
+    // zoom isn't changed
+    QCOMPARE(view->zoomLevel(), childZoomLevel);
+
+    // change the zoom
+    view->setZoomLevel(parentZoomLevel + 1);
+    QCOMPARE(view->zoomLevel(), parentZoomLevel + 1);
+    QVERIFY(!ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 
     // go to child and check if zoom level remains the same
     m_mainWindow->openFiles({testDirUrl + "/a"}, false);
     view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
     view->setUrl(QUrl(testDirUrl + "/a"));
     QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QTRY_COMPARE_WITH_TIMEOUT(view->zoomLevel(), parentZoomLevel + 1, 400);
-    QTRY_VERIFY_WITH_TIMEOUT(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed(), 400);
+
+    ViewModeSettings modeDefaultSettings{DolphinView::IconsView};
+    auto defaultPreviewIconSize = modeDefaultSettings.previewSize();
+    auto defaultPreviewZoom = ZoomLevelInfo::zoomLevelForIconSize(QSize(defaultPreviewIconSize, defaultPreviewIconSize));
+    // dynamic view works
+    QCOMPARE(view->m_mode, DolphinView::IconsView);
+    QCOMPARE(view->zoomLevel(), defaultPreviewZoom);
+    // that's the global settings, no dynamicViewPassed saved
+    QVERIFY(!ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 }
 
 void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
