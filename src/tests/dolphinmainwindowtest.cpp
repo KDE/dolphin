@@ -1029,6 +1029,20 @@ void DolphinMainWindowTest::testInlineRename()
     QCOMPARE(view->m_model->fileItem(2).name(), "cccc");
     QCOMPARE(view->m_model->fileItem(3).name(), "eaaaa");
     QCOMPARE(view->m_model->count(), 4);
+
+    view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/eaaaa")});
+    view->updateViewState();
+    view->renameSelectedItems();
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Down);
+    QVERIFY(widget->editedRole().isEmpty());
+    QCOMPARE(view->selectedItemsCount(), 1);
+
+    view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/abbbb")});
+    view->updateViewState();
+    view->renameSelectedItems();
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Up);
+    QVERIFY(widget->editedRole().isEmpty());
+    QCOMPARE(view->selectedItemsCount(), 1);
 }
 
 void DolphinMainWindowTest::testThumbnailAfterRename()
