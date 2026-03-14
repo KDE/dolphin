@@ -2065,11 +2065,9 @@ msgid "Filter…"
 msgstr "过滤…"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "无效的协议"
+msgstr ""
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
@@ -4349,14 +4347,14 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr ""
+msgstr "缩放级别"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "文件夹的缩放级别。"
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
