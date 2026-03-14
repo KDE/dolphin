@@ -506,7 +506,10 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     }
 
     if (sourceColumn < 0) {
-        return DolphinView::eventFilter(watched, event);
+        m_blockNavigation = true;
+        auto ret = DolphinView::eventFilter(watched, event);
+        m_blockNavigation = false;
+        return ret;
     }
 
     if (event->type() == QEvent::KeyPress) {
@@ -594,8 +597,7 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = m_columns.at(childCol);
         }
         setActiveColumn(childCol);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
+        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
 }
 
@@ -630,9 +632,8 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         } else {
             m_pendingAutoSelect = m_columns.at(childCol);
         }
-        setActiveColumn(childCol);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
+        updateUrl(m_columns.at(childCol)->dirUrl());
+        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
     return true;
 }
@@ -896,17 +897,22 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         }
 
         auto currentColumnIndex = m_columns.indexOf(newPane);
+        auto currentUrl = newPane->dirUrl();
         auto item = newPane->model()->fileItem(current.first());
-        if (item.isNull() || !item.isDir()) {
-            popAfter(currentColumnIndex);
-            return;
+        if (!item.isNull() && item.isDir()) {
+            for (int i = m_columns.size() - 1; i > 0; --i) {
+                if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
+                    popAfter(i - 1);
+                } else {
+                    break;
+                }
+            }
         }
 
-        if (currentColumnIndex != -1) {
+        if (item.isDir() && currentColumnIndex != -1) {
             newPane->controller()->selectionManager()->blockSignals(true);
             openChild(currentColumnIndex, item.url());
 
-            setActiveColumn(currentColumnIndex + 1);
             updateUrl(m_columns.at(m_activeColumn)->dirUrl());
             Q_EMIT urlChanged(url());
 
