@@ -44,7 +44,6 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     // Create a new primary view
     m_primaryViewContainer = createViewContainer(primaryUrl);
     connect(m_primaryViewContainer->view(), &DolphinView::urlChanged, this, &DolphinTabPage::activeViewUrlChanged);
-    connect(m_primaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
 
     m_splitter->addWidget(m_primaryViewContainer);
     m_primaryViewContainer->show();
@@ -55,7 +54,6 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
         m_splitViewEnabled = true;
         const QUrl &url = secondaryUrl.isValid() ? secondaryUrl : primaryUrl;
         m_secondaryViewContainer = createViewContainer(url);
-        connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
         m_splitter->addWidget(m_secondaryViewContainer);
         m_secondaryViewContainer->show();
     }
@@ -560,15 +558,23 @@ void DolphinTabPage::disconnectViewActivatedSignals()
     }
 }
 
+void DolphinTabPage::connectToContainerView(DolphinViewContainer *container) const
+{
+    const DolphinView *view = container->view();
+    connect(view, &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
+    connect(view, &DolphinView::toggleActiveViewRequested, this, &DolphinTabPage::switchActiveView);
+    connect(view, &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
+}
+
 DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url) const
 {
     DolphinViewContainer *container = new DolphinViewContainer(url, m_splitter);
     container->setActive(false);
+    connectToContainerView(container);
 
-    const DolphinView *view = container->view();
-    connect(container, &DolphinViewContainer::activated, this, &DolphinTabPage::slotViewActivated);
-
-    connect(view, &DolphinView::toggleActiveViewRequested, this, &DolphinTabPage::switchActiveView);
+    connect(container, &DolphinViewContainer::viewReplaced, this, [this, container] {
+        connectToContainerView(container);
+    });
 
     return container;
 }
