@@ -260,6 +260,11 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     /**
+     * Is emitted if the view has been activated by e. g. a mouse click.
+     */
+    void activated();
+
+    /**
      * Is emitted whenever the filter bar has changed its visibility state.
      */
     void showFilterBarChanged(bool shown);
