@@ -566,7 +566,7 @@ DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url) const
     container->setActive(false);
 
     const DolphinView *view = container->view();
-    connect(view, &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
+    connect(container, &DolphinViewContainer::activated, this, &DolphinTabPage::slotViewActivated);
 
     connect(view, &DolphinView::toggleActiveViewRequested, this, &DolphinTabPage::switchActiveView);
 

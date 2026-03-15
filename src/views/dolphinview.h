@@ -738,6 +738,11 @@ Q_SIGNALS:
      */
     void doubleClickViewBackground(Qt::MouseButton button);
 
+    /**
+     * An action is requesting the view mode to change
+     */
+    void viewModeChangeRequested(DolphinView::Mode mode);
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent *event) override;
