@@ -2067,31 +2067,31 @@ msgstr "过滤…"
 #: filterbar/filterbar.cpp:51
 #, kde-format
 msgid "Invalid expression"
-msgstr ""
+msgstr "无效的表达式"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "区分大小写"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "纯文本"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "通配符模式"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "正则表达式"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
