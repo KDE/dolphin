@@ -120,6 +120,7 @@ public:
      */
     DolphinUrlNavigator *urlNavigatorInternalWithHistory();
 
+    // See @viewReplaced
     const DolphinView *view() const;
     DolphinView *view();
 
@@ -259,10 +260,6 @@ public Q_SLOTS:
     void slotSplitTabDisabled();
 
 Q_SIGNALS:
-    /**
-     * Is emitted if the view has been activated by e. g. a mouse click.
-     */
-    void activated();
 
     /**
      * Is emitted whenever the filter bar has changed its visibility state.

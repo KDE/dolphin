@@ -98,7 +98,7 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), nullptr, this);
     m_actionHandler->setCurrentView(m_view);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinPart::createDirectory);
-    connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, m_view, &DolphinView::setViewMode);
+    connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, m_view, &DolphinView::viewModeChangeRequested);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinPart::aboutToOpenURL, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
