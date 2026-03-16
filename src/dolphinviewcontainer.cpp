@@ -339,7 +339,7 @@ void DolphinViewContainer::setSearchBarVisible(bool visible)
 {
     if (!visible) {
         if (isSearchBarVisible()) {
-            m_searchBar->setVisible(false, WithAnimation);
+            m_searchBar->setVisible(false, WithAnimation, Search::Bar::HideBehavior::KeepCurrentUrl);
         }
         return;
     }

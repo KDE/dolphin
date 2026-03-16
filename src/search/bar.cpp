@@ -187,11 +187,13 @@ void Bar::selectAll()
     m_searchTermEditor->selectAll();
 }
 
-void Bar::setVisible(bool visible, Animated animated)
+void Bar::setVisible(bool visible, Animated animated, HideBehavior hideBehavior)
 {
     if (!visible) {
         m_startSearchTimer->stop();
-        Q_EMIT urlChangeRequested(m_searchConfiguration->searchPath());
+        if (hideBehavior == HideBehavior::RestoreUrl) {
+            Q_EMIT urlChangeRequested(m_searchConfiguration->searchPath());
+        }
         if (isAncestorOf(QApplication::focusWidget())) {
             Q_EMIT focusViewRequest();
         }

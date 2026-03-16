@@ -51,6 +51,19 @@ class Bar : public AnimatedHeightWidget, public UpdatableStateInterface
     Q_OBJECT
 
 public:
+    enum class HideBehavior {
+        /**
+         * When hiding the bar, request that the view switches back to a non-search URL (the search path).
+         * This is the behavior when the user explicitly quits searching.
+         */
+        RestoreUrl,
+        /**
+         * When hiding the bar, do not request any URL change.
+         * This is used when the UI is hidden automatically because the view navigated elsewhere already.
+         */
+        KeepCurrentUrl,
+    };
+
     /**
      * @brief Constructs a Search::Bar with an initial state matching @p dolphinQuery and with parent @p parent.
      */
@@ -80,7 +93,7 @@ public:
      * be properly un/checked.
      * @see AnimatedHeightWidget::setVisible().
      */
-    void setVisible(bool visible, Animated animated);
+    void setVisible(bool visible, Animated animated, HideBehavior hideBehavior = HideBehavior::RestoreUrl);
 
     /**
      * @returns false, when the search UI has not yet been changed to search for anything specific. For example when no search term has been entered yet.
