@@ -2138,13 +2138,10 @@ msgid "No items found."
 msgstr "Níor aimsíodh mír ar bith."
 
 #: dolphinviewcontainer.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Comhad amháin"
+msgstr ""
 
 #: dolphinviewcontainer.cpp:760
 #, kde-kuit-format
@@ -2225,11 +2222,9 @@ msgid "Filter…"
 msgstr "Scagaire…"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "Prótacal neamhbhailí"
+msgstr ""
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
@@ -3124,12 +3119,9 @@ msgid "Other"
 msgstr "Eile"
 
 #: kitemviews/kfileitemmodel.cpp:2885
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Folder size:"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Méid an fhillteáin:"
+msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2886
 msgctxt "@label"
@@ -4351,12 +4343,10 @@ msgid "Exit Selection Mode"
 msgstr "Scoir Mód Roghnúcháin"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Roghchlár Comhthéacs"
+msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4365,12 +4355,10 @@ msgid "Search…"
 msgstr "Cuardaigh…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Íoslódáil Seirbhísí Nua…"
+msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
@@ -4646,12 +4634,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "Athshocraigh Leibhéal Súmála"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -5106,12 +5092,10 @@ msgid "Warning"
 msgstr "Rabhadh"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Iarr deimhniú i ngach feidhmchlár KDE nuair a:"
+msgstr ""
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -7200,8 +7184,3 @@ msgstr "Zúmáil"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zúmáil"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Select which services should be shown in the context menu:"
-#~ msgstr ""
-#~ "Roghnaigh na seirbhísí ba mhaith leat taispeáint sa roghchlár comhthéacs:"
