@@ -204,6 +204,15 @@ private:
      */
     void startExpandViewAnimation(DolphinViewContainer *expandingContainer);
 
+    /**
+     * Connect/disconnect DolphinView::activated → slotViewActivated for all
+     * current view containers. Used to suppress the signal during programmatic
+     * activation (tab switch, construction, session restore) so that
+     * slotViewActivated does not spuriously toggle m_primaryViewActive.
+     */
+    void connectViewActivatedSignals();
+    void disconnectViewActivatedSignals();
+
 private:
     DolphinTabPageSplitter *m_splitter;
 
