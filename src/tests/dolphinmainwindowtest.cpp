@@ -71,6 +71,7 @@ private Q_SLOTS:
     void testThumbnailAfterRename();
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
+    void testActiveViewAfterTabSwitchWithSplitView();
     void cleanupTestCase();
 
 private:
@@ -1290,6 +1291,53 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     const QString expectedNewTab1Title = QStringLiteral("(%1) | %2").arg(newChildDirName, parentDirName);
     QCOMPARE(tabWidget->tabText(0), expectedNewTab0Title);
     QCOMPARE(tabWidget->tabText(1), expectedNewTab1Title);
+}
+
+// Test that switching tabs does not spuriously toggle which split-view pane is active.
+// Regression test for the bug where DolphinTabPage::setActive(true) during tab switch
+// caused DolphinView::activated() to reach slotViewActivated(), which toggled
+// m_primaryViewActive and connected MainWindow signals to the wrong view container.
+void DolphinMainWindowTest::testActiveViewAfterTabSwitchWithSplitView()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+
+    // Enable split view on the first tab. After this, the secondary (right) pane
+    // becomes active via slotViewActivated(), so primaryViewActive() is false.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+    QVERIFY(!tabWidget->currentTabPage()->primaryViewActive());
+    auto firstTabPage = tabWidget->currentTabPage();
+    auto firstTabSecondary = firstTabPage->secondaryViewContainer();
+    QVERIFY(firstTabSecondary->isActive());
+
+    // Open a second tab and switch to it.
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
+    QCOMPARE(tabWidget->count(), 2);
+    QCOMPARE(tabWidget->currentIndex(), 1);
+
+    // Spy on activeViewChanged to count emissions during the tab switch back.
+    QSignalSpy activeViewChangedSpy(tabWidget, &DolphinTabWidget::activeViewChanged);
+
+    // Switch back to the first tab.
+    tabWidget->setCurrentIndex(0);
+    QCOMPARE(tabWidget->currentTabPage(), firstTabPage);
+
+    // activeViewChanged must be emitted exactly once — by currentTabChanged itself.
+    // A spurious second emission would indicate slotViewActivated() fired during
+    // the programmatic setActive(true) and toggled m_primaryViewActive.
+    QCOMPARE(activeViewChangedSpy.count(), 1);
+
+    // The secondary pane must still be the designated active one.
+    QVERIFY(!firstTabPage->primaryViewActive());
+    QCOMPARE(firstTabPage->activeViewContainer(), firstTabSecondary);
+    QVERIFY(firstTabSecondary->isActive());
+    QVERIFY(!firstTabPage->primaryViewContainer()->isActive());
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
