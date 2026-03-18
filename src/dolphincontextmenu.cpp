@@ -267,6 +267,9 @@ void DolphinContextMenu::addItemContextMenu()
     Q_ASSERT(!m_fileInfo.isNull());
 
     const KFileItemListProperties &selectedItemsProps = selectedItemsProperties();
+    // This is updated live in DolphinMainWindow::slotSelectionChanged but there can
+    // be situations where there are no selected items.
+    m_fileItemActions->setItemListProperties(selectedItemsProps);
 
     if (m_selectedItems.count() == 1) {
         // single files
