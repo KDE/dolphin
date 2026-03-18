@@ -964,6 +964,13 @@ void KStandardItemListWidget::finishRoleEditing()
     }
 }
 
+void KStandardItemListWidget::cancelRoleEditing()
+{
+    if (!editedRole().isEmpty() && m_roleEditor) {
+        slotRoleEditingCanceled(editedRole(), KIO::encodeFileName(m_roleEditor->toPlainText()));
+    }
+}
+
 void KStandardItemListWidget::slotCutItemsChanged()
 {
     const QUrl itemUrl = data().value("url").toUrl();

@@ -117,6 +117,7 @@ KItemListView::KItemListView(QGraphicsWidget *parent)
 
     m_animation = new KItemListViewAnimation(this);
     connect(m_animation, &KItemListViewAnimation::finished, this, &KItemListView::slotAnimationFinished);
+    connect(m_animation, &KItemListViewAnimation::start, this, &KItemListView::slotAnimationStarted);
 
     m_rubberBand = new KItemListRubberBand(this);
     connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);
@@ -758,8 +759,7 @@ void KItemListView::editRole(int index, const QByteArray &role)
     if (!widget) {
         return;
     }
-    if (m_editingRole || m_animation->isStarted(widget)) {
-        Q_EMIT widget->roleEditingCanceled(index, role, QVariant());
+    if (widget->editedRole() == role) {
         return;
     }
 
@@ -1577,6 +1577,13 @@ void KItemListView::slotSelectionChanged(const KItemSet &current, const KItemSet
 #endif
 }
 
+void KItemListView::slotAnimationStarted(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType /* type */, const QVariant & /* endValue */)
+{
+    KStandardItemListWidget *listWidget = qobject_cast<KStandardItemListWidget *>(widget);
+    Q_ASSERT(widget);
+    listWidget->cancelRoleEditing();
+}
+
 void KItemListView::slotAnimationFinished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type)
 {
     KItemListWidget *itemListWidget = qobject_cast<KItemListWidget *>(widget);
@@ -1926,9 +1933,6 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
         if (animate) {
             if (m_animation->isStarted(widget, KItemListViewAnimation::MovingAnimation)) {
-                if (m_editingRole) {
-                    Q_EMIT widget->roleEditingCanceled(widget->index(), QByteArray(), QVariant());
-                }
                 m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
                 applyNewPos = false;
             }
@@ -2804,7 +2808,7 @@ bool KItemListView::hasSiblingSuccessor(int index) const
 
 void KItemListView::disconnectRoleEditingSignals(int index)
 {
-    KStandardItemListWidget *widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
+    KItemListWidget *widget = m_visibleItems.value(index);
     if (!widget) {
         return;
     }
