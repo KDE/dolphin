@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-12 02:39+0000\n"
-"PO-Revision-Date: 2026-03-03 19:23+0000\n"
+"PO-Revision-Date: 2026-03-18 22:00+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3527,6 +3527,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Caută în toate locurile indexate.<nl/><nl/>Configurați locurile ce vor fi "
+"indexate în <interface>Configurări de sistem|Spațiu de lucru|Căutare</"
+"interface>."
 
 #: search/chip.cpp:21
 #, kde-format
@@ -4130,17 +4133,7 @@ msgid "Selection Mode"
 msgstr "Regim de alegere"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -4161,7 +4154,10 @@ msgstr ""
 "deselecta.</item><item>Apăsarea pe loc gol <emphasis>nu</emphasis> golește "
 "alegerea.</item><item>Dreptunghiurile de selecție (create prin tragerea "
 "dintr-un loc gol) inversează starea de selecție a elementelor din cadrul "
-"acestuia.</item></list></para><para>Butoanele cu acțiuni disponibile de jos "
+"acestuia.</item><item>Mutarea cu <shortcut>tastele-săgeți</shortcut> "
+"<emphasis>nu</emphasis> schimbă alegerea.</item><item>Apăsarea <shortcut>%1</"
+"shortcut>, <shortcut>%2</shortcut> sau <shortcut>%3</shortcut> comută "
+"alegerea.</item></list></para><para>Butoanele cu acțiuni disponibile de jos "
 "se schimbă în dependență de alegerea actuală.</para>"
 
 #: selectionmode/topbar.cpp:53
@@ -4206,7 +4202,7 @@ msgstr "Șterge"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Încorporat în Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
@@ -4905,12 +4901,10 @@ msgid "Warning"
 msgstr "Avertisment"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Cere confirmare în toate aplicațiile KDE când:"
+msgstr "Cere confirmare în aplicațiile KDE când:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
