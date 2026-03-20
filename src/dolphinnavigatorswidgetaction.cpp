@@ -15,6 +15,7 @@
 #include <KService>
 
 #include <KIO/ApplicationLauncherJob>
+#include <KIO/CommandLauncherJob>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -55,7 +56,7 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
         leadingSpacing = 0;
     }
     int trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width()) - (viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary);
-    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible() || networkFolderButton(Primary)->isVisible()) {
+    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible() || networkFolderButton(Primary)->isVisible() || kdeConnectButton(Primary)->isVisible()) {
         trailingSpacing = 0;
     }
     const int widthLeftForUrlNavigator = m_splitter->widget(0)->width() - leadingSpacing - trailingSpacing;
@@ -81,7 +82,8 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     spacing(Primary, Trailing)->setFixedWidth(0);
 
     trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width()) - (viewGeometries.globalXOfSecondary + viewGeometries.widthOfSecondary);
-    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible() || networkFolderButton(Secondary)->isVisible()) {
+    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible() || networkFolderButton(Secondary)->isVisible()
+        || kdeConnectButton(Secondary)->isVisible()) {
         trailingSpacing = 0;
     } else {
         const int widthLeftForUrlNavigator2 = m_splitter->widget(1)->width() - trailingSpacing;
@@ -213,6 +215,9 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto networkFolderButton = newNetworkFolderButton(urlNavigator, navigatorWidget);
     layout->addWidget(networkFolderButton);
 
+    auto kdeConnectButton = newKdeConnectButton(urlNavigator, navigatorWidget);
+    layout->addWidget(kdeConnectButton);
+
     connect(
         urlNavigator,
         &KUrlNavigator::urlChanged,
@@ -303,6 +308,35 @@ QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const Dolphin
     return networkFolderButton;
 }
 
+QPushButton *DolphinNavigatorsWidgetAction::kdeConnectButton(DolphinNavigatorsWidgetAction::Side side)
+{
+    const int sideIndex = (side == Primary ? 0 : 1);
+    return m_splitter->widget(sideIndex)->findChild<QPushButton *>(QStringLiteral("KdeConnectButton"));
+}
+
+QPushButton *DolphinNavigatorsWidgetAction::newKdeConnectButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
+{
+    auto kdeConnectButton = new QPushButton(QIcon::fromTheme(QStringLiteral("kdeconnect")), i18nc("@action:button", "Open KDE Connect"), parent);
+    kdeConnectButton->setObjectName(QStringLiteral("KdeConnectButton"));
+    kdeConnectButton->setFlat(true);
+    connect(kdeConnectButton, &QPushButton::clicked, urlNavigator, [kdeConnectButton, urlNavigator]() {
+        QStringList args;
+        if (const QString deviceId = urlNavigator->locationUrl().host(); !deviceId.isEmpty()) {
+            args << QStringLiteral("--device") << deviceId;
+        }
+        auto *job = new KIO::CommandLauncherJob(QStringLiteral("kdeconnect-app"), args);
+        job->setDesktopName(QStringLiteral("org.kde.kdeconnect.app"));
+        job->setUiDelegate(new KNotificationJobUiDelegate(KJobUiDelegate::AutoErrorHandlingEnabled));
+        job->start();
+    });
+    kdeConnectButton->hide();
+    connect(urlNavigator, &KUrlNavigator::urlChanged, kdeConnectButton, [kdeConnectButton, urlNavigator]() {
+        kdeConnectButton->setVisible(urlNavigator->locationUrl().scheme() == QLatin1String("kdeconnect")
+                                     && KService::serviceByDesktopName(QStringLiteral("org.kde.kdeconnect.app")));
+    });
+    return kdeConnectButton;
+}
+
 QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) const
 {
     int sideIndex = (side == Primary ? 0 : 1);
@@ -311,9 +345,9 @@ QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) co
         return m_splitter->widget(sideIndex)->layout()->itemAt(0)->widget();
     }
     if (side == Primary) {
-        return m_splitter->widget(sideIndex)->layout()->itemAt(4)->widget();
+        return m_splitter->widget(sideIndex)->layout()->itemAt(5)->widget();
     }
-    return m_splitter->widget(sideIndex)->layout()->itemAt(3)->widget();
+    return m_splitter->widget(sideIndex)->layout()->itemAt(4)->widget();
 }
 
 void DolphinNavigatorsWidgetAction::updateText()

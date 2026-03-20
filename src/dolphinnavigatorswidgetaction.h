@@ -145,6 +145,20 @@ private:
      */
     QPushButton *newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
 
+    /**
+     * Used to retrieve the kdeConnectButtons for the navigatorWidgets on
+     * both sides.
+     */
+    QPushButton *kdeConnectButton(Side side);
+
+    /**
+     * Creates a new add "Open KDE Connect" button.
+     * @param urlNavigator Only when this UrlNavigator shows a "kdeconnect" URL
+     *                     will the button be visible.
+     * @param parent       The object that should be the button's parent.
+     */
+    QPushButton *newKdeConnectButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
+
     enum Position { Leading, Trailing };
     /**
      * Used to retrieve both the leading and trailing spacing for the navigatorWidgets
