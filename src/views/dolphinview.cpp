@@ -2752,6 +2752,12 @@ void DolphinView::updatePlaceholderLabel()
         m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
     } else if (m_url.scheme() == QLatin1String("afc") && m_url.path() == QLatin1String("/")) {
         m_placeholderLabel->setText(i18n("No Apple devices found"));
+    } else if (m_url.scheme() == QLatin1String("kdeconnect") && m_url.path() == QLatin1String("/")) {
+        if (m_url.host().isEmpty()) {
+            m_placeholderLabel->setText(i18n("No KDE Connect devices found"));
+        } else {
+            m_placeholderLabel->setText(i18n("No storage found on this device"));
+        }
     } else if (m_url.scheme() == QLatin1String("bluetooth")) {
         m_placeholderLabel->setText(i18n("No Bluetooth devices found"));
     } else {
