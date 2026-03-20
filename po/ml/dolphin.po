@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-12 02:39+0000\n"
+"POT-Creation-Date: 2026-03-20 02:36+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -200,14 +200,14 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "പുതിയ ജാലകത്തില്‍ തുറക്കുക"
 
-#: dolphincontextmenu.cpp:509
+#: dolphincontextmenu.cpp:512
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr ""
 
-#: dolphincontextmenu.cpp:520
+#: dolphincontextmenu.cpp:523
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
