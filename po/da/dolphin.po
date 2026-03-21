@@ -4,13 +4,13 @@
 # Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022.
 # Keld Simonsen <keld@dkuug.dk>, 2008.
 # scootergrisen, 2017, 2019.
-# SPDX-FileCopyrightText: 2024, 2025 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
+# SPDX-FileCopyrightText: 2024, 2025, 2026 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-20 00:46+0000\n"
-"PO-Revision-Date: 2025-11-04 10:51+0100\n"
+"PO-Revision-Date: 2026-03-20 10:39+0100\n"
 "Last-Translator: Rasmus Rosendahl-Kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -223,15 +223,12 @@ msgid "Middle Click"
 msgstr "Midterklik"
 
 #: dolphincontextmenu.cpp:523
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Midterklik"
+msgstr "Skift+Midterklik"
 
 #: dolphinmainwindow.cpp:367
 #, kde-format
@@ -668,6 +665,9 @@ msgid ""
 "bar</emphasis>. There you can enter search terms and specify settings to "
 "find the items you are looking for.</para>"
 msgstr ""
+"<para>Dette hjælper dig med at finde filer og mapper ved at åbne en "
+"<emphasis>søgningsbar</emphasis>. I den kan du indtaste søgetermer og "
+"specificere indstillinger for at finde de elementer, du leder efter.</para>"
 
 #: dolphinmainwindow.cpp:1972
 #, kde-format
@@ -1337,36 +1337,28 @@ msgid "Close"
 msgstr "Luk"
 
 #: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Luk venstre visningspanel"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2888
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Luk venstre visningspanel"
 
 #: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
-msgstr "Pop venstre visning ud"
+msgstr "Pop venstre visningspanel ud"
 
 #: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2891
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Flyt venstre visning til et nyt vindue"
+msgstr "Flyt venstre opdelte visningspanel til et nyt vindue"
 
 #: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2893
 #: dolphinmainwindow.cpp:2903
@@ -1377,9 +1369,7 @@ msgstr "Luk"
 
 #: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2904
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Luk højre visningspanel"
@@ -1395,21 +1385,17 @@ msgstr "Luk højre visningspanel"
 
 #: dolphinmainwindow.cpp:2879 dolphinmainwindow.cpp:2898
 #: dolphinmainwindow.cpp:2908
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
-msgstr "Pop højre visning ud"
+msgstr "Pop højre visningpanel ud"
 
 #: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2909
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Flyt højre visning til nyt vindue"
+msgstr "Flyt højre opdelte visningspanel til nyt vindue"
 
 #: dolphinmainwindow.cpp:2921
 #, kde-format
@@ -1919,21 +1905,16 @@ msgid "No items found."
 msgstr "Ingen elementer fundet."
 
 #: dolphinviewcontainer.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Én fil"
+msgstr "Åbn som fil"
 
 #: dolphinviewcontainer.cpp:760
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Kunne ikke tilgå <filename>%1</filename>."
+msgstr "Prøver at åbne filen som en mappe: <filename>%1</filename>."
 
 #: dolphinviewcontainer.cpp:924
 #, kde-format
@@ -2006,11 +1987,9 @@ msgid "Filter…"
 msgstr "Filtrér…"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "Ugyldig protokol"
+msgstr "Ugyldigt udtryk"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
@@ -2022,7 +2001,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "Klartekst"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
@@ -2034,7 +2013,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulært udtryk"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -2790,12 +2769,9 @@ msgid "Artist"
 msgstr "Kunstner"
 
 #: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2874
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Lydfiler"
+msgstr "Lydcodec"
 
 #: kitemviews/kfileitemmodel.cpp:2868 kitemviews/kfileitemmodel.cpp:2875
 msgctxt "@label"
@@ -2840,7 +2816,7 @@ msgstr "Video"
 #: kitemviews/kfileitemmodel.cpp:2876
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Farverum"
 
 #: kitemviews/kfileitemmodel.cpp:2879
 msgctxt "@label"
@@ -2853,12 +2829,9 @@ msgid "Pixel Format"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2882
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Videocodec"
 
 #: kitemviews/kfileitemmodel.cpp:2884
 msgctxt "@label"
@@ -2875,12 +2848,9 @@ msgid "Other"
 msgstr "Andet"
 
 #: kitemviews/kfileitemmodel.cpp:2885
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Filenames"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Filnavne"
+msgstr "Mappenavn"
 
 #: kitemviews/kfileitemmodel.cpp:2886
 msgctxt "@label"
@@ -3997,12 +3967,10 @@ msgid "Exit Selection Mode"
 msgstr "Afslut markeringstilstand"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Kontekstmenu"
+msgstr "Kontekstmenuhandlinger"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4011,18 +3979,16 @@ msgid "Search…"
 msgstr "Søg…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Download nye tjenester…"
+msgstr "Download tjenester…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Genveje…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4290,19 +4256,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "Nulstil zoomniveau"
+msgstr "Zoomniveau"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "Zoomniveau for mappen."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -4467,24 +4431,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Skal den fulde sti vises i titellinjen"
+msgstr "Skal fanebladslinjen altid vises, selvom der kun er ét faneblad"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Burde faneblade have luk-knapper"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Stil for dato:"
+msgstr "Fanebladsstil"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4587,11 +4548,9 @@ msgstr "Brug tabulator-tast til at skifte mellem højre og venstre visning"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:128
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Luk venstre visningspanel"
+msgstr "Luk opdelt visning"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:132
@@ -4748,12 +4707,10 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Spørg om bekræftelse i alle KDE-programmer når:"
+msgstr "Spørg om bekræftelse i KDE-programmer når:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4910,54 +4867,46 @@ msgid "Show filter bar"
 msgstr "Vis filterlinje"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "I slutningen af fanebladslinjen"
+msgstr "Vis altid fanebladslinje"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Etiketbredde:"
+msgstr "Fanebladsbredde:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Vis startplacering ved opstart"
+msgstr "Vi luk-knap på faneblad"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Fanebladsbredde adapterer til mappenavnet"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Alle faneblade har samme, fast bredde"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Faneblade fylder den tilgængelige bredde"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Stil for dato:"
+msgstr "Fanebladsstil: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
@@ -4978,29 +4927,25 @@ msgid "Open new tabs: "
 msgstr "Åbn i nye faneblade: "
 
 #: settings/interface/folderstabssettingspage.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Begynd med opdelt visningstilstand"
+msgstr "Når der lukkes en opdelt visning"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Luke det aktive panel"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Luk det inaktive panel"
 
 #: settings/interface/folderstabssettingspage.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Luk højre visningspanel"
+msgstr "Luk højre panel"
 
 #: settings/interface/folderstabssettingspage.cpp:161
 #, kde-format
@@ -5015,12 +4960,10 @@ msgid "Switch between views with Tab key"
 msgstr "Skift mellem visninger med tabulatortasten"
 
 #: settings/interface/folderstabssettingspage.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Begynd med opdelt visningstilstand"
+msgstr "Åbn nye vinduer i opdelt visningstilstand"
 
 #: settings/interface/folderstabssettingspage.cpp:342
 #, kde-format
@@ -5444,12 +5387,10 @@ msgid "Display style: "
 msgstr "Stil for visning:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Forhåndsvisning af filer og mapper"
+msgstr "Gennemse komprimerede filer som mapper"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
@@ -6627,17 +6568,13 @@ msgstr ""
 "diverse visningsrelaterede handlinger."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Sort By field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Sortér efter felt"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Show Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Vis felt"
