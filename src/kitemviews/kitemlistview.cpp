@@ -133,7 +133,7 @@ KItemListView::KItemListView(QGraphicsWidget *parent)
         }
         update();
     });
-    connect(m_tapAndHoldIndicator, &KItemListRubberBand::endPositionChanged, this, [this]() {
+    connect(m_tapAndHoldIndicator, &KItemListRubberBand::endPositionChanged, this, [this](const QPointF &, const QPointF &) {
         if (m_tapAndHoldIndicator->isActive()) {
             update();
         }
