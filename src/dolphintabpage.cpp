@@ -38,8 +38,8 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     m_splitter = new DolphinTabPageSplitter(Qt::Horizontal, this);
     m_splitter->setChildrenCollapsible(false);
     connect(m_splitter, &QSplitter::splitterMoved, this, &DolphinTabPage::splitterMoved);
-    layout->addWidget(m_splitter, 1, 0);
-    layout->setRowStretch(1, 1);
+    layout->addWidget(m_splitter, 2, 0, 1, 2);
+    layout->setRowStretch(2, 1);
 
     // Create a new primary view
     m_primaryViewContainer = createViewContainer(primaryUrl);
@@ -265,6 +265,8 @@ void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navig
         // We set a row minimum height, so the height does not visibly change whenever
         // navigatorsWidget is inserted which happens every time the current tab is changed.
         gridLayout->setRowMinimumHeight(0, navigatorsWidget->primaryUrlNavigator()->height());
+        gridLayout->setRowMinimumHeight(1, 1);
+
         gridLayout->addWidget(navigatorsWidget->requestWidget(this), 0, 0);
         if (!m_navigatorSeparator) {
             m_navigatorSeparator = std::make_unique<QFrame>(this);
@@ -272,7 +274,7 @@ void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navig
         m_navigatorSeparator->setFrameStyle(QFrame::HLine);
         m_navigatorSeparator->setFixedHeight(1);
         m_navigatorSeparator->setContentsMargins(0, 0, 0, 0);
-        gridLayout->addWidget(m_navigatorSeparator.get(), 1, 0, 0, -1);
+        gridLayout->addWidget(m_navigatorSeparator.get(), 1, 0);
     }
 }
 
