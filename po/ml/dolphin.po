@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:46+0000\n"
+"POT-Creation-Date: 2026-03-22 00:46+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -6665,12 +6665,24 @@ msgstr ""
 msgid "No Apple devices found"
 msgstr "ഒന്നും കണ്ടുകിട്ടിയില്ല"
 
-#: views/dolphinview.cpp:2756
+#: views/dolphinview.cpp:2757
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "No items found."
+msgid "No KDE Connect devices found"
+msgstr "ഒന്നും കണ്ടുകിട്ടിയില്ല"
+
+#: views/dolphinview.cpp:2759
+#, kde-format
+msgid "No storage found on this device"
+msgstr ""
+
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2764
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

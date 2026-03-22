@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:46+0000\n"
+"POT-Creation-Date: 2026-03-22 00:46+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -6333,12 +6333,23 @@ msgstr "Null aparates MTP es trovat"
 msgid "No Apple devices found"
 msgstr "Null aparates Bluetooth es trovat"
 
-#: views/dolphinview.cpp:2756
+#: views/dolphinview.cpp:2757
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
+msgid "No KDE Connect devices found"
+msgstr "Null aparates Bluetooth es trovat"
+
+#: views/dolphinview.cpp:2759
+#, kde-format
+msgid "No storage found on this device"
+msgstr ""
+
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Null aparates Bluetooth es trovat"
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2764
 #, kde-format
 msgid "Folder is empty"
 msgstr "Fólder es vacui"

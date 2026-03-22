@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:46+0000\n"
+"POT-Creation-Date: 2026-03-22 00:46+0000\n"
 "PO-Revision-Date: 2017-12-17 18:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -6810,12 +6810,24 @@ msgstr ""
 msgid "No Apple devices found"
 msgstr "Ništa nije nađeno."
 
-#: views/dolphinview.cpp:2756
+#: views/dolphinview.cpp:2757
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "No items found."
+msgid "No KDE Connect devices found"
+msgstr "Ništa nije nađeno."
+
+#: views/dolphinview.cpp:2759
+#, kde-format
+msgid "No storage found on this device"
+msgstr ""
+
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2764
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

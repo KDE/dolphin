@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:46+0000\n"
+"POT-Creation-Date: 2026-03-22 00:46+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -6581,12 +6581,23 @@ msgstr "कोई एमटीपी-संगत उपकरण नहीं �
 msgid "No Apple devices found"
 msgstr "कोई एप्पल उपकरण नहीं मिले"
 
-#: views/dolphinview.cpp:2756
+#: views/dolphinview.cpp:2757
+#, fuzzy, kde-format
+#| msgid "No Apple devices found"
+msgid "No KDE Connect devices found"
+msgstr "कोई एप्पल उपकरण नहीं मिले"
+
+#: views/dolphinview.cpp:2759
+#, kde-format
+msgid "No storage found on this device"
+msgstr ""
+
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "कोई ब्लूटूथ उपकरण नहीं मिला"
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2764
 #, kde-format
 msgid "Folder is empty"
 msgstr "फ़ोल्डर खाली है"

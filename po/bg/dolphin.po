@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:46+0000\n"
+"POT-Creation-Date: 2026-03-22 00:46+0000\n"
 "PO-Revision-Date: 2026-02-25 19:17+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6569,12 +6569,23 @@ msgstr "Не са намерени устройства, съвместими с
 msgid "No Apple devices found"
 msgstr "Няма намерени устройства на Apple"
 
-#: views/dolphinview.cpp:2756
+#: views/dolphinview.cpp:2757
+#, fuzzy, kde-format
+#| msgid "No Apple devices found"
+msgid "No KDE Connect devices found"
+msgstr "Няма намерени устройства на Apple"
+
+#: views/dolphinview.cpp:2759
+#, kde-format
+msgid "No storage found on this device"
+msgstr ""
+
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Няма намерени Bluetooth устройства"
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2764
 #, kde-format
 msgid "Folder is empty"
 msgstr "Папката е празна"
