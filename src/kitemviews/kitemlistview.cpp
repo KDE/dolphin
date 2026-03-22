@@ -117,7 +117,7 @@ KItemListView::KItemListView(QGraphicsWidget *parent)
 
     m_animation = new KItemListViewAnimation(this);
     connect(m_animation, &KItemListViewAnimation::finished, this, &KItemListView::slotAnimationFinished);
-    connect(m_animation, &KItemListViewAnimation::start, this, &KItemListView::slotAnimationStarted);
+    connect(m_animation, &KItemListViewAnimation::started, this, &KItemListView::slotAnimationStarted);
 
     m_rubberBand = new KItemListRubberBand(this);
     connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);

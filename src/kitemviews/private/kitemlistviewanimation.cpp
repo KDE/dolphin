@@ -143,6 +143,8 @@ void KItemListViewAnimation::start(QGraphicsWidget *widget, AnimationType type, 
     m_animation[type].insert(widget, propertyAnim);
 
     propertyAnim->start();
+
+    Q_EMIT started(widget, type, endValue);
 }
 
 void KItemListViewAnimation::stop(QGraphicsWidget *widget, AnimationType type)

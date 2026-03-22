@@ -74,6 +74,7 @@ public:
 
 Q_SIGNALS:
     void finished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type);
+    void started(QGraphicsWidget *widget, AnimationType type, const QVariant &endValue);
 
 private Q_SLOTS:
     void slotFinished();
