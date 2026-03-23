@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-13 12:11+0100\n"
+"PO-Revision-Date: 2026-03-22 07:59+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6577,15 +6577,14 @@ msgid "No Apple devices found"
 msgstr "Ni najdenih Applovih naprav"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Ni najdenih Applovih naprav"
+msgstr "Ni najdenih naprav KDE Connect"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Na tej napravi ni bilo mogoče najti pomnilnika"
 
 #: views/dolphinview.cpp:2762
 #, kde-format

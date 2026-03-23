@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-13 10:20+0200\n"
+"PO-Revision-Date: 2026-03-22 23:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6641,15 +6641,14 @@ msgid "No Apple devices found"
 msgstr "Не знайдено пристроїв Apple"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Не знайдено пристроїв Apple"
+msgstr "Не знайдено пристроїв KDE Connect"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "На цьому пристрої не виявлено сховищ даних"
 
 #: views/dolphinview.cpp:2762
 #, kde-format

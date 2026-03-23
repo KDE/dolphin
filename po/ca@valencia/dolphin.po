@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-13 09:22+0100\n"
+"PO-Revision-Date: 2026-03-22 09:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4851,7 +4851,7 @@ msgstr "Mostra informació de l'element en passar-hi per damunt"
 #: settings/dolphin_generalsettings.kcfg:140
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
-msgstr "Marca horària des de quan són vàlides les propietats de la vista"
+msgstr "Marca de temps des de quan són vàlides les propietats de la vista"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
 #: settings/dolphin_generalsettings.kcfg:143
@@ -6567,15 +6567,14 @@ msgid "No Apple devices found"
 msgstr "No s'ha trobat cap dispositiu Apple"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "No s'ha trobat cap dispositiu Apple"
+msgstr "No s'ha trobat cap dispositiu de KDE Connect"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "No s'ha trobat cap emmagatzematge en este dispositiu"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
