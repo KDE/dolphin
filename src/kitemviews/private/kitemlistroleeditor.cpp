@@ -64,6 +64,11 @@ bool KItemListRoleEditor::event(QEvent *event)
     return KTextEdit::event(event);
 }
 
+void KItemListRoleEditor::setFinishedSignalBlocked(bool blocked)
+{
+    m_blockFinishedSignal = blocked;
+}
+
 void KItemListRoleEditor::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {

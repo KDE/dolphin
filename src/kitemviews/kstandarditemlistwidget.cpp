@@ -854,7 +854,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
 {
     Q_UNUSED(previous)
 
-    QGraphicsView *parent = scene()->views()[0];
+    QGraphicsView *parent = !scene() || scene()->views().isEmpty() ? nullptr : scene()->views()[0];
     if (current.isEmpty() || !parent || current != "text") {
         if (m_roleEditor) {
             Q_EMIT roleEditingCanceled(index(), current, data().value(current));
@@ -891,16 +891,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
     connect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled, this, &KStandardItemListWidget::slotRoleEditingCanceled);
     connect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished, this, &KStandardItemListWidget::slotRoleEditingFinished);
 
-    // Adjust the geometry of the editor
-    QRectF rect = roleEditingRect(current);
-    const int frameWidth = m_roleEditor->frameWidth();
-    rect.adjust(-frameWidth, -frameWidth, frameWidth, frameWidth);
-    rect.translate(pos());
-    if (rect.right() > parent->width()) {
-        rect.setWidth(parent->width() - rect.left());
-    }
-    m_roleEditor->setGeometry(rect.toRect());
-    m_roleEditor->autoAdjustSize();
+    updateRoleEditorGeometry();
     m_roleEditor->show();
     m_roleEditor->setFocus();
     setHovered(false);
@@ -932,6 +923,13 @@ void KStandardItemListWidget::showEvent(QShowEvent *event)
 {
     KItemListWidget::showEvent(event);
 
+    if (m_roleEditor) {
+        m_roleEditor->setFinishedSignalBlocked(false);
+        updateRoleEditorGeometry();
+        m_roleEditor->show();
+        m_roleEditor->setFocus();
+    }
+
     // Listen to changes of the clipboard to mark the item as cut/uncut
     KFileItemClipboard *clipboard = KFileItemClipboard::instance();
 
@@ -943,6 +941,11 @@ void KStandardItemListWidget::showEvent(QShowEvent *event)
 
 void KStandardItemListWidget::hideEvent(QHideEvent *event)
 {
+    if (m_roleEditor) {
+        m_roleEditor->setFinishedSignalBlocked(true);
+        m_roleEditor->hide();
+    }
+
     disconnect(KFileItemClipboard::instance(), &KFileItemClipboard::cutItemsChanged, this, &KStandardItemListWidget::slotCutItemsChanged);
 
     KItemListWidget::hideEvent(event);
@@ -969,6 +972,24 @@ void KStandardItemListWidget::cancelRoleEditing()
     if (!editedRole().isEmpty() && m_roleEditor) {
         slotRoleEditingCanceled(editedRole(), KIO::encodeFileName(m_roleEditor->toPlainText()));
     }
+}
+
+void KStandardItemListWidget::updateRoleEditorGeometry()
+{
+    if (!m_roleEditor || editedRole().isEmpty() || !scene() || scene()->views().isEmpty()) {
+        return;
+    }
+
+    auto *parent = scene()->views()[0];
+    QRectF rect = roleEditingRect(editedRole());
+    const int frameWidth = m_roleEditor->frameWidth();
+    rect.adjust(-frameWidth, -frameWidth, frameWidth, frameWidth);
+    rect.translate(pos());
+    if (rect.right() > parent->width()) {
+        rect.setWidth(parent->width() - rect.left());
+    }
+    m_roleEditor->setGeometry(rect.toRect());
+    m_roleEditor->autoAdjustSize();
 }
 
 void KStandardItemListWidget::slotCutItemsChanged()

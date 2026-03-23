@@ -45,6 +45,7 @@ public:
     QByteArray role() const;
 
     void setAllowUpDownKeyChainEdit(bool allowChainEdit);
+    void setFinishedSignalBlocked(bool blocked);
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:

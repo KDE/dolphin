@@ -771,7 +771,7 @@ void KItemListView::editRole(int index, const QByteArray &role)
     connect(widget, &KItemListWidget::roleEditingCanceled, this, &KItemListView::slotRoleEditingCanceled);
     connect(widget, &KItemListWidget::roleEditingFinished, this, &KItemListView::slotRoleEditingFinished);
 
-    connect(this, &KItemListView::scrollOffsetChanged, widget, &KStandardItemListWidget::finishRoleEditing);
+    connect(this, &KItemListView::scrollOffsetChanged, widget, &KStandardItemListWidget::updateRoleEditorGeometry);
 }
 
 void KItemListView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -1091,6 +1091,20 @@ bool KItemListView::event(QEvent *event)
         event->accept();
         return true;
         break;
+
+    case QEvent::GraphicsSceneMousePress:
+    case QEvent::GraphicsSceneMouseDoubleClick:
+    case QEvent::GraphicsSceneContextMenu:
+        if (m_editingRole) {
+            for (KItemListWidget *widget : std::as_const(m_visibleItems)) {
+                auto *standardWidget = qobject_cast<KStandardItemListWidget *>(widget);
+                if (standardWidget && !standardWidget->isVisible() && !standardWidget->editedRole().isEmpty()) {
+                    standardWidget->finishRoleEditing();
+                    break;
+                }
+            }
+        }
+        [[fallthrough]];
 
     default:
         // Forward all other events to the controller and handle them there
@@ -2026,6 +2040,10 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex, int lastV
         const bool invisible = (index < firstVisibleIndex) || (index > lastVisibleIndex);
 
         if (invisible) {
+            if (!widget->editedRole().isEmpty()) {
+                widget->setVisible(false);
+                continue;
+            }
             if (m_animation->isStarted(widget)) {
                 if (hint == NoAnimation) {
                     // Stopping the animation will call KItemListView::slotAnimationFinished()

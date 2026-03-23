@@ -197,6 +197,7 @@ protected:
 public Q_SLOTS:
     void finishRoleEditing();
     void cancelRoleEditing();
+    void updateRoleEditorGeometry();
 
 private Q_SLOTS:
     void slotCutItemsChanged();
