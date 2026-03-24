@@ -302,8 +302,8 @@ void MediaWidget::initPlayer()
 {
     if (!m_player) {
         initLayout();
-        m_player = new QMediaPlayer;
-        m_player->setAudioOutput(new QAudioOutput);
+        m_player = new QMediaPlayer(this);
+        m_player->setAudioOutput(new QAudioOutput(m_player));
 
         m_videoWidget = new EmbeddedVideoPlayer(this);
         m_videoWidget->setCursor(Qt::PointingHandCursor);
