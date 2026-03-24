@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-17 11:08+0100\n"
+"PO-Revision-Date: 2026-03-23 16:54+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -6539,15 +6539,14 @@ msgid "No Apple devices found"
 msgstr "Nulle dispositivos Apple trovate"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Nulle dispositivos Apple trovate"
+msgstr "Nulle dispositivos d KDE Connect trovate"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Nulle immagazinage trovate sur iste dispositivo"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
