@@ -6318,10 +6318,9 @@ msgid "No Apple devices found"
 msgstr "未发现苹果设备"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "未发现苹果设备"
+msgstr ""
 
 #: views/dolphinview.cpp:2759
 #, kde-format
