@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-14 10:08+0100\n"
+"PO-Revision-Date: 2026-03-24 12:42+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -6674,15 +6674,14 @@ msgid "No Apple devices found"
 msgstr "Aucun périphérique « Apple » trouvé."
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Aucun périphérique « Apple » trouvé."
+msgstr "Aucun périphérique de KDEConnect n'a été trouvé."
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Aucun média d'enregistrement n'a été trouvé sur ce périphérique."
 
 #: views/dolphinview.cpp:2762
 #, kde-format

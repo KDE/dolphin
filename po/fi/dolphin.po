@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-01-02 11:47+0200\n"
+"PO-Revision-Date: 2026-02-26 11:05+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -182,13 +182,13 @@ msgstr "Ymmärrän ja hyväksyn riskit"
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr "Älä varoita minua enää"
+msgstr "Älä varoita näistä enää"
 
 #: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
-msgstr "Tyhjennä roskakori"
+msgstr "tyhjennä roskakori"
 
 #: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
 #, kde-format
@@ -1241,7 +1241,7 @@ msgstr "Siirrä näppäimistökohdistus päätepaneeliin ja sieltä pois."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "seuraa kansion sijaintia"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1250,6 +1250,7 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Määrittää, tulisiko työkansio tahdistaa päätteen kanssa sen muuttuessa."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -2954,12 +2955,9 @@ msgid "Artist"
 msgstr "Artisti"
 
 #: kitemviews/kfileitemmodel.cpp:2867 kitemviews/kfileitemmodel.cpp:2874
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Äänitiedostot"
+msgstr "Äänikoodekki"
 
 #: kitemviews/kfileitemmodel.cpp:2868 kitemviews/kfileitemmodel.cpp:2875
 msgctxt "@label"
@@ -3004,7 +3002,7 @@ msgstr "Video"
 #: kitemviews/kfileitemmodel.cpp:2876
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Väriavaruus"
 
 #: kitemviews/kfileitemmodel.cpp:2879
 msgctxt "@label"
@@ -3014,15 +3012,12 @@ msgstr "Kuvataajuus"
 #: kitemviews/kfileitemmodel.cpp:2881
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Kuvapistemuoto"
 
 #: kitemviews/kfileitemmodel.cpp:2882
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Videokoodekki"
 
 #: kitemviews/kfileitemmodel.cpp:2884
 msgctxt "@label"
@@ -4688,24 +4683,22 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Näytetäänkö koko polku otsikkopalkissa"
+msgstr ""
+"Tulisiko välilehtipalkki näyttää aina, vaikka välilehtiä olisi vain yksi"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Tulisiko välilehdillä olla sulkemispainikkeet"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Päiväystapa:"
+msgstr "Välilehden tyyli"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4978,21 +4971,21 @@ msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
 msgstr "Kysy kaikissa KDE-sovelluksissa vahvistus, kun"
 
-# HUOM! Pieni alkukirjain!
+# Edellä ”Pyydä kaikissa KDE-sovelluksissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "tiedostoja tai kansioita siirretään roskakoriin"
 
-# HUOM! Pieni alkukirjain!
+# Edellä ”Pyydä kaikissa KDE-sovelluksissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "roskakori tyhjennetään"
 
-# HUOM! Pieni alkukirjain!
+# Edellä ”Pyydä kaikissa KDE-sovelluksissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
@@ -5003,45 +4996,47 @@ msgstr "tiedostoja tai kansioita poistetaan"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "Pyydä Dolphinissa vahvistus, kun"
+msgstr "Pyydä Dolphinissa vahvistus, kun:"
 
-# HUOM! Pieni alkukirjain!
+# Edellä ”Pyydä Dolphinissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "useampivälilehtistä ikkunaa suljetaan"
 
-# HUOM! Pieni alkukirjain!
+# Edellä ”Pyydä Dolphinissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "suljetaan ikkunaa, kun päätepaneelissa on ohjelma käynnissä"
 
+# Edellä ”Pyydä Dolphinissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Avataan useampi kansio kerralla"
+msgstr "avataan useampi kansio kerralla"
 
+# Edellä ”Pyydä Dolphinissa vahvistus, kun:”
 #: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr "Avataan useampi pääte kerralla"
+msgstr "avataan useampi pääte kerralla"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr "Vaihdetaan toimimaan pääkäyttäjänä"
+msgstr "vaihdetaan toimimaan pääkäyttäjänä"
 
 #: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr "Tiedoston nimen muuttaminen muuttaa sen tyyppiä"
+msgstr "tiedoston nimen muuttaminen muuttaa sen tyyppiä"
 
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
@@ -5052,23 +5047,23 @@ msgstr "Avattaessa ohjelmatiedostoa:"
 #: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Always ask"
-msgstr "Kysy aina"
+msgstr "kysy aina"
 
 #: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Open in application"
-msgstr "Avaa sovellukseen"
+msgstr "avaa sovellukseen"
 
 #: settings/interface/confirmationssettingspage.cpp:76
 #, kde-format
 msgid "Run script"
-msgstr "Suorita skripti"
+msgstr "suorita skripti"
 
 #: settings/interface/folderstabssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Viimekertaiset kansiot, välilehdet ja ikkunoiden tila"
+msgstr "viimekertaiset kansiot, välilehdet ja ikkunoiden tila"
 
 #: settings/interface/folderstabssettingspage.cpp:59
 #, kde-format
@@ -5111,13 +5106,13 @@ msgstr "Näytä käynnistettäessä:"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Avataan kansiot:"
+msgstr "Kansioiden avaaminen:"
 
 #: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "Käytä yhtä Dolphin-ikkunaa ja avaa uuden kansiot välilehtiin"
+msgstr "käytä yhtä Dolphin-ikkunaa ja avaa uuden kansiot välilehtiin"
 
 #: settings/interface/folderstabssettingspage.cpp:115
 #, kde-format
@@ -5129,75 +5124,67 @@ msgstr "Ikkuna:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "Näytä koko polku otsikkopalkissa"
+msgstr "näytä otsikkopalkissa koko polku"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "Näytä suodatusrivi"
+msgstr "näytä suodatusrivi"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Välilehtirivin loppuun"
+msgstr "näytä välilehtipalkki aina"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Nimikkeen leveys:"
+msgstr "Välilehden leveys:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Näytä käynnistettäessä kotikansio"
+msgstr "näytä välilehdissä sulkemispainikkeet"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "välilehtien leveys mukautuu kansion nimeen"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "välilehdillä on sama kiinteä leveys"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "välilehdet käyttävät käytettävissä olevan leveyden"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Päiväystapa:"
+msgstr "Välilehtityyli:"
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr "Nykyisen välilehden jälkeen"
+msgstr "nykyisen välilehden jälkeen"
 
 #: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "Välilehtirivin loppuun"
+msgstr "välilehtirivin loppuun"
 
 #: settings/interface/folderstabssettingspage.cpp:146
 #, kde-format
@@ -5236,13 +5223,13 @@ msgstr "Jaettu näkymä: "
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Vaihda näkymästä toiseen sarkainnäppäimellä"
+msgstr "vaihda näkymästä toiseen sarkainnäppäimellä"
 
 #: settings/interface/folderstabssettingspage.cpp:168
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Avaa uudet ikkunat jaettuun näkymään"
+msgstr "avaa uudet ikkunat jaettuun näkymään"
 
 #: settings/interface/folderstabssettingspage.cpp:342
 #, kde-format
@@ -5290,31 +5277,31 @@ msgstr "Tila- ja sijaintirivit"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Näytä esikatselut"
+msgstr "näytä esikatselut"
 
 #: settings/interface/panelsettingspage.cpp:42
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Toista mediatiedostot automaattisesti"
+msgstr "toista mediatiedostot automaattisesti"
 
 #: settings/interface/panelsettingspage.cpp:43
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "Näytä kohde leijuttaessa sen yllä"
+msgstr "näytä kohde leijuttaessa sen yllä"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr "Käytä &pitkää päiväystä, esim. ”%1”"
+msgstr "käytä &pitkää päiväystä, esim. ”%1”"
 
 #: settings/interface/panelsettingspage.cpp:45
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr "Käytä tii&vistä päiväystä, esim. ”%1”"
+msgstr "käytä tii&vistä päiväystä, esim. ”%1”"
 
 # Sivupaneelin nimi par. nominatiiviin
 #: settings/interface/panelsettingspage.cpp:51
@@ -5348,7 +5335,7 @@ msgstr "Näytä esikatselut näkymässä kohteille:"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Näytä esikatselut"
+msgstr "näytä esikatselut"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -5357,14 +5344,14 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr "tiedostoille alle "
+msgstr "alle "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
-msgstr " MiB"
+msgstr " MiB tiedostoille"
 
 #: settings/interface/previewssettingspage.cpp:71
 #, kde-format
@@ -5382,7 +5369,7 @@ msgstr "ei millekään tiedostolle"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Näytä kansioiden esikatselut"
+msgstr "näytä kansioiden esikatselut"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -5414,25 +5401,25 @@ msgstr "Etätalletustila:"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "Pieni"
+msgstr "pieni"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Koko leveys"
+msgstr "koko leveys"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:45
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Näytä suurennusliukusäädin"
+msgstr "näytä suurennusliukusäädin"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:46
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr "Ei käytössä"
+msgstr "ei käytössä"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
 #, kde-format
@@ -5444,7 +5431,7 @@ msgstr "Tilarivi:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "Muokattava sijaintirivi"
+msgstr "muokattava sijaintirivi"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:70
 #, kde-format
@@ -5455,7 +5442,7 @@ msgstr "Sijaintirivi:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
-msgstr "Näytä koko polku sijaintirivillä"
+msgstr "näytä sijaintirivillä koko polku"
 
 #: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
@@ -5488,19 +5475,19 @@ msgstr "Yksityiskohtainen"
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
-msgstr "Luonnollinen"
+msgstr "luonnollinen"
 
 #: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr "Aakkosjärjestys, ei pien- ja suuraakkosten eroa"
+msgstr "aakkosjärjestys, ei pien- ja suuraakkosten eroa"
 
 #: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
-msgstr "Aakkosjärjestys, erota pien- ja suuraakkoset"
+msgstr "aakkosjärjestys, erota pien- ja suuraakkoset"
 
 #: settings/viewmodes/contentdisplaytab.cpp:47
 #, kde-format
@@ -5512,20 +5499,20 @@ msgstr "Lajittelutapa:"
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Näytä kohteiden määrä"
+msgstr "näytä kohteiden määrä"
 
 # *** TARKISTA: Tämä on ongelmallinen. Parasta olisi saada toinen jono väliin tulevan luvun ja mittayksikön väliin (esim. ”Sisällön koko, 1 Gt asti”).
 #: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Näytä sisällön koko, enintään "
+msgstr "näytä sisällön koko, enintään "
 
 #: settings/viewmodes/contentdisplaytab.cpp:55
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Älä näytä kokoa"
+msgstr "älä näytä kokoa"
 
 # ”1 tason syvä” on minusta aavistuksen parempi kuin ”1 taso syvä” mutta ei hyvä. Keksiikö kukaan parempaa?
 #: settings/viewmodes/contentdisplaytab.cpp:64
@@ -5545,13 +5532,13 @@ msgstr "Kansion koko:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Suhteellinen (esim. ”%1”)"
+msgstr "suhteellinen (esim. ”%1”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:85
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Pysyvä (esim. ”%1”)"
+msgstr "pysyvä (esim. ”%1”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
@@ -5563,19 +5550,19 @@ msgstr "Päiväystapa:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Symbolinen (esim. ”drwr-xr-x”)"
+msgstr "symbolinen (esim. ”drwr-xr-x”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numeerinen (oktaalinen, esim. ”755”)"
+msgstr "numeerinen (oktaalinen, esim. ”755”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Sekamuoto (esim. ”drwr-xr-x (755)”)"
+msgstr "yhdistetty (esim. ”drwr-xr-x (755)”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:98
 #, kde-format
@@ -5587,13 +5574,13 @@ msgstr "Käyttöoikeuksien esitystapa:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr "Lyhennä keskeltä (esim. \"Jokin hyvin… nimi.txt”)"
+msgstr "lyhennä keskeltä (esim. \"Jokin hyvin… nimi.txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:108
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr "Lyhennä lopusta (esim. ”Jokin hyvin pitkä….txt”)"
+msgstr "lyhennä lopusta (esim. ”Jokin hyvin pitkä….txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:110
 #, kde-format
@@ -5611,7 +5598,7 @@ msgstr "Järjestelmäfontti"
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "Custom Font"
-msgstr "Muokattu fontti"
+msgstr "Mukautettu fontti"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
@@ -5623,7 +5610,7 @@ msgstr "Valitse…"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "Käytä kaikkiin kansioihin samaa näkymätyyliä"
+msgstr "sama kaikkiin kansioihin"
 
 #. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
 #. The previous sentence is "Use common display style for all folders".
@@ -5641,7 +5628,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "Muista näkymätyyli kansiokohtaisesti"
+msgstr "muista kansiokohtaisesti"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:45
 #, kde-format
@@ -5670,13 +5657,13 @@ msgstr "Näkymätyyli: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Selaa pakattuja tiedostoja kansioina"
+msgstr "selaa pakattuja tiedostoja kansioina"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
-msgstr "Avaa kansio vedettäessä kohde sen ylle"
+msgstr "avaa kansio vedettäessä kohde sen ylle"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:67
 #, kde-format
@@ -5688,7 +5675,7 @@ msgstr "Selaus: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Näytä kohteen tiedot leijuttaessa sen yllä"
+msgstr "näytä kohteen tiedot leijuttaessa sen yllä"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:75
 #: settings/viewmodes/generalviewsettingspage.cpp:83
@@ -5701,13 +5688,13 @@ msgstr "Sekalaista:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Näytä tiedostonvalintapainikkeet"
+msgstr "näytä tiedostonvalintapainikkeet"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Muuta yksittäisen kohteen nimeä suoraan"
+msgstr "muuta yksittäisen kohteen nimeä suoraan"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:88
 #, kde-format
@@ -5718,7 +5705,7 @@ msgstr "Useamman kohteen nimeä muutetaan aina kyselyikkunassa."
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr "Piilota tiedostoja piilotettaessa myös varmuuskopiotiedostot"
+msgstr "tiedostoja piilotettaessa piilota myös varmuuskopiotiedostot"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:95
 #, kde-format
@@ -5758,7 +5745,7 @@ msgstr "Mukautettu komento"
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr "Kaksoisnapsautus aiheuttaa"
+msgstr "Kaksoisnapsautustoiminto:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
@@ -5823,7 +5810,7 @@ msgstr "Nimikkeen fontti:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "Dolphin on varannut jotkin fonttityylit eikä niitä voi muuttaa."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
@@ -5931,7 +5918,7 @@ msgstr "Enimmäisleveys:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
-msgstr "Laajentuva"
+msgstr "laajentuva"
 
 #: settings/viewmodes/viewsettingstab.cpp:109
 #, kde-format
@@ -5943,13 +5930,13 @@ msgstr "Kansiot:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr "Napsauttamalla minne tahansa rivillä"
+msgstr "napsauttamalla minne tahansa rivillä"
 
 #: settings/viewmodes/viewsettingstab.cpp:113
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Napsauttamalla kuvaketta tai nimeä"
+msgstr "napsauttamalla kuvaketta tai nimeä"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:121
