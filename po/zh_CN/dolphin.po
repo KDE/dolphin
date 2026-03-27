@@ -736,13 +736,13 @@ msgstr "如果视图已经拆分，这将把处在焦点的视图弹出到一个
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
-msgstr "临时存储"
+msgstr "暂存"
 
 #: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr "在拆分窗口中打开临时存储虚拟目录"
+msgstr "在拆分窗口中打开暂存虚拟目录"
 
 #: dolphinmainwindow.cpp:2075
 #, kde-format
