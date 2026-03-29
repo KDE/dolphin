@@ -201,7 +201,7 @@ void DolphinItemListView::updateGridSize()
         // 9 is the average char width for 10pt Noto Sans, making fontFactor =1
         // by each pixel the font gets larger the factor increases by 1/9
         auto fontFactor = option.fontMetrics.averageCharWidth() / 9.0;
-        itemWidth = 48 + IconsModeSettings::textWidthIndex() * 64 * fontFactor * zoomFactor;
+        itemWidth = 16 + IconsModeSettings::textWidthIndex() * 64 * fontFactor * zoomFactor;
 
         if (itemWidth < iconSize + padding * 2 * zoomFactor) {
             itemWidth = iconSize + padding * 2 * zoomFactor;

@@ -617,25 +617,10 @@ void KItemListWidget::setPressed(bool enabled)
 
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
-    QStyleOptionViewItem viewItemOption;
-    constexpr int roundness = 5; // From Breeze style.
-    constexpr qreal penWidth = 1.25;
-    initStyleOption(&viewItemOption);
-    viewItemOption.state = styleState;
-    viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
-    viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRectFull().toRect();
-    QPainterPath path;
-    const qreal adjustment = 0.5 * penWidth; // Use same adjustments as Breeze strokedRect uses, to snap to pixelGrid.
-    path.addRoundedRect(selectionRectFull().adjusted(adjustment, adjustment, -adjustment, -adjustment), roundness, roundness);
-    QColor backgroundColor{widget->palette().color(QPalette::Accent)};
-    painter->setRenderHint(QPainter::Antialiasing);
-    bool current = m_current && styleState & QStyle::State_Active;
-
-    // Background item, alpha values are from
-    // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
+    painter->save();
+    // Shared between both Breeze and other styles
+    QColor backgroundColor{widget->palette().color(QPalette::Highlight)};
     backgroundColor.setAlphaF(0.0);
-
     if (m_clickHighlighted) {
         backgroundColor.setAlphaF(1.0);
     } else {
@@ -648,19 +633,52 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
             backgroundColor.setAlphaF(0.06);
         }
     }
+    QStyleOptionViewItem viewItemOption;
+    initStyleOption(&viewItemOption);
+    viewItemOption.state = styleState;
+    viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
+    viewItemOption.showDecorationSelected = true;
+    viewItemOption.rect = selectionRectFull().toRect();
+    const bool current = m_current && styleState & QStyle::State_Active;
 
-    painter->fillPath(path, backgroundColor);
+    // TODO: Remove this check after Plasma 6.8 release
+    // See: https://invent.kde.org/plasma/breeze/-/merge_requests/595
+    if (style()->name() == QStringLiteral("breeze")) {
+        painter->setRenderHint(QPainter::Antialiasing);
+        constexpr int roundness = 5; // From Breeze style.
+        constexpr qreal penWidth = 1.25;
+        QPainterPath path;
+        const qreal adjustment = 0.5 * penWidth; // Use same adjustments as Breeze strokedRect uses, to snap to pixelGrid.
+        path.addRoundedRect(selectionRectFull().adjusted(adjustment, adjustment, -adjustment, -adjustment), roundness, roundness);
+        painter->fillPath(path, backgroundColor);
 
-    // Focus decoration
-    if (current) {
-        QColor focusColor{widget->palette().color(QPalette::Accent)};
-        focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
-        focusColor.setAlphaF(m_selected || m_hovered ? 1.0 : 0.8);
-        // Set the pen color lighter or darker depending on background color
-        QPen pen{focusColor, penWidth};
-        pen.setCosmetic(true);
-        painter->strokePath(path, pen);
+        // Focus decoration
+        if (current) {
+            QColor focusColor{widget->palette().color(QPalette::Highlight)};
+            // Set the pen color lighter or darker depending on background color
+            focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
+            focusColor.setAlphaF(m_selected || m_hovered ? 1.0 : 0.8);
+            QPen pen{focusColor, penWidth};
+            pen.setCosmetic(true);
+            painter->strokePath(path, pen);
+        }
+    } else {
+        viewItemOption.backgroundBrush = backgroundColor;
+        style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+
+        // Focus decoration
+        if (current) {
+            QStyleOptionFocusRect focusRectOption;
+            initStyleOption(&focusRectOption);
+            focusRectOption.state = QStyle::State_HasFocus;
+            if (m_selected && widget->hasFocus()) {
+                focusRectOption.state = QStyle::State_HasFocus | QStyle::State_Selected;
+            }
+            focusRectOption.rect = viewItemOption.rect;
+            style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
+        }
     }
+    painter->restore();
 }
 
 #include "moc_kitemlistwidget.cpp"
