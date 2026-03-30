@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-22 00:46+0000\n"
-"PO-Revision-Date: 2026-03-22 09:41+0100\n"
+"PO-Revision-Date: 2026-03-29 21:55+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3346,7 +3346,7 @@ msgstr "Berrizendatu…"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
-msgstr "Bota zakarrontzira"
+msgstr "Mugitu zakarrontzira"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
