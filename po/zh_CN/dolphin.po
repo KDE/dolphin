@@ -6320,12 +6320,12 @@ msgstr "未发现苹果设备"
 #: views/dolphinview.cpp:2757
 #, kde-format
 msgid "No KDE Connect devices found"
-msgstr ""
+msgstr "没有找到 KDE Connect 设备"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "没有在此设备上找到存储装置"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
