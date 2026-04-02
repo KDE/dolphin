@@ -121,9 +121,13 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
+    const QStyle::State selectedState(m_selected ? QStyle::State_Selected : QStyle::State(0));
     if ((m_selected || m_current) && m_editedRole.isEmpty()) {
         const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active : 0);
-        drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
+        // Only pass State_Selected when the item is actually selected, not just when
+        // it has keyboard focus (m_current), to avoid styles drawing a persistent
+        // selection highlight on focused but unselected items.
+        drawItemStyleOption(painter, widget, activeState | selectedState | QStyle::State_Enabled | QStyle::State_Item);
     }
 
     if (m_hoverOpacity > 0.0) {
@@ -135,7 +139,7 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
             QPainter pixmapPainter(m_hoverCache);
             const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active | QStyle::State_Enabled : 0);
-            drawItemStyleOption(&pixmapPainter, widget, activeState | QStyle::State_MouseOver | QStyle::State_Item);
+            drawItemStyleOption(&pixmapPainter, widget, activeState | selectedState | QStyle::State_MouseOver | QStyle::State_Item);
         }
 
         const qreal opacity = painter->opacity();
@@ -231,6 +235,7 @@ void KItemListWidget::setSelected(bool selected)
             m_selectionToggle->setChecked(selected);
         }
         selectedChanged(selected);
+        clearHoverCache();
         update();
     }
 }
