@@ -2072,6 +2072,7 @@ void DolphinMainWindow::setupActions()
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
     QAction *redisplay = KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
+    redisplay->setAutoRepeat(false);
     redisplay->setToolTip(i18nc("@info:tooltip", "Refresh view"));
     redisplay->setWhatsThis(xi18nc("@info:whatsthis refresh",
                                    "<para>This refreshes "
