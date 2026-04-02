@@ -70,6 +70,8 @@ private Q_SLOTS:
     void testRemoveFilteredExpandedItems();
     void testSorting();
     void testNaturalSorting();
+    void testStringCompare_data();
+    void testStringCompare();
     void testIndexForKeyboardSearch();
     void testNameFilter();
     void testEmptyPath();
@@ -1355,6 +1357,41 @@ void KFileItemModelTest::testNaturalSorting()
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(1, 6));
     QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 4 << 6 << 1 << 2 << 3 << 5);
+}
+
+void KFileItemModelTest::testStringCompare_data()
+{
+    QTest::addColumn<QString>("left");
+    QTest::addColumn<QString>("right");
+    QTest::addColumn<bool>("naturalSorting");
+    QTest::addColumn<int>("expectedResult");
+
+    QTest::newRow("decimal") << QStringLiteral("0.09") << QStringLiteral("0.1") << true << -1;
+    QTest::newRow("version-patch") << QStringLiteral("v1.2.3") << QStringLiteral("v1.2.10") << true << -1;
+    QTest::newRow("version-patch-reversed") << QStringLiteral("v1.2.10") << QStringLiteral("v1.2.3") << true << 1;
+    QTest::newRow("version-minor") << QStringLiteral("v1.2.10") << QStringLiteral("v1.10.1") << true << -1;
+    QTest::newRow("numeric-basename-before-extension") << QStringLiteral("1.09.txt") << QStringLiteral("1.1.txt") << true << -1;
+    QTest::newRow("leading-dot-is-not-decimal") << QStringLiteral(".1") << QStringLiteral(".09") << true << -1;
+    QTest::newRow("natural-sorting-disabled") << QStringLiteral("v1.2.10") << QStringLiteral("v1.2.3") << false << -1;
+}
+
+void KFileItemModelTest::testStringCompare()
+{
+    QFETCH(QString, left);
+    QFETCH(QString, right);
+    QFETCH(bool, naturalSorting);
+    QFETCH(int, expectedResult);
+
+    QCollator collator;
+    collator.setNumericMode(true);
+
+    m_model->m_naturalSorting = naturalSorting;
+
+    const int result = m_model->stringCompare(left, right, collator);
+    QCOMPARE(result < 0 ? -1 : result > 0 ? 1 : 0, expectedResult);
+
+    const int reverseResult = m_model->stringCompare(right, left, collator);
+    QCOMPARE(reverseResult < 0 ? -1 : reverseResult > 0 ? 1 : 0, -expectedResult);
 }
 
 void KFileItemModelTest::testIndexForKeyboardSearch()
