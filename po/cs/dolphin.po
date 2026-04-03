@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 02:36+0000\n"
+"POT-Creation-Date: 2026-04-03 02:42+0000\n"
 "PO-Revision-Date: 2026-03-16 11:37+0100\n"
 "Last-Translator:  Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -355,7 +355,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Otevřít %1"
 
-#: dolphinmainwindow.cpp:1394 dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:1394 dolphinmainwindow.cpp:2206
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -773,13 +773,13 @@ msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Otevře virtuální adresář úschovna v rozděleném okně"
 
-#: dolphinmainwindow.cpp:2075
+#: dolphinmainwindow.cpp:2076
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Obnovit pohled"
 
-#: dolphinmainwindow.cpp:2077
+#: dolphinmainwindow.cpp:2078
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -794,31 +794,31 @@ msgstr ""
 "para><para>Pokud je zobrazení rozděleno, obnoví se zobrazení, které je "
 "aktuálně aktivní.</para>"
 
-#: dolphinmainwindow.cpp:2084
+#: dolphinmainwindow.cpp:2085
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Stop"
 
-#: dolphinmainwindow.cpp:2085
+#: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Zastavit načítání"
 
-#: dolphinmainwindow.cpp:2086
+#: dolphinmainwindow.cpp:2087
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Toto zastaví načítání obsahu současné složky."
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2092
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Upravitelné umístění"
 
-#: dolphinmainwindow.cpp:2093
+#: dolphinmainwindow.cpp:2094
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -831,13 +831,13 @@ msgstr ""
 "mohli přímo zadat místo, kam chcete jít.<nl/>Můžete také přepnout na úpravy "
 "kliknutím napravo od umístění a přepnout zpět potvrzením upraveného místa."
 
-#: dolphinmainwindow.cpp:2101
+#: dolphinmainwindow.cpp:2102
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Nahradit umístění"
 
-#: dolphinmainwindow.cpp:2106
+#: dolphinmainwindow.cpp:2107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -847,19 +847,19 @@ msgstr ""
 "Tímto se přepnete na úpravu umístění a jeho výběr, abyste mohli rychle zadat "
 "jiné umístění."
 
-#: dolphinmainwindow.cpp:2136
+#: dolphinmainwindow.cpp:2137
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Vrátit zpět zavření karty"
 
-#: dolphinmainwindow.cpp:2137
+#: dolphinmainwindow.cpp:2138
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Tímto se vrátíte na dříve zavřenou kartu."
 
-#: dolphinmainwindow.cpp:2145
+#: dolphinmainwindow.cpp:2146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -875,7 +875,7 @@ msgstr ""
 "jiné místo nebo do <filename>Koše</filename>. <nl/> Všechny změny, které "
 "nelze vrátit zpět, budou vyžadovat vaše předchozí potvrzení."
 
-#: dolphinmainwindow.cpp:2156
+#: dolphinmainwindow.cpp:2157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -891,7 +891,7 @@ msgstr ""
 "<filename>Koše</filename>.<nl/>Všechny změny, které nelze vrátit zpět, budou "
 "vyžadovat vaše předchozí potvrzení."
 
-#: dolphinmainwindow.cpp:2186
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -903,19 +903,19 @@ msgstr ""
 "svou vlastní složku <filename>Domů</filename>, která obsahuje jeho osobní "
 "soubory, a také skryté složky pro data a soubory nastavení jeho aplikací."
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2194
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Porovnat soubory"
 
-#: dolphinmainwindow.cpp:2199
+#: dolphinmainwindow.cpp:2200
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "Spravovat využití místa na pevném disku"
 
-#: dolphinmainwindow.cpp:2207
+#: dolphinmainwindow.cpp:2208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -927,13 +927,13 @@ msgstr ""
 "para><para>K jeho nastavení použijte nabídku <emphasis>Další vyhledávací "
 "nástroje</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2221
+#: dolphinmainwindow.cpp:2222
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Otevřít terminál"
 
-#: dolphinmainwindow.cpp:2223
+#: dolphinmainwindow.cpp:2224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -946,13 +946,13 @@ msgstr ""
 "funkce nápovědy v terminálové aplikaci.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2231
+#: dolphinmainwindow.cpp:2232
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Zde otevřít terminál"
 
-#: dolphinmainwindow.cpp:2233
+#: dolphinmainwindow.cpp:2234
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -964,13 +964,13 @@ msgstr ""
 "umístění.</para><para>Chcete-li se dozvědět více o terminálech, použijte "
 "funkce nápovědy v terminálové aplikaci.</para>"
 
-#: dolphinmainwindow.cpp:2241
+#: dolphinmainwindow.cpp:2242
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Záložky"
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -988,96 +988,96 @@ msgstr ""
 "para><para>Tlačítko %1 je jednodušší a menší, což spouští pokročilým "
 "způsobem časově náročnější akce.</para>"
 
-#: dolphinmainwindow.cpp:2276
+#: dolphinmainwindow.cpp:2277
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Přejít na kartu %1"
 
-#: dolphinmainwindow.cpp:2289
+#: dolphinmainwindow.cpp:2290
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Poslední karta"
 
-#: dolphinmainwindow.cpp:2290
+#: dolphinmainwindow.cpp:2291
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Přejít na poslední kartu"
 
-#: dolphinmainwindow.cpp:2296
+#: dolphinmainwindow.cpp:2297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Následující karta"
 
-#: dolphinmainwindow.cpp:2297
+#: dolphinmainwindow.cpp:2298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Přejít na následující kartu"
 
-#: dolphinmainwindow.cpp:2303
+#: dolphinmainwindow.cpp:2304
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Předchozí karta"
 
-#: dolphinmainwindow.cpp:2304
+#: dolphinmainwindow.cpp:2305
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Přejít na předchozí kartu"
 
-#: dolphinmainwindow.cpp:2311
+#: dolphinmainwindow.cpp:2312
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Zobrazit cíl"
 
-#: dolphinmainwindow.cpp:2317
+#: dolphinmainwindow.cpp:2318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Otevřít v nové kartě"
 
-#: dolphinmainwindow.cpp:2322
+#: dolphinmainwindow.cpp:2323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Otevřít v nových kartách"
 
-#: dolphinmainwindow.cpp:2327
+#: dolphinmainwindow.cpp:2328
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Otevřít v novém okně"
 
-#: dolphinmainwindow.cpp:2332 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2333 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Otevřít v rozděleném pohledu"
 
-#: dolphinmainwindow.cpp:2344
+#: dolphinmainwindow.cpp:2345
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "Barevné sc&héma okna"
 
-#: dolphinmainwindow.cpp:2357
+#: dolphinmainwindow.cpp:2358
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Odemknout panely"
 
-#: dolphinmainwindow.cpp:2359
+#: dolphinmainwindow.cpp:2360
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Zamknout panely"
 
-#: dolphinmainwindow.cpp:2362
+#: dolphinmainwindow.cpp:2363
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1090,13 +1090,13 @@ msgstr ""
 "emphasis> panely.<nl/>Odemčené panely lze přetáhnout na druhou stranu okna a "
 "mají tlačítko pro zavření.<nl/> Uzamčené panely jsou vloženy čistěji."
 
-#: dolphinmainwindow.cpp:2371
+#: dolphinmainwindow.cpp:2372
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informace"
 
-#: dolphinmainwindow.cpp:2394
+#: dolphinmainwindow.cpp:2395
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1107,7 +1107,7 @@ msgstr ""
 "<interface>Nabídka|Panely</interface> nebo <interface>Zobrazit|Panely</"
 "interface>.</para>"
 
-#: dolphinmainwindow.cpp:2401
+#: dolphinmainwindow.cpp:2402
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1123,7 +1123,7 @@ msgstr ""
 "případě vás informuje o aktuálně zobrazené složce.<nl/> U jednotlivých "
 "položek je k dispozici náhled jejich obsahu.</para>"
 
-#: dolphinmainwindow.cpp:2409
+#: dolphinmainwindow.cpp:2410
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,13 +1139,13 @@ msgstr ""
 "dispozici náhled jejich obsahu.</para><para>Kliknutím pravým tlačítkem myši "
 "můžete nastavit, které podrobnosti a jak se zde zobrazí.</para>"
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2419
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Složky"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1157,7 +1157,7 @@ msgstr ""
 ">Zobrazuje složky <emphasis>souborového systému</emphasis> ve "
 "<emphasis>stromovém zobrazení</emphasis>."
 
-#: dolphinmainwindow.cpp:2443
+#: dolphinmainwindow.cpp:2444
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1171,13 +1171,13 @@ msgstr ""
 "složku se na ni dostanete. Kliknutím na šipku vlevo od složky zobrazíte její "
 "podsložky. To umožňuje rychlé přepínání mezi libovolnými složkami.</para>"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: dolphinmainwindow.cpp:2478
+#: dolphinmainwindow.cpp:2479
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1195,7 +1195,7 @@ msgstr ""
 "Chcete-li se dozvědět více o terminálech, použijte funkce nápovědy v "
 "samostatné terminálové aplikaci, jako je Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2486
+#: dolphinmainwindow.cpp:2487
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1213,25 +1213,25 @@ msgstr ""
 "dozvědět více o terminálech, použijte funkce nápovědy v samostatné "
 "terminálové aplikaci, například Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3159
+#: dolphinmainwindow.cpp:2497 dolphinmainwindow.cpp:3160
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Přepnout na panel terminálu"
 
-#: dolphinmainwindow.cpp:2497
+#: dolphinmainwindow.cpp:2498
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Přesunovat zaměření klávesnice na a z panelu terminálu."
 
-#: dolphinmainwindow.cpp:2503
+#: dolphinmainwindow.cpp:2504
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr "Následovat přepnutí adresáře"
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2506
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1241,19 +1241,19 @@ msgstr ""
 "Určuje, zda musí být aktuální pracovní adresář synchronizován s terminálem "
 "při každé změně adresáře."
 
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2522
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Místa"
 
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2550
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Zobrazit skrytá místa"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2554
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1264,7 +1264,7 @@ msgstr ""
 "Toto zobrazí všechna místa, která byla skryta, na panelu Místa. Tato místa "
 "se zobrazí poloprůhledně a umožní vám odškrtnout jejich vlastnost \"Skrýt\"."
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2566
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1280,7 +1280,7 @@ msgstr ""
 "Obsahuje také sekce pro nalezení nedávno uložených souborů nebo souborů "
 "určitého typu.</para>"
 
-#: dolphinmainwindow.cpp:2572
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1305,25 +1305,25 @@ msgstr ""
 "myši na prázdné místo na tomto panelu a výběrem možnosti <interface>Zobrazit "
 "skrytá místa</interface> je znovu zobrazíte.</para>"
 
-#: dolphinmainwindow.cpp:2586 dolphinmainwindow.cpp:3177
+#: dolphinmainwindow.cpp:2587 dolphinmainwindow.cpp:3178
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Přepnout na panel míst"
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2588
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Přesunovat zaměření klávesnice na a z panelu míst."
 
-#: dolphinmainwindow.cpp:2593
+#: dolphinmainwindow.cpp:2594
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Zobrazit panely"
 
-#: dolphinmainwindow.cpp:2679
+#: dolphinmainwindow.cpp:2680
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1331,20 +1331,20 @@ msgid ""
 msgstr ""
 "Nelze přejmenovat: Nemáte oprávnění přejmenovávat položky v této složce."
 
-#: dolphinmainwindow.cpp:2682 dolphinmainwindow.cpp:2699
+#: dolphinmainwindow.cpp:2683 dolphinmainwindow.cpp:2700
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "Nelze smazat: Nemáte oprávnění mazat položky v této složce."
 
-#: dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2685
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "Nelze vyjmout: Nemáte práva k přesunu položek z této složky."
 
-#: dolphinmainwindow.cpp:2689
+#: dolphinmainwindow.cpp:2690
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1352,33 +1352,33 @@ msgid ""
 "folder."
 msgstr "Zde nelze duplikovat: Nemáte práva k vytváření položek v této složce."
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Nelze zkopírovat do jiného pohledu: Nebyly vybrány žádné soubory."
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2714
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Nelze přesunout do jiného pohledu: Nebyly vybrány žádné soubory."
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2733
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
 "Nelze zkopírovat do jiného pohledu: Jiný pohled už tyto položky obsahuje."
 
-#: dolphinmainwindow.cpp:2735
+#: dolphinmainwindow.cpp:2736
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
 "Nelze přesunout do jiného pohledu:  Jiný pohled už tyto položky obsahuje."
 
-#: dolphinmainwindow.cpp:2740
+#: dolphinmainwindow.cpp:2741
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1388,7 +1388,7 @@ msgstr ""
 "Nelze zkopírovat do jiného pohledu: Nemáte oprávnění zapisovat do cílové "
 "složky."
 
-#: dolphinmainwindow.cpp:2744
+#: dolphinmainwindow.cpp:2745
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1398,7 +1398,7 @@ msgstr ""
 "Nelze přesunout do jiného pohledu: Nemáte oprávnění zapisovat do cílové "
 "složky."
 
-#: dolphinmainwindow.cpp:2750
+#: dolphinmainwindow.cpp:2751
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1408,7 +1408,7 @@ msgstr ""
 "Nelze přesunout do jiného pohledu: Nemáte oprávnění přesouvat položky z této "
 "složky."
 
-#: dolphinmainwindow.cpp:2774
+#: dolphinmainwindow.cpp:2775
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1424,90 +1424,90 @@ msgstr ""
 "adresář, který obsahuje všechna data připojená k tomuto počítači – "
 "<emphasis>kořenový adresář</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2866 dolphinmainwindow.cpp:2885
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zavřít"
 
-#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Zavřít levý pohled"
 
-#: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Zavřít levý pohled"
 
-#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
+#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2891
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Vytáhnout levý pohled"
 
-#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Přesunout levý panel rozděleného pohledu do nového okna"
 
-#: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2893
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2904
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zavřít"
 
-#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
+#: dolphinmainwindow.cpp:2905
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Zavřít pravý pohled"
 
-#: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2896
-#: dolphinmainwindow.cpp:2906
+#: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2897
+#: dolphinmainwindow.cpp:2907
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Zavřít pravý pohled"
 
-#: dolphinmainwindow.cpp:2879 dolphinmainwindow.cpp:2898
-#: dolphinmainwindow.cpp:2908
+#: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2909
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Vytáhnout pravý pohled"
 
-#: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2899
-#: dolphinmainwindow.cpp:2909
+#: dolphinmainwindow.cpp:2881 dolphinmainwindow.cpp:2900
+#: dolphinmainwindow.cpp:2910
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Přesunout pravý panel rozděleného pohledu do nového okna"
 
-#: dolphinmainwindow.cpp:2921
+#: dolphinmainwindow.cpp:2922
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Rozdělit"
 
-#: dolphinmainwindow.cpp:2923
+#: dolphinmainwindow.cpp:2924
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Rozdělit pohled"
 
-#: dolphinmainwindow.cpp:2925
+#: dolphinmainwindow.cpp:2926
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Vytáhnout"
 
-#: dolphinmainwindow.cpp:2985
+#: dolphinmainwindow.cpp:2986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1526,7 +1526,7 @@ msgstr ""
 "tlačítka <interface>Nabídka </interface> na <emphasis>Panelu nástrojů</"
 "emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2992
+#: dolphinmainwindow.cpp:2993
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1549,7 +1549,7 @@ msgstr ""
 "kontextové nabídce. Klikněte pravým tlačítkem myši na tlačítko, pokud chcete "
 "zobrazit nebo skrýt jeho text.</para>"
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3005
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1576,7 +1576,7 @@ msgstr ""
 "url='help:/dolphin/dolphin-view.html'> klikněte sem</link>. Tím se otevře "
 "stránka z <emphasis>Příručky</emphasis>, která se zabývá základy.</para>"
 
-#: dolphinmainwindow.cpp:3020
+#: dolphinmainwindow.cpp:3021
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1590,7 +1590,7 @@ msgstr ""
 "při jejich současném stisknutí. Všechny příkazy v této aplikaci lze spustit "
 "tímto způsobem.</para>"
 
-#: dolphinmainwindow.cpp:3026
+#: dolphinmainwindow.cpp:3027
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1603,7 +1603,7 @@ msgstr ""
 "položky, které vidíte v<interface>Nabídce</interface>, lze také umístit na "
 "Panel nástrojů.</para>"
 
-#: dolphinmainwindow.cpp:3030
+#: dolphinmainwindow.cpp:3031
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1622,7 +1622,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3050
+#: dolphinmainwindow.cpp:3051
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1638,7 +1638,7 @@ msgstr ""
 "<link url='https://userbase.kde.org/Dolphin/File_Management'>klikněte sem</"
 "link>. Otevře se příslušná stránka v KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:3055
+#: dolphinmainwindow.cpp:3056
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1660,7 +1660,7 @@ msgstr ""
 "File_Management'> KDE UserBase Wiki</link>.</para><para>Nápověda „Co je to?“ "
 "ve většině ostatních oken chybí, takže si na ni příliš nezvykejte.</para>"
 
-#: dolphinmainwindow.cpp:3066
+#: dolphinmainwindow.cpp:3067
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1676,7 +1676,7 @@ msgstr ""
 "co nejvíce zefektivnit, <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'> klikněte zde</link>.</para>"
 
-#: dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3076
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1698,7 +1698,7 @@ msgstr ""
 "atd.</para> <para><emphasis>KDE e.V.</emphasis> je nezisková organizace "
 "stojící za komunitou KDE.</para>"
 
-#: dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:3089
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1710,7 +1710,7 @@ msgstr ""
 "dokonce nastavit sekundární jazyky, které se použijí, pokud texty nejsou k "
 "dispozici ve vašem preferovaném jazyce."
 
-#: dolphinmainwindow.cpp:3093
+#: dolphinmainwindow.cpp:3094
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1720,7 +1720,7 @@ msgstr ""
 "Tímto se otevře okno s informacemi o verzi, licenci, použitých knihovnách a "
 "správcích této aplikace."
 
-#: dolphinmainwindow.cpp:3098
+#: dolphinmainwindow.cpp:3099
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1734,19 +1734,19 @@ msgstr ""
 "aplikaci, ale nic nevíte o KDE nebo chcete vidět roztomilého draka, "
 "podívejte se!"
 
-#: dolphinmainwindow.cpp:3153 dolphinmainwindow.cpp:3164
+#: dolphinmainwindow.cpp:3154 dolphinmainwindow.cpp:3165
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Zaměřit se mimo panel terminálu"
 
-#: dolphinmainwindow.cpp:3171
+#: dolphinmainwindow.cpp:3172
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Zaměřit se mimo panel terminálu"
 
-#: dolphinmainwindow.cpp:3182
+#: dolphinmainwindow.cpp:3183
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
