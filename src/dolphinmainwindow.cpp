@@ -87,6 +87,7 @@
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QPushButton>
+#include <QSharedPointer>
 #include <QShowEvent>
 #include <QStandardPaths>
 #include <QTimer>
@@ -788,8 +789,10 @@ void DolphinMainWindow::slotSaveSession()
         KConfigGroup group = config->group(QStringLiteral("Number"));
         group.writeEntry("NumberOfWindows", 1); // Makes session restore aware that there is a window to restore.
 
-        auto future = QtConcurrent::run([config]() {
-            config->sync();
+        // Copy the config in the main thread so sync() can safely run in the worker.
+        QSharedPointer<KConfig> configCopy(config->copyTo(config->name()));
+        auto future = QtConcurrent::run([configCopy]() {
+            configCopy->sync();
         });
         m_sessionSaveWatcher->setFuture(future);
     }
