@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-03 02:42+0000\n"
-"PO-Revision-Date: 2026-01-18 15:52+0100\n"
+"PO-Revision-Date: 2026-04-04 19:06+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -1235,7 +1235,7 @@ msgstr "Przenieś obsługę klawiatury z i do okna terminala"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Podążaj po przełączeniu katalogu"
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1244,6 +1244,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Określa, czy obecny katalog musi podążać za terminalem przy każdej zmianie "
+"katalogu w nim."
 
 #: dolphinmainwindow.cpp:2522
 #, kde-format
@@ -2091,23 +2093,16 @@ msgid "No items found."
 msgstr "Nic nie znaleziono."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Jeden plik"
+msgstr "Otwórz jako plik"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "The dropped items are already inside the folder <filename>%1</filename>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr ""
-"Upuszczone elementy znajdują się już wewnątrz folderu <filename>%1</filename>"
+msgstr "Próbowano otworzyć plik jako katalog: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -2945,12 +2940,9 @@ msgid "Artist"
 msgstr "Wykonawca"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Pliki dźwiękowe"
+msgstr "Kodek dźwięku"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2995,7 +2987,7 @@ msgstr "Wideo"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Przestrzeń barw"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -3005,15 +2997,12 @@ msgstr "Liczba klatek na sekundę"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Format piksela"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Wideo"
+msgstr "Kodek obrazu"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4212,12 +4201,10 @@ msgid "Exit Selection Mode"
 msgstr "Opuść tryb zaznaczania"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Menu podręczne"
+msgstr "Działania menu podręcznego"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4226,9 +4213,7 @@ msgid "Search…"
 msgstr "Poszukaj..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
 msgstr "Pobierz nowe usługi…"
@@ -4237,7 +4222,7 @@ msgstr "Pobierz nowe usługi…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Skróty…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4680,11 +4665,9 @@ msgstr "Czy karty powinny mieć przyciski zamykania na sobie"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Zapis daty:"
+msgstr "Wygląd kart"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4952,12 +4935,10 @@ msgid "Warning"
 msgstr "Ostrzeżenie"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Pytaj o potwierdzenie we wszystkich programach KDE przy:"
+msgstr "Pytaj o potwierdzenie w aplikacjach KDE przy:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5121,12 +5102,10 @@ msgid "Always show tab bar"
 msgstr "Zawsze pokazuj pasek kart"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Szerokość etykiety:"
+msgstr "Szerokość tabulacji:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -5138,27 +5117,25 @@ msgstr "Pokazuj przyciski zamykania na kartach"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Szerokość kart dostosowuje się do nazw katalogów"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Wszystkie karty mają tę samą stałą szerokość"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Karty zajmują całą dostępną szerokość"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Zapis daty:"
+msgstr "Wygląd kart: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
