@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -38,43 +38,43 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Acting as an Administrator — Be careful!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Acting as Admin"
 
 #: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Dokončiť"
 
 #: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Finish acting as an administrator"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr ""
+msgstr "Act as Administrator Again"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Administrator authorization has expired."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Act as Administrator"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -84,18 +84,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> requires <application>%1</application> to "
+"manage system-controlled files, but it is not installed.<nl/>Press %2 to "
+"install <application>%1</application> or %3 to cancel."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -109,12 +112,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Make use of your administrator rights in Dolphin:"
+"<numberedlist><numbereditem>Navigate to the file or folder chcete to change."
+"</numbereditem><numbereditem>Activate the \"%1\" action either under "
+"<interface>Open Menu|More|View</interface> or <interface>Menu Bar|View</"
+"interface>.<nl/>Default shortcut: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>After authorization môžete manage files as an "
+"administrator.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "Ako Administrate"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -131,24 +141,34 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>You are about to use administrator privileges. While acting as an "
+"administrator môžete change or replace any file or folder on this system. "
+"This includes items which are critical for this system to function.</"
+"para><para>You are schopný <emphasis>delete every users' data</emphasis> on "
+"this computer and to <emphasis>break this installation beyond repair.</"
+"emphasis> Adding just one letter in a folder or file name or its contents "
+"can render a system <emphasis>unbootable.</emphasis></para><para>Existuje "
+"probably not going to be another warning even ak are about to break this "
+"system.</para><para>You might want to <emphasis>backup files and folders</"
+"emphasis> before proceeding.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Risks of Acting as an Administrator"
 
 #: admin/workerintegration.cpp:163
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "I Understand and Accept These Risks"
 
 #: admin/workerintegration.cpp:165
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Do not warn me about these risks again"
 
 #: dolphincontextmenu.cpp:126
 #, kde-format
@@ -163,9 +183,7 @@ msgid "Configure Trash…"
 msgstr "Nastaviť Kôš..."
 
 #: dolphincontextmenu.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
@@ -205,7 +223,7 @@ msgstr "Otvoriť cestu v novom okne"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Middle Click"
 
 #: dolphincontextmenu.cpp:523
 #, kde-format
@@ -213,7 +231,7 @@ msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr ""
+msgstr "Shift+Middle Click"
 
 #: dolphinmainwindow.cpp:366
 #, kde-format
@@ -322,13 +340,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Cannot paste: The clipboard is empty."
 
 #: dolphinmainwindow.cpp:967
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Cannot paste: You do not have permission to write into this folder."
 
 #: dolphinmainwindow.cpp:1384
 #, kde-format
@@ -366,6 +384,8 @@ msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Cannot create new file: You do not have permission to create items in this "
+"folder."
 
 #: dolphinmainwindow.cpp:1541
 #, kde-format
@@ -374,6 +394,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 
 #: dolphinmainwindow.cpp:1646
 #, kde-format
@@ -394,11 +416,7 @@ msgid "Open a new Dolphin window"
 msgstr "Otvoriť Dolphin v novom okne"
 
 #: dolphinmainwindow.cpp:1831
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
@@ -414,12 +432,7 @@ msgid "New Tab"
 msgstr "Nová karta"
 
 #: dolphinmainwindow.cpp:1840
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
@@ -449,19 +462,13 @@ msgid "Close Tab"
 msgstr "Zavrieť kartu"
 
 #: dolphinmainwindow.cpp:1857
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Zavrieť kartu"
 
 #: dolphinmainwindow.cpp:1859
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
@@ -560,11 +567,7 @@ msgid "Copy to Other View…"
 msgstr "Kopírovať do iného zobrazenia…"
 
 #: dolphinmainwindow.cpp:1914
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
@@ -574,9 +577,7 @@ msgstr ""
 "neaktívneho pohľadu."
 
 #: dolphinmainwindow.cpp:1918
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopírovať do iného zobrazenia"
@@ -594,11 +595,7 @@ msgid "Move to Other View…"
 msgstr "Presunúť do iného zobrazenia…"
 
 #: dolphinmainwindow.cpp:1926
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
@@ -608,9 +605,7 @@ msgstr ""
 "neaktívneho pohľadu."
 
 #: dolphinmainwindow.cpp:1930
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Presunúť do iného zobrazenia"
@@ -628,13 +623,7 @@ msgid "Show Filter Bar"
 msgstr "Zobraziť lištu filtrovania"
 
 #: dolphinmainwindow.cpp:1938
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -670,14 +659,7 @@ msgid "Search for files and folders"
 msgstr "Hľadať súbory a priečinky"
 
 #: dolphinmainwindow.cpp:1962
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -748,11 +730,7 @@ msgid "Invert Selection"
 msgstr "Invertovať výber"
 
 #: dolphinmainwindow.cpp:2022
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
@@ -770,6 +748,10 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>This presents a second view side-by-side with aktuálny view, so môžete "
+"see the contents of two folders at once and easily move items between them.</"
+"para><para>The view that is not \"in focus\" will be dimmed. </para>Click "
+"this button again to close jedna z the views."
 
 #: dolphinmainwindow.cpp:2057
 #, kde-kuit-format
@@ -778,6 +760,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"If the view has been split, this will pop the view in focus out into a new "
+"window."
 
 #: dolphinmainwindow.cpp:2065
 #, kde-format
@@ -879,14 +863,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Toto vás vráti na predtým zatvorenú kartu."
 
 #: dolphinmainwindow.cpp:2145
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -902,14 +879,7 @@ msgstr ""
 "potvrdenie."
 
 #: dolphinmainwindow.cpp:2156
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -925,12 +895,7 @@ msgstr ""
 "potvrdenie."
 
 #: dolphinmainwindow.cpp:2186
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -951,7 +916,7 @@ msgstr "Porovnať súbory"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Manage Disk Space Usage"
 
 #: dolphinmainwindow.cpp:2207
 #, kde-kuit-format
@@ -972,12 +937,7 @@ msgid "Open Terminal"
 msgstr "Otvoriť terminál"
 
 #: dolphinmainwindow.cpp:2223
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
@@ -996,12 +956,7 @@ msgid "Open Terminal Here"
 msgstr "Otvoriť terminál"
 
 #: dolphinmainwindow.cpp:2233
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -1019,16 +974,7 @@ msgid "&Bookmarks"
 msgstr "Záložky"
 
 #: dolphinmainwindow.cpp:2251
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -1049,20 +995,16 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Go to Tab %1"
 
 #: dolphinmainwindow.cpp:2289
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Aktivovať poslednú kartu"
 
 #: dolphinmainwindow.cpp:2290
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Aktivovať poslednú kartu"
@@ -1074,9 +1016,7 @@ msgid "Next Tab"
 msgstr "Ďalšia karta"
 
 #: dolphinmainwindow.cpp:2297
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Ďalšia karta"
@@ -1088,9 +1028,7 @@ msgid "Previous Tab"
 msgstr "Predošlá karta"
 
 #: dolphinmainwindow.cpp:2304
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Predošlá karta"
@@ -1128,7 +1066,7 @@ msgstr "Otvoriť v rozdelenom zobrazení"
 #: dolphinmainwindow.cpp:2344
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "&Window Color Scheme"
 
 #: dolphinmainwindow.cpp:2357
 #, kde-format
@@ -1243,15 +1181,7 @@ msgid "Terminal"
 msgstr "Terminál"
 
 #: dolphinmainwindow.cpp:2478
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -1270,15 +1200,7 @@ msgstr ""
 "Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2486
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1305,13 +1227,13 @@ msgstr "Zamerať panel terminálu"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Move keyboard focus to and from the Terminal panel."
 
 #: dolphinmainwindow.cpp:2503
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Follow Directory Switch"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1320,6 +1242,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Determines if current working directory must be kept in sync with terminal "
+"whenever directory is changed."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -1334,11 +1258,7 @@ msgid "Show Hidden Places"
 msgstr "Zobraziť skryté miesta"
 
 #: dolphinmainwindow.cpp:2553
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1390,17 +1310,13 @@ msgstr ""
 "zobrazenie.</para>"
 
 #: dolphinmainwindow.cpp:2586 dolphinmainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Zamerať panel terminálu"
 
 #: dolphinmainwindow.cpp:2587
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Toto pridá vybratý priečinok do panelu Miesta."
@@ -1417,6 +1333,7 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Cannot rename: You do not have permission to rename items in this folder."
 
 #: dolphinmainwindow.cpp:2682 dolphinmainwindow.cpp:2699
 #, kde-format
@@ -1424,12 +1341,13 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Cannot delete: You do not have permission to remove items from this folder."
 
 #: dolphinmainwindow.cpp:2684
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "Cannot cut: You do not have permission to move items from this folder."
 
 #: dolphinmainwindow.cpp:2689
 #, kde-format
@@ -1438,30 +1356,34 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Cannot duplicate here: You do not have permission to create items in this "
+"folder."
 
 #: dolphinmainwindow.cpp:2711
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Cannot copy to other view: No files selected."
 
 #: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "Cannot move to other view: No files selected."
 
 #: dolphinmainwindow.cpp:2732
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Cannot copy to other view: The other view already contains these items."
 
 #: dolphinmainwindow.cpp:2735
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Cannot move to other view: The other view already contains these items."
 
 #: dolphinmainwindow.cpp:2740
 #, kde-format
@@ -1470,6 +1392,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Cannot copy to other view: You do not have permission to write into the "
+"destination folder."
 
 #: dolphinmainwindow.cpp:2744
 #, kde-format
@@ -1478,6 +1402,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Cannot move to other view: You do not have permission to write into the "
+"destination folder."
 
 #: dolphinmainwindow.cpp:2750
 #, kde-format
@@ -1486,6 +1412,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Cannot move to other view: You do not have permission to move items from "
+"this folder."
 
 #: dolphinmainwindow.cpp:2774
 #, kde-kuit-format
@@ -1510,25 +1438,19 @@ msgid "Close"
 msgstr "Zavrieť"
 
 #: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Zatvoriť ľavé zobrazenie"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2888
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Zatvoriť ľavé zobrazenie"
 
 #: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Kopírovať do iného zobrazenia"
@@ -1537,7 +1459,7 @@ msgstr "Kopírovať do iného zobrazenia"
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Move left split view to a new window"
 
 #: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2893
 #: dolphinmainwindow.cpp:2903
@@ -1548,27 +1470,21 @@ msgstr "Zavrieť"
 
 #: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2904
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Zatvoriť pravé zobrazenie"
 
 #: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2896
 #: dolphinmainwindow.cpp:2906
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Zatvoriť pravé zobrazenie"
 
 #: dolphinmainwindow.cpp:2879 dolphinmainwindow.cpp:2898
 #: dolphinmainwindow.cpp:2908
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Kopírovať do iného zobrazenia"
@@ -1578,7 +1494,7 @@ msgstr "Kopírovať do iného zobrazenia"
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Move right split view to a new window"
 
 #: dolphinmainwindow.cpp:2921
 #, kde-format
@@ -1596,7 +1512,7 @@ msgstr "Rozdelené zobrazenie"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Pop out"
 
 #: dolphinmainwindow.cpp:2985
 #, kde-kuit-format
@@ -1829,17 +1745,13 @@ msgid "Defocus Terminal Panel"
 msgstr "Od-zamerať panel terminálu"
 
 #: dolphinmainwindow.cpp:3171
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Od-zamerať panel terminálu"
 
 #: dolphinmainwindow.cpp:3182
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Od-zamerať panel terminálu"
@@ -1879,13 +1791,13 @@ msgstr[2] "Panely umiestnenia"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Could not find package %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Installation exited without reporting success. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1896,6 +1808,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
+"installing <application>%1</application> manually instead."
 
 #: dolphinpart.cpp:147
 #, kde-format
@@ -2053,27 +1967,19 @@ msgid "Close Tab"
 msgstr "Zavrieť kartu"
 
 #: dolphintabbar.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Premenovať %2"
+msgstr "Rename Tab"
 
 #: dolphintabbar.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Premenovať %2"
+msgstr "Rename Tab"
 
 #: dolphintabbar.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
 msgstr "Nový názov #"
 
@@ -2081,8 +1987,7 @@ msgstr "Nový názov #"
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
 msgstr "Umiestnenie"
@@ -2145,7 +2050,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "This folder is not writable for you."
 
 #: dolphinviewcontainer.cpp:104
 #, kde-format
@@ -2177,18 +2082,13 @@ msgid "No items found."
 msgstr "Neboli nájdené žiadne položky."
 
 #: dolphinviewcontainer.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Jeden súbor"
 
 #: dolphinviewcontainer.cpp:760
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Nepodarilo sa pristúpiť k <filename>%1</filename>."
@@ -2224,12 +2124,10 @@ msgstr "Neplatný protokol"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Authorization required to enter this folder."
 
 #: dolphinviewcontainer.cpp:1044
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Priečinok vytvorený."
@@ -2238,13 +2136,13 @@ msgstr "Priečinok vytvorený."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Create the folder at this path and open it"
 
 #: dolphinviewcontainer.cpp:1064
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr ""
+msgstr "You do not have permission to create the folder"
 
 #: dolphinviewcontainer.cpp:1108 dolphinviewcontainer.cpp:1111
 #, kde-kuit-format
@@ -2265,9 +2163,7 @@ msgid "Filter…"
 msgstr "Filtrovať..."
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
 msgstr "Neplatný protokol"
 
@@ -2275,25 +2171,25 @@ msgstr "Neplatný protokol"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "Rozlišovať veľkosť"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "Plain Text"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "Glob Pattern"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regular Expression"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -2302,9 +2198,7 @@ msgid "Hide Filter Bar"
 msgstr "Skryť panel filtrovania"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Skryť"
@@ -2313,35 +2207,28 @@ msgstr "Skryť"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Unhide"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Vytvoriť priečinok..."
 
 #: itemactions/setfoldericonitemaction.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Ostatné"
 
 #: itemactions/setfoldericonitemaction.cpp:156
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
 msgstr "Otvárať priečinky pri operáciach ťahania"
 
 #: itemactions/setfoldericonitemaction.cpp:190
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
 msgstr "Obnoviť"
@@ -2350,29 +2237,28 @@ msgstr "Obnoviť"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "Yellow"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "Orange"
 
 #: itemactions/setfoldericonitemaction.cpp:193
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Green"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "Cyan"
 
 #: itemactions/setfoldericonitemaction.cpp:196
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Predvolené"
@@ -2381,18 +2267,16 @@ msgstr "Predvolené"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "Blue"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "Violet"
 
 #: itemactions/setfoldericonitemaction.cpp:200
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
 msgstr "Prehliadanie: "
@@ -2401,12 +2285,10 @@ msgstr "Prehliadanie: "
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Grey"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
 msgstr "Záložky"
@@ -2415,12 +2297,10 @@ msgstr "Záložky"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Cloud"
 
 #: itemactions/setfoldericonitemaction.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "Vývojár"
@@ -2429,30 +2309,28 @@ msgstr "Vývojár"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "Games"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Mail"
 
 #: itemactions/setfoldericonitemaction.cpp:209
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "Music"
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "Tlačiť"
 
 #: itemactions/setfoldericonitemaction.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
 msgstr "Porovnať súbory"
@@ -2461,24 +2339,22 @@ msgstr "Porovnať súbory"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Temporary"
 
 #: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "Important"
 
 #: itemactions/setfoldericonitemaction.cpp:235
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Set folder icon to %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
 msgstr "Zakázané"
@@ -2487,13 +2363,13 @@ msgstr "Zakázané"
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", link to %1 at %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurrences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2505,7 +2381,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
@@ -2513,95 +2389,77 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 at location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr ""
+msgstr "in a grid layout in selection mode in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "in a grid layout in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "Premenovať %1 vybranú položku na:"
-msgstr[1] "Premenovať %1 vybrané položky na:"
-msgstr[2] "Premenovať %1 vybraných položiek na:"
+msgstr[0] "%1 selected item in a grid layout in selection mode in location %2"
+msgstr[1] "%1 selected items in a grid layout in selection mode in location %2"
+msgstr[2] "%1 selected items in a grid layout in selection mode in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 selected item in a grid layout in location %2"
+msgstr[1] "%1 selected items in a grid layout in location %2"
+msgstr[2] "%1 selected items in a grid layout in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
 msgstr "Premenovať %1 vybranú položku na:"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide Section '%1'"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "Skryť sekciu '%1'"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "Premenovať %1 vybranú položku na:"
-msgstr[1] "Premenovať %1 vybrané položky na:"
-msgstr[2] "Premenovať %1 vybraných položiek na:"
+msgstr[0] "%1 selected item in selection mode in location %2"
+msgstr[1] "%1 selected items in selection mode in location %2"
+msgstr[2] "%1 selected items in selection mode in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "Premenovať %1 vybranú položku na:"
-msgstr[1] "Premenovať %1 vybrané položky na:"
-msgstr[2] "Premenovať %1 vybraných položiek na:"
+msgstr[0] "%1 selected item in location %2"
+msgstr[1] "%1 selected items in location %2"
+msgstr[2] "%1 selected items in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Režim výberu"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
 msgstr "Režim výberu"
@@ -3096,9 +2954,6 @@ msgid "Artist"
 msgstr "Interpret"
 
 #: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3093
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Audio súbory"
@@ -3146,7 +3001,7 @@ msgstr "Video"
 #: kitemviews/kfileitemmodel.cpp:3095
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Color Space"
 
 #: kitemviews/kfileitemmodel.cpp:3098
 msgctxt "@label"
@@ -3156,12 +3011,9 @@ msgstr "Počet snímkov za sekundu"
 #: kitemviews/kfileitemmodel.cpp:3100
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Pixel Format"
 
 #: kitemviews/kfileitemmodel.cpp:3101
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "Video"
@@ -3181,9 +3033,6 @@ msgid "Other"
 msgstr "Ostatné"
 
 #: kitemviews/kfileitemmodel.cpp:3104
-#, fuzzy
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "Priečinky:"
@@ -3243,18 +3092,18 @@ msgstr "Neznáma chyba."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 and a half stars"
+msgstr[1] "%1 and a half stars"
+msgstr[2] "%1 and a half stars"
 
 #: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 star"
+msgstr[1] "%1 stars"
+msgstr[2] "%1 stars"
 
 #: main.cpp:61
 #, kde-kuit-format
@@ -3263,6 +3112,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Running <application>Dolphin</application> with <command>sudo</command> is "
+"discouraged. Please run <icode>%1</icode> instead."
 
 #: main.cpp:95
 #, kde-format
@@ -3276,9 +3127,7 @@ msgid "File Manager"
 msgstr "Správca súborov"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(C) 2006-2022 Vývojári Dolphin"
@@ -3314,9 +3163,7 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "Správca (2018-2021) a vývojár"
@@ -3328,9 +3175,7 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
 msgstr "Správca (2014-2018) a vývojár"
@@ -3342,9 +3187,7 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "Správca (2012-2014) a vývojár"
@@ -3356,9 +3199,7 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
 msgstr "Správca a vývojár (2006-2012)"
@@ -3446,7 +3287,7 @@ msgstr "Dolphin sa otvorí v novom okne."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Set up Dolphin for administrative tasks."
 
 #: main.cpp:144
 #, kde-format
@@ -3638,9 +3479,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Uložiť toto hľadanie pre rýchly prístup v budúcnosti"
 
 #: search/bar.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Triediť"
@@ -3652,17 +3491,13 @@ msgid "Quit searching"
 msgstr "Ukončiť hľadanie"
 
 #: search/bar.cpp:102
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "Odtiaľto"
 
 #: search/bar.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Všade"
@@ -3680,17 +3515,23 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>This helps you find files and folders.<list><item>Enter a "
+"<emphasis>search term</emphasis> in the input field.</item><item>Decide "
+"where to search by pressing the location buttons below the search field. "
+"“Here” odkazuje na the location that was open prior to starting a search, so "
+"navigating to a different location first can narrow down the search.</"
+"item><item>Press the “%1” button to further refine the manner of searching "
+"or the results.</item><item>Press the “Save” icon to add aktuálny search "
+"configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 
 #: search/bar.cpp:215
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Search in file contents…"
 
 #: search/bar.cpp:229
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
 msgstr "Obmedziť hľadanie na '%1' a podpriečinky"
@@ -3704,7 +3545,7 @@ msgstr "Obmedziť hľadanie na '%1' a podpriečinky"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Search all directories from the root up."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3716,11 +3557,11 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
+"in <interface>System Settings|Workspace|Search</interface>."
 
 #: search/chip.cpp:21
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
 msgstr "Triediť"
@@ -3739,14 +3580,12 @@ msgstr "Čo"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
 msgstr "Hľadať"
 
 #: search/dolphinquery.cpp:382
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
@@ -3759,11 +3598,10 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Files containing “%1” in %2"
 
 #: search/dolphinquery.cpp:395
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
@@ -3776,11 +3614,10 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "Search items tagged “%1” and “%2” in %3"
 
 #: search/dolphinquery.cpp:407
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
@@ -3788,17 +3625,15 @@ msgid "%1 search results in %2"
 msgstr "Hľadať %1 v %2"
 
 #: search/dolphinquery.cpp:413
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "Hľadať %1 v %2"
+msgstr "Search results in %1"
 
 #: search/dolphinquery.cpp:423
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "Hľadám %1"
@@ -3807,19 +3642,19 @@ msgstr "Hľadám %1"
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Files containing “%1”"
 
 #: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "Search items tagged “%1”"
 
 #: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "Search items tagged “%1” and “%2”"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3828,12 +3663,10 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "%1 search results"
 
 #: search/dolphinquery.cpp:444
-#, fuzzy, kde-format
-#| msgctxt "@item"
-#| msgid "Search For"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
@@ -3841,9 +3674,7 @@ msgstr "Hľadať"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Empty Trash"
+#, kde-format
 msgid "Simple search"
 msgstr "Vyprázdniť kôš"
 
@@ -3851,27 +3682,22 @@ msgstr "Vyprázdniť kôš"
 #: search/popup.cpp:53
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "File Indexing"
 
 #: search/popup.cpp:73
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
 msgstr "Hľadať"
 
 #: search/popup.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "Názov súboru"
 
 #: search/popup.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
 msgstr "Hľadá sa..."
@@ -3892,43 +3718,44 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>For searching in file contents <application>%1</application> attempts "
+"to use third-party search tools if they are available on this system and are "
+"expected to lead to better or faster results. <application>ripgrep</"
+"application> and <application>ripgrep-all</application> might improve your "
+"search experience if they are installed. <application>ripgrep-all</"
+"application> in particular enables searches in more file types (napr. pdf, "
+"docx, sqlite, jpg, movie subtitles (mkv, mp4)).</para><para>The manner in "
+"which these search tools are invoked can be configured by editing a script "
+"file. Copy it from <filename>%2</filename> to <filename>%3</filename> before "
+"modifying your copy. If any issues arise, delete your copy <filename>%3</"
+"filename> to revert your changes.</para>"
 
 #: search/popup.cpp:165
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Nastaviť…"
+msgstr "Configure %1…"
 
 #: search/popup.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
 msgstr "Upraviť typ súboru..."
 
 #: search/popup.cpp:216
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr "Zmenený"
 
 #: search/popup.cpp:225
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Hodnotenie"
 
 #: search/popup.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "Značky"
@@ -3937,7 +3764,7 @@ msgstr "Značky"
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "For more advanced searches:"
 
 #: search/popup.cpp:276
 #, kde-kuit-format
@@ -3947,6 +3774,9 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Searching in <filename>%1</filename> using <application>%2</"
+"application> is currently not possible because <application>%2</application> "
+"is configured to never create a search index of that location.</para>"
 
 #: search/popup.cpp:283
 #, kde-kuit-format
@@ -3956,12 +3786,15 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Searching through file contents using <application>%1</application> is "
+"currently not possible because <application>%1</application> is configured "
+"to never create a search index for file contents.</para>"
 
 #: search/popup.cpp:292
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr ""
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:295
 #, kde-kuit-format
@@ -3979,31 +3812,38 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> uses a database for searching. The "
+"database is created by indexing your files in the background na základe how "
+"<application>%1</application> is configured.<list><item><application>%1</"
+"application> provides results extremely quickly.</item><item>Allows "
+"searching for file types, dates, tags, atď.</item><item>Only searches in "
+"indexed folders. Configure which folders should be indexed in "
+"<application>System Settings</application>.</item><item>When the searched "
+"locations contain links to other files or folders, those will not be "
+"searched or show up in search results.</item><item>Hidden files and folders "
+"and their contents might also not be searched depending on how <application>"
+"%1</application> is configured.</item></list></para>"
 
 #: search/popup.cpp:307
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "File names and contents"
 
 #: search/popup.cpp:314
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
 msgstr "Prípona súboru"
 
 #: search/popup.cpp:329
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Otvoriť %1"
 
 #: search/popup.cpp:332
-#, fuzzy, kde-format
-#| msgid "Install Konsole"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Inštalovať Konsole"
@@ -4012,11 +3852,10 @@ msgstr "Inštalovať Konsole"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr ""
+msgstr "<application>KFind</application> installed successfully."
 
 #: search/popup.cpp:368
-#, fuzzy, kde-format
-#| msgid "Install Konsole"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
 msgstr "Inštalovať Konsole"
@@ -4064,9 +3903,7 @@ msgid "4 or more"
 msgstr "4 alebo viac"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -4076,13 +3913,13 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:182
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr ""
+msgstr "Žiadne"
 
 #: selectionmode/bottombarcontentscontainer.cpp:167
 #, kde-format
@@ -4346,17 +4183,7 @@ msgid "Selection Mode"
 msgstr "Režim výberu"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -4371,14 +4198,17 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Režim výberu</title><para>Vyberte súbory alebo priečinky a spravujte "
-"ich alebo s nimi manipulujte.<list><item>Kliknutím na súbor alebo priečinok "
-"ho vyberiete.</item><item>Kliknutím na už vybraný súbor alebo priečinok "
-"zrušíte jeho výber.</item><item>Stlačenie prázdnej oblasti "
-"<emphasis>nezruší</emphasis> výber.</item><item>Pravouhlé výbery (vytvorené "
-"ťahaním z prázdnej oblasti) invertujú stav výberu položiek vo vnútri.</"
-"item></list></para><para>Dostupné tlačidlá akcií v spodnej časti sa menia v "
-"závislosti od aktuálneho výberu.</para>"
+"<title>Selection Mode</title><para>Select files or folders to manage or "
+"manipulate them.<list><item>Press on a file or folder to select it.</"
+"item><item>Press on an already selected file or folder to deselect it.</"
+"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+"selection.</item><item>Selection rectangles (created by dragging from an "
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
+"para><para>The available action buttons v dolnej časti change depending on "
+"aktuálny selection.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -4387,9 +4217,7 @@ msgid "Exit Selection Mode"
 msgstr "Ukončiť režim výberu"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
 msgstr "Kontextová ponuka"
@@ -4401,9 +4229,7 @@ msgid "Search…"
 msgstr "Hľadať..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
 msgstr "Stiahnuť nové služby..."
@@ -4412,7 +4238,7 @@ msgstr "Stiahnuť nové služby..."
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Shortcuts…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4426,7 +4252,7 @@ msgstr "Odstrániť"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Built-in dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
@@ -4480,19 +4306,17 @@ msgstr "Maximálna šírka textu indexu (0 znamená neobmedzené)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "How we display the size of directories"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
 msgstr "Zobraziť stavový riadok"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
 msgstr "Zobraziť stavový riadok"
 
@@ -4500,7 +4324,7 @@ msgstr "Zobraziť stavový riadok"
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Do not show any directory size"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4522,9 +4346,7 @@ msgstr "Formát štýlu oprávnení"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
 msgstr "Režim výberu"
 
@@ -4610,15 +4432,13 @@ msgstr "Pozícia stĺpcov"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
 msgstr "Bočná výplň"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
 msgstr "Bočná výplň"
 
@@ -4686,9 +4506,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
 msgstr "Obnoviť úroveň zväčšenia"
@@ -4806,7 +4624,7 @@ msgstr "Kedy naposledy zmenil užívateľ vlastnosti."
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "View mode changed once by dynamic view"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:93
@@ -4817,17 +4635,13 @@ msgstr "Ďalšie informácie"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:19
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
 msgstr "Výber"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:23
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
 msgstr "Vlastné písmo"
 
@@ -4867,8 +4681,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
 msgstr "Či má byť zobrazená celá cesta v paneli umiestnenia"
 
@@ -4876,13 +4689,11 @@ msgstr "Či má byť zobrazená celá cesta v paneli umiestnenia"
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Should tabs have close buttons"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
 msgstr "Štýl dátumu:"
 
@@ -4923,7 +4734,7 @@ msgstr "Pamätať si otvorené priečinky a karty"
 #: settings/dolphin_generalsettings.kcfg:82
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Place two views side by side"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
@@ -4961,8 +4772,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
 msgstr "Premenovať v riadku"
 
@@ -4984,18 +4794,14 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:119
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr ""
 "Použite tabulátor na prepínanie medzi pravým a ľavým rozdeleným pohľadom"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:128
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
 msgstr "Zatvoriť ľavé zobrazenie"
 
@@ -5007,8 +4813,7 @@ msgstr "Nová karta sa otvorí po poslednej"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:136
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
 msgstr "Zobraziť položku pri prejdení myšou"
 
@@ -5026,11 +4831,9 @@ msgstr "Použiť samorozbaľovacie priečinky pre všetky typy zobrazení"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:152
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Stavový riadok: "
+msgstr "Stavový riadok"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:157
@@ -5064,13 +4867,13 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:179
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Also hide files with application/x-trash mimetype"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
 #: settings/dolphin_generalsettings.kcfg:183
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Enable dynamic view"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:189
@@ -5086,8 +4889,7 @@ msgstr "Pýtať sa na potvrdenie pri otváraní viacerých terminálov naraz."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:197
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Pýtať sa na potvrdenie pri otváraní viacerých priečinkov naraz."
 
@@ -5157,9 +4959,7 @@ msgid "Warning"
 msgstr "Upozornenie"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
 msgstr "Pýtať sa na potvrdenie vo všetkých KDE aplikáciách pri:"
@@ -5216,13 +5016,13 @@ msgstr "Otváranie viacerých terminálov naraz"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Switching to act as an administrator"
 
 #: settings/interface/confirmationssettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Renaming a file will change its type"
 
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
@@ -5252,18 +5052,14 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Priečinky, karty a stav okna od minulého otvorenia"
 
 #: settings/interface/folderstabssettingspage.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "Zobraziť pri spustení:"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Umiestnenie je prázdne"
@@ -5323,25 +5119,19 @@ msgid "Show filter bar"
 msgstr "Zobraziť panel filtrovania"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
 msgstr "Na konci panelu kariet"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
 msgstr "Šírka popisku:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
 msgstr "Zobraziť pri spustení:"
@@ -5350,24 +5140,22 @@ msgstr "Zobraziť pri spustení:"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Tab width adapts to folder name"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Tabs all have rovnaký fixed width"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Tabs span the available width"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
 msgstr "Štýl dátumu:"
@@ -5391,9 +5179,7 @@ msgid "Open new tabs: "
 msgstr "Otvoriť nové karty: "
 
 #: settings/interface/folderstabssettingspage.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
 msgstr "Začať v režime s rozdeleným zobrazením"
@@ -5401,17 +5187,15 @@ msgstr "Začať v režime s rozdeleným zobrazením"
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Close the active pane"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Close the inactive pane"
 
 #: settings/interface/folderstabssettingspage.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
 msgstr "Zatvoriť pravé zobrazenie"
 
@@ -5422,17 +5206,13 @@ msgid "Split view: "
 msgstr "Rozdelené zobrazenie: "
 
 #: settings/interface/folderstabssettingspage.cpp:164
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Prepínať medzi panelmi s klávesom Tab"
 
 #: settings/interface/folderstabssettingspage.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
 msgstr "Začať v režime s rozdeleným zobrazením"
@@ -5468,9 +5248,7 @@ msgid "Confirmations"
 msgstr "Potvrdenia"
 
 #: settings/interface/interfacesettingspage.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panely"
@@ -5482,23 +5260,19 @@ msgid "Status && Location bars"
 msgstr "Stavový riadok a Panel umiestnenia"
 
 #: settings/interface/panelsettingspage.cpp:41
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Zobrazovať náhľad"
 
 #: settings/interface/panelsettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Automaticky prehrať mediálne súbory"
 
 #: settings/interface/panelsettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Zobraziť položku pri prejdení myšou"
@@ -5507,18 +5281,16 @@ msgstr "Zobraziť položku pri prejdení myšou"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Use &long date, napríklad '%1'"
 
 #: settings/interface/panelsettingspage.cpp:45
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Use &condensed date, napríklad '%1'"
 
 #: settings/interface/panelsettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "Informácie"
@@ -5530,6 +5302,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Panel settings are also available through their context menu. Open it by "
+"pressing the right mouse button on a panel."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -5542,9 +5316,7 @@ msgstr "Zobraziť náhľady v pohľade pre:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "Zobrazovať náhľad"
@@ -5556,7 +5328,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "files below "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -5569,21 +5341,16 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "files of any size"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
 msgstr "1 súbor"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
 msgstr "Zobraziť náhľady súborov a priečinkov"
@@ -5597,35 +5364,31 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is very "
+"intensive z hľadiska network resource usage.</para><para>Disable this if "
+"navigating remote folders in Dolphin is slow or when accessing storage over "
+"metered connections.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
 msgstr "Umiestnenie:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
 msgstr "Obnoviť"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Malá"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
 msgstr "Šírka popisku:"
@@ -5640,12 +5403,10 @@ msgstr "Zobrazovať posuvník zväčšenia"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Zakázané"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Stavový riadok: "
@@ -5719,25 +5480,19 @@ msgid "Sorting mode: "
 msgstr "Režim zoraďovania: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "Počet položiek"
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "Veľkosť obsahu, až do "
 
 #: settings/viewmodes/contentdisplaytab.cpp:55
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "Zobrazovať posuvník zväčšenia"
@@ -5751,9 +5506,7 @@ msgstr[1] " úrovne do hĺbky"
 msgstr[2] " úrovní do hĺbky"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "Priečinky:"
@@ -5804,18 +5557,16 @@ msgstr "Štýl oprávnení:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Elide in the middle (napr. ’Some very… name.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:108
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Elide at the end (napr. ’Some very long….txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:110
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
 msgstr "Názov súboru"
@@ -5853,6 +5604,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Some special views like search, recent files, or trash will still use a "
+"custom display style."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:43
 #, kde-format
@@ -5867,12 +5620,14 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:51
 #, kde-format
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
-msgstr ""
+msgstr "Use icons view mode for locations which mostly contain media files"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
@@ -5881,9 +5636,7 @@ msgid "Display style: "
 msgstr "Štýl zobrazenia: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
 msgstr "Zobraziť náhľady súborov a priečinkov"
@@ -5901,8 +5654,7 @@ msgid "Browsing: "
 msgstr "Prehliadanie: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:74
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "Zobraziť položku pri prejdení myšou"
@@ -5921,8 +5673,7 @@ msgid "Show selection marker"
 msgstr "Zobrazovať indikátor výberu"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:87
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Premenovať v riadku"
@@ -5930,13 +5681,13 @@ msgstr "Premenovať v riadku"
 #: settings/viewmodes/generalviewsettingspage.cpp:88
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "Renaming multiple items is always done with a dialog window."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Also hide backup files while hiding hidden files"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:95
 #, kde-format
@@ -5946,6 +5697,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Backup files are the files whose mime-type is application/x-trash, patterns: "
+"%1"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:128
 #, kde-format
@@ -5953,19 +5706,17 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Action to trigger when double clicking view background"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:130
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Nothing"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
 msgstr "Vlastné písmo"
@@ -5975,9 +5726,7 @@ msgstr "Vlastné písmo"
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
 #: settings/viewmodes/generalviewsettingspage.cpp:156
-#, fuzzy, kde-format
-#| msgctxt "@option:check Mouse Settings"
-#| msgid "Double-click to open files and folders"
+#, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "Dvojité kliknutie otvorí súbory a priečinky"
@@ -5986,7 +5735,7 @@ msgstr "Dvojité kliknutie otvorí súbory a priečinky"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Background: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
@@ -5994,20 +5743,20 @@ msgctxt ""
 "Accessible description for custom command text field of double click view "
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
-msgstr ""
+msgstr "Enter custom command to trigger when double clicking view background"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:169
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Command…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:173
 #, kde-format
 msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
-msgstr ""
+msgstr "Use {path} to get the path of aktuálny folder. Example: dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:31
 #, kde-format
@@ -6043,7 +5792,7 @@ msgstr "Písmo popisku:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "Some font styles are reserved by Dolphin and may be overridden."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
@@ -6351,13 +6100,13 @@ msgstr "Priečinky: %1"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> installed successfully."
 
 #: statusbar/diskspaceusagemenu.cpp:55
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Installing Filelight…"
 
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
@@ -6383,7 +6132,7 @@ msgstr "KDiskFree"
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Free Up Disk Space"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/diskspaceusagemenu.cpp:165
@@ -6393,12 +6142,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Install additional software to view disk usage statistics<nl/>and "
+"identify big files and folders.</para>"
 
 #: statusbar/diskspaceusagemenu.cpp:174
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Install Filelight…"
 
 #: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
@@ -6467,9 +6218,7 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 voľných z %2 (%3% použitých)"
 
 #: statusbar/statusbarspaceinfo.cpp:132
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
@@ -6667,12 +6416,10 @@ msgid "Hide this Folder?"
 msgstr "Skryť tento priečinok?"
 
 #: views/dolphinview.cpp:2254
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Premenovať..."
+msgstr "Premenovať"
 
 #: views/dolphinview.cpp:2264
 #, kde-format
@@ -6682,6 +6429,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"This will make the file type unknown.\n"
+"The file's content won't change but applications may no longer recognize "
+"it.\n"
+"Do you still want to rename it?"
 
 #: views/dolphinview.cpp:2268
 #, kde-format
@@ -6691,11 +6442,13 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"This will change the file type from \"%1\" to \"%2\".\n"
+"The file's content won't change but applications may no longer recognize "
+"it.\n"
+"Do you still want to rename it?"
 
 #: views/dolphinview.cpp:2274
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Upraviť typ súboru..."
@@ -6773,8 +6526,7 @@ msgid "No Apple devices found"
 msgstr "Nenašli sa žiadne zariadenia Apple"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Nenašli sa žiadne zariadenia Apple"
 
@@ -6800,19 +6552,13 @@ msgid "Create Folder…"
 msgstr "Vytvoriť priečinok..."
 
 #: views/dolphinviewactionhandler.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Vytvoriť priečinok..."
 
 #: views/dolphinviewactionhandler.cpp:101
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
@@ -6822,12 +6568,7 @@ msgstr ""
 "položiek naraz vyústi v názvoch odlišných iba číslom na konci. "
 
 #: views/dolphinviewactionhandler.cpp:113
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -6839,11 +6580,7 @@ msgstr ""
 "na disku."
 
 #: views/dolphinviewactionhandler.cpp:126
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
@@ -6937,12 +6674,7 @@ msgstr ""
 "<interface>Náhľad</interface>.</para>"
 
 #: views/dolphinviewactionhandler.cpp:210
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -6954,16 +6686,7 @@ msgstr ""
 "pomôže udržať si prehľad v priečinkoch s mnohými položkami.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -6984,9 +6707,7 @@ msgstr ""
 "priečinkov v tom istom zozname.</para>"
 
 #: views/dolphinviewactionhandler.cpp:224
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Režim zobrazenia"
@@ -6995,7 +6716,7 @@ msgstr "Režim zobrazenia"
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "This cycles through all view modes."
 
 #: views/dolphinviewactionhandler.cpp:245
 #, kde-format
@@ -7093,14 +6814,7 @@ msgid "Show Hidden Files"
 msgstr "Zobraziť skryté súbory"
 
 #: views/dolphinviewactionhandler.cpp:340
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -7134,9 +6848,7 @@ msgstr ""
 "priečinkov."
 
 #: views/dolphinviewactionhandler.cpp:363
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Nastavenia"
@@ -7148,19 +6860,17 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"This cycles through all view modes. The dropdown menu contains various view-"
+"related actions."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Zoradiť podľa"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Zobraziť lištu filtrovania"
@@ -7297,15 +7007,13 @@ msgid "Updating version information…"
 msgstr "Aktualizuje sa informácia o verzii..."
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Lupa"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Lupa"
@@ -7327,27 +7035,20 @@ msgstr "Lupa"
 #~ msgstr "Reštartovať teraz?"
 
 #, fuzzy
-#~| msgctxt "@action:inmenu View"
-#~| msgid "Sort By"
 #~ msgctxt "@action:intoolbar as in sort by file attribute"
 #~ msgid "Sort by: %1"
 #~ msgstr "Zoradiť podľa"
 
 #, fuzzy
-#~| msgctxt "@info:tooltip"
-#~| msgid "Show Filter Bar"
 #~ msgctxt "@action:intoolbar as in show field for file attribute"
 #~ msgid "Show Field: %1"
 #~ msgstr "Zobraziť lištu filtrovania"
 
 #, fuzzy
-#~| msgid "Close active pane when toggling off split view"
 #~ msgid "Close the view in focus when turning off split view"
 #~ msgstr "Zatvoriť aktívny panel pri vypnutí rozdeleného zobrazenia"
 
 #, fuzzy
-#~| msgctxt "option:check"
-#~| msgid "Turning off split view closes active pane"
 #~ msgctxt "option:check"
 #~ msgid "Turning off split view closes the view in focus"
 #~ msgstr "Vypnutie rozdeleného zobrazenia zatvorí aktuálny panel"
@@ -7489,15 +7190,10 @@ msgstr "Lupa"
 #~ msgstr "Obnoviť"
 
 #, fuzzy
-#~| msgctxt "@label"
-#~| msgid "%1 item selected"
-#~| msgid_plural "%1 items selected"
 #~ msgid "not selected,"
 #~ msgstr "Vybraná %1 položka"
 
 #, fuzzy
-#~| msgctxt "@option:check"
-#~| msgid "Expandable"
 #~ msgid "expanded,"
 #~ msgstr "Rozšíriteľné"
 
@@ -8000,8 +7696,6 @@ msgstr "Lupa"
 #~ msgstr "Pridať do miest"
 
 #, fuzzy
-#~| msgctxt "@action:inmenu"
-#~| msgid "Limit to Home Directory"
 #~ msgid "Failed to remove directory %1"
 #~ msgstr "Obmedziť na domovský adresár"
 
@@ -8084,8 +7778,6 @@ msgstr "Lupa"
 #~ msgstr "Vlastnosti"
 
 #, fuzzy
-#~| msgctxt "@title:window"
-#~| msgid "Additional Information"
 #~ msgctxt "@title:group"
 #~ msgid "Additional Information Shown"
 #~ msgstr "Ďalšie informácie"
