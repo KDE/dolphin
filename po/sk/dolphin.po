@@ -4516,7 +4516,7 @@ msgstr "Obnoviť úroveň zväčšenia"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "Úroveň priblíženia priečinka."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -6533,7 +6533,7 @@ msgstr "Nenašli sa žiadne zariadenia Apple"
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Na tomto zariadení nebolo nájdené žiadne úložisko"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
