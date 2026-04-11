@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-03 02:42+0000\n"
-"PO-Revision-Date: 2025-12-20 22:52+0200\n"
+"PO-Revision-Date: 2026-04-11 00:30+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -1981,13 +1981,10 @@ msgid "No items found."
 msgstr "Nerasta jokių elementų."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "1 failas"
+msgstr "Atverti kaip failą"
 
 #: dolphinviewcontainer.cpp:754
 #, fuzzy, kde-kuit-format
@@ -2039,7 +2036,7 @@ msgstr "Sukurti trūkstamą aplanką"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Sukurti šiame kelyje aplanką ir jį atverti"
 
 #: dolphinviewcontainer.cpp:1046
 #, kde-format
@@ -2081,7 +2078,7 @@ msgstr "Slėpti"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Nebeslėpti"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -2228,12 +2225,10 @@ msgid "Set folder icon to %1"
 msgstr "Nustatyti aplanko piktogramą į %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "Uždrausta"
+msgstr "paslėptas"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
@@ -2855,12 +2850,9 @@ msgid "Artist"
 msgstr "Atlikėjas"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Garso įrašai"
+msgstr "Garso įrašo kodekas"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2905,7 +2897,7 @@ msgstr "Vaizdo įrašai"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Spalvų erdvė"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2915,15 +2907,12 @@ msgstr "Kadrų dažnis"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Pikselių formatas"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Vaizdo įrašai"
+msgstr "Vaizdo įrašo kodekas"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4973,12 +4962,10 @@ msgid "Show filter bar"
 msgstr "Rodyti filtro juostą"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Kortelių juostos pabaigoje"
+msgstr "Visada rodyti kortelių juostą"
 
 #: settings/interface/folderstabssettingspage.cpp:126
 #, fuzzy, kde-format
@@ -4989,12 +4976,10 @@ msgid "Tab width:"
 msgstr "Etikečių plotis:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Paleidus, rodyti:"
+msgstr "Rodyti kortelėse užvėrimo mygtuką"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
@@ -5041,12 +5026,10 @@ msgid "Open new tabs: "
 msgstr "Atverti naujas korteles: "
 
 #: settings/interface/folderstabssettingspage.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Pradėti padalyto rodinio veiksenoje"
+msgstr "Užveriant padalytą rodinį"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
@@ -5076,12 +5059,10 @@ msgid "Switch between views with Tab key"
 msgstr "Perjungti tarp rodinių naudojant Tab klavišą"
 
 #: settings/interface/folderstabssettingspage.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Pradėti padalyto rodinio veiksenoje"
+msgstr "Atverti naujus langus padalyto rodinio veiksenoje"
 
 #: settings/interface/folderstabssettingspage.cpp:342
 #, kde-format
