@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-04 00:48+0000\n"
-"PO-Revision-Date: 2026-04-04 19:06+0200\n"
+"PO-Revision-Date: 2026-04-11 07:47+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -4489,8 +4489,8 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Po włączeniu tej opcji ukryte pliki, takie jak te zaczynające się od kropki,"
-"będą pokazywane w widoku plików."
+"Po włączeniu tego ustawienia, ukryte pliki, takie jak te zaczynające się od "
+"kropki,będą pokazywane w widoku plików."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -4504,7 +4504,7 @@ msgstr "Wersja"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr "Ta opcja definiuje używaną wersję widoku właściwości."
+msgstr "Ustawienie to określa używaną wersję widoku właściwości."
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -4521,8 +4521,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Opcja ta kontroluje styl widoku. Obecnie obsługiwane wartości zawierają "
-"widoki ikonek (0), szczegółów (1) i kolumn (2)."
+"Ustawienie to określa wygląd widoku. Obecnie obsługiwane wartości zawierają "
+"widoki ikon (0), szczegółów (1) i kolumn (2)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4553,7 +4553,8 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Po włączeniu tej opcji podgląd zawartości pliku jest pokazywany jako ikona."
+"Po włączeniu tego ustawienia podgląd zawartości pliku jest pokazywany jako "
+"ikona."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -4569,7 +4570,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Po włączeniu tej opcji uszeregowane elementy są poprzypisywane do grup."
+"Po włączeniu tego ustawienia uszeregowane rzeczy są poprzypisywane do grup."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -4586,8 +4587,8 @@ msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
 msgstr ""
-"Opcja definiująca, według którego atrybutu (tekst, rozmiar, data, itd.) "
-"dokonuje się szeregowania."
+"To ustawienie określa, według której cechy (tekst, rozmiar, data, itd.) "
+"uszeregować rzeczy."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
@@ -6010,19 +6011,19 @@ msgstr "Malejąco"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
-msgstr "Najpierw pokaż katalogi"
+msgstr "Pokaż katalogi na początku"
 
 #: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr "Pokaż pliki ukryte jako ostatnie"
+msgstr "Pokaż pliki ukryte na końcu"
 
 #: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr "Pokaż podgląd"
+msgstr "Pokaż podglądy"
 
 #: settings/viewpropertiesdialog.cpp:88
 #, kde-format
@@ -6062,7 +6063,7 @@ msgstr "Szeregowanie:"
 #: settings/viewpropertiesdialog.cpp:146
 #, kde-format
 msgid "View options:"
-msgstr "Opcje widoku:"
+msgstr "Ustawienia widoku:"
 
 #: settings/viewpropertiesdialog.cpp:165
 #, kde-format
