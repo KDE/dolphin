@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:48+0000\n"
+"POT-Creation-Date: 2026-04-13 00:46+0000\n"
 "PO-Revision-Date: 2026-03-22 23:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -3465,31 +3465,31 @@ msgstr "Показувати запис при наведенні"
 msgid "Date display format"
 msgstr "Формат показу дати"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Перегляд"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Автоматичне відтворення мультимедійних файлів"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Показувати запис при наведенні"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Налаштувати…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

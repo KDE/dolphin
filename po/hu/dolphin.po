@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:48+0000\n"
+"POT-Creation-Date: 2026-04-13 00:46+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3495,31 +3495,31 @@ msgstr "Elem megjelenítése rámutatáskor"
 msgid "Date display format"
 msgstr "Dátumformátum"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Előnézet"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Médiafájlok automatikus lejátszása"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Elem megjelenítése rámutatáskor"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Beállítás…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

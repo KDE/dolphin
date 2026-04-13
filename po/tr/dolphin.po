@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:48+0000\n"
+"POT-Creation-Date: 2026-04-13 00:46+0000\n"
 "PO-Revision-Date: 2026-03-22 11:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3375,31 +3375,31 @@ msgstr "Üzerine gelindiğinde ögeyi göster"
 msgid "Date display format"
 msgstr "Tarih görüntüleme biçimi"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Önizle"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Ortam Dosyalarını Otomatik Oynat"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Üzerine Gelindiğinde Ögeyi Göster"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Yapılandır…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

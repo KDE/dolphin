@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:48+0000\n"
+"POT-Creation-Date: 2026-04-13 00:46+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -3444,19 +3444,19 @@ msgstr "Wëskrzëni listew filtra"
 msgid "Date display format"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Pòdzérk"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -3464,7 +3464,7 @@ msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Wëskrzëni listew filtra"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -3472,7 +3472,7 @@ msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Kònfigùrëjë..."
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

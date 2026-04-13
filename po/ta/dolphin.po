@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:48+0000\n"
-"PO-Revision-Date: 2026-02-27 21:34+0530\n"
+"POT-Creation-Date: 2026-04-13 00:46+0000\n"
+"PO-Revision-Date: 2026-04-12 18:14+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1991,21 +1991,16 @@ msgid "No items found."
 msgstr "எதையும் கண்டுபிடிக்கவில்லை."
 
 #: dolphinviewcontainer.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "ஒரு கோப்பிற்கான"
+msgstr "கோப்பாகக் கருதித் திற"
 
 #: dolphinviewcontainer.cpp:760
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "<filename>%1</filename> என்கிற கோப்பை அணுக முடியவில்லை."
+msgstr "கோப்பை அடைவாகத் திறக்க முயற்சித்துள்ளீர்: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:924
 #, kde-format
@@ -2074,23 +2069,21 @@ msgid "Filter…"
 msgstr "வடிகட்டு…"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "செல்லுபடியாகாத நெறிமுறை"
+msgstr "செல்லுபடியாகாத தொடர்"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "பெரிய/சிறிய எழுத்தை பொருட்படுத்து"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "சாதாரண உரை"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
@@ -2102,7 +2095,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "சுருங்குறித் தொடர்"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -2937,12 +2930,9 @@ msgid "Other"
 msgstr "மற்றவை"
 
 #: kitemviews/kfileitemmodel.cpp:3104
-#, fuzzy
-#| msgctxt "@title"
-#| msgid "File Manager"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "கோப்பு நிர்வாகி"
+msgstr "அடைவின் பெயர்"
 
 #: kitemviews/kfileitemmodel.cpp:3105
 msgctxt "@label"
@@ -3302,31 +3292,31 @@ msgstr "சுட்டியை மேல்வைக்கும்போத�
 msgid "Date display format"
 msgstr "தேதி எவ்வாறு காட்டப்படும்"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "முன்தோற்றம்"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "ஊடகக்கோப்புகளை தானாக இயக்கு"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே உருப்படியைக் காட்டு"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "அமை…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
@@ -4088,18 +4078,16 @@ msgid "Search…"
 msgstr "தேடு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "புதிய சேவைகளை பதிவிறக்கு…"
+msgstr "சேவைகளை பதிவிறக்கு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "சுருக்குவழிகள்…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4368,19 +4356,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "உருப்பெருக்கத்தை மீட்டமை"
+msgstr "உருப்பெருக்க அளவு"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "அடைவிற்கான உருப்பெருக்க அளவு."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -4819,12 +4805,10 @@ msgid "Warning"
 msgstr "எச்சரிக்கை"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "இவற்றை செய்யும்போது அனைத்து கே.டீ.யீ. செயலிகளில் உறுதிப்படுத்து:"
+msgstr "கே.டீ.யீ. செயலிகளில் இவற்றை செய்யும்போது உறுதிப்படுத்து:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5652,7 +5636,7 @@ msgstr "பெயர்களுக்கான எழுத்துரு:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "சில இடங்களில் இந்த அமைப்புகளை டால்பின் பொருட்படுத்தாமல் இருக்கலாம்."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
@@ -6372,15 +6356,14 @@ msgid "No Apple devices found"
 msgstr "ஆப்பிள் சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "ஆப்பிள் சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
+msgstr "எந்த கே.டீ.யீ. கனெக்ட் சாதனமும் கண்டுபிடிக்கப்படவில்லை"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "இச்சாதனத்தில் சேமிப்பகம் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
