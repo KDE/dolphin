@@ -146,17 +146,6 @@ void KItemListRoleEditor::autoAdjustSize()
     const auto originalSize = size();
     auto newSize = originalSize;
 
-    document()->adjustSize();
-    const qreal requiredWidth = document()->size().width();
-    const qreal availableWidth = size().width() - frameBorder;
-    if (requiredWidth > availableWidth) {
-        qreal newWidth = requiredWidth + frameBorder;
-        if (parentWidget() && pos().x() + newWidth > parentWidget()->width()) {
-            newWidth = parentWidget()->width() - pos().x();
-        }
-        newSize.setWidth(newWidth);
-    }
-
     const qreal requiredHeight = document()->size().height();
     const qreal availableHeight = size().height() - frameBorder;
     if (requiredHeight > availableHeight) {
