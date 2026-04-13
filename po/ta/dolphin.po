@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-03 02:42+0000\n"
-"PO-Revision-Date: 2026-02-27 21:34+0530\n"
+"PO-Revision-Date: 2026-04-12 18:12+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1991,21 +1991,16 @@ msgid "No items found."
 msgstr "எதையும் கண்டுபிடிக்கவில்லை."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "ஒரு கோப்பிற்கான"
+msgstr "கோப்பாகக் கருதித் திற"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "<filename>%1</filename> என்கிற கோப்பை அணுக முடியவில்லை."
+msgstr "கோப்பை அடைவாகத் திறக்க முயற்சித்துள்ளீர்: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -4048,18 +4043,16 @@ msgid "Search…"
 msgstr "தேடு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "புதிய சேவைகளை பதிவிறக்கு…"
+msgstr "சேவைகளை பதிவிறக்கு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "சுருக்குவழிகள்…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4763,12 +4756,10 @@ msgid "Warning"
 msgstr "எச்சரிக்கை"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "இவற்றை செய்யும்போது அனைத்து கே.டீ.யீ. செயலிகளில் உறுதிப்படுத்து:"
+msgstr "கே.டீ.யீ. செயலிகளில் இவற்றை செய்யும்போது உறுதிப்படுத்து:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5596,7 +5587,7 @@ msgstr "பெயர்களுக்கான எழுத்துரு:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "சில இடங்களில் இந்த அமைப்புகளை டால்பின் பொருட்படுத்தாமல் இருக்கலாம்."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
