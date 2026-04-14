@@ -1493,8 +1493,7 @@ KItemListWidget *KItemListController::widgetForDropPos(const QPointF &pos) const
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
-        const QRectF highlightRect = m_view->highlightEntireRow() ? widget->selectionRectFull() : widget->selectionRectCore();
-        if (highlightRect.contains(mappedPos)) {
+        if (widget->selectionRectCore().contains(mappedPos)) {
             return widget;
         }
     }
