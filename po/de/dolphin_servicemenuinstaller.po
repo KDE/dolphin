@@ -1,6 +1,6 @@
 # Copyright (C) 2025 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# SPDX-FileCopyrightText: 2019, 2020 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2019-2020 Burkhard Lück <lueck@hube-lueck.de>
 # SPDX-FileCopyrightText: 2025 Philipp Kiemle <l10n.daphipz@fastmail.de>
 msgid ""
 msgstr ""

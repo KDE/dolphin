@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-13 00:46+0000\n"
-"PO-Revision-Date: 2026-03-22 10:25+0200\n"
+"PO-Revision-Date: 2026-04-11 22:15+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -5052,7 +5052,7 @@ msgstr "חלון:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "הצג נתיב מלא בסרגל המיקום"
+msgstr "הצגת נתיב מלא בסרגל המיקום"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format

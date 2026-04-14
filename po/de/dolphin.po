@@ -1,30 +1,30 @@
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010 Thomas Reitelbach <tr@erdfunkstelle.de>
-# SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2007-2010 Thomas Reitelbach <tr@erdfunkstelle.de>
+# SPDX-FileCopyrightText: 2008-2021 Burkhard Lück <lueck@hube-lueck.de>
 # SPDX-FileCopyrightText: 2009 Markus Slopianka <markus.s@kdemail.net>
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2021 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2009-2014, 2016-2023 Frederik Schwarzer <schwarzer@kde.org>
 # SPDX-FileCopyrightText: 2010 Panagiotis Papadopoulos <pano_90@gmx.net>
 # SPDX-FileCopyrightText: 2010, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2022, 2023 Frederik Schwarzer <schwarzer@kde.org>
 # SPDX-FileCopyrightText: 2012 Jonas Schürmann <jonasschuermann@aol.de>
 # SPDX-FileCopyrightText: 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
-# SPDX-FileCopyrightText: 2021, 2024, 2025, 2026 Frank Steinmetzger <dev@felsenfleischer.de>
-# SPDX-FileCopyrightText: 2022, 2024, 2025 Alois Spitzbart <spitz234@hotmail.com>
-# SPDX-FileCopyrightText: 2024, 2025 Flori G <Renner03@protonmail.com>
-# SPDX-FileCopyrightText: 2025, 2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
+# SPDX-FileCopyrightText: 2021, 2024-2026 Frank Steinmetzger <dev@felsenfleischer.de>
+# SPDX-FileCopyrightText: 2022, 2024-2025 Alois Spitzbart <spitz234@hotmail.com>
+# SPDX-FileCopyrightText: 2024-2025 Flori G <Renner03@protonmail.com>
+# SPDX-FileCopyrightText: 2025-2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
+# SPDX-FileCopyrightText: 2026 Alexander Becker <alex-at-kde-l10n-de@freenet.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-13 00:46+0000\n"
-"PO-Revision-Date: 2026-02-22 11:39+0100\n"
-"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
+"PO-Revision-Date: 2026-04-12 10:24+0200\n"
+"Last-Translator: Alexander Becker <alex-at-kde-l10n-de@freenet.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2126,24 +2126,17 @@ msgid "No items found."
 msgstr "Keine Elemente gefunden."
 
 #: dolphinviewcontainer.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "Eine Datei"
+msgstr "Als Datei öffnen"
 
 #: dolphinviewcontainer.cpp:760
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "The dropped items are already inside the folder <filename>%1</filename>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr ""
-"Die fallengelassenen Elemente befinden sich bereits in dem Ordner <filename>"
-"%1</filename>."
+"Es wird versucht, eine Datei als Ordner zu öffnen: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:924
 #, kde-format
@@ -2216,35 +2209,33 @@ msgid "Filter…"
 msgstr "Filter …"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "Ungültiges Protokoll"
+msgstr "Ungültiger Ausdruck"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "Groß-/Kleinschreibung beachten"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "Einfacher Text"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "Globbig-Ausdruck"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulärer Ausdruck"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -3081,12 +3072,9 @@ msgid "Other"
 msgstr "Weitere"
 
 #: kitemviews/kfileitemmodel.cpp:3104
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "File Name"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Dateiname"
+msgstr "Ordnername"
 
 #: kitemviews/kfileitemmodel.cpp:3105
 msgctxt "@label"
@@ -4285,18 +4273,16 @@ msgid "Search…"
 msgstr "Suchen …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Neue Dienste herunterladen …"
+msgstr "Dienste herunterladen …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Kurzbefehle …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4569,19 +4555,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "Vergrößerung zurücksetzen"
+msgstr "Vergrößerungsstufe"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "Vergrößerungsstufe des Ordners."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -5041,12 +5025,10 @@ msgid "Warning"
 msgstr "Achtung"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "In allen KDE-Anwendungen um Bestätigung fragen beim:"
+msgstr "In KDE-Anwendungen um Bestätigung bitten beim:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5070,7 +5052,7 @@ msgstr "Löschen von Dateien und Ordnern"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "In Dolphin um Bestätigung fragen beim:"
+msgstr "In Dolphin um Bestätigung bitten beim:"
 
 #: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
@@ -6619,15 +6601,14 @@ msgid "No Apple devices found"
 msgstr "Keine Apple-Geräte gefunden"
 
 #: views/dolphinview.cpp:2757
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Keine Apple-Geräte gefunden"
+msgstr "Keine „KDE Connect“-Geräte gefunden"
 
 #: views/dolphinview.cpp:2759
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Kein Speicher auf diesem Gerät gefunden"
 
 #: views/dolphinview.cpp:2762
 #, kde-format
