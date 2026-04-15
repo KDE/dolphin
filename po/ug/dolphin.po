@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-13 00:46+0000\n"
+"POT-Creation-Date: 2026-04-15 00:49+0000\n"
 "PO-Revision-Date: 2026-04-01 08:31-0400\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -1748,29 +1748,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "ئورۇن كۆزنەكچىنى فوكۇسلىما"
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:234
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "مۇلازىمېتىر تور ئادرېسى كىرگۈزۈلىدۇ (مەسىلەن، smb://[ip address])"
 
-#: dolphinnavigatorswidgetaction.cpp:256
+#: dolphinnavigatorswidgetaction.cpp:261
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "ئەخلەتخانىنى بوشات"
 
-#: dolphinnavigatorswidgetaction.cpp:257
+#: dolphinnavigatorswidgetaction.cpp:262
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "بوشلۇق بىكارلاش ئۈچۈن ئەخلەتخانىنى بوشىتىدۇ"
 
-#: dolphinnavigatorswidgetaction.cpp:283
+#: dolphinnavigatorswidgetaction.cpp:288
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "تور قىسقۇچى قوش"
 
-#: dolphinnavigatorswidgetaction.cpp:322
+#: dolphinnavigatorswidgetaction.cpp:319
+#, kde-format
+msgctxt "@action:button"
+msgid "Open KDE Connect"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-13 00:46+0000\n"
+"POT-Creation-Date: 2026-04-15 00:49+0000\n"
 "PO-Revision-Date: 2026-03-22 23:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1798,29 +1798,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Зняти фокус із панелі місць"
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:234
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Введіть адресу сервера (наприклад smb://[ip-адреса])"
 
-#: dolphinnavigatorswidgetaction.cpp:256
+#: dolphinnavigatorswidgetaction.cpp:261
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Спорожнити смітник"
 
-#: dolphinnavigatorswidgetaction.cpp:257
+#: dolphinnavigatorswidgetaction.cpp:262
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Спорожнює Смітник для вивільнення місця на диску"
 
-#: dolphinnavigatorswidgetaction.cpp:283
+#: dolphinnavigatorswidgetaction.cpp:288
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Додати теку у мережі"
 
-#: dolphinnavigatorswidgetaction.cpp:322
+#: dolphinnavigatorswidgetaction.cpp:319
+#, kde-format
+msgctxt "@action:button"
+msgid "Open KDE Connect"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

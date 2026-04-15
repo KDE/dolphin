@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-13 00:46+0000\n"
+"POT-Creation-Date: 2026-04-15 00:49+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -1594,23 +1594,23 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:234
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:256
+#: dolphinnavigatorswidgetaction.cpp:261
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "ಕಸಬುಟ್ಟಿಯನ್ನು ಖಾಲಿಮಾಡು"
 
-#: dolphinnavigatorswidgetaction.cpp:257
+#: dolphinnavigatorswidgetaction.cpp:262
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:283
+#: dolphinnavigatorswidgetaction.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "&Network Folders"
@@ -1618,7 +1618,13 @@ msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "ಜಾಲಬಂಧ ಕಡತಕೋಶಗಳು(&N)"
 
-#: dolphinnavigatorswidgetaction.cpp:322
+#: dolphinnavigatorswidgetaction.cpp:319
+#, kde-format
+msgctxt "@action:button"
+msgid "Open KDE Connect"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:356
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Location Bar"
