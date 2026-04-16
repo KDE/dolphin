@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-15 00:49+0000\n"
-"PO-Revision-Date: 2026-03-22 18:55+0100\n"
+"PO-Revision-Date: 2026-04-16 00:32+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1810,7 +1810,7 @@ msgstr "Añadir carpeta de red"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Abrir en KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format

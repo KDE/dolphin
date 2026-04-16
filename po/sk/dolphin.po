@@ -1782,7 +1782,7 @@ msgstr "Pridať sieťový priečinok"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Otvoriť KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format

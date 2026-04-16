@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-15 00:49+0000\n"
-"PO-Revision-Date: 2026-03-23 03:13+0100\n"
+"PO-Revision-Date: 2026-04-15 05:00+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1780,7 +1780,7 @@ msgstr "ქსელური საქაღალდის დამატე�
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "KDE Connect-ის გახსნა"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
