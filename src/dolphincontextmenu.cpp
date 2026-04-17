@@ -532,7 +532,7 @@ void DolphinContextMenu::addAdditionalActions(const KFileItemListProperties &pro
     addSeparator();
 
     QList<QAction *> additionalActions;
-    if (props.isLocal() && ContextMenuSettings::showOpenTerminal()) {
+    if (props.isLocal() && props.isDirectory() && ContextMenuSettings::showOpenTerminal()) {
         additionalActions << m_mainWindow->actionCollection()->action(QStringLiteral("open_terminal_here"));
     }
     m_fileItemActions->addActionsTo(this, KFileItemActions::MenuActionSource::All, additionalActions);
