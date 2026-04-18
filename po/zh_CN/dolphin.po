@@ -1692,7 +1692,7 @@ msgstr "添加网络文件夹"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "打开 KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
