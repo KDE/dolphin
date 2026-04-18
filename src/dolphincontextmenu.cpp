@@ -121,6 +121,18 @@ bool DolphinContextMenu::eventFilter(QObject *object, QEvent *event)
 
 void DolphinContextMenu::addTrashContextMenu()
 {
+    // Insert 'Sort By' and 'View Mode'
+    if (ContextMenuSettings::showSortBy()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
+    }
+    if (ContextMenuSettings::showViewMode()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
+    }
+
+    if (ContextMenuSettings::showSortBy() || ContextMenuSettings::showViewMode()) {
+        addSeparator();
+    }
+
     Q_ASSERT(m_context & TrashContext);
 
     QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Empty Trash"), this, [this]() {
@@ -131,17 +143,6 @@ void DolphinContextMenu::addTrashContextMenu()
     connect(&Trash::instance(), &Trash::emptinessChanged, this, [emptyTrashAction](bool isEmpty) {
         emptyTrashAction->setEnabled(!isEmpty);
     });
-
-    // Insert 'Sort By' and 'View Mode'
-    if (ContextMenuSettings::showSortBy() || ContextMenuSettings::showViewMode()) {
-        addSeparator();
-    }
-    if (ContextMenuSettings::showSortBy()) {
-        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
-    }
-    if (ContextMenuSettings::showViewMode()) {
-        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
-    }
 
     addSeparator();
 
