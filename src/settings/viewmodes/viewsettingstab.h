@@ -25,7 +25,12 @@ class ViewSettingsTab : public SettingsPageBase
     Q_OBJECT
 
 public:
-    enum Mode { IconsMode, CompactMode, DetailsMode };
+    enum Mode {
+        IconsMode,
+        CompactMode,
+        DetailsMode,
+        ColumnsViewMode
+    };
 
     explicit ViewSettingsTab(Mode mode, QWidget *parent = nullptr);
     ~ViewSettingsTab() override;
