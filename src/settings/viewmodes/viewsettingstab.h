@@ -28,7 +28,8 @@ public:
     enum Mode {
         IconsMode,
         CompactMode,
-        DetailsMode
+        DetailsMode,
+        ColumnsViewMode
     };
 
     explicit ViewSettingsTab(Mode mode, QWidget *parent = nullptr);
@@ -56,6 +57,7 @@ private:
     QComboBox *m_widthBox;
     QComboBox *m_maxLinesBox;
     QCheckBox *m_compactSpacing = nullptr;
+    QComboBox *m_columnWidthBox;
     QRadioButton *m_entireRow;
     QRadioButton *m_iconAndNameOnly;
     QCheckBox *m_expandableFolders;

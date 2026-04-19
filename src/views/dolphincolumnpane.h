@@ -50,10 +50,15 @@ public:
     KFileItemModel *model() const;
     KItemListController *controller() const;
     KItemListContainer *container() const;
+    DolphinItemListView *itemListView() const;
 
     void setPreviewsShown(bool show);
 
     int calculateOptimalWidth() const;
+
+    void setZoomLevel(int level);
+
+    void reloadSettings();
 
 Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
