@@ -55,6 +55,8 @@ public:
 
     int calculateOptimalWidth() const;
 
+    void setZoomLevel(int level);
+
 Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
     void fileActivated(const KFileItem &item);
