@@ -165,16 +165,16 @@ void KStandardItemListView::applyDefaultStyleOption(int iconSize, int padding, i
 {
     KItemListStyleOption option = styleOption();
 
-    if (option.iconSize < 0) {
+    if (option.iconSize < iconSize) {
         option.iconSize = iconSize;
     }
-    if (option.padding < 0) {
+    if (option.padding < padding) {
         option.padding = padding;
     }
-    if (option.horizontalMargin < 0) {
+    if (option.horizontalMargin < horizontalMargin) {
         option.horizontalMargin = horizontalMargin;
     }
-    if (option.verticalMargin < 0) {
+    if (option.verticalMargin < verticalMargin) {
         option.verticalMargin = verticalMargin;
     }
 
