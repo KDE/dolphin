@@ -31,6 +31,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_view = new DolphinItemListView();
     m_view->setVisibleRoles({"text"});
+    m_view->setViewMode(DolphinView::ColumnsView);
     m_view->setItemLayout(KFileItemListView::DetailsLayout);
     m_view->setHeaderVisible(false);
     m_view->setAlternateBackgrounds(false);
@@ -112,6 +113,11 @@ KItemListContainer *DolphinColumnPane::container() const
     return m_container;
 }
 
+DolphinItemListView *DolphinColumnPane::itemListView() const
+{
+    return m_view;
+}
+
 void DolphinColumnPane::setPreviewsShown(bool show)
 {
     m_view->setPreviewsShown(show);
@@ -123,7 +129,14 @@ int DolphinColumnPane::calculateOptimalWidth() const
     const QFontMetrics &fm = option.fontMetrics;
     qreal maxWidth = 0;
 
+    // A hidden name takes part in the width exactly while the model shows hidden
+    // files, so the column has room for every name on display.
+    const bool hiddenFilesShown = m_model->showHiddenFiles();
+
     for (int i = 0; i < m_model->count(); ++i) {
+        if (!hiddenFilesShown && m_model->fileItem(i).isHidden()) {
+            continue;
+        }
         const QString text = m_model->data(i).value("text").toString();
         qreal width = option.padding * 6; // matches KStandardItemListWidget::columnPadding()
         width += option.padding * 2 + option.iconSize;
@@ -133,6 +146,11 @@ int DolphinColumnPane::calculateOptimalWidth() const
 
     const int scrollBarWidth = m_container->verticalScrollBar()->isVisible() ? m_container->verticalScrollBar()->width() : 0;
     return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + scrollBarWidth);
+}
+
+void DolphinColumnPane::setZoomLevel(int level)
+{
+    m_view->setZoomLevel(level);
 }
 
 void DolphinColumnPane::slotItemActivated(int index)
@@ -170,4 +188,15 @@ void DolphinColumnPane::slotCurrentChanged(int current, int previous)
     if (!item.isNull()) {
         Q_EMIT currentItemChanged(item);
     }
+}
+
+void DolphinColumnPane::reloadSettings()
+{
+    auto view = itemListView();
+    view->readSettings();
+    // readSettings() derives both of these from the item layout, which is the details one here,
+    // so they come back carrying the details view's settings. A column never expands a folder,
+    // and its rows are as wide as the column.
+    view->setSupportsItemExpanding(false);
+    view->setHighlightEntireRow(true);
 }
