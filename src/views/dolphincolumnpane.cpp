@@ -42,7 +42,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
 
     m_container = new KItemListContainer(m_controller, this);
-    m_container->setEnabledFrame(false);
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_view->setAccessibleParentsObject(m_container);
