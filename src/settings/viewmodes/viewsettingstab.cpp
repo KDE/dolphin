@@ -6,6 +6,7 @@
 
 #include "viewsettingstab.h"
 
+#include "dolphin_columnsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -108,7 +109,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         topLayout->addRow(i18nc("@label:listbox", "Maximum width:"), m_widthBox);
         break;
     }
-    case DetailsMode:
+    case DetailsMode: {
         m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable"));
         topLayout->addRow(i18nc("@label:checkbox", "Folders:"), m_expandableFolders);
 
@@ -126,6 +127,11 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         // clang-format on
         topLayout->addRow(QString(), m_iconAndNameOnly);
         break;
+    }
+    case ColumnsViewMode: {
+        // TODO
+        break;
+    }
     }
 
     loadSettings();
@@ -148,7 +154,8 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         connect(m_entireRow, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         break;
-    default:
+    case ColumnsViewMode:
+        // TODO
         break;
     }
 }
@@ -185,7 +192,7 @@ void ViewSettingsTab::applySettings()
         CompactModeSettings::setMaximumTextWidthIndex(m_widthBox->currentIndex());
         CompactModeSettings::self()->save();
         break;
-    case DetailsMode:
+    case DetailsMode: {
         auto detailsModeSettings = DetailsModeSettings::self();
         // We need side-padding when the full row is a click target to still be able to not click items.
         // So here the default padding is enabled when the full row highlight is enabled.
@@ -209,6 +216,11 @@ void ViewSettingsTab::applySettings()
         detailsModeSettings->setHighlightEntireRow(m_entireRow->isChecked());
         detailsModeSettings->setExpandableFolders(m_expandableFolders->isChecked());
         detailsModeSettings->save();
+        break;
+    }
+    case ColumnsViewMode:
+        ColumnsModeSettings::self()->save();
+        // TODO
         break;
     }
 
@@ -251,7 +263,8 @@ void ViewSettingsTab::loadSettings()
         m_iconAndNameOnly->setChecked(!m_entireRow->isChecked());
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
         break;
-    default:
+    case ColumnsViewMode:
+        // TODO
         break;
     }
 
