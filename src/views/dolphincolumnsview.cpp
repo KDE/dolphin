@@ -432,6 +432,7 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
 
     auto *pane = new DolphinColumnPane(model, nullptr);
     pane->setPreviewsShown(previewsShown());
+    pane->setZoomLevel(zoomLevel());
     model->loadDirectory(dirUrl);
 
     connect(pane, &DolphinColumnPane::fileActivated, this, &DolphinColumnsView::slotFileActivated);
@@ -995,4 +996,10 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
     connect(controller, &KItemListController::doubleClickViewBackground, this, &DolphinView::doubleClickViewBackground);
 
     connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested);
+
+    connect(this, &DolphinView::zoomLevelChanged, this, [this]() {
+        for (auto c : m_columns) {
+            c->setZoomLevel(zoomLevel());
+        }
+    });
 }
