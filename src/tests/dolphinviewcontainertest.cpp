@@ -6,7 +6,10 @@
  */
 
 #include "dolphinviewcontainer.h"
+#include "dolphin_columnsmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "dolphintabpage.h"
 #include "dolphinurlnavigator.h"
 #include "kitemviews/kitemlistcontroller.h"
@@ -21,11 +24,14 @@
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/viewproperties.h"
+#include "views/zoomlevelinfo.h"
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KSharedConfig>
 
 #include <QCoreApplication>
+#include <QDir>
+#include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -60,6 +66,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
+    void testEachViewModeKeepsItsOwnZoomLevel();
 
 private:
     void waitForViewReady();
@@ -78,6 +85,10 @@ void DolphinViewContainerTest::initTestCase()
 
 void DolphinViewContainerTest::init()
 {
+    // A test that switches modes with a common display style stores the mode it ends in, and every
+    // folder without properties of its own would open in that mode.
+    QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties")).removeRecursively();
+
     m_testDir = new TestDir();
     m_testDir->createDir("subdir");
     m_testDir->createFile("file1.txt");
@@ -553,6 +564,64 @@ void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsVie
     waitForViewReady();
 
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+}
+
+void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
+{
+    // With a common display style for all folders, every view mode shows the icon size it is
+    // configured with, so a mode shows its own size again each time it comes back.
+    GeneralSettings::setGlobalViewProps(true);
+
+    auto *icons = IconsModeSettings::self();
+    auto *details = DetailsModeSettings::self();
+    auto *columns = ColumnsModeSettings::self();
+    const int savedIconsIcon = icons->iconSize();
+    const int savedIconsPreview = icons->previewSize();
+    const int savedDetailsIcon = details->iconSize();
+    const int savedDetailsPreview = details->previewSize();
+    const int savedColumnsIcon = columns->iconSize();
+    const int savedColumnsPreview = columns->previewSize();
+    auto restore = qScopeGuard([&]() {
+        GeneralSettings::setGlobalViewProps(false);
+        icons->setIconSize(savedIconsIcon);
+        icons->setPreviewSize(savedIconsPreview);
+        details->setIconSize(savedDetailsIcon);
+        details->setPreviewSize(savedDetailsPreview);
+        columns->setIconSize(savedColumnsIcon);
+        columns->setPreviewSize(savedColumnsPreview);
+    });
+
+    const int iconsLevel = ZoomLevelInfo::minimumLevel();
+    const int detailsLevel = ZoomLevelInfo::minimumLevel() + 2;
+    const int columnsLevel = ZoomLevelInfo::minimumLevel() + 4;
+    QVERIFY(columnsLevel <= ZoomLevelInfo::maximumLevel());
+    const auto setSize = [](auto *settings, int level) {
+        const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        settings->setIconSize(size);
+        settings->setPreviewSize(size);
+        settings->save();
+    };
+    setSize(icons, iconsLevel);
+    setSize(details, detailsLevel);
+    setSize(columns, columnsLevel);
+
+    // The container starts in Icons mode, and a view only picks up a size that changed in the
+    // settings when it is asked to read them, so every size below is checked after a switch.
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
+
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), iconsLevel);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
