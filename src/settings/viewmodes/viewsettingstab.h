@@ -28,7 +28,8 @@ public:
     enum Mode {
         IconsMode,
         CompactMode,
-        DetailsMode
+        DetailsMode,
+        ColumnsViewMode
     };
 
     explicit ViewSettingsTab(Mode mode, QWidget *parent = nullptr);
