@@ -464,15 +464,6 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     });
     connect(pane, &DolphinColumnPane::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
-    // Drop handling: reuse base class helper
-    connect(pane->controller(), &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
-        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
-    });
-
-    connect(pane->controller(), &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
-        handleMouseButtonPressed(pane, itemIndex, buttons);
-    });
-
     pane->container()->installEventFilter(this);
     // Also filter the viewport for mouse events
     pane->container()->viewport()->installEventFilter(this);
@@ -484,6 +475,37 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         if (handleIdx > 0) {
             m_splitter->handle(handleIdx)->installEventFilter(this);
         }
+    });
+
+    // Drop handling: reuse base class helper
+    auto controller = pane->controller();
+    connect(controller, &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
+        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
+    });
+
+    connect(controller, &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
+        handleMouseButtonPressed(pane, itemIndex, buttons);
+    });
+
+    connect(controller, &KItemListController::itemHovered, this, [this, pane, controller](int index) {
+        const KFileItem item = pane->model()->fileItem(index);
+        if (GeneralSettings::showToolTips() && !isDragging()) {
+            QRectF itemRect = controller->view()->itemContextRect(index);
+            const QPoint pos = pane->container()->mapToGlobal(itemRect.topLeft().toPoint());
+            itemRect.moveTo(pos);
+#if HAVE_BALOO
+            auto nativeParent = nativeParentWidget();
+            if (nativeParent && toolTipManager()) {
+                toolTipManager()->showToolTip(item, itemRect, nativeParent->windowHandle());
+            }
+#endif
+        }
+        Q_EMIT requestItemInfo(item);
+    });
+
+    connect(controller, &KItemListController::itemUnhovered, this, [this](int) {
+        hideToolTip();
+        Q_EMIT requestItemInfo(KFileItem());
     });
 
     return pane;
@@ -869,8 +891,6 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         disconnect(controller, &KItemListController::itemContextMenuRequested, this, nullptr);
         disconnect(controller, &KItemListController::viewContextMenuRequested, this, nullptr);
         disconnect(controller, &KItemListController::itemMiddleClicked, this, nullptr);
-        disconnect(controller, &KItemListController::itemHovered, this, nullptr);
-        disconnect(controller, &KItemListController::itemUnhovered, this, nullptr);
         disconnect(controller, &KItemListController::escapePressed, this, nullptr);
         disconnect(controller, &KItemListController::increaseZoom, this, nullptr);
         disconnect(controller, &KItemListController::decreaseZoom, this, nullptr);
@@ -957,27 +977,6 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         } else {
             Q_EMIT fileMiddleClickActivated(item);
         }
-    });
-
-    connect(controller, &KItemListController::itemHovered, this, [this, newPane, controller](int index) {
-        const KFileItem item = newPane->model()->fileItem(index);
-        if (GeneralSettings::showToolTips() && !isDragging()) {
-            QRectF itemRect = controller->view()->itemContextRect(index);
-            const QPoint pos = newPane->container()->mapToGlobal(itemRect.topLeft().toPoint());
-            itemRect.moveTo(pos);
-#if HAVE_BALOO
-            auto nativeParent = nativeParentWidget();
-            if (nativeParent && toolTipManager()) {
-                toolTipManager()->showToolTip(item, itemRect, nativeParent->windowHandle());
-            }
-#endif
-        }
-        Q_EMIT requestItemInfo(item);
-    });
-
-    connect(controller, &KItemListController::itemUnhovered, this, [this](int) {
-        hideToolTip();
-        Q_EMIT requestItemInfo(KFileItem());
     });
 
     connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
