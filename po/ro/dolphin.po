@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-15 00:49+0000\n"
+"POT-Creation-Date: 2026-04-19 00:47+0000\n"
 "PO-Revision-Date: 2026-03-18 22:00+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -152,19 +152,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Nu mă mai atenționa despre aceste riscuri"
 
-#: dolphincontextmenu.cpp:126
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Golește gunoiul"
 
-#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Configurează gunoiul…"
 
-#: dolphincontextmenu.cpp:169
+#: dolphincontextmenu.cpp:170
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -176,38 +176,38 @@ msgstr[0] "Restabilește la amplasarea veche"
 msgstr[1] "Restabilește la amplasările vechi"
 msgstr[2] "Restabilește la amplasările vechi"
 
-#: dolphincontextmenu.cpp:235 dolphinmainwindow.cpp:1819
+#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1819
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Creează nou"
 
-#: dolphincontextmenu.cpp:244
+#: dolphincontextmenu.cpp:245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Deschide calea"
 
-#: dolphincontextmenu.cpp:252
+#: dolphincontextmenu.cpp:253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Deschide calea în filă nouă"
 
-#: dolphincontextmenu.cpp:260
+#: dolphincontextmenu.cpp:261
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Deschide calea în fereastră nouă"
 
-#: dolphincontextmenu.cpp:512
+#: dolphincontextmenu.cpp:513
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Clic mijlociu"
 
-#: dolphincontextmenu.cpp:523
+#: dolphincontextmenu.cpp:524
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
