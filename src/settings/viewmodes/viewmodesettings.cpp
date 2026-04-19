@@ -82,6 +82,9 @@ ViewModeSettings::ViewModeSettings(ViewSettingsTab::Mode mode)
     case ViewSettingsTab::DetailsMode:
         m_viewModeSettingsVariant = DetailsModeSettings::self();
         return;
+    case ViewSettingsTab::ColumnsViewMode:
+        m_viewModeSettingsVariant = ColumnsModeSettings::self();
+        return;
     default:
         Q_UNREACHABLE();
     }
