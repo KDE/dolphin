@@ -140,6 +140,11 @@ int DolphinColumnPane::calculateOptimalWidth() const
     return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + scrollBarWidth);
 }
 
+void DolphinColumnPane::setZoomLevel(int level)
+{
+    m_view->setZoomLevel(level);
+}
+
 void DolphinColumnPane::slotItemActivated(int index)
 {
     if (index < 0 || index >= m_model->count()) {
