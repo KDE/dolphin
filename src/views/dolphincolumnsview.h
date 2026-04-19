@@ -27,6 +27,8 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
 {
     Q_OBJECT
 
+    friend class DolphinColumnsViewTest;
+
 public:
     explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
     ~DolphinColumnsView() override;
@@ -36,6 +38,7 @@ public:
     void setActive(bool active) override;
     void reload() override;
     void stopLoading() override;
+    void readSettings() override;
     KFileItem rootItem() const override;
 
     // --- Columns-specific API ---
@@ -78,7 +81,19 @@ private:
     void ensureActiveColumnVisible();
     void autoSelectFirstItem(int columnIndex);
     void recalculateColumnWidths();
-    void cycleColumnWidth(int colIndex);
+    /// Set the per-column widths on the splitter and update the horizontal-scroll overflow.
+    void applyColumnSizes(QList<int> columnSizes);
+    /**
+     * In "adjust to content" mode, re-fit the columns to their content so a rename
+     * or an added/removed item resizes the column. A no-op in fixed-width mode.
+     * Columns the user sized by hand keep their width.
+     */
+    void refitColumnsToContent();
+    /**
+     * Fit every column to its content, dropping any width the user set by hand.
+     * Triggered by a double-click on a splitter handle.
+     */
+    void autoAdjustColumns();
 
     void syncColumnsFromViewProperties();
     void reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane);
