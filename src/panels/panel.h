@@ -46,6 +46,12 @@ public Q_SLOTS:
     void setUrl(const QUrl &url);
 
     /**
+     * This is invoked whenever the folder being displayed in the
+     * active Dolphin view is refreshed.
+     */
+    void refreshUrl(const QUrl &url);
+
+    /**
      * Refreshes the view to get synchronized with the settings.
      */
     virtual void readSettings();

@@ -1171,6 +1171,7 @@ void DolphinMainWindow::reloadView()
     clearStatusBar();
     m_activeViewContainer->reload();
     m_activeViewContainer->statusBar()->updateSpaceInfo();
+    Q_EMIT urlRefreshed(m_activeViewContainer->url());
 }
 
 void DolphinMainWindow::stopLoading()
@@ -2467,6 +2468,7 @@ void DolphinMainWindow::setupDockWidgets()
 
         addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
         connect(this, &DolphinMainWindow::urlChanged, m_terminalPanel, &TerminalPanel::setUrl);
+        connect(this, &DolphinMainWindow::urlRefreshed, m_terminalPanel, &TerminalPanel::refreshUrl);
 
         if (GeneralSettings::version() < 200) {
             terminalDock->hide();

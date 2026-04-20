@@ -86,6 +86,7 @@ private:
 private:
     bool m_clearTerminal;
     bool m_syncUrl;
+    QUrl m_url;
     KIO::StatJob *m_mostLocalUrlJob;
 
     QVBoxLayout *m_layout;

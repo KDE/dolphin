@@ -246,6 +246,11 @@ Q_SIGNALS:
     void urlChanged(const QUrl &url);
 
     /**
+     * Is sent when the view is refreshed
+     */
+    void urlRefreshed(const QUrl &url);
+
+    /**
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
      * If item is null, no item information request is pending.
      */

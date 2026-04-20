@@ -54,6 +54,15 @@ void Panel::setUrl(const QUrl &url)
     }
 }
 
+void Panel::refreshUrl(const QUrl &url)
+{
+    const QUrl oldUrl = m_url;
+    m_url = url;
+    if (!urlChanged()) {
+        m_url = oldUrl;
+    }
+}
+
 void Panel::readSettings()
 {
 }

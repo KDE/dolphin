@@ -145,9 +145,10 @@ bool TerminalPanel::urlChanged()
         return false;
     }
 
-    const bool sendInput = m_terminal && !hasProgramRunning() && isVisible() && m_syncUrl;
+    const bool sendInput = m_terminal && !hasProgramRunning() && isVisible() && m_syncUrl && url() != m_url;
     if (sendInput) {
         changeDir(url());
+        m_url = url();
     }
 
     return true;
