@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-19 00:47+0000\n"
+"POT-Creation-Date: 2026-04-21 00:49+0000\n"
 "PO-Revision-Date: 2026-04-01 08:31-0400\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -192,7 +192,7 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "ئەسلى ئورنىغا ئەسلىگە كەلتۈر"
 
-#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1819
+#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1820
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -347,32 +347,32 @@ msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "چاپلىيالمىدى: بۇ قىسقۇچقا يېزىش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:1384
+#: dolphinmainwindow.cpp:1385
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1 نى ئاچ"
 
-#: dolphinmainwindow.cpp:1393 dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:1394 dolphinmainwindow.cpp:2206
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "مايىللىقتىكى ئىزدەش موتورىنى ئاچ"
 
-#: dolphinmainwindow.cpp:1433
+#: dolphinmainwindow.cpp:1434
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "تېرمىنال كۆزنەكتىن %1 نى ئاچامدۇ؟"
 
-#: dolphinmainwindow.cpp:1438
+#: dolphinmainwindow.cpp:1439
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "%1 تېرمىنال ئاچ"
 
-#: dolphinmainwindow.cpp:1539
+#: dolphinmainwindow.cpp:1540
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -380,7 +380,7 @@ msgid ""
 "folder."
 msgstr "يېڭى ھۆججەت قۇرالمايدۇ: بۇ قىسقۇچقا تۈر قۇرۇش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:1541
+#: dolphinmainwindow.cpp:1542
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -388,25 +388,25 @@ msgid ""
 "folder."
 msgstr "يېڭى قىسقۇچ قۇرالمايدۇ: بۇ قىسقۇچقا تۈر قۇرۇش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1647
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "سەپلە"
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1829
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "يېڭى كۆزنەك(&W)"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1830
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "يېڭى بىر Dolphin كۆزنىكى ئاچىدۇ"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1832
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -416,13 +416,13 @@ msgstr ""
 "بۇ مەشغۇلات ھازىرقى ئورۇندا نۆۋەتتىكى كۆزنەك بىلەن ئوخشاش يەنە بىر يېڭى "
 "كۆزنەك ئاچىدۇ.<nl/>تۈرنى كۆزنەك ئارىسىدا سۆرەپ تاشلىيالايسىز."
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1839
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "يېڭى بەتكۈچ"
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -434,31 +434,31 @@ msgstr ""
 ">بەتكۈچ بىر كۆزنەكتە كۆپ ئورۇن ۋە كۆرۈنۈش ئارىسىدا ئالماشتۇرۇشىڭىزغا يول "
 "قويىدۇ. تۈرنى بەتكۈچ ئارىسىدا سۆرەپ تاشلىيالايسىز."
 
-#: dolphinmainwindow.cpp:1849
+#: dolphinmainwindow.cpp:1850
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "ئورۇنغا قوش"
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "تاللانغان قىسقۇچنى ئورۇن كۆزنەكچىسىگە قوشىدۇ."
 
-#: dolphinmainwindow.cpp:1856
+#: dolphinmainwindow.cpp:1857
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "بەتكۈچ ياپ"
 
-#: dolphinmainwindow.cpp:1857
+#: dolphinmainwindow.cpp:1858
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "بەتكۈچ ياپ"
 
-#: dolphinmainwindow.cpp:1859
+#: dolphinmainwindow.cpp:1860
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -468,13 +468,13 @@ msgstr ""
 "بۇ مەشغۇلات نۆۋەتتىكى كۆرسىتىۋاتقان بەتكۈچنى ياپىدۇ. ئەگەر ھېچقانداق بەتكۈچ "
 "بولمىسا، پۈتكۈل كۆزنەك تاقىلىدۇ."
 
-#: dolphinmainwindow.cpp:1864
+#: dolphinmainwindow.cpp:1865
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "بۇ مەشغۇلات مەزكۇر كۆزنەكنى ياپىدۇ."
 
-#: dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -490,13 +490,13 @@ msgstr ""
 "قوشنا ئورۇنلاشتۇرۇلغانلىقىنىڭ سەۋەبىدۇر: <shortcut>Ctrl+X</shortcut>، "
 "<shortcut>Ctrl+C</shortcut> ۋە <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1882
+#: dolphinmainwindow.cpp:1883
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "كەس…"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1885
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -510,13 +510,13 @@ msgstr ""
 "چاپلاش تاختىسىدىكىنى يېڭى جايغا كۆچۈرگىلى بولىدۇ. تۈر ئەسلى ئورنىدىن "
 "چىقىرىۋېتىلىدۇ."
 
-#: dolphinmainwindow.cpp:1891
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "كۆچۈر…"
 
-#: dolphinmainwindow.cpp:1893
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -528,13 +528,13 @@ msgstr ""
 "كۆچۈرىدۇ.<nl/>ئۇنىڭدىن كېيىن <emphasis>چاپلا</emphasis> مەشغۇلاتى ئارقىلىق، "
 "چاپلاش تاختىسىدىكىنى يېڭى جايغا كۆچۈرگىلى بولىدۇ."
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1903
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "چاپلا"
 
-#: dolphinmainwindow.cpp:1904
+#: dolphinmainwindow.cpp:1905
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -547,19 +547,19 @@ msgstr ""
 "emphasis> مەشغۇلاتى ئارقىلىق چاپلاش تاختىسىغا قوشۇلغان بولسا تۈر كونا "
 "ئورنىدىن چىقىرىۋېتىلىدۇ."
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1912
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "باشقا كۆرۈنۈشكە كۆچۈر"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "باشقا كۆرۈنۈشكە كۆچۈر…"
 
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1915
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -569,25 +569,25 @@ msgstr ""
 "بۇ مەشغۇلات فوكۇسلانغان كۆرۈنۈشتىكى تاللانغان تۈرنى باشقا كۆرۈنۈشكە "
 "كۆچۈرىدۇ. (پەقەت پارچىلانغان كۆزنەك ھالىتىدىلا ئىشلەتكىلى بولىدۇ.)"
 
-#: dolphinmainwindow.cpp:1918
+#: dolphinmainwindow.cpp:1919
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "باشقا كۆرۈنۈشكە كۆچۈر"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1924
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "باشقا كۆرۈنۈشكە يۆتكە"
 
-#: dolphinmainwindow.cpp:1924
+#: dolphinmainwindow.cpp:1925
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "باشقا كۆرۈنۈشكە يۆتكە…"
 
-#: dolphinmainwindow.cpp:1926
+#: dolphinmainwindow.cpp:1927
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -597,25 +597,25 @@ msgstr ""
 "بۇ مەشغۇلات فوكۇسلانغان كۆرۈنۈشتىكى تاللانغان تۈرنى باشقا كۆرۈنۈشكە "
 "يۆتكەيدۇ. (پەقەت پارچىلانغان كۆزنەك ھالىتىدىلا ئىشلەتكىلى بولىدۇ.)"
 
-#: dolphinmainwindow.cpp:1930
+#: dolphinmainwindow.cpp:1931
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "باشقا كۆرۈنۈشكە يۆتكە"
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1936
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "سۈزگۈچ…"
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1937
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "سۈزگۈچ بالداقنى كۆرسەت"
 
-#: dolphinmainwindow.cpp:1938
+#: dolphinmainwindow.cpp:1939
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -628,30 +628,30 @@ msgstr ""
 "<nl/>بۇ جايغا تېكىست كىرگۈزۈپ كۆرسىتىدىغان ھۆججەت ۋە قىسقۇچنى سۈزەلەيسىز. "
 "ئىسمىدا كىرگۈزۈلگەن تېكىست بار ھۆججەت ۋە قىسقۇچلا كۆزنەكتە كۆرۈنىدۇ."
 
-#: dolphinmainwindow.cpp:1950
+#: dolphinmainwindow.cpp:1951
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "سۈزگۈچ بالداقنى ئالماشتۇر"
 
-#: dolphinmainwindow.cpp:1951
+#: dolphinmainwindow.cpp:1952
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "سۈزگۈچ"
 
-#: dolphinmainwindow.cpp:1959 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1960 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
 msgstr "ئىزدە…"
 
-#: dolphinmainwindow.cpp:1960
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "ھۆججەت ۋە قىسقۇچ ئىزدە"
 
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1963
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -663,20 +663,20 @@ msgstr ""
 "قىسقۇچ ئېچىشىڭىزغا ياردەم بېرىدۇ. ئىزدەش بالداقتا ئىزدەش شەرتى ۋە  تەڭشەكنى "
 "بەلگىلەپ ئېھتىياجلىق تۈرنى تاپالايسىز.</para>"
 
-#: dolphinmainwindow.cpp:1971
+#: dolphinmainwindow.cpp:1972
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "ئىزدەش بالداقنى ئالماشتۇر"
 
-#: dolphinmainwindow.cpp:1972
+#: dolphinmainwindow.cpp:1973
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "ئىزدە"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1987
+#: dolphinmainwindow.cpp:1988
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -684,13 +684,13 @@ msgstr "ھۆججەت ۋە قىسقۇچ تاللا"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1990
+#: dolphinmainwindow.cpp:1991
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "تاللا"
 
-#: dolphinmainwindow.cpp:1993
+#: dolphinmainwindow.cpp:1994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -708,19 +708,19 @@ msgstr ""
 "بەلگىلىگىلى بولىدۇ.</para><para>بۇ ھالەتتە، تۆۋەندە تېز زىيارەت بالداقتا "
 "تاللانغان تۈرگە ئىشلەتكىلى بولىدىغان مەشغۇلات تىزىمى كۆرۈنىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2016
+#: dolphinmainwindow.cpp:2017
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "نۆۋەتتىكى جايدىكى بارلىق ھۆججەت ۋە قىسقۇچنى تاللايدۇ."
 
-#: dolphinmainwindow.cpp:2020 dolphinpart.cpp:166
+#: dolphinmainwindow.cpp:2021 dolphinpart.cpp:166
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "ئەكسىچە تاللا"
 
-#: dolphinmainwindow.cpp:2022
+#: dolphinmainwindow.cpp:2023
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -729,7 +729,7 @@ msgid ""
 msgstr ""
 "بۇ مەشغۇلات نۆۋەتتە <emphasis>تاللانمىغان</emphasis> بارلىق تۈرنى تاللايدۇ."
 
-#: dolphinmainwindow.cpp:2042
+#: dolphinmainwindow.cpp:2043
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -744,7 +744,7 @@ msgstr ""
 "para><para>فوكۇسلانمىغان كۆرۈنۈش غۇۋالاشتۇرۇلىدۇ.</para>بۇ توپچە قايتا "
 "چېكىلسە كۆرۈنۈشتىن بىرى يېپىلىدۇ."
 
-#: dolphinmainwindow.cpp:2057
+#: dolphinmainwindow.cpp:2058
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -754,25 +754,25 @@ msgstr ""
 "ئەگەر كۆرۈنۈش پارچىلانغان بولسا، بۇ مەشغۇلات فوكۇسلانغان كۆرۈنۈشنى يېڭى بىر "
 "كۆزنەكتە قاڭقىتىدۇ."
 
-#: dolphinmainwindow.cpp:2065
+#: dolphinmainwindow.cpp:2066
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "ۋاقىتلىق ساقلا"
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "پارچىلانغان كۆزنەكتە ۋاقىتلىق ساقلانغان مەۋھۇم مۇندەرىجىنى ئاچىدۇ"
 
-#: dolphinmainwindow.cpp:2075
+#: dolphinmainwindow.cpp:2076
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "كۆرۈنۈشنى يېڭىلايدۇ"
 
-#: dolphinmainwindow.cpp:2077
+#: dolphinmainwindow.cpp:2078
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -785,31 +785,31 @@ msgstr ""
 "ئۆزگەرگەن بولسا، يېڭىلاش مەشغۇلاتى بۇ قىسقۇچنى قايتا تاراپ، بۇ جايدىكى "
 "يېڭىلانغان كۆرۈنۈشتە ھۆججەت ۋە قىسقۇچ مەزمۇنىنى كۆرسىتىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2084
+#: dolphinmainwindow.cpp:2085
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "توختا"
 
-#: dolphinmainwindow.cpp:2085
+#: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "يۈكلەشنى توختات"
 
-#: dolphinmainwindow.cpp:2086
+#: dolphinmainwindow.cpp:2087
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "بۇ نۆۋەتتىكى قىسقۇچنىڭ مەزمۇنىنى يۈكلەشنى توختىتىدۇ."
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2092
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "تەھرىرچان ئورۇن"
 
-#: dolphinmainwindow.cpp:2093
+#: dolphinmainwindow.cpp:2094
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -823,13 +823,13 @@ msgstr ""
 ">چاشقىنەكتە ئورۇننى ئوڭ چېكىپ تەھرىرلەش ھالىتىگە ئالماشتۇرغىلى بولىدۇ، "
 "جەزملىگەندىن كېيىن تەھرىرلەش ھالىتىدىن ئۆزلۈكىدىن چېكىنىدۇ."
 
-#: dolphinmainwindow.cpp:2101
+#: dolphinmainwindow.cpp:2102
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "ئورۇننى ئالماشتۇر"
 
-#: dolphinmainwindow.cpp:2106
+#: dolphinmainwindow.cpp:2107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -839,19 +839,19 @@ msgstr ""
 "بۇ ئورۇن تەھرىرلەش ھالىتىگە ئالماشتۇرۇپ، ئورۇننى تاللاپ، يېڭى ئورۇن يولىنى "
 "تېز كىرگۈزۈشكە قولايلىق يارىتىدۇ."
 
-#: dolphinmainwindow.cpp:2136
+#: dolphinmainwindow.cpp:2137
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "بەتكۈچ تاقاشتىن يېنىۋال"
 
-#: dolphinmainwindow.cpp:2137
+#: dolphinmainwindow.cpp:2138
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "بۇ ياپقان ئالدىنقى بەتكۈچكە قايتىدۇ."
 
-#: dolphinmainwindow.cpp:2145
+#: dolphinmainwindow.cpp:2146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -868,7 +868,7 @@ msgstr ""
 "قاتارلىقلار بار.<nl/>يېنىۋالالمىغان ھەر قانداق مەشغۇلاتنى ئېلىپ بېرىشتىن "
 "ئىلگىرى، سىزدىن مەشغۇلاتنى جەزملەشنى تەلەپ قىلىدۇ."
 
-#: dolphinmainwindow.cpp:2156
+#: dolphinmainwindow.cpp:2157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -885,7 +885,7 @@ msgstr ""
 "قاتارلىقلار بار.<nl/>يېنىۋالالمىغان ھەر قانداق مەشغۇلاتنى ئېلىپ بېرىشتىن "
 "ئىلگىرى، سىزدىن مەشغۇلاتنى جەزملەشنى تەلەپ قىلىدۇ."
 
-#: dolphinmainwindow.cpp:2186
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -898,19 +898,19 @@ msgstr ""
 "پىروگراممىنىڭ شەخسىي سانلىق مەلۇماتى، سەپلىمە ھۆججەت ساقلىنىدىغان يوشۇرۇن "
 "قىسقۇچ."
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2194
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "ھۆججەت سېلىشتۇر"
 
-#: dolphinmainwindow.cpp:2199
+#: dolphinmainwindow.cpp:2200
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "دىسكا بوشلۇق ئىشلىتىلىشىنى باشقۇر"
 
-#: dolphinmainwindow.cpp:2207
+#: dolphinmainwindow.cpp:2208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -922,13 +922,13 @@ msgstr ""
 "para><para><emphasis>تېخىمۇ كۆپ ئىزدەش قورالى</emphasis> تىزىملىكىدە بۇ "
 "مەشغۇلاتنى سەپلىگىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2221
+#: dolphinmainwindow.cpp:2222
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "تېرمىنال ئاچ"
 
-#: dolphinmainwindow.cpp:2223
+#: dolphinmainwindow.cpp:2224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -941,13 +941,13 @@ msgstr ""
 "تېرمىنالدىكى ياردەم ئۇچۇرىدىن كۆرگىلى بولىدۇ.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2231
+#: dolphinmainwindow.cpp:2232
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "بۇ يەردە تېرمىنالنى ئاچ"
 
-#: dolphinmainwindow.cpp:2233
+#: dolphinmainwindow.cpp:2234
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -959,13 +959,13 @@ msgstr ""
 "emphasis> پىروگراممىسىنى ئاچىدۇ.</para><para>تېرمىنال ھەققىدىكى تېخىمۇ كۆپ "
 "ئۇچۇرنى تېرمىنالدىكى ياردەم ئۇچۇرىدىن كۆرگىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2241
+#: dolphinmainwindow.cpp:2242
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "خەتكۈچ(&B)"
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -984,96 +984,96 @@ msgstr ""
 "تېخىمۇ قولايلىق.</para><para>%1 توپچە ئاددىي ۋە كىچىك ئەمما ئالىي مەشغۇلاتنى "
 "زىيارەت قىلىشقا تېخىمۇ كۆپ ۋاقىت كېتىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2276
+#: dolphinmainwindow.cpp:2277
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "%1‎‏-بەتكۈچكە يۆتكەل"
 
-#: dolphinmainwindow.cpp:2289
+#: dolphinmainwindow.cpp:2290
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "ئاخىرقى بەتكۈچ"
 
-#: dolphinmainwindow.cpp:2290
+#: dolphinmainwindow.cpp:2291
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "ئاخىرقى بەتكۈچكە يۆتكەل"
 
-#: dolphinmainwindow.cpp:2296
+#: dolphinmainwindow.cpp:2297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "كېيىنكى بەتكۈچ"
 
-#: dolphinmainwindow.cpp:2297
+#: dolphinmainwindow.cpp:2298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "كېيىنكى بەتكۈچكە يۆتكەل"
 
-#: dolphinmainwindow.cpp:2303
+#: dolphinmainwindow.cpp:2304
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "ئالدىنقى بەتكۈچ"
 
-#: dolphinmainwindow.cpp:2304
+#: dolphinmainwindow.cpp:2305
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "ئالدىنقى بەتكۈچكە يۆتكەل"
 
-#: dolphinmainwindow.cpp:2311
+#: dolphinmainwindow.cpp:2312
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "نىشاننى كۆرسەت"
 
-#: dolphinmainwindow.cpp:2317
+#: dolphinmainwindow.cpp:2318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "يېڭى بەتكۈچتە ئاچ"
 
-#: dolphinmainwindow.cpp:2322
+#: dolphinmainwindow.cpp:2323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "يېڭى بەتكۈچلەردە ئاچ"
 
-#: dolphinmainwindow.cpp:2327
+#: dolphinmainwindow.cpp:2328
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "يېڭى كۆزنەكتە ئاچ"
 
-#: dolphinmainwindow.cpp:2332 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2333 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "بۆلۈنمە كۆرۈنۈشتە ئاچ"
 
-#: dolphinmainwindow.cpp:2344
+#: dolphinmainwindow.cpp:2345
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "كۆزنەك رەڭ لايىھەسى(&W)"
 
-#: dolphinmainwindow.cpp:2357
+#: dolphinmainwindow.cpp:2358
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "كۆزنەكچە قۇلۇپىنى ئاچ"
 
-#: dolphinmainwindow.cpp:2359
+#: dolphinmainwindow.cpp:2360
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "كۆزنەكچىنى قۇلۇپلا"
 
-#: dolphinmainwindow.cpp:2362
+#: dolphinmainwindow.cpp:2363
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1086,13 +1086,13 @@ msgstr ""
 "ئېچىلغان كۆزنەكچىنى كۆزنەكنىڭ باشقا بىر تەرىپىگە سۆرىگىلى بولىدۇ ھەمدە ياپ "
 "توپچە كۆرۈنىدۇ.<nl/>قۇلۇپلانغان كۆزنەكچىنىڭ سىڭدۈرمە ئۈنۈمى تېخىمۇ ئېنىق."
 
-#: dolphinmainwindow.cpp:2371
+#: dolphinmainwindow.cpp:2372
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "ئۇچۇر"
 
-#: dolphinmainwindow.cpp:2394
+#: dolphinmainwindow.cpp:2395
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1103,7 +1103,7 @@ msgstr ""
 "كۆزنەكچە</interface> ياكى <interface>كۆرۈنۈش|كۆزنەكچە</interface>گە يۆتكىلىش "
 "كېرەك</para>"
 
-#: dolphinmainwindow.cpp:2401
+#: dolphinmainwindow.cpp:2402
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1119,7 +1119,7 @@ msgstr ""
 "قىسقۇچ ھەققىدىكى ئۇچۇرنى كۆرسىتىدۇ.<nl/>يەككە تۈر تاللانسا كۆزنەكچە ئۇنىڭ "
 "مەزمۇنىنىڭ ئالدىن كۆزىتىشىنى تەمىنلەيدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2409
+#: dolphinmainwindow.cpp:2410
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1135,13 +1135,13 @@ msgstr ""
 "كۆزىتىشىنى تەمىنلەيدۇ.</para><para>سىز كۆزنەكچىنى چاشقىنەكچە ئوڭ چېكىپ، بۇ "
 "جايدا قايسى ۋە قانداق ئۇچۇر تەپسىلاتىنى كۆرسىتىشنى سەپلىيەلەيسىز.</para>"
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2419
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "قىسقۇچ"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1153,7 +1153,7 @@ msgstr ""
 "<nl/><nl/>ئۇ قىسقۇچ <emphasis>ھۆججەت سىستېمىسى</emphasis> نى "
 "<emphasis>شاخسىمان كۆرۈنۈش</emphasis> تە كۆرسىتىدۇ."
 
-#: dolphinmainwindow.cpp:2443
+#: dolphinmainwindow.cpp:2444
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1168,13 +1168,13 @@ msgstr ""
 "چېكىلسە ئۇنىڭ تارماق قىسقۇچىنى يايغىلى بولىدۇ، خالىغان قىسقۇچ ئارىسىدا تېز "
 "ئالماشتۇرۇشقا يولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "تېرمىنال"
 
-#: dolphinmainwindow.cpp:2478
+#: dolphinmainwindow.cpp:2480
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1193,7 +1193,7 @@ msgstr ""
 "كېرەكلىك. تېرمىنال ھەققىدىكى مۇناسىۋەتلىك ئۇچۇرنى ئىگىلەشتە، Konsole غا "
 "ئوخشاش تېرمىنال پىروگراممىسىنىڭ ياردىمىنى كۆرۈڭ.</para>"
 
-#: dolphinmainwindow.cpp:2486
+#: dolphinmainwindow.cpp:2488
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1212,25 +1212,25 @@ msgstr ""
 "قىلىشتا كېرەكلىك. تېرمىنال ھەققىدىكى مۇناسىۋەتلىك ئۇچۇرنى ئىگىلەشتە، Konsole "
 "غا ئوخشاش تېرمىنال پىروگراممىسىنىڭ ياردىمىنى كۆرۈڭ.</para>"
 
-#: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3159
+#: dolphinmainwindow.cpp:2498 dolphinmainwindow.cpp:3161
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "تېرمىنال كۆزنەكچىنى فوكۇسلا"
 
-#: dolphinmainwindow.cpp:2497
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "ھەرپتاختا فوكۇسىنى تېرمىنال كۆزنەكچىسىنىڭ ئىچى ياكى سىرتىغا يۆتكەيدۇ."
 
-#: dolphinmainwindow.cpp:2503
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2507
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1238,19 +1238,19 @@ msgid ""
 "whenever directory is changed."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2523
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "ئورۇن"
 
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2551
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "يوشۇرۇن ئورۇننى كۆرسەت"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2555
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1262,7 +1262,7 @@ msgstr ""
 "بۇ ئورۇنلار يېرىم سۈزۈك ھالەتتە كۆرۈنۈپ، ئۇلارنىڭ «يوشۇرۇن» خاسلىقىنى "
 "تاللاشقا يول قويىدۇ."
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2567
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1278,7 +1278,7 @@ msgstr ""
 "ياكى توردىكى ۋاسىتىنى زىيارەت قىلالايسىز. بۇ كۆزنەكچىدە يەنە يېقىندا "
 "ساقلىغان ھۆججەت ياكى بەلگىلەنگەن ھۆججەت تۈرىنى ئىزدەيدىغان بۆلەك بار.</para>"
 
-#: dolphinmainwindow.cpp:2572
+#: dolphinmainwindow.cpp:2574
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1304,45 +1304,45 @@ msgstr ""
 "<interface>يوشۇرۇن ئورۇننى كۆرسەت</interface> نى تاللاپ ئۇلارنى قايتا "
 "كۆرسەتكىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2586 dolphinmainwindow.cpp:3177
+#: dolphinmainwindow.cpp:2588 dolphinmainwindow.cpp:3179
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "ئورۇن كۆزنەكچىنى فوكۇسلا"
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2589
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "ھەرپتاختا فوكۇسىنى ئورۇن كۆزنەكچىسىنىڭ ئىچى ياكى سىرتىغا يۆتكەيدۇ."
 
-#: dolphinmainwindow.cpp:2593
+#: dolphinmainwindow.cpp:2595
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "كۆزنەكچە كۆرسەت"
 
-#: dolphinmainwindow.cpp:2679
+#: dolphinmainwindow.cpp:2681
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr "ئات ئۆزگەرتەلمەيدۇ: بۇ قىسقۇچتا تۈر ئاتىنى ئۆزگەرتىش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2682 dolphinmainwindow.cpp:2699
+#: dolphinmainwindow.cpp:2684 dolphinmainwindow.cpp:2701
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "ئۆچۈرەلمەيدۇ: تۈرنى بۇ قىسقۇچتىن چىقىرىۋېتىش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2686
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "كېسەلمەيدۇ: تۈرنى بۇ قىسقۇچتىن يۆتكەش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2689
+#: dolphinmainwindow.cpp:2691
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1350,31 +1350,31 @@ msgid ""
 "folder."
 msgstr "بۇ جايدا نۇسخىلىيالمايدۇ: بۇ قىسقۇچتا تۈر قۇرۇش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "باشقا كۆرۈنۈشكە كۆچۈرەلمەيدۇ: ھېچقانداق ھۆججەت تاللانمىدى."
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "باشقا كۆرۈنۈشكە يۆتكىيەلمەيدۇ: ھېچقانداق ھۆججەت تاللانمىدى."
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2734
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "باشقا كۆرۈنۈشكە كۆچۈرەلمەيدۇ: باشقا كۆرۈنۈشتە بۇ تۈر مەۋجۇت."
 
-#: dolphinmainwindow.cpp:2735
+#: dolphinmainwindow.cpp:2737
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "باشقا كۆرۈنۈشكە يۆتكىيەلمەيدۇ: باشقا كۆرۈنۈشتە بۇ تۈر مەۋجۇت."
 
-#: dolphinmainwindow.cpp:2740
+#: dolphinmainwindow.cpp:2742
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1382,7 +1382,7 @@ msgid ""
 "destination folder."
 msgstr "باشقا كۆرۈنۈشكە كۆچۈرەلمەيدۇ: نىشان قىسقۇچقا يېزىش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2744
+#: dolphinmainwindow.cpp:2746
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1390,7 +1390,7 @@ msgid ""
 "destination folder."
 msgstr "باشقا كۆرۈنۈشكە يۆتكىيەلمەيدۇ: نىشان قىسقۇچقا يېزىش ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2750
+#: dolphinmainwindow.cpp:2752
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1400,7 +1400,7 @@ msgstr ""
 "تۈرنى بۇ قىسقۇچتىن چىقىرىۋېتىش ئىجازىتىڭىز يوق. بۇ قىسقۇچتىن تۈرنى يۆتكەش "
 "ئىجازىتىڭىز يوق."
 
-#: dolphinmainwindow.cpp:2774
+#: dolphinmainwindow.cpp:2776
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1416,90 +1416,90 @@ msgstr ""
 "<emphasis>غول مۇندەرىجە</emphasis> بولۇپ، ئۇنىڭدا يەرلىك كومپيۇتېرغا "
 "باغلانغان بارلىق سانلىق مەلۇماتلار بار.</para>"
 
-#: dolphinmainwindow.cpp:2866 dolphinmainwindow.cpp:2885
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "ياپ"
 
-#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
-#, kde-format
-msgctxt "@info View refer here to split view"
-msgid "Close Left View"
-msgstr "سول كۆرۈنۈشنى ياپ"
-
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2888
 #, kde-format
-msgctxt "@action:inmenu View refer here to split view"
+msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "سول كۆرۈنۈشنى ياپ"
 
 #: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
 #, kde-format
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Left View"
+msgstr "سول كۆرۈنۈشنى ياپ"
+
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "سول كۆرۈنۈشنى قاڭقىت"
 
-#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2893
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "سول بۆلۈنمە كۆرۈنۈشنى يېڭى كۆزنەككە يۆتكەيدۇ"
 
-#: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2893
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
+#: dolphinmainwindow.cpp:2905
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "ياپ"
 
-#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
-#: dolphinmainwindow.cpp:2904
-#, kde-format
-msgctxt "@info View refer here to split view"
-msgid "Close Right View"
-msgstr "ئوڭ كۆرۈنۈشنى ياپ"
-
 #: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2896
 #: dolphinmainwindow.cpp:2906
 #, kde-format
-msgctxt "@action:inmenu View refer here to split view"
+msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "ئوڭ كۆرۈنۈشنى ياپ"
 
 #: dolphinmainwindow.cpp:2879 dolphinmainwindow.cpp:2898
 #: dolphinmainwindow.cpp:2908
 #, kde-format
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Right View"
+msgstr "ئوڭ كۆرۈنۈشنى ياپ"
+
+#: dolphinmainwindow.cpp:2881 dolphinmainwindow.cpp:2900
+#: dolphinmainwindow.cpp:2910
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "ئوڭ كۆرۈنۈشنى قاڭقىت"
 
-#: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2899
-#: dolphinmainwindow.cpp:2909
+#: dolphinmainwindow.cpp:2882 dolphinmainwindow.cpp:2901
+#: dolphinmainwindow.cpp:2911
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "ئوڭ بۆلۈنمە كۆرۈنۈشنى يېڭى كۆزنەككە يۆتكەيدۇ"
 
-#: dolphinmainwindow.cpp:2921
+#: dolphinmainwindow.cpp:2923
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "پارچىلا"
 
-#: dolphinmainwindow.cpp:2923
+#: dolphinmainwindow.cpp:2925
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "بۆلۈنمە كۆرۈنۈش"
 
-#: dolphinmainwindow.cpp:2925
+#: dolphinmainwindow.cpp:2927
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "قاڭقىت"
 
-#: dolphinmainwindow.cpp:2985
+#: dolphinmainwindow.cpp:2987
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1518,7 +1518,7 @@ msgstr ""
 "يوشۇرۇلغاندىن كېيىن كۆپ قىسىم ئىقتىدارنى <emphasis>قورال بالداق</emphasis> "
 "تىكى <interface>تىزىملىك</interface> توپچە ئارقىلىق ئىشلەتكىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:2992
+#: dolphinmainwindow.cpp:2994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1542,7 +1542,7 @@ msgstr ""
 "بولىدۇ. مەلۇم بىر توپچىنى چاشقىنەكتە ئوڭ چېكىپ ئۇنىڭ تېكىستىنى كۆرسىتىش "
 "كۆرسەتمەسلىكنى ئۆزگەرتكىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3006
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1570,7 +1570,7 @@ msgstr ""
 "<emphasis>ئىشلەتكۈچى قوللانمىسى</emphasis> دىكى دەسلەپكى بىلىم بېتىدىن كۆرۈڭ."
 "</para>"
 
-#: dolphinmainwindow.cpp:3020
+#: dolphinmainwindow.cpp:3022
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1584,7 +1584,7 @@ msgstr ""
 "تېزلەتمىنى تەڭشىيەلەيسىز. بۇ پىروگراممىنىڭ بارلىق بۇيرۇقلىرىنى تېزلەتمە "
 "ئارقىلىق قوزغاتقىلى بولىدۇ.</para>"
 
-#: dolphinmainwindow.cpp:3026
+#: dolphinmainwindow.cpp:3028
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1596,7 +1596,7 @@ msgstr ""
 "كۆرۈنىدىغان توپچىنى ئۆزگەرتەلەيسىز.</para><para>سىز <interface>تىزىملىك</"
 "interface> تە كۆرگەن بارلىق بۇيرۇقنى قورال بالداققا جايلاشتۇرالايسىز.</para>"
 
-#: dolphinmainwindow.cpp:3030
+#: dolphinmainwindow.cpp:3032
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1615,7 +1615,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3050
+#: dolphinmainwindow.cpp:3052
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1632,7 +1632,7 @@ msgstr ""
 "link>، KDE ئىشلەتكۈچى قامۇسى تور بېكىتىدىكى مۇناسىۋەتلىك ماقالىنى ئېچىڭ.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3055
+#: dolphinmainwindow.cpp:3057
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1655,7 +1655,7 @@ msgstr ""
 "قامۇسى</link>.</para><para>دىققەت: ھەممە كۆزنەك «بۇ نېمە؟» لەيلەتمە ياردەم "
 "ئۇچۇرىنى تەمىنلىشى ناتايىن، بۇ ئىقتىدارغا بەكلا تايىنىۋالماڭ.</para>"
 
-#: dolphinmainwindow.cpp:3066
+#: dolphinmainwindow.cpp:3068
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1672,7 +1672,7 @@ msgstr ""
 "org/Get_Involved/Bug_Reporting'>بۇ جاينى چېكىپ</link> بەتنى زىيارەت قىلىڭ.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3077
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1694,7 +1694,7 @@ msgstr ""
 "ئېھتىياجلىق.</para><para><emphasis>KDE e.V.</emphasis>تەشكىلى KDE "
 "جامائىتىنىڭ ئارقىسىدىكى پايدا تاپمايدىغان تەشكىلات.</para>"
 
-#: dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:3090
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1706,7 +1706,7 @@ msgstr ""
 "زاپاس تىلنىمۇ تەڭشىيەلەيسىز، ئەگەر مايىللىقتىكى تىلىڭىزدا ئۇچۇرلار كەم "
 "قالغان بولسا زاپاس تىلدا كۆرۈنىدۇ."
 
-#: dolphinmainwindow.cpp:3093
+#: dolphinmainwindow.cpp:3095
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1716,7 +1716,7 @@ msgstr ""
 "پىروگراممىنىڭ نەشرى، ئىجازەتنامىسى، ئىشلەتكەن ئامبار ۋە ئاسرىغۇچى ھەققىدىكى "
 "ئۇچۇرلارنى كۆرسىتىدىغان كۆزنەكنى ئاچىدۇ."
 
-#: dolphinmainwindow.cpp:3098
+#: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1730,19 +1730,19 @@ msgstr ""
 "ئۇچۇرنى بىلمىسىڭىز ياكى ئوماق دىنازاۋۇرنى كۆرمەكچى بولسىڭىز ئۇنداقتا بۇ "
 "كۆزنەكنى ئېچىڭ!"
 
-#: dolphinmainwindow.cpp:3153 dolphinmainwindow.cpp:3164
+#: dolphinmainwindow.cpp:3155 dolphinmainwindow.cpp:3166
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "تېرمىنال كۆزنەكچىنى فوكۇسلىما"
 
-#: dolphinmainwindow.cpp:3171
+#: dolphinmainwindow.cpp:3173
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "تېرمىنال كۆزنەكچىنى فوكۇسلىما"
 
-#: dolphinmainwindow.cpp:3182
+#: dolphinmainwindow.cpp:3184
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -3442,7 +3442,7 @@ msgstr "ۋاقىتلىق توختات"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "ئورۇن كۆزنەكچىدىكى سىنبەلگە چوڭلۇقى («-1» ئاپتوماتىك)"
 
-#: panels/terminal/terminalpanel.cpp:201
+#: panels/terminal/terminalpanel.cpp:202
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -3451,7 +3451,7 @@ msgstr ""
 "تېرمىنالنى كۆرسىتەلمەيدۇ چۈنكى Konsole ئورنىتىلمىغان. ئۇنى ئورنىتىپ ئاندىن "
 "كۆزنەكچىنى قايتا ئېچىڭ."
 
-#: panels/terminal/terminalpanel.cpp:208
+#: panels/terminal/terminalpanel.cpp:209
 #, kde-format
 msgid "Install Konsole"
 msgstr "Konsole ئورنات"
