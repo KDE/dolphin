@@ -84,14 +84,12 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem &item)
         return;
     }
 
-    if (item.isNull()) {
-        m_hoveredItem = KFileItem();
-        return;
-    }
-
     cancelRequest();
-
-    m_isSelectionActive = false;
+    if (!item.isNull()) {
+        m_isSelectionActive = false;
+    } else {
+        m_isSelectionActive = !m_selection.isEmpty();
+    }
 
     m_hoveredItem = item;
     m_infoTimer->start();
@@ -230,35 +228,36 @@ void InformationPanel::showItemInfo()
     cancelRequest();
     //qDebug() << "showItemInfo" << m_fileItem;
 
-    if (m_hoveredItem.isNull() && (m_selection.count() > 1)) {
+    bool canShowHoverItem = !m_isSelectionActive && !m_hoveredItem.isNull() && InformationPanelSettings::showHovered();
+    if (m_selection.count() > 1 && !canShowHoverItem) {
         // The information for a selection of items should be shown
         m_content->showItems(m_selection);
-    } else {
-        // The information for exactly one item should be shown
-        KFileItem item;
-
-        if (!m_isSelectionActive && !m_hoveredItem.isNull() && InformationPanelSettings::showHovered()) {
-            item = m_hoveredItem;
-        } else if (m_isSelectionActive && !m_selection.isEmpty()) {
-            Q_ASSERT(m_selection.count() == 1);
-            item = m_selection.first();
-        }
-
-        if (!item.isNull()) {
-            m_shownUrl = item.url();
-            m_content->showItem(item);
-            return;
-        }
-
-        // No item is hovered and no selection has been done: provide
-        // an item for the currently shown directory.
-        m_shownUrl = url();
-        m_folderStatJob = KIO::stat(m_shownUrl, KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatRecursiveSize, KIO::HideProgressInfo);
-        if (m_folderStatJob->uiDelegate()) {
-            KJobWidgets::setWindow(m_folderStatJob, this);
-        }
-        connect(m_folderStatJob, &KIO::Job::result, this, &InformationPanel::slotFolderStatFinished);
+        return;
     }
+
+    // The information for exactly one item should be shown
+    KFileItem item;
+    if (canShowHoverItem) {
+        item = m_hoveredItem;
+    } else if (!m_selection.isEmpty()) {
+        Q_ASSERT(m_selection.count() == 1);
+        item = m_selection.first();
+    }
+
+    if (!item.isNull()) {
+        m_shownUrl = item.url();
+        m_content->showItem(item);
+        return;
+    }
+
+    // No item is hovered and no selection has been done: provide
+    // an item for the currently shown directory.
+    m_shownUrl = url();
+    m_folderStatJob = KIO::stat(m_shownUrl, KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatRecursiveSize, KIO::HideProgressInfo);
+    if (m_folderStatJob->uiDelegate()) {
+        KJobWidgets::setWindow(m_folderStatJob, this);
+    }
+    connect(m_folderStatJob, &KIO::Job::result, this, &InformationPanel::slotFolderStatFinished);
 }
 
 void InformationPanel::slotFolderStatFinished(KJob *job)
