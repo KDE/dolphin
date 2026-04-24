@@ -61,9 +61,13 @@ ZoomWidgetAction::ZoomWidgetAction(QAction *zoomInAction, QAction *zoomResetActi
 {
     // This is a property that KXMLGui reads to determine whether this action
     // should be included in the shortcut configuration UI
+    // they are already added to the action collection
     setProperty("isShortcutConfigurable", false);
     setPopupMode(InstantPopup);
     popupMenu()->addActions({zoomInAction, zoomResetAction, zoomOutAction});
+
+    // but this should be accessible through command bar
+    setMenu(popupMenu());
 }
 
 bool ZoomWidgetAction::eventFilter(QObject *object, QEvent *event)
