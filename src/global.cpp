@@ -162,7 +162,11 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
             QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
                 new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
             if (interface->isValid() && !interface->lastError().isValid()) {
-                dolphinInterfaces.append(qMakePair(interface, QStringList()));
+                auto isActiveWindowReply = interface->isActiveWindow();
+                isActiveWindowReply.waitForFinished();
+                if (!isActiveWindowReply.isError()) {
+                    dolphinInterfaces.append(qMakePair(interface, QStringList()));
+                }
             }
         }
     }
