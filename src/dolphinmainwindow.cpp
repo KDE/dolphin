@@ -1296,13 +1296,10 @@ void DolphinMainWindow::compareFiles()
     QUrl urlA = items.at(0).url();
     QUrl urlB = items.at(1).url();
 
-    QString command(QStringLiteral("kompare -c \""));
-    command.append(urlA.toDisplayString(QUrl::PreferLocalFile));
-    command.append("\" \"");
-    command.append(urlB.toDisplayString(QUrl::PreferLocalFile));
-    command.append('\"');
+    const QString program = QStringLiteral("kompare");
+    const QStringList args({QStringLiteral("-c"), urlA.toDisplayString(QUrl::PreferLocalFile), urlB.toDisplayString(QUrl::PreferLocalFile)});
 
-    KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(command, this);
+    KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(program, args, this);
     job->setDesktopName(QStringLiteral("org.kde.kompare"));
     job->start();
 }
