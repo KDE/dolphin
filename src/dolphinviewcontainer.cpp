@@ -246,16 +246,6 @@ void DolphinViewContainer::setGrabFocusOnUrlChange(bool grabFocus)
     m_grabFocusOnUrlChange = grabFocus;
 }
 
-const DolphinStatusBar *DolphinViewContainer::statusBar() const
-{
-    return m_statusBar;
-}
-
-DolphinStatusBar *DolphinViewContainer::statusBar()
-{
-    return m_statusBar;
-}
-
 const DolphinUrlNavigator *DolphinViewContainer::urlNavigator() const
 {
     return m_urlNavigatorConnected;
@@ -573,6 +563,7 @@ void DolphinViewContainer::reload()
 {
     view()->reload();
     m_messageWidget->hide();
+    m_statusBar->updateSpaceInfo();
 }
 
 QString DolphinViewContainer::captionWindowTitle() const

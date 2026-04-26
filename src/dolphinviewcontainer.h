@@ -88,9 +88,6 @@ public:
      */
     void setGrabFocusOnUrlChange(bool grabFocus);
 
-    const DolphinStatusBar *statusBar() const;
-    DolphinStatusBar *statusBar();
-
     /**
      * @return  An UrlNavigator that is controlling this view
      *          or nullptr if there is none.

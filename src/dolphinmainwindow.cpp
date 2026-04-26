@@ -33,7 +33,6 @@
 #endif
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/diskspaceusagemenu.h"
-#include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
 #include "views/dolphinviewactionhandler.h"
@@ -164,8 +163,6 @@ DolphinMainWindow::DolphinMainWindow()
     connect(undoManager, &KIO::FileUndoManager::redoAvailable, this, &DolphinMainWindow::slotRedoAvailable);
     connect(undoManager, &KIO::FileUndoManager::redoTextChanged, this, &DolphinMainWindow::slotRedoTextChanged);
 #endif
-    connect(undoManager, &KIO::FileUndoManager::jobRecordingStarted, this, &DolphinMainWindow::clearStatusBar);
-    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished, this, &DolphinMainWindow::showCommand);
 
     const bool firstRun = (GeneralSettings::version() < 200);
     if (firstRun) {
@@ -187,7 +184,6 @@ DolphinMainWindow::DolphinMainWindow()
     setupActions();
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), m_actionTextHelper, this);
-    connect(m_actionHandler, &DolphinViewActionHandler::actionBeingHandled, this, &DolphinMainWindow::clearStatusBar);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
     connect(m_actionHandler, &DolphinViewActionHandler::createFileTriggered, this, &DolphinMainWindow::createFile);
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
@@ -357,35 +353,6 @@ void DolphinMainWindow::activateWindow(const QString &activationToken)
 bool DolphinMainWindow::isActiveWindow()
 {
     return window()->isActiveWindow();
-}
-
-void DolphinMainWindow::showCommand(CommandType command)
-{
-    DolphinStatusBar *statusBar = m_activeViewContainer->statusBar();
-    switch (command) {
-    case KIO::FileUndoManager::Copy:
-        statusBar->setText(i18nc("@info:status", "Successfully copied."));
-        break;
-    case KIO::FileUndoManager::Move:
-        statusBar->setText(i18nc("@info:status", "Successfully moved."));
-        break;
-    case KIO::FileUndoManager::Link:
-        statusBar->setText(i18nc("@info:status", "Successfully linked."));
-        break;
-    case KIO::FileUndoManager::Trash:
-        statusBar->setText(i18nc("@info:status", "Successfully moved to trash."));
-        break;
-    case KIO::FileUndoManager::Rename:
-        statusBar->setText(i18nc("@info:status", "Successfully renamed."));
-        break;
-
-    case KIO::FileUndoManager::Mkdir:
-        statusBar->setText(i18nc("@info:status", "Created folder."));
-        break;
-
-    default:
-        break;
-    }
 }
 
 void DolphinMainWindow::pasteIntoFolder()
@@ -892,7 +859,6 @@ void DolphinMainWindow::slotUndoTextChanged(const QString &text)
 
 void DolphinMainWindow::undo()
 {
-    clearStatusBar();
     KIO::FileUndoManager::self()->uiInterface()->setParentWidget(this);
     KIO::FileUndoManager::self()->undo();
 }
@@ -916,7 +882,6 @@ void DolphinMainWindow::slotRedoTextChanged(const QString &text)
 
 void DolphinMainWindow::redo()
 {
-    clearStatusBar();
     KIO::FileUndoManager::self()->uiInterface()->setParentWidget(this);
     KIO::FileUndoManager::self()->redo();
 }
@@ -1082,8 +1047,6 @@ void DolphinMainWindow::slotSetSelectionMode(bool enabled, SelectionMode::Bottom
 
 void DolphinMainWindow::selectAll()
 {
-    clearStatusBar();
-
     // if the URL navigator is editable and focused, select the whole
     // URL instead of all items of the view
 
@@ -1099,7 +1062,6 @@ void DolphinMainWindow::selectAll()
 
 void DolphinMainWindow::invertSelection()
 {
-    clearStatusBar();
     m_activeViewContainer->view()->invertSelection();
 }
 
@@ -1171,9 +1133,7 @@ void DolphinMainWindow::moveToInactiveSplitView()
 
 void DolphinMainWindow::reloadView()
 {
-    clearStatusBar();
     m_activeViewContainer->reload();
-    m_activeViewContainer->statusBar()->updateSpaceInfo();
     Q_EMIT urlRefreshed(m_activeViewContainer->url());
 }
 
@@ -1216,8 +1176,6 @@ void DolphinMainWindow::toggleFilterBar()
 
 void DolphinMainWindow::toggleEditLocation()
 {
-    clearStatusBar();
-
     QAction *action = actionCollection()->action(QStringLiteral("editable_location"));
     KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigator();
     urlNavigator->setUrlEditable(action->isChecked());
@@ -2797,11 +2755,6 @@ void DolphinMainWindow::refreshViews()
     updateSplitActions();
 
     Q_EMIT settingsChanged();
-}
-
-void DolphinMainWindow::clearStatusBar()
-{
-    m_activeViewContainer->statusBar()->resetToDefaultText();
 }
 
 void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)

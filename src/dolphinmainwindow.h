@@ -301,15 +301,13 @@ private Q_SLOTS:
      */
     void refreshViews();
 
-    void clearStatusBar();
-
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 
     void createDirectory();
     void createFile();
 
-    /** Shows the error message in the status bar of the active view. */
+    /** Shows the error message in a non-modal message box above the active view. */
     void showErrorMessage(const QString &message);
 
     /**
@@ -556,12 +554,6 @@ private Q_SLOTS:
     void showTarget();
 
     /**
-     * Indicates in the statusbar that the execution of the command \a command
-     * has been finished.
-     */
-    void showCommand(CommandType command);
-
-    /**
      * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
@@ -770,8 +762,8 @@ private:
 private:
     /**
      * Implements a custom error handling for the undo manager. This
-     * assures that all errors are shown in the status bar of Dolphin
-     * instead as modal error dialog with an OK button.
+     * assures that all errors are shown as a message box above the view,
+     * and not as modal error dialogs with an OK button.
      */
     class UndoUiInterface : public KIO::FileUndoManager::UiInterface
     {
