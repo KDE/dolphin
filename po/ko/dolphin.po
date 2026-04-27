@@ -1,5 +1,5 @@
 # Translation of dolphin.po to Korean
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Shinjo Park <kde@peremen.name>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Shinjo Park <kde@peremen.name>
 # This file is distributed under the same license as the kdebase package.
 # Minori Hiraoka <minori@mnetwork.co.kr>, 2018.
 # JungHee Lee <daemul72@gmail.com>, 2019, 2020, 2021.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-03 02:42+0000\n"
-"PO-Revision-Date: 2025-10-09 00:14+0200\n"
+"PO-Revision-Date: 2026-04-26 23:08+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -217,15 +217,12 @@ msgid "Middle Click"
 msgstr "가운데 클릭"
 
 #: dolphincontextmenu.cpp:523
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "가운데 클릭"
+msgstr "Shift+가운데 클릭"
 
 #: dolphinmainwindow.cpp:367
 #, kde-format
@@ -1192,7 +1189,7 @@ msgstr "키보드 포커스를 터미널 패널과 전환합니다."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "디렉터리 변경 따라가기"
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1201,6 +1198,7 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"디렉터리를 변경할 때마다 터미널의 작업 디렉터리를 같이 변경할지 여부입니다."
 
 #: dolphinmainwindow.cpp:2522
 #, kde-format
@@ -1382,36 +1380,28 @@ msgid "Close"
 msgstr "닫기"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "왼쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "왼쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2891
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "왼쪽 보기 떼내기"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "왼쪽 보기를 새 창으로 떼내기"
+msgstr "왼쪽 나뉜 보기를 새 창으로 떼내기"
 
 #: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2904
@@ -1422,36 +1412,28 @@ msgstr "닫기"
 
 #: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
 #: dolphinmainwindow.cpp:2905
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "오른쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2897
 #: dolphinmainwindow.cpp:2907
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "오른쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2909
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "오른쪽 보기 떼내기"
 
 #: dolphinmainwindow.cpp:2881 dolphinmainwindow.cpp:2900
 #: dolphinmainwindow.cpp:2910
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "오른쪽 나뉜 보기를 새 창으로 떼내기"
@@ -2028,21 +2010,16 @@ msgid "No items found."
 msgstr "항목이 없습니다."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "파일 %1개"
+msgstr "파일로 열기"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "<filename>%1</filename> 파일에 접근할 수 없습니다."
+msgstr "파일을 폴더로 열려고 하는 중: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -2851,12 +2828,9 @@ msgid "Artist"
 msgstr "아티스트"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "오디오 파일"
+msgstr "오디오 코덱"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2901,7 +2875,7 @@ msgstr "동영상"
 #: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "색 공간"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2911,15 +2885,12 @@ msgstr "초당 프레임 수"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "픽셀 형식"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "동영상"
+msgstr "비디오 코덱"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4087,12 +4058,10 @@ msgid "Exit Selection Mode"
 msgstr "선택 모드 끝내기"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "상황에 맞는 메뉴"
+msgstr "콘텍스트 메뉴 동작"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4101,18 +4070,16 @@ msgid "Search…"
 msgstr "검색…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "새 서비스 다운로드…"
+msgstr "서비스 다운로드…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "단축키…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4126,7 +4093,7 @@ msgstr "삭제"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "내장 Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
@@ -4535,24 +4502,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "제목 표시줄에 전체 경로를 보여줄지 여부입니다"
+msgstr "탭이 하나만 열려 있어도 탭 표시줄을 표시할지 여부"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "탭에 닫기 단추를 표시할지 여부"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "날짜 스타일:"
+msgstr "탭 스타일"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4655,11 +4619,9 @@ msgstr "왼쪽과 오른쪽 보기를 전환할 때 탭 사용"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:128
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "왼쪽 보기 닫기"
+msgstr "분할 보기 닫기"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:132
@@ -4816,12 +4778,10 @@ msgid "Warning"
 msgstr "경고"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "다음 경우에 모든 KDE 앱에서 사용자에게 묻기:"
+msgstr "다음 경우에 KDE 앱에서 사용자에게 묻기:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4978,54 +4938,46 @@ msgid "Show filter bar"
 msgstr "필터 표시줄 표시"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "탭 표시줄의 끝"
+msgstr "항상 탭 목록 표시"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "이름표 너비:"
+msgstr "탭 간격:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "시작할 때 홈 위치 표시"
+msgstr "탭에 닫기 단추 표시"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "폴더 이름에 따라서 탭 길이 조정"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "모든 탭을 똑같은 고정된 너비로 표시"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "사용 가능한 전체 너비로 확장"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "날짜 스타일:"
+msgstr "탭 스타일: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
@@ -5046,29 +4998,25 @@ msgid "Open new tabs: "
 msgstr "새 탭 열기: "
 
 #: settings/interface/folderstabssettingspage.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "분할 보기 모드에서 시작"
+msgstr "분할 보기를 닫을 때"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "활성 패널 닫기"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "비활성 패널 닫기"
 
 #: settings/interface/folderstabssettingspage.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "오른쪽 보기 닫기"
+msgstr "오른쪽 패널 닫기"
 
 #: settings/interface/folderstabssettingspage.cpp:161
 #, kde-format
@@ -5083,12 +5031,10 @@ msgid "Switch between views with Tab key"
 msgstr "Tab 키로 보기 간 전환하기"
 
 #: settings/interface/folderstabssettingspage.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "분할 보기 모드에서 시작"
+msgstr "새 창을 분할 보기 모드로 열기"
 
 #: settings/interface/folderstabssettingspage.cpp:342
 #, kde-format
@@ -5504,12 +5450,10 @@ msgid "Display style: "
 msgstr "표시 스타일: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "파일이나 폴더 미리 보기 표시"
+msgstr "압축 파일을 폴더로 탐색"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
@@ -5660,7 +5604,7 @@ msgstr "이름표 글꼴:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "일부 글꼴 스타일은 Dolphin에서 예약되어 있으며 재정의될 수도 있습니다."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
@@ -6700,20 +6644,16 @@ msgstr ""
 "수 있습니다."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "정렬 순서"
+msgstr "필드로 정렬"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
-msgstr "필드 표시: %1"
+msgstr "필드 표시"
 
 #: views/dolphinviewactionhandler.cpp:688
 #, kde-format
