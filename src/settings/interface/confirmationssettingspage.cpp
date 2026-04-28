@@ -32,6 +32,7 @@ const bool ConfirmTrash = false;
 const bool ConfirmDelete = true;
 const int ConfirmScriptExecution = ScriptExecution::AlwaysAsk;
 const bool ConfirmRenameFileType = true;
+const bool ConfirmHide = true;
 }
 
 ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
@@ -57,6 +58,8 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Moving files or folders to trash"), this);
     m_confirmEmptyTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Emptying trash"), this);
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Deleting files or folders"), this);
+    m_confirmRenameFileType = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Renaming a file will change its type"), this);
+    m_confirmHide = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Renaming a file or folder will hide it"), this);
 
     QLabel *confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation in Dolphin when:"), this);
     confirmLabelDolphin->setWordWrap(true);
@@ -71,7 +74,6 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmOpenManyFolders = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many folders at once"), this);
     m_confirmOpenManyTerminals = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many terminals at once"), this);
     m_confirmRisksOfActingAsAdmin = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Switching to act as an administrator"), this);
-    m_confirmRenameFileType = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Renaming a file will change its type"), this);
 
     QLabel *executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
     executableScriptLabel->setWordWrap(true);
@@ -82,6 +84,8 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     topLayout->addRow(confirmLabelKde, m_confirmDelete);
     topLayout->addRow(nullptr, m_confirmMoveToTrash);
     topLayout->addRow(nullptr, m_confirmEmptyTrash);
+    topLayout->addRow(nullptr, m_confirmRenameFileType);
+    topLayout->addRow(nullptr, m_confirmHide);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
@@ -99,7 +103,6 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     } else {
         m_confirmRisksOfActingAsAdmin->hide();
     }
-    topLayout->addRow(nullptr, m_confirmRenameFileType);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
     topLayout->addRow(executableScriptLabel, m_confirmScriptExecution);
@@ -120,12 +123,13 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmEmptyTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmRenameFileType, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmHide, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmScriptExecution, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmOpenManyFolders, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmOpenManyTerminals, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmRisksOfActingAsAdmin, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
-    connect(m_confirmRenameFileType, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
 #if HAVE_TERMINAL
     connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
@@ -141,6 +145,8 @@ void ConfirmationsSettingsPage::applySettings()
     confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmEmptyTrash", m_confirmEmptyTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
+    confirmationGroup.writeEntry("ConfirmRenameFileType", m_confirmRenameFileType->isChecked());
+    confirmationGroup.writeEntry("ConfirmHide", m_confirmHide->isChecked());
 
     KConfigGroup scriptExecutionGroup(kioConfig, QStringLiteral("Executable scripts"));
     const int index = m_confirmScriptExecution->currentIndex();
@@ -166,7 +172,6 @@ void ConfirmationsSettingsPage::applySettings()
     } else {
         KMessageBox::saveDontShowAgainContinue(Admin::warningDontShowAgainName);
     }
-    settings->setConfirmRenameFileType(m_confirmRenameFileType->isChecked());
 
 #if HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
@@ -185,18 +190,28 @@ void ConfirmationsSettingsPage::restoreDefaults()
     m_confirmMoveToTrash->setChecked(ConfirmTrash);
     m_confirmEmptyTrash->setChecked(ConfirmEmptyTrash);
     m_confirmDelete->setChecked(ConfirmDelete);
+    m_confirmRenameFileType->setChecked(ConfirmRenameFileType);
+    m_confirmHide->setChecked(ConfirmHide);
     m_confirmScriptExecution->setCurrentIndex(ConfirmScriptExecution);
     KMessageBox::enableMessage(Admin::warningDontShowAgainName);
-    m_confirmRenameFileType->setChecked(ConfirmRenameFileType);
 }
 
 void ConfirmationsSettingsPage::loadSettings()
 {
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::IncludeGlobals);
-    const KConfigGroup confirmationGroup(kioConfig, QStringLiteral("Confirmations"));
+    KConfigGroup confirmationGroup(kioConfig, QStringLiteral("Confirmations"));
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", ConfirmTrash));
     m_confirmEmptyTrash->setChecked(confirmationGroup.readEntry("ConfirmEmptyTrash", ConfirmEmptyTrash));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", ConfirmDelete));
+
+    // Migration: ConfirmRenameFileType moved from dolphinrc (GeneralSettings) to kiorc.
+    // TODO remove long after KF 6.30
+    if (!confirmationGroup.hasKey("ConfirmRenameFileType")) {
+        confirmationGroup.writeEntry("ConfirmRenameFileType", GeneralSettings::confirmRenameFileType());
+        kioConfig->sync();
+    }
+    m_confirmRenameFileType->setChecked(confirmationGroup.readEntry("ConfirmRenameFileType", ConfirmRenameFileType));
+    m_confirmHide->setChecked(confirmationGroup.readEntry("ConfirmHide", ConfirmHide));
 
     const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), QStringLiteral("Executable scripts"));
     const QString value = scriptExecutionGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
@@ -216,7 +231,6 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmOpenManyFolders->setChecked(GeneralSettings::confirmOpenManyFolders());
     m_confirmOpenManyTerminals->setChecked(GeneralSettings::confirmOpenManyTerminals());
     m_confirmRisksOfActingAsAdmin->setChecked(KMessageBox::shouldBeShownContinue(Admin::warningDontShowAgainName));
-    m_confirmRenameFileType->setChecked(GeneralSettings::confirmRenameFileType());
 
 #if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());

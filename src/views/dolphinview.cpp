@@ -32,6 +32,8 @@
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #endif
+#include <kio_version.h>
+
 #include <KColorScheme>
 #include <KDesktopFile>
 #include <KDirModel>
@@ -45,12 +47,17 @@
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/RenameFileDialog>
-#include <KIconUtils>
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 30, 0)
+#include <KIO/RenameFileWarningDialog>
+#endif
 #include <KJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#if KIO_VERSION < QT_VERSION_CHECK(6, 30, 0)
+#include <KIconUtils>
 #include <KMessageDialog>
+#endif
 #include <KProtocolManager>
 #include <KUrlMimeData>
 
@@ -64,6 +71,9 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDropEvent>
+#if KIO_VERSION < QT_VERSION_CHECK(6, 30, 0)
+#include <QFile>
+#endif
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsSceneDragDropEvent>
 #include <QLabel>
@@ -2314,6 +2324,43 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 30, 0)
+#ifdef Q_OS_WIN
+            const bool hiddenFilesVisible = true;
+#else
+            const bool hiddenFilesVisible = hiddenFilesShown();
+#endif
+            auto *renameWarning = new KIO::RenameFileWarningDialog(oldItem, newName, this, hiddenFilesVisible);
+            connect(renameWarning, &KIO::RenameFileWarningDialog::result, this, [=, this](bool proceed) {
+                if (!proceed) {
+                    return;
+                }
+                KIO::Job *job = KIO::moveAs(oldUrl, newUrl);
+                KJobWidgets::setWindow(job, this);
+                KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
+                job->uiDelegate()->setAutoErrorHandlingEnabled(true);
+
+                // The renamed item is re-sorted to a new position but stays selected, so scroll to keep it in view.
+                scrollToItemOnceResorted(newUrl);
+
+                if (m_model->index(newUrl) < 0) {
+                    forceUrlsSelection(newUrl, {newUrl});
+                    updateSelectionState();
+
+                    // Only connect the result signal if there is no item with the new name
+                    // in the model yet, see bug 328262.
+                    connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);
+                }
+                if (retVal.direction != EditDone) {
+                    const short indexShift = retVal.direction == EditNext ? 1 : -1;
+                    m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
+                    m_container->controller()->selectionManager()->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
+                    renameSelectedItems();
+                }
+            });
+            renameWarning->exec();
+            return;
+#else
 #ifndef Q_OS_WIN
             // Confirm hiding file/directory by renaming inline
             if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
@@ -2398,6 +2445,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
                 // in the model yet, see bug 328262.
                 connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);
             }
+#endif
         }
         if (retVal.direction != EditDone) {
             const short indexShift = retVal.direction == EditNext ? 1 : -1;
