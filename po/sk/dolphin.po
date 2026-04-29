@@ -751,7 +751,7 @@ msgstr ""
 "<para>Toto zobrazí druhý panel vedľa aktuálneho panela, takže môžete naraz "
 "vidieť obsah dvoch priečinkov a ľahko presúvať položky medzi nimi.</"
 "para><para>Panel, ktorý nie je „v centre pozornosti“, bude stmavený. </"
-"para>Kliknutím na toto tlačidlo znova zatvoríte jeden z panelov.”"
+"para>Kliknutím na toto tlačidlo znova zatvoríte jeden z panelov."
 
 #: dolphinmainwindow.cpp:2058
 #, kde-kuit-format
