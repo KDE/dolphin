@@ -225,7 +225,7 @@ QUrl DolphinQuery::toUrl() const
 
         query.setSearchString(balooQueryStrings.join(QLatin1Char(' ')));
 
-        return query.toSearchUrl(QUrl::toPercentEncoding(title()));
+        return query.toSearchUrl(title());
     }
 #endif
 
