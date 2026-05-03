@@ -38,6 +38,7 @@ private Q_SLOTS:
     void testUseAsDefaultViewSettings();
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
+    void testRestoreViewProps();
 
 private:
     bool m_globalViewProps;
@@ -575,6 +576,29 @@ void ViewPropertiesTest::testSpecialFolderPropsPreservedWithGlobalViewProps()
     // Second visit: the custom view mode should be preserved
     {
         ViewProperties props(trashUrl);
+        QCOMPARE(props.viewMode(), DolphinView::IconsView);
+    }
+}
+
+void ViewPropertiesTest::testRestoreViewProps()
+{
+    const QUrl testDirUrl = m_testDir->url();
+
+    // First visit: customize the view mode to DetailsView
+    {
+        ViewProperties props(testDirUrl);
+        QCOMPARE(props.viewMode(), DolphinView::IconsView); // default
+        props.setViewMode(DolphinView::DetailsView);
+    }
+    {
+        ViewProperties props(testDirUrl);
+        QCOMPARE(props.viewMode(), DolphinView::DetailsView);
+        QVERIFY(!props.isDefaults());
+    }
+    {
+        ViewProperties props(testDirUrl);
+        props.restoreToDefaults();
+        QVERIFY(props.isDefaults());
         QCOMPARE(props.viewMode(), DolphinView::IconsView);
     }
 }

@@ -236,6 +236,8 @@ private Q_SLOTS:
      */
     void slotSelectionChanged(const KFileItemList &selection);
 
+    void restoreViewSettingsToDefaults();
+
 private:
     /**
      * Create all the actions.

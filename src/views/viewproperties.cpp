@@ -116,6 +116,35 @@ ViewPropertySettings *ViewProperties::defaultProperties() const
     return props;
 }
 
+void ViewProperties::restoreToDefaults()
+{
+    delete m_node;
+    m_node = defaultProperties();
+    update();
+}
+
+bool ViewProperties::isDefaults() const
+{
+    const auto defaultProps = defaultProperties();
+    auto cleanup = qScopeGuard([&defaultProps]() {
+        delete defaultProps;
+    });
+    // clang-format off
+    return m_node->viewMode() == defaultProps->viewMode()
+        && m_node->zoomLevel() == defaultProps->zoomLevel()
+        && m_node->previewsShown() == defaultProps->previewsShown()
+        && m_node->hiddenFilesShown() == defaultProps->hiddenFilesShown()
+        && m_node->groupedSorting() == defaultProps->groupedSorting()
+        && m_node->groupRole() == defaultProps->groupRole()
+        && m_node->sortRole() == defaultProps->sortRole()
+        && m_node->sortOrder() == defaultProps->sortOrder()
+        && m_node->sortFoldersFirst() == defaultProps->sortFoldersFirst()
+        && m_node->sortHiddenLast() == defaultProps->sortHiddenLast()
+        && m_node->visibleRoles() == defaultProps->visibleRoles()
+        && m_node->headerColumnWidths() == defaultProps->headerColumnWidths();
+    // clang-format on
+}
+
 ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)

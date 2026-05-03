@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphinpart" version="19" translationDomain="dolphin">
+<gui name="dolphinpart" version="20" translationDomain="dolphin">
  <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
@@ -28,6 +28,7 @@
    <Action name="show_preview" />
    <Action name="show_hidden_files" />
    <Separator/>
+   <Action name="restore_view_settings_default" />
    <Action name="view_properties" />
   </Menu>
   <Menu name="go"><text>&amp;Go</text>

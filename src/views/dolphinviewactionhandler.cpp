@@ -388,6 +388,12 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                         "in which all folder view properties can be adjusted."));
     connect(adjustViewProps, &QAction::triggered, this, &DolphinViewActionHandler::slotAdjustViewProperties);
 
+    QAction *restoreViewSettingsToDefault = actionCollection()->addAction(QStringLiteral("restore_view_settings_default"));
+    restoreViewSettingsToDefault->setIcon(QIcon::fromTheme(QStringLiteral("view-restore")));
+    restoreViewSettingsToDefault->setText(i18nc("@action:inmenu", "Restore to Defaults"));
+    restoreViewSettingsToDefault->setToolTip(i18nc("info:tooltip", "Restore View Settings to Defaults Value"));
+    connect(restoreViewSettingsToDefault, &QAction::triggered, this, &DolphinViewActionHandler::restoreViewSettingsToDefaults);
+
     // View settings: the dropdown menu contains various view-related actions
     KActionMenu *viewSettings = m_actionCollection->add<KActionMenu>(QStringLiteral("view_settings"));
     viewSettings->setText(i18nc("@action:intoolbar", "View Settings"));
@@ -404,6 +410,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->addAction(visibleRolesMenu);
     viewSettings->addAction(showPreview);
     viewSettings->addAction(showHiddenFiles);
+    viewSettings->addSeparator();
+    viewSettings->addAction(restoreViewSettingsToDefault);
     viewSettings->addAction(adjustViewProps);
     viewSettings->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
     connect(viewSettings, &KActionMenu::triggered, viewModeActions, &KSelectAction::triggered);
@@ -952,6 +960,11 @@ void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList &selecti
             basicActionsMenu->menu()->addAction(m_actionCollection->action(QStringLiteral("add_to_places")));
         }
     }
+}
+
+void DolphinViewActionHandler::restoreViewSettingsToDefaults()
+{
+    m_currentView->restoreViewSettingsToDefaults();
 }
 
 #include "moc_dolphinviewactionhandler.cpp"

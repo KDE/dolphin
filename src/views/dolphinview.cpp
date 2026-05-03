@@ -377,6 +377,7 @@ void DolphinView::setPreviewsShown(bool show)
     if (newZoomLevel != oldZoomLevel) {
         Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
     }
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 bool DolphinView::previewsShown() const
@@ -399,6 +400,7 @@ void DolphinView::setHiddenFilesShown(bool show)
 
     m_model->setShowHiddenFiles(show);
     Q_EMIT hiddenFilesShownChanged(show);
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 bool DolphinView::hiddenFilesShown() const
@@ -418,6 +420,7 @@ void DolphinView::setGroupedSorting(bool grouped)
     m_model->setGroupedSorting(grouped);
 
     Q_EMIT groupedSortingChanged(grouped);
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 bool DolphinView::groupedSorting() const
@@ -514,7 +517,9 @@ void DolphinView::setZoomLevel(int level)
         props.setZoomLevel(level == m_defaultZoomLevel ? -1 : level);
 
         hideToolTip();
+
         Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
+        Q_EMIT viewSettingsChanged(props.isDefaults());
     }
 }
 
@@ -540,6 +545,7 @@ void DolphinView::setSortRole(const QByteArray &role)
         model->setSortRole(role);
 
         Q_EMIT sortRoleChanged(role);
+        Q_EMIT viewSettingsChanged(props.isDefaults());
     }
 }
 
@@ -585,6 +591,7 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
         m_model->setSortOrder(order);
 
         Q_EMIT sortOrderChanged(order);
+        Q_EMIT viewSettingsChanged(props.isDefaults());
     }
 }
 
@@ -628,6 +635,7 @@ void DolphinView::setVisibleRoles(const QList<QByteArray> &roles)
     m_view->setVisibleRoles(roles);
 
     Q_EMIT visibleRolesChanged(m_visibleRoles, previousRoles);
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 QList<QByteArray> DolphinView::visibleRoles() const
@@ -1695,6 +1703,8 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
     m_model->setSortDirectoriesFirst(foldersFirst);
 
     Q_EMIT sortFoldersFirstChanged(foldersFirst);
+
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 void DolphinView::updateSortHiddenLast(bool hiddenLast)
@@ -1705,6 +1715,8 @@ void DolphinView::updateSortHiddenLast(bool hiddenLast)
     m_model->setSortHiddenLast(hiddenLast);
 
     Q_EMIT sortHiddenLastChanged(hiddenLast);
+
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 QPair<bool, QString> DolphinView::pasteInfo() const
@@ -2056,6 +2068,20 @@ void DolphinView::updateViewState()
     }
 
     updateSelectionState();
+}
+
+bool DolphinView::isViewSettingsDefaults() const
+{
+    ViewProperties props(viewPropertiesUrl());
+    return props.isDefaults();
+}
+
+void DolphinView::restoreViewSettingsToDefaults()
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.restoreToDefaults();
+
+    applyViewProperties(props);
 }
 
 void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
@@ -2515,6 +2541,8 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     }
 
     m_view->endTransaction();
+
+    Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
 void DolphinView::updateDefaultZoomLevel()

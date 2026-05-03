@@ -48,6 +48,9 @@
             <Action name="show_hidden_files" />
             <Action name="act_as_admin" />
             <Separator/>
+            <Action name="restore_view_settings_default" />
+            <Action name="view_properties" />
+            <Separator/>
             <Action name="split_view_menu" />
             <Action name="popout_split_view" />
             <Action name="split_stash" />
@@ -60,8 +63,6 @@
                 <Action name="editable_location" />
                 <Action name="replace_location" />
             </Menu>
-            <Separator/>
-            <Action name="view_properties" />
         </Menu>
         <Menu name="go">
             <Action name="bookmarks" />

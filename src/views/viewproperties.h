@@ -125,6 +125,15 @@ public:
      */
     QString destinationDir(const QString &subDir) const;
 
+    /**
+     * Restore the view settings to the default settings
+     * Depending on the view type.
+     *
+     * Only useful when in per-folder settings
+     */
+    void restoreToDefaults();
+    bool isDefaults() const;
+
 private:
     /**
      * Returns the view-mode prefix when storing additional properties for

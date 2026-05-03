@@ -1677,6 +1677,8 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
                    &DolphinViewContainer::selectionModeChanged,
                    actionCollection()->action(QStringLiteral("toggle_selection_mode")),
                    &QAction::setChecked);
+
+        disconnect(oldViewContainer->view(), &DolphinView::viewSettingsChanged, this, nullptr);
     }
 
     connectViewSignals(viewContainer);
@@ -2732,6 +2734,9 @@ void DolphinMainWindow::updateViewActions()
     QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
+    QAction *restoreViewSettingsToDefault = actionCollection()->action(QStringLiteral("restore_view_settings_default"));
+    restoreViewSettingsToDefault->setEnabled(!m_activeViewContainer->view()->isViewSettingsDefaults());
+
     updateSplitActions();
 }
 
@@ -2813,6 +2818,11 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(navigator, &KUrlNavigator::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(navigator, &KUrlNavigator::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
     connect(navigator, &KUrlNavigator::newWindowRequested, this, &DolphinMainWindow::openNewWindow);
+
+    connect(view, &DolphinView::viewSettingsChanged, this, [this](bool isDefault) {
+        QAction *restoreViewSettingsToDefault = actionCollection()->action(QStringLiteral("restore_view_settings_default"));
+        restoreViewSettingsToDefault->setEnabled(!isDefault);
+    });
 }
 
 void DolphinMainWindow::updateSplitActions()

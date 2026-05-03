@@ -509,6 +509,13 @@ public Q_SLOTS:
      */
     void updateViewState();
 
+    /**
+     * Whether or not the current has the default settings
+     */
+    bool isViewSettingsDefaults() const;
+
+    void restoreViewSettingsToDefaults();
+
 Q_SIGNALS:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
@@ -750,6 +757,8 @@ Q_SIGNALS:
      * Used to trigger an user configured action.
      */
     void doubleClickViewBackground(Qt::MouseButton button);
+
+    void viewSettingsChanged(bool isDefault);
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
