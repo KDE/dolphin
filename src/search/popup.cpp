@@ -341,6 +341,10 @@ void Popup::slotKFindButtonClicked()
     if (kFind) {
         auto *job = new KIO::ApplicationLauncherJob(kFind);
         job->setUrls({m_searchConfiguration->searchPath()});
+
+        // must hide the parent pop, so the focus switches correctly
+        hide();
+
         job->start();
         return;
     }
