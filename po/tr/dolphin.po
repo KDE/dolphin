@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:49+0000\n"
-"PO-Revision-Date: 2026-04-15 12:09+0300\n"
+"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"PO-Revision-Date: 2026-05-02 19:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,12 +21,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar Soytetir, Volkan Gezer, Emir SARI"
+msgstr "Serdar SOYTETİR, Volkan GEZER, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1335,14 +1335,14 @@ msgstr "Diğer görünüme taşınamıyor: Seçili dosya yok."
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
-"Diğer görünüme kapyalanamıyor: Diğer görünüm bu ögeleri halihazırda içeriyor."
+"Diğer görünüme kapyalanamıyor: Diğer görünüm bu ögeleri hâlihazırda içeriyor."
 
 #: dolphinmainwindow.cpp:2695
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
-"Diğer görünüme taşınamıyor: Diğer görünüm bu ögeleri halihazırda içeriyor."
+"Diğer görünüme taşınamıyor: Diğer görünüm bu ögeleri hâlihazırda içeriyor."
 
 #: dolphinmainwindow.cpp:2700
 #, kde-format
@@ -3802,13 +3802,13 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "K Bul’u Kur…"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "<application>K Bul</application> uygulaması başarıyla kuruldu."
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -4148,7 +4148,7 @@ msgid ""
 msgstr ""
 "<title>Seçim Kipi</title><para>Yönetilecek veya değiştirilecek dosyaları "
 "veya klasörleri seçin.<list><item>Seçmek için bir dosyaya veya klasöre "
-"tıklayın.</item><item>Seçimini kaldırmak için halihazırda seçili olan bir "
+"tıklayın.</item><item>Seçimini kaldırmak için hâlihazırda seçili olan bir "
 "dosyanın veya klasörün üzerine tıklayın.</item><item>Boş bir alana tıklamak, "
 "seçimi <emphasis>kaldırmaz</emphasis>.</item><item>Seçim dörtgenleri (boş "
 "bir alandan sürüklemeyle oluşturulur), içindeki ögelerin durumunu tersine "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:49+0000\n"
+"POT-Creation-Date: 2026-05-03 00:46+0000\n"
 "PO-Revision-Date: 2026-04-15 09:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3845,13 +3845,13 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Instal·la KFind…"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "<application>KFind</application> s'ha instal·lat correctament."
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"

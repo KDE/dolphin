@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # ஆமாச்சு <amachu@ubuntu.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Kishore G <kishore96@gmail.com>
+# SPDX-FileCopyrightText: 2020-2026 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:49+0000\n"
-"PO-Revision-Date: 2026-04-12 18:14+0530\n"
+"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"PO-Revision-Date: 2026-05-02 18:08+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -818,14 +818,7 @@ msgstr ""
 "ப் பெற முடியாத செயல்கள், உறுதிப்படுத்திய பின்பே மேற்கொள்ளப்படும்."
 
 #: dolphinmainwindow.cpp:2115
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -834,11 +827,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"கோப்புகளுக்கோ அடைவுகளுக்கோ நீங்கள் செய்த கடைசி மாற்றத்தை இது திரும்ப‍ப் பெறும்.<nl/> "
-"உருப்படிகளை <interface>உருவாக்குதல்</interface>, <interface>பெயர்மாற்றல்</"
-"interface> மற்றும் அவற்றை வேறு இடத்திற்கோ <filename>அகற்றிடத்திற்கோ</filename> "
-"<interface>நகரத்தல்</interface> போன்ற செயல்களை இவ்வாறு திரும்ப‍ப் பெறலாம். <nl/>திரும்ப‍"
-"ப் பெற முடியாத செயல்கள், உறுதிப்படுத்திய பின்பே மேற்கொள்ளப்படும்."
+"நீங்கள் செயல்நீக்கிய செய்த கடைசி மாற்றத்தை இது மீளச்செய்யும்.<nl/> உருப்படிகளை "
+"<interface>உருவாக்குதல்</interface>, <interface>பெயர்மாற்றல்</interface> மற்றும் "
+"அவற்றை வேறு இடத்திற்கோ <filename>அகற்றிடத்திற்கோ</filename> <interface>நகரத்தல்</"
+"interface> போன்ற செயல்களை இவ்வாறு மீளச்செய்யலாம். <nl/> திரும்ப‍ப் பெற முடியாத செயல்கள், "
+"உறுதிப்படுத்திய பின்பே மேற்கொள்ளப்படும்."
 
 #: dolphinmainwindow.cpp:2145
 #, kde-kuit-format
@@ -1664,7 +1657,7 @@ msgstr "பிணைய அடைவைச் சேர்"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "கே.டீ.யீ. கனெக்ட் தனைத் திற"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
@@ -3683,13 +3676,13 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "KFind தனை நிறுவு…"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "<application>KFind</application> வெற்றிகரமாக நிறுவப்பட்டது."
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -4676,6 +4669,8 @@ msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
 "items"
 msgstr ""
+"வரிசைப்படுத்தும் முறையை தேர்ந்தெடுக்க விடும்: இயல்பானது, எழுத்துவகையை பொருட்படுத்துவது, "
+"அல்லது எழுத்துவகையை பொருட்படுத்தாதது."
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
 #: settings/dolphin_generalsettings.kcfg:179

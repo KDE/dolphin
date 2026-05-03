@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:49+0000\n"
-"PO-Revision-Date: 2026-03-17 20:56+0000\n"
+"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"PO-Revision-Date: 2026-05-01 22:58+0100\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
 "Language: ga\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1797,7 +1797,7 @@ msgstr "Cuir Fillteán Líonra leis"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Oscail KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
@@ -2111,7 +2111,7 @@ msgstr "Níor aimsíodh mír ar bith."
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr ""
+msgstr "Oscail mar Comhad"
 
 #: dolphinviewcontainer.cpp:750
 #, kde-kuit-format
@@ -2194,7 +2194,7 @@ msgstr "Scagaire…"
 #: filterbar/filterbar.cpp:51
 #, kde-format
 msgid "Invalid expression"
-msgstr ""
+msgstr "Slonn neamhbhailí"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
@@ -3012,7 +3012,7 @@ msgstr "Ealaíontóir"
 #: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3093
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr ""
+msgstr "Códac Fhuaime"
 
 #: kitemviews/kfileitemmodel.cpp:3087 kitemviews/kfileitemmodel.cpp:3094
 msgctxt "@label"
@@ -3072,7 +3072,7 @@ msgstr "Formáid Picteilín"
 #: kitemviews/kfileitemmodel.cpp:3101
 msgctxt "@label"
 msgid "Video Codec"
-msgstr ""
+msgstr "Códac Físeáin"
 
 #: kitemviews/kfileitemmodel.cpp:3103
 msgctxt "@label"
@@ -3091,7 +3091,7 @@ msgstr "Eile"
 #: kitemviews/kfileitemmodel.cpp:3104
 msgctxt "@label"
 msgid "Folder Name"
-msgstr ""
+msgstr "Ainm an Fhillteáin"
 
 #: kitemviews/kfileitemmodel.cpp:3105
 msgctxt "@label"
@@ -3926,13 +3926,13 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Suiteáil KFind…"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "Suiteáladh <application>KFind</application> go rathúil."
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -4316,7 +4316,7 @@ msgstr "Scoir Mód Roghnúcháin"
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr ""
+msgstr "Gníomhartha Roghchláir Comhthéacs"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4328,7 +4328,7 @@ msgstr "Cuardaigh…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr ""
+msgstr "Íoslódáil Seirbhísí…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
@@ -4607,7 +4607,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr ""
+msgstr "Leibhéal Zúmála"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -5065,7 +5065,7 @@ msgstr "Rabhadh"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr ""
+msgstr "Iarr deimhniú i bhfeidhmchlár KDE nuair a:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -5232,7 +5232,7 @@ msgstr "Taispeáin barra na gcluaisíní i gcónaí"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr ""
+msgstr "Leithead táb:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -6660,10 +6660,9 @@ msgid "No Apple devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Apple"
 
 #: views/dolphinview.cpp:2776
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Ní bhfuarthas aon ghléasanna Apple"
+msgstr "Ní bhfuarthas aon ghléasanna KDE Connect"
 
 #: views/dolphinview.cpp:2778
 #, kde-format

@@ -1556,7 +1556,7 @@ context menu Icon Size? No different entries ?-->
     </listitem>
     <listitem>
         <para
->&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;’yi gösteren tek bir sekme ile açılır</para>
+>&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;’yi gösteren tek bir sekme ile açılır.</para>
     </listitem>
 </itemizedlist>
 <para
@@ -3288,7 +3288,7 @@ context menu Icon Size? No different entries ?-->
 </question>
 <answer>
 <para
->Hata bildirimi için kullanılan resmi kanal. &kde; hata izleyicisidir. &kde; izleyicisi, <ulink url="https://bugs.kde.org"
+>Hata bildirimi için kullanılan resmî kanal. &kde; hata izleyicisidir. &kde; izleyicisi, <ulink url="https://bugs.kde.org"
 >https://bugs.kde.org</ulink
 > adresinde bulunabilir. </para>
 </answer>
@@ -3301,7 +3301,7 @@ context menu Icon Size? No different entries ?-->
 </question>
 <answer>
 <para
->Özellik istekleri için kullanılan resmi kanal. &kde; hata izleyicisidir. &kde; izleyicisi, <ulink url="https://bugs.kde.org"
+>Özellik istekleri için kullanılan resmî kanal. &kde; hata izleyicisidir. &kde; izleyicisi, <ulink url="https://bugs.kde.org"
 >https://bugs.kde.org</ulink
 > adresinde bulunabilir. </para>
 
@@ -3369,11 +3369,11 @@ context menu Icon Size? No different entries ?-->
 > </para>
 
 <para
->Çeviri: Serdar Soytetir <email
+>Çeviri: Serdar SOYTETİR <email
 >tulliana@gmail.com</email
 ></para
 ><para
->Çeviri: Kaan Özdinçer <email
+>Çeviri: Kaan ÖZDİNÇER <email
 >kaanozdincer@gmail.com</email
 ></para
 ><para
