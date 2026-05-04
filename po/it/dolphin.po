@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-03 00:46+0000\n"
-"PO-Revision-Date: 2026-03-23 14:21+0100\n"
+"PO-Revision-Date: 2026-04-16 08:41+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1770,7 +1770,7 @@ msgstr "Aggiungi cartella di rete"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Apri KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
