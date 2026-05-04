@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 03:06+0000\n"
+"POT-Creation-Date: 2026-05-04 02:45+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -4166,13 +4166,13 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Ustaliavać Konsole"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr ""
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, fuzzy, kde-format
 #| msgid "Install Konsole"
 msgctxt "@info:status"

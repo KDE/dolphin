@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 03:06+0000\n"
+"POT-Creation-Date: 2026-05-04 02:45+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3965,7 +3965,7 @@ msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Εγκατάσταση του Filelight…"
 
-#: search/popup.cpp:364
+#: search/popup.cpp:368
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "<application>Filelight</application> installed successfully."
@@ -3973,7 +3973,7 @@ msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "Το <application>Filelight</application> εγκαταστάθηκε με επιτυχία."
 
-#: search/popup.cpp:368
+#: search/popup.cpp:372
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Installing Filelight…"
