@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:45+0000\n"
+"POT-Creation-Date: 2026-05-05 02:48+0000\n"
 "PO-Revision-Date: 2026-05-02 18:08+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -3250,31 +3250,31 @@ msgstr "சுட்டியை மேல்வைக்கும்போத�
 msgid "Date display format"
 msgstr "தேதி எவ்வாறு காட்டப்படும்"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:158
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "முன்தோற்றம்"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:163
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "ஊடகக்கோப்புகளை தானாக இயக்கு"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே உருப்படியைக் காட்டு"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:173
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "அமை…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:179
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

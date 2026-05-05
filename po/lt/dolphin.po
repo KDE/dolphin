@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:45+0000\n"
+"POT-Creation-Date: 2026-05-05 02:48+0000\n"
 "PO-Revision-Date: 2026-04-11 00:30+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3287,31 +3287,31 @@ msgstr "Rodyti elementą užvedus pelę"
 msgid "Date display format"
 msgstr "Datos rodymo formatas"
 
-#: panels/information/informationpanel.cpp:160
+#: panels/information/informationpanel.cpp:158
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Peržiūra"
 
-#: panels/information/informationpanel.cpp:165
+#: panels/information/informationpanel.cpp:163
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Automatiškai atkurti medijos failus"
 
-#: panels/information/informationpanel.cpp:170
+#: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Rodyti elementą užvedus pelę"
 
-#: panels/information/informationpanel.cpp:175
+#: panels/information/informationpanel.cpp:173
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Konfigūruoti…"
 
-#: panels/information/informationpanel.cpp:181
+#: panels/information/informationpanel.cpp:179
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
