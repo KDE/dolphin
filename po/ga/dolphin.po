@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"POT-Creation-Date: 2026-05-05 00:47+0000\n"
 "PO-Revision-Date: 2026-05-01 22:58+0100\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -3461,31 +3461,31 @@ msgstr "Taispeáin mír nuair a bhíonn tú ag luí"
 msgid "Date display format"
 msgstr "Formáid taispeána dáta"
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:159
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Réamhamharc"
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Seinn comhaid meán go huathoibríoch"
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Taispeáin mír nuair a bhíonn tú ag luí"
 
-#: panels/information/informationpanel.cpp:176
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Cumraigh…"
 
-#: panels/information/informationpanel.cpp:182
+#: panels/information/informationpanel.cpp:180
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

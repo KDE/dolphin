@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"POT-Creation-Date: 2026-05-05 00:47+0000\n"
 "PO-Revision-Date: 2025-11-09 11:07+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -3391,31 +3391,31 @@ msgstr "Rādīt vienumu, uzliekot peles kursoru"
 msgid "Date display format"
 msgstr "Datumu attēlošanas formāts"
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:159
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Priekšskatījums"
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Automātiski atskaņot multimediju datnes"
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Rādīt vienumu, uzliekot peles kursoru"
 
-#: panels/information/informationpanel.cpp:176
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Konfigurēt…"
 
-#: panels/information/informationpanel.cpp:182
+#: panels/information/informationpanel.cpp:180
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

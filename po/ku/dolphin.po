@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 00:46+0000\n"
+"POT-Creation-Date: 2026-05-05 00:47+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -3413,7 +3413,7 @@ msgstr "Darikê Fîltreyê Nîşan Bide"
 msgid "Date display format"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:159
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Preview"
@@ -3421,13 +3421,13 @@ msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Pêşdîtin"
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -3435,7 +3435,7 @@ msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Darikê Fîltreyê Nîşan Bide"
 
-#: panels/information/informationpanel.cpp:176
+#: panels/information/informationpanel.cpp:174
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Change Tags..."
@@ -3443,7 +3443,7 @@ msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Etîketan Biguherîne..."
 
-#: panels/information/informationpanel.cpp:182
+#: panels/information/informationpanel.cpp:180
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
