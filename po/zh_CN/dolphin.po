@@ -6763,27 +6763,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully copied."
-#~ msgstr "成功复制。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved."
-#~ msgstr "成功移动。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully linked."
-#~ msgstr "成功创建链接。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved to trash."
-#~ msgstr "成功移动到回收站。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully renamed."
-#~ msgstr "成功重命名。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Created folder."
-#~ msgstr "文件夹已创建。"
