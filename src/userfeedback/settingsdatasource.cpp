@@ -31,22 +31,16 @@ QString SettingsDataSource::description() const
 
 QVariant SettingsDataSource::data()
 {
-    if (!m_mainWindow) {
-        // This assumes there is only one DolphinMainWindow per process.
-        const auto topLevelWidgets = QApplication::topLevelWidgets();
-        for (const auto widget : topLevelWidgets) {
-            if (qobject_cast<DolphinMainWindow *>(widget)) {
-                m_mainWindow = static_cast<DolphinMainWindow *>(widget);
-                break;
-            }
-        }
-    }
-
     QVariantMap map;
 
-    if (m_mainWindow) {
-        map.insert(QStringLiteral("informationPanelEnabled"), m_mainWindow->isInformationPanelEnabled());
-        map.insert(QStringLiteral("foldersPanelEnabled"), m_mainWindow->isFoldersPanelEnabled());
+    // This assumes there is only one DolphinMainWindow per process.
+    const auto topLevelWidgets = QApplication::topLevelWidgets();
+    for (const auto widget : topLevelWidgets) {
+        if (auto mainWindow = qobject_cast<DolphinMainWindow *>(widget)) {
+            map.insert(QStringLiteral("informationPanelEnabled"), mainWindow->isInformationPanelEnabled());
+            map.insert(QStringLiteral("foldersPanelEnabled"), mainWindow->isFoldersPanelEnabled());
+            break;
+        }
     }
 
     map.insert(QStringLiteral("tooltipsEnabled"), GeneralSettings::showToolTips());
