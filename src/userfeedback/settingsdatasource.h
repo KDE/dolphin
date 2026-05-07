@@ -19,9 +19,6 @@ public:
     QString name() const override;
     QString description() const override;
     QVariant data() override;
-
-private:
-    DolphinMainWindow *m_mainWindow = nullptr;
 };
 
 #endif // SETTINGSDATASOURCE_H
