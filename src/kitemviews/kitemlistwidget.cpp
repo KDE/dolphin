@@ -623,21 +623,6 @@ void KItemListWidget::setPressed(bool enabled)
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     painter->save();
-    // Shared between both Breeze and other styles
-    QColor backgroundColor{widget->palette().color(QPalette::Highlight)};
-    backgroundColor.setAlphaF(0.0);
-    if (m_clickHighlighted) {
-        backgroundColor.setAlphaF(1.0);
-    } else {
-        if (m_selected && m_hovered) {
-            backgroundColor.setAlphaF(0.40);
-        } else if (m_selected) {
-            backgroundColor.setAlphaF(0.32);
-        } else if (m_hovered) {
-            backgroundColor = widget->palette().color(QPalette::Text);
-            backgroundColor.setAlphaF(0.06);
-        }
-    }
     QStyleOptionViewItem viewItemOption;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
@@ -649,6 +634,20 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // TODO: Remove this check after Plasma 6.8 release
     // See: https://invent.kde.org/plasma/breeze/-/merge_requests/595
     if (style()->name() == QStringLiteral("breeze")) {
+        QColor backgroundColor{widget->palette().color(QPalette::Highlight)};
+        backgroundColor.setAlphaF(0.0);
+        if (m_clickHighlighted) {
+            backgroundColor.setAlphaF(1.0);
+        } else {
+            if (m_selected && m_hovered) {
+                backgroundColor.setAlphaF(0.40);
+            } else if (m_selected) {
+                backgroundColor.setAlphaF(0.32);
+            } else if (m_hovered) {
+                backgroundColor = widget->palette().color(QPalette::Text);
+                backgroundColor.setAlphaF(0.06);
+            }
+        }
         painter->setRenderHint(QPainter::Antialiasing);
         constexpr int roundness = 5; // From Breeze style.
         constexpr qreal penWidth = 1.25;
@@ -668,7 +667,6 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
             painter->strokePath(path, pen);
         }
     } else {
-        viewItemOption.backgroundBrush = backgroundColor;
         style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 
         // Focus decoration
@@ -678,6 +676,9 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
             focusRectOption.state = QStyle::State_HasFocus;
             if (m_selected && widget->hasFocus()) {
                 focusRectOption.state = QStyle::State_HasFocus | QStyle::State_Selected;
+            }
+            if (m_hovered) {
+                 focusRectOption.state |= QStyle::State_MouseOver;
             }
             focusRectOption.rect = viewItemOption.rect;
             style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
