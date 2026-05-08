@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-05 02:48+0000\n"
-"PO-Revision-Date: 2026-04-11 00:30+0300\n"
+"PO-Revision-Date: 2026-05-07 20:23+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -205,7 +205,7 @@ msgstr "Atverti kelią naujame lange"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Spustelėjimas viduriniuoju pelės mygtuku"
 
 #: dolphincontextmenu.cpp:523
 #, kde-format
@@ -213,7 +213,7 @@ msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr ""
+msgstr "Lyg2+Spustelėjimas viduriniuoju pelės mygtuku"
 
 #: dolphinmainwindow.cpp:367
 #, kde-format
@@ -565,18 +565,14 @@ msgid "Copy to Other View…"
 msgstr "Kopijuoti į kitą rodinį…"
 
 #: dolphinmainwindow.cpp:1912
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Tai kopijuoja pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
-"neaktyvų padalytą rodinį."
+"Tai nukopijuoja pažymėtus elementus iš fokusuoto rodinio į kitą rodinį. "
+"(Prieinama tik naudojant padalyto rodinio veikseną.)"
 
 #: dolphinmainwindow.cpp:1916
 #, kde-format
@@ -597,18 +593,14 @@ msgid "Move to Other View…"
 msgstr "Perkelti į kitą rodinį…"
 
 #: dolphinmainwindow.cpp:1924
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Tai perkelia pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
-"neaktyvų padalytą rodinį."
+"Tai perkelia pažymėtus elementus iš fokusuoto rodinio į kitą rodinį. "
+"(Prieinama tik naudojant padalyto rodinio veikseną.)"
 
 #: dolphinmainwindow.cpp:1928
 #, kde-format
@@ -920,7 +912,7 @@ msgstr "Palyginti failus"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Tvarkyti vietos diske naudojimą"
 
 #: dolphinmainwindow.cpp:2205
 #, kde-kuit-format
@@ -1074,7 +1066,7 @@ msgstr "Atverti padalytame rodinyje"
 #: dolphinmainwindow.cpp:2342
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "&Lango spalvų rinkinys"
 
 #: dolphinmainwindow.cpp:2355
 #, kde-format
@@ -1716,6 +1708,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Nepavyko įdiegti <application>%1</application>: %2 (%3)<nl/>Vietoj to, "
+"pabandykite įdiegti <application>%1</application> rankiniu būdu."
 
 #: dolphinpart.cpp:147
 #, kde-format
@@ -1947,7 +1941,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Jūs negalite rašyti į šį aplanką."
 
 #: dolphinviewcontainer.cpp:104
 #, kde-format
@@ -1987,12 +1981,10 @@ msgid "Open as File"
 msgstr "Atverti kaip failą"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Nepavyko pasiekti <filename>%1</filename>."
+msgstr "Failą bandoma atverti kaip aplanką: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -4089,7 +4081,7 @@ msgstr "Atsisiųsti naujas paslaugas…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Spartieji klavišai…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4528,15 +4520,13 @@ msgstr "Ar turėtų būti rodomas visas kelias lango antraštės juostoje"
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Ar kortelėse turėtų būti užvėrimo mygtukas"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Datos stilius:"
+msgstr "Kortelių stilius"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4708,7 +4698,7 @@ msgstr "Taip pat slėpti failus naudojančius application/x-trash MIME tipą"
 #: settings/dolphin_generalsettings.kcfg:183
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Įjungti dinaminį rodinį"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:189
@@ -4724,10 +4714,9 @@ msgstr "Klausti patvirtinimo, kai vienu metu atveriama daug terminalų."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:197
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Klausti patvirtinimo, kai vienu metu atveriama daug aplankų."
+msgstr "Klausti patvirtinimo, kai failo pervadinimas pakeičia jo tipą."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4796,12 +4785,10 @@ msgid "Warning"
 msgstr "Įspėjimas"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Klausti patvirtinimo visose KDE programose, kai:"
+msgstr "Klausti patvirtinimo KDE programose, kai:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4861,7 +4848,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Failo pervadinimas pakeis jo tipą"
 
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
@@ -4968,12 +4955,10 @@ msgid "Always show tab bar"
 msgstr "Visada rodyti kortelių juostą"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Etikečių plotis:"
+msgstr "Kortelių plotis:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -4985,27 +4970,25 @@ msgstr "Rodyti kortelėse užvėrimo mygtuką"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Kortelės plotis prisitaiko prie aplanko pavadinimo"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Visos kortelės yra vienodo fiksuoto pločio"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Kortelės užima visą prieinamą plotį"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Datos stilius:"
+msgstr "Kortelių stilius: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
@@ -5034,12 +5017,12 @@ msgstr "Užveriant padalytą rodinį"
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Užverti aktyvų polangį"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Užverti neaktyvų polangį"
 
 #: settings/interface/folderstabssettingspage.cpp:154
 #, kde-format
@@ -6281,6 +6264,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tai padarys failo tipą nežinomu.\n"
+"Failo turinys nepasikeis, bet programos gali šio failo nebeatpažinti.\n"
+"Ar vis dar norite jį pervadinti?"
 
 #: views/dolphinview.cpp:2241
 #, kde-format
@@ -6290,6 +6276,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tai pakeis failo tipą iš „%1“ į „%2“.\n"
+"Failo turinys nepasikeis, bet programos gali šio failo nebeatpažinti.\n"
+"Ar vis dar norite jį pervadinti?"
 
 #: views/dolphinview.cpp:2247
 #, kde-format
