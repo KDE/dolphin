@@ -235,7 +235,10 @@ DolphinMainWindow::DolphinMainWindow()
     }
 
     QAction *showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
-    menuBar()->setVisible(showMenuBarAction->isChecked());
+    showMenuBarAction->setChecked(!menuBar()->isHidden()); //workaround for bug #171080
+    QTimer::singleShot(0, this, [this, showMenuBarAction]() {
+        menuBar()->setVisible(showMenuBarAction->isChecked());
+    });
 
     auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
     hamburgerMenu->setMenuBar(menuBar());
@@ -1308,6 +1311,9 @@ void DolphinMainWindow::toggleShowMenuBar()
 {
     QAction *showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     menuBar()->setVisible(showMenuBarAction->isChecked());
+    KConfigGroup group = KSharedConfig::openConfig()->group(QStringLiteral("MainWindow"));
+    group.writeEntry("MenuBar", showMenuBarAction->isChecked() ? "Enabled" : "Disabled");
+    group.sync();
 }
 
 QPointer<QAction> DolphinMainWindow::preferredSearchTool()
