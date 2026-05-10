@@ -162,6 +162,13 @@ KItemListView::~KItemListView()
 
     delete m_sizeHintResolver;
     m_sizeHintResolver = nullptr;
+
+#ifndef QT_NO_ACCESSIBILITY
+    if (m_accessibleParent) {
+        delete m_accessibleParent;
+        m_accessibleParent = nullptr;
+    }
+#endif
 }
 
 void KItemListView::setScrollOffset(qreal offset)
