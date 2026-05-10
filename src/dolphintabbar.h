@@ -30,9 +30,12 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+#endif
 
     /**
      * Opens a context menu for the tab on the \a event position.
@@ -53,7 +56,9 @@ private:
 private:
     QTimer *m_autoActivationTimer;
     int m_autoActivationIndex;
-    int m_tabToBeClosedOnMiddleMouseButtonRelease;
+#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
+    int m_tabToBeClosedOnMiddleMouseButtonRelease = -1;
+#endif
 };
 
 #endif // DOLPHIN_TAB_BAR_H
