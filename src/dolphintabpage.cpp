@@ -161,9 +161,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
             break;
         case Choice::RightView:
             view = m_secondaryViewContainer;
-            if (!m_primaryViewActive) {
-                swapActiveView();
-            }
             break;
         default:
             Q_UNREACHABLE();
