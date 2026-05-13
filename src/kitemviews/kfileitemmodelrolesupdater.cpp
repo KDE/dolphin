@@ -1288,35 +1288,39 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         m_model->setData(index, data);
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
-        auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
+        // Use KIO flags to exclude dot entries at the source to simplify counting
+        KIO::ListJob::ListFlags flags = KIO::ListJob::ListFlag::ExcludeDotAndDotDot;
+        if (!m_model->showHiddenFiles()) {
+            flags |= KIO::ListJob::ListFlag::ExcludeHidden;
+        }
 
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob *job, const KIO::UDSEntryList &list) {
+        auto listJob = KIO::listDir(url, KIO::HideProgressInfo, flags);
+
+        // Define a local counter to accumulate results for THIS specific job instance.
+        // Using a shared pointer allows the lambda batches to share and update the same state.
+        auto totalCount = std::make_shared<int>(0);
+
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item, totalCount](const KJob *job, const KIO::UDSEntryList &list) {
+            Q_UNUSED(job)
             int index = m_model->index(item);
             if (index < 0) {
                 return;
             }
-            auto data = m_model->data(index);
-            int origCount = data.value("count").toInt();
-            // Get the amount of processed items...
-            int entryCount = job->processedAmount(KJob::Bytes);
 
-            // ...and then remove the unwanted items from the amount.
-            for (const KIO::UDSEntry &entry : list) {
-                const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
-
-                if (name == QStringLiteral("..") || name == QStringLiteral(".")) {
-                    --entryCount;
-                    continue;
-                }
-                if (!m_model->showHiddenFiles() && name.startsWith(QLatin1Char('.'))) {
-                    --entryCount;
-                    continue;
-                }
-                if (m_model->showDirectoriesOnly() && !entry.isDir()) {
-                    --entryCount;
-                    continue;
+            // Accumulate entries for this batch into our job-specific counter
+            if (!m_model->showDirectoriesOnly()) {
+                *totalCount += list.size();
+            } else {
+                for (const KIO::UDSEntry &entry : list) {
+                    if (entry.isDir()) {
+                        (*totalCount)++;
+                    }
                 }
             }
+
+            const int entryCount = *totalCount;
+            auto data = m_model->data(index);
+            int origCount = data.value("count").toInt();
 
             QHash<QByteArray, QVariant> newData;
             QVariant expandable = data.value("isExpandable");
