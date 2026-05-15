@@ -768,6 +768,17 @@ void DolphinMainWindow::slotSaveSession()
     }
 }
 
+void DolphinMainWindow::slotClickViewBackground()
+{
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
+    KUrlNavigator *navigator =
+        m_tabWidget->currentTabPage()->primaryViewActive() ? navigators->primaryUrlNavigator() : navigators->secondaryUrlNavigator();
+
+    if (navigator->isUrlEditable() && !GeneralSettings::editableUrl()) {
+        navigator->setUrlEditable(false);
+    }
+}
+
 void DolphinMainWindow::setSessionAutoSaveEnabled(bool enable)
 {
     if (enable) {
@@ -2791,6 +2802,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(view, &DolphinView::urlActivated, this, &DolphinMainWindow::handleUrl);
     connect(view, &DolphinView::goUpRequested, this, &DolphinMainWindow::goUp);
     connect(view, &DolphinView::doubleClickViewBackground, this, &DolphinMainWindow::slotDoubleClickViewBackground);
+    connect(view, &DolphinView::clickViewBackground, this, &DolphinMainWindow::slotClickViewBackground);
 
     connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::urlChanged, this, &DolphinMainWindow::changeUrl);
     connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged, this, &DolphinMainWindow::updateHistory);

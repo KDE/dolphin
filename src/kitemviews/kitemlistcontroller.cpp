@@ -604,6 +604,10 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent *event, const
 
     const Qt::MouseButtons buttons = event->buttons();
 
+    if (!m_pressedIndex.has_value()) {
+        Q_EMIT clickViewBackground(event->button());
+    }
+    
     if (!onPress(event->pos(), event->modifiers(), buttons)) {
         startRubberBand();
         return false;

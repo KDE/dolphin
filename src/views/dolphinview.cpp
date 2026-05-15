@@ -129,6 +129,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
 
     KItemListController *controller = new KItemListController(m_model, m_view, this);
     controller->setAutoActivationEnabled(GeneralSettings::autoExpandFolders());
+    connect(controller, &KItemListController::clickViewBackground, this, &DolphinView::clickViewBackground);
     connect(controller, &KItemListController::doubleClickViewBackground, this, &DolphinView::doubleClickViewBackground);
     connect(controller, &KItemListController::typeAheadUsed, this, [this](const QString &typedString, std::optional<int> foundIndex) {
         if (foundIndex.has_value()) {

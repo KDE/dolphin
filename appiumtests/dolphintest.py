@@ -95,6 +95,38 @@ class DolphinTests(unittest.TestCase):
         self.assertEqual(len(elements), 2)
         self.assertEqual(elements[0].text, "test1.txt")
         self.assertEqual(elements[1].text, "test2.txt")
+
+    def test_3_autovalidate_url(self):
+        dolphinBackground = self.driver.find_element(
+            by=AppiumBy.ACCESSIBILITY_ID,
+            value="DolphinViewContainer.DolphinView.KItemListContainer"
+        )
+
+        editButton = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="KUrlNavigatorToggleButton")
+        editButton.click()
+
+        # clear contents
+        clearButton = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="DolphinUrlNavigator.KUrlComboBox.KLineEdit.QLineEditIconButton")
+        clearButton.click()
+
+        locationBar = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="DolphinUrlNavigator.KUrlComboBox.KLineEdit")
+        locationBar.send_keys("{}/testDir".format(os.environ["HOME"]))
+
+        # Move to the bottom right at 50px of the border to ensure not clicking on items
+        rect = dolphinBackground.rect
+        x = rect['width'] - 50
+        y = rect['height'] - 50
+
+        actions = ActionChains(self.driver)
+        actions.move_to_element_with_offset(dolphinBackground, x, y).click().perform()
+
+        # Check if the button visible on edit mode has been hidden
+        self.assertFalse(clearButton.is_displayed())
+
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
+        self.assertEqual(len(elements), 2)
+        self.assertEqual(elements[0].text, "test1.txt")
+        self.assertEqual(elements[1].text, "test2.txt")
         
 
 """

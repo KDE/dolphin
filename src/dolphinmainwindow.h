@@ -685,6 +685,11 @@ private Q_SLOTS:
      */
     void slotSaveSession();
 
+    /**
+     * Is called when the user clicks the active view's background.
+     */
+    void slotClickViewBackground();
+
 private:
     /**
      * Sets up the various menus and actions and connects them.

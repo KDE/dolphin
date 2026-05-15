@@ -730,6 +730,12 @@ Q_SIGNALS:
     void currentDirectoryRemoved();
 
     /**
+     * Emitted when the view's background is clicked.
+     * Used to trigger a user configured action.
+     */
+    void clickViewBackground(Qt::MouseButton button);
+
+    /**
      * Emitted when the view's background is double-clicked.
      * Used to trigger an user configured action.
      */
