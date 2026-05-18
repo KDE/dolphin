@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-11 00:47+0000\n"
-"PO-Revision-Date: 2026-03-18 22:00+0000\n"
+"PO-Revision-Date: 2026-05-17 15:18+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -111,6 +111,14 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Folosiți-vă privilegiile de administrator în Dolphin:"
+"<numberedlist><numbereditem>Navigați la fișierul sau dosarul pe care doriți "
+"să-l modificați.</numbereditem><numbereditem>Activați acțiunea „%1” din "
+"<interface>Deschide meniul|Mai multe|Vizualizare</interface> sau "
+"<interface>Bara de meniu|Vizualizare</interface>.<nl/>Scurtătură implicită: "
+"<shortcut>%2</shortcut></numbereditem><numbereditem>După autorizare veți "
+"putea gestiona fișierele ca un administrator.</numbereditem></numberedlist></"
+"para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
@@ -133,6 +141,17 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Sunteți pe cale de a folosi privilegii de administrator. În timp ce "
+"operați ca administrator, puteți modifica sau înlocui orice fișier sau dosar "
+"din acest sistem. Aceasta include elemente ce sunt critice pentru "
+"funcționarea acestui sistem.</para><para>Puteți <emphasis>să ștergeți datele "
+"fiecărui utilizator</emphasis> de pe acest calculator și <emphasis>să "
+"deteriorați definitiv sistemul</emphasis>. Adăugând o singură literă la "
+"denumirea unui dosar sau fișier, sau în conținutul acestuia, poate face ca "
+"sistemul <emphasis>să nu mai demareze</emphasis>.</para><para>Probabil nu va "
+"mai fi nicio avertizare, chiar dacă veți fi pe cale să stricați acest sistem."
+"</para><para>Ați putea dori <emphasis>să faceți o copie de rezervă "
+"fișierelor și dosarelor</emphasis> înainte de a continua.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
@@ -699,6 +718,11 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Aceasta prezintă o a doua vizualizare față în față cu vizualizarea "
+"actuală, astfel încât să puteți vedea conținuturile a două dosare simultan "
+"și puteți muta cu ușurință elemente între acestea.</para><para>Vizualizarea "
+"care nu e „focalizată” va fi întunecată.</para>Apăsați din nou acest buton "
+"pentru a închide una dintre vizualizări."
 
 #: dolphinmainwindow.cpp:2022
 #, kde-kuit-format
@@ -707,6 +731,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"Dacă vizualizarea a fost despărțită, aceasta va extrage vizualizarea "
+"focalizată într-o nouă fereastră."
 
 #: dolphinmainwindow.cpp:2030
 #, kde-format
@@ -1191,6 +1217,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Determină dacă calea de lucru actuală trebuie să țină pasul cu terminalul "
+"ori de câte ori e schimbat directorul."
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
@@ -1743,7 +1771,7 @@ msgstr "Adaugă dosar din rețea"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Deschide KDE Connect"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
@@ -2149,7 +2177,7 @@ msgstr "Text simplu"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "Model global"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
@@ -2361,44 +2389,41 @@ msgstr "%1 la amplasarea %2"
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr ""
+msgstr "aranjat în grilă în regim de alegere la amplasarea %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "aranjat în grilă la amplasarea %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "Redenumește %1 element selectat în:"
-msgstr[1] "Redenumește cele %1 elemente selectate în:"
-msgstr[2] "Redenumește cele %1 de elemente selectate în:"
+msgstr[0] ""
+"%1 element ales aranjat în grilă în regim de alegere la amplasarea %2"
+msgstr[1] ""
+"%1 elemente alese aranjat în grilă în regim de alegere la amplasarea %2"
+msgstr[2] ""
+"%1 de elemente alese aranjat în grilă în regim de alegere la amplasarea %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 element ales aranjat în grilă la amplasarea %2"
+msgstr[1] "%1 elemente alese aranjat în grilă la amplasarea %2"
+msgstr[2] "%1 de elemente alese aranjat în grilă la amplasarea %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "Redenumește %1 element selectat în:"
+msgstr "în regim de alegere la amplasarea %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2407,28 +2432,22 @@ msgid "in location %1"
 msgstr "la amplasarea %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "Redenumește %1 element selectat în:"
-msgstr[1] "Redenumește cele %1 elemente selectate în:"
-msgstr[2] "Redenumește cele %1 de elemente selectate în:"
+msgstr[0] "%1 element ales în regim de alegere la amplasarea %2"
+msgstr[1] "%1 elemente alese în regim de alegere la amplasarea %2"
+msgstr[2] "%1 de elemente alese în regim de alegere la amplasarea %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "Redenumește %1 element selectat în:"
-msgstr[1] "Redenumește cele %1 elemente selectate în:"
-msgstr[2] "Redenumește cele %1 de elemente selectate în:"
+msgstr[0] "%1 element ales la amplasarea %2"
+msgstr[1] "%1 elemente alese la amplasarea %2"
+msgstr[2] "%1 de elemente alese la amplasarea %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
 #, kde-format
@@ -3498,6 +3517,15 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>Aceasta vă ajută să găsiți fișiere și dosare.<list><item>Introduceți "
+"un <emphasis>termen de căutat</emphasis> în câmpul pentru introducere.</"
+"item><item>Decideți unde să căutați prin apăsarea pe butoanele de amplasare "
+"de sub câmpul de căutare. „Aici” se referă la amplasarea care era deschisă "
+"înainte de începerea căutării, de aceea navigând mai întâi la altă amplasare "
+"puteți îngusta căutarea.</item><item>Apăsați butonul „%1” pentru a ajusta "
+"comportamentul căutării sau rezultatele.</item><item>Apăsați pictograma "
+"„Salvează” pentru a adăuga configurația căutării actuale la <emphasis>Panoul "
+"cu locuri</emphasis>.</item></list></para>"
 
 #: search/bar.cpp:215
 #, kde-format
@@ -3694,6 +3722,19 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>Pentru căutarea în conținuturile fișierelor, <application>%1</"
+"application> încearcă să folosească unelte de căutare terțe atunci când "
+"acestea sunt disponibile în sistem și se așteaptă să ofere rezultate mai "
+"bune sau mai rapide. <application>ripgrep</application> și "
+"<application>ripgrep-all</application> v-ar putea îmbunătăți experiența de "
+"căutare dacă sunt instalate. <application>ripgrep-all</application> în "
+"special permite căutarea în mai multe tipuri de fișiere (ca pdf, docx, "
+"sqlite, jpg, subtitluri de filme (mkv, mp4)).</para><para>Maniera în care "
+"sunt invocate aceste unelte de căutare se poate configura prin modificarea "
+"unui fișier-script. Copiați-l de la <filename>%2</filename> la <filename>%3</"
+"filename> înainte de a vă modifica copia. Dacă întâmpinați probleme, "
+"ștergeți-vă copia <filename>%3</filename> pentru a vă anula modificările.</"
+"para>"
 
 #: search/popup.cpp:165
 #, kde-format
@@ -3779,6 +3820,18 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> folosește o bază de date pentru căutare. "
+"Baza de date e creată prin indexarea fișierelor în fundal în baza "
+"configurărilor <application>%1</application>.<list><item><application>%1</"
+"application> oferă rezultate extrem de rapid.</item><item>Permite căutarea "
+"după tipul fișierelor, dăți, marcaje, etc.</item><item>Caută numai în "
+"dosarele indexate. Configurați care dosare trebuiesc indexate în "
+"<application>Configurări de sistem</application>.</item><item>Când locurile "
+"căutate conțin legături spre alte fișiere sau dosare, acelea nu vor fi "
+"căutate și nu vor apărea în rezultatele căutării.</item><item>Fișierele și "
+"dosarele ascunse, precum și conținuturile acestora,  ar putea să nu fie "
+"căutate, în dependență de configurările <application>%1</application>.</"
+"item></list></para>"
 
 #: search/popup.cpp:307
 #, kde-format
@@ -4157,13 +4210,13 @@ msgstr ""
 "gestiona sau manipula.<list><item>Apăsați pe un fișier sau dosar pentru a-l "
 "selecta.</item><item>Apăsați pe un fișier sau dosar selectat deja pentru a-l "
 "deselecta.</item><item>Apăsarea pe loc gol <emphasis>nu</emphasis> golește "
-"alegerea.</item><item>Dreptunghiurile de selecție (create prin tragerea "
-"dintr-un loc gol) inversează starea de selecție a elementelor din cadrul "
-"acestuia.</item><item>Mutarea cu <shortcut>tastele-săgeți</shortcut> "
-"<emphasis>nu</emphasis> schimbă alegerea.</item><item>Apăsarea <shortcut>%1</"
-"shortcut>, <shortcut>%2</shortcut> sau <shortcut>%3</shortcut> comută "
-"alegerea.</item></list></para><para>Butoanele cu acțiuni disponibile de jos "
-"se schimbă în dependență de alegerea actuală.</para>"
+"alegerea.</item><item>Dreptunghiurile de alegere (create prin tragerea dintr-"
+"un loc gol) inversează starea de alegere a elementelor din cadrul acestuia.</"
+"item><item>Mutarea cu <shortcut>tastele-săgeți</shortcut> <emphasis>nu</"
+"emphasis> schimbă alegerea.</item><item>Apăsarea <shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut> sau <shortcut>%3</shortcut> comută alegerea.</item></"
+"list></para><para>Butoanele cu acțiuni disponibile de jos se schimbă în "
+"dependență de alegerea actuală.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -4302,11 +4355,9 @@ msgstr "Formatul stilului permisiunilor"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Regim de alegere"
+msgstr "Regim de prescurtare"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -4584,7 +4635,7 @@ msgstr "Ultima dată când aceste proprietăți au fost modificate de utilizator
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "Regim de vizualizare schimbat o dată de către vizualizarea dinamică"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:93
@@ -4641,10 +4692,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Dacă să fie afișată calea completă în bara de titlu"
+msgstr ""
+"Dacă bara de file să fie arătată mereu, chiar și atunci când este doar o filă"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
@@ -4742,7 +4793,7 @@ msgstr "Redenumește intercalat elementele unitare"
 #: settings/dolphin_generalsettings.kcfg:111
 #, kde-format
 msgid "Show selection toggle"
-msgstr "Arată comutatorul de selecție"
+msgstr "Arată comutatorul de alegere"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
 #: settings/dolphin_generalsettings.kcfg:115
@@ -5263,6 +5314,9 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Configurările panourilor sunt disponibile și din meniul contextual al "
+"acestora. Deschideți-l prin apăsarea butonului drept al șoricelului deasupra "
+"unui panou."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -5323,6 +5377,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>Crearea <emphasis>previzualizărilor</emphasis> pentru dosare distante "
+"e foarte intensivă în consumul de resurse de rețea.</para><para>Dezactivați "
+"aceasta dacă navigarea dosarelor distante în Dolphin e lentă sau dacă "
+"accesați stocarea prin intermediul conexiunilor de rețea contorizate.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5512,13 +5570,13 @@ msgstr "Stilul permisiunilor:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Prescurtează la mijloc (de exemplu „O denumire… lungă.txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:108
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Prescurtează la final (de exemplu „O denumire foarte….txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:110
 #, kde-format
@@ -5559,6 +5617,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Unele vizualizări speciale, cum ar fi căutarea, fișierele recente sau "
+"gunoiul, vor continua să folosească un stil de afișare personalizat."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:43
 #, kde-format
@@ -5626,7 +5686,7 @@ msgstr "Diverse: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Afișează marcatorul de selecție"
+msgstr "Afișează marcatorul de alegere"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
@@ -6495,15 +6555,14 @@ msgid "No Apple devices found"
 msgstr "Niciun dispozitiv Apple găsit"
 
 #: views/dolphinview.cpp:2776
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Niciun dispozitiv Apple găsit"
+msgstr "Nu a fost găsit niciun dispozitiv KDE Connect"
 
 #: views/dolphinview.cpp:2778
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Nu s-a găsit nicio stocare pe acest dispozitiv"
 
 #: views/dolphinview.cpp:2781
 #, kde-format
@@ -6545,7 +6604,7 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage location where items can be "
 "deleted later if disk space is needed."
 msgstr ""
-"Aceasta mută elementele selecției actuale la <filename>Gunoi</filename>.<nl/"
+"Aceasta mută elementele alese momentan la <filename>Gunoi</filename>.<nl/"
 ">Gunoiul e o stocare temporară din care puteți șterge mai târziu elemente "
 "dacă e nevoie de spațiu suplimentar pe disc."
 
@@ -6785,14 +6844,7 @@ msgid "Show Hidden Files"
 msgstr "Arată fișierele ascunse"
 
 #: views/dolphinviewactionhandler.cpp:340
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -6806,9 +6858,13 @@ msgid ""
 msgstr ""
 "<para>Când aceasta e activă, fișierele și dosarele <emphasis>ascunse</"
 "emphasis> devin vizibile. Acestea vor fi afișate semitransparente.</"
-"para><para>Elementele ascunse se deosebesc de celelalte prin faptul că "
-"denumirea acestora începe cu „.”. În general, utilizatorii nu au nevoie să "
-"le acceseze, de aceea sunt ascunse.</para>"
+"para><para>Elementele ascunse se deosebesc de cele normale prin faptul că "
+"denumirea acestora începe cu un punct („.”). În mod normal, utilizatorii nu "
+"au nevoie să le acceseze, de aceea sunt ascunse.</para><para>Elementele pot "
+"să fie ascunse și dacă denumirile acestora se găsesc într-un fișier textual "
+"denumit „.hidden”. Fișierele cu tipul MIME „application/x-trash”, cum sunt "
+"cele de rezervă, pot fi de asemenea ascunse prin activarea acelei opțiuni în "
+"Configurează Dolphin > Vizualizare > Generale.</para>"
 
 #: views/dolphinviewactionhandler.cpp:354
 #, kde-format
