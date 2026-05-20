@@ -5660,19 +5660,19 @@ msgstr "Style des droits d'accès :"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr "Élider au centre (Par exemple, « Certains très longs....txt »)"
+msgstr "Élider au centre (Par exemple, « Certains noms très… longs.txt »)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:108
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr "Élider à la fin (Par exemple, « Certains très longs....txt »)"
+msgstr "Élider à la fin (Par exemple, « Certains noms très longs….txt »)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:110
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Noms longs de fichiers :"
+msgstr "Longs noms de fichiers :"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
