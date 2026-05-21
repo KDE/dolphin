@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2006-2026 KDE Contributors
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 include(ECMAddAppIcon)
 
 set(ADMIN_WORKER_PACKAGE_NAME "kio-admin")

@@ -1,3 +1,10 @@
+# SPDX-FileCopyrightText: 2015 Ashish Bansal <bansal.ashish096@gmail.com>
+# SPDX-FileCopyrightText: 2015 David Faure <faure@kde.org>
+# SPDX-FileCopyrightText: 2019 Elvis Angelaccio <elvis.angelaccio@kde.org>
+# SPDX-FileCopyrightText: 2022 Laurent Montel <montel@kde.org>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 macro (generate_and_install_dbus_interface main_project_target header_file output_xml_file)
     qt_generate_dbus_interface(
         ${header_file}

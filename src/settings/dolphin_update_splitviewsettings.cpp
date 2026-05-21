@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Rafał Lichwała <rafal@siliconet.pl>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include <KConfigGroup>
 #include <KSharedConfig>
 

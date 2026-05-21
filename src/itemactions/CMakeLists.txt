@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Kostiantin Korchuhanov <kostiantyn.korchanov@gmail.com>
+# SPDX-FileCopyrightText: 2025 Méven Car <meven@kde.org>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 # movetonewfolderitemaction plugin
 

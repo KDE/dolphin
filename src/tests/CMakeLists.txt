@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2007-2025 KDE Contributors
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 
 find_package(Qt6Test CONFIG REQUIRED)

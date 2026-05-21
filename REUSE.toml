@@ -1,0 +1,84 @@
+version = 1
+
+# Translation files — managed by KDE's l10n infrastructure.
+# Individual translators are credited in the file headers where known.
+# REUSE.toml provides a blanket declaration so no per-file .license sidecars are needed.
+[[annotations]]
+path = "po/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Translators"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Application logo (artwork) — same license as other KDE app icons.
+[[annotations]]
+path = "logo.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2020 Ilya Bizyaev <bizyaev@zoho.com>", "2025 Jack Hill <jackhill3103@gmail.com>"]
+SPDX-License-Identifier = "LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL"
+
+# KConfigXT schema and compiler-hint files — generated XML/ini, no comment syntax.
+[[annotations]]
+path = ["**/*.kcfg", "**/*.kcfgc"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Documentation screenshots — binary files, no comment syntax.
+[[annotations]]
+path = "doc/*.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Application icons — binary files, no comment syntax.
+[[annotations]]
+path = "src/icons/*.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL"
+
+# CMake template files — do not carry inline SPDX headers as they are used to
+# generate source files (.h.cmake → .h, .cpp.in → .cpp) and # comments break
+# the C preprocessor.
+[[annotations]]
+path = ["**/*.h.cmake", "**/*.cpp.in"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Source resource, UI definition, metadata, and configuration files — formats
+# without usable inline comment syntax (.qrc, .rc, .ui, .xml, .desktop, .knsrc,
+# .upd, .in, .json).
+[[annotations]]
+path = ["src/**/*.qrc", "src/**/*.rc", "src/**/*.desktop", "src/**/*.xml", "src/**/*.knsrc", "src/**/*.upd", "src/**/*.in", "src/**/*.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Project documentation — procedural/non-creative, public domain.
+[[annotations]]
+path = "README.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "CC0-1.0"
+
+# Test documentation — MIT licensed per original authors.
+[[annotations]]
+path = "appiumtests/Readme.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2024 Méven Car <meven.car@kdemail.net>", "2026 Areeb Faisal <areebfaisal49@gmail.com>"]
+SPDX-License-Identifier = "MIT"
+
+# Developer-infrastructure and build configuration files without usable comment syntax.
+# These contain no creative expression and are dedicated to the public domain.
+[[annotations]]
+path = [".gitignore", ".git-blame-ignore-revs", "*.json", ".flatpak-*", "*.cmake.in", "*.service.in"]
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "CC0-1.0"
+
+# Documentation — docbook format, no inline comment syntax.
+[[annotations]]
+path = "doc/*.docbook"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"

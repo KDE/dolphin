@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019-2023 KDE Contributors
+#
+# SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
 remove_definitions(-DTRANSLATION_DOMAIN=\"dolphin\")
 add_definitions(-DTRANSLATION_DOMAIN=\"dolphin_servicemenuinstaller\")
 
