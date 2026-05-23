@@ -69,6 +69,36 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
+# Lint: forbid bare QTest::qWait() in test sources without an // UNAVOIDABLE: justification.
+# Every unavoidable delay must carry a comment explaining why no signal-based wait is possible.
+add_test(
+    NAME no_bare_qwait_in_tests
+    COMMAND bash -c
+        "result=\$(grep -rn 'qWait(' '${CMAKE_CURRENT_SOURCE_DIR}' --include='*.cpp' | grep -v '//.*UNAVOIDABLE:'); \
+         if [ -n \"\$result\" ]; then \
+             echo ''; \
+             echo 'LINT FAILURE: bare QTest::qWait(N) found in test sources.'; \
+             echo ''; \
+             echo 'Why this is forbidden:'; \
+             echo '  qWait(N) is a fixed-time sleep. On slow CI machines the delay may be'; \
+             echo '  too short, causing sporadic failures unrelated to the code under test.'; \
+             echo ''; \
+             echo 'How to fix it:'; \
+             echo '  Replace with a signal-based wait:'; \
+             echo '    QTRY_COMPARE(someValue, expected);          // polls up to 5 s'; \
+             echo '    QTRY_VERIFY(someCondition);                 // polls up to 5 s'; \
+             echo '    QVERIFY(signalSpy.wait(5000));              // waits for a signal'; \
+             echo '    QVERIFY(QTest::qWaitFor([&]{ ... }, 5000)); // waits for a lambda'; \
+             echo ''; \
+             echo '  If no signal or pollable condition exists, add // UNAVOIDABLE: <reason>'; \
+             echo '  on the same line to suppress this check and document why.'; \
+             echo ''; \
+             echo 'Offending lines:'; \
+             echo \"\$result\"; \
+             exit 1; \
+         fi"
+)
+
 find_gem(test-unit)
 set_package_properties(Gem_test-unit PROPERTIES
     TYPE RECOMMENDED
