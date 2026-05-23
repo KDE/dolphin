@@ -16,6 +16,7 @@
 #include <Solid/DeviceNotifier>
 #include <Solid/StorageAccess>
 
+#include <QCoreApplication>
 #include <QList>
 
 Trash::Trash()
@@ -53,6 +54,14 @@ Trash::Trash()
     });
 
     m_trashDirLister->openUrl(QUrl(QStringLiteral("trash:/")));
+
+    // Destroy during QCoreApplication teardown, while KIO's KCoreDirListerCache is still alive.
+    // The singleton destructor fires later, but m_trashDirLister is already nullptr by then.
+    qAddPostRoutine([] {
+        auto &t = instance();
+        delete t.m_trashDirLister;
+        t.m_trashDirLister = nullptr;
+    });
 }
 
 Trash::~Trash()

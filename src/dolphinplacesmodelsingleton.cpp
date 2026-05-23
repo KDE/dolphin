@@ -10,6 +10,7 @@
 
 #include <KAboutData>
 
+#include <QCoreApplication>
 #include <QIcon>
 #include <QMimeData>
 
@@ -120,6 +121,10 @@ bool DolphinPlacesModel::isTrash(const QModelIndex &index) const
 DolphinPlacesModelSingleton::DolphinPlacesModelSingleton()
     : m_placesModel(new DolphinPlacesModel())
 {
+    // Destroy during QCoreApplication teardown, while KIO's KCoreDirListerCache is still alive.
+    qAddPostRoutine([] {
+        instance().m_placesModel.reset();
+    });
 }
 
 DolphinPlacesModelSingleton &DolphinPlacesModelSingleton::instance()
