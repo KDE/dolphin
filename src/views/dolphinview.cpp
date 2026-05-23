@@ -276,6 +276,9 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
 
 DolphinView::~DolphinView()
 {
+    if (m_statJobForStatusBarText) {
+        m_statJobForStatusBarText->kill(KJob::Quietly);
+    }
     disconnect(m_container->controller(), &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 }
 

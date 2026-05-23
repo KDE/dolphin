@@ -8,13 +8,18 @@
 
 #include "mountpointobservercache.h"
 
-#include <KIO/FileSystemFreeSpaceJob>
-
 MountPointObserver::MountPointObserver(const QUrl &url, QObject *parent)
     : QObject(parent)
     , m_url(url)
     , m_referenceCount(0)
 {
+}
+
+MountPointObserver::~MountPointObserver()
+{
+    if (m_pendingJob) {
+        m_pendingJob->kill(KJob::Quietly);
+    }
 }
 
 MountPointObserver *MountPointObserver::observerForUrl(const QUrl &url)
@@ -27,10 +32,13 @@ void MountPointObserver::update()
 {
     if (m_referenceCount == 0) {
         delete this;
-    } else {
-        KIO::FileSystemFreeSpaceJob *job = KIO::fileSystemFreeSpace(m_url);
-        connect(job, &KJob::result, this, &MountPointObserver::freeSpaceResult);
+        return;
     }
+    if (m_pendingJob) {
+        m_pendingJob->kill(KJob::Quietly);
+    }
+    m_pendingJob = KIO::fileSystemFreeSpace(m_url);
+    connect(m_pendingJob, &KJob::result, this, &MountPointObserver::freeSpaceResult);
 }
 
 void MountPointObserver::freeSpaceResult(KJob *job)

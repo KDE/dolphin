@@ -7,9 +7,10 @@
 #ifndef MOUNTPOINTOBSERVER_H
 #define MOUNTPOINTOBSERVER_H
 
-#include <KIO/Job>
+#include <KIO/FileSystemFreeSpaceJob>
 
 #include <QObject>
+#include <QPointer>
 #include <QUrl>
 
 /**
@@ -41,7 +42,7 @@ class MountPointObserver : public QObject
     Q_OBJECT
 
     explicit MountPointObserver(const QUrl &url, QObject *parent = nullptr);
-    ~MountPointObserver() override = default;
+    ~MountPointObserver() override;
 
 public:
     /**
@@ -90,6 +91,7 @@ private Q_SLOTS:
 private:
     const QUrl m_url;
     int m_referenceCount;
+    QPointer<KIO::FileSystemFreeSpaceJob> m_pendingJob;
 
     friend class MountPointObserverCache;
 };
