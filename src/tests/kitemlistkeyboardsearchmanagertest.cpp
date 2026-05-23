@@ -137,7 +137,7 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
 
     // If the delay between two key presses is larger than the chosen timeout,
     // a new search is started. We add a small safety margin to avoid race conditions.
-    QTest::qWait(m_keyboardSearchManager.timeout() + 10);
+    QTest::qWait(m_keyboardSearchManager.timeout() + 10); // UNAVOIDABLE: must wait for keyboard search timeout to expire
 
     m_keyboardSearchManager.addKeys("l");
     verifySignal(spy, "l", true);

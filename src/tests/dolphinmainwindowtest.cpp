@@ -37,6 +37,8 @@
 #include <QStandardPaths>
 #include <QTest>
 
+#include "testhelpers.h"
+
 #include <set>
 #include <unordered_set>
 
@@ -81,6 +83,7 @@ private:
 void DolphinMainWindowTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
+    TestHelpers::disableAnimations();
     // Use fullWidth statusbar during testing, to test out most of the features.
     GeneralSettings *settings = GeneralSettings::self();
     settings->setShowStatusBar(GeneralSettings::EnumShowStatusBar::FullWidth);
@@ -585,11 +588,11 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
                  },
                  5000),
              "The test couldn't be initialised properly. The places panel should be visible.");
-    QTest::qWait(100);
+    QApplication::processEvents();
     const int initialPlacesPanelWidth = placesPanel->width();
 
     m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger(); // enable split view (starts animation)
-    QTest::qWait(300); // wait for animation
+    QApplication::processEvents();
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
 
     m_mainWindow->actionCollection()->action(QStringLiteral("show_filter_bar"))->trigger();
@@ -602,7 +605,7 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
          selectionModeStates++) {
         const auto contents = static_cast<SelectionMode::BottomBar::Contents>(selectionModeStates);
         m_mainWindow->slotSetSelectionMode(true, contents);
-        QTest::qWait(20); // give time for a paint/resize
+        QApplication::processEvents(); // give time for a paint/resize
         QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
     }
 
@@ -635,7 +638,7 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     m_mainWindow->showMaximized();
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
 
-    QTest::qWait(300); // wait for split view closing animation
+    QApplication::processEvents(); // animations disabled via disableAnimations() in initTestCase()
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
 }
 
@@ -664,7 +667,6 @@ void DolphinMainWindowTest::testGoActions()
     QVERIFY(QTest::qWaitFor([&]() {
         return !m_mainWindow->actionCollection()->action(QStringLiteral("stop"))->isEnabled();
     })); // "Stop" command should be disabled because it finished loading
-    QTest::qWait(500); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
     const QUrl parentDirUrl = m_mainWindow->activeViewContainer()->url();
     QVERIFY(parentDirUrl != childDirUrl);
 
@@ -674,7 +676,7 @@ void DolphinMainWindowTest::testGoActions()
         return currentItem.url();
     };
 
-    QCOMPARE(currentItemUrl(), childDirUrl); // The item we just emerged from should now have keyboard focus.
+    QTRY_COMPARE(currentItemUrl(), childDirUrl); // The item we just emerged from should now have keyboard focus.
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1); // …and it should be selected, too.
     // Pressing arrow keys should not only move the keyboard focus but also select the item.
     // We press "Down" to select "c" below and then "Up" so the folder "b" we just emerged from is selected for the first time.
@@ -695,11 +697,10 @@ void DolphinMainWindowTest::testGoActions()
     // Go back to the parent folder.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
     QVERIFY(spyDirectoryLoadingCompleted.wait());
-    QTest::qWait(100); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
     QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
     // Going 'Back' means that the view should be in the same state it was in when we left.
-    QCOMPARE(currentItemUrl(), childDirUrl); // The item we last interacted with in this location should still have keyboard focus.
+    QTRY_COMPARE(currentItemUrl(), childDirUrl); // The item we last interacted with in this location should still have keyboard focus.
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().constFirst().url(), childDirUrl); // It should still be selected.
 
@@ -739,7 +740,6 @@ void DolphinMainWindowTest::testGoActions()
     // Go back to the parent folder.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
     QVERIFY(spyDirectoryLoadingCompleted.wait());
-    QTest::qWait(100); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
     QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
 
@@ -993,7 +993,7 @@ void DolphinMainWindowTest::testInlineRename()
     QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
 
     QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
-    QTest::qWait(500); // we need to wait for the file widgets to become visible
+    QTest::qWait(500); // UNAVOIDABLE: view must be fully settled before inline rename sequence
     view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/aaaa")});
     view->updateViewState();
     view->renameSelectedItems();
@@ -1059,7 +1059,7 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
     QVERIFY(previewUpdatedSpy.wait());
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
-    QTest::qWait(500); // we need to wait for the file widgets to become visible
+    QTRY_COMPARE(view->m_view->m_visibleItems.count(), view->m_model->count()); // wait for all file widgets to be laid out
 
     // Set image selected and rename it to b.jpg, make sure editing role is working
     view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/a.jpg")});

@@ -152,11 +152,8 @@ void KItemListControllerExpandTest::testDirExpand()
 
     // expand selected folders
     QTest::keyClick(m_container, Qt::Key_Right);
-    QVERIFY(QTest::qWaitFor(
-        [this]() {
-            return m_spyDirectoryLoadingCompleted->count() == 3;
-        },
-        100));
+    QVERIFY(m_spyDirectoryLoadingCompleted->wait());
+    QCOMPARE(m_spyDirectoryLoadingCompleted->count(), 3);
     QCOMPARE(m_model->count(), 8);
     QCOMPARE(m_selectionManager->currentItem(), 6);
     QCOMPARE(m_selectionManager->selectedItems().count(), 2);
@@ -179,11 +176,11 @@ void KItemListControllerExpandTest::testDirExpand()
     // expand the three folders
     QTest::keyClick(m_container, Qt::Key_Right);
 
-    QVERIFY(QTest::qWaitFor(
-        [this]() {
-            return m_spyDirectoryLoadingCompleted->count() == 6;
-        },
-        300));
+    // Key_Right expands all 3 selected folders, each triggering one directoryLoadingCompleted.
+    // spy->wait() unblocks on a single emission, so loop until all 3 have arrived.
+    while (m_spyDirectoryLoadingCompleted->count() < 6) {
+        QVERIFY(m_spyDirectoryLoadingCompleted->wait());
+    }
 
     QCOMPARE(m_model->count(), 18);
     QCOMPARE(m_selectionManager->currentItem(), 12);
@@ -216,11 +213,10 @@ void KItemListControllerExpandTest::testDirExpand()
     // expand the three folders with shift modifier
     QTest::keyClick(m_container, Qt::Key_Right, Qt::ShiftModifier);
 
-    QVERIFY(QTest::qWaitFor(
-        [this]() {
-            return m_spyDirectoryLoadingCompleted->count() == 9;
-        },
-        100));
+    // Same as above: 3 folders expand in parallel, one signal each — loop until all 3 arrive.
+    while (m_spyDirectoryLoadingCompleted->count() < 9) {
+        QVERIFY(m_spyDirectoryLoadingCompleted->wait());
+    }
 
     QCOMPARE(m_model->count(), 18);
     QCOMPARE(m_selectionManager->currentItem(), 12);
