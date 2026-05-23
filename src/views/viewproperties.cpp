@@ -177,11 +177,15 @@ ViewProperties::ViewProperties(const QUrl &url)
 
     auto propsOpt = loadProperties(m_filePath);
 
-    bool useDefaultSettings = useGlobalViewProps ||
+    bool useDefaultSettings =
         // If the props timestamp is too old,
         // use default values instead.
         (propsOpt && (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
-         && propsOpt->timestamp() < settings->viewPropsTimestamp());
+         && propsOpt->timestamp() < settings->viewPropsTimestamp())
+        // When global view props is on and this is a special folder (search, trash,
+        // recents/timeline, downloads), only apply defaults on the first visit.
+        // On subsequent visits the user's saved properties should be preserved.
+        || (useGlobalViewProps && !(useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView));
 
     if (propsOpt) {
         m_node = propsOpt;

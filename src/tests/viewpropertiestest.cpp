@@ -31,6 +31,7 @@ private Q_SLOTS:
     void testExtendedAttributeFull();
     void testUseAsDefaultViewSettings();
     void testUseAsCustomDefaultViewSettings();
+    void testSpecialFolderPropsPreservedWithGlobalViewProps();
 
 private:
     bool m_globalViewProps;
@@ -442,6 +443,33 @@ void ViewPropertiesTest::testUseAsCustomDefaultViewSettings()
     testDirPropString = testDirMetadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
     QVERIFY(testDirPropString.isEmpty());
     QCOMPARE(testDirProperties.data()->viewMode(), DolphinView::Mode::DetailsView);
+}
+
+/**
+ * Test that special folders preserve user-customized view properties
+ * when global view props is enabled. Uses trash:/// as representative example.
+ */
+void ViewPropertiesTest::testSpecialFolderPropsPreservedWithGlobalViewProps()
+{
+    GeneralSettings::self()->setGlobalViewProps(true);
+    GeneralSettings::self()->save();
+
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+
+    // First visit: customize the view mode to IconsView
+    // (trash default is DetailsView)
+    {
+        ViewProperties props(trashUrl);
+        QCOMPARE(props.viewMode(), DolphinView::DetailsView); // default
+        props.setViewMode(DolphinView::IconsView);
+        props.save();
+    }
+
+    // Second visit: the custom view mode should be preserved
+    {
+        ViewProperties props(trashUrl);
+        QCOMPARE(props.viewMode(), DolphinView::IconsView);
+    }
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)
