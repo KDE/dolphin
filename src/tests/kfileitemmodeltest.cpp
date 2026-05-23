@@ -23,16 +23,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     Q_UNUSED(context)
 
     switch (type) {
-    case QtDebugMsg:
-        break;
-    case QtWarningMsg:
-        break;
     case QtCriticalMsg:
         fprintf(stderr, "Critical: %s\n", msg.toLocal8Bit().data());
         break;
     case QtFatalMsg:
         fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
+    case QtDebugMsg:
+    case QtWarningMsg:
     default:
         break;
     }
@@ -99,7 +97,8 @@ private Q_SLOTS:
     void testFilterModesAndCaseSensitivity();
 
 private:
-    QStringList itemsInModel() const;
+    [[nodiscard]] QStringList itemsInModel() const;
+    [[nodiscard]] static QUrl subDir(QUrl parent, const QString &relativePath);
 
 private:
     KFileItemModel *m_model;
@@ -1577,7 +1576,7 @@ void KFileItemModelTest::testAddItemToFilteredExpandedFolder()
     m_model->setNameFilter("*.txt");
     QCOMPARE(m_model->count(), 0); // Everything got hidden since we don't have a .txt file yet
 
-    m_model->slotItemsAdded(urlB, KFileItemList() << KFileItem(QUrl("a/b/newItem.txt")));
+    m_model->slotItemsAdded(urlB, KFileItemList() << KFileItem(subDir(m_testDir->url(), "a/b/newItem.txt")));
     m_model->slotCompleted();
 
     // Entire parental chain should now be shown
@@ -2033,7 +2032,7 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
     const QUrl realChild1 = m_model->fileItem(1).url();
     const QUrl realChild2 = m_model->fileItem(4).url();
 
-    m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(QUrl("child1"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(subDir(parent1, "child1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(),
              QStringList() << "parent1"
@@ -2044,7 +2043,7 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
                            << "realChild2"
                            << "realGrandChild2");
 
-    m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(QUrl("child2"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(subDir(parent2, "child2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(),
              QStringList() << "parent1"
@@ -2056,7 +2055,7 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
                            << "realGrandChild2"
                            << "child2");
 
-    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(QUrl("grandChild1"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(subDir(realChild1, "grandChild1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(),
              QStringList() << "parent1"
@@ -2069,7 +2068,7 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
                            << "realGrandChild2"
                            << "child2");
 
-    m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(QUrl("grandChild2"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(subDir(realChild2, "grandChild2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(),
              QStringList() << "parent1"
@@ -2869,6 +2868,15 @@ QStringList KFileItemModelTest::itemsInModel() const
         items << m_model->fileItem(i).text();
     }
     return items;
+}
+
+QUrl KFileItemModelTest::subDir(QUrl parent, const QString &relativePath)
+{
+    // assumes the parent Url has a scheme
+    if (!parent.path().endsWith('/')) {
+        parent.setPath(parent.path() + '/');
+    }
+    return parent.resolved(QUrl(relativePath));
 }
 
 QTEST_MAIN(KFileItemModelTest)
