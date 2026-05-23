@@ -99,6 +99,12 @@ add_test(
          fi"
 )
 
+# Smoke test: launch Dolphin, verify it starts without crashing, then quit.
+if(NOT WIN32)
+    add_test(NAME dolphin_smoketest COMMAND "$<TARGET_FILE:dolphin>" --self-test)
+    set_tests_properties(dolphin_smoketest PROPERTIES TIMEOUT 30)
+endif()
+
 find_gem(test-unit)
 set_package_properties(Gem_test-unit PROPERTIES
     TYPE RECOMMENDED

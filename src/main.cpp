@@ -37,6 +37,7 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QSessionManager>
+#include <QTimer>
 
 #if HAVE_X11
 #include <private/qtx11extras_p.h>
@@ -142,6 +143,12 @@ int main(int argc, char **argv)
                                         i18nc("@info:shell", "Set up Dolphin for administrative tasks.")));
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface).")));
+#ifdef BUILD_TESTING
+    {
+        QCommandLineOption selfTestOption(QStringLiteral("self-test"));
+        parser.addOption(selfTestOption);
+    }
+#endif
     parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
@@ -273,6 +280,12 @@ int main(int argc, char **argv)
 #if HAVE_KUSERFEEDBACK
     auto feedbackProvider = DolphinFeedbackProvider::instance();
     Q_UNUSED(feedbackProvider)
+#endif
+
+#ifdef BUILD_TESTING
+    if (parser.isSet(QStringLiteral("self-test"))) {
+        QTimer::singleShot(std::chrono::milliseconds(500), &app, &QCoreApplication::quit);
+    }
 #endif
 
     return app.exec(); // krazy:exclude=crash;

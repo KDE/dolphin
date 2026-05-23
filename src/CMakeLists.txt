@@ -668,6 +668,7 @@ install(
 )
 
 if(BUILD_TESTING)
+    target_compile_definitions(dolphin PRIVATE BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
