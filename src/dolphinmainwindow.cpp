@@ -2875,7 +2875,7 @@ void DolphinMainWindow::updateSplitActions()
         popoutSplitAction->setEnabled(true);
         if (!m_splitViewAction->menu()) {
             setActionPopupMode(m_splitViewAction, QToolButton::MenuButtonPopup);
-            m_splitViewAction->setMenu(new QMenu);
+            m_splitViewAction->setMenu(new QMenu(this));
             m_splitViewAction->addAction(popoutSplitAction);
         }
     } else {

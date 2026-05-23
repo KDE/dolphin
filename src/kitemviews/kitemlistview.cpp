@@ -353,6 +353,8 @@ void KItemListView::setAccessibleParentsObject(KItemListContainer *accessiblePar
 {
     Q_ASSERT(!m_accessibleParent);
     m_accessibleParent = new KItemListContainerAccessible(accessibleParentsObject);
+    // Make sure Qt's accessibility cache takes ownership; tests have no AT client.
+    QAccessible::queryAccessibleInterface(accessibleParentsObject);
 }
 KItemListContainerAccessible *KItemListView::accessibleParent()
 {
