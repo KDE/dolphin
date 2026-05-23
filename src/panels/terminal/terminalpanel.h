@@ -12,6 +12,9 @@
 
 #include <QQueue>
 
+#include <memory>
+
+class KXMLGUIBuilder;
 class TerminalInterface;
 class KActionCollection;
 class KMessageWidget;
@@ -94,6 +97,7 @@ private:
     QWidget *m_terminalWidget;
     KMessageWidget *m_konsolePartMissingMessage;
     KParts::ReadOnlyPart *m_konsolePart;
+    std::unique_ptr<KXMLGUIBuilder> m_konsolePartClientBuilder;
     QString m_konsolePartCurrentDirectory;
     QQueue<QString> m_sendCdToTerminalHistory;
     org::kde::KIOFuse::VFS m_kiofuseInterface;

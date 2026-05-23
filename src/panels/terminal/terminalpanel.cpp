@@ -50,9 +50,10 @@ TerminalPanel::TerminalPanel(QWidget *parent)
 TerminalPanel::~TerminalPanel()
 {
     if (m_konsolePart) {
-        // Avoid when QObject cleanup, which comes after our destructor, deletes the konsolePart
-        // and subsequently calls back into our slot when the destructor has already run.
         disconnect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
+        // Delete before QObject child cleanup, while m_konsolePartClientBuilder is still alive.
+        delete m_konsolePart;
+        m_konsolePart = nullptr;
     }
 }
 
@@ -179,7 +180,8 @@ void TerminalPanel::showEvent(QShowEvent *event)
             // namely the one of the single inner terminal and not the outer KonsolePart
             if (!m_konsolePart->factory() && m_terminalWidget) {
                 if (!m_konsolePart->clientBuilder()) {
-                    m_konsolePart->setClientBuilder(new KXMLGUIBuilder(m_terminalWidget));
+                    m_konsolePartClientBuilder = std::make_unique<KXMLGUIBuilder>(m_terminalWidget);
+                    m_konsolePart->setClientBuilder(m_konsolePartClientBuilder.get());
                 }
 
                 auto factory = new KXMLGUIFactory(m_konsolePart->clientBuilder(), this);
