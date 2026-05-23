@@ -15,3 +15,4 @@ include:
       - /gitlab-templates/json-validation.yml
       - /gitlab-templates/xml-lint.yml
       - /gitlab-templates/yaml-lint.yml
+      - /gitlab-templates/reuse-lint.yml
