@@ -30,7 +30,7 @@ class KItemListControllerTestStyle : public QProxyStyle
     Q_OBJECT
 public:
     KItemListControllerTestStyle(QStyle *style)
-        : QProxyStyle(style)
+        : QProxyStyle(nullptr)
         , m_activateItemOnSingleClick((bool)style->styleHint(SH_ItemView_ActivateItemOnSingleClick))
     {
     }
@@ -164,6 +164,9 @@ void KItemListControllerTest::cleanupTestCase()
 {
     delete m_container;
     m_container = nullptr;
+
+    delete m_testStyle;
+    m_testStyle = nullptr;
 
     delete m_testDir;
     m_testDir = nullptr;

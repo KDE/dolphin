@@ -84,6 +84,9 @@ void KItemListControllerExpandTest::initTestCase()
 }
 void KItemListControllerExpandTest::cleanupTestCase()
 {
+    delete m_spyDirectoryLoadingCompleted;
+    m_spyDirectoryLoadingCompleted = nullptr;
+
     delete m_container;
     m_container = nullptr;
 
