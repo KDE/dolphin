@@ -640,10 +640,24 @@ void ViewProperties::save()
             // free the space used by viewproperties from the file metadata
             metaData.setAttribute(MetaDataKey, QString());
             qCWarning(DolphinDebug) << "could not save viewproperties to extended attributes for dir " << m_filePath << ", no space available in attributes";
+            // xattr space exhausted — fall back to .directory file.
+            // Copy only the Dolphin-managed groups into the existing file using
+            // KConfigGroup::copyTo so that unrelated groups (e.g. [Desktop Entry]
+            // with a custom folder icon) are left untouched by sync().
+            const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
+            KConfig fileConfig(settingsFile, KConfig::SimpleConfig);
+            for (const QString &group : m_node->config()->groupList()) {
+                KConfigGroup srcGrp(m_node->config(), group);
+                KConfigGroup dstGrp(&fileConfig, group);
+                srcGrp.copyTo(&dstGrp);
+            }
+            if (!fileConfig.sync()) {
+                qCWarning(DolphinDebug) << "could not save viewproperties to .directory for" << m_filePath;
+            }
         } else {
             qCWarning(DolphinDebug) << "could not save viewproperties to extended attributes for dir " << m_filePath << "error:" << result;
         }
-        // keep .directory file
+        m_changedProps = false;
         return;
     }
     cleanDotDirectoryFile();

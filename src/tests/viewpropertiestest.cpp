@@ -13,6 +13,10 @@
 #include <QStorageInfo>
 #include <QTest>
 
+#ifdef Q_OS_UNIX
+#include <unistd.h>
+#endif
+
 class ViewPropertiesTest : public QObject
 {
     Q_OBJECT
@@ -29,6 +33,8 @@ private Q_SLOTS:
     void testParamMigrationToFileAttrKeepDirectory();
     void testGlobalDefaultConfigFromDirectory();
     void testExtendedAttributeFull();
+    void testExtendedAttributeFullKeepDirectory();
+    void testExtendedAttributeFullWriteFailure();
     void testUseAsDefaultViewSettings();
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
@@ -335,6 +341,107 @@ void ViewPropertiesTest::testExtendedAttributeFull()
     } else {
         QVERIFY(QFile::exists(dotDirectoryFile));
     }
+}
+
+void ViewPropertiesTest::testExtendedAttributeFullKeepDirectory()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("Only unix is supported, for this test");
+#endif
+    const QString dotDirectoryFilePath = m_testDir->url().toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    // Pre-populate .directory with a Dolphin group and a non-Dolphin group (e.g. folder icon).
+    const char *initialContent =
+        "[Desktop Entry]\n"
+        "Icon=folder-pictures\n"
+        "\n"
+        "[Dolphin]\n"
+        "Version=4\n"
+        "ViewMode=0\n";
+    {
+        QFile f(dotDirectoryFilePath);
+        QVERIFY(f.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate));
+        f.write(initialContent);
+    }
+
+    KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
+    if (!metadata.isSupported()) {
+        QSKIP("need extended attribute/filesystem metadata to be useful");
+    }
+
+    QStorageInfo storageInfo(m_testDir->url().toLocalFile());
+    const auto blockSize = storageInfo.blockSize();
+
+    KFileMetaData::UserMetaData::Error result;
+    result = metadata.setAttribute("data", QString(blockSize - 50, 'a'));
+    if (result != KFileMetaData::UserMetaData::NoSpace) {
+        QSKIP("File system supports metadata bigger than file system block size");
+    }
+    result = metadata.setAttribute("data", QString(blockSize - 60, 'a'));
+    QCOMPARE(result, KFileMetaData::UserMetaData::NoError);
+
+    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
+    props->setSortRole("someNewSortRole");
+    props.reset();
+
+    // xattr write should have failed with NoSpace — attribute must be empty
+    QVERIFY(metadata.attribute(QStringLiteral("kde.fm.viewproperties#1")).isEmpty());
+    // .directory must still exist
+    QVERIFY(QFile::exists(dotDirectoryFilePath));
+
+    KConfig viewSettings(dotDirectoryFilePath, KConfig::SimpleConfig);
+    // Dolphin settings were updated
+    QCOMPARE(viewSettings.group(QStringLiteral("Dolphin")).readEntry("SortRole"), QStringLiteral("someNewSortRole"));
+    // Non-Dolphin groups must be preserved
+    QVERIFY(viewSettings.hasGroup(QStringLiteral("Desktop Entry")));
+    QCOMPARE(viewSettings.group(QStringLiteral("Desktop Entry")).readEntry("Icon"), QStringLiteral("folder-pictures"));
+}
+
+void ViewPropertiesTest::testExtendedAttributeFullWriteFailure()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("Only unix is supported, for this test");
+#else
+    if (getuid() == 0) {
+        QSKIP("Running as root — permission checks are not enforced");
+    }
+
+    const QString testDirPath = m_testDir->url().toLocalFile();
+    const QString dotDirectoryFilePath = testDirPath + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    KFileMetaData::UserMetaData metadata(testDirPath);
+    if (!metadata.isSupported()) {
+        QSKIP("need extended attribute/filesystem metadata to be useful");
+    }
+
+    QStorageInfo storageInfo(testDirPath);
+    const auto blockSize = storageInfo.blockSize();
+
+    KFileMetaData::UserMetaData::Error result;
+    result = metadata.setAttribute("data", QString(blockSize - 50, 'a'));
+    if (result != KFileMetaData::UserMetaData::NoSpace) {
+        QSKIP("File system supports metadata bigger than file system block size");
+    }
+    result = metadata.setAttribute("data", QString(blockSize - 60, 'a'));
+    QCOMPARE(result, KFileMetaData::UserMetaData::NoError);
+
+    // Make the test directory read-only so writing .directory fails
+    QVERIFY(QFile::setPermissions(testDirPath, QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+    auto restorePermissions = qScopeGuard([&testDirPath] {
+        QFile::setPermissions(testDirPath, QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+    });
+
+    // This must not crash even though both xattr and .directory are unwritable
+    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
+    props->setSortRole("someNewSortRole");
+    props.reset();
+
+    // Neither xattr nor .directory should have been written
+    QVERIFY(metadata.attribute(QStringLiteral("kde.fm.viewproperties#1")).isEmpty());
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+#endif
 }
 
 void ViewPropertiesTest::testUseAsDefaultViewSettings()
