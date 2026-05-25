@@ -524,9 +524,16 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
-    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+    m_mainWindow->windowHandle()->requestActivate();
+    QVERIFY(QTest::qWaitForWindowActive(m_mainWindow.data()));
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
+    QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
+    if (!showPlacesPanelAction->isChecked()) {
+        showPlacesPanelAction->trigger();
+        // trigger() moves focus to the panel; restore it so the test starts from a defined state.
+        m_mainWindow->activeViewContainer()->view()->setFocus();
+    }
     QVERIFY2(QTest::qWaitFor(
                  [&]() {
                      return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0 && placesPanel->height() > 0;
@@ -535,7 +542,6 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
              "The test couldn't be initialised properly. The places panel should be visible.");
 
     QAction *focusPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("focus_places_panel"));
-    QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
 
     focusPlacesPanelAction->trigger();
     QVERIFY(placesPanel->hasFocus());
@@ -582,6 +588,13 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     QVERIFY(m_mainWindow->isVisible());
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
+    // ensure panel is visible even in a fresh env without a saved session.
+    {
+        QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
+        if (!showPlacesPanelAction->isChecked()) {
+            showPlacesPanelAction->trigger();
+        }
+    }
     QVERIFY2(QTest::qWaitFor(
                  [&]() {
                      return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0;
