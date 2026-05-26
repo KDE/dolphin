@@ -28,6 +28,9 @@ public:
     KFileItemModelFilter();
     virtual ~KFileItemModelFilter();
 
+    KFileItemModelFilter(const KFileItemModelFilter &) = delete;
+    KFileItemModelFilter &operator=(const KFileItemModelFilter &) = delete;
+
     /** Filtering modes of KFileItemModelFilter */
     enum FilterMode {
         /** Substring matching. */

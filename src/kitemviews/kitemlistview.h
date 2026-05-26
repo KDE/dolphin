@@ -866,6 +866,9 @@ public:
     KItemListWidgetCreator();
     ~KItemListWidgetCreator() override;
 
+    KItemListWidgetCreator(const KItemListWidgetCreator &) = delete;
+    KItemListWidgetCreator &operator=(const KItemListWidgetCreator &) = delete;
+
     KItemListWidget *create(KItemListView *view) override;
 
     void calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const override;
