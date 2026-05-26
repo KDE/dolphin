@@ -873,7 +873,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
 
         } else {
             m_autoActivationTimer->stop();
-            if (newHoveredWidget && newHoveredWidget->isHovered()) {
+            if (newHoveredWidget->isHovered()) {
                 newHoveredWidget->setHovered(false);
                 Q_EMIT itemUnhovered(index);
             }
@@ -1807,7 +1807,7 @@ bool KItemListController::onRelease(const QPointF &pos, const Qt::KeyboardModifi
         return true;
     }
 
-    if (!isAboveSelectionToggle && m_selectionTogglePressed) {
+    if (m_selectionTogglePressed) {
         m_selectionManager->setSelected(m_pressedIndex.value_or(-1), 1, KItemListSelectionManager::Toggle);
         m_selectionTogglePressed = false;
         return true;
