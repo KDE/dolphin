@@ -79,7 +79,6 @@ void DolphinRecentTabsMenu::handleAction(QAction *action)
         const QByteArray state = action->data().toByteArray();
         removeAction(action);
         delete action;
-        action = nullptr;
         Q_EMIT restoreClosedTab(state);
         Q_EMIT closedTabsCountChanged(menu()->actions().size() - 2);
     }
