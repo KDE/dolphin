@@ -504,12 +504,13 @@ void DolphinView::setZoomLevel(int level)
 
     const int oldZoomLevel = zoomLevel();
     m_view->setZoomLevel(level);
-    if (zoomLevel() != oldZoomLevel) {
+    const int newZoomLevel = zoomLevel();
+    if (newZoomLevel != oldZoomLevel) {
         ViewProperties props(viewPropertiesUrl());
         props.setZoomLevel(level == m_defaultZoomLevel ? -1 : level);
 
         hideToolTip();
-        Q_EMIT zoomLevelChanged(zoomLevel(), oldZoomLevel);
+        Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
     }
 }
 
