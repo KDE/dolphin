@@ -153,6 +153,8 @@ MediaWidget::MediaWidget(QWidget *parent)
     , m_player(nullptr)
     , m_seekSlider(nullptr)
     , m_videoWidget(nullptr)
+    , m_autoPlay(false)
+    , m_isVideo(false)
 {
 }
 

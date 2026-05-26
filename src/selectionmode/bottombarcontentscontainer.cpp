@@ -29,6 +29,7 @@ using namespace SelectionMode;
 BottomBarContentsContainer::BottomBarContentsContainer(KActionCollection *actionCollection, QWidget *parent)
     : QWidget{parent}
     , m_actionCollection{actionCollection}
+    , m_contents{BottomBar::CopyContents}
 {
     // We will mostly interact with m_layout when changing the contents and not care about the other internal hierarchy.
     m_layout = new QHBoxLayout(this);
