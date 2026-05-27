@@ -34,7 +34,7 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_, KItemList
 {
     Q_ASSERT(view());
     Q_ASSERT(parent);
-    m_accessibleDelegates.resize(childCount());
+    m_accessibleDelegates.resize(view()->model()->count());
 
     m_announceCurrentItemTimer = new QTimer{view_};
     m_announceCurrentItemTimer->setSingleShot(true);
