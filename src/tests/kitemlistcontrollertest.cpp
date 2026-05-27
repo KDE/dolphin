@@ -12,7 +12,9 @@
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
 #include <QProxyStyle>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -80,6 +82,9 @@ private Q_SLOTS:
     void testMouseClickActivation();
     void testKeyboardNavigationAfterMouseSelection();
 
+    void testDragMoveHoverIdempotency();
+    void testDragLeaveHoverCleanup();
+
 private:
     /**
      * Make sure that the number of columns in the view is equal to \a count
@@ -87,6 +92,8 @@ private:
      */
     void adjustGeometryForColumnCount(int count);
     void simulateMouseClickOnItem(int index);
+    void simulateDragMove(const QPointF &pos, QMimeData *mimeData);
+    void simulateDragLeave(QMimeData *mimeData);
 
 private:
     KFileItemListView *m_view;
@@ -1237,6 +1244,107 @@ void KItemListControllerTest::adjustGeometryForColumnCount(int count)
         rect.setSize(rect.size() + size);
         m_container->setGeometry(rect);
     }
+}
+
+void KItemListControllerTest::simulateDragMove(const QPointF &pos, QMimeData *mimeData)
+{
+    QGraphicsSceneDragDropEvent ev(QEvent::GraphicsSceneDragMove);
+    ev.setPos(pos);
+    ev.setMimeData(mimeData);
+    ev.setProposedAction(Qt::CopyAction);
+    m_view->event(&ev);
+}
+
+void KItemListControllerTest::simulateDragLeave(QMimeData *mimeData)
+{
+    QGraphicsSceneDragDropEvent ev(QEvent::GraphicsSceneDragLeave);
+    ev.setMimeData(mimeData);
+    m_view->event(&ev);
+}
+
+/**
+ * Dragging over the same item repeatedly must not emit itemHovered more than once.
+ * Moving to a different item must emit itemUnhovered for the old and itemHovered for the new.
+ */
+void KItemListControllerTest::testDragMoveHoverIdempotency()
+{
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+    m_view->setItemSize(QSizeF(100, 100));
+    adjustGeometryForColumnCount(3);
+    m_view->setScrollOffset(0);
+    QApplication::processEvents();
+
+    QMimeData mimeData;
+    mimeData.setUrls({QUrl("file:///external/dragged-file")});
+
+    const QPointF pos0 = m_view->itemContextRect(0).center();
+    const QPointF pos1 = m_view->itemContextRect(1).center();
+
+    QSignalSpy hoveredSpy(m_controller, &KItemListController::itemHovered);
+    QSignalSpy unhoveredSpy(m_controller, &KItemListController::itemUnhovered);
+
+    // First drag-move over item 0: itemHovered(0) must fire.
+    simulateDragMove(pos0, &mimeData);
+    QCOMPARE(hoveredSpy.count(), 1);
+    QCOMPARE(hoveredSpy.first().first().toInt(), 0);
+    QCOMPARE(unhoveredSpy.count(), 0);
+
+    // Repeated drag-move over the same item: the isHovered() guard must suppress
+    // a second itemHovered emission.
+    simulateDragMove(pos0, &mimeData);
+    QCOMPARE(hoveredSpy.count(), 1);
+    QCOMPARE(unhoveredSpy.count(), 0);
+
+    // Drag-move to item 1: itemUnhovered(0) then itemHovered(1).
+    simulateDragMove(pos1, &mimeData);
+    QCOMPARE(unhoveredSpy.count(), 1);
+    QCOMPARE(unhoveredSpy.first().first().toInt(), 0);
+    QCOMPARE(hoveredSpy.count(), 2);
+    QCOMPARE(hoveredSpy.at(1).first().toInt(), 1);
+
+    // Repeated drag-move over item 1: no additional signals.
+    simulateDragMove(pos1, &mimeData);
+    QCOMPARE(unhoveredSpy.count(), 1);
+    QCOMPARE(hoveredSpy.count(), 2);
+
+    simulateDragLeave(&mimeData);
+}
+
+/**
+ * Verify that dragLeaveEvent emits itemUnhovered for the currently hovered item
+ * and does not emit spurious signals when nothing is hovered.
+ */
+void KItemListControllerTest::testDragLeaveHoverCleanup()
+{
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+    m_view->setItemSize(QSizeF(100, 100));
+    adjustGeometryForColumnCount(3);
+    m_view->setScrollOffset(0);
+    QApplication::processEvents();
+
+    QMimeData mimeData;
+    mimeData.setUrls({QUrl("file:///external/dragged-file")});
+
+    const QPointF pos0 = m_view->itemContextRect(0).center();
+
+    QSignalSpy hoveredSpy(m_controller, &KItemListController::itemHovered);
+    QSignalSpy unhoveredSpy(m_controller, &KItemListController::itemUnhovered);
+
+    // Establish a hovered item via drag-move.
+    simulateDragMove(pos0, &mimeData);
+    QCOMPARE(hoveredSpy.count(), 1);
+    QCOMPARE(unhoveredSpy.count(), 0);
+
+    // Drag-leave must emit itemUnhovered for the hovered item.
+    simulateDragLeave(&mimeData);
+    QCOMPARE(unhoveredSpy.count(), 1);
+    QCOMPARE(unhoveredSpy.first().first().toInt(), 0);
+    QCOMPARE(hoveredSpy.count(), 1);
+
+    // A second drag-leave with nothing hovered must not emit any signal.
+    simulateDragLeave(&mimeData);
+    QCOMPARE(unhoveredSpy.count(), 1);
+    QCOMPARE(hoveredSpy.count(), 1);
 }
 
 QTEST_MAIN(KItemListControllerTest)
