@@ -25,9 +25,8 @@ BarSecondRowFlowLayout::BarSecondRowFlowLayout(QWidget *parent)
 
 BarSecondRowFlowLayout::~BarSecondRowFlowLayout()
 {
-    QLayoutItem *item;
-    while ((item = takeAt(0)))
-        delete item;
+    while (!itemList.isEmpty())
+        delete itemList.takeFirst();
 }
 
 void BarSecondRowFlowLayout::addItem(QLayoutItem *item)
