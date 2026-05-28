@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-11 00:47+0000\n"
+"POT-Creation-Date: 2026-05-28 00:46+0000\n"
 "PO-Revision-Date: 2026-03-20 10:39+0100\n"
 "Last-Translator: Rasmus Rosendahl-Kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -3224,12 +3224,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 element markeret"
 msgstr[1] "%1 elementer markeret"
 
-#: panels/information/mediawidget.cpp:262
+#: panels/information/mediawidget.cpp:264
 #, kde-format
 msgid "play"
 msgstr "afspil"
 
-#: panels/information/mediawidget.cpp:268
+#: panels/information/mediawidget.cpp:270
 #, kde-format
 msgid "pause"
 msgstr "pause"
@@ -3665,7 +3665,7 @@ msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "Ingen"
 
-#: selectionmode/bottombarcontentscontainer.cpp:167
+#: selectionmode/bottombarcontentscontainer.cpp:168
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
@@ -3673,41 +3673,41 @@ msgstr "Vælg de filer og mapper, der skal kopieres."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:174
-#: selectionmode/bottombarcontentscontainer.cpp:209
-#: selectionmode/bottombarcontentscontainer.cpp:232
+#: selectionmode/bottombarcontentscontainer.cpp:175
+#: selectionmode/bottombarcontentscontainer.cpp:210
+#: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
 msgstr "Annullér kopiering"
 
-#: selectionmode/bottombarcontentscontainer.cpp:202
+#: selectionmode/bottombarcontentscontainer.cpp:203
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr "Vælg en eller flere mapper hvis lokation skal kopieres."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:224
+#: selectionmode/bottombarcontentscontainer.cpp:225
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr "Vælg de filer og mapper, der skal kopieres over."
 
-#: selectionmode/bottombarcontentscontainer.cpp:245
+#: selectionmode/bottombarcontentscontainer.cpp:246
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr "Vælg de filer og mapper der skal klippes."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:252
+#: selectionmode/bottombarcontentscontainer.cpp:253
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr "Annullér klipning"
 
-#: selectionmode/bottombarcontentscontainer.cpp:281
+#: selectionmode/bottombarcontentscontainer.cpp:282
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
@@ -3715,21 +3715,21 @@ msgstr "Vælg de filer og mapper, der skal slettes permanent."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:288
-#: selectionmode/bottombarcontentscontainer.cpp:400
+#: selectionmode/bottombarcontentscontainer.cpp:289
+#: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Annullér"
 
-#: selectionmode/bottombarcontentscontainer.cpp:301
+#: selectionmode/bottombarcontentscontainer.cpp:302
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
 msgstr "Vælg de filer og mapper, der skal duplikeres her"
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:308
+#: selectionmode/bottombarcontentscontainer.cpp:309
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -3737,33 +3737,33 @@ msgstr "Annullér duplikation"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:325
+#: selectionmode/bottombarcontentscontainer.cpp:326
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
 msgstr "Mere"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:371
+#: selectionmode/bottombarcontentscontainer.cpp:372
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr "Vælg de filer og mapper, der skal flyttes over."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:379
+#: selectionmode/bottombarcontentscontainer.cpp:380
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr "Annullér flytning"
 
-#: selectionmode/bottombarcontentscontainer.cpp:393
+#: selectionmode/bottombarcontentscontainer.cpp:394
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr "Vælg de filer og mapper, der skal flytte til papirkurven."
 
-#: selectionmode/bottombarcontentscontainer.cpp:413
+#: selectionmode/bottombarcontentscontainer.cpp:414
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -3773,26 +3773,26 @@ msgid ""
 "para>"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:434
+#: selectionmode/bottombarcontentscontainer.cpp:435
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
 msgstr "Indsæt fra udklipsholderen"
 
-#: selectionmode/bottombarcontentscontainer.cpp:439
+#: selectionmode/bottombarcontentscontainer.cpp:440
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
 msgstr "Afvis denne påmindelse"
 
-#: selectionmode/bottombarcontentscontainer.cpp:441
+#: selectionmode/bottombarcontentscontainer.cpp:442
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
 msgstr "Mind mig ikke om det igen"
 
-#: selectionmode/bottombarcontentscontainer.cpp:458
+#: selectionmode/bottombarcontentscontainer.cpp:459
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -3803,7 +3803,7 @@ msgstr ""
 "Masseomdøbning er tilgængelig hvis flere elementer vælges."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:466
+#: selectionmode/bottombarcontentscontainer.cpp:467
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -3814,7 +3814,7 @@ msgstr "Annullér resterende"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:613
+#: selectionmode/bottombarcontentscontainer.cpp:614
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -3827,7 +3827,7 @@ msgstr[1] "Kopiér %2 til udklipsholderen"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:624
+#: selectionmode/bottombarcontentscontainer.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -3840,7 +3840,7 @@ msgstr[1] "Kopier lokationen af %2 til udklipsholderen"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:632
+#: selectionmode/bottombarcontentscontainer.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3853,7 +3853,7 @@ msgstr[1] "Klip %2 til udklipsholderen"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:640
+#: selectionmode/bottombarcontentscontainer.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3866,7 +3866,7 @@ msgstr[1] "Slet %2 permanent"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:648
+#: selectionmode/bottombarcontentscontainer.cpp:649
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -3879,7 +3879,7 @@ msgstr[1] "Duplikér %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:656
+#: selectionmode/bottombarcontentscontainer.cpp:657
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -3892,7 +3892,7 @@ msgstr[1] "Flyt %2 til papirkurv"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:664
+#: selectionmode/bottombarcontentscontainer.cpp:665
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"

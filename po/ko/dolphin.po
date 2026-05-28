@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-11 00:47+0000\n"
+"POT-Creation-Date: 2026-05-28 00:46+0000\n"
 "PO-Revision-Date: 2026-04-26 23:08+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3309,12 +3309,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "항목 %1개 선택됨"
 
-#: panels/information/mediawidget.cpp:262
+#: panels/information/mediawidget.cpp:264
 #, kde-format
 msgid "play"
 msgstr "재생"
 
-#: panels/information/mediawidget.cpp:268
+#: panels/information/mediawidget.cpp:270
 #, kde-format
 msgid "pause"
 msgstr "일시 정지"
@@ -3785,7 +3785,7 @@ msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "없음"
 
-#: selectionmode/bottombarcontentscontainer.cpp:167
+#: selectionmode/bottombarcontentscontainer.cpp:168
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
@@ -3793,41 +3793,41 @@ msgstr "복사할 파일과 폴더를 선택하십시오."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:174
-#: selectionmode/bottombarcontentscontainer.cpp:209
-#: selectionmode/bottombarcontentscontainer.cpp:232
+#: selectionmode/bottombarcontentscontainer.cpp:175
+#: selectionmode/bottombarcontentscontainer.cpp:210
+#: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
 msgstr "복사 취소"
 
-#: selectionmode/bottombarcontentscontainer.cpp:202
+#: selectionmode/bottombarcontentscontainer.cpp:203
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr "위치를 복사할 파일이나 폴더 한 개를 선택하십시오."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:224
+#: selectionmode/bottombarcontentscontainer.cpp:225
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr "다른 보기의 위치로 복사할 파일과 폴더를 선택하십시오."
 
-#: selectionmode/bottombarcontentscontainer.cpp:245
+#: selectionmode/bottombarcontentscontainer.cpp:246
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr "잘라낼 파일과 폴더를 선택하십시오."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:252
+#: selectionmode/bottombarcontentscontainer.cpp:253
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr "잘라내기 취소"
 
-#: selectionmode/bottombarcontentscontainer.cpp:281
+#: selectionmode/bottombarcontentscontainer.cpp:282
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
@@ -3835,21 +3835,21 @@ msgstr "영구적으로 삭제할 파일과 폴더를 선택하십시오."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:288
-#: selectionmode/bottombarcontentscontainer.cpp:400
+#: selectionmode/bottombarcontentscontainer.cpp:289
+#: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "취소"
 
-#: selectionmode/bottombarcontentscontainer.cpp:301
+#: selectionmode/bottombarcontentscontainer.cpp:302
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
 msgstr "여기에 복제할 파일과 폴더를 선택하십시오."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:308
+#: selectionmode/bottombarcontentscontainer.cpp:309
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -3857,33 +3857,33 @@ msgstr "복제 취소"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:325
+#: selectionmode/bottombarcontentscontainer.cpp:326
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
 msgstr "더 보기"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:371
+#: selectionmode/bottombarcontentscontainer.cpp:372
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr "다른 보기의 위치로 이동할 파일과 폴더를 선택하십시오."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:379
+#: selectionmode/bottombarcontentscontainer.cpp:380
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr "이동 취소"
 
-#: selectionmode/bottombarcontentscontainer.cpp:393
+#: selectionmode/bottombarcontentscontainer.cpp:394
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr "휴지통으로 이동할 파일과 폴더를 선택하십시오."
 
-#: selectionmode/bottombarcontentscontainer.cpp:413
+#: selectionmode/bottombarcontentscontainer.cpp:414
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -3897,26 +3897,26 @@ msgstr ""
 "앱에서 <emphasis>붙여넣기</emphasis> 동작을 사용하여 다른 앱으로 전송할 수도 "
 "있습니다.</para>"
 
-#: selectionmode/bottombarcontentscontainer.cpp:434
+#: selectionmode/bottombarcontentscontainer.cpp:435
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
 msgstr "클립보드에서 붙여넣기"
 
-#: selectionmode/bottombarcontentscontainer.cpp:439
+#: selectionmode/bottombarcontentscontainer.cpp:440
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
 msgstr "이 알림 끄기"
 
-#: selectionmode/bottombarcontentscontainer.cpp:441
+#: selectionmode/bottombarcontentscontainer.cpp:442
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
 msgstr "다시 알리지 않기"
 
-#: selectionmode/bottombarcontentscontainer.cpp:458
+#: selectionmode/bottombarcontentscontainer.cpp:459
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -3927,7 +3927,7 @@ msgstr ""
 "여러 항목을 선택하면 한번에 이름을 바꿀 수 있습니다."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:466
+#: selectionmode/bottombarcontentscontainer.cpp:467
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -3938,7 +3938,7 @@ msgstr "이름 바꾸기 취소"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:613
+#: selectionmode/bottombarcontentscontainer.cpp:614
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -3950,7 +3950,7 @@ msgstr[0] "클립보드에 %2 복사"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:624
+#: selectionmode/bottombarcontentscontainer.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -3962,7 +3962,7 @@ msgstr[0] "클립보드에 %2의 위치 복사"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:632
+#: selectionmode/bottombarcontentscontainer.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3974,7 +3974,7 @@ msgstr[0] "클립보드로 %2 잘라내기"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:640
+#: selectionmode/bottombarcontentscontainer.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3986,7 +3986,7 @@ msgstr[0] "%2 완전히 삭제"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:648
+#: selectionmode/bottombarcontentscontainer.cpp:649
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -3998,7 +3998,7 @@ msgstr[0] "%2 복제"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:656
+#: selectionmode/bottombarcontentscontainer.cpp:657
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -4010,7 +4010,7 @@ msgstr[0] "%2 휴지통으로 이동"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:664
+#: selectionmode/bottombarcontentscontainer.cpp:665
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"

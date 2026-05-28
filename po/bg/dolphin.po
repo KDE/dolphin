@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-11 00:47+0000\n"
+"POT-Creation-Date: 2026-05-28 00:46+0000\n"
 "PO-Revision-Date: 2026-04-03 01:22+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -3424,12 +3424,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "Маркиран е %1 елемент"
 msgstr[1] "Маркирани са %1 елемента"
 
-#: panels/information/mediawidget.cpp:262
+#: panels/information/mediawidget.cpp:264
 #, kde-format
 msgid "play"
 msgstr "възпроизвеждане"
 
-#: panels/information/mediawidget.cpp:268
+#: panels/information/mediawidget.cpp:270
 #, kde-format
 msgid "pause"
 msgstr "пауза"
@@ -3909,7 +3909,7 @@ msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "Без"
 
-#: selectionmode/bottombarcontentscontainer.cpp:167
+#: selectionmode/bottombarcontentscontainer.cpp:168
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
@@ -3917,15 +3917,15 @@ msgstr "Изберете файловете и папките, които тря
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:174
-#: selectionmode/bottombarcontentscontainer.cpp:209
-#: selectionmode/bottombarcontentscontainer.cpp:232
+#: selectionmode/bottombarcontentscontainer.cpp:175
+#: selectionmode/bottombarcontentscontainer.cpp:210
+#: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
 msgstr "Отмяна на копирането"
 
-#: selectionmode/bottombarcontentscontainer.cpp:202
+#: selectionmode/bottombarcontentscontainer.cpp:203
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
@@ -3933,26 +3933,26 @@ msgstr ""
 "Изберете един файл или папка, чието местоположение трябва да се копира."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:224
+#: selectionmode/bottombarcontentscontainer.cpp:225
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr "Изберете файловете и папките, които трябва да бъдат копирани."
 
-#: selectionmode/bottombarcontentscontainer.cpp:245
+#: selectionmode/bottombarcontentscontainer.cpp:246
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr "Изберете файловете и папките, които трябва да бъдат изрязани."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:252
+#: selectionmode/bottombarcontentscontainer.cpp:253
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr "Отмяна на изрязването"
 
-#: selectionmode/bottombarcontentscontainer.cpp:281
+#: selectionmode/bottombarcontentscontainer.cpp:282
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
@@ -3961,21 +3961,21 @@ msgstr ""
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:288
-#: selectionmode/bottombarcontentscontainer.cpp:400
+#: selectionmode/bottombarcontentscontainer.cpp:289
+#: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Отказ"
 
-#: selectionmode/bottombarcontentscontainer.cpp:301
+#: selectionmode/bottombarcontentscontainer.cpp:302
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
 msgstr "Изберете файловете и папките, които трябва да бъдат дублирани тук."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:308
+#: selectionmode/bottombarcontentscontainer.cpp:309
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -3983,34 +3983,34 @@ msgstr "Отмяна на дублирането"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:325
+#: selectionmode/bottombarcontentscontainer.cpp:326
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
 msgstr "Още"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:371
+#: selectionmode/bottombarcontentscontainer.cpp:372
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr "Изберете файловете и папките, които трябва да бъдат преместени."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:379
+#: selectionmode/bottombarcontentscontainer.cpp:380
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr "Отмяна на преместването"
 
-#: selectionmode/bottombarcontentscontainer.cpp:393
+#: selectionmode/bottombarcontentscontainer.cpp:394
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
 "Изберете файловете и папките, които трябва да бъдат преместени в Кошчето."
 
-#: selectionmode/bottombarcontentscontainer.cpp:413
+#: selectionmode/bottombarcontentscontainer.cpp:414
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -4025,26 +4025,26 @@ msgstr ""
 "прехвърлени в други приложения, използвайки <emphasis> Поставяне </"
 "emphasis>от тяхното меню.</para>"
 
-#: selectionmode/bottombarcontentscontainer.cpp:434
+#: selectionmode/bottombarcontentscontainer.cpp:435
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
 msgstr "Поставяне от клипборда"
 
-#: selectionmode/bottombarcontentscontainer.cpp:439
+#: selectionmode/bottombarcontentscontainer.cpp:440
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
 msgstr "Отмяна на това напомняне"
 
-#: selectionmode/bottombarcontentscontainer.cpp:441
+#: selectionmode/bottombarcontentscontainer.cpp:442
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
 msgstr "Не ми напомняй повече"
 
-#: selectionmode/bottombarcontentscontainer.cpp:458
+#: selectionmode/bottombarcontentscontainer.cpp:459
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -4055,7 +4055,7 @@ msgstr ""
 "Възможно е групово преименуване, когато са избрани няколко елемента."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:466
+#: selectionmode/bottombarcontentscontainer.cpp:467
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -4066,7 +4066,7 @@ msgstr "Отмяна на преименуването"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:613
+#: selectionmode/bottombarcontentscontainer.cpp:614
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -4079,7 +4079,7 @@ msgstr[1] "Копиране на %2 в клипборда"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:624
+#: selectionmode/bottombarcontentscontainer.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -4092,7 +4092,7 @@ msgstr[1] "Копиране на местоположението на %2 в к�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:632
+#: selectionmode/bottombarcontentscontainer.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -4105,7 +4105,7 @@ msgstr[1] "Изрязване на %2 в клипборда"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:640
+#: selectionmode/bottombarcontentscontainer.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -4118,7 +4118,7 @@ msgstr[1] "Необратимо изтриване на %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:648
+#: selectionmode/bottombarcontentscontainer.cpp:649
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -4131,7 +4131,7 @@ msgstr[1] "Дублиране на %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:656
+#: selectionmode/bottombarcontentscontainer.cpp:657
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -4144,7 +4144,7 @@ msgstr[1] "Преместване на %2 в кошчето"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:664
+#: selectionmode/bottombarcontentscontainer.cpp:665
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
