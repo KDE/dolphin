@@ -16,7 +16,6 @@
 #include <KSeparator>
 #include <KSharedConfig>
 #include <KStringHandler>
-#include <QPainterPath>
 
 #include <QIcon>
 #include <QStyle>
@@ -27,9 +26,7 @@
 #include <QDialogButtonBox>
 #include <QGesture>
 #include <QLabel>
-#include <QLinearGradient>
 #include <QPainter>
-#include <QPolygon>
 #include <QScrollArea>
 #include <QScroller>
 #include <QTextLayout>
@@ -39,9 +36,6 @@
 #include "dolphin_informationpanelsettings.h"
 #include "mediawidget.h"
 #include "pixmapviewer.h"
-
-const int PLAY_ARROW_SIZE = 24;
-const int PLAY_ARROW_BORDER_SIZE = 2;
 
 InformationPanelContent::InformationPanelContent(QWidget *parent)
     : QWidget(parent)
@@ -388,43 +382,6 @@ void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &
         }
         p = KIconUtils::addOverlays(p, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
         p.setDevicePixelRatio(devicePixelRatioF());
-    }
-
-    if (m_isVideo) {
-        // adds a play arrow overlay
-
-        auto maxDim = qMax(p.width(), p.height());
-        auto arrowSize = qMax(PLAY_ARROW_SIZE, maxDim / 8);
-
-        // compute relative pixel positions
-        const int zeroX = static_cast<int>((p.width() / 2 - arrowSize / 2) / p.devicePixelRatio());
-        const int zeroY = static_cast<int>((p.height() / 2 - arrowSize / 2) / p.devicePixelRatio());
-
-        QPolygon arrow;
-        arrow << QPoint(zeroX, zeroY);
-        arrow << QPoint(zeroX, zeroY + arrowSize);
-        arrow << QPoint(zeroX + arrowSize, zeroY + arrowSize / 2);
-
-        QPainterPath path;
-        path.addPolygon(arrow);
-
-        QLinearGradient gradient(QPointF(zeroX, zeroY + arrowSize / 2), QPointF(zeroX + arrowSize, zeroY + arrowSize / 2));
-
-        QColor whiteColor = Qt::white;
-        QColor blackColor = Qt::black;
-        gradient.setColorAt(0, whiteColor);
-        gradient.setColorAt(1, blackColor);
-
-        QBrush brush(gradient);
-
-        QPainter painter(&p);
-
-        QPen pen(blackColor, PLAY_ARROW_BORDER_SIZE, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-        painter.setPen(pen);
-
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.drawPolygon(arrow);
-        painter.fillPath(path, brush);
     }
 
     m_preview->setPixmap(p);
