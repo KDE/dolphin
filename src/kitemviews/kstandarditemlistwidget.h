@@ -180,6 +180,7 @@ protected:
     void styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous) override;
     void hoveredChanged(bool hovered) override;
     void selectedChanged(bool selected) override;
+    void pressedChanged(bool pressed) override;
     void siblingsInformationChanged(const QBitArray &current, const QBitArray &previous) override;
     void editedRoleChanged(const QByteArray &current, const QByteArray &previous) override;
     void iconSizeChanged(int current, int previous) override;
