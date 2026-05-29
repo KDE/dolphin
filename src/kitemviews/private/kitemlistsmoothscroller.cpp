@@ -209,6 +209,32 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent *event)
 {
     const bool previous = m_smoothScrolling;
 
+#ifdef Q_OS_MACOS
+    if (event->hasPixelDelta()) {
+        const QPoint pixelDelta = event->pixelDelta();
+        const int scrollDelta = qAbs(pixelDelta.x()) > qAbs(pixelDelta.y()) ? pixelDelta.x() : pixelDelta.y();
+        const int oldValue = m_scrollBar->value();
+        const int newValue = qBound(m_scrollBar->minimum(), oldValue - scrollDelta, m_scrollBar->maximum());
+        if (newValue == oldValue) {
+            event->ignore();
+            return;
+        }
+
+        m_smoothScrolling = false;
+        if (m_animation->state() == QAbstractAnimation::Running) {
+            m_animation->stop();
+        }
+        if (QObject *target = targetObject()) {
+            target->setProperty(propertyName(), newValue);
+        }
+        m_scrollBar->setValue(newValue);
+        event->accept();
+
+        m_smoothScrolling = previous;
+        return;
+    }
+#endif
+
     m_smoothScrolling = true;
 
     QWheelEvent *copy = event->clone();

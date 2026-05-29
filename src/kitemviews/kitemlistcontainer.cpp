@@ -187,7 +187,12 @@ void KItemListContainer::wheelEvent(QWheelEvent *event)
         return;
     }
 
-    const bool scrollHorizontally = (qAbs(event->angleDelta().y()) < qAbs(event->angleDelta().x())) || (!verticalScrollBar()->isVisible());
+#ifdef Q_OS_MACOS
+    const QPoint scrollDelta = event->hasPixelDelta() ? event->pixelDelta() : event->angleDelta();
+#else
+    const QPoint scrollDelta = event->angleDelta();
+#endif
+    const bool scrollHorizontally = (qAbs(scrollDelta.y()) < qAbs(scrollDelta.x())) || (!verticalScrollBar()->isVisible());
     KItemListSmoothScroller *smoothScroller = scrollHorizontally ? m_horizontalSmoothScroller : m_verticalSmoothScroller;
 
     smoothScroller->handleWheelEvent(event);
