@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-28 00:46+0000\n"
+"POT-Creation-Date: 2026-05-29 00:46+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -265,7 +265,7 @@ msgid ""
 msgstr "Môsz òtemkłich czile kôrtów w tim òknie, na gwës chcesz zakùńczëc?"
 
 #: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid "Do not ask again"
 msgstr "Nie pëtôj znowa"
@@ -3101,7 +3101,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: main.cpp:61
+#: main.cpp:62
 #, kde-kuit-format
 msgctxt "@info:shell %1 is a terminal command"
 msgid ""
@@ -3109,32 +3109,32 @@ msgid ""
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
 
-#: main.cpp:95
+#: main.cpp:96
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "Dolphin"
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:97
+#: main.cpp:98
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Menadżer lopków"
 
-#: main.cpp:99
+#: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
 msgstr ""
 
-#: main.cpp:101
+#: main.cpp:102
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr ""
 
-#: main.cpp:102
+#: main.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3142,13 +3142,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:104
+#: main.cpp:105
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr ""
 
-#: main.cpp:105
+#: main.cpp:106
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3156,13 +3156,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: main.cpp:108
+#: main.cpp:109
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3170,13 +3170,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:110
+#: main.cpp:111
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:112
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3184,13 +3184,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr ""
 
-#: main.cpp:114
+#: main.cpp:115
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3198,13 +3198,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:117
+#: main.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -3212,98 +3212,98 @@ msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
 msgstr "Òpiekùn ë programista"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr ""
 
-#: main.cpp:119 main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123
-#: main.cpp:124 main.cpp:125
+#: main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124
+#: main.cpp:125 main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Programista"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freythe"
 
-#: main.cpp:125
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazeja"
 
-#: main.cpp:126
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austi"
 
-#: main.cpp:126
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dokùmentacëjô"
 
-#: main.cpp:137
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr ""
 
-#: main.cpp:139
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr ""
 
-#: main.cpp:140
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -3448,7 +3448,7 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:111
+#: panels/information/informationpanelcontent.cpp:105
 #, fuzzy, kde-format
 #| msgctxt "@label::textbox"
 #| msgid "Configure which data should be shown"
@@ -3456,7 +3456,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Kònfigurëje pòdôwczi chtërné mają bëc wëskrzënioné"
 
-#: panels/information/informationpanelcontent.cpp:295
+#: panels/information/informationpanelcontent.cpp:289
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"
@@ -3484,14 +3484,14 @@ msgstr ""
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 
-#: panels/terminal/terminalpanel.cpp:202
+#: panels/terminal/terminalpanel.cpp:204
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
 
-#: panels/terminal/terminalpanel.cpp:209
+#: panels/terminal/terminalpanel.cpp:211
 #, kde-format
 msgid "Install Konsole"
 msgstr ""
@@ -6475,12 +6475,12 @@ msgid ""
 "Press to manage disk space usage."
 msgstr ""
 
-#: trash/dolphintrash.cpp:73
+#: trash/dolphintrash.cpp:82
 #, kde-format
 msgid "Trash Emptied"
 msgstr ""
 
-#: trash/dolphintrash.cpp:74
+#: trash/dolphintrash.cpp:83
 #, kde-format
 msgid "The Trash was emptied."
 msgstr ""
@@ -6528,7 +6528,7 @@ msgstr "Domëszlnô"
 msgid "Reload"
 msgstr "Zladëjë znowa"
 
-#: views/dolphinview.cpp:731
+#: views/dolphinview.cpp:735
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6540,7 +6540,7 @@ msgstr[0] "1 katalog zaznaczony"
 msgstr[1] "%1 katalodżi zaznaczoné"
 msgstr[2] "%1 zaznaczonëch katalogów"
 
-#: views/dolphinview.cpp:732
+#: views/dolphinview.cpp:736
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6552,7 +6552,7 @@ msgstr[0] "1 lopk wëbróny"
 msgstr[1] "%1 lopczi zaznaczoné"
 msgstr[2] "%1 zaznaczonëch lopków"
 
-#: views/dolphinview.cpp:734
+#: views/dolphinview.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -6563,7 +6563,7 @@ msgstr[0] "Katalog"
 msgstr[1] "Katalog"
 msgstr[2] "Katalog"
 
-#: views/dolphinview.cpp:735
+#: views/dolphinview.cpp:739
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6574,19 +6574,19 @@ msgstr[0] "michol@linuxcsb.org, mark@linuxcsb.org"
 msgstr[1] "michol@linuxcsb.org, mark@linuxcsb.org"
 msgstr[2] "michol@linuxcsb.org, mark@linuxcsb.org"
 
-#: views/dolphinview.cpp:739
+#: views/dolphinview.cpp:743
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:741
+#: views/dolphinview.cpp:745
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:745
+#: views/dolphinview.cpp:749
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -6594,13 +6594,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "Wprzód katalodżi"
 
-#: views/dolphinview.cpp:987 views/dolphinview.cpp:996
+#: views/dolphinview.cpp:991 views/dolphinview.cpp:1000
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1189
+#: views/dolphinview.cpp:1193
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6608,7 +6608,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: views/dolphinview.cpp:1194
+#: views/dolphinview.cpp:1198
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -6619,13 +6619,13 @@ msgstr[0] "Wlepi"
 msgstr[1] "Wlepi"
 msgstr[2] "Wlepi"
 
-#: views/dolphinview.cpp:1327
+#: views/dolphinview.cpp:1331
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1331
+#: views/dolphinview.cpp:1335
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Column Width"
@@ -6633,7 +6633,7 @@ msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Szérz kòlumnë"
 
-#: views/dolphinview.cpp:1336
+#: views/dolphinview.cpp:1340
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Column Width"
@@ -6641,7 +6641,7 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Szérz kòlumnë"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2070
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -6649,48 +6649,48 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Przeniesë do kòsza skùńczoné òperacëje."
 
-#: views/dolphinview.cpp:2076
+#: views/dolphinview.cpp:2080
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Rëmôj skùńczoné òperacëje."
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2248
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Zmieni w réze"
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2252
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2254
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2252
+#: views/dolphinview.cpp:2256
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Wëskrzëni zataconé lopczi"
 
-#: views/dolphinview.cpp:2252
+#: views/dolphinview.cpp:2256
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Domôcy katalog"
 
-#: views/dolphinview.cpp:2273
+#: views/dolphinview.cpp:2277
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6698,7 +6698,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Zmieni miono..."
 
-#: views/dolphinview.cpp:2283
+#: views/dolphinview.cpp:2287
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6707,7 +6707,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2287
+#: views/dolphinview.cpp:2291
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6716,7 +6716,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2297
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6724,107 +6724,107 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Ôrt:"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokacëjô je pùstô."
 
-#: views/dolphinview.cpp:2339
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacëjô '%1' je zmiłkòwô."
 
-#: views/dolphinview.cpp:2720
+#: views/dolphinview.cpp:2724
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Ladowanié kataloga..."
 
-#: views/dolphinview.cpp:2749
+#: views/dolphinview.cpp:2753
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Ladowanié kataloga..."
 
-#: views/dolphinview.cpp:2751
+#: views/dolphinview.cpp:2755
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Wëbierzë elementë pasëjącé do mùstra:"
 
-#: views/dolphinview.cpp:2753
+#: views/dolphinview.cpp:2757
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Wëbierzë elementë pasëjącé do mùstra:"
 
-#: views/dolphinview.cpp:2755
+#: views/dolphinview.cpp:2759
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacëjô je pùstô."
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2761
+#: views/dolphinview.cpp:2765
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2765
+#: views/dolphinview.cpp:2769
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Prawie zamkłé kôrtë"
 
-#: views/dolphinview.cpp:2767
+#: views/dolphinview.cpp:2771
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2769
+#: views/dolphinview.cpp:2773
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2771
+#: views/dolphinview.cpp:2775
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2773
+#: views/dolphinview.cpp:2777
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nié nalazłé elementë."
 
-#: views/dolphinview.cpp:2776
+#: views/dolphinview.cpp:2780
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No KDE Connect devices found"
 msgstr "Nié nalazłé elementë."
 
-#: views/dolphinview.cpp:2778
+#: views/dolphinview.cpp:2782
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2781
+#: views/dolphinview.cpp:2785
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2783
+#: views/dolphinview.cpp:2787
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

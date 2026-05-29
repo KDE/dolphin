@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-28 00:46+0000\n"
+"POT-Creation-Date: 2026-05-29 00:46+0000\n"
 "PO-Revision-Date: 2026-05-02 18:08+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -275,7 +275,7 @@ msgid ""
 msgstr "இந்த சாளரத்தில் பல கீற்றுகள் உள்ளன. உறுதியாக வெளியேற விரும்புகிறீர்களா?"
 
 #: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid "Do not ask again"
 msgstr "மீண்டும் கேட்காதே"
@@ -2963,7 +2963,7 @@ msgid_plural "%1 stars"
 msgstr[0] "%1 நட்சத்திரம்"
 msgstr[1] "%1 நட்சத்திரங்கள்"
 
-#: main.cpp:61
+#: main.cpp:62
 #, kde-kuit-format
 msgctxt "@info:shell %1 is a terminal command"
 msgid ""
@@ -2973,187 +2973,187 @@ msgstr ""
 "<command>sudo</command> கட்டளை மூலம் <application>டால்பினை</application> "
 "இயக்குவது பரிந்துரைக்கப்படாதது. பதிலாக <icode>%1</icode> தனை பயன்படுத்தவும்."
 
-#: main.cpp:95
+#: main.cpp:96
 #, kde-format
 msgid "Dolphin"
 msgstr "டால்பின்"
 
-#: main.cpp:97
+#: main.cpp:98
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "கோப்பு உலாவி"
 
-#: main.cpp:99
+#: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
 msgstr "© 2006–2025, டால்பின் நிரலாளர்கள்"
 
-#: main.cpp:101
+#: main.cpp:102
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "ஃபீலிக்சு எர்னஸ்டு"
 
-#: main.cpp:102
+#: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "நிரலாளரும், 2021-இலிருந்து பராமரிப்பாளரும்"
 
-#: main.cpp:104
+#: main.cpp:105
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "மெவென் கார்"
 
-#: main.cpp:105
+#: main.cpp:106
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "2019-இலிருந்து நிரலாளரும், 2021-இலிருந்து பராமரிப்பாளரும்"
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "எல்விஸ் ஆஞ்செலாசியோ"
 
-#: main.cpp:108
+#: main.cpp:109
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "நிரலாளரும், 2018–2021-இல் பராமரிப்பாளரும்"
 
-#: main.cpp:110
+#: main.cpp:111
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "எம்மானுவேல் பெஸ்கோஸ்தா"
 
-#: main.cpp:111
+#: main.cpp:112
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
 msgstr "நிரலாளரும், 2014–2018-இல் பராமரிப்பாளரும்"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "ஃபிராங்கு ரெயினிங்ஹாவுஸ்"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "நிரலாளரும், 2012–2014-இல் பராமரிப்பாளரும்"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "பீட்டர் பென்ஸ்"
 
-#: main.cpp:117
+#: main.cpp:118
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
 msgstr "நிரலாளரும், 2006-2012-இல் பராமரிப்பாளரும்"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "ஸெபாஸ்டியன் டுரூகு"
 
-#: main.cpp:119 main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123
-#: main.cpp:124 main.cpp:125
+#: main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124
+#: main.cpp:125 main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "நிரலாளர்"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "டேவிட் பவுர்"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "ஆரோன் ஜே சீகோ"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "ராபல் பெர்னான்டஸ் லோபஸ்"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "கெவின் ஓட்டனஸ்"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "ஹோல்களர் பிரைதெர்"
 
-#: main.cpp:125
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "மாகஸ் பிளேஸ்ஜாக்"
 
-#: main.cpp:126
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "மைகேல் ஆஸ்டின்"
 
-#: main.cpp:126
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "கையேடு எழுதுதல்"
 
-#: main.cpp:137
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "தரு மதிப்புகளாக உள்ள கோப்புகளும் அடைவுகளும் தேர்ந்தெடுக்கப் படும்."
 
-#: main.cpp:139
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "ஒரு துண்டாக்கப்பட்ட காட்சிமுறையுடன் டால்பின் துவக்கப்படும்."
 
-#: main.cpp:140
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "டால்பின் ஒரு புதிய சாளரத்தில் திறக்கும்."
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr "நிர்வாகப் பணிகளுக்கு டால்பினை அமை"
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "டால்பின் பின்னணி சேவையைத் துவக்கு (DBus இடைமுகப்புக்கு மட்டும் தேவை)."
 
-#: main.cpp:145
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -3285,13 +3285,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "குறுந்தேதி"
 
-#: panels/information/informationpanelcontent.cpp:111
+#: panels/information/informationpanelcontent.cpp:105
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "காட்ட வேண்டிய விவரங்களை தேர்வு செய்யுங்கள்:"
 
-#: panels/information/informationpanelcontent.cpp:295
+#: panels/information/informationpanelcontent.cpp:289
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3316,7 +3316,7 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "இடங்கள் பலகையில் காட்டப்படும் சின்னங்களின் அளவு (-1 என்றால் \"தானாக அமை\" என்று பொருள்)"
 
-#: panels/terminal/terminalpanel.cpp:202
+#: panels/terminal/terminalpanel.cpp:204
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -3325,7 +3325,7 @@ msgstr ""
 "கான்சோல் நிறுவப்படாததால் முனையத்தைக் காட்ட முடியவில்லை. அதை நிறுவியப் பின் இந்தப் பலகையை "
 "மறுபடியும் திறந்துப் பாருங்கள்"
 
-#: panels/terminal/terminalpanel.cpp:209
+#: panels/terminal/terminalpanel.cpp:211
 #, kde-format
 msgid "Install Konsole"
 msgstr "கான்சோலை நிறுவு"
@@ -6026,12 +6026,12 @@ msgstr ""
 "%2-இல் %1 காலி (%3% பயனில் உள்ளது)\n"
 "வட்டு பயன்பாட்டை நிர்வகிக்க அழுத்தவும்."
 
-#: trash/dolphintrash.cpp:73
+#: trash/dolphintrash.cpp:82
 #, kde-format
 msgid "Trash Emptied"
 msgstr "அகற்றிடம் காலியாக்கப்பட்டது"
 
-#: trash/dolphintrash.cpp:74
+#: trash/dolphintrash.cpp:83
 #, kde-format
 msgid "The Trash was emptied."
 msgstr "அகற்றிடம் காலியாக்கப்பட்டது"
@@ -6075,7 +6075,7 @@ msgstr "இயல்பிருப்பு"
 msgid "Reload"
 msgstr "மீளேற்று"
 
-#: views/dolphinview.cpp:731
+#: views/dolphinview.cpp:735
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6083,7 +6083,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 அடைவு தேர்வு செய்யப்பட்டுள்ளது"
 msgstr[1] "%1 அடைவுகள் தேர்வு செய்யப்பட்டுள்ளன"
 
-#: views/dolphinview.cpp:732
+#: views/dolphinview.cpp:736
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6091,7 +6091,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 கோப்பு தேர்வு செய்யப்பட்டுள்ளது"
 msgstr[1] "%1 கோப்புகள் தேர்வு செய்யப்பட்டுள்ளன"
 
-#: views/dolphinview.cpp:734
+#: views/dolphinview.cpp:738
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6099,7 +6099,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 அடைவு"
 msgstr[1] "%1 அடைவுகள்"
 
-#: views/dolphinview.cpp:735
+#: views/dolphinview.cpp:739
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6107,38 +6107,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 கோப்பு"
 msgstr[1] "%1 கோப்புகள்"
 
-#: views/dolphinview.cpp:739
+#: views/dolphinview.cpp:743
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:741
+#: views/dolphinview.cpp:745
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:745
+#: views/dolphinview.cpp:749
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 அடைவுகள், 0 கோப்புகள்"
 
-#: views/dolphinview.cpp:987 views/dolphinview.cpp:996
+#: views/dolphinview.cpp:991 views/dolphinview.cpp:1000
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 என்பதன் நகல்"
 
-#: views/dolphinview.cpp:1189
+#: views/dolphinview.cpp:1193
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "உறுதியாக 1 உருப்படியை திறக்க வேண்டுமா?"
 msgstr[1] "உறுதியாக %1 உருப்படிகளை திறக்க வேண்டுமா?"
 
-#: views/dolphinview.cpp:1194
+#: views/dolphinview.cpp:1198
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6146,43 +6146,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 உருப்படியைத் திற"
 msgstr[1] "%1 உருப்படிகளைத் திற"
 
-#: views/dolphinview.cpp:1327
+#: views/dolphinview.cpp:1331
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "ஓரத்தில் காலியிடம்"
 
-#: views/dolphinview.cpp:1331
+#: views/dolphinview.cpp:1335
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "தானாக இடப்படும் நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:1336
+#: views/dolphinview.cpp:1340
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "பயனரால் மாற்றக்கூடிய நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "அகற்றிடத்துக்கு நகர்த்தும் பணி நிறைவடைந்தது."
 
-#: views/dolphinview.cpp:2076
+#: views/dolphinview.cpp:2080
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "நீக்கும் பணி நிறைவடைந்தது."
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "மறுபெயரிட்டு மறை"
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2252
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6191,7 +6191,7 @@ msgstr ""
 "ஒரு கோப்பின் பெயர், புள்ளியில் ஆரம்பித்தால் அது மறைந்த கோப்பு ஆகும். உறுதியாக மறுபெயரிட "
 "வேண்டுமா?"
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2254
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6200,23 +6200,23 @@ msgstr ""
 "ஒரு அடைவின் பெயர் புள்ளியில் ஆரம்பித்தால் அது மறைந்த அடைவு ஆகும்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2252
+#: views/dolphinview.cpp:2256
 #, kde-format
 msgid "Hide this File?"
 msgstr "கோப்பை மறைக்கலாமா?"
 
-#: views/dolphinview.cpp:2252
+#: views/dolphinview.cpp:2256
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "அடைவை மறைக்கலாமா?"
 
-#: views/dolphinview.cpp:2273
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "மறுபெயரிடு"
 
-#: views/dolphinview.cpp:2283
+#: views/dolphinview.cpp:2287
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6229,7 +6229,7 @@ msgstr ""
 "போகலாம்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2287
+#: views/dolphinview.cpp:2291
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6242,100 +6242,100 @@ msgstr ""
 "போகலாம்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2297
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "கோப்பின் வகையை மாற்று"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "இடம் காலியாகவுள்ளது."
 
-#: views/dolphinview.cpp:2339
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' என்ற இடம் முறையற்றது."
 
-#: views/dolphinview.cpp:2720
+#: views/dolphinview.cpp:2724
 #, kde-format
 msgid "Loading…"
 msgstr "ஏற்றுகிறது…"
 
-#: views/dolphinview.cpp:2749
+#: views/dolphinview.cpp:2753
 #, kde-format
 msgid "Loading canceled"
 msgstr "ஏற்றுவது ரத்து செய்யப்பட்டது"
 
-#: views/dolphinview.cpp:2751
+#: views/dolphinview.cpp:2755
 #, kde-format
 msgid "No items matching the filter"
 msgstr "வடிகட்டிக்கு எதுவும் பொருந்தவில்லை"
 
-#: views/dolphinview.cpp:2753
+#: views/dolphinview.cpp:2757
 #, kde-format
 msgid "No items matching the search"
 msgstr "தேடலுக்கு எதுவும் பொருந்தவில்லை"
 
-#: views/dolphinview.cpp:2755
+#: views/dolphinview.cpp:2759
 #, kde-format
 msgid "Trash is empty"
 msgstr "அகற்றிடம் காலியாக இருக்கிறது"
 
-#: views/dolphinview.cpp:2758
+#: views/dolphinview.cpp:2762
 #, kde-format
 msgid "No tags"
 msgstr "குறிச்சொற்கள் இல்லை"
 
-#: views/dolphinview.cpp:2761
+#: views/dolphinview.cpp:2765
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "\"%1\" என்ற குறிச்சொல்லுடன் எந்த கோப்பும் இல்லை"
 
-#: views/dolphinview.cpp:2765
+#: views/dolphinview.cpp:2769
 #, kde-format
 msgid "No recently used items"
 msgstr "சமீபத்தில் பயன்படுத்தியவை எதுவும் இல்லை"
 
-#: views/dolphinview.cpp:2767
+#: views/dolphinview.cpp:2771
 #, kde-format
 msgid "No shared folders found"
 msgstr "பகிர்ந்த அடைவுகள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2769
+#: views/dolphinview.cpp:2773
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "பிணையத்தில் அணுகக்கூடியவற்றில் பொருத்தமானது எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2771
+#: views/dolphinview.cpp:2775
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2773
+#: views/dolphinview.cpp:2777
 #, kde-format
 msgid "No Apple devices found"
 msgstr "ஆப்பிள் சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2776
+#: views/dolphinview.cpp:2780
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "எந்த கே.டீ.யீ. கனெக்ட் சாதனமும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2778
+#: views/dolphinview.cpp:2782
 #, kde-format
 msgid "No storage found on this device"
 msgstr "இச்சாதனத்தில் சேமிப்பகம் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2781
+#: views/dolphinview.cpp:2785
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetooth சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2783
+#: views/dolphinview.cpp:2787
 #, kde-format
 msgid "Folder is empty"
 msgstr "அடைவு காலியாக உள்ளது"
