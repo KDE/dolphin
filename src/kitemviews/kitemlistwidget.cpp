@@ -506,6 +506,11 @@ void KItemListWidget::hoveredChanged(bool hovered)
     Q_UNUSED(hovered)
 }
 
+void KItemListWidget::pressedChanged(bool pressed)
+{
+    Q_UNUSED(pressed)
+}
+
 void KItemListWidget::alternateBackgroundChanged(bool enabled)
 {
     Q_UNUSED(enabled)
@@ -616,6 +621,7 @@ void KItemListWidget::setPressed(bool enabled)
     if (m_clickHighlighted != enabled) {
         m_clickHighlighted = enabled;
         clearHoverCache();
+        pressedChanged(enabled);
         update();
     }
 }

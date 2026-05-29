@@ -828,6 +828,13 @@ void KStandardItemListWidget::selectedChanged(bool selected)
     m_dirtyContent = true;
 }
 
+void KStandardItemListWidget::pressedChanged(bool pressed)
+{
+    Q_UNUSED(pressed)
+    updateAdditionalInfoTextColor();
+    m_dirtyContent = true;
+}
+
 void KStandardItemListWidget::siblingsInformationChanged(const QBitArray &current, const QBitArray &previous)
 {
     Q_UNUSED(current)

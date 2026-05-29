@@ -214,6 +214,7 @@ protected:
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
     virtual void hoveredChanged(bool hovered);
+    virtual void pressedChanged(bool pressed);
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray &current, const QBitArray &previous);
     virtual void editedRoleChanged(const QByteArray &current, const QByteArray &previous);
