@@ -17,9 +17,7 @@ TestDir::TestDir(const QString &directoryPrefix)
 {
 }
 
-TestDir::~TestDir()
-{
-}
+TestDir::~TestDir() = default;
 
 QUrl TestDir::url() const
 {
