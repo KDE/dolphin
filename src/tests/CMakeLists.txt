@@ -109,6 +109,11 @@ if(NOT WIN32)
     set_tests_properties(dolphin_smoketest PROPERTIES TIMEOUT 30)
 endif()
 
+# PlacesPanelTest
+ecm_add_test(placespaneltest.cpp
+    TEST_NAME placespaneltest
+    LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
 find_gem(test-unit)
 set_package_properties(Gem_test-unit PROPERTIES
     TYPE RECOMMENDED
