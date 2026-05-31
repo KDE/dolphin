@@ -8,11 +8,14 @@
 #include "dolphin_generalsettings.h"
 #include <KLocalizedString>
 
+#include <QApplication>
 #include <QDragEnterEvent>
 #include <QInputDialog>
 #include <QMenu>
 #include <QMimeData>
+#include <QResizeEvent>
 #include <QTimer>
+#include <QToolButton>
 
 class PreventFocusWhileHidden : public QObject
 {
@@ -54,6 +57,14 @@ DolphinTabBar::DolphinTabBar(QWidget *parent)
     connect(m_autoActivationTimer, &QTimer::timeout, this, &DolphinTabBar::slotAutoActivationTimeout);
     connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinTabBar::slotTabBarChanged);
 
+    m_newTabButton = new QToolButton(this);
+    m_newTabButton->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    m_newTabButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    m_newTabButton->setToolTip(i18nc("@info:tooltip", "Open a new tab"));
+    m_newTabButton->setAutoRaise(true);
+    m_newTabButton->hide();
+    connect(m_newTabButton, &QToolButton::clicked, this, &DolphinTabBar::newTabRequested);
+
     QTimer::singleShot(0, this, &DolphinTabBar::slotTabBarChanged);
 }
 
@@ -65,7 +76,8 @@ QSize DolphinTabBar::tabSizeHint(int index) const
         return defaultSize;
     } else if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth && count() > 0) {
         QSize defaultSize = QTabBar::tabSizeHint(index);
-        defaultSize.setWidth(qMax(25, width() / count()));
+        const int buttonSpace = (m_newTabButton && m_newTabButton->isVisible()) ? height() : 0;
+        defaultSize.setWidth(qMax(25, (width() - buttonSpace) / count()));
         return defaultSize;
     }
     return QTabBar::tabSizeHint(index);
@@ -271,6 +283,96 @@ void DolphinTabBar::updateAutoActivationTimer(const int index)
             m_autoActivationTimer->start();
         }
     }
+}
+
+void DolphinTabBar::setNewTabButtonVisible(bool visible)
+{
+    if (!m_newTabButton || m_newTabButton->isVisible() == visible) {
+        return;
+    }
+    m_newTabButton->setVisible(visible);
+    QResizeEvent resizeEv(size(), size());
+    QApplication::sendEvent(this, &resizeEv);
+}
+
+void DolphinTabBar::resizeEvent(QResizeEvent *event)
+{
+    QTabBar::resizeEvent(event);
+    updateNewTabButtonGeometry();
+}
+
+void DolphinTabBar::tabLayoutChange()
+{
+    QTabBar::tabLayoutChange();
+    installScrollButtonFilters();
+    updateNewTabButtonGeometry();
+}
+
+void DolphinTabBar::tabInserted(int index)
+{
+    QTabBar::tabInserted(index);
+    QTimer::singleShot(0, this, [this]() {
+        updateNewTabButtonGeometry();
+    });
+}
+
+void DolphinTabBar::tabRemoved(int index)
+{
+    QTabBar::tabRemoved(index);
+    QTimer::singleShot(0, this, [this]() {
+        updateNewTabButtonGeometry();
+    });
+}
+
+void DolphinTabBar::updateNewTabButtonGeometry()
+{
+    if (!m_newTabButton || !m_newTabButton->isVisible() || count() == 0) {
+        return;
+    }
+
+    const QRect lastTabRect = tabRect(count() - 1);
+    const int btnSize = lastTabRect.height();
+    const int proposedX = lastTabRect.right() + 1;
+
+    if (proposedX + btnSize <= width()) {
+        m_newTabButton->setGeometry(proposedX, lastTabRect.top(), btnSize, btnSize);
+    } else {
+        int scrollLeftEdge = width();
+        for (QObject *child : children()) {
+            QToolButton *btn = qobject_cast<QToolButton *>(child);
+            if (btn && btn != m_newTabButton && btn->isVisible()) {
+                if (btn->x() + btn->width() / 2 > width() / 2) {
+                    scrollLeftEdge = qMin(scrollLeftEdge, btn->x());
+                }
+            }
+        }
+        m_newTabButton->setGeometry(qMax(0, scrollLeftEdge - btnSize), 0, btnSize, btnSize);
+    }
+    m_newTabButton->raise();
+}
+
+void DolphinTabBar::installScrollButtonFilters()
+{
+    for (QObject *child : children()) {
+        QAbstractButton *btn = qobject_cast<QAbstractButton *>(child);
+        if (btn && btn != m_newTabButton) {
+            btn->removeEventFilter(this);
+            btn->installEventFilter(this);
+        }
+    }
+}
+
+bool DolphinTabBar::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == this) {
+        return QTabBar::eventFilter(obj, event);
+    }
+
+    const auto type = event->type();
+    if ((type == QEvent::Show || type == QEvent::Hide) && qobject_cast<QToolButton *>(obj)) {
+        updateNewTabButtonGeometry();
+    }
+    return QTabBar::eventFilter(obj, event);
 }
 
 #include "moc_dolphintabbar.cpp"

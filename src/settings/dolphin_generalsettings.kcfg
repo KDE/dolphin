@@ -128,6 +128,11 @@
             <label>New tab will be open after last one</label>
             <default>false</default>
         </entry>
+        <entry name="ShowNewTabButton" type="Bool">
+            <label>Show a new tab button at the end of the tab bar</label>
+            <default>false</default>
+            <emit signal="tabBarChanged" />
+        </entry>
         <entry name="ShowToolTips" type="Bool">
             <label>Show item information on hover</label>
             <default>false</default>

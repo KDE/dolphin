@@ -239,6 +239,9 @@ private Q_SLOTS:
      */
     void renameTab(int index, const QString &label);
 
+    void updateNewTabButton();
+    void openNewTabFromButton();
+
 protected:
     void tabInserted(int index) override;
     void tabRemoved(int index) override;

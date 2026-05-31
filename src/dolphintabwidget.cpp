@@ -39,6 +39,8 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     connect(tabBar, &DolphinTabBar::tabDropEvent, this, &DolphinTabWidget::tabDropEvent);
     connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
     connect(tabBar, &DolphinTabBar::tabRenamed, this, &DolphinTabWidget::renameTab);
+    connect(tabBar, &DolphinTabBar::newTabRequested, this, &DolphinTabWidget::openNewTabFromButton);
+    connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinTabWidget::updateNewTabButton);
 
     setTabBar(tabBar);
     setDocumentMode(true);
@@ -46,6 +48,7 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     setUsesScrollButtons(true);
     setTabBarAutoHide(!GeneralSettings::alwaysShowTabBar());
     tabBar->setTabsClosable(GeneralSettings::showCloseButtonOnTabs());
+    updateNewTabButton();
 
     auto stackWidget{findChild<QStackedWidget *>()};
     // i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
@@ -685,6 +688,18 @@ const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewSho
     } while (i != currentIndex());
 
     return std::nullopt;
+}
+
+void DolphinTabWidget::updateNewTabButton()
+{
+    const bool show = GeneralSettings::showNewTabButton();
+    static_cast<DolphinTabBar *>(tabBar())->setNewTabButtonVisible(show);
+    setTabBarAutoHide(!show && !GeneralSettings::alwaysShowTabBar());
+}
+
+void DolphinTabWidget::openNewTabFromButton()
+{
+    openNewActivatedTab();
 }
 
 #include "moc_dolphintabwidget.cpp"

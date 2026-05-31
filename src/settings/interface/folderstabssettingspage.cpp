@@ -38,6 +38,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     , m_rememberOpenedTabsRadioButton(nullptr)
     , m_alwaysShowTabBar(nullptr)
     , m_showCloseButtonOnTabs(nullptr)
+    , m_showNewTabButton(nullptr)
     , m_openNewTabAfterLastTab(nullptr)
     , m_openNewTabAfterCurrentTab(nullptr)
     , m_splitView(nullptr)
@@ -125,6 +126,8 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     topLayout->addRow(i18nc("@label:checkbox", "Tab width:"), m_alwaysShowTabBar);
     m_showCloseButtonOnTabs = new QCheckBox(i18nc("@option:check", "Show close button on tabs"));
     topLayout->addRow(QString(), m_showCloseButtonOnTabs);
+    m_showNewTabButton = new QCheckBox(i18nc("@option:check", "Show New Tab button"));
+    topLayout->addRow(QString(), m_showNewTabButton);
 
     m_tabStyleAutoWidth = new QRadioButton(i18nc("@option:radio size as in tab width", "Tab width adapts to folder name"));
     m_tabStyleFixed = new QRadioButton(i18nc("@option:radio size as in tab width", "Tabs all have the same fixed width"));
@@ -181,6 +184,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
 
     connect(m_alwaysShowTabBar, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
     connect(m_showCloseButtonOnTabs, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
+    connect(m_showNewTabButton, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
 
     connect(m_openNewTabAfterCurrentTab, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::changed);
     connect(m_openNewTabAfterLastTab, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::changed);
@@ -228,6 +232,7 @@ void FoldersTabsSettingsPage::applySettings()
 
     settings->setAlwaysShowTabBar(m_alwaysShowTabBar->isChecked());
     settings->setShowCloseButtonOnTabs(m_showCloseButtonOnTabs->isChecked());
+    settings->setShowNewTabButton(m_showNewTabButton->isChecked());
 
     settings->setOpenNewTabAfterLastTab(m_openNewTabAfterLastTab->isChecked());
 
@@ -317,6 +322,7 @@ void FoldersTabsSettingsPage::loadSettings()
 
     m_alwaysShowTabBar->setChecked(GeneralSettings::alwaysShowTabBar());
     m_showCloseButtonOnTabs->setChecked(GeneralSettings::showCloseButtonOnTabs());
+    m_showNewTabButton->setChecked(GeneralSettings::showNewTabButton());
 
     m_openNewTabAfterLastTab->setChecked(GeneralSettings::openNewTabAfterLastTab());
     m_openNewTabAfterCurrentTab->setChecked(!m_openNewTabAfterLastTab->isChecked());
