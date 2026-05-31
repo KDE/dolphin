@@ -45,13 +45,13 @@ public:
     inline QAction *action()
     {
         Q_ASSERT(m_action);
-        return m_action;
+        return m_action.data();
     };
 
     /** @returns the widget of this object. */
     inline QWidget *widget()
     {
-        return m_widget;
+        return m_widget.data();
     }
 
     /**
