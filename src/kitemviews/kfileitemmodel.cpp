@@ -1155,7 +1155,7 @@ void KFileItemModel::applyFilters()
     // ===STEP 3===
     // Handles the ancestorsOfNewVisibleItems.
     // Now that we are done iterating through m_filteredItems we can safely move the ancestorsOfNewVisibleItems from m_filteredItems to newVisibleItems.
-    for (it = ancestorsOfNewVisibleItems.begin(); it != ancestorsOfNewVisibleItems.end(); it++) {
+    for (it = ancestorsOfNewVisibleItems.begin(); it != ancestorsOfNewVisibleItems.end(); ++it) {
         if (m_filteredItems.remove(it.key())) {
             // m_filteredItems still contained this ancestor until now so we can be sure that we aren't adding a duplicate ancestor to newVisibleItems.
             newVisibleItems.append(it.value());
