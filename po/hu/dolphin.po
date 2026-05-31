@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 00:46+0000\n"
+"POT-Creation-Date: 2026-05-31 00:47+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -159,6 +159,7 @@ msgid "Empty Trash"
 msgstr "A Kuka ürítése"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -1025,6 +1026,8 @@ msgid "Open in New Window"
 msgstr "Megnyitás új ablakban"
 
 #: dolphinmainwindow.cpp:2297 panels/places/placespanel.cpp:45
+#: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
+#: tests/placespaneltest.cpp:169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"

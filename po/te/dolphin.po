@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 00:46+0000\n"
+"POT-Creation-Date: 2026-05-31 00:47+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -152,6 +152,7 @@ msgid "Empty Trash"
 msgstr "ఖాళీ ట్రాష్"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Change Tags..."
@@ -984,6 +985,8 @@ msgid "Open in New Window"
 msgstr "కొత్త విండోనందు తెరువుము"
 
 #: dolphinmainwindow.cpp:2297 panels/places/placespanel.cpp:45
+#: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
+#: tests/placespaneltest.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"

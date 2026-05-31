@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 00:46+0000\n"
+"POT-Creation-Date: 2026-05-31 00:47+0000\n"
 "PO-Revision-Date: 2010-07-19 10:30+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -153,6 +153,7 @@ msgid "Empty Trash"
 msgstr "Jiskefet leegje"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -983,6 +984,8 @@ msgid "Open in New Window"
 msgstr "Iepenje in nij finster"
 
 #: dolphinmainwindow.cpp:2297 panels/places/placespanel.cpp:45
+#: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
+#: tests/placespaneltest.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"

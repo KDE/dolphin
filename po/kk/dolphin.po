@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 00:46+0000\n"
+"POT-Creation-Date: 2026-05-31 00:47+0000\n"
 "PO-Revision-Date: 2013-07-07 01:53+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -163,6 +163,7 @@ msgid "Empty Trash"
 msgstr "Шелегін босату"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -980,6 +981,8 @@ msgid "Open in New Window"
 msgstr "Жаңа терезеде ашу"
 
 #: dolphinmainwindow.cpp:2297 panels/places/placespanel.cpp:45
+#: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
+#: tests/placespaneltest.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 00:46+0000\n"
+"POT-Creation-Date: 2026-05-31 00:47+0000\n"
 "PO-Revision-Date: 2026-03-01 21:10+0900\n"
 "Last-Translator: Mint <5602mint@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
@@ -188,6 +188,7 @@ msgid "Empty Trash"
 msgstr "ごみ箱を空にする"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -1019,6 +1020,8 @@ msgid "Open in New Window"
 msgstr "新しいウィンドウで開く"
 
 #: dolphinmainwindow.cpp:2297 panels/places/placespanel.cpp:45
+#: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
+#: tests/placespaneltest.cpp:169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
