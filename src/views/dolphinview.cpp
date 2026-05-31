@@ -1281,6 +1281,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
     ViewProperties props(viewPropertiesUrl());
 
     QPointer<QMenu> menu = new QMenu(this);
+    QMenu *const rawMenu = menu;
 
     KItemListView *view = m_container->controller()->view();
     const QList<QByteArray> visibleRolesSet = view->visibleRoles();
@@ -1305,11 +1306,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
         const QString text = m_model->roleDescription(info.role);
         QAction *action = nullptr;
         if (info.group.isEmpty()) {
-            action = menu->addAction(text);
+            action = rawMenu->addAction(text);
         } else {
             if (!groupMenu || info.group != groupName) {
                 groupName = info.group;
-                groupMenu = menu->addMenu(groupName);
+                groupMenu = rawMenu->addMenu(groupName);
             }
 
             action = groupMenu->addAction(text);
@@ -1324,26 +1325,26 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
         action->setEnabled(enable);
     }
 
-    menu->addSeparator();
+    rawMenu->addSeparator();
 
-    QActionGroup *widthsGroup = new QActionGroup(menu);
+    QActionGroup *widthsGroup = new QActionGroup(rawMenu);
     const bool autoColumnWidths = props.headerColumnWidths().isEmpty();
 
-    QAction *toggleSidePaddingAction = menu->addAction(i18nc("@action:inmenu", "Side Padding"));
+    QAction *toggleSidePaddingAction = rawMenu->addAction(i18nc("@action:inmenu", "Side Padding"));
     toggleSidePaddingAction->setCheckable(true);
     toggleSidePaddingAction->setChecked(layoutDirection() == Qt::LeftToRight ? view->header()->leftPadding() > 0 : view->header()->rightPadding() > 0);
 
-    QAction *autoAdjustWidthsAction = menu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
+    QAction *autoAdjustWidthsAction = rawMenu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
     autoAdjustWidthsAction->setCheckable(true);
     autoAdjustWidthsAction->setChecked(autoColumnWidths);
     autoAdjustWidthsAction->setActionGroup(widthsGroup);
 
-    QAction *customWidthsAction = menu->addAction(i18nc("@action:inmenu", "Custom Column Widths"));
+    QAction *customWidthsAction = rawMenu->addAction(i18nc("@action:inmenu", "Custom Column Widths"));
     customWidthsAction->setCheckable(true);
     customWidthsAction->setChecked(!autoColumnWidths);
     customWidthsAction->setActionGroup(widthsGroup);
 
-    QAction *action = menu->exec(pos.toPoint());
+    QAction *action = rawMenu->exec(pos.toPoint());
     if (menu && action) {
         KItemListHeader *header = view->header();
 

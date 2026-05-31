@@ -1522,11 +1522,7 @@ void DolphinMainWindow::openContextMenu(const QPoint &pos, const KFileItem &item
 {
     QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, m_fileItemActions);
     contextMenu->exec(pos);
-
-    // Delete the menu, unless it has been deleted in its own nested event loop already.
-    if (contextMenu) {
-        contextMenu->deleteLater();
-    }
+    delete contextMenu;
 }
 
 QMenu *DolphinMainWindow::createPopupMenu()
