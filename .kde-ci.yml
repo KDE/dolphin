@@ -48,3 +48,10 @@ Options:
  require-passing-tests-on: ['Linux/Qt6', 'FreeBSD/Qt6']
  commit-checks: ['bug-links', 'missing-since', 'since-version']
  enable-lsan: True
+ cppcheck-arguments: '--library=qt --library=kde --check-level=exhaustive --enable=warning,style,performance --inline-suppr'
+ cppcheck-ignore-files:
+  - src/tests/
+  - appiumtests/
+ # Set to True once all existing findings are resolved
+ require-cppcheck-clean: False
+
