@@ -109,7 +109,11 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
     QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
+#ifdef Q_OS_WIN
+    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localFolder).remove(QLatin1Char(':'));
+#else
     const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
+#endif
 
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
