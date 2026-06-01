@@ -109,30 +109,45 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
     QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
-    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
-
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
     props.reset();
 
+#ifdef Q_OS_WIN
+    // On Windows the read-only attribute is not honored on directories: files and
+    // Alternate Data Streams can still be created inside them. The properties are
+    // therefore stored locally rather than redirected to the destination directory.
+    KFileMetaData::UserMetaData metadata(localFolder);
+    if (metadata.isSupported()) {
+        QVERIFY(metadata.hasAttribute("kde.fm.viewproperties#1"));
+    } else {
+        QVERIFY(QFile::exists(dotDirectoryFile));
+    }
+#else
+    // On a directory without write permission the properties are redirected to the
+    // destination directory, leaving the local directory untouched.
+    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
     QVERIFY(QDir(destinationDir).exists());
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
     KFileMetaData::UserMetaData metadata(localFolder);
-    const QString viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
-    QVERIFY(viewProperties.isEmpty());
+    QVERIFY(metadata.attribute(QStringLiteral("kde.fm.viewproperties#1")).isEmpty());
+#endif
 
+    // The stored value round-trips regardless of where it was written.
     props.reset(new ViewProperties(testDirUrl));
     QVERIFY(props->isAutoSaveEnabled());
     QCOMPARE(props->sortRole(), "someNewSortRole");
     props.reset();
 
-    metadata = KFileMetaData::UserMetaData(destinationDir);
-    if (metadata.isSupported()) {
-        QVERIFY(metadata.hasAttribute("kde.fm.viewproperties#1"));
+#ifndef Q_OS_WIN
+    KFileMetaData::UserMetaData destMetadata(destinationDir);
+    if (destMetadata.isSupported()) {
+        QVERIFY(destMetadata.hasAttribute("kde.fm.viewproperties#1"));
     } else {
         QVERIFY(QFile::exists(destinationDir + "/.directory"));
     }
+#endif
 
     // un-restrict write permissions
     QFile(localFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
