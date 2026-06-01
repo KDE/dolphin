@@ -673,6 +673,9 @@ void KFileItemModelTest::testExpandItems()
 
 void KFileItemModelTest::testExpandParentItems()
 {
+#ifdef Q_OS_WIN
+    QSKIP("QFileSystemWatcher cannot watch temp directories on Windows CI (access denied).");
+#endif
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
     QVERIFY(loadingCompletedSpy.isValid());
@@ -759,6 +762,9 @@ void KFileItemModelTest::testExpandParentItems()
  */
 void KFileItemModelTest::testMakeExpandedItemHidden()
 {
+#ifdef Q_OS_WIN
+    QSKIP("QFileSystemWatcher cannot watch temp directories on Windows CI (access denied).");
+#endif
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 

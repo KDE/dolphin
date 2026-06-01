@@ -51,7 +51,13 @@ void KFileItemListViewTest::init()
 
     m_graphicsView = new QGraphicsView();
     m_graphicsView->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_graphicsView)) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_graphicsView));
+#endif
 }
 
 void KFileItemListViewTest::cleanup()
