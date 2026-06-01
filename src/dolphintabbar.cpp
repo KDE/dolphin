@@ -68,7 +68,7 @@ QSize DolphinTabBar::tabSizeHint(int index) const
         return defaultSize;
     } else if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth && count() > 0) {
         QSize defaultSize = QTabBar::tabSizeHint(index);
-        const int buttonSpace = (m_newTabButton && m_newTabButton->isVisible()) ? height() : 0;
+        const int buttonSpace = (m_newTabButton && m_newTabButton->isVisible()) ? m_newTabButton->width() : 0;
         defaultSize.setWidth(qMax(25, (width() - buttonSpace) / count()));
         return defaultSize;
     }
