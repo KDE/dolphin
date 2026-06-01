@@ -57,19 +57,6 @@ DolphinTabBar::DolphinTabBar(QWidget *parent)
     connect(m_autoActivationTimer, &QTimer::timeout, this, &DolphinTabBar::slotAutoActivationTimeout);
     connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinTabBar::slotTabBarChanged);
 
-    m_newTabButton = new QToolButton(this);
-    m_newTabButton->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    m_newTabButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    m_newTabButton->setToolTip(i18nc("@info:tooltip", "Open a new tab"));
-    m_newTabButton->setAutoRaise(true);
-    m_newTabButton->setFocusPolicy(Qt::NoFocus);
-    m_newTabButton->setStyleSheet(
-        QStringLiteral("QToolButton { border: none; }"
-                       "QToolButton:hover { background-color: palette(midlight); }"
-                       "QToolButton:pressed { background-color: palette(highlight); }"));
-    m_newTabButton->hide();
-    connect(m_newTabButton, &QToolButton::clicked, this, &DolphinTabBar::newTabRequested);
-
     QTimer::singleShot(0, this, &DolphinTabBar::slotTabBarChanged);
 }
 
@@ -292,10 +279,29 @@ void DolphinTabBar::updateAutoActivationTimer(const int index)
 
 void DolphinTabBar::setNewTabButtonVisible(bool visible)
 {
-    if (!m_newTabButton || m_newTabButton->isVisible() == visible) {
-        return;
+    if (visible) {
+        if (m_newTabButton) {
+            return;
+        }
+        m_newTabButton = new QToolButton(this);
+        m_newTabButton->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+        m_newTabButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        m_newTabButton->setToolTip(i18nc("@info:tooltip", "Open a new tab"));
+        m_newTabButton->setAutoRaise(true);
+        m_newTabButton->setFocusPolicy(Qt::NoFocus);
+        m_newTabButton->setStyleSheet(
+            QStringLiteral("QToolButton { border: none; }"
+                           "QToolButton:hover { background-color: palette(midlight); }"
+                           "QToolButton:pressed { background-color: palette(highlight); }"));
+        connect(m_newTabButton, &QToolButton::clicked, this, &DolphinTabBar::newTabRequested);
+        m_newTabButton->show();
+    } else {
+        if (!m_newTabButton) {
+            return;
+        }
+        delete m_newTabButton;
+        m_newTabButton = nullptr;
     }
-    m_newTabButton->setVisible(visible);
     QResizeEvent resizeEv(size(), size());
     QApplication::sendEvent(this, &resizeEv);
 }
