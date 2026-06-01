@@ -8,8 +8,8 @@
 
 #ifdef Q_OS_UNIX
 #include <utime.h>
-#else
-#include <sys/utime.h>
+#elif defined(Q_OS_WIN)
+#include <windows.h>
 #endif
 
 TestDir::TestDir(const QString &directoryPrefix)
@@ -33,10 +33,21 @@ static void setTimeStamp(const QString &path, const QDateTime &mtime)
     utbuf.modtime = utbuf.actime;
     utime(QFile::encodeName(path), &utbuf);
 #elif defined(Q_OS_WIN)
-    struct _utimbuf utbuf;
-    utbuf.actime = mtime.toSecsSinceEpoch();
-    utbuf.modtime = utbuf.actime;
-    _wutime(reinterpret_cast<const wchar_t *>(path.utf16()), &utbuf);
+    HANDLE h = CreateFileW(reinterpret_cast<const wchar_t *>(path.utf16()),
+                           FILE_WRITE_ATTRIBUTES,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                           nullptr,
+                           OPEN_EXISTING,
+                           FILE_FLAG_BACKUP_SEMANTICS, // required to open directories
+                           nullptr);
+    if (h != INVALID_HANDLE_VALUE) {
+        qint64 fileTime = (mtime.toMSecsSinceEpoch() + 11644473600000LL) * 10000LL;
+        FILETIME ft;
+        ft.dwLowDateTime = static_cast<DWORD>(fileTime & 0xFFFFFFFF);
+        ft.dwHighDateTime = static_cast<DWORD>((fileTime >> 32) & 0xFFFFFFFF);
+        SetFileTime(h, nullptr, nullptr, &ft);
+        CloseHandle(h);
+    }
 #endif
 }
 

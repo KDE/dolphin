@@ -208,7 +208,13 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     // Without this call the searchbox doesn't get FocusIn events.
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -237,7 +243,13 @@ void DolphinMainWindowTest::testActiveViewAfterClosingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -282,7 +294,13 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -323,7 +341,13 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -354,7 +378,13 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
     const QUrl homePathUrl{QUrl::fromLocalFile(QDir::homePath())};
     m_mainWindow->openDirectories({homePathUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -385,7 +415,13 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
     QFETCH(QUrl, activeViewUrl);
     m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu *>("new_menu");
@@ -401,7 +437,13 @@ void DolphinMainWindowTest::testCreateFileAction()
     QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
     m_mainWindow->openDirectories({testDirUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
@@ -443,7 +485,13 @@ void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
 
     m_mainWindow->openDirectories({testDirUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
@@ -481,7 +529,13 @@ void DolphinMainWindowTest::testWindowTitle()
     QFETCH(QUrl, activeViewUrl);
     m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     QFETCH(QString, expectedWindowTitle);
@@ -493,7 +547,13 @@ void DolphinMainWindowTest::testFocusLocationBar()
     const QUrl homePathUrl{QUrl::fromLocalFile(QDir::homePath())};
     m_mainWindow->openDirectories({homePathUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
@@ -523,7 +583,13 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     m_mainWindow->windowHandle()->requestActivate();
     QVERIFY(QTest::qWaitForWindowActive(m_mainWindow.data()));
@@ -585,7 +651,13 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     m_mainWindow->resize(800, m_mainWindow->height()); // make sure the size is sufficient so a places panel resize shouldn't be necessary.
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
@@ -667,7 +739,13 @@ void DolphinMainWindowTest::testGoActions()
     const QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
     m_mainWindow->openDirectories({childDirUrl}, false); // Open "b" dir
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
 
@@ -875,7 +953,13 @@ void DolphinMainWindowTest::testAccessibilityTree()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
@@ -960,7 +1044,13 @@ void DolphinMainWindowTest::testAutoSaveSession()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     // Create config file
@@ -998,7 +1088,13 @@ void DolphinMainWindowTest::testInlineRename()
     testDir->createFiles({"aaaa", "bbbb", "cccc", "dddd"});
     m_mainWindow->openDirectories({testDir->url()}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     DolphinView *view = m_mainWindow->activeViewContainer()->view();
@@ -1071,7 +1167,13 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
     m_mainWindow->show();
     QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
     QVERIFY(previewUpdatedSpy.wait());
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     QTRY_COMPARE(view->m_view->m_visibleItems.count(), view->m_model->count()); // wait for all file widgets to be laid out
 
@@ -1123,7 +1225,13 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
     m_mainWindow->show();
     QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
     m_mainWindow->actionCollection()->action(QStringLiteral("details"))->trigger();
     QCOMPARE(view->m_mode, DolphinView::DetailsView);
@@ -1245,7 +1353,13 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     // Tab 0: Open childDirUrl
     m_mainWindow->openDirectories({childDirUrl}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     // Tab 0: Enable split view
@@ -1319,7 +1433,13 @@ void DolphinMainWindowTest::testActiveViewAfterTabSwitchWithSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");

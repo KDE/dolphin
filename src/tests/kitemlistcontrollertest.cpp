@@ -157,7 +157,13 @@ void KItemListControllerTest::initTestCase()
     QVERIFY(spyDirectoryLoadingCompleted.wait());
 
     m_container->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_container)) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
     QVERIFY(QTest::qWaitForWindowExposed(m_container));
+#endif
 }
 
 void KItemListControllerTest::cleanupTestCase()

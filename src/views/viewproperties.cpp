@@ -14,6 +14,10 @@
 #include <QBuffer>
 #include <QCryptographicHash>
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
 #include <KFileItem>
 #include <KFileMetaData/UserMetaData>
 
@@ -186,7 +190,14 @@ ViewProperties::ViewProperties(const QUrl &url)
         if (!useDestinationDir) {
             const QFileInfo dirInfo(m_filePath);
             const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
-            useDestinationDir = !dirInfo.isWritable() || (dirInfo.size() > 0 && fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()));
+            bool dirNotWritable = !dirInfo.isWritable();
+#ifdef Q_OS_WIN
+            if (!dirNotWritable) {
+                const DWORD attrs = GetFileAttributesW(reinterpret_cast<const wchar_t *>(m_filePath.utf16()));
+                dirNotWritable = (attrs != INVALID_FILE_ATTRIBUTES) && (attrs & FILE_ATTRIBUTE_READONLY);
+            }
+#endif
+            useDestinationDir = dirNotWritable || (dirInfo.size() > 0 && fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()));
         }
 
         if (useDestinationDir) {
