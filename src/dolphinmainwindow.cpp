@@ -801,6 +801,7 @@ void DolphinMainWindow::setSessionAutoSaveEnabled(bool enable)
         connect(m_tabWidget, &DolphinTabWidget::urlChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
         connect(m_tabWidget, &DolphinTabWidget::tabCountChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
         connect(m_tabWidget, &DolphinTabWidget::activeViewChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
+        connect(m_tabWidget, &DolphinTabWidget::tabPinStateChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
     } else if (m_sessionSaveTimer) {
         m_sessionSaveTimer->stop();
         m_sessionSaveWatcher->disconnect();

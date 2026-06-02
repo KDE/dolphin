@@ -12,10 +12,12 @@
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QInputDialog>
+#include <QLabel>
 #include <QMenu>
 #include <QMimeData>
 #include <QPainter>
 #include <QPixmap>
+#include <QPointingDevice>
 #include <QResizeEvent>
 #include <QStyleOptionTab>
 #include <QTimer>
@@ -140,16 +142,29 @@ void DolphinTabBar::dropEvent(QDropEvent *event)
 
 void DolphinTabBar::mousePressEvent(QMouseEvent *event)
 {
-    const int index = tabAt(event->pos());
+    if (event->button() == Qt::LeftButton) {
+        m_pressedTab = tabAt(event->pos());
+        m_dragBoundaryX = -1;
+        m_clickOffsetInTab = 0;
 
+        if (m_pressedTab >= 0) {
+            const int n = pinnedCount();
+            if (n > 0 && n < count()) {
+                m_dragBoundaryX = tabRect(n).left();
+                m_clickOffsetInTab = static_cast<int>(event->position().x()) - tabRect(m_pressedTab).left();
+            }
+        }
+    }
+
+    const int index = tabAt(event->pos());
     if (index >= 0 && event->button() == Qt::MiddleButton) {
         m_tabToBeClosedOnMiddleMouseButtonRelease = index;
         return;
     }
 
-    if (index >= 0 && event->button() == Qt::LeftButton) {
-        const QRect rect = tabRect(index);
-        m_drag.tabIndex = index;
+    if (m_pressedTab >= 0 && event->button() == Qt::LeftButton && !isPinned(m_pressedTab)) {
+        const QRect rect = tabRect(m_pressedTab);
+        m_drag.tabIndex = m_pressedTab;
         m_drag.startPosition = event->pos();
         m_drag.offsetInTabX = event->pos().x() - rect.x();
         m_drag.offsetInTabY = event->pos().y() - rect.y();
@@ -163,8 +178,36 @@ void DolphinTabBar::mousePressEvent(QMouseEvent *event)
 
 void DolphinTabBar::mouseMoveEvent(QMouseEvent *event)
 {
-    QTabBar::mouseMoveEvent(event);
+    if (!(event->buttons() & Qt::LeftButton) || m_pressedTab < 0 || m_dragBoundaryX < 0) {
+        QTabBar::mouseMoveEvent(event);
+        updateTabDetachDrag(event);
+        return;
+    }
 
+    const int tabWidth = tabRect(m_pressedTab).width();
+    QPointF pos = event->position();
+
+    if (isPinned(m_pressedTab)) {
+        const double maxX = m_dragBoundaryX - tabWidth + m_clickOffsetInTab;
+        pos.setX(std::min(pos.x(), maxX));
+    } else {
+        const double minX = m_dragBoundaryX + m_clickOffsetInTab;
+        pos.setX(std::max(pos.x(), minX));
+    }
+
+    QMouseEvent clamped(event->type(),
+                        pos,
+                        event->globalPosition(),
+                        event->button(),
+                        event->buttons(),
+                        event->modifiers(),
+                        static_cast<const QPointingDevice *>(event->device()));
+    QTabBar::mouseMoveEvent(&clamped);
+    updateTabDetachDrag(event);
+}
+
+void DolphinTabBar::updateTabDetachDrag(QMouseEvent *event)
+{
     if (!((event->buttons() & Qt::LeftButton) && m_drag.tabIndex >= 0 && count() > 1)) {
         return;
     }
@@ -255,11 +298,15 @@ void DolphinTabBar::startTabDrag(QMouseEvent *event)
 
 void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
 {
-    const int index = tabAt(event->pos());
+    m_pressedTab = -1;
+    m_dragBoundaryX = -1;
+    m_clickOffsetInTab = 0;
 
+    const int index = tabAt(event->pos());
     if (index >= 0 && index == m_tabToBeClosedOnMiddleMouseButtonRelease && event->button() == Qt::MiddleButton) {
-        // Mouse middle click on a tab closes this tab.
-        Q_EMIT tabCloseRequested(index);
+        if (!isPinned(index)) {
+            Q_EMIT tabCloseRequested(index);
+        }
         return;
     }
 
@@ -311,8 +358,16 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
         // Tab context menu
         QMenu menu(this);
 
+        const bool pinned = isPinned(index);
         QAction *newTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "New Tab"));
         QAction *detachTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-detach")), i18nc("@action:inmenu", "Detach Tab"));
+        detachTabAction->setEnabled(!pinned);
+        QAction *pinTabAction;
+        if (pinned) {
+            pinTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-unpin")), i18nc("@action:inmenu", "Unpin Tab"));
+        } else {
+            pinTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-pin")), i18nc("@action:inmenu", "Pin Tab"));
+        }
         menu.addSeparator();
         QAction *renameTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-rename")), i18nc("@action:inmenu", "Rename Tab"));
         menu.addSeparator();
@@ -322,19 +377,19 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
         QAction *closeTabsToRightAction = menu.addAction(QIcon::fromTheme(QStringLiteral("go-next")), i18nc("@action:inmenu", "Close Tabs to the Right"));
         closeTabsToRightAction->setEnabled(index < count() - 1);
         QAction *closeTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close")), i18nc("@action:inmenu", "Close Tab"));
+        closeTabAction->setEnabled(!pinned);
 
         QAction *selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {
             Q_EMIT openNewActivatedTab(index);
         } else if (selectedAction == detachTabAction) {
             Q_EMIT tabDetachRequested(index);
+        } else if (selectedAction == pinTabAction) {
+            setPinned(index, !pinned);
         } else if (selectedAction == closeOtherTabsAction) {
-            const int tabCount = count();
-            for (int i = 0; i < index; i++) {
-                Q_EMIT tabCloseRequested(0);
-            }
-            for (int i = index + 1; i < tabCount; i++) {
-                Q_EMIT tabCloseRequested(1);
+            for (int i = count() - 1; i >= 0; --i) {
+                if (i != index && !isPinned(i))
+                    Q_EMIT tabCloseRequested(i);
             }
         } else if (selectedAction == closeTabsToLeftAction) {
             for (int i = 0; i < index; i++) {
@@ -436,10 +491,60 @@ void DolphinTabBar::resizeEvent(QResizeEvent *event)
     updateNewTabButtonGeometry();
 }
 
-void DolphinTabBar::tabLayoutChange()
+namespace
 {
-    QTabBar::tabLayoutChange();
-    updateNewTabButtonGeometry();
+const QLatin1String PinnedKey("dolphinPinned");
+const QLatin1String CloseButtonKey("dolphinCloseButton");
+constexpr char PinBadgeProperty[] = "dolphinPinBadge";
+}
+
+bool DolphinTabBar::isPinned(int index) const
+{
+    if (index < 0 || index >= count()) {
+        return false;
+    }
+    return tabData(index).toMap().value(PinnedKey, false).toBool();
+}
+
+int DolphinTabBar::pinnedCount() const
+{
+    int n = 0;
+    for (int i = 0; i < count(); ++i) {
+        if (isPinned(i)) {
+            ++n;
+        }
+    }
+    return n;
+}
+
+void DolphinTabBar::setPinned(int index, bool pinned)
+{
+    if (index < 0 || index >= count() || isPinned(index) == pinned)
+        return;
+
+    const int n = pinnedCount();
+
+    QVariantMap data = tabData(index).toMap();
+    data[PinnedKey] = pinned;
+    setTabData(index, data);
+
+    int newIndex = index;
+    if (pinned) {
+        if (index != n) {
+            moveTab(index, n);
+            newIndex = n;
+        }
+    } else {
+        const int firstNonPinned = n - 1;
+        if (index != firstNonPinned) {
+            moveTab(index, firstNonPinned);
+            newIndex = firstNonPinned;
+        }
+    }
+
+    updatePinnedTabButtons();
+    update();
+    Q_EMIT tabPinStateChanged(newIndex, pinned);
 }
 
 void DolphinTabBar::tabInserted(int index)
@@ -447,6 +552,7 @@ void DolphinTabBar::tabInserted(int index)
     QTabBar::tabInserted(index);
     QTimer::singleShot(0, this, [this]() {
         updateNewTabButtonGeometry();
+        updatePinnedTabButtons();
     });
 }
 
@@ -455,7 +561,15 @@ void DolphinTabBar::tabRemoved(int index)
     QTabBar::tabRemoved(index);
     QTimer::singleShot(0, this, [this]() {
         updateNewTabButtonGeometry();
+        updatePinnedTabButtons();
     });
+}
+
+void DolphinTabBar::tabLayoutChange()
+{
+    QTabBar::tabLayoutChange();
+    updateNewTabButtonGeometry();
+    updatePinnedTabButtons();
 }
 
 void DolphinTabBar::updateNewTabButtonGeometry()
@@ -479,6 +593,38 @@ void DolphinTabBar::updateNewTabButtonGeometry()
         m_newTabButton->setGeometry(qMax(0, scrollLeftEdge - btnSize), 0, btnSize, btnSize);
     }
     m_newTabButton->raise();
+}
+
+void DolphinTabBar::updatePinnedTabButtons()
+{
+    const auto side = static_cast<QTabBar::ButtonPosition>(style()->styleHint(QStyle::SH_TabBar_CloseButtonPosition, nullptr, this));
+
+    for (int i = 0; i < count(); ++i) {
+        const bool pinned = isPinned(i);
+        QWidget *button = tabButton(i, side);
+        const bool showsPinBadge = button && button->property(PinBadgeProperty).toBool();
+
+        if (pinned && !showsPinBadge) {
+            QVariantMap data = tabData(i).toMap();
+            if (button) {
+                data[CloseButtonKey] = QVariant::fromValue(button);
+            }
+            setTabData(i, data);
+
+            auto *pinBadge = new QLabel(this);
+            pinBadge->setProperty(PinBadgeProperty, true);
+            pinBadge->setPixmap(QIcon::fromTheme(QStringLiteral("window-pin")).pixmap(iconSize()));
+            pinBadge->setAlignment(Qt::AlignCenter);
+            setTabButton(i, side, pinBadge);
+        } else if (!pinned && showsPinBadge) {
+            QVariantMap data = tabData(i).toMap();
+            QWidget *original = data.value(CloseButtonKey).value<QWidget *>();
+            data.remove(CloseButtonKey);
+            setTabData(i, data);
+            setTabButton(i, side, original);
+            button->deleteLater();
+        }
+    }
 }
 
 #include "moc_dolphintabbar.cpp"

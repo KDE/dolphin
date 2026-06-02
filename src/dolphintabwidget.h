@@ -116,6 +116,11 @@ Q_SIGNALS:
      */
     void urlChanged(const QUrl &url);
 
+    /**
+     * Is emitted when a tab's pinned state has changed.
+     */
+    void tabPinStateChanged(int index, bool pinned);
+
 public Q_SLOTS:
     /**
      * Opens a new view with the current URL that is part of a tab and activates

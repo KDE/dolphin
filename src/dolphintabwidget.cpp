@@ -40,6 +40,8 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
     connect(tabBar, &DolphinTabBar::tabRenamed, this, &DolphinTabWidget::renameTab);
     connect(tabBar, &DolphinTabBar::newTabRequested, this, &DolphinTabWidget::openNewTabFromButton);
+    connect(tabBar, &DolphinTabBar::tabPinStateChanged, this, &DolphinTabWidget::tabPinStateChanged);
+
     setTabBar(tabBar);
     setDocumentMode(true);
     setElideMode(Qt::ElideRight);
@@ -87,6 +89,7 @@ void DolphinTabWidget::saveProperties(KConfigGroup &group) const
     // Written from scratch every time, so a tab that is gone leaves nothing of itself behind.
     group.deleteGroup(QStringLiteral("Tabs"));
     KConfigGroup tabsGroup = group.group(QStringLiteral("Tabs"));
+    const DolphinTabBar *bar = static_cast<const DolphinTabBar *>(tabBar());
     for (int i = 0; i < tabCount; ++i) {
         const DolphinTabPage *tabPage = tabPageAt(i);
         // One url per view of the tab, so a split tab has two of them and any other tab has one.
@@ -97,13 +100,16 @@ void DolphinTabWidget::saveProperties(KConfigGroup &group) const
         KConfigGroup tabGroup = tabsGroup.group(QString::number(i));
         tabGroup.writeEntry("Urls", urls);
         tabGroup.writeEntry("State", tabPage->saveState());
+        if (bar->isPinned(i)) {
+            tabGroup.writeEntry("Pinned", true);
+        }
     }
 
     // The one entry per tab that a Dolphin of 26.08 or older wrote here is read no more, and only
     // this replaces it, so it goes.
     const QStringList keys = group.keyList();
     for (const QString &key : keys) {
-        if (key.startsWith(QLatin1String("Tab Data "))) {
+        if (key.startsWith(QLatin1String("Tab Data ")) || key.startsWith(QLatin1String("Tab Pinned "))) {
             group.deleteEntry(key);
         }
     }
@@ -140,6 +146,15 @@ void DolphinTabWidget::readProperties(const KConfigGroup &group)
             state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
         }
         tabPageAt(i)->restoreState(state);
+    }
+
+    DolphinTabBar *bar = static_cast<DolphinTabBar *>(tabBar());
+    for (int i = 0; i < tabCount && i < count(); ++i) {
+        const KConfigGroup tabGroup = tabsGroup.group(QString::number(i));
+        const bool pinned = tabGroup.hasKey("Pinned") ? tabGroup.readEntry("Pinned", false) : group.readEntry("Tab Pinned " % QString::number(i), false);
+        if (pinned) {
+            bar->setPinned(i, true);
+        }
     }
 
     const int index = group.readEntry("Active Tab Index", 0);
@@ -388,6 +403,9 @@ void DolphinTabWidget::closeTab(const int index)
         return;
     }
 
+    if (static_cast<DolphinTabBar *>(tabBar())->isPinned(index)) {
+        return;
+    }
     DolphinTabPage *tabPage = tabPageAt(index);
     Q_EMIT rememberClosedTab(tabPage->activeViewContainer()->url(), tabPage->saveState());
 
