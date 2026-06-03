@@ -64,6 +64,7 @@
   <name xml:lang="sv">Dolphin</name>
   <name xml:lang="ta">டால்பின்</name>
   <name xml:lang="tr">Dolphin</name>
+  <name xml:lang="ug">Dolphin ھۆججەت باشقۇرغۇچ</name>
   <name xml:lang="uk">Dolphin</name>
   <name xml:lang="vi">Dolphin</name>
   <name xml:lang="zh-CN">Dolphin 文件管理器</name>
@@ -113,6 +114,7 @@
   <summary xml:lang="sv">Hantera dina filer</summary>
   <summary xml:lang="ta">கோப்புகளை நிர்வகியுங்கள்</summary>
   <summary xml:lang="tr">Dosyalarınızı yönetin</summary>
+  <summary xml:lang="ug">ھۆججەت باشقۇرۇش</summary>
   <summary xml:lang="uk">Керування вашими файлами</summary>
   <summary xml:lang="zh-CN">文件管理应用</summary>
   <summary xml:lang="zh-TW">管理您的檔案</summary>
@@ -418,6 +420,7 @@
       <caption xml:lang="sv">Filhantering i Dolphin</caption>
       <caption xml:lang="ta">டால்பினால் கோப்புகளை கையாளுதல்</caption>
       <caption xml:lang="tr">Dolphin’de dosya yönetimi</caption>
+      <caption xml:lang="ug">Dolphin دا ھۆججەت باشقۇرۇش</caption>
       <caption xml:lang="uk">Керування файлами у Dolphin</caption>
       <caption xml:lang="vi">Quản lí tệp trong Dolphin</caption>
       <caption xml:lang="zh-CN">使用 Dolphin 管理文件</caption>
