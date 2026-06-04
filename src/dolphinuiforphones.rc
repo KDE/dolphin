@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="5">
+<gui name="dolphin" version="6">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -41,10 +41,10 @@
             <Action name="view_zoom_out"/>
             <Separator/>
             <Action name="sort" />
+            <Action name="group_by" />
             <Action name="view_mode" />
             <Action name="additional_info" />
             <Action name="show_preview" />
-            <Action name="show_in_groups" />
             <Action name="show_hidden_files" />
             <Action name="act_as_admin" />
             <Separator/>

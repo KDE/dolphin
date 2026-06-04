@@ -76,6 +76,10 @@ public:
     void setSortRole(const QByteArray &role, bool resortItems = true);
     QByteArray sortRole() const;
 
+    void setGroupRole(const QByteArray &role);
+    QByteArray groupRole() const;
+    QByteArray rawGroupRole() const;
+
     /**
      * Sets the sort order to \a order. The method KItemModelBase::onSortOrderChanged() will be
      * called so that model-implementations can react on the sort order change. Afterwards the
@@ -248,6 +252,8 @@ Q_SIGNALS:
     void sortRoleChanged(const QByteArray &current, const QByteArray &previous);
     void sortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
+    void groupRoleChanged(const QByteArray &current, const QByteArray &previous);
+
 protected:
     /**
      * Is invoked if the grouped sorting has been changed by KItemModelBase::setGroupedSorting(). Allows
@@ -266,6 +272,8 @@ protected:
      */
     virtual void onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true);
 
+    virtual void onGroupRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true);
+
     /**
      * Is invoked if the sort order has been changed by KItemModelBase::setSortOrder(). Allows
      * to react on the changed sort order before the signal sortOrderChanged() will be emitted.
@@ -279,6 +287,7 @@ protected:
 private:
     bool m_groupedSorting;
     QByteArray m_sortRole;
+    QByteArray m_groupRole;
     Qt::SortOrder m_sortOrder;
 };
 

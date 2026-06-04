@@ -441,6 +441,7 @@ protected Q_SLOTS:
     virtual void slotGroupedSortingChanged(bool current);
     virtual void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
     virtual void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous);
+    virtual void slotGroupRoleChanged(const QByteArray &current, const QByteArray &previous);
     virtual void slotCurrentChanged(int current, int previous);
     virtual void slotSelectionChanged(const KItemSet &current, const KItemSet &previous);
 

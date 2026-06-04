@@ -60,6 +60,9 @@ public:
     void setSortRole(const QByteArray &role);
     QByteArray sortRole() const;
 
+    void setGroupRole(const QByteArray &role);
+    QByteArray groupRole() const;
+
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 

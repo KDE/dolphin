@@ -639,7 +639,7 @@ QList<QPair<int, QVariant>> KFileItemModel::groups() const
         QElapsedTimer timer;
         timer.start();
 #endif
-        switch (typeForRole(sortRole())) {
+        switch (typeForRole(groupRole())) {
         case NameRole:
             m_groups = nameRoleGroups();
             break;
@@ -673,7 +673,7 @@ QList<QPair<int, QVariant>> KFileItemModel::groups() const
             m_groups = ratingRoleGroups();
             break;
         default:
-            m_groups = genericStringRoleGroups(sortRole());
+            m_groups = genericStringRoleGroups(groupRole());
             break;
         }
 
@@ -1230,6 +1230,24 @@ void KFileItemModel::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current)
     m_groups.clear();
+}
+
+void KFileItemModel::onGroupRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
+{
+    Q_UNUSED(previous)
+    const RoleType roleType = typeForRole(current);
+
+    if (!m_requestRole[roleType]) {
+        QSet<QByteArray> newRoles = m_roles;
+        newRoles << current;
+        setRoles(newRoles);
+    }
+
+    m_groups.clear();
+
+    if (resortItems) {
+        resortAllItems();
+    }
 }
 
 void KFileItemModel::onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
@@ -1927,7 +1945,7 @@ void KFileItemModel::removeItems(const KItemRangeList &itemRanges, RemoveItemsBe
 
 QList<KFileItemModel::ItemData *> KFileItemModel::createItemDataList(const QUrl &parentUrl, const KFileItemList &items) const
 {
-    if (m_sortRole == TypeRole) {
+    if (m_sortRole == TypeRole || typeForRole(rawGroupRole()) == TypeRole) {
         // Try to resolve the MIME-types synchronously to prevent a reordering of
         // the items when sorting by type (per default MIME-types are resolved
         // asynchronously by KFileItemModelRolesUpdater).
@@ -1991,6 +2009,17 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
         // DateRole).
         break;
     }
+
+    if (typeForRole(rawGroupRole()) == TypeRole && m_sortRole != TypeRole) {
+        for (ItemData *itemData : std::as_const(itemDataList)) {
+            if (itemData->values.isEmpty()) {
+                const KFileItem &item = itemData->item;
+                if (item.isDir() || item.isMimeTypeKnown()) {
+                    itemData->values = retrieveData(itemData->item, itemData->parent);
+                }
+            }
+        }
+    }
 }
 
 int KFileItemModel::expandedParentsCount(const ItemData *data)
@@ -2046,7 +2075,8 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
     // Trigger a resorting if necessary. Note that this can happen even if the sort
     // role has not changed at all because the file name can be used as a fallback.
     if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))
-        || (changedRoles.contains("count") && sortRole() == "size")) { // "count" is used in the "size" sort role, so this might require a resorting.
+        || (changedRoles.contains("count") && sortRole() == "size") // "count" is used in the "size" sort role, so this might require a resorting.
+        || (groupedSorting() && !rawGroupRole().isEmpty() && changedRoles.contains(groupRole()))) {
         for (const KItemRange &range : itemRanges) {
             bool needsResorting = false;
 
@@ -2077,7 +2107,7 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
         }
     }
 
-    if (groupedSorting() && changedRoles.contains(sortRole())) {
+    if (groupedSorting() && (changedRoles.contains(sortRole()) || (!rawGroupRole().isEmpty() && changedRoles.contains(groupRole())))) {
         // The position is still correct, but the groups might have changed
         // if the changed item is either the first or the last item in a
         // group.
@@ -2307,6 +2337,20 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     return data;
 }
 
+QString KFileItemModel::groupKeyForItem(const ItemData *item, const QByteArray &role) const
+{
+    switch (typeForRole(role)) {
+    case ModificationTimeRole:
+    case CreationTimeRole:
+    case AccessTimeRole:
+        return QDateTime::fromSecsSinceEpoch(item->values.value(role).toLongLong()).date().toString(Qt::ISODate);
+    case DeletionTimeRole:
+        return item->values.value("deletiontime").toDateTime().date().toString(Qt::ISODate);
+    default:
+        return item->values.value(role).toString();
+    }
+}
+
 bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QCollator &collator) const
 {
     int result = 0;
@@ -2364,6 +2408,17 @@ bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QColla
         }
     }
 
+    if (groupedSorting() && !rawGroupRole().isEmpty() && groupRole() != sortRole()) {
+        const QByteArray gRole = groupRole();
+        const QString groupValueA = groupKeyForItem(a, gRole);
+        const QString groupValueB = groupKeyForItem(b, gRole);
+        const int groupResult = stringCompare(groupValueA, groupValueB, collator);
+        if (groupResult != 0) {
+            // Groups are always in ascending order regardless of the sort order setting.
+            return groupResult < 0;
+        }
+    }
+
     result = sortRoleCompare(a, b, collator);
 
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
@@ -2375,15 +2430,16 @@ void KFileItemModel::sort(const QList<KFileItemModel::ItemData *>::iterator &beg
         return lessThan(a, b, m_collator);
     };
 
-    if (m_sortRole == NameRole || isRoleValueNatural(m_sortRole)) {
-        // Sorting by string can be expensive, in particular if natural sorting is
-        // enabled. Use all CPU cores to speed up the sorting process.
+    const QByteArray rawRole = rawGroupRole();
+    const bool groupKeyIsString = !rawRole.isEmpty() && groupRole() != sortRole()
+        && isRoleValueNatural(typeForRole(rawRole));
+    // String-based sorts benefit from parallelism; non-string sorts use one thread
+    // to avoid non-reentrant comparison functions (bug 312679).
+    const bool primaryKeyIsString = m_sortRole == NameRole || isRoleValueNatural(m_sortRole) || groupKeyIsString;
+    if (primaryKeyIsString) {
         static const int numberOfThreads = QThread::idealThreadCount();
         parallelMergeSort(begin, end, lambdaLessThan, numberOfThreads);
     } else {
-        // Sorting by other roles is quite fast. Use only one thread to prevent
-        // problems caused by non-reentrant comparison functions, see
-        // https://bugs.kde.org/show_bug.cgi?id=312679
         mergeSort(begin, end, lambdaLessThan);
     }
 }

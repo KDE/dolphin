@@ -281,6 +281,14 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
 void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray> &roles)
 {
     if (m_roles != roles) {
+        const QSet<QByteArray> addedRoles = roles - m_roles;
+        for (const QByteArray &role : addedRoles) {
+            if (m_resolvableRoles.contains(role)) {
+                m_finishedItems.clear();
+                break;
+            }
+        }
+
         m_roles = roles;
 
 #if HAVE_BALOO

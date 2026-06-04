@@ -1477,8 +1477,8 @@ void KItemListView::slotItemsChanged(const KItemRangeList &itemRanges, const QSe
             }
         }
 
-        if (m_grouped && roles.contains(m_model->sortRole())) {
-            // The sort-role has been changed which might result
+        if (m_grouped && roles.contains(m_model->groupRole())) {
+            // The group-role data has been changed which might result
             // in modified group headers
             updateVisibleGroupHeaders();
             doLayout(NoAnimation);
@@ -1534,6 +1534,16 @@ void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pr
 }
 
 void KItemListView::slotSortRoleChanged(const QByteArray &current, const QByteArray &previous)
+{
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
+    if (m_grouped) {
+        updateVisibleGroupHeaders();
+        doLayout(NoAnimation);
+    }
+}
+
+void KItemListView::slotGroupRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -1826,6 +1836,7 @@ void KItemListView::setModel(KItemModelBase *model)
         disconnect(m_model, &KItemModelBase::groupedSortingChanged, this, &KItemListView::slotGroupedSortingChanged);
         disconnect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListView::slotSortOrderChanged);
         disconnect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListView::slotSortRoleChanged);
+        disconnect(m_model, &KItemModelBase::groupRoleChanged, this, &KItemListView::slotGroupRoleChanged);
 
         m_sizeHintResolver->itemsRemoved(KItemRangeList() << KItemRange(0, m_model->count()));
     }
@@ -1843,6 +1854,7 @@ void KItemListView::setModel(KItemModelBase *model)
         connect(m_model, &KItemModelBase::groupedSortingChanged, this, &KItemListView::slotGroupedSortingChanged);
         connect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListView::slotSortOrderChanged);
         connect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListView::slotSortRoleChanged);
+        connect(m_model, &KItemModelBase::groupRoleChanged, this, &KItemListView::slotGroupRoleChanged);
 
         const int itemCount = m_model->count();
         if (itemCount > 0) {
@@ -2251,7 +2263,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget *widget)
     const int groupIndex = groupIndexForItem(index);
     Q_ASSERT(groupIndex >= 0);
     groupHeader->setData(groups.at(groupIndex).second);
-    groupHeader->setRole(model()->sortRole());
+    groupHeader->setRole(model()->groupRole());
     groupHeader->setStyleOption(m_styleOption);
     groupHeader->setScrollOrientation(scrollOrientation());
     groupHeader->setItemIndex(index);

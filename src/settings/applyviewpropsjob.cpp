@@ -23,6 +23,7 @@ ApplyViewPropsJob::ApplyViewPropsJob(const QUrl &dir, const ViewProperties &view
     m_viewProps->setPreviewsShown(viewProps.previewsShown());
     m_viewProps->setHiddenFilesShown(viewProps.hiddenFilesShown());
     m_viewProps->setSortRole(viewProps.sortRole());
+    m_viewProps->setGroupRole(viewProps.groupRole());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
     KIO::ListJob *listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);

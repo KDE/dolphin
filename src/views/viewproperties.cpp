@@ -353,6 +353,19 @@ QByteArray ViewProperties::sortRole() const
     return m_node->sortRole().toLatin1();
 }
 
+void ViewProperties::setGroupRole(const QByteArray &role)
+{
+    if (m_node->groupRole() != role) {
+        m_node->setGroupRole(role);
+        update();
+    }
+}
+
+QByteArray ViewProperties::groupRole() const
+{
+    return m_node->groupRole().toLatin1();
+}
+
 void ViewProperties::setSortOrder(Qt::SortOrder sortOrder)
 {
     if (m_node->sortOrder() != sortOrder) {
@@ -510,6 +523,7 @@ void ViewProperties::setDirProperties(const ViewProperties &props)
     setHiddenFilesShown(props.hiddenFilesShown());
     setGroupedSorting(props.groupedSorting());
     setSortRole(props.sortRole());
+    setGroupRole(props.groupRole());
     setSortOrder(props.sortOrder());
     setSortFoldersFirst(props.sortFoldersFirst());
     setSortHiddenLast(props.sortHiddenLast());

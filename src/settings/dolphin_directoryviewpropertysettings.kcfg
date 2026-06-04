@@ -51,6 +51,12 @@
             <default>text</default>
         </entry>
 
+        <entry name="GroupRole" type="String" >
+            <label context="@label">Group files by</label>
+            <whatsthis context="@info:whatsthis">This option defines which attribute items are grouped by when grouped sorting is enabled. An empty value means the grouping criterion follows the sort criterion.</whatsthis>
+            <default></default>
+        </entry>
+
         <entry name="SortOrder" type="Int" >
             <label context="@label">Order in which to sort files</label>
             <default code="true">Qt::AscendingOrder</default>

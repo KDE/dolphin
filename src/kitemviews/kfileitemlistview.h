@@ -93,6 +93,7 @@ protected:
 protected Q_SLOTS:
     void slotItemsRemoved(const KItemRangeList &itemRanges) override;
     void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous) override;
+    void slotGroupRoleChanged(const QByteArray &current, const QByteArray &previous) override;
 
 private Q_SLOTS:
     void triggerVisibleIndexRangeUpdate();

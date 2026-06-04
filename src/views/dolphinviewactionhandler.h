@@ -186,15 +186,9 @@ private Q_SLOTS:
      */
     void slotVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
 
-    /**
-     * Switches between sorting by groups or not.
-     */
-    void toggleGroupedSorting(bool);
-
-    /**
-     * Updates the state of the 'Categorized sorting' menu action.
-     */
-    void slotGroupedSortingChanged(bool sortCategorized);
+    void slotGroupByTriggered(QAction *action);
+    void slotGroupedSortingChanged(bool groupedSorting);
+    void slotGroupRoleChanged(const QByteArray &role);
 
     /**
      * Switches between showing and hiding of hidden marked files
@@ -252,10 +246,11 @@ private:
     /**
      * Creates an action-group out of all roles from KFileItemModel.
      * Dependent on the group-prefix either a radiobutton-group is
-     * created for sorting (prefix is "sort_by_") or a checkbox-group
+     * created for sorting (prefix is "sort_by_"), a radiobutton-group
+     * is created for group-by (prefix is "group_"), or a checkbox-group
      * is created for additional information (prefix is "show_").
-     * The changes of actions are reported to slotSortTriggered() or
-     * toggleAdditionalInfo().
+     * The changes of actions are reported to slotSortTriggered(),
+     * slotGroupByTriggered(), or toggleAdditionalInfo() respectively.
      */
     QActionGroup *createFileItemRolesActionGroup(const QString &groupPrefix);
 
@@ -277,11 +272,14 @@ private:
      */
     KToggleAction *detailsModeAction();
 
+    void updateGroupByActions();
+
     KActionCollection *m_actionCollection;
     DolphinView *m_currentView;
 
     QHash<QByteArray, KToggleAction *> m_sortByActions;
     QHash<QByteArray, KToggleAction *> m_visibleRoles;
+    QHash<QByteArray, KToggleAction *> m_groupByActions;
 };
 
 #endif /* DOLPHINVIEWACTIONHANDLER_H */

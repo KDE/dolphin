@@ -119,7 +119,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
                                "create_file",
                                "show_preview",
                                "show_hidden_files",
-                               "show_in_groups",
+                               "group_by",
                                "view_properties"};
 
     // create actions combo-box and add actions

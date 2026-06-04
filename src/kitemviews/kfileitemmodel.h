@@ -293,6 +293,7 @@ protected:
     void onGroupedSortingChanged(bool current) override;
     void onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true) override;
     void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) override;
+    void onGroupRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true) override;
 
 private Q_SLOTS:
     /**
@@ -446,6 +447,8 @@ private:
      *         \b. The item-data may have different parent-items.
      */
     bool lessThan(const ItemData *a, const ItemData *b, const QCollator &collator) const;
+
+    QString groupKeyForItem(const ItemData *item, const QByteArray &role) const;
 
     /**
      * Sorts the items between \a begin and \a end using the comparison

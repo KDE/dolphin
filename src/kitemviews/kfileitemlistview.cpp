@@ -354,6 +354,15 @@ void KFileItemListView::slotSortRoleChanged(const QByteArray &current, const QBy
     KStandardItemListView::slotSortRoleChanged(current, previous);
 }
 
+void KFileItemListView::slotGroupRoleChanged(const QByteArray &current, const QByteArray &previous)
+{
+    if (!visibleRoles().contains(current)) {
+        applyRolesToModel();
+    }
+
+    KItemListView::slotGroupRoleChanged(current, previous);
+}
+
 void KFileItemListView::triggerVisibleIndexRangeUpdate()
 {
     if (!model()) {
@@ -440,6 +449,11 @@ void KFileItemListView::applyRolesToModel()
 
     // Assure that the role that is used for sorting will be determined
     roles.insert(fileItemModel->sortRole());
+
+    const QByteArray rawGroupRole = fileItemModel->rawGroupRole();
+    if (!rawGroupRole.isEmpty()) {
+        roles.insert(rawGroupRole);
+    }
 
     fileItemModel->setRoles(roles);
     m_modelRolesUpdater->setRoles(roles);

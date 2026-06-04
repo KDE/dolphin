@@ -84,6 +84,10 @@ private Q_SLOTS:
     void testGeneralParentChildRelationships();
     void testNameRoleGroups();
     void testNameRoleGroupsWithExpandedItems();
+    void testGroupRoleFallsBackToSortRole();
+    void testGroupRoleIndependentFromSortRole();
+    void testGroupRoleNotResetBySortRoleChange();
+    void testGroupRoleChangedSignal();
     void testInconsistentModel();
     void testChangeRolesForFilteredItems();
     void testChangeSortRoleWhileFiltering();
@@ -2877,6 +2881,84 @@ QUrl KFileItemModelTest::subDir(QUrl parent, const QString &relativePath)
         parent.setPath(parent.path() + '/');
     }
     return parent.resolved(QUrl(relativePath));
+}
+
+void KFileItemModelTest::testGroupRoleFallsBackToSortRole()
+{
+    QCOMPARE(m_model->rawGroupRole(), QByteArray());
+    QCOMPARE(m_model->groupRole(), m_model->sortRole());
+
+    m_model->setSortRole("size");
+    QCOMPARE(m_model->groupRole(), QByteArray("size"));
+    QCOMPARE(m_model->rawGroupRole(), QByteArray());
+
+    m_model->setGroupRole("text");
+    QCOMPARE(m_model->groupRole(), QByteArray("text"));
+    QCOMPARE(m_model->rawGroupRole(), QByteArray("text"));
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+
+    m_model->setGroupRole(QByteArray());
+    QCOMPARE(m_model->rawGroupRole(), QByteArray());
+    QCOMPARE(m_model->groupRole(), QByteArray("size"));
+}
+
+void KFileItemModelTest::testGroupRoleNotResetBySortRoleChange()
+{
+    m_model->setGroupRole("type");
+    QCOMPARE(m_model->rawGroupRole(), QByteArray("type"));
+
+    m_model->setSortRole("size");
+    QCOMPARE(m_model->rawGroupRole(), QByteArray("type"));
+    QCOMPARE(m_model->groupRole(), QByteArray("type"));
+
+    m_model->setSortRole("modificationtime");
+    QCOMPARE(m_model->rawGroupRole(), QByteArray("type"));
+}
+
+void KFileItemModelTest::testGroupRoleIndependentFromSortRole()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+
+    m_testDir->createFiles({"b.txt", "c.txt", "d.txt", "e.txt"});
+
+    m_model->setGroupedSorting(true);
+    m_model->setGroupRole("text");
+    m_model->setSortRole("text");
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QList<QPair<int, QVariant>> expectedGroups;
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("B"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("C"));
+    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QCOMPARE(m_model->groups(), expectedGroups);
+
+    m_model->setSortRole("size");
+    QCOMPARE(m_model->groupRole(), QByteArray("text"));
+    QCOMPARE(m_model->groups(), expectedGroups);
+}
+
+void KFileItemModelTest::testGroupRoleChangedSignal()
+{
+    QSignalSpy groupRoleChangedSpy(m_model, &KFileItemModel::groupRoleChanged);
+    QVERIFY(groupRoleChangedSpy.isValid());
+
+    m_model->setGroupRole("size");
+    QCOMPARE(groupRoleChangedSpy.count(), 1);
+    QCOMPARE(groupRoleChangedSpy.at(0).at(0).toByteArray(), QByteArray("size"));
+    QCOMPARE(groupRoleChangedSpy.at(0).at(1).toByteArray(), QByteArray("text"));
+    groupRoleChangedSpy.clear();
+
+    m_model->setGroupRole("size");
+    QCOMPARE(groupRoleChangedSpy.count(), 0);
+
+    m_model->setGroupRole(QByteArray());
+    QCOMPARE(groupRoleChangedSpy.count(), 1);
+    groupRoleChangedSpy.clear();
+
+    m_model->setSortRole("size");
+    QCOMPARE(groupRoleChangedSpy.count(), 1);
 }
 
 QTEST_MAIN(KFileItemModelTest)

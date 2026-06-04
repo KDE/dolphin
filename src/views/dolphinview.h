@@ -218,6 +218,10 @@ public:
     void setSortRole(const QByteArray &role);
     QByteArray sortRole() const;
 
+    void setGroupRole(const QByteArray &role);
+    QByteArray groupRole() const;
+    QByteArray rawGroupRole() const;
+
     /**
      * Updates the view properties of the current URL to the
      * sort order given by \a order.
@@ -577,6 +581,12 @@ Q_SIGNALS:
 
     /** Is emitted if the sorting by name, size or date has been changed. */
     void sortRoleChanged(const QByteArray &role);
+
+    /**
+     * Is emitted when the explicit group role changes. Passes the raw role —
+     * an empty byte array means grouping follows the sort role (see rawGroupRole()).
+     */
+    void groupRoleChanged(const QByteArray &role);
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);

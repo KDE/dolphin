@@ -50,11 +50,39 @@ bool KItemModelBase::groupedSorting() const
 void KItemModelBase::setSortRole(const QByteArray &role, bool resortItems)
 {
     if (role != m_sortRole) {
-        const QByteArray previous = m_sortRole;
+        const QByteArray previousSortRole = m_sortRole;
         m_sortRole = role;
-        onSortRoleChanged(role, previous, resortItems);
-        Q_EMIT sortRoleChanged(role, previous);
+        onSortRoleChanged(role, previousSortRole, resortItems);
+        Q_EMIT sortRoleChanged(role, previousSortRole);
+
+        if (m_groupRole.isEmpty()) {
+            onGroupRoleChanged(role, previousSortRole, false);
+            Q_EMIT groupRoleChanged(role, previousSortRole);
+        }
     }
+}
+
+void KItemModelBase::setGroupRole(const QByteArray &role)
+{
+    if (role != m_groupRole) {
+        const QByteArray previousEffective = groupRole();
+        m_groupRole = role;
+        const QByteArray currentEffective = groupRole();
+        if (currentEffective != previousEffective) {
+            onGroupRoleChanged(currentEffective, previousEffective);
+            Q_EMIT groupRoleChanged(currentEffective, previousEffective);
+        }
+    }
+}
+
+QByteArray KItemModelBase::groupRole() const
+{
+    return m_groupRole.isEmpty() ? m_sortRole : m_groupRole;
+}
+
+QByteArray KItemModelBase::rawGroupRole() const
+{
+    return m_groupRole;
 }
 
 QByteArray KItemModelBase::sortRole() const
@@ -143,6 +171,13 @@ void KItemModelBase::onGroupedSortingChanged(bool current)
 }
 
 void KItemModelBase::onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
+{
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
+    Q_UNUSED(resortItems)
+}
+
+void KItemModelBase::onGroupRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
