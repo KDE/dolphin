@@ -161,11 +161,14 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
 {
 #if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
-    m_splitter->setAutoFillBackground(!enabled);
+    // Breeze wants a plain rectangle to fill the frame,
+    // but let other QStyles style the navbar how they please
+    const bool isBreezeStyle = m_splitter->style()->name() == QStringLiteral("breeze");
+    m_splitter->setAutoFillBackground(!enabled && isBreezeStyle);
     m_splitter->setBackgroundRole(enabled ? QPalette::Window : QPalette::Base);
-    primaryUrlNavigator()->setBackgroundEnabled(enabled);
+    primaryUrlNavigator()->setBackgroundEnabled(isBreezeStyle ? enabled : true);
     if (secondaryUrlNavigator()) {
-        secondaryUrlNavigator()->setBackgroundEnabled(enabled);
+        secondaryUrlNavigator()->setBackgroundEnabled(isBreezeStyle ? enabled : true);
     }
 #else
     Q_UNUSED(enabled);
