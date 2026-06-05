@@ -1,7 +1,7 @@
 #
 # Translators:
 #
-# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025, 2026 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022-2026 Emir SARI <emir_sari@icloud.com>
 # Gökçen Eraslan <gokcen@pardus.org.tr>, 2010.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2010-2011.
 # Muhammet Kara <muhammet.k@gmail.com>, 2011.
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-02 00:46+0000\n"
-"PO-Revision-Date: 2026-05-02 19:50+0300\n"
+"POT-Creation-Date: 2026-06-05 00:47+0000\n"
+"PO-Revision-Date: 2026-06-04 14:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1715,35 +1715,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Yerler Paneli Odağını Kaldır"
 
-#: dolphinnavigatorswidgetaction.cpp:234
+#: dolphinnavigatorswidgetaction.cpp:237
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Sunucu URL’sini girin (ör. smb://[ip adresi])"
 
-#: dolphinnavigatorswidgetaction.cpp:261
+#: dolphinnavigatorswidgetaction.cpp:264
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Çöp Kutusunu Boşalt"
 
-#: dolphinnavigatorswidgetaction.cpp:262
+#: dolphinnavigatorswidgetaction.cpp:265
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Boş alan yaratmak için Çöp Kutusu’nu boşaltır"
 
-#: dolphinnavigatorswidgetaction.cpp:288
+#: dolphinnavigatorswidgetaction.cpp:291
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Ağ Klasörü Ekle"
 
-#: dolphinnavigatorswidgetaction.cpp:319
+#: dolphinnavigatorswidgetaction.cpp:322
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr "KDE Bağlan’ı Aç"
 
-#: dolphinnavigatorswidgetaction.cpp:356
+#: dolphinnavigatorswidgetaction.cpp:359
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -6783,7 +6783,7 @@ msgid ""
 msgstr ""
 "<para>Bu etkinleştirildiğinde, <emphasis>gizli</emphasis> dosya ve klasörler "
 "görünür duruma gelir; yarısaydam olarak görüntülenirler.</para><para>Gizli "
-"ögeler normal öğelerden yalnızca adlarının nokta (“.”) ile başlamasıyla "
+"ögeler normal ögelerden yalnızca adlarının nokta (“.”) ile başlamasıyla "
 "ayrılırlar. Genellikle kullanıcıların bunlara erişmesine gerek yoktur, bu "
 "nedenle gizlidirler.</para><para>Ögeler, adları “.hidden” adlı bir metin "
 "dosyasına konulursa gizlenirler. Yedekleme dosyaları gibi “application/x-"
