@@ -1,15 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# SPDX-FileCopyrightText: 2026 César A. P. Cláudio <cesarapclaudio@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-05 00:47+0000\n"
-"PO-Revision-Date: 2023-07-03 01:16+0100\n"
-"Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
+"PO-Revision-Date: 2026-06-05 23:32+0100\n"
+"Last-Translator: César A. P. Cláudio <cesarapclaudio@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -24,16 +23,17 @@ msgstr ""
 "X-POFile-SpellExtra: Filelight Tab Konsole Angelaccio Elvis directory\n"
 "X-POFile-SpellExtra: personalizável xdg install uninstall Baloo MiB MTP\n"
 "X-POFile-SpellExtra: Felix Méven Car deselecção drwxr xr recém\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "José Nuno Pires"
+msgstr "César A. P. Cláudio, José Nuno Pires"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "zepires@gmail.com"
+msgstr "cesarapclaudio@gmail.com"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -51,7 +51,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Terminar"
 
 #: admin/bar.cpp:57
 #, kde-format
@@ -69,7 +69,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "A autorização de administrador expirou."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -181,32 +181,32 @@ msgstr[1] "Substituir a Localização Inicial"
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
-msgstr "Criar um Novo"
+msgstr "Criar novo"
 
 #: dolphincontextmenu.cpp:245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
-msgstr "Abrir o Local"
+msgstr "Abrir caminho"
 
 #: dolphincontextmenu.cpp:253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
-msgstr "Abrir o Local numa Nova Página"
+msgstr "Abrir caminho num novo separador"
 
 #: dolphincontextmenu.cpp:261
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
-msgstr "Abrir o Local numa Nova Janela"
+msgstr "Abrir caminho numa nova janela"
 
 #: dolphincontextmenu.cpp:513
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Clique do meio"
 
 #: dolphincontextmenu.cpp:524
 #, kde-format
@@ -214,7 +214,7 @@ msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr ""
+msgstr "Shift+Clique do meio"
 
 #: dolphinmainwindow.cpp:433
 #, kde-format
@@ -226,7 +226,7 @@ msgstr "Recuar"
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
-msgstr "Volta à pasta vista anteriormente."
+msgstr "Voltar à pasta visualizada anteriormente."
 
 #: dolphinmainwindow.cpp:440
 #, kde-format
