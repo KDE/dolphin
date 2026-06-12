@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:47+0000\n"
+"POT-Creation-Date: 2026-06-12 00:46+0000\n"
 "PO-Revision-Date: 2026-04-15 05:00+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -279,7 +279,7 @@ msgstr ""
 "გახვიდეთ?"
 
 #: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2329
 #, kde-format
 msgid "Do not ask again"
 msgstr "აღარ მკითხო"
@@ -2534,92 +2534,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2703
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2649
+#: kitemviews/kfileitemmodel.cpp:2705
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "სხვები"
 
-#: kitemviews/kfileitemmodel.cpp:2681
+#: kitemviews/kfileitemmodel.cpp:2737
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "საქაღალდეები"
 
-#: kitemviews/kfileitemmodel.cpp:2689
+#: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "პატარა"
 
-#: kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2747
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "საშუალო"
 
-#: kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2749
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "დიდი"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2795
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "დღეს"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2798
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "გუშინ"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2801
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "დდდდ"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2805
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2810
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "1 კვირის წინ"
 
-#: kitemviews/kfileitemmodel.cpp:2757
+#: kitemviews/kfileitemmodel.cpp:2813
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "ორი კვირის წინ"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2816
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "სამი კვირის წინ"
 
-#: kitemviews/kfileitemmodel.cpp:2764
+#: kitemviews/kfileitemmodel.cpp:2820
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "ამ თვის დასაწყისში"
 
-#: kitemviews/kfileitemmodel.cpp:2778
+#: kitemviews/kfileitemmodel.cpp:2834
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2629,7 +2629,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'გუშინ' (თთთთ, წწწწ)"
 
-#: kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2637,7 +2637,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2854
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2645,7 +2645,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "დდდდ (თთთთ, წწწწ)"
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2858
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2653,7 +2653,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2866
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2663,7 +2663,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'1 კვირის წინ' (თთთთ, წწწწ)"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2671,7 +2671,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2887
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2681,7 +2681,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'2 კვირის წინ' (თთთთ, წწწ)"
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2894
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2689,7 +2689,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2852
+#: kitemviews/kfileitemmodel.cpp:2908
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2699,7 +2699,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'3 კვირის წინ' (თთთთ, წწწ)"
 
-#: kitemviews/kfileitemmodel.cpp:2859
+#: kitemviews/kfileitemmodel.cpp:2915
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2707,7 +2707,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2873
+#: kitemviews/kfileitemmodel.cpp:2929
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2717,7 +2717,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'ამ თვის დასაწყისში' თთთთ, წწწწ"
 
-#: kitemviews/kfileitemmodel.cpp:2880
+#: kitemviews/kfileitemmodel.cpp:2936
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2725,7 +2725,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2894
+#: kitemviews/kfileitemmodel.cpp:2950
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2733,7 +2733,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "თთთთ, წწწწ"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2954
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2741,288 +2741,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2938 kitemviews/kfileitemmodel.cpp:2951
-#: kitemviews/kfileitemmodel.cpp:2964
+#: kitemviews/kfileitemmodel.cpp:2994 kitemviews/kfileitemmodel.cpp:3007
+#: kitemviews/kfileitemmodel.cpp:3020
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "წაკითხვა, "
 
-#: kitemviews/kfileitemmodel.cpp:2941 kitemviews/kfileitemmodel.cpp:2954
-#: kitemviews/kfileitemmodel.cpp:2967
+#: kitemviews/kfileitemmodel.cpp:2997 kitemviews/kfileitemmodel.cpp:3010
+#: kitemviews/kfileitemmodel.cpp:3023
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "ჩაწერა, "
 
-#: kitemviews/kfileitemmodel.cpp:2944 kitemviews/kfileitemmodel.cpp:2957
-#: kitemviews/kfileitemmodel.cpp:2970
+#: kitemviews/kfileitemmodel.cpp:3000 kitemviews/kfileitemmodel.cpp:3013
+#: kitemviews/kfileitemmodel.cpp:3026
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "გაშვება, "
 
-#: kitemviews/kfileitemmodel.cpp:2946 kitemviews/kfileitemmodel.cpp:2959
-#: kitemviews/kfileitemmodel.cpp:2972
+#: kitemviews/kfileitemmodel.cpp:3002 kitemviews/kfileitemmodel.cpp:3015
+#: kitemviews/kfileitemmodel.cpp:3028
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "აკრძალულია"
 
-#: kitemviews/kfileitemmodel.cpp:2974
+#: kitemviews/kfileitemmodel.cpp:3030
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "მომხმარებელი: %1 | ჯგუფი: %2 | სხვები: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3064
+#: kitemviews/kfileitemmodel.cpp:3120
 msgctxt "@label"
 msgid "Name"
 msgstr "სახელი"
 
-#: kitemviews/kfileitemmodel.cpp:3065
+#: kitemviews/kfileitemmodel.cpp:3121
 msgctxt "@label"
 msgid "Size"
 msgstr "ზომა"
 
-#: kitemviews/kfileitemmodel.cpp:3066
+#: kitemviews/kfileitemmodel.cpp:3122
 msgctxt "@label"
 msgid "Modified"
 msgstr "შეიცვალა"
 
-#: kitemviews/kfileitemmodel.cpp:3066 kitemviews/kfileitemmodel.cpp:3067
-#: kitemviews/kfileitemmodel.cpp:3068
+#: kitemviews/kfileitemmodel.cpp:3122 kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3124
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "მონაცემების ფორმატი პარამეტრებში შეგიძლიათ, აირჩიოთ."
 
-#: kitemviews/kfileitemmodel.cpp:3067
+#: kitemviews/kfileitemmodel.cpp:3123
 msgctxt "@label"
 msgid "Created"
 msgstr "შექმნილია"
 
-#: kitemviews/kfileitemmodel.cpp:3068
+#: kitemviews/kfileitemmodel.cpp:3124
 msgctxt "@label"
 msgid "Accessed"
 msgstr "ბოლო წვდომა"
 
-#: kitemviews/kfileitemmodel.cpp:3069
+#: kitemviews/kfileitemmodel.cpp:3125
 msgctxt "@label"
 msgid "Type"
 msgstr "ტიპით"
 
-#: kitemviews/kfileitemmodel.cpp:3070
+#: kitemviews/kfileitemmodel.cpp:3126
 msgctxt "@label"
 msgid "Rating"
 msgstr "შეფასება"
 
-#: kitemviews/kfileitemmodel.cpp:3071
+#: kitemviews/kfileitemmodel.cpp:3127
 msgctxt "@label"
 msgid "Tags"
 msgstr "ჭდეები"
 
-#: kitemviews/kfileitemmodel.cpp:3072
+#: kitemviews/kfileitemmodel.cpp:3128
 msgctxt "@label"
 msgid "Comment"
 msgstr "შენიშვნა"
 
-#: kitemviews/kfileitemmodel.cpp:3073
+#: kitemviews/kfileitemmodel.cpp:3129
 msgctxt "@label"
 msgid "Title"
 msgstr "სათაური"
 
-#: kitemviews/kfileitemmodel.cpp:3073 kitemviews/kfileitemmodel.cpp:3074
-#: kitemviews/kfileitemmodel.cpp:3075 kitemviews/kfileitemmodel.cpp:3076
-#: kitemviews/kfileitemmodel.cpp:3077 kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3129 kitemviews/kfileitemmodel.cpp:3130
+#: kitemviews/kfileitemmodel.cpp:3131 kitemviews/kfileitemmodel.cpp:3132
+#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3134
 msgctxt "@label"
 msgid "Document"
 msgstr "დოკუმენტი"
 
-#: kitemviews/kfileitemmodel.cpp:3074
+#: kitemviews/kfileitemmodel.cpp:3130
 msgctxt "@label"
 msgid "Author"
 msgstr "ავტორი"
 
-#: kitemviews/kfileitemmodel.cpp:3075
+#: kitemviews/kfileitemmodel.cpp:3131
 msgctxt "@label"
 msgid "Publisher"
 msgstr "გამომცემელი"
 
-#: kitemviews/kfileitemmodel.cpp:3076
+#: kitemviews/kfileitemmodel.cpp:3132
 msgctxt "@label"
 msgid "Page Count"
 msgstr "გვერდის რაოდენობა"
 
-#: kitemviews/kfileitemmodel.cpp:3077
+#: kitemviews/kfileitemmodel.cpp:3133
 msgctxt "@label"
 msgid "Word Count"
 msgstr "სიტყვების რაოდენობა"
 
-#: kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3134
 msgctxt "@label"
 msgid "Line Count"
 msgstr "ხაზის რაოდენობა"
 
-#: kitemviews/kfileitemmodel.cpp:3079
+#: kitemviews/kfileitemmodel.cpp:3135
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "გადაღების თარიღი"
 
-#: kitemviews/kfileitemmodel.cpp:3079 kitemviews/kfileitemmodel.cpp:3080
-#: kitemviews/kfileitemmodel.cpp:3081 kitemviews/kfileitemmodel.cpp:3082
-#: kitemviews/kfileitemmodel.cpp:3083
+#: kitemviews/kfileitemmodel.cpp:3135 kitemviews/kfileitemmodel.cpp:3136
+#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3138
+#: kitemviews/kfileitemmodel.cpp:3139
 msgctxt "@label"
 msgid "Image"
 msgstr "გამოსახულება"
 
-#: kitemviews/kfileitemmodel.cpp:3080 kitemviews/kfileitemmodel.cpp:3096
+#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3152
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "ზომები"
 
-#: kitemviews/kfileitemmodel.cpp:3081 kitemviews/kfileitemmodel.cpp:3099
+#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3155
 msgctxt "@label"
 msgid "Height"
 msgstr "სიმაღლე"
 
-#: kitemviews/kfileitemmodel.cpp:3082
+#: kitemviews/kfileitemmodel.cpp:3138
 msgctxt "@label"
 msgid "Orientation"
 msgstr "ორიენტაცია"
 
-#: kitemviews/kfileitemmodel.cpp:3083 kitemviews/kfileitemmodel.cpp:3102
+#: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
 msgid "Width"
 msgstr "სიგანე"
 
-#: kitemviews/kfileitemmodel.cpp:3084
+#: kitemviews/kfileitemmodel.cpp:3140
 msgctxt "@label"
 msgid "Album"
 msgstr "ალბომი"
 
-#: kitemviews/kfileitemmodel.cpp:3084 kitemviews/kfileitemmodel.cpp:3085
-#: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3087
-#: kitemviews/kfileitemmodel.cpp:3088 kitemviews/kfileitemmodel.cpp:3089
-#: kitemviews/kfileitemmodel.cpp:3090 kitemviews/kfileitemmodel.cpp:3091
+#: kitemviews/kfileitemmodel.cpp:3140 kitemviews/kfileitemmodel.cpp:3141
+#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3145
+#: kitemviews/kfileitemmodel.cpp:3146 kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@label"
 msgid "Audio"
 msgstr "აუდიო"
 
-#: kitemviews/kfileitemmodel.cpp:3085
+#: kitemviews/kfileitemmodel.cpp:3141
 msgctxt "@label"
 msgid "Artist"
 msgstr "შემსრულებელი"
 
-#: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3093
+#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3149
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "აუდიოკოდეკი"
 
-#: kitemviews/kfileitemmodel.cpp:3087 kitemviews/kfileitemmodel.cpp:3094
+#: kitemviews/kfileitemmodel.cpp:3143 kitemviews/kfileitemmodel.cpp:3150
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "სიჩქარე"
 
-#: kitemviews/kfileitemmodel.cpp:3088 kitemviews/kfileitemmodel.cpp:3097
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3153
 msgctxt "@label"
 msgid "Duration"
 msgstr "ხანგრძლოვობა"
 
-#: kitemviews/kfileitemmodel.cpp:3089
+#: kitemviews/kfileitemmodel.cpp:3145
 msgctxt "@label"
 msgid "Genre"
 msgstr "ჟანრი"
 
-#: kitemviews/kfileitemmodel.cpp:3090
+#: kitemviews/kfileitemmodel.cpp:3146
 msgctxt "@label"
 msgid "Release Year"
 msgstr "გამოშვების წელი"
 
-#: kitemviews/kfileitemmodel.cpp:3091
+#: kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@label"
 msgid "Track"
 msgstr "ტრეკი"
 
-#: kitemviews/kfileitemmodel.cpp:3092
+#: kitemviews/kfileitemmodel.cpp:3148
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "თანაფარდობა"
 
-#: kitemviews/kfileitemmodel.cpp:3092 kitemviews/kfileitemmodel.cpp:3093
-#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3095
-#: kitemviews/kfileitemmodel.cpp:3096 kitemviews/kfileitemmodel.cpp:3097
-#: kitemviews/kfileitemmodel.cpp:3098 kitemviews/kfileitemmodel.cpp:3099
-#: kitemviews/kfileitemmodel.cpp:3100 kitemviews/kfileitemmodel.cpp:3101
-#: kitemviews/kfileitemmodel.cpp:3102
+#: kitemviews/kfileitemmodel.cpp:3148 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3150 kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3152 kitemviews/kfileitemmodel.cpp:3153
+#: kitemviews/kfileitemmodel.cpp:3154 kitemviews/kfileitemmodel.cpp:3155
+#: kitemviews/kfileitemmodel.cpp:3156 kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
 msgid "Video"
 msgstr "ვიდეო"
 
-#: kitemviews/kfileitemmodel.cpp:3095
+#: kitemviews/kfileitemmodel.cpp:3151
 msgctxt "@label"
 msgid "Color Space"
 msgstr "ფერის სივრცე"
 
-#: kitemviews/kfileitemmodel.cpp:3098
+#: kitemviews/kfileitemmodel.cpp:3154
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "კადრების სიხშირე"
 
-#: kitemviews/kfileitemmodel.cpp:3100
+#: kitemviews/kfileitemmodel.cpp:3156
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "პიქსელის ფორმატი"
 
-#: kitemviews/kfileitemmodel.cpp:3101
+#: kitemviews/kfileitemmodel.cpp:3157
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "ვიდეოკოდეკი"
 
-#: kitemviews/kfileitemmodel.cpp:3103
+#: kitemviews/kfileitemmodel.cpp:3159
 msgctxt "@label"
 msgid "Path"
 msgstr "ბილიკი"
 
-#: kitemviews/kfileitemmodel.cpp:3103 kitemviews/kfileitemmodel.cpp:3104
-#: kitemviews/kfileitemmodel.cpp:3105 kitemviews/kfileitemmodel.cpp:3106
-#: kitemviews/kfileitemmodel.cpp:3107 kitemviews/kfileitemmodel.cpp:3108
-#: kitemviews/kfileitemmodel.cpp:3109 kitemviews/kfileitemmodel.cpp:3110
-#: kitemviews/kfileitemmodel.cpp:3111
+#: kitemviews/kfileitemmodel.cpp:3159 kitemviews/kfileitemmodel.cpp:3160
+#: kitemviews/kfileitemmodel.cpp:3161 kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3163 kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@label"
 msgid "Other"
 msgstr "სხვა"
 
-#: kitemviews/kfileitemmodel.cpp:3104
+#: kitemviews/kfileitemmodel.cpp:3160
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "საქაღალდის სახელი"
 
-#: kitemviews/kfileitemmodel.cpp:3105
+#: kitemviews/kfileitemmodel.cpp:3161
 msgctxt "@label"
 msgid "File Extension"
 msgstr "ფაილის გაფართოება"
 
-#: kitemviews/kfileitemmodel.cpp:3106
+#: kitemviews/kfileitemmodel.cpp:3162
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "წაშლის დრო"
 
-#: kitemviews/kfileitemmodel.cpp:3107
+#: kitemviews/kfileitemmodel.cpp:3163
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "ბმულის სამიზნე"
 
-#: kitemviews/kfileitemmodel.cpp:3108
+#: kitemviews/kfileitemmodel.cpp:3164
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "გადმოწერის წყარო"
 
-#: kitemviews/kfileitemmodel.cpp:3109
+#: kitemviews/kfileitemmodel.cpp:3165
 msgctxt "@label"
 msgid "Permissions"
 msgstr "წვდომები"
 
-#: kitemviews/kfileitemmodel.cpp:3109
+#: kitemviews/kfileitemmodel.cpp:3165
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3031,17 +3031,17 @@ msgstr ""
 "წვდომის ფორმატი შეგიძლიათ მორგების ფანჯარაში შეცვალოთ. შესაძლო ვარიანტებია "
 "სიმბოლური, რიცხვითი (რვაობითი) ან კომბინირებული ფორმატები"
 
-#: kitemviews/kfileitemmodel.cpp:3110
+#: kitemviews/kfileitemmodel.cpp:3166
 msgctxt "@label"
 msgid "Owner"
 msgstr "მფლობელი"
 
-#: kitemviews/kfileitemmodel.cpp:3111
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@label"
 msgid "User Group"
 msgstr "მომხმარებლების ჯგუფი"
 
-#: kitemviews/kfileitemmodel.cpp:3212
+#: kitemviews/kfileitemmodel.cpp:3268
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -4528,64 +4528,83 @@ msgstr ""
 "ეს პარამეტრი განსაზღვრავს, რომელი ატრიბუტით (ტექსტი, ზომა, თარიღი, ა.შ.) "
 "მოხდება დალაგება."
 
-#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Sort files by"
+msgctxt "@label"
+msgid "Group files by"
+msgstr "ფაილების დალაგების წესი"
+
+#. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option defines which attribute items are grouped by when grouped "
+"sorting is enabled. An empty value means the grouping criterion follows the "
+"sort criterion."
+msgstr ""
+
+#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:61
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
 msgstr "ფაილების დალაგების მიმდევრობა"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:62
+#: settings/dolphin_directoryviewpropertysettings.kcfg:68
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
 msgstr "ფაილებისა და საქაღალდეების დალაგებისას საქაღალდეების ჩვენება"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:67
+#: settings/dolphin_directoryviewpropertysettings.kcfg:73
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
 msgstr "დამალული ფაილებისა და საქაღალდეების ბოლოს ჩვენება"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:72
+#: settings/dolphin_directoryviewpropertysettings.kcfg:78
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
 msgstr "ხილული როლები"
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#: settings/dolphin_directoryviewpropertysettings.kcfg:83
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
 msgstr "თავსართის სვეტის სიგანეები"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#: settings/dolphin_directoryviewpropertysettings.kcfg:88
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
 msgstr "ბოლოს შეცვლილი თვისებები"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:83
+#: settings/dolphin_directoryviewpropertysettings.kcfg:89
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "უკანასკნელი დრო, როცა ეს თვისებები მომხმარებელმა შეცვალა."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:87
+#: settings/dolphin_directoryviewpropertysettings.kcfg:93
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
 msgstr "ხედის რეჟიმი შეიცვალა ერთხელ დინამიკური ხედით"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:93
+#: settings/dolphin_directoryviewpropertysettings.kcfg:99
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -6241,7 +6260,7 @@ msgstr "ნაგულისხმევი"
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: views/dolphinview.cpp:736
+#: views/dolphinview.cpp:763
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6249,7 +6268,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "არჩეულია 1 საქაღალდე"
 msgstr[1] "არჩეულია %1 საქაღალდე"
 
-#: views/dolphinview.cpp:737
+#: views/dolphinview.cpp:764
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6257,7 +6276,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "არჩეულია 1 ფაილი"
 msgstr[1] "არჩეულია %1 ფაილი"
 
-#: views/dolphinview.cpp:739
+#: views/dolphinview.cpp:766
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6265,7 +6284,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 საქაღალდე"
 msgstr[1] "%1 საქაღალდე"
 
-#: views/dolphinview.cpp:740
+#: views/dolphinview.cpp:767
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6273,38 +6292,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 ფაილი"
 msgstr[1] "%1 ფაილი"
 
-#: views/dolphinview.cpp:744
+#: views/dolphinview.cpp:771
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:746
+#: views/dolphinview.cpp:773
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:750
+#: views/dolphinview.cpp:777
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 საქაღალდე, 0 ფაილი"
 
-#: views/dolphinview.cpp:992 views/dolphinview.cpp:1001
+#: views/dolphinview.cpp:1019 views/dolphinview.cpp:1028
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 ასლი"
 
-#: views/dolphinview.cpp:1194
+#: views/dolphinview.cpp:1221
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "მართლა გნებავთ 1 ელემენტის გახსნა?"
 msgstr[1] "მართლა გნებავთ %1 ელემენტის გახსნა?"
 
-#: views/dolphinview.cpp:1199
+#: views/dolphinview.cpp:1226
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6312,43 +6331,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 ჩანაწერის გახსნა"
 msgstr[1] "%1 ჩანაწერის გახსნა"
 
-#: views/dolphinview.cpp:1333
+#: views/dolphinview.cpp:1360
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "გვერდის შევსება"
 
-#: views/dolphinview.cpp:1337
+#: views/dolphinview.cpp:1364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "სვეტის ავტომატური სიგანეები"
 
-#: views/dolphinview.cpp:1342
+#: views/dolphinview.cpp:1369
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "სვეტის სიგანის ხელით მითითება"
 
-#: views/dolphinview.cpp:2072
+#: views/dolphinview.cpp:2099
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ნაგვის ყუთში გადატანის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:2082
+#: views/dolphinview.cpp:2109
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "წაშლის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "გადარქმევა და დამალვა"
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2281
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6357,7 +6376,7 @@ msgstr ""
 "ფაილის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2256
+#: views/dolphinview.cpp:2283
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6366,23 +6385,23 @@ msgstr ""
 "საქაღალდის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2258
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "Hide this File?"
 msgstr "დავმალო ეს ფაილი?"
 
-#: views/dolphinview.cpp:2258
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "დავმალო ეს საქაღალდე?"
 
-#: views/dolphinview.cpp:2279
+#: views/dolphinview.cpp:2306
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "სახელის გადარქმევა"
 
-#: views/dolphinview.cpp:2289
+#: views/dolphinview.cpp:2316
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6395,7 +6414,7 @@ msgstr ""
 "იცნონ.\n"
 "მართლა გნებავთ მისი სახელის გადარქმევა?"
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6408,117 +6427,117 @@ msgstr ""
 "იცნონ.\n"
 "მართლა გნებავთ მისი სახელის გადარქმევა?"
 
-#: views/dolphinview.cpp:2299
+#: views/dolphinview.cpp:2326
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ფაილის ტიპის შეცვლა"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "მდებარეობა ცარიელია."
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "მდებარეობა\"%1\" არასწორია."
 
-#: views/dolphinview.cpp:2726
+#: views/dolphinview.cpp:2759
 #, kde-format
 msgid "Loading…"
 msgstr "იტვირთება…"
 
-#: views/dolphinview.cpp:2755
+#: views/dolphinview.cpp:2788
 #, kde-format
 msgid "Loading canceled"
 msgstr "ჩატვირთვა გაუქმდა"
 
-#: views/dolphinview.cpp:2757
+#: views/dolphinview.cpp:2790
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ფილტრს ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2759
+#: views/dolphinview.cpp:2792
 #, kde-format
 msgid "No items matching the search"
 msgstr "ძებნას ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2761
+#: views/dolphinview.cpp:2794
 #, kde-format
 msgid "Trash is empty"
 msgstr "ურნა ცარიელია"
 
-#: views/dolphinview.cpp:2764
+#: views/dolphinview.cpp:2797
 #, kde-format
 msgid "No tags"
 msgstr "ჭდეების გარეშე"
 
-#: views/dolphinview.cpp:2767
+#: views/dolphinview.cpp:2800
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ფაილები ჭდით \"%1\" აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2771
+#: views/dolphinview.cpp:2804
 #, kde-format
 msgid "No recently used items"
 msgstr "ახლახანს გამოყენებული ფაილებსი გარეშე"
 
-#: views/dolphinview.cpp:2773
+#: views/dolphinview.cpp:2806
 #, kde-format
 msgid "No shared folders found"
 msgstr "გაზიარებული ფაილები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2775
+#: views/dolphinview.cpp:2808
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "შესაბამისი ქსელური რესურსები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2777
+#: views/dolphinview.cpp:2810
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-სთან თავსებადი მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2779
+#: views/dolphinview.cpp:2812
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Apple -ის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2782
+#: views/dolphinview.cpp:2815
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "KDE Connect-ის მოწყობილობები აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2784
+#: views/dolphinview.cpp:2817
 #, kde-format
 msgid "No storage found on this device"
 msgstr "ამ მოწყობილობაზე საცავი აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2787
+#: views/dolphinview.cpp:2820
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ბლუთუზის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2789
+#: views/dolphinview.cpp:2822
 #, kde-format
 msgid "Folder is empty"
 msgstr "საქაღალდე ცარიელია"
 
-#: views/dolphinviewactionhandler.cpp:85
+#: views/dolphinviewactionhandler.cpp:86
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "საქაღალდის შექმნა…"
 
-#: views/dolphinviewactionhandler.cpp:92
+#: views/dolphinviewactionhandler.cpp:93
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "ფაილის შექმნა…"
 
-#: views/dolphinviewactionhandler.cpp:101
+#: views/dolphinviewactionhandler.cpp:102
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6529,7 +6548,7 @@ msgstr ""
 "ელემენტის ერთდროული სახელის შეცვლა იწვევს მათი სახელის ერთნაირობას და ისინი, "
 "მხოლოდ, რიცხვით განსხვავდებიან."
 
-#: views/dolphinviewactionhandler.cpp:113
+#: views/dolphinviewactionhandler.cpp:114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6541,7 +6560,7 @@ msgstr ""
 "გადაიტანს.<nl/>ნაგვის ყუთი დროებითი საცავია, საიდანაც შეგიძლიათ, ელემენტების "
 "წაშალოთ, თუ დისკზე ადგილი დაგჭირდათ."
 
-#: views/dolphinviewactionhandler.cpp:126
+#: views/dolphinviewactionhandler.cpp:127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6551,25 +6570,25 @@ msgstr ""
 "ეს მიმდინარე მონიშნულში ელემენტებს წაშლით. მათი აღდგენა, ნორმალურად, "
 "შეუძლებელია."
 
-#: views/dolphinviewactionhandler.cpp:136
+#: views/dolphinviewactionhandler.cpp:137
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "წაშლა (ნაგვის ყუთში გადატანის მალსახმობით)"
 
-#: views/dolphinviewactionhandler.cpp:142
+#: views/dolphinviewactionhandler.cpp:143
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "აქ დუბლირება"
 
-#: views/dolphinviewactionhandler.cpp:150
+#: views/dolphinviewactionhandler.cpp:151
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "თვისებები"
 
-#: views/dolphinviewactionhandler.cpp:152
+#: views/dolphinviewactionhandler.cpp:153
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6583,43 +6602,43 @@ msgstr ""
 ">შეგიძლიათ, ასევე მოირგოთ დამატებითი ფუნქციები, მაგალითად, ჩაწერა/წაკითხვის "
 "წვდომების მართვა."
 
-#: views/dolphinviewactionhandler.cpp:162
+#: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "მდებარეობის კოპირება"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:164
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "ეს პირველი მონიშნული ელემენტის ბილიკს ბუფერში დააკოპირებს."
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "ნაგვის ყუთში გადატანა…"
 
-#: views/dolphinviewactionhandler.cpp:172
+#: views/dolphinviewactionhandler.cpp:173
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "წაშლა…"
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:174
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "აქ დუბლირება…"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:175
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "მდებარეობის კოპირება…"
 
-#: views/dolphinviewactionhandler.cpp:203
+#: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6635,7 +6654,7 @@ msgstr ""
 "რეჟიმი მაშინ გამოგადგებათ, როცა სურათების <interface>მინიატურების</"
 "interface> რეჟიმი გაქვთ ჩართული.</para>"
 
-#: views/dolphinviewactionhandler.cpp:210
+#: views/dolphinviewactionhandler.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6648,7 +6667,7 @@ msgstr ""
 "მითითებით.</para><para>ეს დაგეხმარებათ, ბევრი ელემენტის მქონე საქაღალდეები "
 "მართოთ.</para>"
 
-#: views/dolphinviewactionhandler.cpp:214
+#: views/dolphinviewactionhandler.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6668,60 +6687,60 @@ msgstr ""
 "გასვლის გარეშეც შეგიძლიათ, ნახოთ, მის მარცხნივ დაწკაპუნებით. ამ გზით იგივე "
 "სიაში ბევრი საქაღალდის შემცველობის ხილვა შეგიძლიათ.</para>"
 
-#: views/dolphinviewactionhandler.cpp:224
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "ხედვის რეჟიმის შეცვლა"
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:226
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr "ეს გადადის ყველა შესაძლო ხედის რეჟიმებს შორის."
 
-#: views/dolphinviewactionhandler.cpp:245
+#: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "ეს ხატულას ზომას გაზრდის."
 
-#: views/dolphinviewactionhandler.cpp:248
+#: views/dolphinviewactionhandler.cpp:249
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "გადიდების დონის ჩამოყრა"
 
-#: views/dolphinviewactionhandler.cpp:249
+#: views/dolphinviewactionhandler.cpp:250
 #, kde-format
 msgid "Zoom To Default"
 msgstr "ნაგულისხმევ მნიშვნელობაზე გადიდება"
 
-#: views/dolphinviewactionhandler.cpp:250
+#: views/dolphinviewactionhandler.cpp:251
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "ეს ხატულას ზომას ნაგულისხმევ ზომაზე დააბრუნებს."
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "ეს ხატულას ზომას შეამცირებს."
 
-#: views/dolphinviewactionhandler.cpp:262
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "გადახედვების ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:263
+#: views/dolphinviewactionhandler.cpp:264
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "ფაილებსა და საქაღალდეების მინიატურების ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:265
+#: views/dolphinviewactionhandler.cpp:266
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6733,49 +6752,65 @@ msgstr ""
 "გამოხატავს.<nl/>მაგალითად, გამოსახულების ხატულა გამოსახულებისვე "
 "დაპატარავებული ვერსია იქნება."
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:275
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "ჯერ საქაღალდეები"
 
-#: views/dolphinviewactionhandler.cpp:278
+#: views/dolphinviewactionhandler.cpp:279
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "დამალული ფაილების ბოლოში ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:286
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "დალაგების პირობა"
 
-#: views/dolphinviewactionhandler.cpp:321
+#: views/dolphinviewactionhandler.cpp:322
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "დამატებითი ინფორმაციის ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:332
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show in Groups"
-msgstr "ჯგუფებში ჩვენება"
-
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
-msgctxt "@info:whatsthis"
-msgid "This groups files and folders by their first letter."
-msgstr "ეს აჯგუფებს ფაილებსა და საქაღალდეებს მათი პირველი ასოთი."
+msgctxt "@action:inmenu View"
+msgid "Group By"
+msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:338
+#: views/dolphinviewactionhandler.cpp:335
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This groups files and folders by a chosen attribute. \"None\" disables "
+"grouping. \"Same as Sort\" groups by the active sort criterion."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:346
+#, fuzzy, kde-format
+#| msgctxt "@action:button Required tags for search results: None"
+#| msgid "None"
+msgctxt "@action:inmenu Group By"
+msgid "None"
+msgstr "არცერთი"
+
+#: views/dolphinviewactionhandler.cpp:353
+#, kde-format
+msgctxt "@action:inmenu Group By"
+msgid "Same as Sort"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "დამალული ფაილების ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:340
+#: views/dolphinviewactionhandler.cpp:370
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6797,13 +6832,13 @@ msgstr ""
 "\" MIME ტიპის მქონე ფაილები. მაგ, მარქაფის ფაილებიც შეგიძლიათ, დამალოთ, თუ "
 "ამას ჩართავთ Dolphin-ის მორგება > ხედი > ზოგადი.</para>"
 
-#: views/dolphinviewactionhandler.cpp:354
+#: views/dolphinviewactionhandler.cpp:384
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "ხედის ჩვენების სტილის სწორება…"
 
-#: views/dolphinviewactionhandler.cpp:357
+#: views/dolphinviewactionhandler.cpp:387
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6812,13 +6847,13 @@ msgstr ""
 "ეს გახსნის ფანჯარას, სადაც ყველა საქაღალდის ხედის თვისებების მორგება "
 "შეგიძლიათ."
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:393
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "ხედის მორგება"
 
-#: views/dolphinviewactionhandler.cpp:365
+#: views/dolphinviewactionhandler.cpp:395
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6828,115 +6863,123 @@ msgstr ""
 "გადართვა ყველა ხედის რეჟიმს შორის. ჩამოსაშლელი მენიუ სხვადასხვა ხედთან "
 "დაკავშირებულ ქმედებას შეიცავს."
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:425
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "დალაგება ველით"
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:428
+#, fuzzy, kde-format
+#| msgctxt "@item:intable, Heading of a list of fields"
+#| msgid "Sort by Field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Group by Field"
+msgstr "დალაგება ველით"
+
+#: views/dolphinviewactionhandler.cpp:431
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "ველის ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:762
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "ხატულები"
 
-#: views/dolphinviewactionhandler.cpp:689
+#: views/dolphinviewactionhandler.cpp:763
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "ხატულების ხედის რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:699
+#: views/dolphinviewactionhandler.cpp:773
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "დაპატარავება"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:774
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "კომპაქტური ხედის რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:710
+#: views/dolphinviewactionhandler.cpp:784
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "დეტალები"
 
-#: views/dolphinviewactionhandler.cpp:711
+#: views/dolphinviewactionhandler.cpp:785
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "დეტალების ჩვენების რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:808
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:735
+#: views/dolphinviewactionhandler.cpp:809
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:811
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "ჯერ დიდები"
 
-#: views/dolphinviewactionhandler.cpp:738
+#: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "ჯერ პატარები"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:814
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "ჯერ ახლები"
 
-#: views/dolphinviewactionhandler.cpp:741
+#: views/dolphinviewactionhandler.cpp:815
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "ჯერ ძველები"
 
-#: views/dolphinviewactionhandler.cpp:743
+#: views/dolphinviewactionhandler.cpp:817
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ჯერ უმაღლესი"
 
-#: views/dolphinviewactionhandler.cpp:744
+#: views/dolphinviewactionhandler.cpp:818
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "ჯერ უმდაბლესი"
 
-#: views/dolphinviewactionhandler.cpp:746
+#: views/dolphinviewactionhandler.cpp:820
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Დაღმავალი"
 
-#: views/dolphinviewactionhandler.cpp:747
+#: views/dolphinviewactionhandler.cpp:821
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ზრდის მიხედვით"
 
-#: views/dolphinviewactionhandler.cpp:845
+#: views/dolphinviewactionhandler.cpp:919
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6949,12 +6992,12 @@ msgstr "ქმედებები მიმდინარე ხედის�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:928
 #, kde-format
 msgid "Actions for %1"
 msgstr "ქმედებები %1-სთვის"
 
-#: views/dolphinviewactionhandler.cpp:861
+#: views/dolphinviewactionhandler.cpp:935
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -6981,6 +7024,14 @@ msgstr "მასშტაბი"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "მასშტაბი"
+
+#~ msgctxt "@action:inmenu View"
+#~ msgid "Show in Groups"
+#~ msgstr "ჯგუფებში ჩვენება"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid "This groups files and folders by their first letter."
+#~ msgstr "ეს აჯგუფებს ფაილებსა და საქაღალდეებს მათი პირველი ასოთი."
 
 #~ msgctxt "@info:status"
 #~ msgid "Successfully copied."

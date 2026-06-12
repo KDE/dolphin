@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:47+0000\n"
+"POT-Creation-Date: 2026-06-12 00:46+0000\n"
 "PO-Revision-Date: 2026-05-07 20:23+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -264,7 +264,7 @@ msgid ""
 msgstr "Šiame lange esate atvėrę kelias korteles, ar tikrai norite išeiti?"
 
 #: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2329
 #, kde-format
 msgid "Do not ask again"
 msgstr "Daugiau nebeklausti"
@@ -2464,92 +2464,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2703
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2649
+#: kitemviews/kfileitemmodel.cpp:2705
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Kita"
 
-#: kitemviews/kfileitemmodel.cpp:2681
+#: kitemviews/kfileitemmodel.cpp:2737
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Aplankai"
 
-#: kitemviews/kfileitemmodel.cpp:2689
+#: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Mažas"
 
-#: kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2747
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Vidutinis"
 
-#: kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2749
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Didelis"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2795
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Šiandien"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2798
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Vakar"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2801
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2805
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2810
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Prieš savaitę"
 
-#: kitemviews/kfileitemmodel.cpp:2757
+#: kitemviews/kfileitemmodel.cpp:2813
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Prieš dvi savaites"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2816
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Prieš tris savaites"
 
-#: kitemviews/kfileitemmodel.cpp:2764
+#: kitemviews/kfileitemmodel.cpp:2820
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Anksčiau nei prieš mėnesį"
 
-#: kitemviews/kfileitemmodel.cpp:2778
+#: kitemviews/kfileitemmodel.cpp:2834
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2559,7 +2559,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Vakar' (yyyy 'm.' MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2567,7 +2567,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2854
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2575,7 +2575,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (yyyy 'm.' MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2858
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2583,7 +2583,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2866
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2593,7 +2593,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Prieš savaitę' (yyyy 'm.' MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2601,7 +2601,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2887
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2611,7 +2611,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Prieš dvi savaites' (yyyy 'm.' MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2894
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2619,7 +2619,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2852
+#: kitemviews/kfileitemmodel.cpp:2908
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2629,7 +2629,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Prieš tris savaites' (yyyy 'm.' MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2859
+#: kitemviews/kfileitemmodel.cpp:2915
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2637,7 +2637,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2873
+#: kitemviews/kfileitemmodel.cpp:2929
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2647,7 +2647,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Anksčiau ties' yyyy 'm.' MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2880
+#: kitemviews/kfileitemmodel.cpp:2936
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2655,7 +2655,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2894
+#: kitemviews/kfileitemmodel.cpp:2950
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2663,7 +2663,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "yyyy 'm.' MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2954
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2671,288 +2671,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2938 kitemviews/kfileitemmodel.cpp:2951
-#: kitemviews/kfileitemmodel.cpp:2964
+#: kitemviews/kfileitemmodel.cpp:2994 kitemviews/kfileitemmodel.cpp:3007
+#: kitemviews/kfileitemmodel.cpp:3020
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Skaityti, "
 
-#: kitemviews/kfileitemmodel.cpp:2941 kitemviews/kfileitemmodel.cpp:2954
-#: kitemviews/kfileitemmodel.cpp:2967
+#: kitemviews/kfileitemmodel.cpp:2997 kitemviews/kfileitemmodel.cpp:3010
+#: kitemviews/kfileitemmodel.cpp:3023
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Rašyti, "
 
-#: kitemviews/kfileitemmodel.cpp:2944 kitemviews/kfileitemmodel.cpp:2957
-#: kitemviews/kfileitemmodel.cpp:2970
+#: kitemviews/kfileitemmodel.cpp:3000 kitemviews/kfileitemmodel.cpp:3013
+#: kitemviews/kfileitemmodel.cpp:3026
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Vykdyti, "
 
-#: kitemviews/kfileitemmodel.cpp:2946 kitemviews/kfileitemmodel.cpp:2959
-#: kitemviews/kfileitemmodel.cpp:2972
+#: kitemviews/kfileitemmodel.cpp:3002 kitemviews/kfileitemmodel.cpp:3015
+#: kitemviews/kfileitemmodel.cpp:3028
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Uždrausta"
 
-#: kitemviews/kfileitemmodel.cpp:2974
+#: kitemviews/kfileitemmodel.cpp:3030
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Naudotojas: %1 | Grupė: %2 | Kiti: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3064
+#: kitemviews/kfileitemmodel.cpp:3120
 msgctxt "@label"
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: kitemviews/kfileitemmodel.cpp:3065
+#: kitemviews/kfileitemmodel.cpp:3121
 msgctxt "@label"
 msgid "Size"
 msgstr "Dydis"
 
-#: kitemviews/kfileitemmodel.cpp:3066
+#: kitemviews/kfileitemmodel.cpp:3122
 msgctxt "@label"
 msgid "Modified"
 msgstr "Pakeista"
 
-#: kitemviews/kfileitemmodel.cpp:3066 kitemviews/kfileitemmodel.cpp:3067
-#: kitemviews/kfileitemmodel.cpp:3068
+#: kitemviews/kfileitemmodel.cpp:3122 kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3124
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Datos formatas gali būti pasirinktas nuostatose."
 
-#: kitemviews/kfileitemmodel.cpp:3067
+#: kitemviews/kfileitemmodel.cpp:3123
 msgctxt "@label"
 msgid "Created"
 msgstr "Sukurta"
 
-#: kitemviews/kfileitemmodel.cpp:3068
+#: kitemviews/kfileitemmodel.cpp:3124
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Paskiausia prieiga"
 
-#: kitemviews/kfileitemmodel.cpp:3069
+#: kitemviews/kfileitemmodel.cpp:3125
 msgctxt "@label"
 msgid "Type"
 msgstr "Tipas"
 
-#: kitemviews/kfileitemmodel.cpp:3070
+#: kitemviews/kfileitemmodel.cpp:3126
 msgctxt "@label"
 msgid "Rating"
 msgstr "Įvertinimas"
 
-#: kitemviews/kfileitemmodel.cpp:3071
+#: kitemviews/kfileitemmodel.cpp:3127
 msgctxt "@label"
 msgid "Tags"
 msgstr "Žymės"
 
-#: kitemviews/kfileitemmodel.cpp:3072
+#: kitemviews/kfileitemmodel.cpp:3128
 msgctxt "@label"
 msgid "Comment"
 msgstr "Komentaras"
 
-#: kitemviews/kfileitemmodel.cpp:3073
+#: kitemviews/kfileitemmodel.cpp:3129
 msgctxt "@label"
 msgid "Title"
 msgstr "Pavadinimas"
 
-#: kitemviews/kfileitemmodel.cpp:3073 kitemviews/kfileitemmodel.cpp:3074
-#: kitemviews/kfileitemmodel.cpp:3075 kitemviews/kfileitemmodel.cpp:3076
-#: kitemviews/kfileitemmodel.cpp:3077 kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3129 kitemviews/kfileitemmodel.cpp:3130
+#: kitemviews/kfileitemmodel.cpp:3131 kitemviews/kfileitemmodel.cpp:3132
+#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3134
 msgctxt "@label"
 msgid "Document"
 msgstr "Dokumentai"
 
-#: kitemviews/kfileitemmodel.cpp:3074
+#: kitemviews/kfileitemmodel.cpp:3130
 msgctxt "@label"
 msgid "Author"
 msgstr "Autorius"
 
-#: kitemviews/kfileitemmodel.cpp:3075
+#: kitemviews/kfileitemmodel.cpp:3131
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Leidėjas"
 
-#: kitemviews/kfileitemmodel.cpp:3076
+#: kitemviews/kfileitemmodel.cpp:3132
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Puslapių skaičius"
 
-#: kitemviews/kfileitemmodel.cpp:3077
+#: kitemviews/kfileitemmodel.cpp:3133
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Žodžių skaičius"
 
-#: kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3134
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Eilučių skaičius"
 
-#: kitemviews/kfileitemmodel.cpp:3079
+#: kitemviews/kfileitemmodel.cpp:3135
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Paveikslavimo data"
 
-#: kitemviews/kfileitemmodel.cpp:3079 kitemviews/kfileitemmodel.cpp:3080
-#: kitemviews/kfileitemmodel.cpp:3081 kitemviews/kfileitemmodel.cpp:3082
-#: kitemviews/kfileitemmodel.cpp:3083
+#: kitemviews/kfileitemmodel.cpp:3135 kitemviews/kfileitemmodel.cpp:3136
+#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3138
+#: kitemviews/kfileitemmodel.cpp:3139
 msgctxt "@label"
 msgid "Image"
 msgstr "Paveikslai"
 
-#: kitemviews/kfileitemmodel.cpp:3080 kitemviews/kfileitemmodel.cpp:3096
+#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3152
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Matmenys"
 
-#: kitemviews/kfileitemmodel.cpp:3081 kitemviews/kfileitemmodel.cpp:3099
+#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3155
 msgctxt "@label"
 msgid "Height"
 msgstr "Aukštis"
 
-#: kitemviews/kfileitemmodel.cpp:3082
+#: kitemviews/kfileitemmodel.cpp:3138
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Orientacija"
 
-#: kitemviews/kfileitemmodel.cpp:3083 kitemviews/kfileitemmodel.cpp:3102
+#: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
 msgid "Width"
 msgstr "Plotis"
 
-#: kitemviews/kfileitemmodel.cpp:3084
+#: kitemviews/kfileitemmodel.cpp:3140
 msgctxt "@label"
 msgid "Album"
 msgstr "Albumas"
 
-#: kitemviews/kfileitemmodel.cpp:3084 kitemviews/kfileitemmodel.cpp:3085
-#: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3087
-#: kitemviews/kfileitemmodel.cpp:3088 kitemviews/kfileitemmodel.cpp:3089
-#: kitemviews/kfileitemmodel.cpp:3090 kitemviews/kfileitemmodel.cpp:3091
+#: kitemviews/kfileitemmodel.cpp:3140 kitemviews/kfileitemmodel.cpp:3141
+#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3145
+#: kitemviews/kfileitemmodel.cpp:3146 kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@label"
 msgid "Audio"
 msgstr "Garso įrašai"
 
-#: kitemviews/kfileitemmodel.cpp:3085
+#: kitemviews/kfileitemmodel.cpp:3141
 msgctxt "@label"
 msgid "Artist"
 msgstr "Atlikėjas"
 
-#: kitemviews/kfileitemmodel.cpp:3086 kitemviews/kfileitemmodel.cpp:3093
+#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3149
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Garso įrašo kodekas"
 
-#: kitemviews/kfileitemmodel.cpp:3087 kitemviews/kfileitemmodel.cpp:3094
+#: kitemviews/kfileitemmodel.cpp:3143 kitemviews/kfileitemmodel.cpp:3150
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Pralaidumas"
 
-#: kitemviews/kfileitemmodel.cpp:3088 kitemviews/kfileitemmodel.cpp:3097
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3153
 msgctxt "@label"
 msgid "Duration"
 msgstr "Trukmė"
 
-#: kitemviews/kfileitemmodel.cpp:3089
+#: kitemviews/kfileitemmodel.cpp:3145
 msgctxt "@label"
 msgid "Genre"
 msgstr "Žanras"
 
-#: kitemviews/kfileitemmodel.cpp:3090
+#: kitemviews/kfileitemmodel.cpp:3146
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Išleidimo metai"
 
-#: kitemviews/kfileitemmodel.cpp:3091
+#: kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@label"
 msgid "Track"
 msgstr "Takelis"
 
-#: kitemviews/kfileitemmodel.cpp:3092
+#: kitemviews/kfileitemmodel.cpp:3148
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Proporcijos"
 
-#: kitemviews/kfileitemmodel.cpp:3092 kitemviews/kfileitemmodel.cpp:3093
-#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3095
-#: kitemviews/kfileitemmodel.cpp:3096 kitemviews/kfileitemmodel.cpp:3097
-#: kitemviews/kfileitemmodel.cpp:3098 kitemviews/kfileitemmodel.cpp:3099
-#: kitemviews/kfileitemmodel.cpp:3100 kitemviews/kfileitemmodel.cpp:3101
-#: kitemviews/kfileitemmodel.cpp:3102
+#: kitemviews/kfileitemmodel.cpp:3148 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3150 kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3152 kitemviews/kfileitemmodel.cpp:3153
+#: kitemviews/kfileitemmodel.cpp:3154 kitemviews/kfileitemmodel.cpp:3155
+#: kitemviews/kfileitemmodel.cpp:3156 kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
 msgid "Video"
 msgstr "Vaizdo įrašai"
 
-#: kitemviews/kfileitemmodel.cpp:3095
+#: kitemviews/kfileitemmodel.cpp:3151
 msgctxt "@label"
 msgid "Color Space"
 msgstr "Spalvų erdvė"
 
-#: kitemviews/kfileitemmodel.cpp:3098
+#: kitemviews/kfileitemmodel.cpp:3154
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Kadrų dažnis"
 
-#: kitemviews/kfileitemmodel.cpp:3100
+#: kitemviews/kfileitemmodel.cpp:3156
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "Pikselių formatas"
 
-#: kitemviews/kfileitemmodel.cpp:3101
+#: kitemviews/kfileitemmodel.cpp:3157
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "Vaizdo įrašo kodekas"
 
-#: kitemviews/kfileitemmodel.cpp:3103
+#: kitemviews/kfileitemmodel.cpp:3159
 msgctxt "@label"
 msgid "Path"
 msgstr "Kelias"
 
-#: kitemviews/kfileitemmodel.cpp:3103 kitemviews/kfileitemmodel.cpp:3104
-#: kitemviews/kfileitemmodel.cpp:3105 kitemviews/kfileitemmodel.cpp:3106
-#: kitemviews/kfileitemmodel.cpp:3107 kitemviews/kfileitemmodel.cpp:3108
-#: kitemviews/kfileitemmodel.cpp:3109 kitemviews/kfileitemmodel.cpp:3110
-#: kitemviews/kfileitemmodel.cpp:3111
+#: kitemviews/kfileitemmodel.cpp:3159 kitemviews/kfileitemmodel.cpp:3160
+#: kitemviews/kfileitemmodel.cpp:3161 kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3163 kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@label"
 msgid "Other"
 msgstr "Kita"
 
-#: kitemviews/kfileitemmodel.cpp:3104
+#: kitemviews/kfileitemmodel.cpp:3160
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "Aplanko pavadinimas"
 
-#: kitemviews/kfileitemmodel.cpp:3105
+#: kitemviews/kfileitemmodel.cpp:3161
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Failo prievardis"
 
-#: kitemviews/kfileitemmodel.cpp:3106
+#: kitemviews/kfileitemmodel.cpp:3162
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Ištrynimo laikas"
 
-#: kitemviews/kfileitemmodel.cpp:3107
+#: kitemviews/kfileitemmodel.cpp:3163
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Nuorodos paskirtis"
 
-#: kitemviews/kfileitemmodel.cpp:3108
+#: kitemviews/kfileitemmodel.cpp:3164
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Atsisiųsta iš"
 
-#: kitemviews/kfileitemmodel.cpp:3109
+#: kitemviews/kfileitemmodel.cpp:3165
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Leidimai"
 
-#: kitemviews/kfileitemmodel.cpp:3109
+#: kitemviews/kfileitemmodel.cpp:3165
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2961,17 +2961,17 @@ msgstr ""
 "Leidimų formatas gali būti keičiamas nuostatose. Variantai yra simbolinis, "
 "skaitmeninis (aštuonetainis) arba mišrus"
 
-#: kitemviews/kfileitemmodel.cpp:3110
+#: kitemviews/kfileitemmodel.cpp:3166
 msgctxt "@label"
 msgid "Owner"
 msgstr "Savininkas"
 
-#: kitemviews/kfileitemmodel.cpp:3111
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@label"
 msgid "User Group"
 msgstr "Naudotojo grupė"
 
-#: kitemviews/kfileitemmodel.cpp:3212
+#: kitemviews/kfileitemmodel.cpp:3268
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -4424,64 +4424,83 @@ msgstr ""
 "Ši parinktis apibrėžia pagal kurį atributą (tekstą, dydį, datą ir t.t.) bus "
 "rikiuojama."
 
-#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Sort files by"
+msgctxt "@label"
+msgid "Group files by"
+msgstr "Rikiuoti failus pagal"
+
+#. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option defines which attribute items are grouped by when grouped "
+"sorting is enabled. An empty value means the grouping criterion follows the "
+"sort criterion."
+msgstr ""
+
+#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:61
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
 msgstr "Tvarka, pagal kurią rikiuoti failus"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:62
+#: settings/dolphin_directoryviewpropertysettings.kcfg:68
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
 msgstr "Rikiuojant failus ir aplankus, pirmiausiai rodyti aplankus"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:67
+#: settings/dolphin_directoryviewpropertysettings.kcfg:73
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
 msgstr "Rodyti paslėptus failus ir aplankus paskiausiai"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:72
+#: settings/dolphin_directoryviewpropertysettings.kcfg:78
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
 msgstr "Matomi vaidmenys"
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#: settings/dolphin_directoryviewpropertysettings.kcfg:83
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
 msgstr "Antraštės stulpelių pločiai"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#: settings/dolphin_directoryviewpropertysettings.kcfg:88
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
 msgstr "Savybės paskutinį kartą keistos"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:83
+#: settings/dolphin_directoryviewpropertysettings.kcfg:89
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "Paskutinis kartas, kai naudotojas keitė šias savybes."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:87
+#: settings/dolphin_directoryviewpropertysettings.kcfg:93
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
 msgstr ""
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:93
+#: settings/dolphin_directoryviewpropertysettings.kcfg:99
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -6123,7 +6142,7 @@ msgstr "Numatytoji"
 msgid "Reload"
 msgstr "Įkelti iš naujo"
 
-#: views/dolphinview.cpp:736
+#: views/dolphinview.cpp:763
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6133,7 +6152,7 @@ msgstr[1] "Pažymėti %1 aplankai"
 msgstr[2] "Pažymėta %1 aplankų"
 msgstr[3] "Pažymėtas %1 aplankas"
 
-#: views/dolphinview.cpp:737
+#: views/dolphinview.cpp:764
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6143,7 +6162,7 @@ msgstr[1] "Pažymėti %1 failai"
 msgstr[2] "Pažymėta %1 failų"
 msgstr[3] "Pažymėtas %1 failas"
 
-#: views/dolphinview.cpp:739
+#: views/dolphinview.cpp:766
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6153,7 +6172,7 @@ msgstr[1] "%1 aplankai"
 msgstr[2] "%1 aplankų"
 msgstr[3] "%1 aplankas"
 
-#: views/dolphinview.cpp:740
+#: views/dolphinview.cpp:767
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6163,31 +6182,31 @@ msgstr[1] "%1 failai"
 msgstr[2] "%1 failų"
 msgstr[3] "%1 failas"
 
-#: views/dolphinview.cpp:744
+#: views/dolphinview.cpp:771
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:746
+#: views/dolphinview.cpp:773
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:750
+#: views/dolphinview.cpp:777
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 aplankų, 0 failų"
 
-#: views/dolphinview.cpp:992 views/dolphinview.cpp:1001
+#: views/dolphinview.cpp:1019 views/dolphinview.cpp:1028
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1194
+#: views/dolphinview.cpp:1221
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6196,7 +6215,7 @@ msgstr[1] "Ar tikrai norite atverti %1 elementus?"
 msgstr[2] "Ar tikrai norite atverti %1 elementų?"
 msgstr[3] "Ar tikrai norite atverti %1 elementą?"
 
-#: views/dolphinview.cpp:1199
+#: views/dolphinview.cpp:1226
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6206,43 +6225,43 @@ msgstr[1] "Atverti %1 elementus"
 msgstr[2] "Atverti %1 elementų"
 msgstr[3] "Atverti %1 elementą"
 
-#: views/dolphinview.cpp:1333
+#: views/dolphinview.cpp:1360
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Šoninis užpildas"
 
-#: views/dolphinview.cpp:1337
+#: views/dolphinview.cpp:1364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatinis stulpelių plotis"
 
-#: views/dolphinview.cpp:1342
+#: views/dolphinview.cpp:1369
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Tinkintas stulpelių plotis"
 
-#: views/dolphinview.cpp:2072
+#: views/dolphinview.cpp:2099
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Perkėlimo į šiukšlinę operacija užbaigta."
 
-#: views/dolphinview.cpp:2082
+#: views/dolphinview.cpp:2109
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Ištrynimo operacija užbaigta."
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Pervadinti ir paslėpti"
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2281
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6252,7 +6271,7 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2256
+#: views/dolphinview.cpp:2283
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6262,23 +6281,23 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2258
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "Hide this File?"
 msgstr "Paslėpti šį failą?"
 
-#: views/dolphinview.cpp:2258
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Paslėpti šį aplanką?"
 
-#: views/dolphinview.cpp:2279
+#: views/dolphinview.cpp:2306
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: views/dolphinview.cpp:2289
+#: views/dolphinview.cpp:2316
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6290,7 +6309,7 @@ msgstr ""
 "Failo turinys nepasikeis, bet programos gali šio failo nebeatpažinti.\n"
 "Ar vis dar norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6302,117 +6321,117 @@ msgstr ""
 "Failo turinys nepasikeis, bet programos gali šio failo nebeatpažinti.\n"
 "Ar vis dar norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2299
+#: views/dolphinview.cpp:2326
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Keisti failo tipą"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Vieta tuščia."
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Vieta „%1“ yra neteisinga."
 
-#: views/dolphinview.cpp:2726
+#: views/dolphinview.cpp:2759
 #, kde-format
 msgid "Loading…"
 msgstr "Įkeliama…"
 
-#: views/dolphinview.cpp:2755
+#: views/dolphinview.cpp:2788
 #, kde-format
 msgid "Loading canceled"
 msgstr "Įkėlimo atsisakyta"
 
-#: views/dolphinview.cpp:2757
+#: views/dolphinview.cpp:2790
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nėra jokių filtrą atitinkančių elementų"
 
-#: views/dolphinview.cpp:2759
+#: views/dolphinview.cpp:2792
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nėra jokių paiešką atitinkančių elementų"
 
-#: views/dolphinview.cpp:2761
+#: views/dolphinview.cpp:2794
 #, kde-format
 msgid "Trash is empty"
 msgstr "Šiukšlinė tuščia"
 
-#: views/dolphinview.cpp:2764
+#: views/dolphinview.cpp:2797
 #, kde-format
 msgid "No tags"
 msgstr "Nėra žymių"
 
-#: views/dolphinview.cpp:2767
+#: views/dolphinview.cpp:2800
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nėra failų pažymėtų žyme „%1“"
 
-#: views/dolphinview.cpp:2771
+#: views/dolphinview.cpp:2804
 #, kde-format
 msgid "No recently used items"
 msgstr "Nėra jokių paskiausiai naudotų elementų"
 
-#: views/dolphinview.cpp:2773
+#: views/dolphinview.cpp:2806
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nerasta jokių bendrinamų aplankų"
 
-#: views/dolphinview.cpp:2775
+#: views/dolphinview.cpp:2808
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nerasta jokio susijusio tinklo ištekliaus"
 
-#: views/dolphinview.cpp:2777
+#: views/dolphinview.cpp:2810
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nerasta jokių su MTP suderinamų įrenginių"
 
-#: views/dolphinview.cpp:2779
+#: views/dolphinview.cpp:2812
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nerasta jokių „Apple“ įrenginių"
 
-#: views/dolphinview.cpp:2782
+#: views/dolphinview.cpp:2815
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Nerasta jokių KDE Connect įrenginių"
 
-#: views/dolphinview.cpp:2784
+#: views/dolphinview.cpp:2817
 #, kde-format
 msgid "No storage found on this device"
 msgstr "Šiame įrenginyje nerasta jokia saugykla"
 
-#: views/dolphinview.cpp:2787
+#: views/dolphinview.cpp:2820
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nerasta jokių Bluetooth įrenginių"
 
-#: views/dolphinview.cpp:2789
+#: views/dolphinview.cpp:2822
 #, kde-format
 msgid "Folder is empty"
 msgstr "Aplankas tuščias"
 
-#: views/dolphinviewactionhandler.cpp:85
+#: views/dolphinviewactionhandler.cpp:86
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Sukurti aplanką…"
 
-#: views/dolphinviewactionhandler.cpp:92
+#: views/dolphinviewactionhandler.cpp:93
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Sukurti failą…"
 
-#: views/dolphinviewactionhandler.cpp:101
+#: views/dolphinviewactionhandler.cpp:102
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6420,7 +6439,7 @@ msgid ""
 "items at once results in their new names differing only in a number."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:113
+#: views/dolphinviewactionhandler.cpp:114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6429,7 +6448,7 @@ msgid ""
 "deleted later if disk space is needed."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:126
+#: views/dolphinviewactionhandler.cpp:127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6439,25 +6458,25 @@ msgstr ""
 "Tai visam laikui ištrina šiuo metu pažymėtus elementus. Jų nebepavyks "
 "atkurti įprastomis priemonėmis."
 
-#: views/dolphinviewactionhandler.cpp:136
+#: views/dolphinviewactionhandler.cpp:137
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Ištrinti (naudojant Šiukšlinės šaukinį)"
 
-#: views/dolphinviewactionhandler.cpp:142
+#: views/dolphinviewactionhandler.cpp:143
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Dubliuoti čia"
 
-#: views/dolphinviewactionhandler.cpp:150
+#: views/dolphinviewactionhandler.cpp:151
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Savybės"
 
-#: views/dolphinviewactionhandler.cpp:152
+#: views/dolphinviewactionhandler.cpp:153
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6467,43 +6486,43 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:162
+#: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Kopijuoti vietą"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:164
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Tai nukopijuos į iškarpinę pirmo pažymėto elemento vietą."
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Perkelti į šiukšlinę…"
 
-#: views/dolphinviewactionhandler.cpp:172
+#: views/dolphinviewactionhandler.cpp:173
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Ištrinti…"
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:174
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Dubliuoti čia…"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:175
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Kopijuoti vietą…"
 
-#: views/dolphinviewactionhandler.cpp:203
+#: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6514,7 +6533,7 @@ msgid ""
 "interface> option is enabled.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:210
+#: views/dolphinviewactionhandler.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6523,7 +6542,7 @@ msgid ""
 "you an overview in folders with many items.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:214
+#: views/dolphinviewactionhandler.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6536,60 +6555,60 @@ msgid ""
 "contents of multiple folders in the same list.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:224
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Keisti rodinio veikseną"
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:226
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:245
+#: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Tai padidina piktogramų dydį."
 
-#: views/dolphinviewactionhandler.cpp:248
+#: views/dolphinviewactionhandler.cpp:249
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Atstatyti mastelio lygį"
 
-#: views/dolphinviewactionhandler.cpp:249
+#: views/dolphinviewactionhandler.cpp:250
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Numatytasis mastelis"
 
-#: views/dolphinviewactionhandler.cpp:250
+#: views/dolphinviewactionhandler.cpp:251
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Tai atstato piktogramų dydį į numatytąjį."
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Tai sumažina piktogramų dydį."
 
-#: views/dolphinviewactionhandler.cpp:262
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Rodyti peržiūras"
 
-#: views/dolphinviewactionhandler.cpp:263
+#: views/dolphinviewactionhandler.cpp:264
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Rodyti failų ir aplankų peržiūrą"
 
-#: views/dolphinviewactionhandler.cpp:265
+#: views/dolphinviewactionhandler.cpp:266
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6601,49 +6620,65 @@ msgstr ""
 "aplanko turiniu.<nl/>Pavyzdžiui, paveikslų piktogramos bus rodomos kaip "
 "sumažintos paveikslų versijos."
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:275
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Pirma aplankai"
 
-#: views/dolphinviewactionhandler.cpp:278
+#: views/dolphinviewactionhandler.cpp:279
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Paskiausiai paslėpti failai"
 
-#: views/dolphinviewactionhandler.cpp:286
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Rikiuoti pagal"
 
-#: views/dolphinviewactionhandler.cpp:321
+#: views/dolphinviewactionhandler.cpp:322
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Rodyti papildomą informaciją"
 
-#: views/dolphinviewactionhandler.cpp:332
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show in Groups"
-msgstr "Rodyti grupėmis"
-
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
-msgctxt "@info:whatsthis"
-msgid "This groups files and folders by their first letter."
-msgstr "Tai sugrupuoja failus ir aplankus pagal jų pirmąją raidę."
+msgctxt "@action:inmenu View"
+msgid "Group By"
+msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:338
+#: views/dolphinviewactionhandler.cpp:335
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This groups files and folders by a chosen attribute. \"None\" disables "
+"grouping. \"Same as Sort\" groups by the active sort criterion."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:346
+#, fuzzy, kde-format
+#| msgctxt "@action:button Required tags for search results: None"
+#| msgid "None"
+msgctxt "@action:inmenu Group By"
+msgid "None"
+msgstr "Nėra"
+
+#: views/dolphinviewactionhandler.cpp:353
+#, kde-format
+msgctxt "@action:inmenu Group By"
+msgid "Same as Sort"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Rodyti paslėptus failus"
 
-#: views/dolphinviewactionhandler.cpp:340
+#: views/dolphinviewactionhandler.cpp:370
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -6669,13 +6704,13 @@ msgstr ""
 "Paprastai, naudotojams nereikia prieigos prie šių failų, todėl jie yra "
 "paslėpti.</para>"
 
-#: views/dolphinviewactionhandler.cpp:354
+#: views/dolphinviewactionhandler.cpp:384
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Derinti rodinio atvaizdavimo stilių…"
 
-#: views/dolphinviewactionhandler.cpp:357
+#: views/dolphinviewactionhandler.cpp:387
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6683,13 +6718,13 @@ msgid ""
 msgstr ""
 "Tai atveria langą, kuriame gali būti derinamos visos aplanko rodinio savybės."
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:393
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Rodyti nuostatas"
 
-#: views/dolphinviewactionhandler.cpp:365
+#: views/dolphinviewactionhandler.cpp:395
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6697,115 +6732,123 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:425
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Rikiuoti pagal lauką"
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:428
+#, fuzzy, kde-format
+#| msgctxt "@item:intable, Heading of a list of fields"
+#| msgid "Sort by Field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Group by Field"
+msgstr "Rikiuoti pagal lauką"
+
+#: views/dolphinviewactionhandler.cpp:431
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Rodyti lauką"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:762
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Piktogramos"
 
-#: views/dolphinviewactionhandler.cpp:689
+#: views/dolphinviewactionhandler.cpp:763
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Piktogramų rodinio veiksena"
 
-#: views/dolphinviewactionhandler.cpp:699
+#: views/dolphinviewactionhandler.cpp:773
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Kompaktiškas"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:774
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Kompaktiško rodinio veiksena"
 
-#: views/dolphinviewactionhandler.cpp:710
+#: views/dolphinviewactionhandler.cpp:784
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Išsamus"
 
-#: views/dolphinviewactionhandler.cpp:711
+#: views/dolphinviewactionhandler.cpp:785
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Išsamaus rodinio veiksena"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:808
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Ž-A"
 
-#: views/dolphinviewactionhandler.cpp:735
+#: views/dolphinviewactionhandler.cpp:809
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Ž"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:811
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Pirmiausia didžiausi"
 
-#: views/dolphinviewactionhandler.cpp:738
+#: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Pirmiausia mažiausi"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:814
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Pirmiausia naujausi"
 
-#: views/dolphinviewactionhandler.cpp:741
+#: views/dolphinviewactionhandler.cpp:815
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Pirmiausia seniausi"
 
-#: views/dolphinviewactionhandler.cpp:743
+#: views/dolphinviewactionhandler.cpp:817
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Pirmiausia aukščiausias"
 
-#: views/dolphinviewactionhandler.cpp:744
+#: views/dolphinviewactionhandler.cpp:818
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Pirmiausia žemiausias"
 
-#: views/dolphinviewactionhandler.cpp:746
+#: views/dolphinviewactionhandler.cpp:820
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Mažėjančiai"
 
-#: views/dolphinviewactionhandler.cpp:747
+#: views/dolphinviewactionhandler.cpp:821
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Didėjančiai"
 
-#: views/dolphinviewactionhandler.cpp:845
+#: views/dolphinviewactionhandler.cpp:919
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6818,12 +6861,12 @@ msgstr "Dabartinio rodinio veiksmai"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:928
 #, kde-format
 msgid "Actions for %1"
 msgstr "Veiksmai, skirti %1"
 
-#: views/dolphinviewactionhandler.cpp:861
+#: views/dolphinviewactionhandler.cpp:935
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -6852,6 +6895,14 @@ msgstr "Mastelis"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Mastelis"
+
+#~ msgctxt "@action:inmenu View"
+#~ msgid "Show in Groups"
+#~ msgstr "Rodyti grupėmis"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid "This groups files and folders by their first letter."
+#~ msgstr "Tai sugrupuoja failus ir aplankus pagal jų pirmąją raidę."
 
 #~ msgctxt "@info:status"
 #~ msgid "Successfully copied."
