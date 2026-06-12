@@ -130,7 +130,7 @@
         </entry>
         <entry name="ShowNewTabButton" type="Bool">
             <label>Show a new tab button at the end of the tab bar</label>
-            <default>false</default>
+            <default>true</default>
             <emit signal="tabBarChanged" />
         </entry>
         <entry name="ShowToolTips" type="Bool">
