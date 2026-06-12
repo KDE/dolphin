@@ -132,8 +132,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/25.08.3/src/ark-25.08.3.tar.xz",
-                    "sha256": "ca4fb7295f090280df02d24b64f113e10c6f618138b387bc1fd7a2c561de554f",
+                    "url": "https://download.kde.org/stable/release-service/26.04.2/src/ark-26.04.2.tar.xz",
+                    "sha256": "b81c4055486c99f4f21ff228bf12485bc73e8e6b0064edee1043a11ad5d1e555",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
@@ -149,12 +149,12 @@
                 {
                     "type": "git",
                     "url": "https://github.com/LMDB/lmdb.git",
-                    "tag": "LMDB_0.9.31",
+                    "tag": "LMDB_0.9.35",
                     "x-checker-data": {
                         "type": "git",
                         "tag-pattern": "^LMDB_([\\d.]+)$"
                     },
-                    "commit": "ce201088de95d26fc0da36ba805bf2ddc2ba74ff"
+                    "commit": "69087ced3cb6082f7dcfb4fc2dcaa3b68a7e2e8c"
                 }
             ],
             "no-autogen": true,
@@ -251,8 +251,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://get.videolan.org/vlc/3.0.22/vlc-3.0.22.tar.xz",
-                            "sha256": "e2cc1cf0ae0902a09da5a37c249a8a4e4b5ec4dc095443b8e1493c6a7cc138ea",
+                            "url": "https://get.videolan.org/vlc/3.0.23/vlc-3.0.23.tar.xz",
+                            "sha256": "e891cae6aa3ccda69bf94173d5105cbc55c7a7d9b1d21b9b21666e69eff3e7e0",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 6504,
