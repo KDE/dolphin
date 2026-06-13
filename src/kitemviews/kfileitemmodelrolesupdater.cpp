@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QPluginLoader>
+#include <QScopedValueRollback>
 #include <QTimer>
 #include <chrono>
 
@@ -491,6 +492,12 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList &itemRang
 {
     Q_UNUSED(roles)
 
+    // Ignore changes this updater applied itself through setModelData(); they
+    // are already resolved and must not trigger another round of resolving.
+    if (m_applyingChangesToModel) {
+        return;
+    }
+
     // Find out if slotItemsChanged() has been done recently. If that is the
     // case, resolving the roles is postponed until a timer has exceeded
     // to prevent expensive repeated updates if files are updated frequently.
@@ -568,9 +575,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     data.insert("iconPixmap", transformPreviewPixmap(pixmap));
     data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
-    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-    m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    setModelData(index, data);
     Q_EMIT previewJobFinished(); // For unit testing
 
     applyResolvedRoles(index, ResolveAll, item);
@@ -590,9 +595,7 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
         QHash<QByteArray, QVariant> data;
         data.insert("iconPixmap", QPixmap());
 
-        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
 
         applyResolvedRoles(index, ResolveAll, item);
         m_finishedItems.insert(item);
@@ -635,9 +638,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     }
     if (wap >= 0.0f) {
         data["hoverSequenceWraparoundPoint"] = wap;
-        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
     }
 
     // For hover sequence previews we never load index 0, because that's just the regular preview
@@ -652,9 +653,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
 
-        disconnect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
 
         const auto loadedIt = std::find(m_hoverSequenceLoadedItems.begin(), m_hoverSequenceLoadedItems.end(), item);
         if (loadedIt == m_hoverSequenceLoadedItems.end()) {
@@ -793,13 +792,11 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
                 data.insert("iconPixmap", QPixmap());
                 data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
 
-                disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
                 for (int index = 0; index <= m_model->count(); ++index) {
                     if (m_model->data(index).contains("iconPixmap") || m_model->data(index).contains("hoverSequencePixmaps")) {
-                        m_model->setData(index, data);
+                        setModelData(index, data);
                     }
                 }
-                connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
             }
             m_clearPreviews = false;
         }
@@ -856,10 +853,8 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
         data.insert(it.key(), it.value());
     }
 
-    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     const int index = m_model->index(item);
-    m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    setModelData(index, data);
 #else
 #ifndef Q_CC_MSVC
     Q_UNUSED(item)
@@ -885,9 +880,7 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
                 data.insert("isExpandable", count > 0);
             }
 
-            disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-            m_model->setData(index, data);
-            connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+            setModelData(index, data);
         }
     }
 }
@@ -1067,9 +1060,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     if (!data.contains("hoverSequencePixmaps")) {
         // The pixmap at index 0 isn't used ("iconPixmap" will be used instead)
         data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>() << QPixmap()));
-        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
     }
 
     const QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
@@ -1189,6 +1180,12 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     }
 }
 
+void KFileItemModelRolesUpdater::setModelData(int index, const QHash<QByteArray, QVariant> &data)
+{
+    const QScopedValueRollback<bool> guard(m_applyingChangesToModel, true);
+    m_model->setData(index, data);
+}
+
 void KFileItemModelRolesUpdater::applySortRole(int index)
 {
     QHash<QByteArray, QVariant> data;
@@ -1208,9 +1205,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data = rolesData(item, index);
     }
 
-    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-    m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    setModelData(index, data);
 }
 
 void KFileItemModelRolesUpdater::applySortProgressToModel()
@@ -1253,9 +1248,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
             data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
         }
 
-        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
         return true;
     }
 
@@ -1292,9 +1285,7 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
 
         data.insert("size", -2); // invalid size, -1 means size unknown
 
-        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-        m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        setModelData(index, data);
 
         // Use KIO flags to exclude dot entries at the source to simplify counting
         KIO::ListJob::ListFlags flags = KIO::ListJob::ListFlag::ExcludeDotAndDotDot;
@@ -1342,9 +1333,7 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
             }
 
             if (!newData.isEmpty()) {
-                disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-                m_model->setData(index, newData);
-                connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+                setModelData(index, newData);
             }
         });
         return;
@@ -1522,11 +1511,9 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
 
 void KFileItemModelRolesUpdater::resetSizeData(const int index, const int size)
 {
-    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     auto data = m_model->data(index);
     data.insert("size", size);
-    m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    setModelData(index, data);
 }
 
 void KFileItemModelRolesUpdater::recountDirectoryItems(const QList<QUrl> &directories)

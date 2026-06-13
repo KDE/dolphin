@@ -318,6 +318,13 @@ private:
     QHash<QByteArray, QVariant> rolesData(const KFileItem &item, int index);
 
     /**
+     * Sets \a data on the model item at \a index without re-entering
+     * slotItemsChanged() for this self-induced change (other listeners, e.g. the
+     * view, still get the change). Replaces a manual disconnect/setData/connect.
+     */
+    void setModelData(int index, const QHash<QByteArray, QVariant> &data);
+
+    /**
      * Must be invoked if a property has been changed that affects
      * the look of the preview. Takes care to update all previews.
      */
@@ -360,6 +367,10 @@ private:
     // role with resolveRole(). Is necessary if the preview gets disabled
     // during the roles-updater has been paused by setPaused().
     bool m_clearPreviews;
+
+    // True while setModelData() applies a self-induced change, so that
+    // slotItemsChanged() ignores it instead of resolving roles again.
+    bool m_applyingChangesToModel = false;
 
     // Remembers which items have been handled already, to prevent that
     // previews and other expensive roles are determined again.
