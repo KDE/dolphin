@@ -659,6 +659,7 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         } else {
             m_pendingAutoSelect = m_columns.at(childCol);
         }
+        setActiveColumn(childCol);
         updateUrl(m_columns.at(childCol)->dirUrl());
         Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
