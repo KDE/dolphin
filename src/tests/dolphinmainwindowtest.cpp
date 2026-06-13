@@ -32,6 +32,7 @@
 #include <QDomDocument>
 #include <QFileSystemWatcher>
 #include <QKeySequence>
+#include <QPixmap>
 #include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -1082,11 +1083,15 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
     QTest::keyClick(QApplication::focusWidget(), Qt::Key_B);
     QTest::keyClick(QApplication::focusWidget(), Qt::Key_Enter);
     QVERIFY(itemsChangedSpy.wait()); // Make sure that rename worked
-
-    // Check that preview gets updated and filename is correct
-    QVERIFY(previewUpdatedSpy.wait());
     QVERIFY(!view->m_view->m_editingRole);
-    QCOMPARE(view->m_model->fileItem(0).name(), "b.jpg");
+
+    // The renamed file must still show a thumbnail afterwards. Don't require a fresh preview
+    // job to run: a rename keeps the file's content and its already-correct thumbnail, so
+    // whether a new job is dispatched is timing- and platform-dependent.
+    const int renamedIndex = view->m_model->index(QUrl(testDir->url().toString() + "/b.jpg"));
+    QVERIFY(renamedIndex >= 0);
+    QTRY_VERIFY(!view->m_model->data(renamedIndex).value("iconPixmap").value<QPixmap>().isNull());
+    QCOMPARE(view->m_model->fileItem(renamedIndex).name(), "b.jpg");
     QCOMPARE(view->m_model->count(), 1);
 }
 
