@@ -33,10 +33,12 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QFuture>
 #include <QPainter>
 #include <QPluginLoader>
 #include <QScopedValueRollback>
 #include <QTimer>
+#include <QtConcurrentRun>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -56,6 +58,19 @@ const int ResolveAllItemsLimit = 500;
 // Not only the visible area, but up to ReadAheadPages before and after
 // this area will be resolved.
 const int ReadAheadPages = 5;
+
+// Whether determining the item's MIME type would read its content (and so could
+// block), which is only worth doing off the GUI thread. A local file whose name
+// matches exactly one glob is identified by its name alone; zero or several glob
+// matches need the content to decide. Directories, remote items and items whose
+// MIME type is already known never read content here.
+bool mimeTypeNeedsContent(const KFileItem &item)
+{
+    if (!item.isLocalFile() || item.isDir() || item.isMimeTypeKnown() || item.isSlow()) {
+        return false;
+    }
+    return true;
+}
 }
 
 KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QObject *parent)
@@ -571,15 +586,16 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
         return;
     }
 
-    QHash<QByteArray, QVariant> data = rolesData(item, index);
+    // Show the thumbnail straight away.
+    QHash<QByteArray, QVariant> data;
     data.insert("iconPixmap", transformPreviewPixmap(pixmap));
     data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
     setModelData(index, data);
     Q_EMIT previewJobFinished(); // For unit testing
 
-    applyResolvedRoles(index, ResolveAll, item);
-    m_finishedItems.insert(item);
+    // Resolve the remaining roles (off-thread MIME determination when needed).
+    resolveAllRolesAsync(index, item);
 }
 
 void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
@@ -597,8 +613,9 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
 
         setModelData(index, data);
 
-        applyResolvedRoles(index, ResolveAll, item);
-        m_finishedItems.insert(item);
+        // Resolve the icon and the other roles (off-thread MIME determination
+        // when needed).
+        resolveAllRolesAsync(index, item);
     }
 }
 
@@ -741,6 +758,27 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
             continue;
         }
 
+        // Sorting by type needs the MIME type, which may read file content.
+        // When it would, determine it off the GUI thread and apply the "type"
+        // role afterwards.
+        if (m_model->sortRole() == "type" && mimeTypeNeedsContent(item)) {
+            m_pendingSortRoleItems.erase(it);
+            resolveMimeTypeAsync(item).then(this, [this](const KFileItem &mimeKnownItem) {
+                if (m_state != ResolvingSortRole) {
+                    return;
+                }
+                const int resolvedIndex = m_model->index(mimeKnownItem);
+                if (resolvedIndex >= 0) {
+                    QHash<QByteArray, QVariant> data;
+                    data.insert("type", mimeKnownItem.mimeComment());
+                    setModelData(resolvedIndex, data);
+                }
+                applySortProgressToModel();
+                QMetaObject::invokeMethod(this, &KFileItemModelRolesUpdater::resolveNextSortRole, Qt::QueuedConnection);
+            });
+            return;
+        }
+
         applySortRole(index);
         m_pendingSortRoleItems.erase(it);
         break;
@@ -772,6 +810,26 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
 
         if (m_finishedItems.contains(item)) {
             continue;
+        }
+
+        // Determining the MIME type may read file content, which can block on a
+        // slow filesystem. When it would, do it off the GUI thread; the
+        // continuation resumes role resolution and the pipeline once known.
+        if (mimeTypeNeedsContent(item)) {
+            resolveMimeTypeAsync(item).then(this, [this](const KFileItem &mimeKnownItem) {
+                if (m_state != ResolvingAllRoles) {
+                    return;
+                }
+                const int resolvedIndex = m_model->index(mimeKnownItem);
+                if (resolvedIndex >= 0) {
+                    applyResolvedRoles(resolvedIndex, ResolveAll, mimeKnownItem);
+                    m_finishedItems.insert(mimeKnownItem);
+                    m_changedItems.remove(mimeKnownItem);
+                }
+                // Resume the pipeline (this also runs the "all done" tail).
+                QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextPendingRoles);
+            });
+            return;
         }
 
         applyResolvedRoles(index, ResolveAll);
@@ -1184,6 +1242,33 @@ void KFileItemModelRolesUpdater::setModelData(int index, const QHash<QByteArray,
 {
     const QScopedValueRollback<bool> guard(m_applyingChangesToModel, true);
     m_model->setData(index, data);
+}
+
+QFuture<KFileItem> KFileItemModelRolesUpdater::resolveMimeTypeAsync(const KFileItem &item)
+{
+    return QtConcurrent::run([mimeKnownItem = item]() {
+        // Let KFileItem determine the MIME type: it reads file content for local
+        // files, falls back to the name on slow filesystems (NFS/SMB) on its own,
+        // and honours the file mode and any type already set in the UDSEntry.
+        mimeKnownItem.determineMimeType();
+        return mimeKnownItem;
+    });
+}
+
+void KFileItemModelRolesUpdater::resolveAllRolesAsync(int index, const KFileItem &item)
+{
+    if (mimeTypeNeedsContent(item)) {
+        resolveMimeTypeAsync(item).then(this, [this](const KFileItem &mimeKnownItem) {
+            const int resolvedIndex = m_model->index(mimeKnownItem);
+            if (resolvedIndex >= 0) {
+                applyResolvedRoles(resolvedIndex, ResolveAll, mimeKnownItem);
+                m_finishedItems.insert(mimeKnownItem);
+            }
+        });
+    } else {
+        applyResolvedRoles(index, ResolveAll, item);
+        m_finishedItems.insert(item);
+    }
 }
 
 void KFileItemModelRolesUpdater::applySortRole(int index)

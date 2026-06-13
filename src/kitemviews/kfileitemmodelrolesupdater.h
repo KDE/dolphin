@@ -15,6 +15,7 @@
 #include "config-dolphin.h"
 #include <KFileItem>
 
+#include <QFuture>
 #include <QObject>
 #include <QSet>
 #include <QSize>
@@ -271,6 +272,21 @@ private:
      * (b) "unknown" icons could be shown in the view.
      */
     void updateVisibleIcons();
+
+    /**
+     * Determines the MIME type of \a item off the GUI thread and returns a future
+     * for a MIME-known KFileItem (so the icon and other roles are then cheap to
+     * compute). Chain a .then(this, ...) continuation to resolve the roles on the
+     * GUI thread once the MIME type is available.
+     */
+    QFuture<KFileItem> resolveMimeTypeAsync(const KFileItem &item);
+
+    /**
+     * Resolves all roles for \a item (at \a index) and marks it finished. When
+     * the MIME type is not known yet it is determined off the GUI thread first,
+     * then the roles are applied once it is available.
+     */
+    void resolveAllRolesAsync(int index, const KFileItem &item);
 
     /**
      * Creates previews for the items starting from the first item in

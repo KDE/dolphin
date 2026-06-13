@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include <QDir>
 #include <QMimeData>
 #include <QRandomGenerator>
 #include <QSignalSpy>
@@ -12,10 +13,16 @@
 #include <QTest>
 #include <QTimer>
 
+#include <sys/stat.h>
+
 #include <KDirLister>
+#include <KFileItem>
+#include <KFileItemListProperties>
 #include <KIO/SimpleJob>
+#include <KIO/UDSEntry>
 
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kfileitemmodelrolesupdater.h"
 #include "testdir.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -99,6 +106,8 @@ private Q_SLOTS:
     void testCurrentDirRemoved();
     void testSizeSortingAfterRefresh();
     void testFilterModesAndCaseSensitivity();
+    void testSortByTypeResolvesRemoteItems();
+    void testContentSniffedTypeResolvedOffGuiThread();
 
 private:
     [[nodiscard]] QStringList itemsInModel() const;
@@ -2968,6 +2977,97 @@ void KFileItemModelTest::testGroupRoleChangedSignal()
 
     m_model->setSortRole("size");
     QCOMPARE(groupRoleChangedSpy.count(), 1);
+}
+
+void KFileItemModelTest::testSortByTypeResolvesRemoteItems()
+{
+    // Sorting by type needs each item's MIME type. For remote items determining
+    // it never reads content, so it must be resolved on the GUI thread (not on a
+    // worker) and the "type" role populated for the sort to be correct.
+    m_model->setSortRole("type");
+
+    KFileItemModelRolesUpdater updater(m_model);
+    updater.setVisibleIndexRange(0, 10);
+    updater.setMaximumVisibleItems(10);
+
+    KIO::UDSEntry textEntry;
+    textEntry.fastInsert(KIO::UDSEntry::UDS_NAME, QStringLiteral("note.txt"));
+    textEntry.fastInsert(KIO::UDSEntry::UDS_FILE_TYPE, S_IFREG);
+    KIO::UDSEntry pngEntry;
+    pngEntry.fastInsert(KIO::UDSEntry::UDS_NAME, QStringLiteral("picture.png"));
+    pngEntry.fastInsert(KIO::UDSEntry::UDS_FILE_TYPE, S_IFREG);
+
+    const QUrl dirUrl(QStringLiteral("ftp://kde.org/pub/"));
+    const KFileItem textItem(textEntry, QUrl(QStringLiteral("ftp://kde.org/pub/note.txt")));
+    const KFileItem pngItem(pngEntry, QUrl(QStringLiteral("ftp://kde.org/pub/picture.png")));
+
+    m_model->slotItemsAdded(dirUrl, KFileItemList({textItem, pngItem}));
+    m_model->slotCompleted();
+    QCOMPARE(m_model->count(), 2);
+
+    // The expected, correctly-resolved type comments (resolved from the name only).
+    KFileItem refText(textEntry, QUrl(QStringLiteral("ftp://kde.org/pub/note.txt")));
+    refText.determineMimeType();
+    KFileItem refPng(pngEntry, QUrl(QStringLiteral("ftp://kde.org/pub/picture.png")));
+    refPng.determineMimeType();
+    QCOMPARE(refText.currentMimeType().name(), QStringLiteral("text/plain"));
+    QCOMPARE(refPng.currentMimeType().name(), QStringLiteral("image/png"));
+
+    // The "type" role the sort relies on must be resolved synchronously for
+    // remote items (no content read, so no off-thread worker), i.e. it is
+    // already present without spinning the event loop.
+    QVERIFY(!m_model->data(0).value("type").toString().isEmpty());
+    QVERIFY(!m_model->data(1).value("type").toString().isEmpty());
+
+    const QSet<QString> resolvedTypes{m_model->data(0).value("type").toString(), m_model->data(1).value("type").toString()};
+    const QSet<QString> expectedTypes{refText.mimeComment(), refPng.mimeComment()};
+    QCOMPARE(resolvedTypes, expectedTypes);
+}
+
+void KFileItemModelTest::testContentSniffedTypeResolvedOffGuiThread()
+{
+    // Reproduce a real KCoreDirLister listing: items use delayed MIME types, so a
+    // file whose type can only be decided by reading its content (no usable name
+    // match) has an unknown MIME type until determined. On a slow drive that read
+    // would freeze the GUI if done inline, so KFileItemModelRolesUpdater offloads
+    // it to a worker thread. Verify the read is offloaded: the icon role is NOT
+    // resolved synchronously (the GUI thread returns at once instead of reading the
+    // content) and only appears once the worker finishes and applies the result on
+    // the GUI thread. Contrast with remote/name-only items, which resolve
+    // synchronously because no content has to be read.
+    m_testDir->createFile("datafile"); // no extension + text content -> needs content sniffing
+    const QUrl dirUrl = m_testDir->url();
+    const QUrl fileUrl = QUrl::fromLocalFile(QDir(dirUrl.toLocalFile()).filePath(QStringLiteral("datafile")));
+
+    KFileItem localItem(fileUrl);
+    localItem.setDelayedMimeTypes(true); // as KCoreDirLister creates its items
+    QVERIFY(localItem.isLocalFile());
+    QVERIFY(!localItem.isMimeTypeKnown());
+
+    KFileItemModelRolesUpdater updater(m_model);
+    updater.setVisibleIndexRange(0, 10);
+    updater.setMaximumVisibleItems(10);
+
+    m_model->slotItemsAdded(dirUrl, KFileItemList({localItem}));
+    m_model->slotCompleted();
+    QCOMPARE(m_model->count(), 1);
+
+    // Offloaded, not read on the GUI thread: synchronously the model still has only
+    // the cheap name-based guess (no glob matches "datafile", so octet-stream). The
+    // accurate, content-determined type is being resolved on a worker thread.
+    QCOMPARE(m_model->data(0).value("iconName").toString(), QStringLiteral("application-octet-stream"));
+
+    // Once the worker finishes, the content-determined type and icon are applied on
+    // the GUI thread, replacing the guess.
+    KFileItem reference(fileUrl);
+    reference.determineMimeType();
+    QCOMPARE(reference.currentMimeType().name(), QStringLiteral("text/plain"));
+    QVERIFY(reference.iconName() != QStringLiteral("application-octet-stream"));
+    QTRY_COMPARE(m_model->data(0).value("iconName").toString(), reference.iconName());
+
+    // The model's stored item now reflects the content-determined type.
+    QVERIFY(m_model->fileItem(0).isMimeTypeKnown());
+    QCOMPARE(m_model->fileItem(0).currentMimeType().name(), QStringLiteral("text/plain"));
 }
 
 QTEST_MAIN(KFileItemModelTest)

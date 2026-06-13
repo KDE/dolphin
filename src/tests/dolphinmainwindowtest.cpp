@@ -32,6 +32,7 @@
 #include <QDomDocument>
 #include <QFileSystemWatcher>
 #include <QKeySequence>
+#include <QMimeDatabase>
 #include <QPixmap>
 #include <QScopedPointer>
 #include <QSignalSpy>
@@ -73,6 +74,7 @@ private Q_SLOTS:
     void testAutoSaveSession();
     void testInlineRename();
     void testThumbnailAfterRename();
+    void testIconNameResolvedFromContentMimeType();
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
     void testActiveViewAfterTabSwitchWithSplitView();
@@ -1234,6 +1236,49 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
     QTRY_VERIFY(!view->m_model->data(renamedIndex).value("iconPixmap").value<QPixmap>().isNull());
     QCOMPARE(view->m_model->fileItem(renamedIndex).name(), "b.jpg");
     QCOMPARE(view->m_model->count(), 1);
+}
+
+void DolphinMainWindowTest::testIconNameResolvedFromContentMimeType()
+{
+    // Files with no extension whose MIME type can only be determined from their
+    // content. The roles updater determines the MIME type off the GUI thread and
+    // then resolves the icon from it, so the resolved icon must match what the
+    // MIME type implies.
+    QScopedPointer<TestDir> testDir{new TestDir()};
+
+    QImage image(16, 16, QImage::Format_RGB32);
+    image.fill(Qt::blue);
+    QVERIFY(image.save(testDir->path() + "/image", "PNG")); // PNG content, no extension
+
+    testDir->createFile("notes", "just some plain text\n"); // text content, no extension
+
+    QMimeDatabase db;
+    const QString expectedImageIcon = db.mimeTypeForFile(testDir->path() + "/image").iconName();
+    const QString expectedTextIcon = db.mimeTypeForFile(testDir->path() + "/notes").iconName();
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    view->setPreviewsShown(false);
+    QSignalSpy directoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    m_mainWindow->show();
+    QVERIFY(directoryLoadingCompletedSpy.wait());
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QCOMPARE(view->m_model->count(), 2);
+
+    const auto iconNameForFile = [view](const QString &name) {
+        for (int i = 0; i < view->m_model->count(); ++i) {
+            if (view->m_model->fileItem(i).name() == name) {
+                return view->m_model->data(i).value("iconName").toString();
+            }
+        }
+        return QString();
+    };
+
+    // The name-based MIME type (application/octet-stream for these extensionless
+    // files) is resolved first, then replaced by the content-based type off the
+    // GUI thread. Poll on the final value so we don't race that second step.
+    QTRY_COMPARE(iconNameForFile(QStringLiteral("image")), expectedImageIcon);
+    QTRY_COMPARE(iconNameForFile(QStringLiteral("notes")), expectedTextIcon);
 }
 
 void DolphinMainWindowTest::testViewModeAfterDynamicView()
