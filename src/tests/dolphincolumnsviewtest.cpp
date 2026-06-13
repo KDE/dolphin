@@ -261,8 +261,10 @@ void DolphinColumnsViewTest::testKeyRight_fileDoesNotOpen()
 
     const int before = m_view->columnCount();
     sendKeyToActivePane(Qt::Key_Right);
-    // Give events time to process (no new column should appear)
-    QTest::qWait(500);
+    // Pressing Right on a file opens no child column. The handler runs
+    // synchronously, so flushing pending events is enough to confirm that the
+    // column count does not change.
+    QCoreApplication::processEvents();
 
     QCOMPARE(m_view->columnCount(), before);
 }
