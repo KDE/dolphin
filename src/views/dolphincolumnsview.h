@@ -10,6 +10,8 @@
 #include "dolphin_export.h"
 #include "dolphinview.h"
 
+#include <QPointer>
+
 class DolphinColumnPane;
 class QScrollArea;
 class QSplitter;
@@ -73,10 +75,18 @@ private:
     DolphinColumnPane *createPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
+    /**
+     * Returns the URL of the folder that @p item navigates into (a directory,
+     * or e.g. an archive when browsing those is supported), or an empty URL if
+     * @p item is not a navigable folder.
+     */
+    QUrl folderUrlForItem(const KFileItem &item) const;
+
     void handleKeyLeft(int sourceColumn);
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
+    void handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex);
 
     void ensureActiveColumnVisible();
     void autoSelectFirstItem(int columnIndex);
@@ -112,6 +122,11 @@ private:
     // loading.  slotPaneLoadingCompleted() uses this to auto-select the
     // first item once the model is ready.
     DolphinColumnPane *m_pendingAutoSelect = nullptr;
+
+    // What a left press landed on, until the button comes back up on the same item or the press
+    // turns into a drag.
+    QPointer<DolphinColumnPane> m_pressedPane;
+    int m_pressedItemIndex = -1;
 
     // Per-column custom width set by user dragging splitter handles.
     // Key = column index, value = width in pixels. Session-only, not persisted.

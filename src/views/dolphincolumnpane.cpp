@@ -7,6 +7,7 @@
 #include "dolphincolumnpane.h"
 
 #include "dolphin_columnsmodesettings.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinitemlistview.h"
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
@@ -78,9 +79,14 @@ QUrl DolphinColumnPane::dirUrl() const
 void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
 {
     if (childUrl.isEmpty()) {
+        m_activeChildUrl.clear();
         clearActiveChild();
         return;
     }
+
+    // Kept, because a column built for a url that is already several folders deep is asked for
+    // its child before it has listed, and the item to mark does not exist yet.
+    m_activeChildUrl = childUrl;
 
     const KFileItem item = m_model->fileItem(childUrl);
     if (!item.isNull()) {
@@ -90,6 +96,13 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
             m_controller->selectionManager()->setCurrentItem(index);
             m_controller->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Select);
         }
+    }
+}
+
+void DolphinColumnPane::reapplyActiveChildMark()
+{
+    if (!m_activeChildUrl.isEmpty()) {
+        setActiveChildUrl(m_activeChildUrl);
     }
 }
 
@@ -166,7 +179,15 @@ void DolphinColumnPane::slotItemActivated(int index)
 
     // itemActivated = double-click (or single-click if system configured so).
     // Directories: navigate.  Files: open with default application.
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
+    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    KFileItem resolved = item;
+    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
+    // determined for a folder or for a remote file, where the sniffing would go over the wire.
+    if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
+        resolved.determineMimeType();
+    }
+    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
     if (!folderUrl.isEmpty()) {
         Q_EMIT directoryActivated(folderUrl);
     } else if (item.isDir()) {
