@@ -274,10 +274,10 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
         return;
     }
 
-    // During rubber band (multi-select) or mouse-driven selection the
-    // current item changes as the mouse moves, but we must not navigate —
-    // only select.  Mouse-click navigation is handled by mouseButtonPressed.
-    if (QGuiApplication::mouseButtons() & Qt::LeftButton) {
+    // The current item also changes during mouse selection and on a
+    // context-menu right-click; do not navigate then, only select. Mouse
+    // navigation is handled by mouseButtonPressed.
+    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
         return;
     }
 
