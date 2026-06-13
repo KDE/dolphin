@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -86,6 +87,7 @@ private Q_SLOTS:
 
     void testKeyReturn_fileEmitsItemActivated();
     void testKeyReturn_directoryOpensChild();
+    void testKeyReturn_doesNotReloadAlreadyOpenChild();
 
     void testShiftRight_navigatesBetweenColumns();
     void testCtrlRight_navigatesBetweenColumns();
@@ -94,6 +96,15 @@ private Q_SLOTS:
     void testLeftKeyClearsChildSelection();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
+    void testDirectorySelectionOpensChildOnce();
+    void testMouseClickOnDirectoryOpensChildOnce();
+    void testActivatingADirectoryStaysInItsColumn();
+    void testMouseClickOnNotCurrentDirectoryOpensChild();
+    void testRightClickKeepsTheChildColumns();
+    void testMouseClickOnAFileDropsTheColumnsAfterIt();
+    void testDraggingAFileLeavesTheColumnsOpen();
+    void testOpeningAFolderDoesNotOpenAFurtherColumn();
+    void testEveryFolderOnThePathIsMarkedInItsParent();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -277,8 +288,10 @@ void DolphinColumnsViewTest::testKeyRight_fileDoesNotOpen()
 
     const int before = m_view->columnCount();
     sendKeyToActivePane(Qt::Key_Right);
-    // Give events time to process (no new column should appear)
-    QTest::qWait(500);
+    // Pressing Right on a file opens no child column. The handler runs
+    // synchronously, so flushing pending events is enough to confirm that the
+    // column count does not change.
+    QCoreApplication::processEvents();
 
     QCOMPARE(m_view->columnCount(), before);
 }
@@ -669,6 +682,31 @@ void DolphinColumnsViewTest::testKeyReturn_directoryOpensChild()
     QVERIFY(m_view->activeColumnIndex() >= 1);
 }
 
+void DolphinColumnsViewTest::testKeyReturn_doesNotReloadAlreadyOpenChild()
+{
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+
+    // First Return opens beta's child column.
+    sendKeyToActivePane(Qt::Key_Return);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->activeColumnIndex() >= 1, 5000);
+
+    const int childCol = m_view->activeColumnIndex();
+    DolphinColumnPane *childBefore = m_view->columnAt(childCol);
+    QVERIFY(childBefore);
+    const QUrl childUrl = childBefore->dirUrl();
+
+    // Pressing Return again on the same folder should step into the existing
+    // child column, not tear it down and reload it.
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+    sendKeyToActivePane(Qt::Key_Return);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), childCol, 5000);
+
+    QCOMPARE(m_view->columnAt(childCol), childBefore);
+    QCOMPARE(m_view->columnAt(childCol)->dirUrl(), childUrl);
+}
+
 void DolphinColumnsViewTest::testShiftRight_navigatesBetweenColumns()
 {
     activateColumn(0);
@@ -832,6 +870,290 @@ void DolphinColumnsViewTest::testTheDetailsSettingsDoNotReachTheColumns()
     // A column is one row wide, and it never expands a folder in place.
     QCOMPARE(paneView->highlightEntireRow(), true);
     QCOMPARE(paneView->supportsItemExpanding(), false);
+}
+
+void DolphinColumnsViewTest::testDirectorySelectionOpensChildOnce()
+{
+    // Selecting a directory in the active, focused column changes both the
+    // current item and the selection, which drives two independent handlers
+    // (slotColumnsCurrentItemChanged and the selectionChanged lambda). Verify
+    // that the child column is opened once, shows the right folder, does not
+    // reload, and is not torn down and rebuilt.
+    activateColumn(0);
+    auto *rootContainer = m_view->columnAt(0)->container();
+    rootContainer->setFocus();
+    if (!QTest::qWaitFor(
+            [&]() {
+                return rootContainer->hasFocus();
+            },
+            1000)) {
+        QSKIP("Could not give keyboard focus to the column in this environment");
+    }
+
+    // "beta" is a directory and not the auto-selected first item.
+    QSignalSpy loadSpy(m_view, &DolphinView::directoryLoadingCompleted);
+    selectItemInColumn(0, "beta");
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+
+    // Let any queued re-open/auto-select settle, then confirm the child column
+    // is the same object (not rebuilt) and beta was loaded only once.
+    auto *childPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(loadSpy.count() >= 1, 5000);
+    // Settle briefly to confirm no second reload is queued; there is no signal for an event not happening.
+    QTest::qWait(300); // UNAVOIDABLE: no signal for the absence of a reload
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1), childPane);
+    // beta is loaded exactly once: no double pop-and-rebuild of the child column.
+    QCOMPARE(loadSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
+{
+    // A left-click opens the child of the *current* item (handleMouseButtonPressed).
+    // openChild() then calls setActiveChildUrl() on the parent, which changes the
+    // parent's selection and re-emits selectionChanged. Without the m_blockNavigation
+    // guard on that handler this re-enters openChild() before the first call has
+    // appended its column, so both calls see no child and build one each - two
+    // columns for the same folder. Verify exactly one child column is created.
+    activateColumn(0);
+    auto *pane = m_view->columnAt(0);
+    auto *selectionManager = pane->controller()->selectionManager();
+
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    // Make "beta" the current item without opening its child yet. During a real
+    // click the mouse button is held, so slotColumnsCurrentItemChanged()'s
+    // "mouseButtons() == NoButton" guard suppresses it and only
+    // handleMouseButtonPressed() opens the child. Offscreen there is no held
+    // button, so block signals while seeding the current item to reproduce that
+    // precondition (current == beta, no child column, selection differs from it).
+    selectionManager->blockSignals(true);
+    selectionManager->clearSelection();
+    selectionManager->setCurrentItem(betaIndex);
+    selectionManager->blockSignals(false);
+
+    // Simulate a left-click on the already-current "beta". This opens exactly one
+    // child column showing "beta"; the re-entrancy bug would open a second.
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, betaIndex);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+
+    // Let any queued re-entrant open settle, then confirm still exactly one child.
+    QTest::qWait(100); // UNAVOIDABLE: no signal for the absence of a re-entrant open
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+// Activating a folder shows it in the next column but leaves the selection on the folder itself,
+// the way the Finder column view does. Moving into that column is the Right arrow's job, see
+// testKeyRight_opensChild().
+void DolphinColumnsViewTest::testActivatingADirectoryStaysInItsColumn()
+{
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+
+    // Selecting the folder already opens the column that previews it.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+    QTRY_VERIFY(m_view->columnAt(1)->model()->count() > 0);
+
+    auto *pane = m_view->columnAt(0);
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    // What a click or a double click reaches, depending on the single click setting.
+    QVERIFY(QMetaObject::invokeMethod(pane, "slotItemActivated", Qt::DirectConnection, Q_ARG(int, betaIndex)));
+    QCoreApplication::processEvents();
+
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QVERIFY(!m_view->columnAt(1)->controller()->selectionManager()->hasSelection());
+
+    // The column the selection opened is reused rather than torn down and built again.
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+void DolphinColumnsViewTest::testMouseClickOnNotCurrentDirectoryOpensChild()
+{
+    // The first click on an item that is not the current one has to open its child column.
+    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
+    // so handleMouseButtonPressed() sees a clicked index that differs from the current one, and
+    // slotColumnsCurrentItemChanged() is suppressed while the button is held.
+    activateColumn(0);
+    auto *pane = m_view->columnAt(0);
+    auto *selectionManager = pane->controller()->selectionManager();
+
+    int betaIndex = -1;
+    int otherIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        const QString name = pane->model()->fileItem(i).name();
+        if (name == QStringLiteral("beta")) {
+            betaIndex = i;
+        } else if (otherIndex < 0) {
+            otherIndex = i;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+    QVERIFY(otherIndex >= 0);
+
+    // Current is some other item, which is what a first click on "beta" starts from.
+    selectionManager->blockSignals(true);
+    selectionManager->clearSelection();
+    selectionManager->setCurrentItem(otherIndex);
+    selectionManager->blockSignals(false);
+    QVERIFY(selectionManager->currentItem() != betaIndex);
+
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, betaIndex);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+void DolphinColumnsViewTest::testRightClickKeepsTheChildColumns()
+{
+    // A right click opens the context menu, whose actions act on the folder of the column that
+    // was clicked. Opening the child of the item under the cursor would take that folder away
+    // before the menu is even shown.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+
+    auto *pane = m_view->columnAt(0);
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::RightButton);
+
+    // The column that was clicked becomes the active one, so the menu acts on the right folder.
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
+}
+
+void DolphinColumnsViewTest::testMouseClickOnAFileDropsTheColumnsAfterIt()
+{
+    // The columns to the right of a click belong to a folder that is no longer the selected item,
+    // so clicking a file closes them and the url goes back to the folder holding the file.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    int fileIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("single-file.txt")) {
+            fileIndex = i;
+            break;
+        }
+    }
+    QVERIFY(fileIndex >= 0);
+
+    QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
+    m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, fileIndex);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(urlSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testDraggingAFileLeavesTheColumnsOpen()
+{
+    // Dragging a file to a folder shown further right needs that column to still be there when
+    // the drag arrives, so a press that becomes a drag closes nothing.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    int fileIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("single-file.txt")) {
+            fileIndex = i;
+            break;
+        }
+    }
+    QVERIFY(fileIndex >= 0);
+
+    QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
+    m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    QCOMPARE(m_view->columnCount(), 2);
+
+    Q_EMIT pane->controller()->draggingStarted();
+    QTest::qWait(100); // UNAVOIDABLE: proving that nothing closes needs time for it to happen
+    QCOMPARE(m_view->columnCount(), 2);
+
+    // The release that ends the drag is not a click on the file either.
+    m_view->handleMouseButtonReleased(pane, fileIndex);
+    QTest::qWait(100); // UNAVOIDABLE: see above
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(urlSpy.count(), 0);
+}
+
+void DolphinColumnsViewTest::testOpeningAFolderDoesNotOpenAFurtherColumn()
+{
+    // alpha holds alpha-child, which is a folder. Opening alpha selects alpha-child in the new
+    // column, and must stop there. Opening it as well puts a column on screen that nobody asked
+    // for, and browsing then adds and drops one at every step.
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    navigateRight();
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // Entering a column selects its first item, and that is what used to open the column after
+    // it. Once the selection is on alpha-child, that code has had its turn.
+    auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
+    QTRY_VERIFY_WITH_TIMEOUT(selectionManager->selectedItems().count() == 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(selectionManager->currentItem()).name(), QStringLiteral("alpha-child"));
+
+    QCOMPARE(m_view->columnCount(), 2);
+}
+
+void DolphinColumnsViewTest::testEveryFolderOnThePathIsMarkedInItsParent()
+{
+    // Restoring a session opens the columns for a url that is already several folders deep, so
+    // each of them is asked to mark its child before it has listed and the item does not exist
+    // yet. The mark has to be put on once the listing arrives.
+    m_view->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child")));
+    waitForStableState();
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    auto markedNameIn = [this](int column) {
+        auto *selectionManager = m_view->columnAt(column)->controller()->selectionManager();
+        const int current = selectionManager->currentItem();
+        if (current < 0 || !selectionManager->isSelected(current)) {
+            return QString();
+        }
+        return m_view->columnAt(column)->model()->fileItem(current).name();
+    };
+
+    QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(0), QStringLiteral("alpha"), 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(1), QStringLiteral("alpha-child"), 5000);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
