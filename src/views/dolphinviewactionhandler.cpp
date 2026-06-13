@@ -245,17 +245,12 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
     viewModeActions->setToolButtonPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
     connect(viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
-    connect(viewModeActions, &KSelectAction::triggered, this, [this, viewModeActions, iconsAction, compactAction, detailsAction, columnsAction]() {
-        // Loop through the actions when button is clicked
-        const auto currentAction = viewModeActions->currentAction();
-        if (currentAction == iconsAction) {
-            slotViewModeActionTriggered(compactAction);
-        } else if (currentAction == compactAction) {
-            slotViewModeActionTriggered(detailsAction);
-        } else if (currentAction == detailsAction) {
-            slotViewModeActionTriggered(columnsAction);
-        } else if (currentAction == columnsAction) {
-            slotViewModeActionTriggered(iconsAction);
+    connect(viewModeActions, &KSelectAction::triggered, this, [this, viewModeActions]() {
+        // A click on the button goes to the next view mode of the group, and from the last one to the first.
+        const QList<QAction *> modes = viewModeActions->actions();
+        const int current = modes.indexOf(viewModeActions->currentAction());
+        if (current >= 0) {
+            slotViewModeActionTriggered(modes.at((current + 1) % modes.size()));
         }
     });
 
@@ -600,6 +595,17 @@ KActionCollection *DolphinViewActionHandler::actionCollection()
     return m_actionCollection;
 }
 
+void DolphinViewActionHandler::removeColumnsMode()
+{
+    QAction *columnsAction = m_actionCollection->action(QStringLiteral("columns"));
+    if (auto *viewModeActions = qobject_cast<KSelectAction *>(m_actionCollection->action(QStringLiteral("view_mode")))) {
+        viewModeActions->removeAction(columnsAction);
+    }
+    // Menus leave out a hidden action, and a disabled one ignores its shortcut.
+    columnsAction->setVisible(false);
+    columnsAction->setEnabled(false);
+}
+
 void DolphinViewActionHandler::updateIndexerRoleActions()
 {
     const QString reason = KFileItemModel::indexerUnavailableReason(m_currentView->url());
@@ -919,6 +925,7 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 {
     Q_EMIT actionBeingHandled();
     QPointer<ViewPropertiesDialog> dialog = new ViewPropertiesDialog(m_currentView);
+    connect(dialog, &ViewPropertiesDialog::viewModeChangeRequested, this, &DolphinViewActionHandler::viewModeChangeRequested);
     dialog->exec();
     delete dialog;
 }
