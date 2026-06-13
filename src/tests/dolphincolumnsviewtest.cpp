@@ -71,6 +71,7 @@ private Q_SLOTS:
 
     void testKeyReturn_fileEmitsItemActivated();
     void testKeyReturn_directoryOpensChild();
+    void testKeyReturn_doesNotReloadAlreadyOpenChild();
 
     void testShiftRight_navigatesBetweenColumns();
     void testCtrlRight_navigatesBetweenColumns();
@@ -442,6 +443,31 @@ void DolphinColumnsViewTest::testKeyReturn_directoryOpensChild()
 
     QCOMPARE(spy.count(), 0);
     QVERIFY(m_view->activeColumnIndex() >= 1);
+}
+
+void DolphinColumnsViewTest::testKeyReturn_doesNotReloadAlreadyOpenChild()
+{
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+
+    // First Return opens beta's child column.
+    sendKeyToActivePane(Qt::Key_Return);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->activeColumnIndex() >= 1, 5000);
+
+    const int childCol = m_view->activeColumnIndex();
+    DolphinColumnPane *childBefore = m_view->columnAt(childCol);
+    QVERIFY(childBefore);
+    const QUrl childUrl = childBefore->dirUrl();
+
+    // Pressing Return again on the same folder should step into the existing
+    // child column, not tear it down and reload it.
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+    sendKeyToActivePane(Qt::Key_Return);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), childCol, 5000);
+
+    QCOMPARE(m_view->columnAt(childCol), childBefore);
+    QCOMPARE(m_view->columnAt(childCol)->dirUrl(), childUrl);
 }
 
 void DolphinColumnsViewTest::testShiftRight_navigatesBetweenColumns()
