@@ -110,6 +110,16 @@ public:
     bool previewsShown() const;
 
     /**
+     * Returns the already-cached thumbnail for the item as a ready-to-show pixmap
+     * (scaled and framed), or a null pixmap when none is cached. Synchronous, so the
+     * view can show cached thumbnails on the first paint; the model is written later by
+     * this updater on its own turn. The caller passes the target icon size, because the
+     * internal one may not be set yet that early. Falls back to a smaller cache bucket
+     * so a too-small thumbnail is shown rather than a generic icon.
+     */
+    QPixmap cachedPreviewPixmap(const KFileItem &item, const QSize &iconSize);
+
+    /**
      * If enabled a small preview gets upscaled to the icon size in case where
      * the icon size is larger than the preview. Per default enlarging is
      * enabled.
@@ -290,7 +300,7 @@ private:
      * @param image A raw preview image from a PreviewJob.
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewImage(const QImage &image);
+    QPixmap transformPreviewImage(const QImage &image, const QSize &iconSize);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.
@@ -346,7 +356,12 @@ private:
     void recountDirectoryItems(const QList<QUrl> &directories);
 
 private:
-    QSize cacheSize();
+    QSize cacheSize(const QSize &iconSize);
+
+    // Cached thumbnail for the item at requestSize, with a fallback to a smaller cache
+    // bucket on a miss. Sets fromRequestedBucket to whether the hit came from the
+    // requested bucket (a fallback hit is not final). Returns a null image on a full miss.
+    QImage cachedThumbnailWithFallback(const KFileItem &item, const QSize &requestSize, bool &fromRequestedBucket);
     /**
      * enqueue directory size counting for KFileItem item at index
      */
@@ -437,6 +452,8 @@ private:
     Baloo::FileMonitor *m_balooFileMonitor;
     Baloo::IndexerConfig m_balooConfig;
 #endif
+
+    friend class KFileItemModelRolesUpdaterTest; // For unit testing
 };
 
 #endif
