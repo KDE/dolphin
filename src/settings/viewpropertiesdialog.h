@@ -10,7 +10,10 @@
 
 #include "dolphin_export.h"
 
+#include "views/dolphinview.h" // for DolphinView::Mode
+
 #include <QDialog>
+#include <QPointer>
 
 class QCheckBox;
 class QListWidget;
@@ -55,13 +58,21 @@ private Q_SLOTS:
 Q_SIGNALS:
     void isDirtyChanged(bool isDirty);
 
+    /**
+     * Emitted when the chosen view mode should be applied. Routed through the
+     * view container (not the DolphinView directly) because switching to or
+     * from the columns view swaps the DolphinView for a different subclass.
+     */
+    void viewModeChangeRequested(DolphinView::Mode mode);
+
 private:
     void applyViewProperties();
     void loadSettings();
 
 private:
     bool m_isDirty;
-    DolphinView *m_dolphinView;
+    /// Weak: applying a switch to or from the columns view destroys the view.
+    QPointer<DolphinView> m_dolphinView;
     ViewProperties *m_viewProps;
 
     QComboBox *m_viewMode;

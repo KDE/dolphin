@@ -220,7 +220,6 @@ void DolphinViewContainer::connectViewSignals()
     connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
     connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
     connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
-    connect(m_view, &DolphinView::viewModeChangeRequested, this, &DolphinViewContainer::setViewMode);
 
     // Status bar connections (m_statusBar may be null during initial construction)
     if (m_statusBar) {
@@ -245,8 +244,19 @@ void DolphinViewContainer::connectViewSignals()
 void DolphinViewContainer::swapView(DolphinView::Mode mode)
 {
     auto oldView = m_view;
-    const QUrl savedUrl = oldView->url();
+    // Use the navigator's location rather than oldView->url(): when the swap is
+    // triggered while navigating to a new folder, the outgoing view has not been
+    // moved there yet, but the navigator already points at the target.
+    const QUrl savedUrl = m_urlNavigator->locationUrl();
     const bool wasActive = oldView->isActive();
+
+    // The connected url navigator binds several connections to the current
+    // view (e.g. urlChanged -> setLocationUrl); reconnect it to the new view,
+    // otherwise the breadcrumb stops following the view after the swap.
+    DolphinUrlNavigator *connectedNavigator = m_urlNavigatorConnected;
+    if (connectedNavigator) {
+        disconnectUrlNavigator();
+    }
 
     m_topLayout->removeWidget(oldView);
 
@@ -257,16 +267,36 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     }
 
     m_topLayout->addWidget(m_view, positionFor.view, 0);
+
+    // A floating small status bar draws above the view only by being the later sibling.
+    m_statusBar->raise();
+
     connectViewSignals();
 
-    if (wasActive) {
-        m_view->setActive(true);
+    // State the container owns rather than the view has to reach the replacement, or the filter
+    // bar and the search keep showing settings that the new view is not applying.
+    m_view->setViewPropertiesContext(oldView->viewPropertiesContext());
+    m_view->setFilterMode(m_filterBar->filterMode());
+    m_view->setFilterCaseSensitive(m_filterBar->isCaseSensitive());
+    m_view->setNameFilter(oldView->nameFilter());
+    m_view->setSelectionModeEnabled(oldView->selectionMode());
+
+    if (connectedNavigator) {
+        connectUrlNavigator(connectedNavigator);
     }
+
+    // A freshly constructed view defaults to active (DolphinView::m_active is
+    // initialized true). Sync it to the container's real active state, or a
+    // view swapped in on an inactive split pane stays wrongly "active" and the
+    // window never wires its active-view signals (context menu, ...) to it.
+    m_view->setActive(wasActive);
 
     oldView->deleteLater();
 
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
+    // The offset is a property of the view, so the replacement needs it told again.
+    updateStatusBarGeometry();
 
     Q_EMIT viewReplaced();
 }
@@ -278,6 +308,13 @@ void DolphinViewContainer::setViewMode(DolphinView::Mode mode)
 
     if (needsColumns != isColumns) {
         swapView(mode);
+
+        // The new view is built with the mode already applied and does not store it, so store
+        // it here, the way DolphinView::setViewMode does for the other case. It has to happen
+        // after the swap: a swap caused by navigating still has the outgoing view on the folder
+        // being left, whose properties must not be given the new mode.
+        ViewProperties props(m_view->viewPropertiesUrl());
+        props.setViewMode(mode);
     } else {
         m_view->setViewMode(mode);
     }
@@ -1012,6 +1049,15 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
             // Hide the search bar because it shows an outdated search which the user does not care about anymore.
             setSearchBarVisible(false);
+        }
+
+        // A folder configured for the columns view needs the DolphinColumnsView
+        // subclass, which only the container can create. Swap to it before
+        // navigating. Only swap *into* the columns view here: it is sticky and
+        // is left through an explicit view-mode change, so browsing within it
+        // (into non-columns subfolders) must not swap it away.
+        if (!qobject_cast<DolphinColumnsView *>(m_view) && ViewProperties(url).viewMode() == DolphinView::ColumnsView) {
+            setViewMode(DolphinView::ColumnsView);
         }
 
         updateViewPropertiesContext(url);

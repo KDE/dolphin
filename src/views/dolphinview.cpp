@@ -86,9 +86,10 @@
 #include <QToolTip>
 #include <QVBoxLayout>
 
-DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
+DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode, bool canDisplayColumns)
     : QWidget(parent)
     , m_active(true)
+    , m_canDisplayColumns(canDisplayColumns)
     , m_tabsForFiles(false)
     , m_assureVisibleCurrentIndex(false)
     , m_isFolderWritable(true)
@@ -298,10 +299,6 @@ DolphinView::~DolphinView()
         m_statJobForStatusBarText->kill(KJob::Quietly);
     }
     disconnect(m_container->controller(), &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
-
-    // Persist mode to disk for next session
-    ViewProperties props(url());
-    props.setViewMode(m_mode);
 }
 
 QUrl DolphinView::url() const
@@ -2515,7 +2512,14 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     // Caches old zoom level change for signal emitting
     int zoomLevelChangeFrom = -1;
 
-    const Mode mode = props.viewMode();
+    Mode mode = props.viewMode();
+    if (!canDisplayMode(mode)) {
+        // The folder stored a mode this view cannot draw, e.g. the columns mode reached through
+        // DolphinPart, or any other mode once the container has built the columns view. Which
+        // view is in use is the container's decision, so keep drawing what this one is for.
+        // Adopting the stored mode would leave the reported mode and the drawn layout disagreeing.
+        mode = m_canDisplayColumns ? ColumnsView : IconsView;
+    }
     if (m_mode != mode) {
         const Mode previousMode = m_mode;
         m_mode = mode;
@@ -2665,6 +2669,13 @@ void DolphinView::applyModeToView()
         // Handled by DolphinColumnsView::applyModeToView() override.
         break;
     }
+}
+
+bool DolphinView::canDisplayMode(Mode mode) const
+{
+    // The columns view draws the columns mode and nothing else. Every other view draws every
+    // other mode.
+    return m_canDisplayColumns ? mode == ColumnsView : mode != ColumnsView;
 }
 
 void DolphinView::applyDynamicView()

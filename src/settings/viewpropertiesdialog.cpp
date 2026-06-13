@@ -36,7 +36,10 @@
 #include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
-    : QDialog(dolphinView)
+    // Parented to the window rather than to the view: applying a switch to or from the
+    // columns view destroys the view, and a dialog parented to it would go with it while
+    // its own exec() is still running.
+    : QDialog(dolphinView->window())
     , m_isDirty(false)
     , m_dolphinView(dolphinView)
     , m_viewProps(nullptr)
@@ -71,6 +74,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
+    m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-file-columns")), i18nc("@item:inlistbox", "Columns"), DolphinView::ColumnsView);
 
     m_sortOrder = new QComboBox();
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
@@ -326,6 +330,12 @@ void ViewPropertiesDialog::applyViewProperties()
         m_viewProps->setVisibleRoles(visibleRoles);
     }
 
+    // Applying a switch to or from the columns view replaces the view with another object, so a
+    // second apply after that has nothing to act on. Stop rather than follow a dangling pointer.
+    if (!m_dolphinView) {
+        return;
+    }
+
     const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
@@ -333,7 +343,7 @@ void ViewPropertiesDialog::applyViewProperties()
             return;
         }
 
-        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView, m_dolphinView->url(), *m_viewProps);
+        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView->window(), m_dolphinView->url(), *m_viewProps);
         info->setAttribute(Qt::WA_DeleteOnClose);
         info->setWindowModality(Qt::NonModal);
         info->show();
@@ -366,7 +376,6 @@ void ViewPropertiesDialog::applyViewProperties()
         settings->save();
     }
 
-    m_dolphinView->setViewMode(m_viewProps->viewMode());
     m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
@@ -379,6 +388,13 @@ void ViewPropertiesDialog::applyViewProperties()
     m_viewProps->save();
 
     markAsDirty(false);
+
+    // Apply the view mode last, through the container: switching to or from the
+    // columns view swaps the DolphinView for a different subclass, so the mode
+    // must not be set on m_dolphinView directly (it would be a stale pointer
+    // afterwards). The container recreates the view from the properties saved
+    // above.
+    Q_EMIT viewModeChangeRequested(m_viewProps->viewMode());
 }
 
 void ViewPropertiesDialog::loadSettings()
@@ -393,6 +409,9 @@ void ViewPropertiesDialog::loadSettings()
         break;
     case DolphinView::DetailsView:
         m_viewMode->setCurrentIndex(2);
+        break;
+    case DolphinView::ColumnsView:
+        m_viewMode->setCurrentIndex(3);
         break;
     default:
         break;

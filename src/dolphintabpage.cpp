@@ -538,7 +538,7 @@ void DolphinTabPage::connectToContainerView(DolphinViewContainer *container) con
     connect(view, &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
 }
 
-DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url) const
+DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url)
 {
     DolphinViewContainer *container = new DolphinViewContainer(url, m_splitter);
     container->setActive(false);
@@ -546,6 +546,12 @@ DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url) const
 
     connect(container, &DolphinViewContainer::viewReplaced, this, [this, container] {
         connectToContainerView(container);
+        if (container == activeViewContainer()) {
+            // The connection that makes the tab and window titles follow this container was
+            // made to the view it held until now, and went away with it.
+            connect(container->view(), &DolphinView::urlChanged, this, &DolphinTabPage::activeViewUrlChanged);
+            Q_EMIT activeViewUrlChanged(container->url());
+        }
     });
 
     return container;
