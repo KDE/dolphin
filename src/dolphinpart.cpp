@@ -101,7 +101,15 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
         setNewFileMenuWorkingDirectory(parent);
         createDirectory();
     });
-    connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, m_view, &DolphinView::viewModeChangeRequested);
+    connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, this, [this](DolphinView::Mode mode) {
+        if (mode == DolphinView::ColumnsView) {
+            // The part shows a plain DolphinView, which cannot draw columns. The action has
+            // already been checked and the view_mode button relabelled, so put them back.
+            m_actionHandler->updateViewActions();
+            return;
+        }
+        m_view->setViewMode(mode);
+    });
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinPart::aboutToOpenURL, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
