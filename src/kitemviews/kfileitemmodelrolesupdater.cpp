@@ -22,6 +22,8 @@
 #include <KPluginMetaData>
 #include <KSharedConfig>
 
+#include <kio_version.h>
+
 #include "dolphin_contentdisplaysettings.h"
 
 #if HAVE_BALOO
@@ -33,7 +35,9 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QImage>
 #include <QPainter>
+#include <QPixmap>
 #include <QPluginLoader>
 #include <QTimer>
 #include <chrono>
@@ -961,6 +965,31 @@ void KFileItemModelRolesUpdater::updateVisibleIcons()
     // Try to determine the final icons for all visible items.
     int index;
     for (index = m_firstVisibleIndex; index <= lastVisibleIndex && timer.elapsed() < MaxBlockTimeout; ++index) {
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 28, 0)
+        // When previews are shown, an already cached thumbnail can be read
+        // synchronously here so the first paint shows it instead of the generic
+        // icon that the asynchronous preview job would otherwise replace.
+        if (m_previewShown) {
+            const KFileItem item = m_model->fileItem(index);
+            const QImage cached = KIO::PreviewJob::cachedThumbnail(item, cacheSize(), m_devicePixelRatio);
+            if (!cached.isNull()) {
+                QHash<QByteArray, QVariant> data = rolesData(item, index);
+                data.insert("iconPixmap", transformPreviewPixmap(QPixmap::fromImage(cached)));
+
+                disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+                m_model->setData(index, data);
+                connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+
+                // A still-matching thumbnail is final. A stale one is shown for
+                // now but left unfinished, so the preview job regenerates it and
+                // replaces it with a fresh thumbnail.
+                if (KIO::PreviewJob::cachedThumbnailMatchesFile(cached, item)) {
+                    m_finishedItems.insert(item);
+                }
+                continue;
+            }
+        }
+#endif
         applyResolvedRoles(index, ResolveFast);
     }
 
