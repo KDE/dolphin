@@ -136,6 +136,12 @@ void KItemListSmoothScroller::scrollTo(qreal position)
     if (newValue != m_scrollBar->value()) {
         m_smoothScrolling = true;
         m_scrollBar->setValue(newValue);
+    } else {
+        // The target position is the one we are already at, so no animation will
+        // run and slotAnimationStateChanged() will not emit scrollingStopped().
+        // Emit it here so callers waiting for the view to settle (e.g. inline
+        // rename via KItemListView::scrollToItem()) are not left hanging.
+        Q_EMIT scrollingStopped();
     }
 }
 
