@@ -6,6 +6,7 @@
 
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
+#include "dolphinurlnavigator.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
@@ -37,6 +38,7 @@ private Q_SLOTS:
     void testSetViewMode_sameModeTwice();
     void testColumnsIconSizeStaysNonZeroOnPreviewToggle();
     void testSwapDoesNotPersistOutgoingMode();
+    void testNavigatorFollowsViewAfterModeSwap();
 
 private:
     void waitForViewReady();
@@ -235,6 +237,28 @@ void DolphinViewContainerTest::testSwapDoesNotPersistOutgoingMode()
     // ColumnsView back to disk.
     ViewProperties props(url);
     QVERIFY(props.viewMode() != DolphinView::ColumnsView);
+}
+
+void DolphinViewContainerTest::testNavigatorFollowsViewAfterModeSwap()
+{
+    // Attach a url navigator the way the toolbar does.
+    auto *navigator = new DolphinUrlNavigator(m_testDir->url(), nullptr);
+    m_container->connectUrlNavigator(navigator);
+
+    // Switching to Columns swaps (recreates) the view. The navigator must keep
+    // following the new view, not the destroyed old one.
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    // "subdir" is empty, so navigating there opens no auto-cascaded child column
+    // and the URL settles deterministically.
+    const QUrl subUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir"));
+    m_container->setUrl(subUrl);
+
+    QTRY_COMPARE_WITH_TIMEOUT(navigator->locationUrl().adjusted(QUrl::StripTrailingSlash), subUrl.adjusted(QUrl::StripTrailingSlash), 5000);
+
+    m_container->disconnectUrlNavigator();
+    delete navigator;
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
