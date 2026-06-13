@@ -78,6 +78,13 @@ public:
     {
     }
 
+    ~ButtonsWithSubMenuWidgetAction() override
+    {
+        // m_subMenu has no parent (QPushButton::setMenu does not take ownership),
+        // so this action is its sole owner.
+        delete m_subMenu;
+    }
+
     void setActions(const QList<QAction *> &actions)
     {
         m_actions = actions;
