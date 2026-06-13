@@ -251,6 +251,14 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     // from persisting its (now stale) mode and clobbering it on disk.
     oldView->setPersistViewModeOnDestruction(false);
 
+    // The connected url navigator binds several connections to the current
+    // view (e.g. urlChanged -> setLocationUrl); reconnect it to the new view,
+    // otherwise the breadcrumb stops following the view after the swap.
+    DolphinUrlNavigator *connectedNavigator = m_urlNavigatorConnected;
+    if (connectedNavigator) {
+        disconnectUrlNavigator();
+    }
+
     m_topLayout->removeWidget(oldView);
 
     if (mode == DolphinView::ColumnsView) {
@@ -261,6 +269,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
 
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     connectViewSignals();
+
+    if (connectedNavigator) {
+        connectUrlNavigator(connectedNavigator);
+    }
 
     if (wasActive) {
         m_view->setActive(true);
