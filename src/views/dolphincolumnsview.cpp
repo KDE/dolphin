@@ -641,21 +641,29 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         return false;
     }
 
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (!folderUrl.isEmpty()) {
-        openChild(sourceColumn, folderUrl);
-    } else if (item.isDir()) {
-        openChild(sourceColumn, item.url());
-    } else {
+    QUrl targetUrl = DolphinView::openItemAsFolderUrl(item, false);
+    if (targetUrl.isEmpty() && item.isDir()) {
+        targetUrl = item.url();
+    }
+    if (targetUrl.isEmpty()) {
         Q_EMIT itemActivated(item);
         return true;
     }
 
-    // Navigate into the newly opened child column
-    if (sourceColumn < m_columns.size() - 1) {
-        const int childCol = sourceColumn + 1;
+    const int childCol = sourceColumn + 1;
+    // Reopen the child column only when it is not already showing this folder,
+    // so stepping into an already-open child does not tear it down and reload.
+    if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != targetUrl) {
+        openChild(sourceColumn, targetUrl);
+    }
+
+    // Step into the child column, whether it was just opened or already present.
+    if (childCol < m_columns.size()) {
         if (m_columns.at(childCol)->model()->count() > 0) {
-            autoSelectFirstItem(childCol);
+            // Keep an existing selection in the already-open child untouched.
+            if (!m_columns.at(childCol)->controller()->selectionManager()->hasSelection()) {
+                autoSelectFirstItem(childCol);
+            }
         } else {
             m_pendingAutoSelect = m_columns.at(childCol);
         }
