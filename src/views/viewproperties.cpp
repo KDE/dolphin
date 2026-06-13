@@ -556,8 +556,9 @@ void ViewProperties::save()
         return;
     }
     const auto items = m_node->items();
+    // default settings must not be cleared
+    bool allDefault = ViewProperties::destinationDir(QStringLiteral("global")) != m_filePath;
     const auto defaultConfig = defaultProperties();
-    bool allDefault = true;
     for (const auto item : items) {
         if (item->name() == "Timestamp") {
             continue;
