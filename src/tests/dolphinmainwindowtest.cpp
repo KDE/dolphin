@@ -107,6 +107,8 @@ private Q_SLOTS:
     void testActiveViewFollowsTheActivatedView();
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
+    void testTheSelectionModeBarFollowsAViewOfAnotherMode();
+    void testTheSecondViewOfASplitReportsARedirectionAsTheFirst();
     void cleanupTestCase();
 
 private:
@@ -2428,6 +2430,83 @@ void DolphinMainWindowTest::testFileItemActionsOutliveContextMenu()
     QVERIFY(!m_mainWindow->m_contextMenuOpen);
     QVERIFY(!m_mainWindow->m_fileItemActionsSetupPending);
     QTRY_VERIFY(fileItemActions.isNull());
+}
+
+void DolphinMainWindowTest::testTheSelectionModeBarFollowsAViewOfAnotherMode()
+{
+    // In selection mode, the bottom bar offers the actions for what is selected. It keeps doing
+    // so after a switch to and from the columns view, which replaces the view.
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFile("a.txt");
+    testDir->createFile("b.txt");
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    QTRY_COMPARE_WITH_TIMEOUT(container->view()->itemsCount(), 2, 5000);
+
+    m_mainWindow->slotSetSelectionMode(true, SelectionMode::BottomBar::GeneralContents);
+    auto *bottomBar = container->findChild<SelectionMode::BottomBar *>();
+    QVERIFY(bottomBar);
+
+    for (const DolphinView::Mode mode : {DolphinView::ColumnsView, DolphinView::IconsView}) {
+        container->view()->clearSelection();
+        QTRY_VERIFY_WITH_TIMEOUT(!bottomBar->isVisible(), 5000);
+
+        container->setViewMode(mode);
+        QTRY_COMPARE_WITH_TIMEOUT(container->view()->itemsCount(), 2, 5000);
+        QVERIFY(container->view()->selectionMode());
+
+        m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::SelectAll))->trigger();
+        QTRY_COMPARE_WITH_TIMEOUT(container->view()->selectedItemsCount(), 2, 5000);
+        QTRY_VERIFY2_WITH_TIMEOUT(bottomBar->isVisible(), qPrintable(QString::number(mode)), 5000);
+    }
+}
+
+void DolphinMainWindowTest::testTheSecondViewOfASplitReportsARedirectionAsTheFirst()
+{
+    // The tab follows the url of the active view. A redirection in the second view of a split
+    // reaches it as often as one in the first view.
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("first");
+    testDir->createFile("first/a.txt");
+    testDir->createDir("second");
+    testDir->createFile("second/a.txt");
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    DolphinTabPage *page = m_mainWindow->m_tabWidget->currentTabPage();
+    QVERIFY(page->splitViewEnabled());
+
+    // The number of times that the tab reports the target of a redirection in @p container.
+    const auto reportsOfARedirection = [&](DolphinViewContainer *container, const QString &folder) {
+        container->setActive(true);
+        const QUrl targetUrl = QUrl::fromLocalFile(testDir->path() + QLatin1Char('/') + folder);
+        QUrl redirectedUrl = targetUrl;
+        redirectedUrl.setHost(QStringLiteral("localhost"));
+        QSignalSpy urlSpy(page, &DolphinTabPage::activeViewUrlChanged);
+        container->setUrl(redirectedUrl);
+        if (!QTest::qWaitFor(
+                [&]() {
+                    return container->view()->url().adjusted(QUrl::StripTrailingSlash) == targetUrl;
+                },
+                5000)) {
+            return -1;
+        }
+        QTest::qWait(200); // UNAVOIDABLE: a second report would come from the same event, after the first
+        int reports = 0;
+        for (const QList<QVariant> &arguments : std::as_const(urlSpy)) {
+            if (arguments.first().toUrl().adjusted(QUrl::StripTrailingSlash) == targetUrl) {
+                ++reports;
+            }
+        }
+        return reports;
+    };
+
+    const int reportsInTheFirstView = reportsOfARedirection(page->primaryViewContainer(), QStringLiteral("first"));
+    QVERIFY(reportsInTheFirstView > 0);
+    QCOMPARE(reportsOfARedirection(page->secondaryViewContainer(), QStringLiteral("second")), reportsInTheFirstView);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
