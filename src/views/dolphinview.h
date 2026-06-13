@@ -94,7 +94,12 @@ public:
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
+    /**
+     * @p canDisplayColumns must be true for a subclass that draws the columns mode. It is a
+     * constructor argument rather than a virtual, because the base constructor already needs
+     * the answer while it applies the view properties.
+     */
+    explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt, bool canDisplayColumns = false);
 
     ~DolphinView() override;
 
@@ -111,13 +116,6 @@ public:
     virtual void setActive(bool active);
     bool isActive() const;
 
-    /**
-     * Changes the view mode for the current directory to \a mode.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * changed view mode will be stored automatically.
-     */
-    void setViewMode(Mode mode);
     Mode viewMode() const;
 
     /**
@@ -768,11 +766,6 @@ Q_SIGNALS:
 
     void viewSettingsChanged(bool isDefault);
 
-    /**
-     * An action is requesting the view mode to change
-     */
-    void viewModeChangeRequested(DolphinView::Mode mode);
-
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent *event) override;
@@ -809,11 +802,26 @@ protected:
     void updateUrl(const QUrl &url);
 
     /**
+     * Changes the view mode for the current directory to \a mode. If the view
+     * properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the changed view
+     * mode will be stored automatically.
+     *
+     * Only DolphinViewContainer (a friend) may call this: switching to or from
+     * the columns view mode requires swapping the DolphinView for a different
+     * subclass, which only the container can do.
+     */
+    void setViewMode(Mode mode);
+
+    /**
      * Applies the m_mode property to the corresponding
      * itemlayout-property of the KItemListView.
      * Subclasses can override to add custom view modes.
      */
     virtual void applyModeToView();
+
+    /// Whether this view is able to draw @p mode. See the constructor.
+    bool canDisplayMode(Mode mode) const;
 
     /**
      * Returns the MIME data for all selected items.
@@ -1082,6 +1090,7 @@ private:
     void showLoadingPlaceholder();
 
     bool m_active;
+    const bool m_canDisplayColumns;
     bool m_tabsForFiles;
     bool m_assureVisibleCurrentIndex;
     bool m_isFolderWritable;
@@ -1151,7 +1160,9 @@ private:
     friend class TestBase;
     friend class DolphinDetailsViewTest;
     friend class DolphinMainWindowTest;
+    friend class DolphinViewTest; // Calls the protected setViewMode()
     friend class DolphinPart; // Accesses m_model
+    friend class DolphinViewContainer; // Calls the protected setViewMode()
     void updateSelectionState();
 };
 
