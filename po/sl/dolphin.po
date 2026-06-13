@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-12 00:46+0000\n"
-"PO-Revision-Date: 2026-04-15 06:56+0200\n"
+"PO-Revision-Date: 2026-06-12 06:52+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4580,9 +4580,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
 msgstr "Razvrsti datoteke po"
@@ -4596,6 +4594,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Ta možnost določa, po katerih atributih so elementi grupirani, ko je "
+"omogočeno grupiranje. Prazna vrednost pomeni, da kriterij grupiranja sledi "
+"kriteriju razvrščanja."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6840,7 +6841,7 @@ msgstr "Prikaži dodatne informacije"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Grupiraj po"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6849,20 +6850,21 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"To grupira datoteke in mape po izbranem atributu. \"Brez\" onemogoči "
+"grupiranje. \"Enako kot pri razvrščanju\" grupira po aktivnem kriteriju "
+"razvrščanja."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "Noben"
+msgstr "Brez"
 
 #: views/dolphinviewactionhandler.cpp:353
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Enako kot razvrščanje"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6929,12 +6931,10 @@ msgid "Sort by Field"
 msgstr "Razvrsti po polju"
 
 #: views/dolphinviewactionhandler.cpp:428
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Razvrsti po polju"
+msgstr "Grupiraj po polju"
 
 #: views/dolphinviewactionhandler.cpp:431
 #, kde-format

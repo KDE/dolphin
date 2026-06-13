@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-12 00:46+0000\n"
-"PO-Revision-Date: 2026-06-04 14:32+0300\n"
+"PO-Revision-Date: 2026-06-12 20:22+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4420,7 +4420,7 @@ msgid ""
 "will be shown in the file view."
 msgstr ""
 "Bu seçenek etkinleştirildiğinde, adı “.” ile başlayan gizli dosyalar, dosya "
-"görünümünde gösterilecektir."
+"görünümünde gösterilirler."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -4519,16 +4519,14 @@ msgid ""
 "performed on."
 msgstr ""
 "Bu seçenek, sıralamanın hangi özniteliğe göre (metin, boyut, veri vb.) "
-"gerçekleştirldiğini tanımlar."
+"gerçekleştirildiğini tanımlar."
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Dosyaları şuna göre sırala"
+msgstr "Dosyaları şuna göre grupla"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4539,6 +4537,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Bu seçenek, gruplandırılmış sıralama etkinleştirildiğinde hangi öznitelik "
+"ögelerinin gruplandırılacağını tanımlar. Boş bir değer, gruplandırma "
+"ölçütünün sıralama ölçütünü takip ettiği anlamına gelir."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6773,7 +6774,7 @@ msgstr "Ek Bilgileri Göster"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Şuna Göre Grupla"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6782,11 +6783,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Bu, dosyaları ve klasörleri seçilen bir özelliğe göre gruplandırır. “Yok” "
+"gruplandırmayı devre dışı bırakır. “Sıralama ile Aynı” ise etkin sıralama "
+"ölçütüne göre gruplandırır."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Yok"
@@ -6795,7 +6797,7 @@ msgstr "Yok"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Sıralama ile Aynı"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6862,12 +6864,10 @@ msgid "Sort by Field"
 msgstr "Alana göre sırala"
 
 #: views/dolphinviewactionhandler.cpp:428
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Alana göre sırala"
+msgstr "Alana göre grupla"
 
 #: views/dolphinviewactionhandler.cpp:431
 #, kde-format

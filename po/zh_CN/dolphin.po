@@ -4378,12 +4378,10 @@ msgstr "这个选项定义正在被排序的属性 (文本、大小、日期等)
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "文件排序方式"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -6583,12 +6581,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "无"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:353
 #, kde-format
@@ -6656,12 +6652,10 @@ msgid "Sort by Field"
 msgstr "按字段排序"
 
 #: views/dolphinviewactionhandler.cpp:428
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "按字段排序"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:431
 #, kde-format
@@ -6809,11 +6803,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "分组显示"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "This groups files and folders by their first letter."
-#~ msgstr "按首字母分组显示文件和文件夹。"

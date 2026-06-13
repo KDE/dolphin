@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-12 00:46+0000\n"
-"PO-Revision-Date: 2026-04-15 09:46+0200\n"
+"PO-Revision-Date: 2026-06-12 09:03+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1606,7 +1606,7 @@ msgid ""
 msgstr ""
 "Obri una finestra a on es poden canviar moltes opcions d'esta aplicació. Per "
 "a una explicació de les diverses opcions aneu fins al capítol "
-"<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda -> Manual de "
+"<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda → Manual de "
 "Dolphin</interface>."
 
 #. i18n: If the external link isn't available in your language it might make
@@ -3685,7 +3685,7 @@ msgstr "Indexació de fitxers"
 #, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Busca a:"
+msgstr "Busca en:"
 
 #: search/popup.cpp:77
 #, kde-format
@@ -4570,12 +4570,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Ordena els fitxers per"
+msgstr "Agrupa els fitxers per"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4586,6 +4584,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Esta opció definix per quins elements d'atribut s'agrupen quan està activada "
+"l'ordenació agrupada. Un valor buit significa que el criteri d'agrupació "
+"seguix el criteri d'ordenació."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6834,7 +6835,7 @@ msgstr "Mostra la informació addicional"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Agrupa per"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6843,11 +6844,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Agrupa els fitxers i carpetes per l'atribut triat. «Cap» desactiva "
+"l'agrupació. «El mateix que l'ordenació» agrupa pel criteri d'ordenació "
+"actiu."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Cap"
@@ -6856,7 +6858,7 @@ msgstr "Cap"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "El mateix que l'ordenació"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6885,7 +6887,7 @@ msgstr ""
 "poden ocultar si els seus noms es llisten en un fitxer de text anomenat «."
 "hidden». Els fitxers amb el tipus MIME «application/x-trash», com els "
 "fitxers de còpia de seguretat, també es poden ocultar marcant esta opció a "
-"«Configura Dolphin -> Visualitza -> General».</para>"
+"«Configura Dolphin → Visualitza → General».</para>"
 
 #: views/dolphinviewactionhandler.cpp:384
 #, kde-format
@@ -6925,12 +6927,10 @@ msgid "Sort by Field"
 msgstr "Camp d'ordenació"
 
 #: views/dolphinviewactionhandler.cpp:428
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Camp d'ordenació"
+msgstr "Camp d'agrupació"
 
 #: views/dolphinviewactionhandler.cpp:431
 #, kde-format
@@ -7079,35 +7079,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "Mostra en grups"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "This groups files and folders by their first letter."
-#~ msgstr "Agrupa els fitxers i carpetes per la seua primera lletra."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully copied."
-#~ msgstr "S'ha copiat correctament."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved."
-#~ msgstr "S'ha mogut correctament."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully linked."
-#~ msgstr "S'ha enllaçat correctament."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved to trash."
-#~ msgstr "S'ha mogut cap a dins de la paperera correctament."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully renamed."
-#~ msgstr "S'ha canviat el nom correctament."
-
-#~ msgctxt "@info:status"
-#~ msgid "Created folder."
-#~ msgstr "S'ha creat la carpeta."

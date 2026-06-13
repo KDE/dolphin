@@ -4,13 +4,13 @@
 #
 # Rinse de Vries <rinsedevries@kde.nl>, 2007, 2008, 2009, 2010.
 # Kristof Bal <kristof.bal@gmail.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2009-2026 Freek de Kruijf <freekdekruijf@kde.nl>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-12 00:46+0000\n"
-"PO-Revision-Date: 2026-04-16 10:25+0200\n"
+"PO-Revision-Date: 2026-06-12 18:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4559,12 +4559,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Bestanden sorteren op"
+msgstr "Bestanden groeperen op"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4575,6 +4573,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Deze optie definieert op basis van welke attributen items worden gegroepeerd "
+"wanneer sorteren op basis van groepering is ingeschakeld. Een lege waarde "
+"betekent dat het groeperingscriterium het sorteercriterium volgt."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6821,12 +6822,10 @@ msgid "Show Additional Information"
 msgstr "Aanvullende informatie tonen"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Groep"
+msgstr "Groeperen op"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6835,11 +6834,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Hiermee worden bestanden en mappen gegroepeerd op basis van een gekozen "
+"kenmerk. \"Geen\" schakelt groepering uit. \"Hetzelfde als sorteren\" "
+"groepeert op basis van het actieve sorteercriterium."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Geen"
@@ -6848,7 +6848,7 @@ msgstr "Geen"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Zelfde als sorteren"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6918,12 +6918,10 @@ msgid "Sort by Field"
 msgstr "Sorteren op veld"
 
 #: views/dolphinviewactionhandler.cpp:428
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Sorteren op veld"
+msgstr "Op veld sorteren"
 
 #: views/dolphinviewactionhandler.cpp:431
 #, kde-format
