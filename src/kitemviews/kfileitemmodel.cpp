@@ -1372,6 +1372,11 @@ void KFileItemModel::resortAllItems()
 #ifdef KFILEITEMMODEL_DEBUG
     qCDebug(DolphinDebug) << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
 #endif
+
+    // Unless a reaction to the move above scheduled another resort, the order is now final.
+    if (!m_resortAllItemsTimer->isActive()) {
+        Q_EMIT sortingFinished();
+    }
 }
 
 void KFileItemModel::slotCompleted()
@@ -2074,9 +2079,10 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
 
     // Trigger a resorting if necessary. Note that this can happen even if the sort
     // role has not changed at all because the file name can be used as a fallback.
-    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))
+    const bool sortRoleAffected = changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))
         || (changedRoles.contains("count") && sortRole() == "size") // "count" is used in the "size" sort role, so this might require a resorting.
-        || (groupedSorting() && !rawGroupRole().isEmpty() && changedRoles.contains(groupRole()))) {
+        || (groupedSorting() && !rawGroupRole().isEmpty() && changedRoles.contains(groupRole()));
+    if (sortRoleAffected) {
         for (const KItemRange &range : itemRanges) {
             bool needsResorting = false;
 
@@ -2117,6 +2123,20 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
         // re-calculate the groups very often if items are updated one by
         // one), but starting m_resortAllItemsTimer is easier.
         m_resortAllItemsTimer->start();
+        return;
+    }
+
+    if (sortRoleAffected) {
+        // The item stayed in place, so no resort was scheduled. Report the order as final once the
+        // event loop unwinds, unless an earlier change still has a resort pending that will report it.
+        QMetaObject::invokeMethod(
+            this,
+            [this]() {
+                if (!m_resortAllItemsTimer->isActive()) {
+                    Q_EMIT sortingFinished();
+                }
+            },
+            Qt::QueuedConnection);
     }
 }
 

@@ -847,6 +847,22 @@ void DolphinView::clearSelection()
     m_container->controller()->selectionManager()->clearSelection();
 }
 
+void DolphinView::scrollToItemOnceResorted(const QUrl &url)
+{
+    // A rename re-sorts the item to a new position but keeps it selected, so nothing scrolls to it.
+    // Bring it into view once the model finishes sorting. At that point the item is at its final
+    // position if it is still shown, or absent if the rename hid it (e.g. it no longer matches the
+    // filter); either way there is nothing more to wait for, so react once and disconnect.
+    auto connection = std::make_shared<QMetaObject::Connection>();
+    *connection = connect(m_model, &KFileItemModel::sortingFinished, this, [this, url, connection]() {
+        const int index = m_model->index(url);
+        if (index >= 0) {
+            m_view->scrollToItem(index);
+        }
+        QObject::disconnect(*connection);
+    });
+}
+
 void DolphinView::renameSelectedItems()
 {
     const KFileItemList items = selectedItems();
@@ -886,6 +902,9 @@ void DolphinView::renameSelectedItems()
 
             forceUrlsSelection(urls.first(), urls);
             updateSelectionState();
+
+            // The renamed items are re-sorted but stay selected, so scroll to keep the first in view.
+            scrollToItemOnceResorted(urls.first());
         });
         connect(dialog, &KIO::RenameFileDialog::error, this, [this](KJob *job) {
             KMessageBox::error(this, job->errorString());
@@ -2360,6 +2379,9 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             KJobWidgets::setWindow(job, this);
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->uiDelegate()->setAutoErrorHandlingEnabled(true);
+
+            // The renamed item is re-sorted to a new position but stays selected, so scroll to keep it in view.
+            scrollToItemOnceResorted(newUrl);
 
             if (m_model->index(newUrl) < 0) {
                 forceUrlsSelection(newUrl, {newUrl});

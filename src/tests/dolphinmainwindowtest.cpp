@@ -16,6 +16,7 @@
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemlistwidget.h"
+#include "kitemviews/private/kitemlistroleeditor.h"
 #include "settings/viewmodes/viewmodesettings.h"
 #include "testdir.h"
 #include "views/dolphinitemlistview.h"
@@ -72,6 +73,9 @@ private Q_SLOTS:
     void testAccessibilityTree();
     void testAutoSaveSession();
     void testInlineRename();
+    void testScrollToRenamedItem();
+    void testRenameWithoutResortDoesNotScroll();
+    void testRenameThatHidesItemDoesNotScroll();
     void testThumbnailAfterRename();
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
@@ -446,6 +450,8 @@ void DolphinMainWindowTest::testCreateFileAction()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
 #endif
     QVERIFY(m_mainWindow->isVisible());
+
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
 
@@ -1136,6 +1142,8 @@ void DolphinMainWindowTest::testInlineRename()
 #endif
     QVERIFY(m_mainWindow->isVisible());
 
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+
     DolphinView *view = m_mainWindow->activeViewContainer()->view();
     QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
     QSignalSpy itemsReorderedSpy(view->m_model, &KFileItemModel::itemsMoved);
@@ -1178,6 +1186,144 @@ void DolphinMainWindowTest::testInlineRename()
     QCOMPARE(view->m_model->fileItem(2).name(), "cccc");
     QCOMPARE(view->m_model->fileItem(3).name(), "eaaaa");
     QCOMPARE(view->m_model->count(), 4);
+}
+
+// Renaming an item that re-sorts to an off-screen position must scroll it back into view. BUG: 354330
+void DolphinMainWindowTest::testScrollToRenamedItem()
+{
+    // Avoid a modal dialog blocking the test when the rename changes the guessed file type.
+    GeneralSettings::setConfirmRenameFileType(false);
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QStringList fileNames;
+    for (int i = 0; i < 100; ++i) {
+        fileNames << QStringLiteral("file%1").arg(i, 3, 10, QLatin1Char('0')); // file000..file099
+    }
+    testDir->createFiles(fileNames);
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->resize(500, 300); // small enough that the full listing does not fit
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    view->setViewMode(DolphinView::DetailsView); // one row per item, so index maps to scroll position
+
+    // Wait until the listing is laid out at the top with the last item off-screen,
+    // rather than sleeping for a fixed duration.
+    QTRY_COMPARE(view->m_model->count(), 100);
+    QTRY_VERIFY(view->m_view->lastVisibleIndex() > 0 && view->m_view->lastVisibleIndex() < 99);
+    QCOMPARE(view->m_view->firstVisibleIndex(), 0);
+
+    // Rename the first (visible) item to a name that sorts last.
+    const QUrl firstUrl(testDir->url().toString() + QStringLiteral("/file000"));
+    view->markUrlsAsSelected({firstUrl});
+    view->updateViewState();
+    const int firstIndex = view->m_model->index(firstUrl);
+    QCOMPARE(firstIndex, 0);
+
+    QSignalSpy itemsMovedSpy(view->m_model, &KFileItemModel::itemsMoved);
+    view->slotRoleEditingFinished(firstIndex, "text", QVariant::fromValue(EditResult{QStringLiteral("zzz"), EditDone}));
+
+    // The renamed item re-sorts to the end once the rename is applied.
+    QVERIFY(itemsMovedSpy.wait());
+    const QUrl newUrl(testDir->url().toString() + QStringLiteral("/zzz"));
+    const int renamedIndex = view->m_model->index(newUrl);
+    QCOMPARE(renamedIndex, view->m_model->count() - 1);
+
+    // The fix scrolls the view so the renamed item is visible again (the scroll is animated).
+    QTRY_VERIFY(renamedIndex >= view->m_view->firstVisibleIndex() && renamedIndex <= view->m_view->lastVisibleIndex());
+}
+
+// A rename that keeps the item's sort position emits no itemsMoved; this must not scroll or misbehave. BUG: 354330
+void DolphinMainWindowTest::testRenameWithoutResortDoesNotScroll()
+{
+    GeneralSettings::setConfirmRenameFileType(false);
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QStringList fileNames;
+    for (int i = 0; i < 100; ++i) {
+        fileNames << QStringLiteral("file%1").arg(i, 3, 10, QLatin1Char('0'));
+    }
+    testDir->createFiles(fileNames);
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->resize(500, 300);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    view->setViewMode(DolphinView::DetailsView);
+    QTRY_COMPARE(view->m_model->count(), 100);
+    QTRY_VERIFY(view->m_view->lastVisibleIndex() > 0 && view->m_view->lastVisibleIndex() < 99);
+    const int firstVisibleBefore = view->m_view->firstVisibleIndex();
+
+    // file000 -> file000a still sorts before file001, so it keeps index 0 and triggers no resort.
+    const QUrl firstUrl(testDir->url().toString() + QStringLiteral("/file000"));
+    view->markUrlsAsSelected({firstUrl});
+    view->updateViewState();
+    const int firstIndex = view->m_model->index(firstUrl);
+    QCOMPARE(firstIndex, 0);
+
+    QSignalSpy itemsMovedSpy(view->m_model, &KFileItemModel::itemsMoved);
+    view->slotRoleEditingFinished(firstIndex, "text", QVariant::fromValue(EditResult{QStringLiteral("file000a"), EditDone}));
+
+    // No resort is scheduled, so itemsMoved never fires; the wait times out (returns false).
+    QVERIFY(!itemsMovedSpy.wait(500));
+
+    // The rename was applied, the item kept its position, and the view did not scroll.
+    const QUrl newUrl(testDir->url().toString() + QStringLiteral("/file000a"));
+    QCOMPARE(view->m_model->index(newUrl), 0);
+    QCOMPARE(view->m_view->firstVisibleIndex(), firstVisibleBefore);
+}
+
+// A rename that filters the item out of the view must not scroll to the now-hidden item. BUG: 354330
+void DolphinMainWindowTest::testRenameThatHidesItemDoesNotScroll()
+{
+    GeneralSettings::setConfirmRenameFileType(false);
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QStringList fileNames;
+    for (int i = 0; i < 100; ++i) {
+        fileNames << QStringLiteral("file%1").arg(i, 3, 10, QLatin1Char('0'));
+    }
+    testDir->createFiles(fileNames);
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->resize(500, 300);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    view->setViewMode(DolphinView::DetailsView);
+    QTRY_COMPARE(view->m_model->count(), 100);
+    QTRY_VERIFY(view->m_view->lastVisibleIndex() > 0 && view->m_view->lastVisibleIndex() < 99);
+    QCOMPARE(view->m_view->firstVisibleIndex(), 0);
+
+    // Only show items whose name contains "file" (default glob mode is unanchored); all of them match,
+    // so nothing is hidden yet.
+    view->setNameFilter(QStringLiteral("file"));
+    QTRY_COMPARE(view->m_model->count(), 100);
+    const int firstVisibleBefore = view->m_view->firstVisibleIndex();
+
+    // Rename the first visible item to a name that no longer matches the filter, hiding it.
+    const QUrl firstUrl(testDir->url().toString() + QStringLiteral("/file000"));
+    view->markUrlsAsSelected({firstUrl});
+    view->updateViewState();
+    const int firstIndex = view->m_model->index(firstUrl);
+    QCOMPARE(firstIndex, 0);
+
+    QSignalSpy itemsRemovedSpy(view->m_model, &KFileItemModel::itemsRemoved);
+    view->slotRoleEditingFinished(firstIndex, "text", QVariant::fromValue(EditResult{QStringLiteral("zzz"), EditDone}));
+
+    // The renamed item no longer matches the filter and is removed from the view.
+    QVERIFY(itemsRemovedSpy.wait());
+    const QUrl newUrl(testDir->url().toString() + QStringLiteral("/zzz"));
+    QCOMPARE(view->m_model->index(newUrl), -1);
+    QCOMPARE(view->m_model->count(), 99);
+
+    // The item is hidden, so there is nothing to scroll to and the view stays where it was.
+    QCOMPARE(view->m_view->firstVisibleIndex(), firstVisibleBefore);
 }
 
 void DolphinMainWindowTest::testThumbnailAfterRename()

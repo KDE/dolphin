@@ -255,6 +255,14 @@ Q_SIGNALS:
     void directorySortingProgress(int percent);
 
     /**
+     * Emitted once sorting has fully settled after a sort-relevant change and no
+     * further resort is pending, even when no item moved. At this point the item
+     * order is final, so a consumer can react exactly once and does not need a
+     * timeout to know that nothing more is coming.
+     */
+    void sortingFinished();
+
+    /**
      * Is emitted if an information message (e.g. "Connecting to host...")
      * should be shown.
      */

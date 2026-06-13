@@ -1007,6 +1007,12 @@ private:
      */
     void forceUrlsSelection(const QUrl &current, const QList<QUrl> &selected);
 
+    /**
+     * Scrolls the view to the item at @p url after the next resort moves it, so a renamed item that
+     * jumped to a new sort position stays visible. Single-shot.
+     */
+    void scrollToItemOnceResorted(const QUrl &url);
+
     void abortTwoClicksRenaming();
 
     void updatePlaceholderLabel();
