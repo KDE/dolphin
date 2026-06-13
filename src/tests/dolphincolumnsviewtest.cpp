@@ -5,12 +5,14 @@
  */
 
 #include "views/dolphincolumnsview.h"
+#include "dolphin_generalsettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
+#include "views/viewproperties.h"
 
 #include <QCoreApplication>
 #include <QKeyEvent>
@@ -77,6 +79,7 @@ private Q_SLOTS:
 
     void testSelectionPreservedAcrossNavigation();
     void testLeftKeyClearsChildSelection();
+    void testReadingSettingsKeepsTheColumnsMode();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -556,6 +559,32 @@ void DolphinColumnsViewTest::testForwardButton_emitsGoForward()
     auto *pane = m_view->columnAt(m_view->activeColumnIndex());
     Q_EMIT pane->controller()->mouseButtonPressed(0, Qt::ForwardButton);
     QTRY_COMPARE_WITH_TIMEOUT(spy.count(), 1, 5000);
+}
+
+void DolphinColumnsViewTest::testReadingSettingsKeepsTheColumnsMode()
+{
+    // Applying anything in the settings dialog has every view re-read the view properties of its
+    // folder. Those hold the mode the folder was last shown in, which is not the columns mode,
+    // and taking it left the view reporting that mode while it still drew columns.
+    const bool savedGlobalProps = GeneralSettings::globalViewProps();
+    auto restore = qScopeGuard([savedGlobalProps]() {
+        GeneralSettings::setGlobalViewProps(savedGlobalProps);
+        GeneralSettings::self()->save();
+    });
+    // Written out, because readSettings() loads GeneralSettings from disk again.
+    GeneralSettings::setGlobalViewProps(false);
+    QVERIFY(GeneralSettings::self()->save());
+    {
+        ViewProperties props(m_testDir->url());
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+    QCOMPARE(ViewProperties(m_testDir->url()).viewMode(), DolphinView::DetailsView);
+
+    m_view->readSettings();
+
+    QCOMPARE(m_view->viewMode(), DolphinView::ColumnsView);
+    QVERIFY(m_view->columnCount() >= 1);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
