@@ -192,7 +192,7 @@ private:
     /**
      * Creates a new view container and does the default initialization.
      */
-    DolphinViewContainer *createViewContainer(const QUrl &url) const;
+    DolphinViewContainer *createViewContainer(const QUrl &url);
 
     /**
      * Starts an animation that transitions between split view mode states.
