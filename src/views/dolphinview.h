@@ -99,6 +99,13 @@ public:
     ~DolphinView() override;
 
     /**
+     * Stops this view from persisting its view mode when it is destroyed.
+     * Used when the view is being replaced by another (see swapView), so the
+     * outgoing view does not clobber the incoming view's mode on disk.
+     */
+    void setPersistViewModeOnDestruction(bool persist);
+
+    /**
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
@@ -1073,6 +1080,7 @@ private:
 
     bool m_active;
     bool m_tabsForFiles;
+    bool m_persistViewModeOnDestruction = true;
     bool m_assureVisibleCurrentIndex;
     bool m_isFolderWritable;
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a

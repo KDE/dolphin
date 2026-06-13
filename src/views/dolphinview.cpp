@@ -289,9 +289,18 @@ DolphinView::~DolphinView()
     }
     disconnect(m_container->controller(), &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 
-    // Persist mode to disk for next session
-    ViewProperties props(url());
-    props.setViewMode(m_mode);
+    // Persist mode to disk for next session, unless this view is being replaced
+    // by another one for the same URL (see swapView), which would otherwise
+    // clobber the incoming view's mode.
+    if (m_persistViewModeOnDestruction) {
+        ViewProperties props(url());
+        props.setViewMode(m_mode);
+    }
+}
+
+void DolphinView::setPersistViewModeOnDestruction(bool persist)
+{
+    m_persistViewModeOnDestruction = persist;
 }
 
 QUrl DolphinView::url() const

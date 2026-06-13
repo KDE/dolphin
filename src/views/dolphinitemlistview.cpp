@@ -39,26 +39,25 @@ void DolphinItemListView::setZoomLevel(int level)
         level = ZoomLevelInfo::maximumLevel();
     }
 
-    if (level == m_zoomLevel) {
+    // The size only depends on the single shared zoom level, not on whether
+    // previews are shown. Computing it up front lets us also detect when only
+    // the cached size is stale (e.g. still 0 right after construction) even
+    // though the level itself did not change.
+    const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
+    if (level == m_zoomLevel && iconSize == m_iconSize) {
         return;
     }
 
     m_zoomLevel = level;
+    m_iconSize = iconSize;
 
-    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
-    ViewModeSettings settings(itemLayout());
-
-    if (previewsShown()) {
-        m_previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        // Only update the icon size settings if we're using global view props
-        // to prevent inconsistent state on zoom level changes
-        if (useGlobalViewProps) {
-            settings.setPreviewSize(m_previewSize);
-        }
-    } else {
-        // Same as above
-        m_iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        if (useGlobalViewProps) {
+    // Persist the size to the matching per-mode setting, but only with global
+    // view props.
+    if (GeneralSettings::globalViewProps()) {
+        ViewModeSettings settings(itemLayout());
+        if (previewsShown()) {
+            settings.setPreviewSize(m_iconSize);
+        } else {
             settings.setIconSize(m_iconSize);
         }
     }
@@ -180,7 +179,7 @@ void DolphinItemListView::updateGridSize()
 
     // Calculate the size of the icon
     // Only use zoom stored in settings if we're using global view props
-    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : (previewsShown() ? m_previewSize : m_iconSize);
+    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : m_iconSize;
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption option = styleOption();
 
