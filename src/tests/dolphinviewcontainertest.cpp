@@ -5,10 +5,17 @@
  */
 
 #include "dolphinviewcontainer.h"
+#include "dolphin_generalsettings.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemliststyleoption.h"
+#include "kitemviews/kitemlistview.h"
 #include "testdir.h"
+#include "views/dolphincolumnpane.h"
 #include "views/dolphincolumnsview.h"
 #include "views/dolphinview.h"
+#include "views/viewproperties.h"
 
+#include <QCoreApplication>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -28,6 +35,8 @@ private Q_SLOTS:
     void testSetViewMode_fullCycle();
     void testSetViewMode_columnsToDetailsThenBackToColumns();
     void testSetViewMode_sameModeTwice();
+    void testColumnsIconSizeStaysNonZeroOnPreviewToggle();
+    void testSwapDoesNotPersistOutgoingMode();
 
 private:
     void waitForViewReady();
@@ -39,6 +48,9 @@ private:
 void DolphinViewContainerTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
+    // Use per-folder view properties so each test's fresh TestDir isolates
+    // persistence (the global store would leak modes between tests).
+    GeneralSettings::setGlobalViewProps(false);
 }
 
 void DolphinViewContainerTest::init()
@@ -176,6 +188,53 @@ void DolphinViewContainerTest::testSetViewMode_sameModeTwice()
 
     QCOMPARE(spy.count(), 0);
     QCOMPARE(m_container->view(), viewBefore);
+}
+
+void DolphinViewContainerTest::testColumnsIconSizeStaysNonZeroOnPreviewToggle()
+{
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+    QVERIFY(columnsView->columnCount() > 0);
+
+    DolphinColumnPane *pane = columnsView->columnAt(0);
+    QVERIFY(pane);
+
+    // Toggling previews must never collapse the column icon size to 0. A zero
+    // icon size made the column icons vanish and aborted in
+    // KStandardItemListWidget::addOverlays() via std::clamp (lo > hi).
+    m_container->view()->setPreviewsShown(true);
+    QVERIFY(pane->controller()->view()->styleOption().iconSize > 0);
+
+    m_container->view()->setPreviewsShown(false);
+    QVERIFY(pane->controller()->view()->styleOption().iconSize > 0);
+
+    m_container->view()->setPreviewsShown(true);
+    QVERIFY(pane->controller()->view()->styleOption().iconSize > 0);
+}
+
+void DolphinViewContainerTest::testSwapDoesNotPersistOutgoingMode()
+{
+    const QUrl url = m_container->view()->url();
+
+    // Switch into Columns and back out. Each switch swaps (destroys) the
+    // outgoing view; the outgoing view must not persist its now-stale mode and
+    // clobber the surviving view's mode on disk.
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    // Synchronously run the deleteLater() of the swapped-out views so their
+    // destructors (which persist the view mode) fire before we read it back.
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
+    // We ended in Icons, so the destroyed Columns view must not have written
+    // ColumnsView back to disk.
+    ViewProperties props(url);
+    QVERIFY(props.viewMode() != DolphinView::ColumnsView);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
