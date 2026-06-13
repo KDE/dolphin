@@ -44,6 +44,7 @@ VersionControlObserver::~VersionControlObserver()
 {
     if (m_currentPlugin) {
         m_currentPlugin->disconnect(this);
+        m_currentPlugin = nullptr;
     }
     if (m_updateItemStatesThread) {
         m_updateItemStatesThread->requestInterruption();
@@ -51,20 +52,16 @@ VersionControlObserver::~VersionControlObserver()
         m_updateItemStatesThread->deleteLater();
     }
 
-    if (m_currentPlugin) {
-        delete m_currentPlugin;
-        m_currentPlugin = nullptr;
-    }
-    m_plugins.clear();
+    // m_plugins are parented to this observer and destroyed with it by QObject.
+    // m_currentPlugin is one of them, so it must not be deleted on its own.
 }
 
 void VersionControlObserver::setModel(KFileItemModel *model)
 {
     if (m_model) {
-        if (m_currentPlugin) {
-            delete m_currentPlugin;
-            m_currentPlugin = nullptr;
-        }
+        // m_currentPlugin points to one of the reused, observer-owned m_plugins.
+        // Forget the current detection without destroying the shared plugin.
+        m_currentPlugin = nullptr;
         if (m_updateItemStatesThread) {
             m_updateItemStatesThread->requestInterruption();
         }
@@ -302,7 +299,7 @@ void VersionControlObserver::initPlugins()
 
         for (const auto &p : plugins) {
             if (enabledPlugins.contains(p.name())) {
-                auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p, parent()).plugin;
+                auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p, this).plugin;
                 if (plugin) {
                     m_plugins.append(plugin);
                 }
