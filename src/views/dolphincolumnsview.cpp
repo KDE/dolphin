@@ -21,6 +21,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QResizeEvent>
+#include <QScopedValueRollback>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
@@ -304,11 +305,9 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
     senderPane->controller()->selectionManager()->blockSignals(true);
 
     // Directory → open child column (no auto-select in the child)
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    const QUrl folderUrl = folderUrlForItem(item);
     if (!folderUrl.isEmpty()) {
         openChild(colIndex, folderUrl);
-    } else if (item.isDir()) {
-        openChild(colIndex, item.url());
     } else {
         // File selected → pop child columns
         popAfter(colIndex);
@@ -317,9 +316,10 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
         setFocusProxy(senderPane->container());
         updateUrl(m_columns.at(colIndex)->dirUrl());
 
-        m_blockNavigation = true;
-        senderPane->setActiveChildUrl(item.url());
-        m_blockNavigation = false;
+        {
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            senderPane->setActiveChildUrl(item.url());
+        }
 
         Q_EMIT urlChanged(m_columns.at(colIndex)->dirUrl());
     }
@@ -330,6 +330,13 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
 void DolphinColumnsView::slotPaneLoadingCompleted()
 {
     auto *pane = qobject_cast<DolphinColumnPane *>(sender());
+
+    if (pane) {
+        // Marking the child is not the user picking an item, so it must not drive navigation:
+        // the handlers that follow a selection would drop every column to the right of this one.
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        pane->reapplyActiveChildMark();
+    }
 
     // If this pane was flagged for auto-selection (Right arrow opened a
     // new child column whose model was still loading), select the first
@@ -364,6 +371,26 @@ DolphinColumnPane *DolphinColumnsView::activePane() const
     return nullptr;
 }
 
+QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
+{
+    if (item.isNull()) {
+        return QUrl();
+    }
+    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
+    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    KFileItem resolved = item;
+    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
+    // determined for a folder or for a remote file, where the sniffing would go over the wire.
+    if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
+        resolved.determineMimeType();
+    }
+    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
+    if (!folderUrl.isEmpty()) {
+        return folderUrl;
+    }
+    return item.isDir() ? item.url() : QUrl();
+}
+
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 {
     popAfter(-1);
@@ -381,14 +408,23 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 {
+    // If the child column already shows this folder, keep it. A single
+    // interaction can request opening the same sub-folder from more than one
+    // handler (currentItemChanged and selectionChanged), which would otherwise
+    // tear down and rebuild the child pane, making it flicker/appear twice.
+    if (columnIndex + 1 < m_columns.size() && m_columns.at(columnIndex + 1)->dirUrl() == childUrl) {
+        return;
+    }
+
     popAfter(columnIndex);
 
     // Mark the parent's selected item; guard against cascading navigation
     // since setActiveChildUrl triggers slotCurrentChanged in the pane.
     auto *parentPane = m_columns.at(columnIndex);
-    m_blockNavigation = true;
-    parentPane->setActiveChildUrl(childUrl);
-    m_blockNavigation = false;
+    {
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        parentPane->setActiveChildUrl(childUrl);
+    }
 
     DolphinColumnPane *pane = createPane(childUrl);
     m_columns.append(pane);
@@ -461,17 +497,10 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         if (colIndex < 0) {
             return;
         }
-        openChild(colIndex, childUrl);
-        if (colIndex < m_columns.size() - 1) {
-            const int childCol = colIndex + 1;
-            if (m_columns.at(childCol)->model()->count() > 0) {
-                autoSelectFirstItem(childCol);
-            } else {
-                m_pendingAutoSelect = m_columns.at(childCol);
-            }
-            setActiveColumn(childCol);
-            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-            Q_EMIT urlChanged(url());
+        // Selecting the folder has opened the column already, so only open it when it is not there.
+        const int childCol = colIndex + 1;
+        if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != childUrl) {
+            openChild(colIndex, childUrl);
         }
     });
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
@@ -515,6 +544,15 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
     });
 
+    connect(controller, &KItemListController::mouseButtonReleased, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
+        Q_UNUSED(buttons) // a release reports what is still held, which is nothing after a click
+        handleMouseButtonReleased(pane, itemIndex);
+    });
+    connect(controller, &KItemListController::draggingStarted, this, [this]() {
+        // The press became a drag, so it is not a click on the item any more.
+        m_pressedPane = nullptr;
+        m_pressedItemIndex = -1;
+    });
     connect(controller, &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
         handleMouseButtonPressed(pane, itemIndex, buttons);
     });
@@ -565,10 +603,8 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     }
 
     if (sourceColumn < 0) {
-        m_blockNavigation = true;
-        auto ret = DolphinView::eventFilter(watched, event);
-        m_blockNavigation = false;
-        return ret;
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        return DolphinView::eventFilter(watched, event);
     }
 
     // A pane gaining focus makes both the view and that column active, mirroring
@@ -622,8 +658,6 @@ void DolphinColumnsView::handleKeyLeft(int sourceColumn)
 {
     if (sourceColumn > 0) {
         setActiveColumn(sourceColumn - 1);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
     }
     // Always consumed to prevent leaking to the Places panel
 }
@@ -643,8 +677,6 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = childPane;
         }
         setActiveColumn(sourceColumn + 1);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
         return;
     }
 
@@ -654,11 +686,9 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
     if (current >= 0 && current < pane->model()->count()) {
         const KFileItem item = pane->model()->fileItem(current);
         if (!item.isNull()) {
-            const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+            const QUrl folderUrl = folderUrlForItem(item);
             if (!folderUrl.isEmpty()) {
                 openChild(sourceColumn, folderUrl);
-            } else if (item.isDir()) {
-                openChild(sourceColumn, item.url());
             }
         }
     }
@@ -672,7 +702,6 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = m_columns.at(childCol);
         }
         setActiveColumn(childCol);
-        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
 }
 
@@ -689,26 +718,30 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         return false;
     }
 
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (!folderUrl.isEmpty()) {
-        openChild(sourceColumn, folderUrl);
-    } else if (item.isDir()) {
-        openChild(sourceColumn, item.url());
-    } else {
+    const QUrl targetUrl = folderUrlForItem(item);
+    if (targetUrl.isEmpty()) {
         Q_EMIT itemActivated(item);
         return true;
     }
 
-    // Navigate into the newly opened child column
-    if (sourceColumn < m_columns.size() - 1) {
-        const int childCol = sourceColumn + 1;
+    const int childCol = sourceColumn + 1;
+    // Reopen the child column only when it is not already showing this folder,
+    // so stepping into an already-open child does not tear it down and reload.
+    if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != targetUrl) {
+        openChild(sourceColumn, targetUrl);
+    }
+
+    // Step into the child column, whether it was just opened or already present.
+    if (childCol < m_columns.size()) {
         if (m_columns.at(childCol)->model()->count() > 0) {
-            autoSelectFirstItem(childCol);
+            // Keep an existing selection in the already-open child untouched.
+            if (!m_columns.at(childCol)->controller()->selectionManager()->hasSelection()) {
+                autoSelectFirstItem(childCol);
+            }
         } else {
             m_pendingAutoSelect = m_columns.at(childCol);
         }
-        updateUrl(m_columns.at(childCol)->dirUrl());
-        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
+        setActiveColumn(childCol);
     }
     return true;
 }
@@ -716,6 +749,8 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
 void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons)
 {
     hideToolTip();
+    m_pressedPane = nullptr;
+    m_pressedItemIndex = -1;
 
     if (buttons & Qt::BackButton) {
         Q_EMIT goBackRequested();
@@ -737,33 +772,68 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
     // on an inactive column activates it before the context menu.
     if (colIndex != m_activeColumn) {
         setActiveColumn(colIndex);
-        updateUrl(pane->dirUrl());
-        Q_EMIT urlChanged(url());
     }
 
     if (!(buttons & Qt::LeftButton)) {
         return;
     }
 
-    // If clicking an already-current item, currentChanged won't fire.
-    // Handle directory navigation manually for this case.
-    if (itemIndex != pane->controller()->selectionManager()->currentItem()) {
+    // Ctrl and Shift make the click a selection command. onPress() applies that after this
+    // signal, and openChild() would have cleared the selection and moved the anchor by then,
+    // so a Ctrl+click would end up selecting nothing and a Shift+click range would collapse.
+    if (QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
         return;
     }
+
+    // Pressing an item that is part of a multi-selection starts a drag of the whole selection.
+    auto *selectionManager = pane->controller()->selectionManager();
+    if (selectionManager->selectedItems().count() > 1 && selectionManager->isSelected(itemIndex)) {
+        return;
+    }
+
     if (itemIndex >= pane->model()->count()) {
         return;
     }
 
+    // The columns follow the click when the button comes back up, so that a press that turns
+    // into a drag leaves them alone. A file dragged to a folder several columns to the right
+    // needs that column to still be open when it gets there.
+    m_pressedPane = pane;
+    m_pressedItemIndex = itemIndex;
+}
+
+void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex)
+{
+    if (!m_pressedPane || m_pressedPane != pane || m_pressedItemIndex != itemIndex) {
+        return;
+    }
+    m_pressedPane = nullptr;
+    m_pressedItemIndex = -1;
+
+    const int colIndex = m_columns.indexOf(pane);
+    if (colIndex < 0 || itemIndex < 0 || itemIndex >= pane->model()->count()) {
+        return;
+    }
+
+    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
+    // so the clicked item is not the current one yet, and slotColumnsCurrentItemChanged() will
+    // not navigate either while a button is held. Without this the first click only selected.
     const KFileItem item = pane->model()->fileItem(itemIndex);
     if (item.isNull()) {
         return;
     }
 
-    QUrl targetUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (targetUrl.isEmpty() && item.isDir()) {
-        targetUrl = item.url();
-    }
+    const QUrl targetUrl = folderUrlForItem(item);
     if (targetUrl.isEmpty()) {
+        // A file. The columns to the right belong to a folder that is no longer the one
+        // selected, so drop them, which is what the keyboard path does in
+        // slotColumnsCurrentItemChanged().
+        if (colIndex + 1 < m_columns.size()) {
+            popAfter(colIndex);
+            recalculateColumnWidths();
+            updateUrl(m_columns.at(colIndex)->dirUrl());
+            Q_EMIT urlChanged(url());
+        }
         return;
     }
 
@@ -816,34 +886,24 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
     // Ensure the current item is set and selected.  Guard against cascading
     // navigation from the programmatic selection change.
     if (pane->model()->count() > 0) {
-        m_blockNavigation = true;
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
         if (selectionManager->currentItem() < 0) {
             selectionManager->setCurrentItem(0);
         }
         // Always re-apply selection; it may have been cleared by Left arrow
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
-        m_blockNavigation = false;
     }
 
-    // Trigger navigation for the selected item directly, since
-    // m_blockNavigation suppressed signal-driven navigation above.
+    // The item is only selected, never opened. Opening it here would put a column on screen that
+    // the user did not ask for, and browsing would then add and drop one at every step.
     const int current = selectionManager->currentItem();
     if (current < 0 || current >= pane->model()->count()) {
         return;
     }
 
     const KFileItem item = pane->model()->fileItem(current);
-    if (item.isNull()) {
-        return;
-    }
-
-    Q_EMIT requestItemInfo(item);
-
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (!folderUrl.isEmpty()) {
-        openChild(columnIndex, folderUrl);
-    } else if (item.isDir()) {
-        openChild(columnIndex, item.url());
+    if (!item.isNull()) {
+        Q_EMIT requestItemInfo(item);
     }
 }
 
@@ -978,6 +1038,13 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
 
     // Selection changed with timer batching (like base view)
     connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this, newPane](const KItemSet &current, const KItemSet &previous) {
+        // Programmatic selection changes (e.g. openChild() marking the parent's
+        // active child) must not drive navigation, or they re-enter openChild()
+        // and build the child column twice. slotColumnsCurrentItemChanged()
+        // guards the same way.
+        if (m_blockNavigation) {
+            return;
+        }
         const bool stateChanged = (current.isEmpty() != previous.isEmpty());
         m_columnsSelectionTimer->setInterval(stateChanged ? 0 : 300);
         m_columnsSelectionTimer->start();
@@ -989,24 +1056,29 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         auto currentColumnIndex = m_columns.indexOf(newPane);
         auto currentUrl = newPane->dirUrl();
         auto item = newPane->model()->fileItem(current.first());
-        if (!item.isNull() && item.isDir()) {
-            for (int i = m_columns.size() - 1; i > 0; --i) {
-                if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
-                    popAfter(i - 1);
-                } else {
-                    break;
-                }
-            }
-        }
-
         if (item.isDir() && currentColumnIndex != -1) {
-            newPane->controller()->selectionManager()->blockSignals(true);
-            openChild(currentColumnIndex, item.url());
+            const int childCol = currentColumnIndex + 1;
+            // The child column may already show this folder because
+            // slotColumnsCurrentItemChanged() opened it for the same change.
+            // Only pop the stale descendant columns and (re)open it otherwise,
+            // so the child pane is not rebuilt twice for one interaction.
+            if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != item.url()) {
+                for (int i = m_columns.size() - 1; i > 0; --i) {
+                    if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
+                        popAfter(i - 1);
+                    } else {
+                        break;
+                    }
+                }
 
-            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-            Q_EMIT urlChanged(url());
+                newPane->controller()->selectionManager()->blockSignals(true);
+                openChild(currentColumnIndex, item.url());
 
-            newPane->controller()->selectionManager()->blockSignals(false);
+                updateUrl(m_columns.at(m_activeColumn)->dirUrl());
+                Q_EMIT urlChanged(url());
+
+                newPane->controller()->selectionManager()->blockSignals(false);
+            }
         }
     });
 

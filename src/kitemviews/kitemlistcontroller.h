@@ -181,6 +181,12 @@ Q_SIGNALS:
      */
     void mouseButtonReleased(int itemIndex, Qt::MouseButtons buttons);
 
+    /*!
+     * Emitted when the press turned into a drag of the selected items, before the drag runs.
+     * A view that acts on a click uses this to tell the two apart.
+     */
+    void draggingStarted();
+
     void itemExpansionToggleClicked(int index);
 
     /**
