@@ -813,7 +813,12 @@ void DolphinColumnsView::recalculateColumnWidths()
     }
 
     const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns);
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), viewportWidth / divisor);
+    const int handleWidth = m_splitter->handleWidth();
+    // Reserve room for the handles between visible columns so a full set of
+    // default-width columns fits the viewport exactly, instead of overflowing it
+    // by a few pixels and tripping the horizontal scrollbar.
+    const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
+    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
@@ -832,9 +837,12 @@ void DolphinColumnsView::recalculateColumnWidths()
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += sizes.at(i);
     }
-    totalWidth += (numColumns - 1) * m_splitter->handleWidth();
+    totalWidth += (numColumns - 1) * handleWidth;
 
-    if (totalWidth > viewportWidth) {
+    // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
+    // width under fractional scaling does not flip the scrollbar on and off
+    // while resizing.
+    if (totalWidth > viewportWidth + handleWidth) {
         m_splitter->setMinimumWidth(totalWidth);
     } else {
         m_splitter->setMinimumWidth(0);
@@ -851,7 +859,9 @@ void DolphinColumnsView::cycleColumnWidth(int colIndex)
     const int optimalWidth = m_columns.at(colIndex)->calculateOptimalWidth();
     const int viewportWidth = m_scrollArea->viewport()->width();
     const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), m_columns.size());
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), viewportWidth / divisor);
+    const int handleWidth = m_splitter->handleWidth();
+    const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
+    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
     const bool hasCustom = m_customColumnWidths.contains(colIndex);
     const int customWidth = hasCustom ? m_customColumnWidths.value(colIndex) : 0;
 
@@ -877,8 +887,8 @@ void DolphinColumnsView::cycleColumnWidth(int colIndex)
     for (int i = 0; i < m_columns.size(); ++i) {
         totalWidth += sizes.at(i);
     }
-    totalWidth += (m_columns.size() - 1) * m_splitter->handleWidth();
-    m_splitter->setMinimumWidth(totalWidth > m_scrollArea->viewport()->width() ? totalWidth : 0);
+    totalWidth += (m_columns.size() - 1) * handleWidth;
+    m_splitter->setMinimumWidth(totalWidth > viewportWidth + handleWidth ? totalWidth : 0);
 }
 
 void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane)
