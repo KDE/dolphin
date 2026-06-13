@@ -57,12 +57,10 @@ QString tagsFromValues(const QStringList &values)
             {Property::FrameRate, QByteArrayLiteral("frameRate")},
             {Property::ReleaseYear, QByteArrayLiteral("releaseYear")},
             {Property::TrackNumber, QByteArrayLiteral("track")},
-#if KFILEMETADATA_VERSION >= QT_VERSION_CHECK(6, 13, 0)
             {Property::AudioCodec, QByteArrayLiteral("audioCodec")},
             {Property::VideoCodec, QByteArrayLiteral("videoCodec")},
             {Property::PixelFormat, QByteArrayLiteral("pixelFormat")},
             {Property::ColorSpace, QByteArrayLiteral("colorSpace")},
-#endif
         };
         return map;
     }

@@ -1515,13 +1515,11 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *even
 void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget)
 {
     KIO::DropJobFlags dropjobFlags;
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 23, 0)
     if (qobject_cast<KFilePlacesView *>(dropEvent->source())) {
         // this drop comes from Places View so we want to avoid
         // potentially destructive Move-like plugins actions
         dropjobFlags |= KIO::DropJobFlag::ExcludePluginsActions;
     }
-#endif
 
     KIO::DropJob *job = DragAndDropHelper::dropUrls(destUrl, dropEvent, dropWidget, dropjobFlags);
 

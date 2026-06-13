@@ -103,9 +103,7 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     Q_ASSERT(m_splitter->count() == 1);
     m_splitter->addWidget(createNavigatorWidget(Secondary));
     Q_ASSERT(m_splitter->count() == 2);
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
     secondaryUrlNavigator()->setBackgroundEnabled(primaryUrlNavigator()->isBackgroundEnabled());
-#endif
     updateText();
 }
 
@@ -149,18 +147,15 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
         // Fix an unlikely event of wrong trash button visibility.
         emptyTrashButton(Secondary)->setVisible(false);
     }
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 21, 0)
     primaryUrlNavigator()->setHighlightFocusIndicator(visible);
     if (secondaryUrlNavigator()) {
         secondaryUrlNavigator()->setHighlightFocusIndicator(visible);
     }
-#endif
     updateText();
 }
 
 void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
     // Breeze wants a plain rectangle to fill the frame,
     // but let other QStyles style the navbar how they please
     const bool isBreezeStyle = m_splitter->style()->name() == QStringLiteral("breeze");
@@ -170,9 +165,6 @@ void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
     if (secondaryUrlNavigator()) {
         secondaryUrlNavigator()->setBackgroundEnabled(isBreezeStyle ? enabled : true);
     }
-#else
-    Q_UNUSED(enabled);
-#endif
 }
 
 QWidget *DolphinNavigatorsWidgetAction::createWidget(QWidget *parent)

@@ -159,10 +159,8 @@ DolphinMainWindow::DolphinMainWindow()
 
     connect(undoManager, &KIO::FileUndoManager::undoAvailable, this, &DolphinMainWindow::slotUndoAvailable);
     connect(undoManager, &KIO::FileUndoManager::undoTextChanged, this, &DolphinMainWindow::slotUndoTextChanged);
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
     connect(undoManager, &KIO::FileUndoManager::redoAvailable, this, &DolphinMainWindow::slotRedoAvailable);
     connect(undoManager, &KIO::FileUndoManager::redoTextChanged, this, &DolphinMainWindow::slotRedoTextChanged);
-#endif
 
     const bool firstRun = (GeneralSettings::version() < 200);
     if (firstRun) {
@@ -877,7 +875,6 @@ void DolphinMainWindow::undo()
     KIO::FileUndoManager::self()->undo();
 }
 
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
 void DolphinMainWindow::slotRedoAvailable(bool available)
 {
     QAction *redoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Redo));
@@ -899,7 +896,6 @@ void DolphinMainWindow::redo()
     KIO::FileUndoManager::self()->uiInterface()->setParentWidget(this);
     KIO::FileUndoManager::self()->redo();
 }
-#endif
 
 void DolphinMainWindow::cut()
 {
@@ -1568,9 +1564,7 @@ void DolphinMainWindow::updateHamburgerMenu()
     }
     menu->addAction(ac->action(QStringLiteral("basic_actions")));
     menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
     menu->addAction(ac->action(KStandardAction::name(KStandardAction::Redo)));
-#endif
     if (!toolBar()->isVisible()
         || (!toolbarActions.contains(ac->action(QStringLiteral("toggle_search")))
             && !toolbarActions.contains(ac->action(QStringLiteral("open_preferred_search_tool"))))) {
@@ -1839,9 +1833,7 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Edit' menu
     KStandardAction::undo(this, &DolphinMainWindow::undo, actionCollection());
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
     KStandardAction::redo(this, &DolphinMainWindow::redo, actionCollection());
-#endif
 
     // i18n: This will be the last paragraph for the whatsthis for all three:
     // Cut, Copy and Paste
@@ -2124,7 +2116,6 @@ void DolphinMainWindow::setupActions()
                                     "will ask for your confirmation beforehand."));
     undoAction->setEnabled(false); // undo should be disabled by default
 
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
     auto redoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Redo));
     redoAction->setWhatsThis(xi18nc("@info:whatsthis",
                                     "This redoes "
@@ -2134,7 +2125,6 @@ void DolphinMainWindow::setupActions()
                                     "or to the <filename>Trash</filename>.<nl/>Any changes that cannot be undone "
                                     "will ask for your confirmation beforehand."));
     redoAction->setEnabled(false); // redo should be disabled by default
-#endif
 
     {
         QScopedPointer<QAction> forwardAction(KStandardAction::forward(nullptr, nullptr, nullptr));
