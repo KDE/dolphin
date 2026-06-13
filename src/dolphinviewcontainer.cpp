@@ -247,6 +247,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     const QUrl savedUrl = oldView->url();
     const bool wasActive = oldView->isActive();
 
+    // The incoming view carries the user's chosen mode; stop the outgoing view
+    // from persisting its (now stale) mode and clobbering it on disk.
+    oldView->setPersistViewModeOnDestruction(false);
+
     m_topLayout->removeWidget(oldView);
 
     if (mode == DolphinView::ColumnsView) {
