@@ -24,6 +24,7 @@ private Q_SLOTS:
     void testAbortedKeyboardSearch();
     void testRepeatedKeyPress();
     void testPressShift();
+    void testBackwardSearch();
 
 private:
     KItemListKeyboardSearchManager m_keyboardSearchManager;
@@ -32,6 +33,7 @@ private:
     void verifySignal(QSignalSpy &spy,
                       const QString &expectedString,
                       bool expectedSearchFromNextItem,
+                      bool expectedSearchBackwards = false,
                       const std::source_location &location = std::source_location::current())
     {
         if (spy.count() != 1) {
@@ -48,10 +50,10 @@ private:
 
         QList<QVariant> arguments = spy.takeFirst();
 
-        if (arguments.size() != 3) {
+        if (arguments.size() != 4) {
             QTest::qFail(QString("Compared values are not the same\n"
                                  "   Actual   (arguments.size()): %1\n"
-                                 "   Expected (3)               : 3")
+                                 "   Expected (4)               : 4")
                              .arg(arguments.size())
                              .toUtf8()
                              .constData(),
@@ -87,7 +89,21 @@ private:
                          location.line());
             return;
         }
-        // Ignore the third parameter (bool* found)
+
+        bool actualSearchBackwards = arguments.at(2).toBool();
+        if (actualSearchBackwards != expectedSearchBackwards) {
+            QTest::qFail(QString("Compared values are not the same\n"
+                                 "   Actual   (arguments.at(2).toBool()): %1\n"
+                                 "   Expected (%2)                      : %2")
+                             .arg(actualSearchBackwards ? "true" : "false")
+                             .arg(expectedSearchBackwards ? "true" : "false")
+                             .toUtf8()
+                             .constData(),
+                         location.file_name(),
+                         location.line());
+            return;
+        }
+        // Ignore the fourth parameter (bool* found)
     }
 };
 
@@ -171,12 +187,12 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
     QCOMPARE(spy.count(), 2);
     // First signal: full string match attempt
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(), 3);
+    QCOMPARE(arguments.size(), 4);
     QCOMPARE(arguments.at(0).toString(), QString("pp"));
     QCOMPARE(arguments.at(1).toBool(), false);
     // Second signal: rapid navigation fallback
     arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(), 3);
+    QCOMPARE(arguments.size(), 4);
     QCOMPARE(arguments.at(0).toString(), QString("p"));
     QCOMPARE(arguments.at(1).toBool(), true);
 
@@ -185,12 +201,12 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
     QCOMPARE(spy.count(), 2);
     // First signal: full string match attempt
     arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(), 3);
+    QCOMPARE(arguments.size(), 4);
     QCOMPARE(arguments.at(0).toString(), QString("ppp"));
     QCOMPARE(arguments.at(1).toBool(), false);
     // Second signal: rapid navigation fallback
     arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(), 3);
+    QCOMPARE(arguments.size(), 4);
     QCOMPARE(arguments.at(0).toString(), QString("p"));
     QCOMPARE(arguments.at(1).toBool(), true);
 
@@ -222,6 +238,32 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
 
     m_keyboardSearchManager.addKeys("b");
     verifySignal(spy, "a_b", false);
+}
+
+void KItemListKeyboardSearchManagerTest::testBackwardSearch()
+{
+    QSignalSpy spy(&m_keyboardSearchManager, &KItemListKeyboardSearchManager::changeCurrentItem);
+    QVERIFY(spy.isValid());
+
+    // Shift+letter requests a backward search (bug 374392).
+    m_keyboardSearchManager.addKeys("a", true);
+    verifySignal(spy, "a", true, true);
+
+    // Repeating the key keeps navigating backwards via rapid navigation. The
+    // full-string attempt comes first, then the first-character fallback; both
+    // keep the backward direction.
+    m_keyboardSearchManager.addKeys("a", true);
+    QCOMPARE(spy.count(), 2);
+    QList<QVariant> arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(), 4);
+    QCOMPARE(arguments.at(0).toString(), QString("aa"));
+    QCOMPARE(arguments.at(1).toBool(), false);
+    QCOMPARE(arguments.at(2).toBool(), true);
+    arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(), 4);
+    QCOMPARE(arguments.at(0).toString(), QString("a"));
+    QCOMPARE(arguments.at(1).toBool(), true);
+    QCOMPARE(arguments.at(2).toBool(), true);
 }
 
 QTEST_GUILESS_MAIN(KItemListKeyboardSearchManagerTest)
