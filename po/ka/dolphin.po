@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-12 00:46+0000\n"
+"POT-Creation-Date: 2026-06-14 00:46+0000\n"
 "PO-Revision-Date: 2026-06-12 06:07+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -190,7 +190,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "აღდგენა წარსულ მდებარეობაზე"
 msgstr[1] "აღდგენა წარსულ მდებარეობებზე"
 
-#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1791
+#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1787
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -229,48 +229,48 @@ msgctxt ""
 msgid "Shift+Middle Click"
 msgstr "Shift+შუა-წკაპი"
 
-#: dolphinmainwindow.cpp:433
+#: dolphinmainwindow.cpp:431
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "უკან დაბრუნება"
 
-#: dolphinmainwindow.cpp:434
+#: dolphinmainwindow.cpp:432
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "წინა საქაღალდეზე დაბრუნება."
 
-#: dolphinmainwindow.cpp:440
+#: dolphinmainwindow.cpp:438
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "წინ გადასვლა"
 
-#: dolphinmainwindow.cpp:441
+#: dolphinmainwindow.cpp:439
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "გააუქმებს<interface>უკან გადასვლის</interface> ქმედებას."
 
-#: dolphinmainwindow.cpp:637 dolphinmainwindow.cpp:683
+#: dolphinmainwindow.cpp:635 dolphinmainwindow.cpp:681
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "დასტური"
 
-#: dolphinmainwindow.cpp:641
+#: dolphinmainwindow.cpp:639
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "%1-დან გასვლა"
 
-#: dolphinmainwindow.cpp:643
+#: dolphinmainwindow.cpp:641
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "მიმდინარე ჩანართის &ახურვა"
 
-#: dolphinmainwindow.cpp:652
+#: dolphinmainwindow.cpp:650
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
@@ -278,18 +278,18 @@ msgstr ""
 "ამ ფანჯარაში ერთზე მეტი ჩანართია ღია. დარწმუნებული ბრძანდებით, რომ გნებავთ, "
 "გახვიდეთ?"
 
-#: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2329
+#: dolphinmainwindow.cpp:652 dolphinmainwindow.cpp:702
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Do not ask again"
 msgstr "აღარ მკითხო"
 
-#: dolphinmainwindow.cpp:692
+#: dolphinmainwindow.cpp:690
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "&ტერმინალის პანელის ჩვენება"
 
-#: dolphinmainwindow.cpp:702
+#: dolphinmainwindow.cpp:700
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -298,31 +298,31 @@ msgstr ""
 "ტერმინალის პანელში ჯერ კიდევ გაშვებულია პროგრამა '%1'. დარწმუნებული "
 "ბრძანდებით, რომ გნებავთ, გახვიდეთ?"
 
-#: dolphinmainwindow.cpp:948
+#: dolphinmainwindow.cpp:944
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "ჩასმა შეუძლებელია: ბუფერი ცარიელია."
 
-#: dolphinmainwindow.cpp:949
+#: dolphinmainwindow.cpp:945
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "ჩასმა შეუძლებელია: ამ საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:1360
+#: dolphinmainwindow.cpp:1356
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1-ის გახსნა"
 
-#: dolphinmainwindow.cpp:1369 dolphinmainwindow.cpp:2177
+#: dolphinmainwindow.cpp:1365 dolphinmainwindow.cpp:2169
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "სასურველი ძებნის ხელსაწყოს გახსნა"
 
-#: dolphinmainwindow.cpp:1409
+#: dolphinmainwindow.cpp:1405
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
@@ -330,7 +330,7 @@ msgstr[0] "დარწმუნებული ბრძანდებით, 
 msgstr[1] ""
 "დარწმუნებული ბრძანდებით, რომ გნებავთ, გახსნათ %1 ტერმინალის ფანჯარა?"
 
-#: dolphinmainwindow.cpp:1414
+#: dolphinmainwindow.cpp:1410
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -338,7 +338,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "%1 ტერმინალის გახსნა"
 msgstr[1] "%1 ტერმინალის გახსნა"
 
-#: dolphinmainwindow.cpp:1515
+#: dolphinmainwindow.cpp:1511
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -348,7 +348,7 @@ msgstr ""
 "ახალი ფაილის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის უფლება "
 "არ გაქვთ."
 
-#: dolphinmainwindow.cpp:1517
+#: dolphinmainwindow.cpp:1513
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -358,25 +358,25 @@ msgstr ""
 "ახალი საქაღალდის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის "
 "უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:1618
+#: dolphinmainwindow.cpp:1612
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "მორგება"
 
-#: dolphinmainwindow.cpp:1800
+#: dolphinmainwindow.cpp:1796
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "&ახალი ფანჯარა"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1797
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Dolphin-ის ახალი ფანჯრის გახსნა"
 
-#: dolphinmainwindow.cpp:1803
+#: dolphinmainwindow.cpp:1799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -386,13 +386,13 @@ msgstr ""
 "ეს გახსნის ახალ ფანჯარას, ზუსტად ამნაირს, იგივე მდებარეობითა და ხედით.<nl/"
 ">ფანჯრებს შორის შეგიძლიათ ელემენტები გადაათრიოთ და დაყაროთ."
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "ახალი ჩანართი"
 
-#: dolphinmainwindow.cpp:1812
+#: dolphinmainwindow.cpp:1808
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -404,31 +404,31 @@ msgstr ""
 ">ჩანართი ამ ფანჯარაში დამატებითი ხედია. ჩანართებს შორის შეგიძლიათ ელემენტები "
 "გადაათრიოთ და დაყაროთ."
 
-#: dolphinmainwindow.cpp:1821
+#: dolphinmainwindow.cpp:1817
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "ადგილებში ჩამატება"
 
-#: dolphinmainwindow.cpp:1823
+#: dolphinmainwindow.cpp:1819
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "ეს მონიშნულ საქაღალდეს ადგილების პანელზე დაამატებს."
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1824
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "ჩანართის დახურვა"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1825
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "ჩანართის დახურვა"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1827
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -438,13 +438,13 @@ msgstr ""
 "ეს დახურავს ამჟამად ღია ჩანართს. თუ ეს უკანასკნელი ჩანართია, მაშინ მთლიანი "
 "ფანჯარა დაიხურება."
 
-#: dolphinmainwindow.cpp:1836
+#: dolphinmainwindow.cpp:1832
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "ეს ხურავს ამ ფანჯარას."
 
-#: dolphinmainwindow.cpp:1847
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -460,13 +460,13 @@ msgstr ""
 "ახლო-ახლოსაა კლავიატურაზე.: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</"
 "shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1854
+#: dolphinmainwindow.cpp:1848
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "ამოჭრა…"
 
-#: dolphinmainwindow.cpp:1856
+#: dolphinmainwindow.cpp:1850
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -479,13 +479,13 @@ msgstr ""
 ">გამოიყენეთ ფუნქცია <emphasis>ჩასმა</emphasis> რათა ელემენტები ახალ "
 "მდებარეობაზე დააკოპიროთ. ელემენტები წაიშლება თავდაპირველი მდებარეობიდან."
 
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1857
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "კოპირება…"
 
-#: dolphinmainwindow.cpp:1865
+#: dolphinmainwindow.cpp:1859
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -497,13 +497,13 @@ msgstr ""
 ">გამოიყენეთ ფუნქცია <emphasis>ჩასმა</emphasis> რათა ელემენტები ახალ "
 "მდებარეობაზე დააკოპიროთ."
 
-#: dolphinmainwindow.cpp:1874
+#: dolphinmainwindow.cpp:1868
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "ჩასმა"
 
-#: dolphinmainwindow.cpp:1876
+#: dolphinmainwindow.cpp:1870
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -515,19 +515,19 @@ msgstr ""
 "საქაღლდეში დააკოპირებს.<nl/>თუ ელემენტები ბუფერში <emphasis>ამოჭრის</"
 "emphasis> ქმედებით მოხვდნენ, ისინი წაიშლებიან საწყისი მდებარეობიდან."
 
-#: dolphinmainwindow.cpp:1883
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "სხვა ხედზე კოპირება"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1878
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "სხვა ხედზე კოპირება…"
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1880
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -537,25 +537,25 @@ msgstr ""
 "ეს მონიშნულ ელემენტებს <emphasis>აქტიური</emphasis> ხედიდან არააქტიურ "
 "გაყოფილ ხედში დააკოპირებს. (მხოლოდ, ხელმისაწვდომია, გაყოფილი ხედის რეჟიმში.)"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1884
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "სხვა ხედზე კოპირება"
 
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1889
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "სხვა ხედზე გადასვლა"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1890
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "სხვა ხედზე გადატანა…"
 
-#: dolphinmainwindow.cpp:1898
+#: dolphinmainwindow.cpp:1892
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -565,25 +565,25 @@ msgstr ""
 "ეს მონიშნულ ელემენტებს <emphasis>აქტიური</emphasis> ხედიდან არააქტიურ "
 "გაყოფილ ხედში გადაიტანს. (მხოლოდ, ხელმისაწვდომია გაყოფილი ხედის რეჟიმში.)"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1896
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "სხვა ხედზე გადატანა"
 
-#: dolphinmainwindow.cpp:1907
+#: dolphinmainwindow.cpp:1901
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "ფილტრი…"
 
-#: dolphinmainwindow.cpp:1908
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "ფილტრის ზოლის ჩვენება"
 
-#: dolphinmainwindow.cpp:1910
+#: dolphinmainwindow.cpp:1904
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -597,30 +597,30 @@ msgstr ""
 "გაფილტროთ. ხედში, მხლოდ, ისინი გამოჩნდება, რომლის სახელებიც შეყვანილ ტექსტს "
 "შეიცავენ."
 
-#: dolphinmainwindow.cpp:1922
+#: dolphinmainwindow.cpp:1916
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "ფილტრის ზოლის გადართვა"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1917
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ფილტრი"
 
-#: dolphinmainwindow.cpp:1931 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1925 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
 msgstr "ძებნა…"
 
-#: dolphinmainwindow.cpp:1932
+#: dolphinmainwindow.cpp:1926
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "ფაილებისა და საქაღალდეების ძებნა"
 
-#: dolphinmainwindow.cpp:1934
+#: dolphinmainwindow.cpp:1928
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -632,20 +632,20 @@ msgstr ""
 "პანელის</emphasis> გახსნით. იქ შეგიძლიათ, შეიყვანოთ საძებნი სტრიქონი და "
 "მიუთითოთ პარამეტრები იმ ობიექტების საპოვნად, რომელსაც ეძებთ.</para>"
 
-#: dolphinmainwindow.cpp:1943
+#: dolphinmainwindow.cpp:1937
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "ძებნის ზოლის გადართვა"
 
-#: dolphinmainwindow.cpp:1944
+#: dolphinmainwindow.cpp:1938
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "ძებნა"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1953
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -653,13 +653,13 @@ msgstr "აირჩიეთ ფაილები და საქაღალ
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1956
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "აირჩიეთ"
 
-#: dolphinmainwindow.cpp:1965
+#: dolphinmainwindow.cpp:1959
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -677,20 +677,20 @@ msgstr ""
 "para><para>სანამ ამ რეჟიმში ხართ, სწრაფი წვდომის პანელი, რომელიც ფანჯრის "
 "ბოლოშია, აჩვენებს ქმედებებს ამჟამად მონიშნული ელემენტებისთვის.</para>"
 
-#: dolphinmainwindow.cpp:1988
+#: dolphinmainwindow.cpp:1982
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr ""
 "ეს მიმდინარე მდებარეობაზე არსებულ ყველა ფაილსა და საქაღალდეს მონიშნავს."
 
-#: dolphinmainwindow.cpp:1992 dolphinpart.cpp:166
+#: dolphinmainwindow.cpp:1986 dolphinpart.cpp:166
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "მონიშვნის ინვერსია"
 
-#: dolphinmainwindow.cpp:1994
+#: dolphinmainwindow.cpp:1988
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -700,7 +700,7 @@ msgstr ""
 "ეს მონიშნავს ყველა ობიექტს, რომელიც ამჟამად მონიშნული <emphasis>არაა</"
 "emphasis>."
 
-#: dolphinmainwindow.cpp:2014
+#: dolphinmainwindow.cpp:2008
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -714,7 +714,7 @@ msgstr ""
 "para><para>ხედი, რომელიც \"ფოკუსში\" არაა, ბუნდოვანი იქნება. </"
 "para>დააწკაპუნეთ ამ ღილაკზე კიდევ ერთხელ, რომ ხედებიდან ერთ-ერთი დახუროთ."
 
-#: dolphinmainwindow.cpp:2029
+#: dolphinmainwindow.cpp:2023
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -723,25 +723,25 @@ msgid ""
 msgstr ""
 "თუ ხედი გაყოფილია, ეს ფოკუსის მქონე საქაღალდის ხედს ახალ ფანჯარაში გაიტანს."
 
-#: dolphinmainwindow.cpp:2037
+#: dolphinmainwindow.cpp:2031
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "შენახვა საკუჭნაოში"
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2032
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "გახსნის საკუჭნაოს ვირტუალურ საქაღალდეს გაყოფილ ფანჯარაში"
 
-#: dolphinmainwindow.cpp:2047
+#: dolphinmainwindow.cpp:2041
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "ხედის განახლება"
 
-#: dolphinmainwindow.cpp:2049
+#: dolphinmainwindow.cpp:2043
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -755,31 +755,31 @@ msgstr ""
 "დაინახავთ.</para><para>თუ ხედი გაყოფილია, ეს, მხოლოდ, იმ ხედს განაახლებს, "
 "რომელიც ამჟამად აქტიურია.</para>"
 
-#: dolphinmainwindow.cpp:2056
+#: dolphinmainwindow.cpp:2050
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "შეჩერება"
 
-#: dolphinmainwindow.cpp:2057
+#: dolphinmainwindow.cpp:2051
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "ჩატვირთვის შეჩერება"
 
-#: dolphinmainwindow.cpp:2058
+#: dolphinmainwindow.cpp:2052
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "ეს მიმდინარე საქაღალდის შემცველობის ჩატვირთვას შეაჩერებს."
 
-#: dolphinmainwindow.cpp:2063
+#: dolphinmainwindow.cpp:2057
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "ჩასწორებადი მდებარეობა"
 
-#: dolphinmainwindow.cpp:2065
+#: dolphinmainwindow.cpp:2059
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -793,13 +793,13 @@ msgstr ""
 "გსურთ.<nl/>ჩასწორებაზე გადართვა ასევე შეგიძლიათ მდებარეობის მარჯვნივ "
 "დაწკაპუნებით და უკან გადმორთვა ჩასწორებული მდებარეობის დადასტურებით."
 
-#: dolphinmainwindow.cpp:2073
+#: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "მდებარეობის ჩანაცვლება"
 
-#: dolphinmainwindow.cpp:2078
+#: dolphinmainwindow.cpp:2072
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -809,19 +809,19 @@ msgstr ""
 "ეს გადართავს მდებარეობის ჩასწორების რეჟიში და მონიშნავს მას. ასე სხვა "
 "მდებარეობას უფრო ადვილად შეიყვანთ."
 
-#: dolphinmainwindow.cpp:2108
+#: dolphinmainwindow.cpp:2102
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "ჩანართის დახურვის გაუქმება"
 
-#: dolphinmainwindow.cpp:2109
+#: dolphinmainwindow.cpp:2103
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "ეს დახურულ ჩანართში დაგაბრუნებთ."
 
-#: dolphinmainwindow.cpp:2117
+#: dolphinmainwindow.cpp:2111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -837,7 +837,7 @@ msgstr ""
 "<filename>ნაგვის ყუთში</filename>. <nl/> ცვლილებები, რომლებიც შეუქცევადია, "
 "ჯერ დადასტურებას მოგთხოვთ."
 
-#: dolphinmainwindow.cpp:2128
+#: dolphinmainwindow.cpp:2121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -853,7 +853,7 @@ msgstr ""
 "<filename>ნაგვის ყუთში</filename>. <nl/> ცვლილებები, რომლებიც შეუქცევადია, "
 "ჯერ დადასტურებას მოგთხოვთ."
 
-#: dolphinmainwindow.cpp:2158
+#: dolphinmainwindow.cpp:2150
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -866,19 +866,19 @@ msgstr ""
 "რომელიც მათ მონაცემებს შეიცავს იმ დამალული საქაღალდეების ჩათვლით, რომლებიც "
 "მათი აპლიკაციის მონაცემებს და კონფიგურაციის ფაილებს შეიცავენ."
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2157
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "ფაილების შედარება"
 
-#: dolphinmainwindow.cpp:2171
+#: dolphinmainwindow.cpp:2163
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "დისკზე ადგილის გამოყენების მართვა"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -890,13 +890,13 @@ msgstr ""
 "para><para>გამოიყენეთ <emphasis>მეტი ძებნის პროგრამის</emphasis> მენიუ, რათა "
 "ის მოირგოთ.</para>"
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "ტერმინალის გახსნა"
 
-#: dolphinmainwindow.cpp:2195
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -909,13 +909,13 @@ msgstr ""
 "გამოყენების შესახებ, მიმართეთ ტერმინალის აპლიკაციის დახმარებას.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2203
+#: dolphinmainwindow.cpp:2195
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "ტერმინალში გახსნა აქ"
 
-#: dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:2197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -927,13 +927,13 @@ msgstr ""
 "ელემენტის მდებარეობისთვის.</para><para>ტერმინალის შესახებ მეტი ინფორმაციის "
 "გასაგებად ტერმინალის აპის დახმარებას მიმართეთ.</para>"
 
-#: dolphinmainwindow.cpp:2213
+#: dolphinmainwindow.cpp:2205
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&სანიშნეები"
 
-#: dolphinmainwindow.cpp:2223
+#: dolphinmainwindow.cpp:2215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -952,73 +952,73 @@ msgstr ""
 "რომელიც დამატებითი ქმედებების გააქტიურებისთვის უფრო მეტ დროს დაგახარჯვინებთ."
 "</para>"
 
-#: dolphinmainwindow.cpp:2248
+#: dolphinmainwindow.cpp:2240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "%1-ე ჩანართეზე გადართვა"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "ბოლო ჩანართი"
 
-#: dolphinmainwindow.cpp:2262
+#: dolphinmainwindow.cpp:2254
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "ბოლო ჩანართზე გადასვლა"
 
-#: dolphinmainwindow.cpp:2268
+#: dolphinmainwindow.cpp:2260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "შემდეგი ჩანართი"
 
-#: dolphinmainwindow.cpp:2269
+#: dolphinmainwindow.cpp:2261
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "შემდეგი ჩანართზე გადასვლა"
 
-#: dolphinmainwindow.cpp:2275
+#: dolphinmainwindow.cpp:2267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "წინა ჩანართი"
 
-#: dolphinmainwindow.cpp:2276
+#: dolphinmainwindow.cpp:2268
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "წინა ჩანართზე გადასვლა"
 
-#: dolphinmainwindow.cpp:2283
+#: dolphinmainwindow.cpp:2275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "სამიზნეს ჩვენება"
 
-#: dolphinmainwindow.cpp:2289
+#: dolphinmainwindow.cpp:2281
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "ახალ ჩანართში გახსნა"
 
-#: dolphinmainwindow.cpp:2294
+#: dolphinmainwindow.cpp:2286
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "ახალ ჩანართებში გახსნა"
 
-#: dolphinmainwindow.cpp:2299
+#: dolphinmainwindow.cpp:2291
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "ახალ ფანჯარაში გახსნა"
 
-#: dolphinmainwindow.cpp:2304 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2296 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
 #: tests/placespaneltest.cpp:169
 #, kde-format
@@ -1026,24 +1026,24 @@ msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "დაყოფილ ხედში გახსნა"
 
-#: dolphinmainwindow.cpp:2316
+#: dolphinmainwindow.cpp:2308
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "&ფანჯრის ფერის სქემა"
 
-#: dolphinmainwindow.cpp:2329
+#: dolphinmainwindow.cpp:2321
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "პანელების განბლოკვა"
 
-#: dolphinmainwindow.cpp:2331
+#: dolphinmainwindow.cpp:2323
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "პანელების დაბლოკვა"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1057,13 +1057,13 @@ msgstr ""
 "ფანჯრის მეორე მხარეს გადაათრიოთ და შეუძლიათ, დახურვის ღილაკი ჰქონდეთ.<nl/> "
 "დაბლოკილი პანელები ინტერფეისში უფრო სუფთად ჩანს."
 
-#: dolphinmainwindow.cpp:2343
+#: dolphinmainwindow.cpp:2335
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "ინფორმაცია"
 
-#: dolphinmainwindow.cpp:2366
+#: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1073,7 +1073,7 @@ msgstr ""
 "<para>ამნაირი პანელების საჩვენებლად და დასამალად გადადით <interface>მენიუ|"
 "პანელები</interface> ან <interface>ხედი/პანელები</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2373
+#: dolphinmainwindow.cpp:2365
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1089,7 +1089,7 @@ msgstr ""
 "შესახებ. სხვა შემთხვევაში ის მიმდინარე საქაღალდის შესახებ შეგატყობინებთ.<nl/"
 ">ერთეულოვანი ელემენტებისთვის ნაჩვენები იქნება მინიატურა</para>"
 
-#: dolphinmainwindow.cpp:2381
+#: dolphinmainwindow.cpp:2373
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1105,13 +1105,13 @@ msgstr ""
 "გაჩვენებთ.</para><para>რა დეტალები და როგორ იქნება ნაჩვენები, შეგიძლიათ, ზედ "
 "მარჯვენა-წკაპით მოირგოთ.</para>"
 
-#: dolphinmainwindow.cpp:2390
+#: dolphinmainwindow.cpp:2382
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "საქაღალდეები"
 
-#: dolphinmainwindow.cpp:2410
+#: dolphinmainwindow.cpp:2402
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1123,7 +1123,7 @@ msgstr ""
 "გადართავს.<nl/><nl/>ის აჩვენებს საქაღალდეებს <emphasis>ფაილური სისტემიდან</"
 "emphasis> <emphasis>ხის ხედში</emphasis>."
 
-#: dolphinmainwindow.cpp:2415
+#: dolphinmainwindow.cpp:2407
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1138,13 +1138,13 @@ msgstr ""
 "მისი ქვესაქაღალდეები დაინახოთ. ეს საქაღალდეებს შორის გადართვას გააადვილებს.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2425
+#: dolphinmainwindow.cpp:2417
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "ტერმინალი"
 
-#: dolphinmainwindow.cpp:2451
+#: dolphinmainwindow.cpp:2443
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1162,7 +1162,7 @@ msgstr ""
 "დამატებითი ამოცანებისთვის. ტერმინალის შესახებ მეტი ინფორმაციის მისაღებად "
 "იხილეთ ცალკე ტერმინალის აპლიკაციების დოკუმენტაცია (მაგ. Konsole).</para>"
 
-#: dolphinmainwindow.cpp:2459
+#: dolphinmainwindow.cpp:2451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1180,25 +1180,25 @@ msgstr ""
 "დამატებითი ამოცანებისთვის. ტერმინალის შესახებ მეტი ინფორმაციის მისაღებად "
 "იხილეთ ცალკე ტერმინალის აპლიკაციების დოკუმენტაცია (მაგ. Konsole).</para>"
 
-#: dolphinmainwindow.cpp:2469 dolphinmainwindow.cpp:3128
+#: dolphinmainwindow.cpp:2461 dolphinmainwindow.cpp:3128
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "ტერმინალის პანელის ფოკუსი"
 
-#: dolphinmainwindow.cpp:2470
+#: dolphinmainwindow.cpp:2462
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "კლავიატურის ფოკუსის გადატანა ტერმინალის პანელზე და პანელიდან."
 
-#: dolphinmainwindow.cpp:2476
+#: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr "საქაღალდის შეცვლაზე მიყოლა"
 
-#: dolphinmainwindow.cpp:2478
+#: dolphinmainwindow.cpp:2470
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1208,19 +1208,19 @@ msgstr ""
 "განსაზღვრავს, მოხდება თუ არა მიმდინარე სამუშაო საქაღალდის სინქრონიზაცია "
 "ტერმინალთან, როცა საქაღალდე იცვლება."
 
-#: dolphinmainwindow.cpp:2494
+#: dolphinmainwindow.cpp:2486
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "ადგილები"
 
-#: dolphinmainwindow.cpp:2522
+#: dolphinmainwindow.cpp:2514
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "დამალული ადგილების ჩვენება"
 
-#: dolphinmainwindow.cpp:2526
+#: dolphinmainwindow.cpp:2518
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1231,7 +1231,7 @@ msgstr ""
 "ეს აჩვენებს ყველა ადგილს ადგილებში, რომელიც დამალული იყო. ისინი "
 "ნახევრადგამჭვირვალედ გამოჩნდება, სანამ მათ დამალულობას არ გამორთავთ."
 
-#: dolphinmainwindow.cpp:2538
+#: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1248,7 +1248,7 @@ msgstr ""
 "სექციებს სადაც ახლახანან შენახული ფაილების ან მითითებული ტიპის ფაილების "
 "მოძებნა შეგიძლიათ.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2537
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1274,25 +1274,25 @@ msgstr ""
 "<interface>დამალული მდებარეობების გამოჩენა</interface>რათა ისინი თავიდან "
 "გამოაჩინოთ.</para>"
 
-#: dolphinmainwindow.cpp:2559 dolphinmainwindow.cpp:3146
+#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:3146
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "მდებარეობის პანელის ფოკუსი"
 
-#: dolphinmainwindow.cpp:2560
+#: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "კლავიატურის ფოკუსის გადატანა მდებარეობის პანელზე და პანელიდან."
 
-#: dolphinmainwindow.cpp:2566
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "პანელების ჩვენება"
 
-#: dolphinmainwindow.cpp:2652
+#: dolphinmainwindow.cpp:2644
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1301,21 +1301,21 @@ msgstr ""
 "სახელის გადარქმევა შეუძლებელია: ამ საქაღალდეში ელემენტების სახელის "
 "გადარქმევის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2655 dolphinmainwindow.cpp:2672
+#: dolphinmainwindow.cpp:2647 dolphinmainwindow.cpp:2664
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "წაშლა შეუძლებელია: ამ საქაღალდიდან ელემენტების წაშლის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2657
+#: dolphinmainwindow.cpp:2649
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "ამოჭრა შეუძლებელია: ამ საქაღალდიდან ელემენტების გადატანის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2662
+#: dolphinmainwindow.cpp:2654
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1325,31 +1325,31 @@ msgstr ""
 "აქ ასლის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის უფლება არ "
 "გაქვთ."
 
-#: dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "სხვა ხედში კოპირება შეუძლებელია: ფაილები არჩეული არაა."
 
-#: dolphinmainwindow.cpp:2686
+#: dolphinmainwindow.cpp:2678
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "სხვა ხედში გადატანა შეუძლებელია: ფაილები არჩეული არაა."
 
-#: dolphinmainwindow.cpp:2705
+#: dolphinmainwindow.cpp:2697
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "სხვა ხედში კოპირება შეუძლებელია: სხვა ხედი ამ ელემენტებს უკვე შეიცავს."
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2700
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "სხვა ხედში გადატანა შეუძლებელია: სხვა ხედი ამ ელემენტებს უკვე შეიცავს."
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1358,7 +1358,7 @@ msgid ""
 msgstr ""
 "სხვა ხედში კოპირება შეუძლებელია: სამიზნე საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1367,7 +1367,7 @@ msgid ""
 msgstr ""
 "სხვა ხედში გადატანა შეუძლებელია: სამიზნე საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2715
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1377,7 +1377,7 @@ msgstr ""
 "სხვა ხედში გადატანა შეუძლებელია: ამ საქაღალდიდან ელემენტების გადატანის "
 "უფლება არ გაქვთ."
 
-#: dolphinmainwindow.cpp:2747
+#: dolphinmainwindow.cpp:2742
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1721,35 +1721,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "მდებარეობის პანელიდან ფოკუსის მოხსნა"
 
-#: dolphinnavigatorswidgetaction.cpp:237
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "შეიყვანეთ სერვერის URL (მაგ: smb://[ip address])"
 
-#: dolphinnavigatorswidgetaction.cpp:264
+#: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "ნაგვის დაცარიელება"
 
-#: dolphinnavigatorswidgetaction.cpp:265
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "ნაგვის გასუფთავება მეტი ადგილის მისაღებად"
 
-#: dolphinnavigatorswidgetaction.cpp:291
+#: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "ქსელური საქაღალდის დამატება"
 
-#: dolphinnavigatorswidgetaction.cpp:322
+#: dolphinnavigatorswidgetaction.cpp:314
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr "KDE Connect-ის გახსნა"
 
-#: dolphinnavigatorswidgetaction.cpp:359
+#: dolphinnavigatorswidgetaction.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -1883,20 +1883,20 @@ msgid "&View"
 msgstr "&ხედი"
 
 #. i18n: ectx: Menu (go)
-#: dolphinpart.rc:33
+#: dolphinpart.rc:34
 #, kde-format
 msgid "&Go"
 msgstr "&გადასვლა"
 
 #. i18n: ectx: Menu (tools)
-#: dolphinpart.rc:41
+#: dolphinpart.rc:42
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
 msgstr "ხელსაწყოები"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinpart.rc:51
+#: dolphinpart.rc:52
 #, kde-format
 msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
@@ -1979,14 +1979,14 @@ msgid "(%1) | %2"
 msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
-#: dolphinui.rc:59 dolphinuiforphones.rc:59
+#: dolphinui.rc:62 dolphinuiforphones.rc:62
 #, kde-format
 msgctxt "@title:menu"
 msgid "Location Bar"
 msgstr "მდებარეობის ზოლი"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:108 dolphinuiforphones.rc:108
+#: dolphinui.rc:109 dolphinuiforphones.rc:109
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -2184,139 +2184,139 @@ msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "გადატანა ახალ საქაღალდეში…"
 
-#: itemactions/setfoldericonitemaction.cpp:155
+#: itemactions/setfoldericonitemaction.cpp:162
 #, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "სხვა"
 
-#: itemactions/setfoldericonitemaction.cpp:156
+#: itemactions/setfoldericonitemaction.cpp:163
 #, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
 msgstr "სხვა საქაღალდის ხატულას პარამეტრები"
 
-#: itemactions/setfoldericonitemaction.cpp:190
+#: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
 msgstr "წითელი"
 
-#: itemactions/setfoldericonitemaction.cpp:191
+#: itemactions/setfoldericonitemaction.cpp:198
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: itemactions/setfoldericonitemaction.cpp:192
+#: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
 msgstr "ნარინჯისფერი"
 
-#: itemactions/setfoldericonitemaction.cpp:193
+#: itemactions/setfoldericonitemaction.cpp:200
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
 msgstr "მწვანე"
 
-#: itemactions/setfoldericonitemaction.cpp:194
+#: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
 msgstr "ცისფერი"
 
-#: itemactions/setfoldericonitemaction.cpp:196
+#: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "ნაგულისხმევი"
 
-#: itemactions/setfoldericonitemaction.cpp:198
+#: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
 msgstr "ლურჯი"
 
-#: itemactions/setfoldericonitemaction.cpp:199
+#: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
 msgstr "იისფერი"
 
-#: itemactions/setfoldericonitemaction.cpp:200
+#: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
 msgstr "ყავისფერი"
 
-#: itemactions/setfoldericonitemaction.cpp:201
+#: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
 msgstr "ნაცრისფერი"
 
-#: itemactions/setfoldericonitemaction.cpp:204
+#: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
 msgstr "სანიშნე"
 
-#: itemactions/setfoldericonitemaction.cpp:205
+#: itemactions/setfoldericonitemaction.cpp:212
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
 msgstr "ღრუბელი"
 
-#: itemactions/setfoldericonitemaction.cpp:206
+#: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "შემუშავება"
 
-#: itemactions/setfoldericonitemaction.cpp:207
+#: itemactions/setfoldericonitemaction.cpp:214
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
 msgstr "თამაშები"
 
-#: itemactions/setfoldericonitemaction.cpp:208
+#: itemactions/setfoldericonitemaction.cpp:215
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
 msgstr "ფოსტა"
 
-#: itemactions/setfoldericonitemaction.cpp:209
+#: itemactions/setfoldericonitemaction.cpp:216
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "მუსიკა"
 
-#: itemactions/setfoldericonitemaction.cpp:210
+#: itemactions/setfoldericonitemaction.cpp:217
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
 msgstr "ბეჭდვა"
 
-#: itemactions/setfoldericonitemaction.cpp:211
+#: itemactions/setfoldericonitemaction.cpp:218
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
 msgstr "შეკუმშული"
 
-#: itemactions/setfoldericonitemaction.cpp:212
+#: itemactions/setfoldericonitemaction.cpp:219
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
 msgstr "დროებითი"
 
-#: itemactions/setfoldericonitemaction.cpp:213
+#: itemactions/setfoldericonitemaction.cpp:220
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
 msgstr "მნიშვნელოვანი"
 
-#: itemactions/setfoldericonitemaction.cpp:235
+#: itemactions/setfoldericonitemaction.cpp:242
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
@@ -6261,7 +6261,7 @@ msgstr "ნაგულისხმევი"
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: views/dolphinview.cpp:763
+#: views/dolphinview.cpp:771
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6269,7 +6269,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "არჩეულია 1 საქაღალდე"
 msgstr[1] "არჩეულია %1 საქაღალდე"
 
-#: views/dolphinview.cpp:764
+#: views/dolphinview.cpp:772
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6277,7 +6277,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "არჩეულია 1 ფაილი"
 msgstr[1] "არჩეულია %1 ფაილი"
 
-#: views/dolphinview.cpp:766
+#: views/dolphinview.cpp:774
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6285,7 +6285,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 საქაღალდე"
 msgstr[1] "%1 საქაღალდე"
 
-#: views/dolphinview.cpp:767
+#: views/dolphinview.cpp:775
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6293,38 +6293,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 ფაილი"
 msgstr[1] "%1 ფაილი"
 
-#: views/dolphinview.cpp:771
+#: views/dolphinview.cpp:779
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:773
+#: views/dolphinview.cpp:781
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:777
+#: views/dolphinview.cpp:785
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 საქაღალდე, 0 ფაილი"
 
-#: views/dolphinview.cpp:1019 views/dolphinview.cpp:1028
+#: views/dolphinview.cpp:1027 views/dolphinview.cpp:1036
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 ასლი"
 
-#: views/dolphinview.cpp:1221
+#: views/dolphinview.cpp:1229
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "მართლა გნებავთ 1 ელემენტის გახსნა?"
 msgstr[1] "მართლა გნებავთ %1 ელემენტის გახსნა?"
 
-#: views/dolphinview.cpp:1226
+#: views/dolphinview.cpp:1234
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6332,43 +6332,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 ჩანაწერის გახსნა"
 msgstr[1] "%1 ჩანაწერის გახსნა"
 
-#: views/dolphinview.cpp:1360
+#: views/dolphinview.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "გვერდის შევსება"
 
-#: views/dolphinview.cpp:1364
+#: views/dolphinview.cpp:1372
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "სვეტის ავტომატური სიგანეები"
 
-#: views/dolphinview.cpp:1369
+#: views/dolphinview.cpp:1377
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "სვეტის სიგანის ხელით მითითება"
 
-#: views/dolphinview.cpp:2099
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ნაგვის ყუთში გადატანის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:2109
+#: views/dolphinview.cpp:2133
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "წაშლის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:2277
+#: views/dolphinview.cpp:2301
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "გადარქმევა და დამალვა"
 
-#: views/dolphinview.cpp:2281
+#: views/dolphinview.cpp:2305
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6377,7 +6377,7 @@ msgstr ""
 "ფაილის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2283
+#: views/dolphinview.cpp:2307
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6386,23 +6386,23 @@ msgstr ""
 "საქაღალდის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2285
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this File?"
 msgstr "დავმალო ეს ფაილი?"
 
-#: views/dolphinview.cpp:2285
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "დავმალო ეს საქაღალდე?"
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "სახელის გადარქმევა"
 
-#: views/dolphinview.cpp:2316
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6415,7 +6415,7 @@ msgstr ""
 "იცნონ.\n"
 "მართლა გნებავთ მისი სახელის გადარქმევა?"
 
-#: views/dolphinview.cpp:2320
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6428,100 +6428,100 @@ msgstr ""
 "იცნონ.\n"
 "მართლა გნებავთ მისი სახელის გადარქმევა?"
 
-#: views/dolphinview.cpp:2326
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ფაილის ტიპის შეცვლა"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "მდებარეობა ცარიელია."
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "მდებარეობა\"%1\" არასწორია."
 
-#: views/dolphinview.cpp:2759
+#: views/dolphinview.cpp:2785
 #, kde-format
 msgid "Loading…"
 msgstr "იტვირთება…"
 
-#: views/dolphinview.cpp:2788
+#: views/dolphinview.cpp:2814
 #, kde-format
 msgid "Loading canceled"
 msgstr "ჩატვირთვა გაუქმდა"
 
-#: views/dolphinview.cpp:2790
+#: views/dolphinview.cpp:2816
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ფილტრს ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2792
+#: views/dolphinview.cpp:2818
 #, kde-format
 msgid "No items matching the search"
 msgstr "ძებნას ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2794
+#: views/dolphinview.cpp:2820
 #, kde-format
 msgid "Trash is empty"
 msgstr "ურნა ცარიელია"
 
-#: views/dolphinview.cpp:2797
+#: views/dolphinview.cpp:2823
 #, kde-format
 msgid "No tags"
 msgstr "ჭდეების გარეშე"
 
-#: views/dolphinview.cpp:2800
+#: views/dolphinview.cpp:2826
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ფაილები ჭდით \"%1\" აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2804
+#: views/dolphinview.cpp:2830
 #, kde-format
 msgid "No recently used items"
 msgstr "ახლახანს გამოყენებული ფაილებსი გარეშე"
 
-#: views/dolphinview.cpp:2806
+#: views/dolphinview.cpp:2832
 #, kde-format
 msgid "No shared folders found"
 msgstr "გაზიარებული ფაილები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2808
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "შესაბამისი ქსელური რესურსები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2810
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-სთან თავსებადი მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2812
+#: views/dolphinview.cpp:2838
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Apple -ის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2815
+#: views/dolphinview.cpp:2841
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "KDE Connect-ის მოწყობილობები აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2817
+#: views/dolphinview.cpp:2843
 #, kde-format
 msgid "No storage found on this device"
 msgstr "ამ მოწყობილობაზე საცავი აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2820
+#: views/dolphinview.cpp:2846
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ბლუთუზის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2822
+#: views/dolphinview.cpp:2848
 #, kde-format
 msgid "Folder is empty"
 msgstr "საქაღალდე ცარიელია"
@@ -6850,12 +6850,25 @@ msgstr ""
 "შეგიძლიათ."
 
 #: views/dolphinviewactionhandler.cpp:393
+#, fuzzy, kde-format
+#| msgid "Zoom To Default"
+msgctxt "@action:inmenu"
+msgid "Restore to Defaults"
+msgstr "ნაგულისხმევ მნიშვნელობაზე გადიდება"
+
+#: views/dolphinviewactionhandler.cpp:394
+#, kde-format
+msgctxt "info:tooltip"
+msgid "Restore View Settings to Defaults Value"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "ხედის მორგება"
 
-#: views/dolphinviewactionhandler.cpp:395
+#: views/dolphinviewactionhandler.cpp:401
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6865,121 +6878,121 @@ msgstr ""
 "გადართვა ყველა ხედის რეჟიმს შორის. ჩამოსაშლელი მენიუ სხვადასხვა ხედთან "
 "დაკავშირებულ ქმედებას შეიცავს."
 
-#: views/dolphinviewactionhandler.cpp:425
+#: views/dolphinviewactionhandler.cpp:433
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "დალაგება ველით"
 
-#: views/dolphinviewactionhandler.cpp:428
+#: views/dolphinviewactionhandler.cpp:436
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
 msgstr "დაჯგუფება ველით"
 
-#: views/dolphinviewactionhandler.cpp:431
+#: views/dolphinviewactionhandler.cpp:439
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "ველის ჩვენება"
 
-#: views/dolphinviewactionhandler.cpp:762
+#: views/dolphinviewactionhandler.cpp:770
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "ხატულები"
 
-#: views/dolphinviewactionhandler.cpp:763
+#: views/dolphinviewactionhandler.cpp:771
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "ხატულების ხედის რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:773
+#: views/dolphinviewactionhandler.cpp:781
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "დაპატარავება"
 
-#: views/dolphinviewactionhandler.cpp:774
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "კომპაქტური ხედის რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:784
+#: views/dolphinviewactionhandler.cpp:792
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "დეტალები"
 
-#: views/dolphinviewactionhandler.cpp:785
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "დეტალების ჩვენების რეჟიმი"
 
-#: views/dolphinviewactionhandler.cpp:808
+#: views/dolphinviewactionhandler.cpp:816
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:809
+#: views/dolphinviewactionhandler.cpp:817
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:811
+#: views/dolphinviewactionhandler.cpp:819
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "ჯერ დიდები"
 
-#: views/dolphinviewactionhandler.cpp:812
+#: views/dolphinviewactionhandler.cpp:820
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "ჯერ პატარები"
 
-#: views/dolphinviewactionhandler.cpp:814
+#: views/dolphinviewactionhandler.cpp:822
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "ჯერ ახლები"
 
-#: views/dolphinviewactionhandler.cpp:815
+#: views/dolphinviewactionhandler.cpp:823
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "ჯერ ძველები"
 
-#: views/dolphinviewactionhandler.cpp:817
+#: views/dolphinviewactionhandler.cpp:825
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ჯერ უმაღლესი"
 
-#: views/dolphinviewactionhandler.cpp:818
+#: views/dolphinviewactionhandler.cpp:826
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "ჯერ უმდაბლესი"
 
-#: views/dolphinviewactionhandler.cpp:820
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Დაღმავალი"
 
-#: views/dolphinviewactionhandler.cpp:821
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ზრდის მიხედვით"
 
-#: views/dolphinviewactionhandler.cpp:919
+#: views/dolphinviewactionhandler.cpp:927
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6992,12 +7005,12 @@ msgstr "ქმედებები მიმდინარე ხედის�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:928
+#: views/dolphinviewactionhandler.cpp:936
 #, kde-format
 msgid "Actions for %1"
 msgstr "ქმედებები %1-სთვის"
 
-#: views/dolphinviewactionhandler.cpp:935
+#: views/dolphinviewactionhandler.cpp:943
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7007,7 +7020,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "ქმედებები 1 მონიშნული ჩანაწერისთვის"
 msgstr[1] "ქმედებები %1 მონიშნული ჩანაწერისთვის"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:250
+#: views/versioncontrol/versioncontrolobserver.cpp:247
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

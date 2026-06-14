@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-12 00:46+0000\n"
+"POT-Creation-Date: 2026-06-14 00:46+0000\n"
 "PO-Revision-Date: 2026-05-01 22:58+0100\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -196,7 +196,7 @@ msgstr[2] "Athchóirigh chuig Suíomhanna Roimhe Seo"
 msgstr[3] "Athchóirigh chuig Suíomhanna Roimhe Seo"
 msgstr[4] "Athchóirigh chuig Suíomhanna Roimhe Seo"
 
-#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1791
+#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1787
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -235,48 +235,48 @@ msgctxt ""
 msgid "Shift+Middle Click"
 msgstr "Shift+Cliceáil Lárnach"
 
-#: dolphinmainwindow.cpp:433
+#: dolphinmainwindow.cpp:431
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Siar"
 
-#: dolphinmainwindow.cpp:434
+#: dolphinmainwindow.cpp:432
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Fill ar ais chuig an bhfillteán a breathnaíodh roimhe seo."
 
-#: dolphinmainwindow.cpp:440
+#: dolphinmainwindow.cpp:438
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Ar Aghaidh"
 
-#: dolphinmainwindow.cpp:441
+#: dolphinmainwindow.cpp:439
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Cuireann sé seo gníomh <interface>Téigh|Ar Ais</interface> ar ceal."
 
-#: dolphinmainwindow.cpp:637 dolphinmainwindow.cpp:683
+#: dolphinmainwindow.cpp:635 dolphinmainwindow.cpp:681
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Deimhniú"
 
-#: dolphinmainwindow.cpp:641
+#: dolphinmainwindow.cpp:639
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Scoir %1"
 
-#: dolphinmainwindow.cpp:643
+#: dolphinmainwindow.cpp:641
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Dún an C&luaisín Reatha"
 
-#: dolphinmainwindow.cpp:652
+#: dolphinmainwindow.cpp:650
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
@@ -284,18 +284,18 @@ msgstr ""
 "Tá cluaisíní iomadúla oscailte san fhuinneog seo; an bhfuil tú cinnte gur "
 "mian leat scor?"
 
-#: dolphinmainwindow.cpp:654 dolphinmainwindow.cpp:704
-#: views/dolphinview.cpp:2329
+#: dolphinmainwindow.cpp:652 dolphinmainwindow.cpp:702
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ná fiafraigh díom arís"
 
-#: dolphinmainwindow.cpp:692
+#: dolphinmainwindow.cpp:690
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Taispeáin Painéal &Teirminéal"
 
-#: dolphinmainwindow.cpp:702
+#: dolphinmainwindow.cpp:700
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -304,31 +304,31 @@ msgstr ""
 "Tá an clár '%1' fós ag rith sa phainéal Teirminéal. An bhfuil tú cinnte gur "
 "mhaith leat scor?"
 
-#: dolphinmainwindow.cpp:948
+#: dolphinmainwindow.cpp:944
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Ní féidir greamaigh: Tá an ghearrthaisce folamh."
 
-#: dolphinmainwindow.cpp:949
+#: dolphinmainwindow.cpp:945
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Ní féidir greamaigh: Níl cead agat scríobh isteach sa fhillteán seo."
 
-#: dolphinmainwindow.cpp:1360
+#: dolphinmainwindow.cpp:1356
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Oscail %1"
 
-#: dolphinmainwindow.cpp:1369 dolphinmainwindow.cpp:2177
+#: dolphinmainwindow.cpp:1365 dolphinmainwindow.cpp:2169
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Oscail an Uirlis Chuardaigh is Fearr leat"
 
-#: dolphinmainwindow.cpp:1409
+#: dolphinmainwindow.cpp:1405
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
@@ -343,7 +343,7 @@ msgstr[3] ""
 msgstr[4] ""
 "An bhfuil tú cinnte gur mian leat fuinneoga teirminéal %1 a oscailt?"
 
-#: dolphinmainwindow.cpp:1414
+#: dolphinmainwindow.cpp:1410
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -354,7 +354,7 @@ msgstr[2] "Oscail Teirminéil %1"
 msgstr[3] "Oscail Teirminéil %1"
 msgstr[4] "Oscail Teirminéil %1"
 
-#: dolphinmainwindow.cpp:1515
+#: dolphinmainwindow.cpp:1511
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -364,7 +364,7 @@ msgstr ""
 "Ní féidir comhad nua a chruthú: Níl cead agat míreanna a chruthú sa "
 "bhfillteán seo."
 
-#: dolphinmainwindow.cpp:1517
+#: dolphinmainwindow.cpp:1513
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -374,25 +374,25 @@ msgstr ""
 "Ní féidir fillteán nua a chruthú: Níl cead agat míreanna a chruthú sa "
 "bhfillteán seo."
 
-#: dolphinmainwindow.cpp:1618
+#: dolphinmainwindow.cpp:1612
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Cumraigh"
 
-#: dolphinmainwindow.cpp:1800
+#: dolphinmainwindow.cpp:1796
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "&Fuinneog Nua"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1797
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Oscail fuinneog nua Dolphin"
 
-#: dolphinmainwindow.cpp:1803
+#: dolphinmainwindow.cpp:1799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -403,13 +403,13 @@ msgstr ""
 "suíomh reatha.<nl/>Is féidir leat míreanna a tharraingt agus a scaoileadh "
 "idir fuinneoga."
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Cluaisín Nua"
 
-#: dolphinmainwindow.cpp:1812
+#: dolphinmainwindow.cpp:1808
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -422,31 +422,31 @@ msgstr ""
 "laistigh den fhuinneog seo. Is féidir leat míreanna a tharraingt agus a "
 "scaoileadh idir cluaisíní."
 
-#: dolphinmainwindow.cpp:1821
+#: dolphinmainwindow.cpp:1817
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Cuir le hÁiteanna"
 
-#: dolphinmainwindow.cpp:1823
+#: dolphinmainwindow.cpp:1819
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Cuireann sé seo an fillteán roghnaithe leis an bpainéal Áiteanna."
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1824
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Dún Cluaisín"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1825
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Dún Cluaisín"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1827
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -456,13 +456,13 @@ msgstr ""
 "Dúnann sé seo an cluaisín atá á fheiceáil faoi láthair. Mura bhfuil aon "
 "chluaisíní fágtha, dúnann sé seo an fhuinneog ar fad ina ionad."
 
-#: dolphinmainwindow.cpp:1836
+#: dolphinmainwindow.cpp:1832
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Dúnann sé seo an fhuinneog seo."
 
-#: dolphinmainwindow.cpp:1847
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -479,13 +479,13 @@ msgstr ""
 "aice lena chéile ar an méarchlár: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl"
 "+C</shortcut> agus <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1854
+#: dolphinmainwindow.cpp:1848
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Gearr…"
 
-#: dolphinmainwindow.cpp:1856
+#: dolphinmainwindow.cpp:1850
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -499,13 +499,13 @@ msgstr ""
 "emphasis> ina dhiaidh sin chun iad a chóipeáil ón ngearrthaisce go suíomh "
 "nua. Bainfear na míreanna óna suíomh tosaigh."
 
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1857
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Cóipeáil…"
 
-#: dolphinmainwindow.cpp:1865
+#: dolphinmainwindow.cpp:1859
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -518,13 +518,13 @@ msgstr ""
 "emphasis> ina dhiaidh sin chun iad a chóipeáil ón ngearrthaisce go suíomh "
 "nua."
 
-#: dolphinmainwindow.cpp:1874
+#: dolphinmainwindow.cpp:1868
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Greamaigh"
 
-#: dolphinmainwindow.cpp:1876
+#: dolphinmainwindow.cpp:1870
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -537,19 +537,19 @@ msgstr ""
 "an ghearrthaisce leis an ngníomh <emphasis>Gearr</emphasis>, baintear iad "
 "óna sean-áit."
 
-#: dolphinmainwindow.cpp:1883
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Cóipeáil chuig Radharc Eile"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1878
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Cóipeáil chuig Radharc Eile…"
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1880
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -560,25 +560,25 @@ msgstr ""
 "radharc eile. (Ní féidir é seo a dhéanamh ach amháin nuair atá tú i mód "
 "Radharc Scoilte.)"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1884
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Cóipeáil chuig Radharc Eile"
 
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1889
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Bog go Radharc Eile"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1890
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Bog go Radharc Eile…"
 
-#: dolphinmainwindow.cpp:1898
+#: dolphinmainwindow.cpp:1892
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -588,25 +588,25 @@ msgstr ""
 "Bogann sé seo na míreanna roghnaithe ón radharc atá i bhfócas go dtí an "
 "radharc eile. (Ar fáil ach amháin i mód Radharc Scoilte.)"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1896
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Bog go Radharc Eile"
 
-#: dolphinmainwindow.cpp:1907
+#: dolphinmainwindow.cpp:1901
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Scagaire…"
 
-#: dolphinmainwindow.cpp:1908
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Taispeáin Barra Scagaire"
 
-#: dolphinmainwindow.cpp:1910
+#: dolphinmainwindow.cpp:1904
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -620,30 +620,30 @@ msgstr ""
 "fillteáin atá ar taispeáint faoi láthair a scagadh. Ní choinneofar ach na "
 "comhaid agus na fillteáin ina bhfuil an téacs ina n-ainm i radharc."
 
-#: dolphinmainwindow.cpp:1922
+#: dolphinmainwindow.cpp:1916
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Barra Scagaire a Athrú"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1917
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Scagaire"
 
-#: dolphinmainwindow.cpp:1931 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1925 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
 msgstr "Cuardaigh…"
 
-#: dolphinmainwindow.cpp:1932
+#: dolphinmainwindow.cpp:1926
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Cuardaigh comhaid agus fillteáin"
 
-#: dolphinmainwindow.cpp:1934
+#: dolphinmainwindow.cpp:1928
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -656,20 +656,20 @@ msgstr ""
 "cuardaigh a iontráil ansin agus socruithe a shonrú chun na míreanna atá á "
 "lorg agat a aimsiú.</para>"
 
-#: dolphinmainwindow.cpp:1943
+#: dolphinmainwindow.cpp:1937
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Barra Cuardaigh a Scoránaigh"
 
-#: dolphinmainwindow.cpp:1944
+#: dolphinmainwindow.cpp:1938
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Cuardaigh"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1953
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -677,13 +677,13 @@ msgstr "Roghnaigh Comhaid agus Fillteáin"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1956
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Roghnaigh"
 
-#: dolphinmainwindow.cpp:1965
+#: dolphinmainwindow.cpp:1959
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -702,20 +702,20 @@ msgstr ""
 "mbun na gníomhartha atá ar fáil do na míreanna atá roghnaithe faoi láthair.</"
 "para>"
 
-#: dolphinmainwindow.cpp:1988
+#: dolphinmainwindow.cpp:1982
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr ""
 "Roghnaíonn sé seo na comhaid agus na fillteáin go léir sa suíomh reatha."
 
-#: dolphinmainwindow.cpp:1992 dolphinpart.cpp:166
+#: dolphinmainwindow.cpp:1986 dolphinpart.cpp:166
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Inbhéartaigh an Rogha"
 
-#: dolphinmainwindow.cpp:1994
+#: dolphinmainwindow.cpp:1988
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -724,7 +724,7 @@ msgid ""
 msgstr ""
 "Roghnaíonn sé seo na míreanna uile nach bhfuil roghnaithe agat faoi láthair."
 
-#: dolphinmainwindow.cpp:2014
+#: dolphinmainwindow.cpp:2008
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -739,7 +739,7 @@ msgstr ""
 "radharc nach bhfuil \"i bhfócas\" doiléir. </para>Cliceáil an cnaipe seo "
 "arís chun ceann de na radhairc a dhúnadh."
 
-#: dolphinmainwindow.cpp:2029
+#: dolphinmainwindow.cpp:2023
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -749,25 +749,25 @@ msgstr ""
 "Má tá an radharc scoilte, taispeánfar an radharc atá i bhfócas i bhfuinneog "
 "nua dá bharr."
 
-#: dolphinmainwindow.cpp:2037
+#: dolphinmainwindow.cpp:2031
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Áit folaigh"
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2032
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Osclaíonn sé an eolaire fíorúil stash i bhfuinneog scoilte"
 
-#: dolphinmainwindow.cpp:2047
+#: dolphinmainwindow.cpp:2041
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Athnuachan an amharc"
 
-#: dolphinmainwindow.cpp:2049
+#: dolphinmainwindow.cpp:2043
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -782,31 +782,31 @@ msgstr ""
 "agus na fillteáin atá anseo.</para><para>Má tá an radharc roinnte, "
 "athnuachanann sé seo an ceann atá i bhfócas faoi láthair.</para>"
 
-#: dolphinmainwindow.cpp:2056
+#: dolphinmainwindow.cpp:2050
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Stad"
 
-#: dolphinmainwindow.cpp:2057
+#: dolphinmainwindow.cpp:2051
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Stop an luchtú"
 
-#: dolphinmainwindow.cpp:2058
+#: dolphinmainwindow.cpp:2052
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Cuireann sé seo stop le luchtú ábhar an fhillteáin reatha."
 
-#: dolphinmainwindow.cpp:2063
+#: dolphinmainwindow.cpp:2057
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Suíomh Ineagarthóireachta"
 
-#: dolphinmainwindow.cpp:2065
+#: dolphinmainwindow.cpp:2059
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -821,13 +821,13 @@ msgstr ""
 "freisin trí chliceáil ar dheis an tsuímh agus aistriú ar ais tríd an suíomh "
 "eagraithe a dheimhniú."
 
-#: dolphinmainwindow.cpp:2073
+#: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Ionadaigh Suíomh"
 
-#: dolphinmainwindow.cpp:2078
+#: dolphinmainwindow.cpp:2072
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -837,19 +837,19 @@ msgstr ""
 "Athraíonn sé seo go dtí an suíomh a chur in eagar agus roghnaítear é ionas "
 "gur féidir leat suíomh difriúil a iontráil go tapa."
 
-#: dolphinmainwindow.cpp:2108
+#: dolphinmainwindow.cpp:2102
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Cealaigh dúnadh an chluaisín"
 
-#: dolphinmainwindow.cpp:2109
+#: dolphinmainwindow.cpp:2103
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Tabharfaidh sé seo ar ais chuig an táb a dúnadh roimhe seo thú."
 
-#: dolphinmainwindow.cpp:2117
+#: dolphinmainwindow.cpp:2111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -866,7 +866,7 @@ msgstr ""
 "<nl/>Iarrfar do dheimhniú roimh ré le haghaidh aon athruithe nach féidir a "
 "chealú."
 
-#: dolphinmainwindow.cpp:2128
+#: dolphinmainwindow.cpp:2121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -882,7 +882,7 @@ msgstr ""
 "difriúil nó chuig an <filename>Bruscar</filename>.<nl/>Iarrfar do dheimhniú "
 "roimh ré le haghaidh aon athruithe nach féidir a chealú."
 
-#: dolphinmainwindow.cpp:2158
+#: dolphinmainwindow.cpp:2150
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -895,19 +895,19 @@ msgstr ""
 "gcomhaid phearsanta, chomh maith le fillteáin fholaithe le haghaidh sonraí "
 "agus comhaid chumraíochta a bhfeidhmchlár."
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2157
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Cuir Comhaid i gComparáid"
 
-#: dolphinmainwindow.cpp:2171
+#: dolphinmainwindow.cpp:2163
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "Bainistigh Úsáid Spáis Diosca"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -919,13 +919,13 @@ msgstr ""
 "breathnaíodh air.</para><para>Úsáid an roghchlár <emphasis>Tuilleadh Uirlisí "
 "Cuardaigh</emphasis> chun é a chumrú.</para>"
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Oscail Teirminéal"
 
-#: dolphinmainwindow.cpp:2195
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -939,13 +939,13 @@ msgstr ""
 "</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2203
+#: dolphinmainwindow.cpp:2195
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Oscail an Teirminéal Anseo"
 
-#: dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:2197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -958,13 +958,13 @@ msgstr ""
 "fháil faoi teirminéal, bain úsáid as na gnéithe cabhrach san fheidhmchlár "
 "teirminéal.</para>"
 
-#: dolphinmainwindow.cpp:2213
+#: dolphinmainwindow.cpp:2205
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Leabharmharcanna"
 
-#: dolphinmainwindow.cpp:2223
+#: dolphinmainwindow.cpp:2215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -983,73 +983,73 @@ msgstr ""
 "simplí agus beag rud a fhágann go dtógann sé níos mó ama gníomhartha "
 "ardleibhéil a spreagadh.</para>"
 
-#: dolphinmainwindow.cpp:2248
+#: dolphinmainwindow.cpp:2240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Téigh go dtí an cluaisín %1"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "An Cluaisín Deireanach"
 
-#: dolphinmainwindow.cpp:2262
+#: dolphinmainwindow.cpp:2254
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Téigh go dtí an Cluaisín Deireanach"
 
-#: dolphinmainwindow.cpp:2268
+#: dolphinmainwindow.cpp:2260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "An Chluaisín Eile"
 
-#: dolphinmainwindow.cpp:2269
+#: dolphinmainwindow.cpp:2261
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Téigh go dtí an Chluaisín Eile"
 
-#: dolphinmainwindow.cpp:2275
+#: dolphinmainwindow.cpp:2267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Cluaisín Roimhe Seo"
 
-#: dolphinmainwindow.cpp:2276
+#: dolphinmainwindow.cpp:2268
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Téigh go dtí an Cluaisín Roimhe Seo"
 
-#: dolphinmainwindow.cpp:2283
+#: dolphinmainwindow.cpp:2275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Taispeáin Sprioc"
 
-#: dolphinmainwindow.cpp:2289
+#: dolphinmainwindow.cpp:2281
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Oscail i gCluaisín Nua"
 
-#: dolphinmainwindow.cpp:2294
+#: dolphinmainwindow.cpp:2286
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Oscail i gCluaisíní Nua"
 
-#: dolphinmainwindow.cpp:2299
+#: dolphinmainwindow.cpp:2291
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Oscail i bhFuinneog Nua"
 
-#: dolphinmainwindow.cpp:2304 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2296 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
 #: tests/placespaneltest.cpp:169
 #, kde-format
@@ -1057,24 +1057,24 @@ msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Oscail i Radharc Scoilte"
 
-#: dolphinmainwindow.cpp:2316
+#: dolphinmainwindow.cpp:2308
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "&Scéim Dathanna Fuinneoige"
 
-#: dolphinmainwindow.cpp:2329
+#: dolphinmainwindow.cpp:2321
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Díghlasáil Painéil"
 
-#: dolphinmainwindow.cpp:2331
+#: dolphinmainwindow.cpp:2323
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Cuir Painéil Faoi Ghlas"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1088,13 +1088,13 @@ msgstr ""
 "tharraingt go dtí an taobh eile den fhuinneog agus cnaipe dúnta a bheith "
 "orthu.<nl/>Tá painéil ghlasáilte leabaithe ar bhealach níos glaine."
 
-#: dolphinmainwindow.cpp:2343
+#: dolphinmainwindow.cpp:2335
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Eolas"
 
-#: dolphinmainwindow.cpp:2366
+#: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1105,7 +1105,7 @@ msgstr ""
 "<interface>Roghchlár|Painéil</interface> nó <interface>Amharc|Painéil</"
 "interface>.</para>"
 
-#: dolphinmainwindow.cpp:2373
+#: dolphinmainwindow.cpp:2365
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1122,7 +1122,7 @@ msgstr ""
 "faoin bhfillteán atá á fheiceáil faoi láthair.<nl/>I gcás míreanna aonair, "
 "cuirtear réamhamharc ar a n-ábhar ar fáil.</para>"
 
-#: dolphinmainwindow.cpp:2381
+#: dolphinmainwindow.cpp:2373
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,13 +1139,13 @@ msgstr ""
 "ar fáil.</para><para>Is féidir leat a chumrú cé na sonraí a thugtar anseo "
 "agus conas a thugtar iad trí chliceáil ar dheis.</para>"
 
-#: dolphinmainwindow.cpp:2390
+#: dolphinmainwindow.cpp:2382
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Fillteáin"
 
-#: dolphinmainwindow.cpp:2410
+#: dolphinmainwindow.cpp:2402
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1157,7 +1157,7 @@ msgstr ""
 "clé den fhuinneog ar siúl.<nl/><nl/>Taispeánann sé fillteáin an "
 "<emphasis>chórais comhad</emphasis> i <emphasis>radharc crainn</emphasis>."
 
-#: dolphinmainwindow.cpp:2415
+#: dolphinmainwindow.cpp:2407
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1172,13 +1172,13 @@ msgstr ""
 "fhofhillteáin a fheiceáil. Ligeann sé seo aistriú tapa idir aon fhillteáin.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2425
+#: dolphinmainwindow.cpp:2417
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Teirminéal"
 
-#: dolphinmainwindow.cpp:2451
+#: dolphinmainwindow.cpp:2443
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1198,7 +1198,7 @@ msgstr ""
 "teirminéal, bain úsáid as na gnéithe cabhrach in fheidhmchlár teirminéal "
 "neamhspleách cosúil le Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2459
+#: dolphinmainwindow.cpp:2451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1218,25 +1218,25 @@ msgstr ""
 "as na gnéithe cabhrach i bhfeidhmchlár teirminéal neamhspleách cosúil le "
 "Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2469 dolphinmainwindow.cpp:3128
+#: dolphinmainwindow.cpp:2461 dolphinmainwindow.cpp:3128
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Painéal Teirminéil Fócas"
 
-#: dolphinmainwindow.cpp:2470
+#: dolphinmainwindow.cpp:2462
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Bog fócas an mhéarchláir chuig agus ón bpainéal Teirminéal."
 
-#: dolphinmainwindow.cpp:2476
+#: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr "Lean Athraigh Eolaire"
 
-#: dolphinmainwindow.cpp:2478
+#: dolphinmainwindow.cpp:2470
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1246,19 +1246,19 @@ msgstr ""
 "Cinneann sé seo an gcaithfear an t-eolaire oibre reatha a choinneáil "
 "sioncrónaithe leis an teirminéal aon uair a athraítear an t-eolaire."
 
-#: dolphinmainwindow.cpp:2494
+#: dolphinmainwindow.cpp:2486
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Áiteanna"
 
-#: dolphinmainwindow.cpp:2522
+#: dolphinmainwindow.cpp:2514
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Taispeáin Áiteanna Folaithe"
 
-#: dolphinmainwindow.cpp:2526
+#: dolphinmainwindow.cpp:2518
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1270,7 +1270,7 @@ msgstr ""
 "Beidh siad leaththrédhearcach agus ligfidh sé duit a n-airíonna \"Folaigh\" "
 "a dhíthiceáil."
 
-#: dolphinmainwindow.cpp:2538
+#: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1287,7 +1287,7 @@ msgstr ""
 "rannóga ann freisin chun comhaid a sábháladh le déanaí nó comhaid de chineál "
 "áirithe a aimsiú.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2537
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1313,25 +1313,25 @@ msgstr ""
 "an bpainéal seo agus roghnaigh <interface>Taispeáin Áiteanna Folaithe</"
 "interface> chun í a thaispeáint arís.</para>"
 
-#: dolphinmainwindow.cpp:2559 dolphinmainwindow.cpp:3146
+#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:3146
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Painéal Áiteanna Fócais"
 
-#: dolphinmainwindow.cpp:2560
+#: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Bog fócas an mhéarchláir chuig an bpainéal Áiteanna agus uaidh."
 
-#: dolphinmainwindow.cpp:2566
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Taispeáin Painéil"
 
-#: dolphinmainwindow.cpp:2652
+#: dolphinmainwindow.cpp:2644
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1339,7 +1339,7 @@ msgid ""
 msgstr ""
 "Ní féidir athainmniú: Níl cead agat míreanna sa bhfillteán seo a athainmniú."
 
-#: dolphinmainwindow.cpp:2655 dolphinmainwindow.cpp:2672
+#: dolphinmainwindow.cpp:2647 dolphinmainwindow.cpp:2664
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1347,14 +1347,14 @@ msgid ""
 msgstr ""
 "Ní féidir a scriosadh: Níl cead agat míreanna a bhaint as an bhfillteán seo."
 
-#: dolphinmainwindow.cpp:2657
+#: dolphinmainwindow.cpp:2649
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "Ní féidir gearradh: Níl cead agat míreanna a bhogadh ón bhfillteán seo."
 
-#: dolphinmainwindow.cpp:2662
+#: dolphinmainwindow.cpp:2654
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1364,19 +1364,19 @@ msgstr ""
 "Ní féidir dúbláil a dhéanamh anseo: Níl cead agat míreanna a chruthú sa "
 "bhfillteán seo."
 
-#: dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Ní féidir cóipeáil chuig radharc eile: Níl aon chomhaid roghnaithe."
 
-#: dolphinmainwindow.cpp:2686
+#: dolphinmainwindow.cpp:2678
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Ní féidir bogadh go radharc eile: Níl aon chomhaid roghnaithe."
 
-#: dolphinmainwindow.cpp:2705
+#: dolphinmainwindow.cpp:2697
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1384,7 +1384,7 @@ msgstr ""
 "Ní féidir cóipeáil chuig radharc eile: Tá na míreanna seo sa radharc eile "
 "cheana féin."
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2700
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1392,7 +1392,7 @@ msgstr ""
 "Ní féidir bogadh go dtí radharc eile: Tá na míreanna seo sa radharc eile "
 "cheana féin."
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1402,7 +1402,7 @@ msgstr ""
 "Ní féidir cóip a dhéanamh chuig radharc eile: Níl cead agat scríobh isteach "
 "sa fhillteán ceann scríbe."
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1412,7 +1412,7 @@ msgstr ""
 "Ní féidir bogadh go radharc eile: Níl cead agat scríobh isteach sa fhillteán "
 "ceann scríbe."
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2715
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1422,7 +1422,7 @@ msgstr ""
 "Ní féidir bogadh go radharc eile: Níl cead agat míreanna a bhogadh ón "
 "bhfillteán seo."
 
-#: dolphinmainwindow.cpp:2747
+#: dolphinmainwindow.cpp:2742
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1774,35 +1774,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Painéal Áiteanna Dífhócais"
 
-#: dolphinnavigatorswidgetaction.cpp:237
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Cuir isteach URL an fhreastalaí (m.sh. smb://[seoladh IP])"
 
-#: dolphinnavigatorswidgetaction.cpp:264
+#: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Folmhaigh an Bruscar"
 
-#: dolphinnavigatorswidgetaction.cpp:265
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Folmhaíonn an Bruscar chun spás saor a chruthú"
 
-#: dolphinnavigatorswidgetaction.cpp:291
+#: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Cuir Fillteán Líonra leis"
 
-#: dolphinnavigatorswidgetaction.cpp:322
+#: dolphinnavigatorswidgetaction.cpp:314
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr "Oscail KDE Connect"
 
-#: dolphinnavigatorswidgetaction.cpp:359
+#: dolphinnavigatorswidgetaction.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -1939,20 +1939,20 @@ msgid "&View"
 msgstr "&Amharc"
 
 #. i18n: ectx: Menu (go)
-#: dolphinpart.rc:33
+#: dolphinpart.rc:34
 #, kde-format
 msgid "&Go"
 msgstr "&Téigh"
 
 #. i18n: ectx: Menu (tools)
-#: dolphinpart.rc:41
+#: dolphinpart.rc:42
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
 msgstr "Uirlisí"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinpart.rc:51
+#: dolphinpart.rc:52
 #, kde-format
 msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
@@ -2035,14 +2035,14 @@ msgid "(%1) | %2"
 msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
-#: dolphinui.rc:59 dolphinuiforphones.rc:59
+#: dolphinui.rc:62 dolphinuiforphones.rc:62
 #, kde-format
 msgctxt "@title:menu"
 msgid "Location Bar"
 msgstr "Barra Suímh"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:108 dolphinuiforphones.rc:108
+#: dolphinui.rc:109 dolphinuiforphones.rc:109
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -2247,139 +2247,139 @@ msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Bog go Fillteán Nua…"
 
-#: itemactions/setfoldericonitemaction.cpp:155
+#: itemactions/setfoldericonitemaction.cpp:162
 #, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Eile"
 
-#: itemactions/setfoldericonitemaction.cpp:156
+#: itemactions/setfoldericonitemaction.cpp:163
 #, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
 msgstr "Roghanna eile deilbhíní fillteáin"
 
-#: itemactions/setfoldericonitemaction.cpp:190
+#: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
 msgstr "Dearg"
 
-#: itemactions/setfoldericonitemaction.cpp:191
+#: itemactions/setfoldericonitemaction.cpp:198
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
 msgstr "Buí"
 
-#: itemactions/setfoldericonitemaction.cpp:192
+#: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
 msgstr "Oráiste"
 
-#: itemactions/setfoldericonitemaction.cpp:193
+#: itemactions/setfoldericonitemaction.cpp:200
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
 msgstr "Glas"
 
-#: itemactions/setfoldericonitemaction.cpp:194
+#: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
 msgstr "Cian"
 
-#: itemactions/setfoldericonitemaction.cpp:196
+#: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: itemactions/setfoldericonitemaction.cpp:198
+#: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
 msgstr "Gorm"
 
-#: itemactions/setfoldericonitemaction.cpp:199
+#: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
 msgstr "Vialait"
 
-#: itemactions/setfoldericonitemaction.cpp:200
+#: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
 msgstr "Donn"
 
-#: itemactions/setfoldericonitemaction.cpp:201
+#: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
 msgstr "Liath"
 
-#: itemactions/setfoldericonitemaction.cpp:204
+#: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
 msgstr "Leabharmharc"
 
-#: itemactions/setfoldericonitemaction.cpp:205
+#: itemactions/setfoldericonitemaction.cpp:212
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
 msgstr "Néal"
 
-#: itemactions/setfoldericonitemaction.cpp:206
+#: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "Forbairt"
 
-#: itemactions/setfoldericonitemaction.cpp:207
+#: itemactions/setfoldericonitemaction.cpp:214
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
 msgstr "Cluichí"
 
-#: itemactions/setfoldericonitemaction.cpp:208
+#: itemactions/setfoldericonitemaction.cpp:215
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
 msgstr "Ríomhphost"
 
-#: itemactions/setfoldericonitemaction.cpp:209
+#: itemactions/setfoldericonitemaction.cpp:216
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "Ceol"
 
-#: itemactions/setfoldericonitemaction.cpp:210
+#: itemactions/setfoldericonitemaction.cpp:217
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
 msgstr "Priontáil"
 
-#: itemactions/setfoldericonitemaction.cpp:211
+#: itemactions/setfoldericonitemaction.cpp:218
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
 msgstr "Comhbhrúite"
 
-#: itemactions/setfoldericonitemaction.cpp:212
+#: itemactions/setfoldericonitemaction.cpp:219
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
 msgstr "Sealadach"
 
-#: itemactions/setfoldericonitemaction.cpp:213
+#: itemactions/setfoldericonitemaction.cpp:220
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
 msgstr "Tábhachtach"
 
-#: itemactions/setfoldericonitemaction.cpp:235
+#: itemactions/setfoldericonitemaction.cpp:242
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
@@ -6418,7 +6418,7 @@ msgstr "Réamhshocrú"
 msgid "Reload"
 msgstr "Athluchtaigh"
 
-#: views/dolphinview.cpp:763
+#: views/dolphinview.cpp:771
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6429,7 +6429,7 @@ msgstr[2] "%1 fillteán roghnaithe"
 msgstr[3] "%1 fillteán roghnaithe"
 msgstr[4] "%1 fillteán roghnaithe"
 
-#: views/dolphinview.cpp:764
+#: views/dolphinview.cpp:772
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6440,7 +6440,7 @@ msgstr[2] "%1 comhad roghnaithe"
 msgstr[3] "%1 comhad roghnaithe"
 msgstr[4] "%1 comhad roghnaithe"
 
-#: views/dolphinview.cpp:766
+#: views/dolphinview.cpp:774
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6451,7 +6451,7 @@ msgstr[2] "%1 fillteán"
 msgstr[3] "%1 fillteán"
 msgstr[4] "%1 fillteán"
 
-#: views/dolphinview.cpp:767
+#: views/dolphinview.cpp:775
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6462,31 +6462,31 @@ msgstr[2] "%1 comhad"
 msgstr[3] "%1 comhad"
 msgstr[4] "%1 comhad"
 
-#: views/dolphinview.cpp:771
+#: views/dolphinview.cpp:779
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:773
+#: views/dolphinview.cpp:781
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:777
+#: views/dolphinview.cpp:785
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 fillteán, 0 comhad"
 
-#: views/dolphinview.cpp:1019 views/dolphinview.cpp:1028
+#: views/dolphinview.cpp:1027 views/dolphinview.cpp:1036
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 cóip"
 
-#: views/dolphinview.cpp:1221
+#: views/dolphinview.cpp:1229
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6496,7 +6496,7 @@ msgstr[2] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[3] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[4] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 
-#: views/dolphinview.cpp:1226
+#: views/dolphinview.cpp:1234
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6507,43 +6507,43 @@ msgstr[2] "Oscail %1 Míreanna"
 msgstr[3] "Oscail %1 Míreanna"
 msgstr[4] "Oscail %1 Míreanna"
 
-#: views/dolphinview.cpp:1360
+#: views/dolphinview.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Páipéar Taobh"
 
-#: views/dolphinview.cpp:1364
+#: views/dolphinview.cpp:1372
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Leithid Uathoibríocha Colún"
 
-#: views/dolphinview.cpp:1369
+#: views/dolphinview.cpp:1377
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Leithid Saincheaptha Colún"
 
-#: views/dolphinview.cpp:2099
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Oibríocht bruscair críochnaithe."
 
-#: views/dolphinview.cpp:2109
+#: views/dolphinview.cpp:2133
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Oibríocht scriosta curtha i gcrích."
 
-#: views/dolphinview.cpp:2277
+#: views/dolphinview.cpp:2301
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Athainmnigh agus Folaigh"
 
-#: views/dolphinview.cpp:2281
+#: views/dolphinview.cpp:2305
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6552,7 +6552,7 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an chomhaid seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2283
+#: views/dolphinview.cpp:2307
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6561,23 +6561,23 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an fhillteáin seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2285
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this File?"
 msgstr "An comhad seo a cheilt?"
 
-#: views/dolphinview.cpp:2285
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "An bhfuil tú ag iarraidh an fillteán seo a cheilt?"
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Athainmnigh"
 
-#: views/dolphinview.cpp:2316
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6590,7 +6590,7 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2320
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6603,100 +6603,100 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2326
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Athraigh Cineál Comhaid"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Tá an suíomh folamh."
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Tá suíomh '%1' neamhbhailí."
 
-#: views/dolphinview.cpp:2759
+#: views/dolphinview.cpp:2785
 #, kde-format
 msgid "Loading…"
 msgstr "Ag lódáil…"
 
-#: views/dolphinview.cpp:2788
+#: views/dolphinview.cpp:2814
 #, kde-format
 msgid "Loading canceled"
 msgstr "Cealaíodh an luchtú"
 
-#: views/dolphinview.cpp:2790
+#: views/dolphinview.cpp:2816
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Níl aon mhíreanna a mheaitseálann an scagaire"
 
-#: views/dolphinview.cpp:2792
+#: views/dolphinview.cpp:2818
 #, kde-format
 msgid "No items matching the search"
 msgstr "Níl aon mhíreanna a mheaitseálann an cuardach"
 
-#: views/dolphinview.cpp:2794
+#: views/dolphinview.cpp:2820
 #, kde-format
 msgid "Trash is empty"
 msgstr "Tá an bruscar folamh"
 
-#: views/dolphinview.cpp:2797
+#: views/dolphinview.cpp:2823
 #, kde-format
 msgid "No tags"
 msgstr "Gan clibeanna"
 
-#: views/dolphinview.cpp:2800
+#: views/dolphinview.cpp:2826
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Gan aon chomhaid atá clibthe le \"%1\""
 
-#: views/dolphinview.cpp:2804
+#: views/dolphinview.cpp:2830
 #, kde-format
 msgid "No recently used items"
 msgstr "Gan aon earraí a úsáideadh le déanaí"
 
-#: views/dolphinview.cpp:2806
+#: views/dolphinview.cpp:2832
 #, kde-format
 msgid "No shared folders found"
 msgstr "Níor aimsíodh aon fhillteáin chomhroinnte"
 
-#: views/dolphinview.cpp:2808
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Níor aimsíodh aon acmhainní líonra ábhartha"
 
-#: views/dolphinview.cpp:2810
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ní bhfuarthas aon ghléasanna atá comhoiriúnach le MTP"
 
-#: views/dolphinview.cpp:2812
+#: views/dolphinview.cpp:2838
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Apple"
 
-#: views/dolphinview.cpp:2815
+#: views/dolphinview.cpp:2841
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Ní bhfuarthas aon ghléasanna KDE Connect"
 
-#: views/dolphinview.cpp:2817
+#: views/dolphinview.cpp:2843
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2820
+#: views/dolphinview.cpp:2846
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Bluetooth"
 
-#: views/dolphinview.cpp:2822
+#: views/dolphinview.cpp:2848
 #, kde-format
 msgid "Folder is empty"
 msgstr "Tá an fillteán folamh"
@@ -7031,12 +7031,25 @@ msgstr ""
 "choigeartú."
 
 #: views/dolphinviewactionhandler.cpp:393
+#, fuzzy, kde-format
+#| msgid "Zoom To Default"
+msgctxt "@action:inmenu"
+msgid "Restore to Defaults"
+msgstr "Zúmáil go Réamhshocrú"
+
+#: views/dolphinviewactionhandler.cpp:394
+#, kde-format
+msgctxt "info:tooltip"
+msgid "Restore View Settings to Defaults Value"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Socruithe Féachana"
 
-#: views/dolphinviewactionhandler.cpp:395
+#: views/dolphinviewactionhandler.cpp:401
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7046,13 +7059,13 @@ msgstr ""
 "Téann sé seo trí na modhanna radhairc go léir. Tá gníomhartha éagsúla a "
 "bhaineann leis an radharc sa roghchlár anuas."
 
-#: views/dolphinviewactionhandler.cpp:425
+#: views/dolphinviewactionhandler.cpp:433
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Sórtáil de réir Réimse"
 
-#: views/dolphinviewactionhandler.cpp:428
+#: views/dolphinviewactionhandler.cpp:436
 #, fuzzy, kde-format
 #| msgctxt "@item:intable, Heading of a list of fields"
 #| msgid "Sort by Field"
@@ -7060,109 +7073,109 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
 msgstr "Sórtáil de réir Réimse"
 
-#: views/dolphinviewactionhandler.cpp:431
+#: views/dolphinviewactionhandler.cpp:439
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Taispeáin Réimse"
 
-#: views/dolphinviewactionhandler.cpp:762
+#: views/dolphinviewactionhandler.cpp:770
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Deilbhíní"
 
-#: views/dolphinviewactionhandler.cpp:763
+#: views/dolphinviewactionhandler.cpp:771
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Mód deilbhíní"
 
-#: views/dolphinviewactionhandler.cpp:773
+#: views/dolphinviewactionhandler.cpp:781
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Dlúth"
 
-#: views/dolphinviewactionhandler.cpp:774
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Mód radhairc dhlúth"
 
-#: views/dolphinviewactionhandler.cpp:784
+#: views/dolphinviewactionhandler.cpp:792
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Mionsonraí"
 
-#: views/dolphinviewactionhandler.cpp:785
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Mód mionsonraí"
 
-#: views/dolphinviewactionhandler.cpp:808
+#: views/dolphinviewactionhandler.cpp:816
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:809
+#: views/dolphinviewactionhandler.cpp:817
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:811
+#: views/dolphinviewactionhandler.cpp:819
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Is Mó Ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:812
+#: views/dolphinviewactionhandler.cpp:820
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Is lú ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:814
+#: views/dolphinviewactionhandler.cpp:822
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Is Nuaí Ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:815
+#: views/dolphinviewactionhandler.cpp:823
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Is Sine Ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:817
+#: views/dolphinviewactionhandler.cpp:825
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Is Airde Ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:818
+#: views/dolphinviewactionhandler.cpp:826
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Is Ísle Ar dtús"
 
-#: views/dolphinviewactionhandler.cpp:820
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Ag dul síos"
 
-#: views/dolphinviewactionhandler.cpp:821
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ag dul suas"
 
-#: views/dolphinviewactionhandler.cpp:919
+#: views/dolphinviewactionhandler.cpp:927
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7175,12 +7188,12 @@ msgstr "Gníomhartha don Amharc Reatha"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:928
+#: views/dolphinviewactionhandler.cpp:936
 #, kde-format
 msgid "Actions for %1"
 msgstr "Gníomhartha do %1"
 
-#: views/dolphinviewactionhandler.cpp:935
+#: views/dolphinviewactionhandler.cpp:943
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7193,7 +7206,7 @@ msgstr[2] "Gníomhartha le haghaidh %1 Míreanna Roghnaithe"
 msgstr[3] "Gníomhartha le haghaidh %1 Míreanna Roghnaithe"
 msgstr[4] "Gníomhartha le haghaidh %1 Míreanna Roghnaithe"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:250
+#: views/versioncontrol/versioncontrolobserver.cpp:247
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
