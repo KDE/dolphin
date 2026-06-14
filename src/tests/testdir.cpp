@@ -41,6 +41,10 @@ static void setTimeStamp(const QString &path, const QDateTime &mtime)
                            FILE_FLAG_BACKUP_SEMANTICS, // required to open directories
                            nullptr);
     if (h != INVALID_HANDLE_VALUE) {
+        // Convert a Unix-epoch time in milliseconds to a Windows FILETIME, which
+        // counts 100-nanosecond intervals since 1601-01-01.
+        // 11644473600000: milliseconds between 1601-01-01 and the Unix epoch (1970-01-01).
+        // 10000: 100-nanosecond intervals per millisecond.
         qint64 fileTime = (mtime.toMSecsSinceEpoch() + 11644473600000LL) * 10000LL;
         FILETIME ft;
         ft.dwLowDateTime = static_cast<DWORD>(fileTime & 0xFFFFFFFF);
