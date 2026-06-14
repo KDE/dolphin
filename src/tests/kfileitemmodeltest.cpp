@@ -1459,6 +1459,16 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
     QCOMPARE(m_model->indexForKeyboardSearch("uu", 0), 10);
     QCOMPARE(m_model->indexForKeyboardSearch("z", 0), 11);
 
+    // Backwards searches (towards the beginning of the list, wrapping around)
+    QCOMPARE(m_model->indexForKeyboardSearch("t", 5, true), 5); // The start index itself matches (Text1)
+    QCOMPARE(m_model->indexForKeyboardSearch("t", 4, true), 4); // Text
+    QCOMPARE(m_model->indexForKeyboardSearch("text1", 6, true), 5); // Skips Text2, finds Text1
+    QCOMPARE(m_model->indexForKeyboardSearch("a", 11, true), 1); // Nearest "a" at or before 11 is aa
+    QCOMPARE(m_model->indexForKeyboardSearch("a", 0, true), 0); // a
+    QCOMPARE(m_model->indexForKeyboardSearch("ž", 0, true), 11); // Wraps past the beginning to Ž
+    QCOMPARE(m_model->indexForKeyboardSearch("a", -1, true), 1); // A negative start wraps to the end
+    QCOMPARE(m_model->indexForKeyboardSearch("b", 5, true), -1); // No match
+
     // TODO: Maybe we should also test keyboard searches in directories which are not sorted by Name?
 }
 

@@ -576,17 +576,40 @@ QString removeMarks(const QString &original)
 }
 }
 
-int KFileItemModel::indexForKeyboardSearch(const QString &text, int startFromIndex) const
+int KFileItemModel::indexForKeyboardSearch(const QString &text, int startFromIndex, bool searchBackwards) const
 {
     const auto noMarkText = removeMarks(text);
+    const auto matches = [&noMarkText, this](int i) {
+        return removeMarks(fileItem(i).text()).startsWith(noMarkText, Qt::CaseInsensitive);
+    };
+
+    if (searchBackwards) {
+        // A negative start (searching before the first item) wraps to the end.
+        if (startFromIndex < 0) {
+            startFromIndex = count() - 1;
+        }
+        startFromIndex = qMin(startFromIndex, count() - 1);
+        for (int i = startFromIndex; i >= 0; --i) {
+            if (matches(i)) {
+                return i;
+            }
+        }
+        for (int i = count() - 1; i > startFromIndex; --i) {
+            if (matches(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     startFromIndex = qMax(0, startFromIndex);
     for (int i = startFromIndex; i < count(); ++i) {
-        if (removeMarks(fileItem(i).text()).startsWith(noMarkText, Qt::CaseInsensitive)) {
+        if (matches(i)) {
             return i;
         }
     }
     for (int i = 0; i < startFromIndex; ++i) {
-        if (removeMarks(fileItem(i).text()).startsWith(noMarkText, Qt::CaseInsensitive)) {
+        if (matches(i)) {
             return i;
         }
     }

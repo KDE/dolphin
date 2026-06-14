@@ -29,7 +29,7 @@ bool KItemListKeyboardSearchManager::isSearchAsYouTypeActive() const
     return !m_searchedString.isEmpty() && !m_keyboardInputTime.hasExpired(m_timeout);
 }
 
-void KItemListKeyboardSearchManager::addKeys(const QString &keys)
+void KItemListKeyboardSearchManager::addKeys(const QString &keys, bool searchBackwards)
 {
     if (shouldClearSearchIfInputTimeReached()) {
         m_searchedString.clear();
@@ -57,8 +57,9 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
         //    fall back to rapid navigation using either:
         //    - Last successful search string (for extended searches like "444" -> "4444")
         //    - First character only (original rapid navigation behavior)
+        // TODO: Think about getting rid of the bool parameters of changeCurrentItem()
         bool found = false;
-        Q_EMIT changeCurrentItem(m_searchedString, newSearch, &found);
+        Q_EMIT changeCurrentItem(m_searchedString, newSearch, searchBackwards, &found);
 
         if (found) {
             m_lastSuccessfulSearch = m_searchedString;
@@ -71,7 +72,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
                 rapidSearchString = QString(firstChar);
             }
 
-            Q_EMIT changeCurrentItem(rapidSearchString, true, &found);
+            Q_EMIT changeCurrentItem(rapidSearchString, true, searchBackwards, &found);
         }
     }
     m_keyboardInputTime.start();

@@ -471,11 +471,19 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
             }
         }
         Q_FALLTHROUGH(); // fall through to the default case and add the Space to the current search string.
-    default:
-        m_keyboardManager->addKeys(event->text());
+    default: {
+        // Shift+letter searches backwards. Since the type-ahead search is
+        // case-insensitive the capital letter is redundant for matching, so it
+        // can be repurposed for backward navigation (bug 374392). Other
+        // Shift-produced characters (e.g. punctuation) keep their literal
+        // meaning so they remain searchable.
+        const QString text = event->text();
+        const bool searchBackwards = shiftPressed && text.size() == 1 && text.at(0).isLetter();
+        m_keyboardManager->addKeys(text, searchBackwards);
         // Make sure unconsumed events get propagated up the chain. #302329
         event->ignore();
         return false;
+    }
     }
 
     if (m_selectionManager->currentItem() != index) {
@@ -515,18 +523,25 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
     return true;
 }
 
-void KItemListController::slotChangeCurrentItem(const QString &text, bool searchFromNextItem, bool *found)
+void KItemListController::slotChangeCurrentItem(const QString &text, bool searchFromNextItem, bool searchBackwards, bool *found)
 {
     *found = false;
     if (!m_model || m_model->count() == 0) {
         return;
     }
     int index;
-    // In selection mode, always use the current (underlined) item, or the next item, for search start position.
+    // In selection mode, always use the current (underlined) item, or the adjacent item, as the search start position.
     if (m_selectionBehavior == NoSelection || m_selectionMode || m_selectionManager->hasSelection()) {
-        index = m_model->indexForKeyboardSearch(text, searchFromNextItem ? m_selectionManager->currentItem() + 1 : m_selectionManager->currentItem());
+        // When advancing to the next match, step away from the current item in
+        // the search direction: towards the end when searching forward, towards
+        // the beginning when searching backwards.
+        int startFromIndex = m_selectionManager->currentItem();
+        if (searchFromNextItem) {
+            startFromIndex += searchBackwards ? -1 : 1;
+        }
+        index = m_model->indexForKeyboardSearch(text, startFromIndex, searchBackwards);
     } else {
-        index = m_model->indexForKeyboardSearch(text, 0);
+        index = m_model->indexForKeyboardSearch(text, searchBackwards ? m_model->count() - 1 : 0, searchBackwards);
     }
     if (index >= 0) {
         if (m_selectionMode) {

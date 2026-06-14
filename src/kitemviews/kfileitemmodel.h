@@ -105,7 +105,7 @@ public:
 
     QMimeData *createMimeData(const KItemSet &indexes) const override;
 
-    int indexForKeyboardSearch(const QString &text, int startFromIndex = 0) const override;
+    int indexForKeyboardSearch(const QString &text, int startFromIndex = 0, bool searchBackwards = false) const override;
 
     bool supportsDropping(int index) const override;
 

@@ -147,8 +147,10 @@ public:
      * beginning with string typed in through the keyboard, -1 if not found.
      * @param text              the text which has been typed in through the keyboard
      * @param startFromIndex    the index from which to start searching from
+     * @param searchBackwards   if true, search towards the beginning of the list
+     *                          (wrapping around) instead of towards the end
      */
-    virtual int indexForKeyboardSearch(const QString &text, int startFromIndex = 0) const;
+    virtual int indexForKeyboardSearch(const QString &text, int startFromIndex = 0, bool searchBackwards = false) const;
 
     /**
      * @return True, if the item with the index \a index basically supports dropping.

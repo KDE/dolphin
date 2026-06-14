@@ -31,9 +31,11 @@ public:
     ~KItemListKeyboardSearchManager() override;
 
     /**
-     * Add \a keys to the text buffer used for searching.
+     * Add \a keys to the text buffer used for searching. If \a searchBackwards
+     * is true, the match before the current item is selected instead of the one
+     * after it (used for Shift+letter backward navigation).
      */
-    void addKeys(const QString &keys);
+    void addKeys(const QString &keys, bool searchBackwards = false);
 
     /**
      * Sets the delay after which the search is cancelled to \a milliseconds.
@@ -63,10 +65,10 @@ Q_SIGNALS:
      * @param searchFromNextItem If true start searching from item next to the
      *                           current item. Otherwise, search from the
      *                           current item.
+     * @param searchBackwards    If true search towards the beginning of the list
+     *                           instead of towards the end.
      */
-    // TODO: Think about getting rid of the bool parameter
-    // (see https://doc.qt.io/archives/qq/qq13-apis.html#thebooleanparametertrap)
-    void changeCurrentItem(const QString &string, bool searchFromNextItem, bool *found);
+    void changeCurrentItem(const QString &string, bool searchFromNextItem, bool searchBackwards, bool *found);
 
 private:
     bool shouldClearSearchIfInputTimeReached();
