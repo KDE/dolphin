@@ -31,20 +31,11 @@ ChipBase::ChipBase(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *pa
 void ChipBase::paintEvent(QPaintEvent *event)
 {
     QStylePainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    QColor penColor = KColorUtils::mix(palette().base().color(), palette().text().color(), 0.3);
-    // QPainter is bad at drawing lines that are exactly 1px.
-    // Using QPen::setCosmetic(true) with a 1px pen width
-    // doesn't look quite as good as just using 1.001px.
-    qreal penWidth = 1.001;
-    qreal penMargin = penWidth / 2;
-    QPen pen(penColor, penWidth);
-    pen.setCosmetic(true);
-    QRectF rect = event->rect();
-    rect.adjust(penMargin, penMargin, -penMargin, -penMargin);
-    painter.setBrush(palette().base());
-    painter.setPen(pen);
-    painter.drawRoundedRect(rect, 5, 5); // 5 is the current default Breeze corner radius
+    QStyleOptionFrame option;
+    option.initFrom(this);
+    option.lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, &option, this);
+    option.state = QStyle::State_Enabled | QStyle::State_Sunken;
+    painter.drawPrimitive(QStyle::PE_FrameLineEdit, option);
     QWidget::paintEvent(event);
 }
 
