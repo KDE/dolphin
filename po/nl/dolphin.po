@@ -2023,7 +2023,7 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
-"<para>Dit beschrijft de locatie van de bestanden en mappen onderstaande "
+"<para>Dit beschrijft de locatie van de bestanden en mappen onderstaand "
 "getoond.</para><para>De naam van de nu bekeken map is helemaal rechts te "
 "lezen. Links ervan is de naam van de map die het bevat. De gehele regel "
 "wordt het <emphasis>pad</emphasis> genoemd naar de huidige locatie omdat het "
@@ -5343,7 +5343,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr "onderstaande bestanden"
+msgstr "bestanden onder "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82

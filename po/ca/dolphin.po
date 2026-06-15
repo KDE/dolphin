@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-14 00:46+0000\n"
-"PO-Revision-Date: 2026-06-12 09:03+0200\n"
+"PO-Revision-Date: 2026-06-14 09:41+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6910,17 +6910,16 @@ msgstr ""
 "la vista de les carpetes."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Zoom al valor predeterminat"
+msgstr "Restaura als valors predeterminats"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Restaura la configuració de la visualització als valors predeterminats"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format

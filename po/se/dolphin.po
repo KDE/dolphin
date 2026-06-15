@@ -6620,7 +6620,3 @@ msgstr ""
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr ""
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "Čájet joavkkuid siste"

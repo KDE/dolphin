@@ -443,10 +443,10 @@ msgid ""
 "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr ""
-"<para><emphasis>剪切，复制</emphasis> 和 <emphasis>粘贴</emphasis> 在许多应用"
-"程序间能够工作并且是最常用的操作。这就是为什么他们的 <emphasis>键盘快捷方式</"
-"emphasis> 在键盘上彼此左右相邻: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl"
-"+C</shortcut> 和 <shortcut>Ctrl+V</shortcut>.</para>"
+"<para><emphasis>剪切、复制</emphasis> 和 <emphasis>粘贴</emphasis> 在许多应用"
+"程序间能够工作并且是最常用的操作。这就是为什么他们的 <emphasis>键盘快捷键</"
+"emphasis> 在键盘上彼此左右相邻：<shortcut>Ctrl+X</shortcut>、<shortcut>Ctrl"
+"+C</shortcut> 和 <shortcut>Ctrl+V</shortcut>。</para>"
 
 #: dolphinmainwindow.cpp:1848
 #, kde-format
@@ -4281,7 +4281,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
-msgstr "勾选此项时，文件名带“.”前缀的隐藏文件将在文件视图中显示。"
+msgstr "启用此选项后，以“.”开头的隐藏文件将在文件视图中显示。"
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -4295,7 +4295,7 @@ msgstr "版本"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr "此选项定义使用的视图属性版本"
+msgstr "此选项用于指定使用的视图属性的版本。"
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -4312,7 +4312,7 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"此选项用于切换视图的样式。当前支持的值包括图标 (0)、详情 (1) 和紧凑 (2) 视"
+"此选项用于控制视图的样式。当前支持的值包括图标 (0)、详情 (1) 和紧凑 (2) 视"
 "图。"
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
@@ -4343,7 +4343,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
-msgstr "勾选此项后，图标将显示为文件内容的预览图。"
+msgstr "启用此选项后，文件内容的预览将以图标形式显示。"
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -4358,7 +4358,7 @@ msgstr "分组显示"
 msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
-msgstr "勾选此项后，项目在排序时将按照所选类别分组显示。"
+msgstr "启用此选项后，排序后的项目将被分类为不同的组。"
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -4374,14 +4374,14 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
-msgstr "这个选项定义正在被排序的属性 (文本、大小、日期等)。"
+msgstr "此选项用于指定按哪个属性 (文本、大小、日期等) 进行排序。"
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
 #, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr ""
+msgstr "文件分组方式"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4392,6 +4392,8 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"此选项用于指定在启用分组排序时，按哪些属性项目进行分组。空值表示分组标准与排"
+"序标准一致。"
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6570,7 +6572,7 @@ msgstr "显示更多信息"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "分组方式"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6579,18 +6581,20 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"此选项按选定的属性对文件和文件夹进行分组。“无”表示不进行分组。“与排序相同”则"
+"按当前的排序条件进行分组。"
 
 #: views/dolphinviewactionhandler.cpp:346
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: views/dolphinviewactionhandler.cpp:353
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "与排序相同"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6632,11 +6636,10 @@ msgid ""
 msgstr "打开一个对话框，您可以在其中调整所有文件夹的视图属性。"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "缩放到默认级别"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
@@ -6668,7 +6671,7 @@ msgstr "按字段排序"
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr ""
+msgstr "按字段分组"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format

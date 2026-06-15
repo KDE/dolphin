@@ -7005,11 +7005,3 @@ msgstr "Forstørr"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørr"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "Vis i grupper"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "This groups files and folders by their first letter."
-#~ msgstr "Dette grupperer filer og mapper etter forbokstav."
