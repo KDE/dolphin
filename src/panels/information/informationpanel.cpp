@@ -254,6 +254,7 @@ void InformationPanel::showItemInfo()
     // an item for the currently shown directory.
     m_shownUrl = url();
     m_folderStatJob = KIO::stat(m_shownUrl, KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatRecursiveSize, KIO::HideProgressInfo);
+    m_folderStatJob->setParent(this);
     if (m_folderStatJob->uiDelegate()) {
         KJobWidgets::setWindow(m_folderStatJob, this);
     }
