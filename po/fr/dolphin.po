@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-14 00:46+0000\n"
-"PO-Revision-Date: 2026-06-13 14:33+0200\n"
+"PO-Revision-Date: 2026-06-14 17:26+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -7016,17 +7016,16 @@ msgstr ""
 "dossiers peuvent être ajustées."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Zoom par défaut"
+msgstr "Restaurer la configuration par défaut"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Restaurer la configuration d'affichage par défaut"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format

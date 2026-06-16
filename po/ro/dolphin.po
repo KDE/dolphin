@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-14 00:46+0000\n"
-"PO-Revision-Date: 2026-05-17 15:18+0100\n"
+"PO-Revision-Date: 2026-06-15 15:10+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -4586,12 +4586,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Sortare fișiere după"
+msgstr "Grupează fișiere după"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4602,6 +4600,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Această opțiune definește după care atribute să fie grupate elementele când "
+"e activă sortarea grupată. O valoare vidă înseamnă că criteriul de grupare "
+"urmează criteriul de sortare."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6848,12 +6849,10 @@ msgid "Show Additional Information"
 msgstr "Arată informații suplimentare"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Grup"
+msgstr "Grupează după"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6862,11 +6861,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Aceasta grupează fișierele și dosarele după un atribut ales. „Niciunul” "
+"dezactivează gruparea. „Același ca sortarea” grupează după criteriul de "
+"sortare activ."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Niciunul"
@@ -6875,7 +6875,7 @@ msgstr "Niciunul"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Același ca sortarea"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6922,17 +6922,16 @@ msgstr ""
 "vizualizărilor de dosare."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Apropiere implicită"
+msgstr "Restabilește implicite"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Restabilește configurările vizualizării la valorile implicite"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6957,12 +6956,10 @@ msgid "Sort by Field"
 msgstr "Sortează după câmp"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Sortează după câmp"
+msgstr "Grupează după câmp"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format
