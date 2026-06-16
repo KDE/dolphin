@@ -1093,13 +1093,6 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
 
     case QEvent::KeyPress:
         hideToolTip(ToolTipManager::HideBehavior::Instantly);
-        if (GeneralSettings::useTabForSwitchingSplitView()) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
-                Q_EMIT toggleActiveViewRequested();
-                return true;
-            }
-        }
         break;
     case QEvent::KeyRelease:
         if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Control) {

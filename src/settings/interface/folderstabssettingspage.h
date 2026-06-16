@@ -70,7 +70,6 @@ private:
     QCheckBox *m_filterBar;
     QCheckBox *m_showFullPathInTitlebar;
     QCheckBox *m_openExternallyCalledFolderInNewTab;
-    QCheckBox *m_useTabForSplitViewSwitch;
 
     QComboBox *m_closeSplitComboBox;
 };

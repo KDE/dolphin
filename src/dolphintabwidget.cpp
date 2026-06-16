@@ -383,6 +383,16 @@ void DolphinTabWidget::moveToInactiveSplitView()
     inactiveView->moveSelectedItems(selectedItems, inactiveView->url());
 }
 
+void DolphinTabWidget::focusInactiveSplitView()
+{
+    DolphinTabPage *const tabPage = currentTabPage();
+    if (!tabPage->splitViewEnabled()) {
+        tabPage->setSplitViewEnabled(true, WithAnimation, tabPage->activeViewContainer()->url());
+    } else {
+        activateViewContainerAt(ViewIndex{currentIndex(), !tabPage->primaryViewActive()});
+    }
+}
+
 void DolphinTabWidget::detachTab(int index)
 {
     Q_ASSERT(index >= 0);

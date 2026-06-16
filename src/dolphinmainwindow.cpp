@@ -1897,6 +1897,13 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT | Qt::Key_F6);
     connect(moveToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::moveToInactiveSplitView);
 
+    QAction *focusOtherViewAction = actionCollection()->addAction(QStringLiteral("focus_inactive_split_view"));
+    focusOtherViewAction->setText(i18nc("@action:inmenu", "Focus Other View"));
+    focusOtherViewAction->setToolTip(i18nc("@info:tooltip", "Move keyboard focus to the inactive view."));
+    focusOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
+    actionCollection()->setDefaultShortcut(focusOtherViewAction, Qt::CTRL | Qt::Key_F3);
+    connect(focusOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::focusInactiveSplitView);
+
     QAction *showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter…"));
     showFilterBar->setToolTip(i18nc("@info:tooltip", "Show Filter Bar"));

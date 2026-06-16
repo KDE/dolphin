@@ -1,0 +1,8 @@
+#SPDX-FileCopyrightText: 2026 Felix Ernst <felixernst@kde.org>
+#SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+#Configuration update for Dolphin
+Version=6
+
+Id=tab_key_shortcut_for_focus_other_view
+Script=dolphin_tab_key_shortcut_for_focus_other_view.py,python3

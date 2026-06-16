@@ -44,7 +44,6 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     , m_filterBar(nullptr)
     , m_showFullPathInTitlebar(nullptr)
     , m_openExternallyCalledFolderInNewTab(nullptr)
-    , m_useTabForSplitViewSwitch(nullptr)
     , m_closeSplitComboBox(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
@@ -160,10 +159,6 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     closeSplitViewHLayout->addWidget(m_closeSplitComboBox);
     topLayout->addRow(i18nc("@title:group", "Split view: "), closeSplitViewWidget);
 
-    // 'Switch between panes of split views with tab key'
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between views with Tab key"));
-    topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
-
     // 'Begin in split view mode'
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Open new windows in split view mode"));
     topLayout->addRow(QString(), m_splitView);
@@ -181,8 +176,6 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
 
     connect(m_openExternallyCalledFolderInNewTab, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::slotSettingsChanged);
     connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::slotSettingsChanged);
-
-    connect(m_useTabForSplitViewSwitch, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
 
     connect(m_closeSplitComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &FoldersTabsSettingsPage::changed);
 
@@ -202,8 +195,6 @@ FoldersTabsSettingsPage::~FoldersTabsSettingsPage() = default;
 void FoldersTabsSettingsPage::applySettings()
 {
     GeneralSettings *settings = GeneralSettings::self();
-
-    settings->setUseTabForSwitchingSplitView(m_useTabForSplitViewSwitch->isChecked());
 
     settings->setCloseSplitViewChoice(m_closeSplitComboBox->currentIndex());
 
@@ -321,8 +312,6 @@ void FoldersTabsSettingsPage::loadSettings()
     m_filterBar->setChecked(GeneralSettings::filterBar());
     m_showFullPathInTitlebar->setChecked(GeneralSettings::showFullPathInTitlebar());
     m_openExternallyCalledFolderInNewTab->setChecked(GeneralSettings::openExternallyCalledFolderInNewTab());
-
-    m_useTabForSplitViewSwitch->setChecked(GeneralSettings::useTabForSwitchingSplitView());
 
     m_closeSplitComboBox->setCurrentIndex(GeneralSettings::closeSplitViewChoice());
 

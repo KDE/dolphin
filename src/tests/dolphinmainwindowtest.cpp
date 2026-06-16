@@ -65,6 +65,7 @@ private Q_SLOTS:
     void testWindowTitle();
     void testFocusLocationBar();
     void testFocusPlacesPanel();
+    void testFocusOtherView();
     void testPlacesPanelWidthResistance();
     void testGoActions();
     void testOpenFiles();
@@ -574,6 +575,44 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
     QTest::keyClick(QApplication::focusWidget(), Qt::Key::Key_Enter);
     QVERIFY2(m_mainWindow->activeViewContainer()->isAncestorOf(QApplication::focusWidget()),
              "Activating a place should move focus to the view even if the view already has that place loaded.");
+}
+
+void DolphinMainWindowTest::testFocusOtherView()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+
+    QAction *const focusOtherViewAction = m_mainWindow->actionCollection()->action(QStringLiteral("focus_inactive_split_view"));
+
+    /** Triggering the "Focus Other View" action when there is no other view should create such a view and focus it. */
+    QVERIFY(!m_mainWindow->m_tabWidget->currentTabPage()->splitViewEnabled());
+    const DolphinViewContainer *const previouslyActiveView = m_mainWindow->activeViewContainer();
+    QVERIFY(previouslyActiveView->isAncestorOf(QApplication::focusWidget()));
+    focusOtherViewAction->trigger();
+    QVERIFY(m_mainWindow->m_tabWidget->currentTabPage()->splitViewEnabled());
+    QVERIFY(!previouslyActiveView->isAncestorOf(QApplication::focusWidget()));
+
+    const DolphinViewContainer *const otherView = m_mainWindow->activeViewContainer();
+    QVERIFY(previouslyActiveView != otherView);
+    QVERIFY(otherView->isAncestorOf(QApplication::focusWidget()));
+
+    /** "Focus Other View" and "Split" have the same behaviour when there is only one view. Make sure their default keyboard shortcuts stay similar. */
+    QVERIFY(focusOtherViewAction->shortcut().toString().contains(m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->shortcut().toString())
+            || focusOtherViewAction->shortcut().toString().contains(
+                m_mainWindow->actionCollection()->action(QStringLiteral("split_view_menu"))->shortcut().toString()));
+
+    /** Test the typical usage of "Focus Other View" */
+    QVERIFY(previouslyActiveView != otherView);
+    QVERIFY(otherView->isAncestorOf(QApplication::focusWidget()));
+    focusOtherViewAction->trigger();
+    QVERIFY(previouslyActiveView->isAncestorOf(QApplication::focusWidget()));
+    focusOtherViewAction->trigger();
+    QVERIFY(otherView->isAncestorOf(QApplication::focusWidget()));
+    focusOtherViewAction->trigger();
+    QVERIFY(previouslyActiveView->isAncestorOf(QApplication::focusWidget()));
 }
 
 /**

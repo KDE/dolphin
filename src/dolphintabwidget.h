@@ -196,6 +196,9 @@ public Q_SLOTS:
     /** Moves all selected items to the inactive view. */
     void moveToInactiveSplitView();
 
+    /** Moves keyboard focus to the inactive view, making it the active view. */
+    void focusInactiveSplitView();
+
 private Q_SLOTS:
     /**
      * Opens the tab with the index \a index in a new Dolphin instance and closes

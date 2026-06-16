@@ -53,6 +53,7 @@
             <Separator/>
             <Action name="split_view_menu" />
             <Action name="popout_split_view" />
+            <Action name="focus_inactive_split_view" />
             <Action name="split_stash" />
             <Action name="redisplay" />
             <Action name="stop" />
