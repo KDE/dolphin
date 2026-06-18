@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-05-28 21:24+0200\n"
+"PO-Revision-Date: 2026-06-17 16:02+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -572,20 +572,16 @@ msgid "Move to Other View"
 msgstr "Преместване в другия подпрозорец за преглед"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Копиране в другия изглед"
+msgstr "Фокусиране върху другия изглед"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Преместване на фокуса на клавиатурата към и от панела Места."
+msgstr "Преместване на фокуса на клавиатурата към неактивния изглед."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -4581,12 +4577,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Подреждане на файловете по"
+msgstr "Групиране на файловете по"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4597,6 +4591,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Тази опция дефинира атрибута, по който се групират елементите при активирано "
+"групирано сортиране. Празна стойност означава, че критерият за групиране "
+"следва критерия за сортиране."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6826,7 +6823,7 @@ msgstr "Показване на допълнителна информация"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Групиране по"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6835,11 +6832,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Тази опция групира файловете и папките по избран атрибут. „Без“ изключва "
+"групирането. „Същото като сортирането“ групира по текущия критерий за "
+"сортиране."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Без"
@@ -6848,7 +6846,7 @@ msgstr "Без"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Също като сортирането"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6895,17 +6893,17 @@ msgstr ""
 "изгледа на папките."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Мащабиране до стандартни стойности"
+msgstr "Възстановяване на стандартните настройки"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
 msgstr ""
+"Възстановяване на настройките на изгледа към стойностите по подразбиране"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6930,12 +6928,10 @@ msgid "Sort by Field"
 msgstr "Сортиране по поле"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Сортиране по поле"
+msgstr "Групиране по поле"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format
@@ -7084,88 +7080,3 @@ msgstr "Мащабиране"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Мащабиране"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "Използване на Tab за превключване между ляв и десен подпрозорец"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Превключване между прозорците с клавиша Tab"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "Показване в групи"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "This groups files and folders by their first letter."
-#~ msgstr "Това групира файлове и папки по първата им буква."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully copied."
-#~ msgstr "Успешно копиране."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved."
-#~ msgstr "Успешно преместване."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully linked."
-#~ msgstr "Успешно свързване."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved to trash."
-#~ msgstr "Успешно преместване в кошчето."
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully renamed."
-#~ msgstr "Успешно преименуване."
-
-#~ msgctxt "@info:status"
-#~ msgid "Created folder."
-#~ msgstr "Папката е създадена."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Select which services should be shown in the context menu:"
-#~ msgstr "Изберете кои услуги да се показват в контекстното меню:"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "Tab bar:"
-#~ msgstr "Лента с раздели:"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr ""
-#~ "За да влязат в сила промените за системи за управление на версии, "
-#~ "програмата Dolphin трябва да бъде презаредена."
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "Рестартиране сега?"
-
-#~ msgctxt "@action:intoolbar as in sort by file attribute"
-#~ msgid "Sort by: %1"
-#~ msgstr "Сортиране по: %1"
-
-#~ msgctxt "@action:intoolbar as in show field for file attribute"
-#~ msgid "Show Field: %1"
-#~ msgstr "Показване на поле: %1"
-
-#~ msgid "Close the view in focus when turning off split view"
-#~ msgstr "Затваряне на активния прозорец при изключване на разделен изглед"
-
-#~ msgctxt "option:check"
-#~ msgid "Turning off split view closes the view in focus"
-#~ msgstr "Изключването на разделен изглед затваря активния подпрозорец"
-
-#~ msgid ""
-#~ "When unchecked, the opposite view will be closed. The Close icon always "
-#~ "illustrates which view (left or right) will be closed."
-#~ msgstr ""
-#~ "Когато отметката не е поставена, противоположният подпрозорец за преглед "
-#~ "ще бъде затворен. Иконата \"Затваряне\" винаги илюстрира кой изглед (ляв "
-#~ "или десен) ще бъде затворен."
-
-#~ msgid "New windows:"
-#~ msgstr "Нови прозорци:"

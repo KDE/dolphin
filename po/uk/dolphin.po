@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-06-14 15:37+0300\n"
+"PO-Revision-Date: 2026-06-17 10:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -587,20 +587,16 @@ msgid "Move to Other View"
 msgstr "Пересунути на іншу панель перегляду"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Копіювати на іншу панель перегляду"
+msgstr "Фокусувати іншу панель перегляду"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Перенести фокус клавіатури на панель місць та з неї."
+msgstr "Перенести фокус клавіатури на неактивну панель перегляду."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format

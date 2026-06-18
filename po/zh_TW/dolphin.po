@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-04-17 19:46+0900\n"
+"PO-Revision-Date: 2026-06-17 13:07+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -559,20 +559,16 @@ msgid "Move to Other View"
 msgstr "移動到另一個檢視"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "複製到另一個檢視"
+msgstr "聚焦到另一個檢視"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "將鍵盤輸入的焦點移入或移出書籤面板。"
+msgstr "將鍵盤輸入的焦點移動到非作用中的檢視。"
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -4399,12 +4395,10 @@ msgstr "此選項定義排序檔案時要依據哪個屬性（如文字、大小
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "排序檔案依據"
+msgstr "分組檔案依據"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4415,6 +4409,8 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"此選項定義啟用分組排序時要用哪個屬性來分組項目。空白值代表使用與排序依據相同"
+"的方式進行分組。"
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6585,7 +6581,7 @@ msgstr "顯示額外資訊"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "分組依據"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6594,11 +6590,11 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"這會將檔案與資料夾依指定屬性分組。「無」會停用分組。「與排序方式相同」會用目"
+"前使用的排序依據來分組。"
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "無"
@@ -6607,7 +6603,7 @@ msgstr "無"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "與排序方式相同"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6649,17 +6645,16 @@ msgid ""
 msgstr "這會開啟一個可以調整所有資料夾檢視屬性的視窗。"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "縮放至預設值"
+msgstr "回復至預設值"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "將檢視設定回復為預設值"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6682,12 +6677,10 @@ msgid "Sort by Field"
 msgstr "排序依據欄位"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "排序依據欄位"
+msgstr "分組依據欄位"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format

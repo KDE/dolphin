@@ -555,20 +555,16 @@ msgid "Move to Other View"
 msgstr "移动到其他视图"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "复制到其他视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "键盘焦点移到和移出位置面板。"
+msgstr ""
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -6643,13 +6639,13 @@ msgstr "打开一个对话框，您可以在其中调整所有文件夹的视图
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr ""
+msgstr "恢复默认值"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "恢复视图设置为默认值"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6823,10 +6819,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "按 Tab 键切换左、右视图"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "按 Tab 键切换视图"

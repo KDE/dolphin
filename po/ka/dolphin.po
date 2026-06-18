@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-06-14 04:15+0200\n"
+"PO-Revision-Date: 2026-06-17 05:28+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -572,20 +572,16 @@ msgid "Move to Other View"
 msgstr "სხვა ხედზე გადატანა"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "სხვა ხედზე კოპირება"
+msgstr "ფოკუსი სხვა ხედზე"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "კლავიატურის ფოკუსის გადატანა მდებარეობის პანელზე და პანელიდან."
+msgstr "კლავიატურის ფოკუსის გადატანა არააქტიურ ხედზე."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-06-14 23:35+0100\n"
+"PO-Revision-Date: 2026-06-17 12:02+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -582,20 +582,16 @@ msgid "Move to Other View"
 msgstr "Mover a otra vista"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Copiar a otra vista"
+msgstr "Situar el foco en otra vista"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Mover el foco del teclado al panel de «Lugares»."
+msgstr "Mover el foco del teclado a la vista inactiva."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -7104,10 +7100,3 @@ msgstr "Ampliar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Ampliar"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "Usar el tabulador para cambiar entre las vistas derecha e izquierda"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Cambiar entre vistas con el tabulador"
