@@ -239,7 +239,6 @@ private Q_SLOTS:
      */
     void renameTab(int index, const QString &label);
 
-    void updateNewTabButton();
     void openNewTabFromButton();
 
 protected:
