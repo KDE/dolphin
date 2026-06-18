@@ -2716,16 +2716,19 @@ void KFileItemModelTest::testInsertAfterExpand()
     // Collapse "a" whilst leaving "b" expanded
     m_model->setExpanded(0, false);
 
-    // Insert additional files into "a/b/"
+    // "a/b/2" is inside the now collapsed subtree, so it must stay out of the model.
     m_testDir->createFile("a/b/2");
 
-    QVERIFY(!itemsInsertedSpy.wait(5000));
+    // Create a file in the watched top directory and wait for its insertion. Its arrival
+    // means the directory change has been processed and the model has settled, so "a/b/2"
+    // has had its chance to appear: only "a" and the new top-level "c" are present.
+    m_testDir->createFile("c");
+    QTRY_COMPARE(itemsInModel(), QStringList({"a", "c"}));
 
-    QCOMPARE(itemsInModel(), {"a"});
-
+    // Re-expanding "a" brings back "a/b" and its children, including "a/b/2" which is now
+    // read from disk. "c" stays at the end as a top-level sibling.
     m_model->setExpanded(0, true);
-    ;
-    QTRY_COMPARE(itemsInModel(), QStringList({"a", "b", "1", "2"}));
+    QTRY_COMPARE(itemsInModel(), QStringList({"a", "b", "1", "2", "c"}));
 
     QCOMPARE(m_model->expandedParentsCount(0), 0); // a
     QCOMPARE(m_model->expandedParentsCount(1), 1); // a/b
