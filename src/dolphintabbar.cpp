@@ -185,10 +185,15 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
 
         QAction *newTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "New Tab"));
         QAction *detachTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-detach")), i18nc("@action:inmenu", "Detach Tab"));
-        QAction *closeOtherTabsAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close-other")), i18nc("@action:inmenu", "Close Other Tabs"));
-        QAction *closeTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close")), i18nc("@action:inmenu", "Close Tab"));
-
+        menu.addSeparator();
         QAction *renameTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-rename")), i18nc("@action:inmenu", "Rename Tab"));
+        menu.addSeparator();
+        QAction *closeOtherTabsAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close-other")), i18nc("@action:inmenu", "Close Other Tabs"));
+        QAction *closeTabsToLeftAction = menu.addAction(QIcon::fromTheme(QStringLiteral("go-previous")), i18nc("@action:inmenu", "Close Tabs to the Left"));
+        closeTabsToLeftAction->setEnabled(index > 0);
+        QAction *closeTabsToRightAction = menu.addAction(QIcon::fromTheme(QStringLiteral("go-next")), i18nc("@action:inmenu", "Close Tabs to the Right"));
+        closeTabsToRightAction->setEnabled(index < count() - 1);
+        QAction *closeTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close")), i18nc("@action:inmenu", "Close Tab"));
 
         QAction *selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {
@@ -202,6 +207,15 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
             }
             for (int i = index + 1; i < tabCount; i++) {
                 Q_EMIT tabCloseRequested(1);
+            }
+        } else if (selectedAction == closeTabsToLeftAction) {
+            for (int i = 0; i < index; i++) {
+                Q_EMIT tabCloseRequested(0);
+            }
+        } else if (selectedAction == closeTabsToRightAction) {
+            const int tabCount = count();
+            for (int i = index + 1; i < tabCount; i++) {
+                Q_EMIT tabCloseRequested(index + 1);
             }
         } else if (selectedAction == closeTabAction) {
             Q_EMIT tabCloseRequested(index);
