@@ -519,7 +519,7 @@ void DolphinMainWindowTest::testWindowTitle_data()
     QTest::addColumn<QUrl>("activeViewUrl");
     QTest::addColumn<QString>("expectedWindowTitle");
 
-    // TODO: this test should enforce the english locale.
+    // The English locale is forced in main(), so these titles are compared verbatim.
     QTest::newRow("home") << QUrl::fromLocalFile(QDir::homePath()) << QStringLiteral("Home");
     QTest::newRow("home with trailing slash") << QUrl::fromLocalFile(QStringLiteral("%1/").arg(QDir::homePath())) << QStringLiteral("Home");
     QTest::newRow("trash") << QUrl::fromUserInput(QStringLiteral("trash:/")) << QStringLiteral("Trash");
@@ -1534,6 +1534,20 @@ void DolphinMainWindowTest::cleanupTestCase()
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Quit))->trigger();
 }
 
-QTEST_MAIN(DolphinMainWindowTest)
+int main(int argc, char *argv[])
+{
+    // Force the English locale before QApplication and any translation lookup, so that
+    // tests comparing user-visible strings (such as window titles) do not depend on the
+    // language configured on the developer's or CI machine.
+    qputenv("LANG", "C.UTF-8");
+    qputenv("LANGUAGE", "en_US");
+    qputenv("LC_ALL", "C.UTF-8");
+
+    QApplication app(argc, argv);
+    app.setAttribute(Qt::AA_Use96Dpi, true);
+    QTEST_SET_MAIN_SOURCE_PATH
+    DolphinMainWindowTest tc;
+    return QTest::qExec(&tc, argc, argv);
+}
 
 #include "dolphinmainwindowtest.moc"
