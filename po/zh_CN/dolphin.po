@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -558,13 +558,13 @@ msgstr "移动到其他视图"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr ""
+msgstr "聚焦其他视图"
 
 #: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr ""
+msgstr "键盘焦点移到非活动视图。"
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1847,31 +1847,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "分离标签页"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "重命名标签页"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "关闭其他标签页"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "关闭右侧窗格"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "关闭标签页"
 
-#: dolphintabbar.cpp:191
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "重命名标签页"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "重命名标签页"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "新标签页名称："

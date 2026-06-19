@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2026-06-17 06:55+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1950,31 +1950,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Odpni zavihek"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "Preimenuj zavihek"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Zapri druge zavihke"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Zapri desno ploščo"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Zapri zavihek"
 
-#: dolphintabbar.cpp:191
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "Preimenuj zavihek"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Preimenuj zavihek"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Novo ime zavihka:"

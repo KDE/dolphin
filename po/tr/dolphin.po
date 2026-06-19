@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2026-06-17 09:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1930,31 +1930,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Sekmeyi Ayır"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "Sekmeyi Yeniden Adlandır"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Diğer Sekmeleri Kapat"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Sağ bölmeyi kapat"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Sekmeyi Kapat"
 
-#: dolphintabbar.cpp:191
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "Sekmeyi Yeniden Adlandır"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Sekmeyi Yeniden Adlandır"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Yeni sekme adı:"

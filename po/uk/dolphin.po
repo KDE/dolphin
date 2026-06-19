@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2026-06-17 10:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1982,31 +1982,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Відокремити вкладку"
 
-#: dolphintabbar.cpp:188
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Close Other Tabs"
-msgstr "Закрити інші вкладки"
-
 #: dolphintabbar.cpp:189
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Close Tab"
-msgstr "Закрити вкладку"
-
-#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Перейменувати вкладку"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:191
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Other Tabs"
+msgstr "Закрити інші вкладки"
+
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Закрити праву панель"
+
+#: dolphintabbar.cpp:196
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tab"
+msgstr "Закрити вкладку"
+
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Перейменування вкладки"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Нова назва вкладки:"

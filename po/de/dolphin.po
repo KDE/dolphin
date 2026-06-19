@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2026-05-10 14:53+0200\n"
 "Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1985,31 +1985,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Unterfenster verselbständigen"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "Unterfenster umbenennen"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "&Andere Unterfenster schließen"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Die rechte Ansicht schließen"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Unterfenster schließen"
 
-#: dolphintabbar.cpp:191
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "Unterfenster umbenennen"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Unterfenster umbenennen"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Neuer Unterfenstername:"

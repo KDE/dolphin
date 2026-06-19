@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
-"PO-Revision-Date: 2026-06-15 15:36+0200\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
+"PO-Revision-Date: 2026-06-18 14:00+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -576,20 +576,16 @@ msgid "Move to Other View"
 msgstr "Naar andere weergave verplaatsen"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Naar andere weergave kopiëren"
+msgstr "Focus op andere weergave"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Verplaats focus op toetsenbord naar en van het plaatsenpaneel."
+msgstr "Verplaats focus op toetsenbord naar de inactieve weergave."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1957,31 +1953,44 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Tabblad losmaken"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "Tabblad hernoemen"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Andere tabbladen sluiten"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgid "Close the right pane"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Het rechter paneel sluiten"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Tabblad sluiten"
 
-#: dolphintabbar.cpp:191
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "Tabblad hernoemen"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Tabblad hernoemen"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Nieuwe naam voor tabblad:"

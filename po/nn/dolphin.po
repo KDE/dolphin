@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2024-07-13 22:07+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
@@ -1888,31 +1888,45 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Kopla frå fane"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:189
+#, fuzzy, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "Endra namn på %2"
+
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Lukk andre faner"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Lukk høgre rute"
+
+#: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Lukk fane"
 
-#: dolphintabbar.cpp:191
-#, fuzzy, kde-format
-msgctxt "@action:inmenu"
-msgid "Rename Tab"
-msgstr "Endra namn på %2"
-
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, fuzzy, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Endra namn på %2"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr ""

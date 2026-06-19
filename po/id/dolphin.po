@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:48+0000\n"
+"POT-Creation-Date: 2026-06-19 00:47+0000\n"
 "PO-Revision-Date: 2025-09-15 16:33+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -2069,19 +2069,7 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Lepas Tab"
 
-#: dolphintabbar.cpp:188
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Close Other Tabs"
-msgstr "Tutup Tab Lainnya"
-
 #: dolphintabbar.cpp:189
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Close Tab"
-msgstr "Tutup Tab"
-
-#: dolphintabbar.cpp:191
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -2090,7 +2078,33 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Ganti Nama %2"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:191
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Other Tabs"
+msgstr "Tutup Tab Lainnya"
+
+#: dolphintabbar.cpp:192
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Left"
+msgstr ""
+
+#: dolphintabbar.cpp:194
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu"
+msgid "Close Tabs to the Right"
+msgstr "Tutup tampilan kanan"
+
+#: dolphintabbar.cpp:196
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tab"
+msgstr "Tutup Tab"
+
+#: dolphintabbar.cpp:224
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -2099,7 +2113,7 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Ganti Nama %2"
 
-#: dolphintabbar.cpp:210
+#: dolphintabbar.cpp:224
 #, kde-format
 msgid "New tab name:"
 msgstr "Nama tab baru:"
