@@ -690,7 +690,11 @@ const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewSho
 
 void DolphinTabWidget::openNewTabFromButton()
 {
-    openNewActivatedTab();
+    if (QGuiApplication::keyboardModifiers() & Qt::ShiftModifier) {
+        openNewTab(currentTabPage()->activeViewContainer()->url());
+    } else {
+        openNewActivatedTab();
+    }
 }
 
 #include "moc_dolphintabwidget.cpp"
