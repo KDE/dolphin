@@ -7056,10 +7056,3 @@ msgstr "Forstørre/-minske"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørrelse"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "Bruk tabulatortast for å bytte mellom høyre og venstre visning"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Veksle mellom visninger med «Tab»-tasten"

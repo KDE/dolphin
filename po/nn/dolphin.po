@@ -7021,12 +7021,3 @@ msgstr "Forstørr"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørr"
-
-#, fuzzy
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "Bruk tabulatortast for å byta mellom venstre og høgre rute"
-
-#, fuzzy
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Veksla mellom ruter med «Tab»-tasten"

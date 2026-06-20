@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-14 23:40+0200\n"
+"PO-Revision-Date: 2026-06-19 11:32+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -578,20 +578,16 @@ msgid "Move to Other View"
 msgstr "Přesunout do druhého pohledu"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Kopírovat do druhého pohledu"
+msgstr "Zaměření jiných zobrazení"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Přesunovat zaměření klávesnice na a z panelu míst."
+msgstr "Přesunout zaměření klávesnice na neaktivní zobrazení."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1956,14 +1952,13 @@ msgstr "Zavřít ostatní karty"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Zavřít karty vlevo"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Zavřít pravý panel"
+msgstr "Zavřít karty vpravo"
 
 #: dolphintabbar.cpp:196
 #, kde-format

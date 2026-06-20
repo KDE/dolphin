@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-14 09:41+0200\n"
+"PO-Revision-Date: 2026-06-19 08:58+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -578,20 +578,16 @@ msgid "Move to Other View"
 msgstr "Mou cap a l'altra vista"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Copia a l'altra vista"
+msgstr "Focus a l'altra vista"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Mou el focus del teclat a i des del quadro de Llocs."
+msgstr "Mou el focus del teclat a la vista inactiva."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1980,14 +1976,13 @@ msgstr "Tanca les altres pestanyes"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Tanca les pestanyes de l'esquerra"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Tanca la subfinestra de la dreta"
+msgstr "Tanca les pestanyes de la dreta"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -7108,11 +7103,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr ""
-#~ "Utilitzeu el tabulador per a canviar entre la vista dreta i l'esquerra"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Canvia entre les vistes amb la tecla de tabulació"

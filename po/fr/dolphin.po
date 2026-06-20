@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-14 17:26+0200\n"
+"PO-Revision-Date: 2026-06-18 11:27+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -606,22 +606,16 @@ msgid "Move to Other View"
 msgstr "Déplacer vers l’autre vue"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Copier vers l’autre vue"
+msgstr "Donner le focus à une autre vue"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr ""
-"Déplacer le focus sur le clavier vers et à partir du tableau de bord "
-"« Emplacements »."
+msgstr "Déplacer le focus du clavier vers la vue inactive."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
