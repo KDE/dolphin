@@ -311,7 +311,6 @@ void DolphinTabBar::resizeEvent(QResizeEvent *event)
 void DolphinTabBar::tabLayoutChange()
 {
     QTabBar::tabLayoutChange();
-    installScrollButtonFilters();
     updateNewTabButtonGeometry();
 }
 
@@ -345,41 +344,13 @@ void DolphinTabBar::updateNewTabButtonGeometry()
         m_newTabButton->setGeometry(proposedX, lastTabRect.top(), btnSize, btnSize);
     } else {
         int scrollLeftEdge = width();
-        for (QObject *child : children()) {
-            QToolButton *btn = qobject_cast<QToolButton *>(child);
-            if (btn && btn != m_newTabButton && btn->isVisible()) {
-                if (btn->x() + btn->width() / 2 > width() / 2) {
-                    scrollLeftEdge = qMin(scrollLeftEdge, btn->x());
-                }
-            }
+        const auto *scrollLeftButton = findChild<QToolButton *>(QStringLiteral("ScrollLeftButton"));
+        if (scrollLeftButton && scrollLeftButton->isVisible()) {
+            scrollLeftEdge = scrollLeftButton->x();
         }
         m_newTabButton->setGeometry(qMax(0, scrollLeftEdge - btnSize), 0, btnSize, btnSize);
     }
     m_newTabButton->raise();
-}
-
-void DolphinTabBar::installScrollButtonFilters()
-{
-    for (QObject *child : children()) {
-        QAbstractButton *btn = qobject_cast<QAbstractButton *>(child);
-        if (btn && btn != m_newTabButton) {
-            btn->removeEventFilter(this);
-            btn->installEventFilter(this);
-        }
-    }
-}
-
-bool DolphinTabBar::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == this) {
-        return QTabBar::eventFilter(obj, event);
-    }
-
-    const auto type = event->type();
-    if ((type == QEvent::Show || type == QEvent::Hide) && qobject_cast<QToolButton *>(obj)) {
-        updateNewTabButtonGeometry();
-    }
-    return QTabBar::eventFilter(obj, event);
 }
 
 #include "moc_dolphintabbar.cpp"

@@ -38,7 +38,6 @@ protected:
     void tabLayoutChange() override;
     void tabInserted(int index) override;
     void tabRemoved(int index) override;
-    bool eventFilter(QObject *obj, QEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
@@ -59,7 +58,6 @@ private:
      */
     void updateAutoActivationTimer(const int index);
     void updateNewTabButtonGeometry();
-    void installScrollButtonFilters();
 
 private:
     QTimer *m_autoActivationTimer;
