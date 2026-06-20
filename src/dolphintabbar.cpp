@@ -284,7 +284,7 @@ void DolphinTabBar::setNewTabButtonVisible(bool visible)
             return;
         }
         m_newTabButton = new QToolButton(this);
-        m_newTabButton->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+        m_newTabButton->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::ListAdd));
         m_newTabButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
         m_newTabButton->setToolTip(i18nc("@info:tooltip", "Open a new tab"));
         m_newTabButton->setAutoRaise(true);
