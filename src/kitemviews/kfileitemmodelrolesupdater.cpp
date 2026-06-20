@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QPluginLoader>
+#include <QPointer>
 #include <QScopedValueRollback>
 #include <QTimer>
 #include <chrono>
@@ -138,6 +139,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
 {
     killPreviewJob();
+    for (const QPointer<KIO::ListJob> &job : m_directorySizeCountingJobs) {
+        delete job.data();
+    }
 }
 
 void KFileItemModelRolesUpdater::setIconSize(const QSize &size)
@@ -1294,48 +1298,58 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         }
 
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo, flags);
+        m_directorySizeCountingJobs.append(listJob);
+        connect(listJob, &KJob::finished, this, [this, listJob]() {
+            m_directorySizeCountingJobs.removeOne(listJob);
+        });
 
         // Define a local counter to accumulate results for THIS specific job instance.
         // Using a shared pointer allows the lambda batches to share and update the same state.
         auto totalCount = std::make_shared<int>(0);
 
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item, totalCount](const KJob *job, const KIO::UDSEntryList &list) {
-            Q_UNUSED(job)
-            int index = m_model->index(item);
-            if (index < 0) {
-                return;
-            }
+        QObject::connect(listJob,
+                         &KIO::ListJob::entries,
+                         this,
+                         [this, item, totalCount, model = QPointer<KFileItemModel>(m_model)](const KJob *job, const KIO::UDSEntryList &list) {
+                             Q_UNUSED(job)
+                             if (!model) {
+                                 return;
+                             }
+                             int index = m_model->index(item);
+                             if (index < 0) {
+                                 return;
+                             }
 
-            // Accumulate entries for this batch into our job-specific counter
-            if (!m_model->showDirectoriesOnly()) {
-                *totalCount += list.size();
-            } else {
-                for (const KIO::UDSEntry &entry : list) {
-                    if (entry.isDir()) {
-                        (*totalCount)++;
-                    }
-                }
-            }
+                             // Accumulate entries for this batch into our job-specific counter
+                             if (!m_model->showDirectoriesOnly()) {
+                                 *totalCount += list.size();
+                             } else {
+                                 for (const KIO::UDSEntry &entry : list) {
+                                     if (entry.isDir()) {
+                                         (*totalCount)++;
+                                     }
+                                 }
+                             }
 
-            const int entryCount = *totalCount;
-            auto data = m_model->data(index);
-            int origCount = data.value("count").toInt();
+                             const int entryCount = *totalCount;
+                             auto data = m_model->data(index);
+                             int origCount = data.value("count").toInt();
 
-            QHash<QByteArray, QVariant> newData;
-            QVariant expandable = data.value("isExpandable");
-            if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
-                // if expandable has changed
-                newData.insert("isExpandable", entryCount > 0);
-            }
+                             QHash<QByteArray, QVariant> newData;
+                             QVariant expandable = data.value("isExpandable");
+                             if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
+                                 // if expandable has changed
+                                 newData.insert("isExpandable", entryCount > 0);
+                             }
 
-            if (origCount != entryCount) {
-                newData.insert("count", entryCount);
-            }
+                             if (origCount != entryCount) {
+                                 newData.insert("count", entryCount);
+                             }
 
-            if (!newData.isEmpty()) {
-                setModelData(index, newData);
-            }
-        });
+                             if (!newData.isEmpty()) {
+                                 setModelData(index, newData);
+                             }
+                         });
         return;
     }
 

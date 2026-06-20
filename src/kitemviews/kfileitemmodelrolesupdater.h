@@ -16,6 +16,7 @@
 #include <KFileItem>
 
 #include <QObject>
+#include <QPointer>
 #include <QSet>
 #include <QSize>
 #include <QStringList>
@@ -28,6 +29,7 @@ class KOverlayIconPlugin;
 
 namespace KIO
 {
+class ListJob;
 class PreviewJob;
 }
 
@@ -398,6 +400,8 @@ private:
     KFileItemList m_pendingPreviewItems;
 
     KIO::PreviewJob *m_previewJob;
+
+    QList<QPointer<KIO::ListJob>> m_directorySizeCountingJobs;
 
     // Info about the item that the user currently hovers, and the current sequence
     // index for thumb generation.
