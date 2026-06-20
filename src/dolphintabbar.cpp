@@ -289,7 +289,6 @@ void DolphinTabBar::setNewTabButtonVisible(bool visible)
         m_newTabButton->setToolTip(i18nc("@info:tooltip", "Open a new tab"));
         m_newTabButton->setAutoRaise(true);
         m_newTabButton->setFocusPolicy(Qt::NoFocus);
-        m_newTabButton->setStyleSheet(QStringLiteral("QToolButton:hover { color: palette(highlight); }"));
         connect(m_newTabButton, &QToolButton::clicked, this, &DolphinTabBar::newTabRequested);
         m_newTabButton->show();
     } else {
