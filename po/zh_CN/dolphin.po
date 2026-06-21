@@ -1866,11 +1866,10 @@ msgid "Close Tabs to the Left"
 msgstr ""
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "关闭右侧窗格"
+msgstr ""
 
 #: dolphintabbar.cpp:196
 #, kde-format
