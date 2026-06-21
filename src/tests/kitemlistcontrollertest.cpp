@@ -9,6 +9,8 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/kstandarditemlistwidget.h"
+#include "kitemviews/private/kitemlistviewanimation.h"
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
@@ -84,6 +86,8 @@ private Q_SLOTS:
 
     void testDragMoveHoverIdempotency();
     void testDragLeaveHoverCleanup();
+
+    void testInlineRenameSurvivesNonDeleteAnimations();
 
 private:
     /**
@@ -1354,6 +1358,39 @@ void KItemListControllerTest::testDragLeaveHoverCleanup()
     simulateDragLeave(&mimeData);
     QCOMPARE(unhoveredSpy.count(), 1);
     QCOMPARE(hoveredSpy.count(), 1);
+}
+
+/**
+ * An in-progress inline rename must survive animations that merely move, resize
+ * or (re)create the edited row. Such animations happen routinely while editing
+ * (previews and directory sizes loading, sorting, neighbouring items added or
+ * removed), and cancelling the rename for them made inline renaming appear
+ * broken. Only an item that is actually going away (DeleteAnimation) cancels it.
+ */
+void KItemListControllerTest::testInlineRenameSurvivesNonDeleteAnimations()
+{
+    const int index = 0;
+    m_view->editRole(index, "text");
+
+    auto *widget = qobject_cast<KStandardItemListWidget *>(m_view->m_visibleItems.value(index));
+    QVERIFY(widget);
+    QVERIFY(m_view->m_editingRole);
+    QCOMPARE(widget->editedRole(), QByteArray("text"));
+
+    // Moving the edited row must not cancel the rename.
+    m_view->m_animation->start(widget, KItemListViewAnimation::MovingAnimation, widget->pos() + QPointF(0, 100));
+    QVERIFY(m_view->m_editingRole);
+    QCOMPARE(widget->editedRole(), QByteArray("text"));
+
+    // Neither must a create animation on the edited row.
+    m_view->m_animation->start(widget, KItemListViewAnimation::CreateAnimation);
+    QVERIFY(m_view->m_editingRole);
+    QCOMPARE(widget->editedRole(), QByteArray("text"));
+
+    // But the item actually going away does cancel the rename.
+    m_view->m_animation->start(widget, KItemListViewAnimation::DeleteAnimation);
+    QVERIFY(!m_view->m_editingRole);
+    QVERIFY(widget->editedRole().isEmpty());
 }
 
 QTEST_MAIN(KItemListControllerTest)

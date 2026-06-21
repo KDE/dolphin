@@ -1603,11 +1603,16 @@ void KItemListView::slotSelectionChanged(const KItemSet &current, const KItemSet
 #endif
 }
 
-void KItemListView::slotAnimationStarted(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType /* type */, const QVariant & /* endValue */)
+void KItemListView::slotAnimationStarted(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type, const QVariant & /* endValue */)
 {
-    KStandardItemListWidget *listWidget = qobject_cast<KStandardItemListWidget *>(widget);
-    Q_ASSERT(widget);
-    listWidget->cancelRoleEditing();
+    // Only cancel an in-progress inline rename when the edited item is actually
+    // going away (DeleteAnimation).
+    if (type != KItemListViewAnimation::DeleteAnimation) {
+        return;
+    }
+    if (auto *listWidget = qobject_cast<KStandardItemListWidget *>(widget)) {
+        listWidget->cancelRoleEditing();
+    }
 }
 
 void KItemListView::slotAnimationFinished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type)
