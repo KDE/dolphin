@@ -79,6 +79,14 @@ private Q_SLOTS:
     void cleanupTestCase();
 
 private:
+    /**
+     * Activates the main window and waits for it to become active. Returns false
+     * if it never gets keyboard focus, which happens e.g. on Wayland when the
+     * compositor does not activate the test window. Keyboard- and focus-driven
+     * tests should QSKIP() in that case rather than crash on a null focus widget.
+     */
+    bool tryActivateMainWindow();
+
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
 
@@ -99,6 +107,13 @@ void DolphinMainWindowTest::initTestCase()
 void DolphinMainWindowTest::init()
 {
     m_mainWindow.reset(new DolphinMainWindow());
+}
+
+bool DolphinMainWindowTest::tryActivateMainWindow()
+{
+    // DolphinMainWindow::activateWindow(const QString&) hides QWidget's, so qualify.
+    m_mainWindow->QWidget::activateWindow();
+    return QTest::qWaitForWindowActive(m_mainWindow.data(), 1000);
 }
 
 /**
@@ -456,7 +471,11 @@ void DolphinMainWindowTest::testCreateFileAction()
 
     QSignalSpy createFileActionSpy(createFileAction, &QAction::triggered);
 
-    QTest::keyClick(QApplication::activeWindow(), Qt::Key_N, Qt::ControlModifier | Qt::AltModifier);
+    // The create-file shortcut is a window shortcut, so the window must be active.
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
+    QTest::keyClick(m_mainWindow.data(), Qt::Key_N, Qt::ControlModifier | Qt::AltModifier);
 
     QTRY_COMPARE(createFileActionSpy.count(), 1);
 
@@ -495,7 +514,9 @@ void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
 #endif
     QVERIFY(m_mainWindow->isVisible());
 
-    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
 
@@ -556,7 +577,9 @@ void DolphinMainWindowTest::testFocusLocationBar()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
 #endif
     QVERIFY(m_mainWindow->isVisible());
-    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     QAction *replaceLocationAction = m_mainWindow->actionCollection()->action(QStringLiteral("replace_location"));
     replaceLocationAction->trigger();
@@ -593,7 +616,9 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
 #endif
     QVERIFY(m_mainWindow->isVisible());
     m_mainWindow->windowHandle()->requestActivate();
-    QVERIFY(QTest::qWaitForWindowActive(m_mainWindow.data()));
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
     QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
@@ -649,7 +674,9 @@ void DolphinMainWindowTest::testFocusOtherView()
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
-    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     QAction *const focusOtherViewAction = m_mainWindow->actionCollection()->action(QStringLiteral("focus_inactive_split_view"));
 
@@ -1000,7 +1027,9 @@ void DolphinMainWindowTest::testAccessibilityTree()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
 #endif
     QVERIFY(m_mainWindow->isVisible());
-    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     QAccessibleInterface *accessibleInterfaceOfMainWindow = QAccessible::queryAccessibleInterface(m_mainWindow.get());
     Q_ASSERT(accessibleInterfaceOfMainWindow);
@@ -1136,6 +1165,12 @@ void DolphinMainWindowTest::testInlineRename()
 #endif
     QVERIFY(m_mainWindow->isVisible());
 
+    // Inline rename is driven through the focused editor; without window
+    // activation there is no focus widget and QTest::keyClick() would assert.
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
+
     DolphinView *view = m_mainWindow->activeViewContainer()->view();
     QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
     QSignalSpy itemsReorderedSpy(view->m_model, &KFileItemModel::itemsMoved);
@@ -1215,6 +1250,11 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
 #endif
     QVERIFY(m_mainWindow->isVisible());
     QTRY_COMPARE(view->m_view->m_visibleItems.count(), view->m_model->count()); // wait for all file widgets to be laid out
+
+    // Inline rename below needs the focused editor; skip if the window cannot be activated.
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     // Set image selected and rename it to b.jpg, make sure editing role is working
     view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/a.jpg")});
@@ -1400,6 +1440,12 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
 #endif
     QVERIFY(m_mainWindow->isVisible());
+
+    // This test relies on view activation and an inline-rename editor focus,
+    // which need the window to be active; skip if it cannot get focus.
+    if (!tryActivateMainWindow()) {
+        QSKIP("The window did not get keyboard focus (e.g. Wayland without activation).");
+    }
 
     // Tab 0: Enable split view
     m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->setChecked(true);
