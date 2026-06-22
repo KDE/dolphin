@@ -1863,13 +1863,13 @@ msgstr "关闭其他标签页"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "关闭左边的标签页"
 
 #: dolphintabbar.cpp:194
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr ""
+msgstr "关闭右边的标签页"
 
 #: dolphintabbar.cpp:196
 #, kde-format
