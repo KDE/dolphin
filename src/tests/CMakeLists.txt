@@ -73,6 +73,10 @@ if(NOT WIN32)
     ecm_add_test(dolphinmainwindowtest.cpp testdir.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc
     TEST_NAME dolphinmainwindowtest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+    # DEBUG (throwaway): make QtTest abort with the function name + backtrace if any single test
+    # function runs longer than 20s, instead of the whole test being silently killed by ctest's
+    # 60s timeout. Used to identify which slot hangs on CI (bug: dolphinmainwindowtest Timeout).
+    set_tests_properties(dolphinmainwindowtest PROPERTIES ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=20000")
 endif()
 
 # DragAndDropHelperTest

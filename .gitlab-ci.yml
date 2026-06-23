@@ -5,14 +5,7 @@
 include:
   - project: sysadmin/ci-utilities
     file:
+      # DEBUG (throwaway): only the Qt 6.11 Linux pipeline, where dolphinmainwindowtest hangs.
+      # All other pipelines (Qt-next/6.12, FreeBSD, Windows, Flatpak, Craft, lints) removed to
+      # iterate fast on the hang. Revert this together with the QTEST_FUNCTION_TIMEOUT change.
       - /gitlab-templates/linux-qt6.yml
-      - /gitlab-templates/linux-qt6-next.yml
-      - /gitlab-templates/freebsd-qt6.yml
-      - /gitlab-templates/windows-qt6.yml
-      - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/craft-windows-x86-64-qt6.yml
-
-      - /gitlab-templates/json-validation.yml
-      - /gitlab-templates/xml-lint.yml
-      - /gitlab-templates/yaml-lint.yml
-      - /gitlab-templates/reuse-lint.yml
