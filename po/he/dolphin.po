@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-13 16:38+0300\n"
+"PO-Revision-Date: 2026-06-23 08:41+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -574,20 +574,16 @@ msgid "Move to Other View"
 msgstr "מעבר לתצוגה אחרת"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "העתקה לתצוגה אחרת"
+msgstr "התמקדות בתצוגה אחרת"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "העברת מיקוד המקלדת מלוח המקומות ואליו."
+msgstr "העברת מיקוד המקלדת לתצוגה שאינה פעילה."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1910,14 +1906,13 @@ msgstr "סגירת הלשוניות האחרות"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "סגירת הלשוניות משמאל"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "סגירת התצוגה הימנית"
+msgstr "סגירת הלשוניות מימין"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -6810,17 +6805,16 @@ msgid ""
 msgstr "פתיחת חלון חדש בו ניתן לכוון את כל מאפייני תצוגת התיקייה."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "החזרת התקריב לברירת מחדל"
+msgstr "שחזור לברירות מחדל"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "שחזור הגדרות התצוגה לערך ברירות המחדל"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
