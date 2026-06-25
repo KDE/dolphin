@@ -1,7 +1,7 @@
 # Translation for dolphin.po to Euskara/Basque (eu).
 # Copyright (C) 2007-2026 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# SPDX-FileCopyrightText: 2023, 2024, 2025, 2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023-2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2008, 2010.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-05 02:48+0000\n"
-"PO-Revision-Date: 2026-03-29 21:55+0200\n"
+"PO-Revision-Date: 2026-06-24 14:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4411,7 +4411,7 @@ msgstr "Eskuin aldeko betegarria"
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
-msgstr "Nabarmendu errenkada osoa"
+msgstr "Errenkada osoa nabarmendu"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:43
@@ -4424,7 +4424,7 @@ msgstr "Karpeta zabalgarriak"
 #, kde-format
 msgctxt "@label"
 msgid "Hidden files shown"
-msgstr "Ezkutuko fitxategiak erakutsita"
+msgstr "Ezkutuko fitxategiak erakusten dira"
 
 #. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:12
@@ -4435,7 +4435,7 @@ msgid ""
 "will be shown in the file view."
 msgstr ""
 "Aukera hau gaituta badago ezkutuko fitxategiak, '.' karakterearekin hasten "
-"direnak adibidez, erakutsiko dira fitxategien ikuspegian."
+"direnak adibidez, fitxategien ikuspegian erakutsiko dira."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -4449,8 +4449,7 @@ msgstr "Bertsioa"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr ""
-"Aukera honek ikuspegien propietateen erabilitako bertsioa definitzen du."
+msgstr "Aukera honek ikuspegi-propietateen bertsioa zehazten du."
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -4467,15 +4466,15 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Aukera honek ikuspegiaren estiloa kontrolatzen du. Unean ikono (0), "
-"xehetasun (1) eta zutabeen (2) ikuspegiak onartzen dira."
+"Aukera honek ikuspegiaren estiloa kontrolatzen du. Unean ikonoak (0), "
+"xehetasunak (1) eta zutabe (2) ikuspegiak onartzen dira."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
-msgstr "Aurreikuspegiak erakutsita"
+msgstr "Aurreikuspegiak erakusten dira"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -4485,15 +4484,15 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Aukera hau gaituta dagoenean, fitxategiaren edukiaren aurreikuspegi bat "
-"erakutsiko da ikono gisa."
+"Aukera hau gaituta dagoenean, fitxategi edukiaren aurreikuspegi bat "
+"erakusten da ikono gisa."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
 #, kde-format
 msgctxt "@label"
 msgid "Grouped Sorting"
-msgstr "Taldekatutako ordena"
+msgstr "Sailkapen taldekatua"
 
 #. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:38
@@ -4502,15 +4501,15 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Aukera hau gaituta dagoenean, ordenatutako elementuak taldetan sailkatzen "
-"dira."
+"Aukera hau gaituta dagoenean, sailkatutako elementuak kategoriatan "
+"taldekatzen dira."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
-msgstr "Ordenatu fitxategiak honen arabera"
+msgstr "Fitxategiak honen arabera sailkatu"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:44
@@ -4520,8 +4519,8 @@ msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
 msgstr ""
-"Aukera honek zehazten du sailkapena zein ezaugarriren arabera (testua, "
-"neurria, data, etab.) egingo den."
+"Aukera honek sailkapena zein ezaugarriren arabera (testua, neurria, data, "
+"etab.) egingo den zehazten du."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -6830,7 +6829,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "Sailkatu eremuaren arabera"
+msgstr "Eremuaren arabera sailkatu"
 
 #: views/dolphinviewactionhandler.cpp:397
 #, kde-format
