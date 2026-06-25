@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-04-26 11:29+0200\n"
+"PO-Revision-Date: 2026-06-24 14:18+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -577,20 +577,16 @@ msgid "Move to Other View"
 msgstr "Eraman beste ikuspegira"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Kopiatu beste ikuspegira"
+msgstr "Eraman fokua beste ikuspegira"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Eraman teklatuaren fokua Lekuak panele-ra/tik."
+msgstr "Eraman teklatuaren fokua ikuspegi ez aktibora."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1970,14 +1966,13 @@ msgstr "Itxi beste fitxak"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Itxi ezkerreko fitxak"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Itxi eskuineko beiratea"
+msgstr "Itxi eskuineko fitxak"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -4448,7 +4443,7 @@ msgstr "Eskuin aldeko betegarria"
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
-msgstr "Nabarmendu errenkada osoa"
+msgstr "Errenkada osoa nabarmendu"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:43
@@ -4461,7 +4456,7 @@ msgstr "Karpeta zabalgarriak"
 #, kde-format
 msgctxt "@label"
 msgid "Hidden files shown"
-msgstr "Ezkutuko fitxategiak erakutsita"
+msgstr "Ezkutuko fitxategiak erakusten dira"
 
 #. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:12
@@ -4472,7 +4467,7 @@ msgid ""
 "will be shown in the file view."
 msgstr ""
 "Aukera hau gaituta badago ezkutuko fitxategiak, '.' karakterearekin hasten "
-"direnak adibidez, erakutsiko dira fitxategien ikuspegian."
+"direnak adibidez, fitxategien ikuspegian erakutsiko dira."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -4486,8 +4481,7 @@ msgstr "Bertsioa"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr ""
-"Aukera honek ikuspegien propietateen erabilitako bertsioa definitzen du."
+msgstr "Aukera honek ikuspegi-propietateen bertsioa zehazten du."
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -4504,8 +4498,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Aukera honek ikuspegiaren estiloa kontrolatzen du. Unean ikono (0), "
-"xehetasun (1) eta zutabeen (2) ikuspegiak onartzen dira."
+"Aukera honek ikuspegiaren estiloa kontrolatzen du. Unean ikonoak (0), "
+"xehetasunak (1) eta zutabe (2) ikuspegiak onartzen dira."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4526,7 +4520,7 @@ msgstr "Karpetaren zoom maila."
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
-msgstr "Aurreikuspegiak erakutsita"
+msgstr "Aurreikuspegiak erakusten dira"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:38
@@ -4536,15 +4530,15 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Aukera hau gaituta dagoenean, fitxategiaren edukiaren aurreikuspegi bat "
-"erakutsiko da ikono gisa."
+"Aukera hau gaituta dagoenean, fitxategi edukiaren aurreikuspegi bat "
+"erakusten da ikono gisa."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
 #, kde-format
 msgctxt "@label"
 msgid "Grouped Sorting"
-msgstr "Taldekatutako ordena"
+msgstr "Sailkapen taldekatua"
 
 #. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:44
@@ -4553,15 +4547,15 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Aukera hau gaituta dagoenean, ordenatutako elementuak taldetan sailkatzen "
-"dira."
+"Aukera hau gaituta dagoenean, sailkatutako elementuak kategoriatan "
+"taldekatzen dira."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
-msgstr "Ordenatu fitxategiak honen arabera"
+msgstr "Fitxategiak honen arabera sailkatu"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:50
@@ -4571,17 +4565,15 @@ msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
 msgstr ""
-"Aukera honek zehazten du sailkapena zein ezaugarriren arabera (testua, "
-"neurria, data, etab.) egingo den."
+"Aukera honek sailkapena zein ezaugarriren arabera (testua, neurria, data, "
+"etab.) egingo den zehazten du."
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Ordenatu fitxategiak honen arabera"
+msgstr "Fitxategiak honen arabera taldekatu"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4592,6 +4584,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Aukera honek, taldekatutako sailkapena gaituta dagoenean, fitxategiak zein "
+"atributuren arabera taldekatzen diren zehazten du. Balioa hutsik badago, "
+"taldekatze irizpidea sailkatzeko irizpide bera izango da."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6822,12 +6817,10 @@ msgid "Show Additional Information"
 msgstr "Erakutsi informazio osagarria"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Taldea"
+msgstr "Taldekatu honen arabera"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6836,11 +6829,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Fitxategiak eta karpetak hautatutako atributu baten arabera taldekatzen "
+"ditu. \"Bat ere ez\" aukerak taldekatzea desgaitzen du. \"Sailkatzeko "
+"irizpide bera\" aukerak uneko sailkatze-irizpidea erabiltzen du taldekatzeko."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Bat ere ez"
@@ -6849,7 +6843,7 @@ msgstr "Bat ere ez"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Sailkatzeko irispide bera"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6896,17 +6890,16 @@ msgstr ""
 "daitezkeen."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Zoom lehenetsira"
+msgstr "Lehenespenetara lehengoratu"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Ikuspegi-ezarpenak balio lehenetsietara lehengoratu"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6928,15 +6921,13 @@ msgstr ""
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "Sailkatu eremuaren arabera"
+msgstr "Eremuaren arabera sailkatu"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Sailkatu eremuaren arabera"
+msgstr "Eremuaren arabera taldekatu"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format

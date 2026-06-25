@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-04-16 08:58+0000\n"
+"PO-Revision-Date: 2026-06-24 19:02+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -584,20 +584,16 @@ msgid "Move to Other View"
 msgstr "Færa í hitt yfirlitið"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Afrita í hitt yfirlitið"
+msgstr "Gera hitt yfirlitið virkt"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Færa virkni lyklaborðs af og á spjaldið Staðir."
+msgstr "Færa virkni lyklaborðs á óvirka yfirlitið."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1975,14 +1971,13 @@ msgstr "Loka öðrum flipum"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Loka flipum til vinstri"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Loka hægra spjaldi"
+msgstr "Loka flipum til hægri"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -4566,12 +4561,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Raða skrám eftir"
+msgstr "Hópa skrár eftir"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -6793,12 +6786,10 @@ msgid "Show Additional Information"
 msgstr "Birta viðbótarupplýsingar"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Hópur"
+msgstr "Hópa eftir"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6809,9 +6800,7 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Ekkert"
@@ -6820,7 +6809,7 @@ msgstr "Ekkert"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Sama og Röðun"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6866,17 +6855,16 @@ msgstr ""
 "möppur."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Sjálfgefinn aðdráttur"
+msgstr "Endurheimta sjálfgefið"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Endurheimta sjálfgefnar stillingar yfirlits"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6901,12 +6889,10 @@ msgid "Sort by Field"
 msgstr "Raða eftir gagnasviði"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Raða eftir gagnasviði"
+msgstr "Hópa eftir gagnasviði"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format
