@@ -92,6 +92,15 @@ void DolphinMainWindowTest::initTestCase()
     settings->setShowZoomSlider(true);
     settings->save();
 
+    // Start from a small, consistent icon and preview size so the zoom-level tests have room to zoom in without clamping at the maximum.
+    const int initialIconSize = ZoomLevelInfo::iconSizeForZoomLevel(ZoomLevelInfo::minimumLevel() + 2);
+    for (const auto mode : {DolphinView::IconsView, DolphinView::CompactView, DolphinView::DetailsView}) {
+        ViewModeSettings modeSettings{mode};
+        modeSettings.setIconSize(initialIconSize);
+        modeSettings.setPreviewSize(initialIconSize);
+        modeSettings.save();
+    }
+
     // to save us from kxmlgui / KLocalized warning
     KLocalizedString::setApplicationDomain({"dolphin"});
 }
