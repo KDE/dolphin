@@ -61,11 +61,11 @@ Qt::strong_ordering orderingFromInt(int result)
 
 int orderingToInt(Qt::strong_ordering ordering)
 {
-    if (ordering < 0) {
+    if (is_lt(ordering)) {
         return -1;
     }
 
-    if (ordering > 0) {
+    if (is_gt(ordering)) {
         return 1;
     }
 
@@ -149,7 +149,7 @@ Qt::strong_ordering compareNumericChains(const QString &a, int startA, int endA,
         const int dotB = findDigitRunEnd(b, startB);
 
         const Qt::strong_ordering integerResult = compareDigitStrings(a.mid(startA, dotA - startA), b.mid(startB, dotB - startB));
-        if (integerResult != 0) {
+        if (is_neq(integerResult)) {
             return integerResult;
         }
 
@@ -165,7 +165,7 @@ Qt::strong_ordering compareNumericChains(const QString &a, int startA, int endA,
 
         const Qt::strong_ordering segmentResult =
             compareDigitStrings(a.mid(segmentStartA, segmentEndA - segmentStartA), b.mid(segmentStartB, segmentEndB - segmentStartB));
-        if (segmentResult != 0) {
+        if (is_neq(segmentResult)) {
             return segmentResult;
         }
 
@@ -218,7 +218,7 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
             const Qt::strong_ordering numericResult = compareNumericChains(a, indexA, chainEndA, segmentCountA, b, indexB, chainEndB, segmentCountB);
             indexA = chainEndA;
             indexB = chainEndB;
-            if (numericResult != 0) {
+            if (is_neq(numericResult)) {
                 return numericResult;
             }
 
@@ -236,7 +236,7 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
         }
 
         const Qt::strong_ordering textResult = orderingFromInt(collator.compare(a.mid(indexA, textEndA - indexA), b.mid(indexB, textEndB - indexB)));
-        if (textResult != 0) {
+        if (is_neq(textResult)) {
             return orderingFromInt(collator.compare(a.mid(indexA), b.mid(indexB)));
         }
 
@@ -245,7 +245,7 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
     }
 
     const Qt::strong_ordering remainderResult = orderingFromInt(collator.compare(a.mid(indexA), b.mid(indexB)));
-    if (remainderResult != 0) {
+    if (is_neq(remainderResult)) {
         return remainderResult;
     }
 
@@ -254,7 +254,7 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
     }
 
     const Qt::strong_ordering result = orderingFromInt(QString::compare(a, b, collator.caseSensitivity()));
-    if (result != 0 || collator.caseSensitivity() == Qt::CaseSensitive) {
+    if (is_neq(result) || collator.caseSensitivity() == Qt::CaseSensitive) {
         return result;
     }
 
