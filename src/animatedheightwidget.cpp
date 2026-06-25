@@ -69,7 +69,7 @@ void AnimatedHeightWidget::setVisible(bool visible, Animated animated)
         return;
     }
 
-    m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
+    m_heightAnimation = new QPropertyAnimation(this, "maximumHeight", this);
     m_heightAnimation->setDuration(2 * style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) * GlobalConfig::animationDurationFactor());
 
     m_heightAnimation->setStartValue(height());
