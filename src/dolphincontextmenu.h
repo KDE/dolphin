@@ -115,6 +115,7 @@ private:
         TimelineContext = 4,
         SearchContext = 8,
         RecentlyUsedContext = 16,
+        FileSnapshotsContext = 32,
     };
 
     DolphinMainWindow *m_mainWindow;
