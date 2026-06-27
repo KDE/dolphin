@@ -40,6 +40,7 @@ private Q_SLOTS:
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
+    void testLocalFallbackMigration();
 
 private:
     bool m_globalViewProps;
@@ -110,11 +111,7 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
     QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
-#ifdef Q_OS_WIN
-    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localFolder).remove(QLatin1Char(':'));
-#else
-    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
-#endif
+    const QString destinationDir = props->destinationDir(QStringLiteral("local/")) + ViewProperties::directoryHashForUrl(testDirUrl);
 
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
@@ -648,6 +645,48 @@ void ViewPropertiesTest::testRemotePropsPerFolder()
         ViewProperties props(folderB);
         QCOMPARE(props.viewMode(), defaultMode);
     }
+}
+
+/**
+ * The local fallback store (used when a folder's own properties cannot be
+ * written) used to key entries by the full local path. They are now keyed by a
+ * hash; check that an entry written the old way is migrated to the new location
+ * on first access and its properties are preserved.
+ */
+void ViewPropertiesTest::testLocalFallbackMigration()
+{
+    const QUrl testDirUrl = m_testDir->url();
+    const QString localFolder = testDirUrl.toLocalFile();
+
+    // Make the folder read-only so the fallback store is used rather than the
+    // folder itself.
+    QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
+    auto restorePermissions = qScopeGuard([&localFolder] {
+        QFile(localFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+    });
+
+    const QString localBase = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties/local");
+    const QString oldPath = localBase + localFolder;
+    const QString newPath = localBase + QStringLiteral("/") + ViewProperties::directoryHashForUrl(testDirUrl);
+
+    // Write an entry the way an older Dolphin would have, under the full path.
+    QVERIFY(QDir().mkpath(oldPath));
+    {
+        KConfig oldConfig(oldPath + QStringLiteral("/.directory"), KConfig::SimpleConfig);
+        oldConfig.group(QStringLiteral("Dolphin")).writeEntry("ViewMode", int(DolphinView::DetailsView));
+        oldConfig.sync();
+    }
+    QVERIFY(!QFileInfo::exists(newPath));
+
+    // Constructing ViewProperties migrates the entry to the hashed location and
+    // reads the preserved view mode (the default would be IconsView).
+    {
+        ViewProperties props(testDirUrl);
+        QCOMPARE(props.viewMode(), DolphinView::DetailsView);
+    }
+
+    QVERIFY(QFileInfo::exists(newPath));
+    QVERIFY(!QFileInfo::exists(oldPath));
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

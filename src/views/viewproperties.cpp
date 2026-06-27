@@ -180,6 +180,7 @@ ViewProperties::ViewProperties(const QUrl &url)
         m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
+        const QString localPath = m_filePath;
 
         bool useDestinationDir = !isPartOfHome(m_filePath);
         if (!useDestinationDir) {
@@ -201,14 +202,28 @@ ViewProperties::ViewProperties(const QUrl &url)
         }
 
         if (useDestinationDir) {
+            m_filePath = destinationDir(QStringLiteral("local/")) + directoryHashForUrl(url);
+
+            // Migration: properties for such folders used to be stored under the
+            // full local path, which could exceed path-length limits and exposed
+            // the path in the storage location. Move an existing entry to the
+            // hashed location once.
+            // TODO: remove this block after 2028-06, once Debian 14 (Forky)
+            // has shipped and users have had time to migrate.
+            if (!QFileInfo::exists(m_filePath)) {
 #ifdef Q_OS_WIN
-            // m_filePath probably begins with C:/ - the colon is not a valid character for paths though
-            m_filePath = QDir::separator() + m_filePath.remove(QLatin1Char(':'));
+                // The old path had the drive colon stripped to keep it valid.
+                const QString oldPath = destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localPath).remove(QLatin1Char(':'));
+#else
+                const QString oldPath = destinationDir(QStringLiteral("local")) + localPath;
 #endif
-            m_filePath = destinationDir(QStringLiteral("local")) + m_filePath;
+                if (QFileInfo::exists(oldPath)) {
+                    QDir().rename(oldPath, m_filePath);
+                }
+            }
         }
 
-        if (m_filePath == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
+        if (localPath == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
             useDownloadsView = true;
         }
     } else {
