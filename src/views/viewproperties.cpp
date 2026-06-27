@@ -212,7 +212,7 @@ ViewProperties::ViewProperties(const QUrl &url)
             useDownloadsView = true;
         }
     } else {
-        m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
+        m_filePath = destinationDir(QStringLiteral("remote/")) + directoryHashForUrl(url);
     }
 
     auto propsOpt = loadProperties(m_filePath);

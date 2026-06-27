@@ -39,6 +39,7 @@ private Q_SLOTS:
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
     void testRestoreViewProps();
+    void testRemotePropsPerFolder();
 
 private:
     bool m_globalViewProps;
@@ -604,6 +605,48 @@ void ViewPropertiesTest::testRestoreViewProps()
         props.restoreToDefaults();
         QVERIFY(props.isDefaults());
         QCOMPARE(props.viewMode(), DolphinView::IconsView);
+    }
+}
+
+/**
+ * Regression test for https://bugs.kde.org/show_bug.cgi?id=220326: each
+ * non-local (remote) folder must keep its own view properties rather than all
+ * of them sharing a single "remote" configuration.
+ */
+void ViewPropertiesTest::testRemotePropsPerFolder()
+{
+    // Start from a clean remote store so a previous run does not influence us.
+    const QString remoteBase = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties/remote");
+    QDir(remoteBase).removeRecursively();
+
+    const QUrl folderA(QStringLiteral("smb://server/share/folderA"));
+    const QUrl folderB(QStringLiteral("smb://server/share/folderB"));
+
+    // Read the default view mode, then pick a different one to apply.
+    DolphinView::Mode defaultMode;
+    {
+        ViewProperties props(folderA);
+        defaultMode = props.viewMode();
+    }
+    const DolphinView::Mode customMode = defaultMode == DolphinView::IconsView ? DolphinView::DetailsView : DolphinView::IconsView;
+
+    // Customize and save the first remote folder.
+    {
+        ViewProperties props(folderA);
+        props.setViewMode(customMode);
+        props.save();
+    }
+
+    // The first remote folder remembers its customization across instances.
+    {
+        ViewProperties props(folderA);
+        QCOMPARE(props.viewMode(), customMode);
+    }
+
+    // A different remote folder keeps the default, not the first folder's mode.
+    {
+        ViewProperties props(folderB);
+        QCOMPARE(props.viewMode(), defaultMode);
     }
 }
 
