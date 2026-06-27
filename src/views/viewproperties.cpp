@@ -182,14 +182,20 @@ ViewProperties::ViewProperties(const QUrl &url)
         m_filePath = url.toLocalFile();
         const QString localPath = m_filePath;
 
+        // Resolve symlinks (bug 477662).
+        const QFileInfo dirInfo(m_filePath);
+        if (const QString canonicalPath = dirInfo.canonicalFilePath(); !canonicalPath.isEmpty()) {
+            m_filePath = canonicalPath;
+        }
+        const QUrl canonicalUrl = QUrl::fromLocalFile(m_filePath);
+
         bool useDestinationDir = !isPartOfHome(m_filePath);
         if (!useDestinationDir) {
-            const KFileItem fileItem(url);
+            const KFileItem fileItem(canonicalUrl);
             useDestinationDir = fileItem.isSlow();
         }
 
         if (!useDestinationDir) {
-            const QFileInfo dirInfo(m_filePath);
             const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
             bool dirWritable = dirInfo.isWritable();
 #ifdef Q_OS_WIN
@@ -202,7 +208,7 @@ ViewProperties::ViewProperties(const QUrl &url)
         }
 
         if (useDestinationDir) {
-            m_filePath = destinationDir(QStringLiteral("local/")) + directoryHashForUrl(url);
+            m_filePath = destinationDir(QStringLiteral("local/")) + directoryHashForUrl(canonicalUrl);
 
             // Migration: properties for such folders used to be stored under the
             // full local path, which could exceed path-length limits and exposed

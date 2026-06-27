@@ -41,6 +41,7 @@ private Q_SLOTS:
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
+    void testSymlinkSharesProperties();
 
 private:
     bool m_globalViewProps;
@@ -687,6 +688,45 @@ void ViewPropertiesTest::testLocalFallbackMigration()
 
     QVERIFY(QFileInfo::exists(newPath));
     QVERIFY(!QFileInfo::exists(oldPath));
+}
+
+/**
+ * A folder and a symbolic link pointing at it reference the same content, so
+ * they should share their view properties. When the properties are kept in the
+ * local fallback store (here forced by making the folder read-only), they used
+ * to be keyed by the requested path, so the link and its target got separate
+ * entries. Check that they now resolve to the same entry. See bug 477662.
+ */
+void ViewPropertiesTest::testSymlinkSharesProperties()
+{
+    const QUrl targetUrl = m_testDir->url();
+    const QString targetFolder = targetUrl.toLocalFile();
+
+    const QString linkPath = QDir::homePath() + QStringLiteral("/.viewPropertiesTestLink-") + QString::number(QCoreApplication::applicationPid());
+    QVERIFY(QFile::link(targetFolder, linkPath));
+    auto removeLink = qScopeGuard([&linkPath] {
+        QFile::remove(linkPath);
+    });
+
+    // Make the folder read-only so the local fallback store is used rather than
+    // the folder itself.
+    QVERIFY(QFile(targetFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+    auto restorePermissions = qScopeGuard([&targetFolder] {
+        QFile(targetFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+    });
+
+    // Customize the view mode through the real folder.
+    {
+        ViewProperties props(targetUrl);
+        props.setViewMode(DolphinView::CompactView);
+    }
+
+    // Accessing the folder through the symlink yields the same properties; the
+    // default would be IconsView.
+    {
+        ViewProperties props(QUrl::fromLocalFile(linkPath));
+        QCOMPARE(props.viewMode(), DolphinView::CompactView);
+    }
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)
