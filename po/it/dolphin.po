@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-13 10:49+0200\n"
+"PO-Revision-Date: 2026-06-19 15:50+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -573,20 +573,16 @@ msgid "Move to Other View"
 msgstr "Sposta nell'altra vista"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Copia nell'altra vista"
+msgstr "Altra vista in primo piano"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Sposta l'attivazione della tastiera da e verso il pannello Risorse."
+msgstr "Spostare il fuoco della tastiera sulla vista inattiva."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1983,14 +1979,13 @@ msgstr "Chiudi altre schede"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Chiudi le schede a sinistra"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Chiudi il pannello destro"
+msgstr "Chiudi le schede a destra"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -6937,17 +6932,16 @@ msgstr ""
 "possono essere modificate."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Zoom predefinito"
+msgstr "Ripristina valori predefiniti"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Ripristina le impostazioni di visualizzazione ai valori predefiniti"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
