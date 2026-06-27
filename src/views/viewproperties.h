@@ -126,6 +126,13 @@ public:
     QString destinationDir(const QString &subDir) const;
 
     /**
+     * @return A hash-value for a URL that can be used as a directory name.
+     *         Used to store view-properties for non-local or long URLs without
+     *         embedding the path (which can be long or privacy-sensitive).
+     */
+    static QString directoryHashForUrl(const QUrl &url);
+
+    /**
      * Restore the view settings to the default settings
      * Depending on the view type.
      *
@@ -165,12 +172,6 @@ private:
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
      */
     static bool isPartOfHome(const QString &filePath);
-
-    /**
-     * @return A hash-value for an URL that can be used as directory name.
-     *         Is used to be able to remember view-properties for long baloo-URLs.
-     */
-    static QString directoryHashForUrl(const QUrl &url);
 
     /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
     ViewPropertySettings *loadProperties(const QString &folderPath) const;
