@@ -343,20 +343,10 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         drawSiblingsInformation(painter);
     }
 
-    auto pixmap = m_pixmap;
-    if (!m_overlays.isEmpty()) {
-        const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
-
-        const bool iconOnTop = (m_layout == IconsLayout);
-        const KItemListStyleOption &option = styleOption();
-        const qreal padding = option.padding;
-
-        const int widgetIconSize = styleOption().iconSize;
-        const int maxIconWidth = iconOnTop ? size().width() - 2 * padding : widgetIconSize;
-        const int maxIconHeight = widgetIconSize;
-
-        pixmap = addOverlays(pixmap, m_overlays, QSize(maxIconWidth, maxIconHeight), dpr);
-    }
+    // Overlays are not baked into the icon pixmap: it gets rescaled to its final
+    // size in drawPixmap(), which would rescale them too. They are drawn at a
+    // fixed size by drawOverlays() below. See bug 498211.
+    const auto pixmap = m_pixmap;
 
     const KItemListStyleOption &itemListStyleOption = styleOption();
     if (isHovered() && !pixmap.isNull()) {
@@ -404,6 +394,10 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         }
     } else if (!pixmap.isNull()) {
         drawPixmap(painter, pixmap);
+    }
+
+    if (!m_overlays.isEmpty() && !pixmap.isNull()) {
+        drawOverlays(painter);
     }
 
     painter->setFont(m_customizedFont);
@@ -1591,19 +1585,18 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
         QColor((c1.red() * p1 + c2.red() * p2) / 100, (c1.green() * p1 + c2.green() * p2) / 100, (c1.blue() * p1 + c2.blue() * p2) / 100);
 }
 
-QPixmap
-KStandardItemListWidget::addOverlays(const QPixmap &pixmap, const QHash<Qt::Corner, QString> &overlays, const QSize &size, qreal dpr, QIcon::Mode mode) const
+void KStandardItemListWidget::drawOverlays(QPainter *painter) const
 {
     // similar to KIconUtils::addOverlays, keep in sync preferably
-    if (overlays.isEmpty()) {
-        return pixmap;
+    if (m_overlays.isEmpty()) {
+        return;
     }
 
-    int width = size.width();
-    int height = size.height();
-    const int iconSize = qMin(width, height);
+    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
-    // Determine the overlay icon
+    // Size depends only on the zoom-level icon size, so it is consistent between
+    // files regardless of thumbnail aspect ratio.
+    const int iconSize = styleOption().iconSize;
     int overlaySize;
     if (iconSize < 32) {
         overlaySize = 8;
@@ -1617,48 +1610,45 @@ KStandardItemListWidget::addOverlays(const QPixmap &pixmap, const QHash<Qt::Corn
         overlaySize = 64;
     }
 
-    auto phyiscalSize = QSize(std::clamp(pixmap.width(), qFloor(2 * overlaySize * dpr), qFloor(size.width() * dpr)),
-                              std::clamp(pixmap.height(), qFloor(2 * overlaySize * dpr), qFloor(size.height() * dpr)));
+    // Anchor to the corners of the icon as actually drawn on screen.
+    QRectF iconRect(m_pixmapPos, QSizeF(m_scaledPixmapSize));
 
-    QPixmap output(phyiscalSize);
-    output.setDevicePixelRatio(dpr);
-    output.fill(Qt::transparent);
+    // Clamp to the thumbnail height so the overlay never spills onto the file name
+    // below a short thumbnail.
+    overlaySize = qMin<int>(overlaySize, qFloor(iconRect.height()));
+    if (overlaySize <= 0) {
+        return;
+    }
 
-    QPainter painter(&output);
-    painter.drawPixmap(qFloor(phyiscalSize.width() / dpr / 2) - qFloor(pixmap.width() / pixmap.devicePixelRatio() / 2),
-                       // align the icon to the bottom to match the behavior elsewhere
-                       qFloor(phyiscalSize.height() / dpr) - qFloor(pixmap.height() / pixmap.devicePixelRatio()),
-                       pixmap);
+    // For a thumbnail narrower than the overlay, grow the anchor into the side
+    // margins so the overlays sit beside it rather than on top of it.
+    if (iconRect.width() < overlaySize) {
+        iconRect.adjust(-overlaySize, 0, overlaySize, 0);
+    }
 
-    width = qCeil(phyiscalSize.width() / dpr);
-    height = qCeil(phyiscalSize.height() / dpr);
-
-    // Iterate over stored overlays
-    for (const auto &[corner, overlay] : overlays.asKeyValueRange()) {
-        const QPixmap overlayPixmap = QIcon::fromTheme(overlay).pixmap(QSize{overlaySize, overlaySize}, dpr, mode);
+    for (const auto &[corner, overlay] : m_overlays.asKeyValueRange()) {
+        const QPixmap overlayPixmap = QIcon::fromTheme(overlay).pixmap(QSize{overlaySize, overlaySize}, dpr);
         if (overlayPixmap.isNull()) {
             continue;
         }
 
-        QPoint startPoint;
+        QPointF startPoint;
         switch (corner) {
         case Qt::BottomLeftCorner:
-            startPoint = QPoint{0, height - overlaySize};
+            startPoint = QPointF{iconRect.left(), iconRect.bottom() - overlaySize};
             break;
         case Qt::BottomRightCorner:
-            startPoint = QPoint{width - overlaySize, height - overlaySize};
+            startPoint = QPointF{iconRect.right() - overlaySize, iconRect.bottom() - overlaySize};
             break;
         case Qt::TopRightCorner:
-            startPoint = QPoint{width - overlaySize, 0};
+            startPoint = QPointF{iconRect.right() - overlaySize, iconRect.top()};
             break;
         case Qt::TopLeftCorner:
-            startPoint = QPoint{};
+            startPoint = iconRect.topLeft();
             break;
         }
-        painter.drawPixmap(startPoint, overlayPixmap);
+        painter->drawPixmap(startPoint, overlayPixmap);
     }
-
-    return output;
 }
 
 void KStandardItemListWidget::drawPixmap(QPainter *painter, const QPixmap &pixmap)
