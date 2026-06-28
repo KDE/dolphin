@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-13 17:25+0200\n"
+"PO-Revision-Date: 2026-06-27 12:36+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -579,20 +579,16 @@ msgid "Move to Other View"
 msgstr "Przenieś do drugiego widoku"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Skopiuj do innego widoku"
+msgstr "Przejdź do drugiego widoku"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Przenieś obsługę klawiatury z i do paska miejsc."
+msgstr "Przenieś obsługę klawiatury do nieaktywnego widoku."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1968,14 +1964,13 @@ msgstr "Zamknij inne karty"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Zamknij karty po lewej"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Zamknij prawy widok"
+msgstr "Zamknij karty po prawej"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -6912,17 +6907,16 @@ msgid ""
 msgstr "To otwiera okno, w którym można dostosować wszystkie właściwości okna."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Domyślny poziom powiększenia"
+msgstr "Przywróć domyślne"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Przywróć ustawienia widoku do wartości domyślnych"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
