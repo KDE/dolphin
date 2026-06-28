@@ -1445,7 +1445,7 @@ msgstr ""
 "para><para>Tots els fitxers i carpetes estan organitzats en un "
 "<emphasis>sistema de fitxers</emphasis> jeràrquic. En la part superior "
 "d'esta jerarquia hi ha un directori que conté totes les dades connectades "
-"amb este ordinador -el <emphasis>directori arrel</emphasis>-.</para>"
+"amb este ordinador – el <emphasis>directori arrel</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2883
 #, kde-format
@@ -1639,7 +1639,7 @@ msgid ""
 msgstr ""
 "Obri una finestra a on es poden canviar moltes opcions d'esta aplicació. Per "
 "a una explicació de les diverses opcions aneu fins al capítol "
-"<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda -> Manual de "
+"<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda → Manual de "
 "Dolphin</interface>."
 
 #. i18n: If the external link isn't available in your language it might make
@@ -2566,7 +2566,7 @@ msgstr "%1 × %2"
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
-msgstr "0 - 9"
+msgstr "0 – 9"
 
 #: kitemviews/kfileitemmodel.cpp:2394
 #, kde-format
@@ -3677,7 +3677,7 @@ msgstr "Indexació de fitxers"
 #, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Busca a:"
+msgstr "Busca en:"
 
 #: search/popup.cpp:77
 #, kde-format
@@ -4802,7 +4802,7 @@ msgstr "Mostra informació de l'element en passar-hi per damunt"
 #: settings/dolphin_generalsettings.kcfg:140
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
-msgstr "Marca horària des de quan són vàlides les propietats de la vista"
+msgstr "Marca de temps des de quan són vàlides les propietats de la vista"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
 #: settings/dolphin_generalsettings.kcfg:143
@@ -6105,17 +6105,17 @@ msgstr "S'està instal·lant Filelight…"
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Estadístiques d'ús del disc - carpeta actual"
+msgstr "Estadístiques d'ús del disc – carpeta actual"
 
 #: statusbar/diskspaceusagemenu.cpp:96
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "Estadístiques d'ús del disc - dispositiu actual"
+msgstr "Estadístiques d'ús del disc – dispositiu actual"
 
 #: statusbar/diskspaceusagemenu.cpp:109
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr "Estadístiques d'ús del disc - tots els dispositius"
+msgstr "Estadístiques d'ús del disc – tots els dispositius"
 
 #: statusbar/diskspaceusagemenu.cpp:122
 #, kde-format
@@ -6818,7 +6818,7 @@ msgstr ""
 "poden ocultar si els seus noms es llisten en un fitxer de text anomenat «."
 "hidden». Els fitxers amb el tipus MIME «application/x-trash», com els "
 "fitxers de còpia de seguretat, també es poden ocultar marcant esta opció a "
-"«Configura Dolphin -> Visualitza -> General».</para>"
+"«Configura Dolphin → Visualitza → General».</para>"
 
 #: views/dolphinviewactionhandler.cpp:354
 #, kde-format
