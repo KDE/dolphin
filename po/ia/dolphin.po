@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-06-26 17:59+0200\n"
+"PO-Revision-Date: 2026-06-30 16:00+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -574,20 +574,16 @@ msgid "Move to Other View"
 msgstr "Move a altere vista"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Copia a altere vista"
+msgstr "Foco sur  altere vista"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Move foco de claviero a e ab le pannello de Placias."
+msgstr "Move foco de claviero al vista inactive."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -3930,7 +3926,7 @@ msgstr " && "
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr "Necun"
+msgstr "Nulle"
 
 #: selectionmode/bottombarcontentscontainer.cpp:168
 #, kde-format
@@ -4591,6 +4587,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"ste option defini per qual attributo le elementos es gruppate quando le  "
+"ordination gruppate es activate. Un valor vacue significa que le criterio  "
+"de gruppamento seque le criterio de ordination."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6830,18 +6829,21 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Isto gruppa files e dossieres per un attributo seligite. \"Nulle\" "
+"dishabilita le gruppamento. \"Mesme que Ordinar\" gruppa per le criterio de "
+"ordination active."
 
 #: views/dolphinviewactionhandler.cpp:346
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "Necun"
+msgstr "Nulle"
 
 #: views/dolphinviewactionhandler.cpp:353
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Mesme que ordinar"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6896,7 +6898,7 @@ msgstr "Restabili a valores predefinite"
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Restabili Preferentias de Vista a valores predefinite"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
