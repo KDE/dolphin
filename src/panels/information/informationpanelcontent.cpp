@@ -23,7 +23,9 @@
 
 #include <Baloo/FileMetaDataWidget>
 
+#include <QDebug>
 #include <QDialogButtonBox>
+#include <QElapsedTimer>
 #include <QGesture>
 #include <QLabel>
 #include <QPainter>
@@ -196,6 +198,9 @@ void InformationPanelContent::refreshPixmapView()
 
 void InformationPanelContent::refreshPreview()
 {
+    QElapsedTimer timer;
+    timer.start();
+
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
     if (m_previewJob) {
@@ -218,7 +223,10 @@ void InformationPanelContent::refreshPreview()
             refreshPixmapView();
 
             const QString mimeType = m_item.mimetype();
+            QElapsedTimer probeTimer;
+            probeTimer.start();
             const bool isAnimatedImage = m_preview->isAnimatedMimeType(mimeType);
+            qDebug() << "isAnimatedMimeType --- " << probeTimer.elapsed() << " ms";
             m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
             bool useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
@@ -263,6 +271,8 @@ void InformationPanelContent::refreshPreview()
         m_preview->hide();
         m_mediaWidget->hide();
     }
+
+    qDebug() << "refreshPreview --- " << timer.elapsed() << " ms";
 }
 
 void InformationPanelContent::configureShownProperties()
