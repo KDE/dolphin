@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-05 02:48+0000\n"
-"PO-Revision-Date: 2026-01-20 20:35+0100\n"
+"PO-Revision-Date: 2026-07-02 11:40+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1228,7 +1228,7 @@ msgstr "Flytta tangentbordsfokus till och från terminalpanelen."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Följ katalogbyte"
 
 #: dolphinmainwindow.cpp:2503
 #, kde-format
@@ -1237,6 +1237,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Bestämmer om den aktuella arbetskatalogen måste hållas synkroniserad med "
+"terminalen vid byte av katalog."
 
 #: dolphinmainwindow.cpp:2519
 #, kde-format
@@ -2080,21 +2082,16 @@ msgid "No items found."
 msgstr "Inga objekt hittades."
 
 #: dolphinviewcontainer.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "En fil"
+msgstr "Öppna som fil"
 
 #: dolphinviewcontainer.cpp:754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Kunde inte komma åt <filename>%1</filename>."
+msgstr "Försöker öppna en fil som en katalog: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:906
 #, kde-format
@@ -2916,12 +2913,9 @@ msgid "Artist"
 msgstr "Artist"
 
 #: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2838
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Ljudfiler"
+msgstr "Ljudkodare"
 
 #: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
@@ -2964,12 +2958,9 @@ msgid "Video"
 msgstr "Video"
 
 #: kitemviews/kfileitemmodel.cpp:2840
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Color Depth"
 msgctxt "@label"
 msgid "Color Space"
-msgstr "Färgdjup"
+msgstr "Färgrymd"
 
 #: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
@@ -2979,15 +2970,12 @@ msgstr "Bildfrekvens"
 #: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Bildpunktsformat"
 
 #: kitemviews/kfileitemmodel.cpp:2846
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Videokodare"
 
 #: kitemviews/kfileitemmodel.cpp:2848
 msgctxt "@label"
@@ -4174,12 +4162,10 @@ msgid "Exit Selection Mode"
 msgstr "Avsluta markeringsläge"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Sammanhangsberoende meny"
+msgstr "Sammanhangsberoende menyåtgärder"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4188,18 +4174,16 @@ msgid "Search…"
 msgstr "Sök..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Ladda ner nya tjänster…"
+msgstr "Nerladdningstjänster…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Genvägar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4642,11 +4626,9 @@ msgstr "Ska flikar ha stängningsknappar"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Datumstil:"
+msgstr "Flikstil"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4911,9 +4893,7 @@ msgid "Warning"
 msgstr "Varning"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
 msgstr "Fråga efter bekräftelse i alla KDE-program när:"
@@ -5080,12 +5060,10 @@ msgid "Always show tab bar"
 msgstr "Visa alltid flikrad"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Beteckningsbredd:"
+msgstr "Flikbredd:"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -5097,27 +5075,25 @@ msgstr "Visa stängningsknappar på flikar"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Flikbredd anpassas till katalognamn"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Alla flikar har samma fasta bredd"
 
 #: settings/interface/folderstabssettingspage.cpp:132
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Flikar upptar hela tillgängliga bredden"
 
 #: settings/interface/folderstabssettingspage.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Datumstil:"
+msgstr "Flikstil: "
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
