@@ -161,7 +161,12 @@ void InformationPanelContent::showItem(const KFileItem &item)
         refreshMetaData();
     }
 
-    refreshPreview();
+    QMetaObject::invokeMethod(
+        this,
+        [this]() {
+            refreshPreview();
+        },
+        Qt::QueuedConnection);
 }
 
 void InformationPanelContent::refreshPixmapView()
