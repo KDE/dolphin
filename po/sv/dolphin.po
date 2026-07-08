@@ -2,7 +2,7 @@
 # Copyright (C) 2007 This file is part of KDE
 # This file is distributed under the same license as the kdebase package.
 #
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2024, 2025, 2026 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# SPDX-FileCopyrightText: 2007-2010, 2024-2026 Stefan Asserhäll <stefan.asserhall@gmail.com>
 # Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-01-20 20:35+0100\n"
+"PO-Revision-Date: 2026-07-07 15:59+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -575,20 +575,16 @@ msgid "Move to Other View"
 msgstr "Flytta till andra vyn"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Kopiera till andra vyn"
+msgstr "Fokusera andra vyn"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Flytta tangentbordsfokus till och från platspanelen."
+msgstr "Flytta tangentbordsfokus till den inaktiva vyn."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1211,7 +1207,7 @@ msgstr "Flytta tangentbordsfokus till och från terminalpanelen."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Följ katalogbyte"
 
 #: dolphinmainwindow.cpp:2477
 #, kde-format
@@ -1220,6 +1216,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Bestämmer om den aktuella arbetskatalogen måste hållas synkroniserad med "
+"terminalen vid byte av katalog."
 
 #: dolphinmainwindow.cpp:2493
 #, kde-format
@@ -1763,7 +1761,7 @@ msgstr "Lägg till nätverkskatalog"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "Öppna KDE-anslut"
 
 #: dolphinnavigatorswidgetaction.cpp:351
 #, kde-format
@@ -1956,14 +1954,13 @@ msgstr "Stäng övriga flikar"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Stäng flikar till vänster"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Stäng höger ruta"
+msgstr "Stäng flikar till höger"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -2082,21 +2079,16 @@ msgid "No items found."
 msgstr "Inga objekt hittades."
 
 #: dolphinviewcontainer.cpp:733
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "En fil"
+msgstr "Öppna som fil"
 
 #: dolphinviewcontainer.cpp:750
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Could not access <filename>%1</filename>."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
-msgstr "Kunde inte komma åt <filename>%1</filename>."
+msgstr "Försöker öppna en fil som en katalog: <filename>%1</filename>"
 
 #: dolphinviewcontainer.cpp:914
 #, kde-format
@@ -2166,35 +2158,33 @@ msgid "Filter…"
 msgstr "Filter…"
 
 #: filterbar/filterbar.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgid "Invalid expression"
-msgstr "Felaktigt protokoll"
+msgstr "Ogiltigt uttryck"
 
 #: filterbar/filterbar.cpp:60
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "Matcha skiftläge"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "Vanlig text"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "Jokertecken"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Reguljärt uttryck"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -2949,12 +2939,9 @@ msgid "Artist"
 msgstr "Artist"
 
 #: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3149
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "Ljudfiler"
+msgstr "Ljudkodare"
 
 #: kitemviews/kfileitemmodel.cpp:3143 kitemviews/kfileitemmodel.cpp:3150
 msgctxt "@label"
@@ -2997,12 +2984,9 @@ msgid "Video"
 msgstr "Video"
 
 #: kitemviews/kfileitemmodel.cpp:3151
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Color Depth"
 msgctxt "@label"
 msgid "Color Space"
-msgstr "Färgdjup"
+msgstr "Färgrymd"
 
 #: kitemviews/kfileitemmodel.cpp:3154
 msgctxt "@label"
@@ -3012,15 +2996,12 @@ msgstr "Bildfrekvens"
 #: kitemviews/kfileitemmodel.cpp:3156
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Bildpunktsformat"
 
 #: kitemviews/kfileitemmodel.cpp:3157
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "Video"
+msgstr "Videokodare"
 
 #: kitemviews/kfileitemmodel.cpp:3159
 msgctxt "@label"
@@ -3037,12 +3018,9 @@ msgid "Other"
 msgstr "Övriga"
 
 #: kitemviews/kfileitemmodel.cpp:3160
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "File Name"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "Filnamn"
+msgstr "Katalognamn"
 
 #: kitemviews/kfileitemmodel.cpp:3161
 msgctxt "@label"
@@ -4216,12 +4194,10 @@ msgid "Exit Selection Mode"
 msgstr "Avsluta markeringsläge"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Sammanhangsberoende meny"
+msgstr "Sammanhangsberoende menyalternativ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4230,18 +4206,16 @@ msgid "Search…"
 msgstr "Sök..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Ladda ner nya tjänster…"
+msgstr "Ladda ner tjänster…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Genvägar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4511,19 +4485,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "Nollställ zoomnivå"
+msgstr "Zoomnivå"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "Katalogens zoomnivå."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -4579,12 +4551,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Sortera filer enligt"
+msgstr "Gruppera filer enligt"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4595,6 +4565,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Alternativet definierar vilka egenskapsobjekt grupperas enligt när grupperad "
+"sortering är aktiverad. Ett tomt värde innebär att grupperingsalternativet "
+"följer sorteringsalternativet."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -4719,11 +4692,9 @@ msgstr "Ska flikar ha stängningsknappar"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Datumstil:"
+msgstr "Flikstil"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4982,9 +4953,7 @@ msgid "Warning"
 msgstr "Varning"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
 msgstr "Fråga efter bekräftelse i alla KDE-program när:"
@@ -5151,12 +5120,10 @@ msgid "Always show tab bar"
 msgstr "Visa alltid flikrad"
 
 #: settings/interface/folderstabssettingspage.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab width:"
-msgstr "Beteckningsbredd:"
+msgstr "Flikbredd:"
 
 #: settings/interface/folderstabssettingspage.cpp:126
 #, kde-format
@@ -5168,27 +5135,25 @@ msgstr "Visa stängningsknappar på flikar"
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tab width adapts to folder name"
-msgstr ""
+msgstr "Flikbredd anpassas till katalognamn"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab width"
 msgid "Tabs all have the same fixed width"
-msgstr ""
+msgstr "Alla flikar har samma fasta bredd"
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Flikar upptar hela tillgängliga bredden"
 
 #: settings/interface/folderstabssettingspage.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Datumstil:"
+msgstr "Flikstil: "
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -6550,15 +6515,14 @@ msgid "No Apple devices found"
 msgstr "Inga Apple-enheter hittades"
 
 #: views/dolphinview.cpp:2834
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Inga Apple-enheter hittades"
+msgstr "Inga apparater med KDE-anslut hittades"
 
 #: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "Ingen lagring hittades på den här enheten"
 
 #: views/dolphinview.cpp:2839
 #, kde-format
@@ -6821,12 +6785,10 @@ msgid "Show Additional Information"
 msgstr "Visa ytterligare information"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Grupp"
+msgstr "Gruppera enligt"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6835,11 +6797,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Grupperar filer och kataloger enligt en vald egenskap. \"Ingen\" inaktiverar "
+"gruppering. \"Samma som Sortera\" grupperar enligt aktivt "
+"sorteringsalternativ."
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Ingen"
@@ -6848,7 +6811,7 @@ msgstr "Ingen"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Samma som Sortera"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6893,17 +6856,16 @@ msgstr ""
 "Öppnar ett fönster där alla katalogens visningsegenskaper kan anpassas."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Zooma till standardvärde"
+msgstr "Återställ till förval"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Återställ visningsinställningarna till förvalda värden"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6928,12 +6890,10 @@ msgid "Sort by Field"
 msgstr "Sortera enligt fält"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Sortera enligt fält"
+msgstr "Gruppera enligt fält"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format
