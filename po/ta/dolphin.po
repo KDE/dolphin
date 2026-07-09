@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-19 00:47+0000\n"
+"POT-Creation-Date: 2026-07-09 00:47+0000\n"
 "PO-Revision-Date: 2026-05-02 18:08+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -3319,13 +3319,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "குறுந்தேதி"
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:109
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "காட்ட வேண்டிய விவரங்களை தேர்வு செய்யுங்கள்:"
 
-#: panels/information/informationpanelcontent.cpp:289
+#: panels/information/informationpanelcontent.cpp:293
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

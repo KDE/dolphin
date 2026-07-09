@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-19 00:47+0000\n"
+"POT-Creation-Date: 2026-07-09 00:47+0000\n"
 "PO-Revision-Date: 2026-06-19 07:17+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3412,13 +3412,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "თარიღის მოკლე ფორმატი"
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:109
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "აირჩიეთ საჩვენებელი მონაცემები:"
 
-#: panels/information/informationpanelcontent.cpp:289
+#: panels/information/informationpanelcontent.cpp:293
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

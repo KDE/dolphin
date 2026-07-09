@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-19 00:47+0000\n"
+"POT-Creation-Date: 2026-07-09 00:47+0000\n"
 "PO-Revision-Date: 2024-03-16 23:04+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -3189,13 +3189,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:109
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:289
+#: panels/information/informationpanelcontent.cpp:293
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
