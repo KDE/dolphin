@@ -215,11 +215,9 @@ private:
     void updateCompactLayoutTextCache();
     void updateDetailsLayoutTextCache();
 
-    QPixmap addOverlays(const QPixmap &pixmap,
-                        const QHash<Qt::Corner, QString> &overlays,
-                        const QSize &size,
-                        qreal devicePixelRatioF,
-                        QIcon::Mode mode = QIcon::Normal) const;
+    /** Draw the icon overlays at a fixed size in the corners of the on-screen
+     *  icon. Must be called after the icon itself has been drawn. */
+    void drawOverlays(QPainter *painter) const;
 
     void drawPixmap(QPainter *painter, const QPixmap &pixmap);
     /** Draw the lines and arrows that visualize the expanded state and level of this row. */
