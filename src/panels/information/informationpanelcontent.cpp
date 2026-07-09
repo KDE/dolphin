@@ -213,7 +213,10 @@ void InformationPanelContent::refreshPreview()
     }
 
     m_preview->setCursor(Qt::ArrowCursor);
+    QElapsedTimer nameTimer;
+    nameTimer.start();
     setNameLabelText(m_item.text());
+    qDebug() << "setNameLabelText --- " << nameTimer.elapsed() << " ms";
     if (InformationPanelSettings::previewsShown()) {
         const QUrl itemUrl = m_item.url();
         const bool isSearchUrl = itemUrl.scheme().contains(QLatin1String("search")) && m_item.localPath().isEmpty();
@@ -225,13 +228,20 @@ void InformationPanelContent::refreshPreview()
             // (at least not useful to show in the Information Panel)
             m_preview->setPixmap(QIcon::fromTheme(QStringLiteral("baloo")).pixmap(m_preview->height(), m_preview->width()));
         } else {
-            refreshPixmapView();
-
             const QString mimeType = m_item.mimetype();
+
             QElapsedTimer probeTimer;
             probeTimer.start();
             const bool isAnimatedImage = m_preview->isAnimatedMimeType(mimeType);
-            qDebug() << "isAnimatedMimeType --- " << probeTimer.elapsed() << " ms";
+            qDebug() << "isAnimatedMimeType (moved BEFORE preview job) --- " << probeTimer.elapsed() << " ms";
+
+            QElapsedTimer sectionTimer;
+            sectionTimer.start();
+            refreshPixmapView();
+            qDebug() << "refreshPixmapView --- " << sectionTimer.elapsed() << " ms";
+
+            QElapsedTimer layoutTimer;
+            layoutTimer.start();
             m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
             bool useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
@@ -240,7 +250,10 @@ void InformationPanelContent::refreshPreview()
                 m_preview->setCursor(Qt::PointingHandCursor);
                 m_preview->installEventFilter(m_mediaWidget);
 
+                QElapsedTimer ms;
+                ms.start();
                 m_mediaWidget->show();
+                qDebug() << "  mediaWidget.show --- " << ms.elapsed() << " ms";
 
                 // if the video is playing, has been paused or stopped
                 // we don't need to update the preview/media widget states
@@ -257,19 +270,31 @@ void InformationPanelContent::refreshPreview()
                         m_preview->show();
                     }
 
+                    ms.restart();
                     m_mediaWidget->setUrl(m_item.targetUrl(), m_isVideo ? MediaWidget::MediaKind::Video : MediaWidget::MediaKind::Audio);
+                    qDebug() << "  mediaWidget.setUrl --- " << ms.elapsed() << " ms";
+                    ms.restart();
                     adjustWidgetSizes(parentWidget()->width());
+                    qDebug() << "  adjustWidgetSizes --- " << ms.elapsed() << " ms";
                 }
             } else {
                 if (isAnimatedImage) {
                     m_preview->setAnimatedImageFileName(itemUrl.toLocalFile());
                 }
                 // When we don't need it, hide the media widget first to avoid flickering
+                QElapsedTimer s;
+                s.start();
                 m_mediaWidget->hide();
+                qDebug() << "  hide --- " << s.elapsed() << " ms";
+                s.restart();
                 m_preview->show();
+                qDebug() << "  show --- " << s.elapsed() << " ms";
                 m_preview->removeEventFilter(m_mediaWidget);
+                s.restart();
                 m_mediaWidget->clearUrl();
+                qDebug() << "  clearUrl --- " << s.elapsed() << " ms";
             }
+            qDebug() << "layout --- " << layoutTimer.elapsed() << " ms";
         }
     } else {
         m_preview->stopAnimatedImage();
