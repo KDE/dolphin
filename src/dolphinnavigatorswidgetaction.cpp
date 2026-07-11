@@ -16,6 +16,7 @@
 
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/CommandLauncherJob>
+#include <KJob>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -257,8 +258,12 @@ QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrl
     emptyTrashButton->setToolTip(i18n("Empties Trash to create free space"));
 
     emptyTrashButton->setFlat(true);
-    connect(emptyTrashButton, &QPushButton::clicked, this, [parent]() {
-        Trash::empty(parent);
+    connect(emptyTrashButton, &QPushButton::clicked, this, [parent, emptyTrashButton]() {
+        emptyTrashButton->setDisabled(true);
+        auto *job = Trash::empty(parent);
+        QObject::connect(job, &KJob::result, emptyTrashButton, [emptyTrashButton]() {
+            emptyTrashButton->setDisabled(Trash::isEmpty());
+        });
     });
     connect(&Trash::instance(), &Trash::emptinessChanged, emptyTrashButton, &QPushButton::setDisabled);
     emptyTrashButton->hide();

@@ -11,7 +11,7 @@
 #include <QWidget>
 
 #include <KDirLister>
-#include <KIO/EmptyTrashJob>
+#include <KIO/DeleteOrTrashJob>
 
 class Trash : public QObject
 {
@@ -25,7 +25,7 @@ public:
     Trash &operator=(Trash &&) = delete;
 
     static Trash &instance();
-    static void empty(QWidget *window);
+    static KIO::DeleteOrTrashJob *empty(QWidget *window);
     static bool isEmpty();
 
 Q_SIGNALS:

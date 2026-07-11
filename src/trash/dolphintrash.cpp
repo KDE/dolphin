@@ -10,6 +10,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KIO/DeleteOrTrashJob>
+#include <KJob>
 #include <KLocalizedString>
 #include <KNotification>
 #include <Solid/Device>
@@ -85,16 +86,17 @@ static void notifyEmptied()
                          KNotification::DefaultEvent);
 }
 
-void Trash::empty(QWidget *window)
+KIO::DeleteOrTrashJob *Trash::empty(QWidget *window)
 {
     using Iface = KIO::AskUserActionInterface;
     auto *emptyJob = new KIO::DeleteOrTrashJob(QList<QUrl>{}, Iface::EmptyTrash, Iface::DefaultConfirmation, window);
-    QObject::connect(emptyJob, &KIO::Job::result, emptyJob, [emptyJob] {
+    QObject::connect(emptyJob, &KJob::result, emptyJob, [emptyJob] {
         if (!emptyJob->error()) {
             notifyEmptied();
         }
     });
     emptyJob->start();
+    return emptyJob;
 }
 
 bool Trash::isEmpty()
