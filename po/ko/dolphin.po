@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-09 00:47+0000\n"
+"POT-Creation-Date: 2026-07-12 00:47+0000\n"
 "PO-Revision-Date: 2026-04-26 23:08+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1670,35 +1670,35 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "위치 패널에 포커스 맞추지 않기"
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:230
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "서버 URL 입력(예: smb://[ip 주소])"
 
-#: dolphinnavigatorswidgetaction.cpp:256
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
-#: dolphinnavigatorswidgetaction.cpp:257
+#: dolphinnavigatorswidgetaction.cpp:258
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "휴지통을 비워서 공간 확보"
 
-#: dolphinnavigatorswidgetaction.cpp:283
+#: dolphinnavigatorswidgetaction.cpp:288
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "네트워크 폴더 추가"
 
-#: dolphinnavigatorswidgetaction.cpp:314
+#: dolphinnavigatorswidgetaction.cpp:319
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr "KDE Connect 열기"
 
-#: dolphinnavigatorswidgetaction.cpp:351
+#: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -6092,12 +6092,12 @@ msgstr ""
 "%2 중 %1 남음(%3% 사용함)\n"
 "클릭하여 디스크 사용을 관리하십시오."
 
-#: trash/dolphintrash.cpp:82
+#: trash/dolphintrash.cpp:83
 #, kde-format
 msgid "Trash Emptied"
 msgstr "휴지통 비워짐"
 
-#: trash/dolphintrash.cpp:83
+#: trash/dolphintrash.cpp:84
 #, kde-format
 msgid "The Trash was emptied."
 msgstr "휴지통을 비웠습니다."
