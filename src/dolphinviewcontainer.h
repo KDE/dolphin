@@ -506,6 +506,8 @@ private:
     QAction *m_createFolderAction;
     /// An action to open the url as file instead of as directory. Lazily initialized.
     QAction *m_openAsFile = nullptr;
+    /// An action to open the url in the default archive viewer. Lazily initialized.
+    QAction *m_openInArchiveViewer = nullptr;
 
     KMessageWidget *m_messageWidget;
 

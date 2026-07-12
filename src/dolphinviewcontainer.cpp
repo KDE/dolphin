@@ -1055,6 +1055,32 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
         }
         showMessage(message, KMessageWidget::Error, {m_createFolderAction});
         return;
+    } else if (kioErrorCode == KIO::ERR_WORKER_DEFINED) {
+        QUrl url = m_view->url();
+        const QStringList archiveTypes = KProtocolInfo::archiveMimetypes(url.scheme());
+        // When archive KIO claims unsupported, offer opening in archive viewer.
+        if (!archiveTypes.isEmpty()) {
+            url.setScheme(QStringLiteral("file"));
+
+            if (auto archiverService = KApplicationTrader::preferredService(archiveTypes.first())) {
+                if (!m_openInArchiveViewer) {
+                    m_openInArchiveViewer = new QAction(this);
+                    connect(m_openInArchiveViewer, &QAction::triggered, this, [this, url] {
+                        KIO::OpenUrlJob *job = new KIO::OpenUrlJob(url);
+                        // Auto*Warning*Handling, errors are put in a KMessageWidget by us in slotOpenUrlFinished.
+                        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, this));
+                        job->setShowOpenOrExecuteDialog(true);
+                        connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
+                        job->start();
+                    });
+                }
+                // Updating icon and name every time, preferred service might have changed.
+                m_openInArchiveViewer->setText(i18nc("@action:button", "Open with %1", archiverService->name()));
+                m_openInArchiveViewer->setIcon(QIcon::fromTheme(archiverService->icon()));
+                showMessage(message, KMessageWidget::Error, {m_openInArchiveViewer});
+                return;
+            }
+        }
     }
     Q_EMIT showErrorMessage(message);
 }
