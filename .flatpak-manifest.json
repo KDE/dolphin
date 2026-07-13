@@ -132,8 +132,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/26.04.2/src/ark-26.04.2.tar.xz",
-                    "sha256": "b81c4055486c99f4f21ff228bf12485bc73e8e6b0064edee1043a11ad5d1e555",
+                    "url": "https://download.kde.org/stable/release-service/26.04.3/src/ark-26.04.3.tar.xz",
+                    "sha256": "8018fec69668aac35e5ab7ce4e51ce04de6ab7f56a3996322b016f41c31d5a01",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
@@ -149,12 +149,12 @@
                 {
                     "type": "git",
                     "url": "https://github.com/LMDB/lmdb.git",
-                    "tag": "LMDB_0.9.35",
+                    "tag": "LMDB_1.0.0",
                     "x-checker-data": {
                         "type": "git",
                         "tag-pattern": "^LMDB_([\\d.]+)$"
                     },
-                    "commit": "69087ced3cb6082f7dcfb4fc2dcaa3b68a7e2e8c"
+                    "commit": "2562c3297402d82bbc049c7e645515edb4079eba"
                 }
             ],
             "no-autogen": true,
