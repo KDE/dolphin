@@ -835,13 +835,59 @@ void DolphinViewContainer::slotItemsActivated(const KFileItemList &items)
     fileItemActions.runPreferredApplications(items);
 }
 
+static bool hasStatusBarInfoCached(const KFileItem &item)
+{
+    const KIO::UDSEntry entry = item.entry();
+    if (!entry.contains(KIO::UDSEntry::UDS_FILE_TYPE) || !entry.contains(KIO::UDSEntry::UDS_ACCESS) || !entry.contains(KIO::UDSEntry::UDS_SIZE)) {
+        return false;
+    }
+    return item.isDir() || entry.contains(KIO::UDSEntry::UDS_DISPLAY_TYPE) || item.isMimeTypeKnown();
+}
+
+static KFileItem itemWithStatResult(const KFileItem &item, const KIO::UDSEntry &statResult)
+{
+    KIO::UDSEntry entry = item.entry();
+    const QList<uint> fields = statResult.fields();
+    for (const uint field : fields) {
+        if (field == KIO::UDSEntry::UDS_NAME || field == KIO::UDSEntry::UDS_DISPLAY_NAME) {
+            continue;
+        }
+        if (field & KIO::UDSEntry::UDS_STRING) {
+            entry.replace(field, statResult.stringValue(field));
+        } else {
+            entry.replace(field, statResult.numberValue(field));
+        }
+    }
+    if (!entry.contains(KIO::UDSEntry::UDS_NAME)) {
+        entry.replace(KIO::UDSEntry::UDS_NAME, item.name());
+    }
+    return KFileItem(entry, item.url());
+}
+
 void DolphinViewContainer::showItemInfo(const KFileItem &item)
 {
+    if (m_hoveredItemStatJob) {
+        m_hoveredItemStatJob->kill();
+    }
+
     if (item.isNull()) {
         m_statusBar->setHoveredItemText(QString());
-    } else {
-        m_statusBar->setHoveredItemText(item.getStatusBarInfo());
+        return;
     }
+
+    if (hasStatusBarInfoCached(item)) {
+        m_statusBar->setHoveredItemText(item.getStatusBarInfo());
+        return;
+    }
+
+    m_hoveredItemStatJob = KIO::stat(item.url(), KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatMimeType, KIO::HideProgressInfo);
+    connect(m_hoveredItemStatJob, &KJob::result, this, [this, item](KJob *job) {
+        if (job->error()) {
+            return;
+        }
+        const KFileItem statedItem = itemWithStatResult(item, static_cast<KIO::StatJob *>(job)->statResult());
+        m_statusBar->setHoveredItemText(statedItem.getStatusBarInfo());
+    });
 }
 
 void DolphinViewContainer::closeFilterBar()

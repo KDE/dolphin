@@ -14,10 +14,12 @@
 
 #include <KFileItem>
 #include <KIO/Job>
+#include <KIO/StatJob>
 #include <KMessageWidget>
 #include <KUrlNavigator>
 
 #include <QElapsedTimer>
+#include <QPointer>
 #include <QPushButton>
 #include <QWidget>
 
@@ -357,6 +359,9 @@ private Q_SLOTS:
     /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
+     *
+     * The MIME type and stat data the text is built from may not be cached yet,
+     * in which case they are retrieved with an asynchronous KIO::stat() job.
      */
     void showItemInfo(const KFileItem &item);
 
@@ -524,6 +529,12 @@ private:
     DolphinStatusBar *m_statusBar;
     QTimer *m_statusBarTimer; // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp; // Time in ms since last update
+
+    /**
+     * Retrieves the data needed for the hovered item's status bar text. Kept around so a
+     * superseded request can be killed when the user hovers over another item.
+     */
+    QPointer<KIO::StatJob> m_hoveredItemStatJob;
     bool m_grabFocusOnUrlChange;
     /**
      * The visual state to be applied to the next UrlNavigator that gets
