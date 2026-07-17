@@ -11,20 +11,21 @@
 # SPDX-FileCopyrightText: 2024-2025 Flori G <Renner03@protonmail.com>
 # SPDX-FileCopyrightText: 2025-2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
 # SPDX-FileCopyrightText: 2026 Alexander Becker <alex-at-kde-l10n-de@freenet.de>
+# SPDX-FileCopyrightText: 2026 Andreas Pietzowski <pietz@gmx.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-19 00:47+0000\n"
-"PO-Revision-Date: 2026-05-10 14:53+0200\n"
-"Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
+"PO-Revision-Date: 2026-06-03 07:55+0200\n"
+"Last-Translator: Andreas Pietzowski <pietz@gmx.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5439,23 +5440,22 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Das Erzeugen einer <emphasis>Vorschau</emphasis> von entfernten "
-"Ordnern ist eine ressourcenintensive Netzwerkoperation.</"
-"para><para>Deaktivieren Sie dies, wenn das Navigieren durch entfernte Ordner "
-"in Dolphin langsam ist oder wenn Sie über eine getaktete Netzwerkverbindung "
-"darauf zugreifen.</para>"
+"<para>Das Erzeugen einer <emphasis>Vorschau</emphasis> von Ordnern über das "
+"Netzwerk ist eine ressourcenintensive Operation.</para><para>Deaktivieren "
+"Sie dies, wenn das Navigieren durch entfernte Ordner in Dolphin langsam ist "
+"oder wenn Sie über eine getaktete Netzwerkverbindung darauf zugreifen.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Lokaler Speicherplatz:"
+msgstr "Lokaler Speicher:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Entfernte Speicher:"
+msgstr "Netzwerkspeicher:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
 #, kde-format
