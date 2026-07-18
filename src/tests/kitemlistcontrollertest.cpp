@@ -1303,10 +1303,15 @@ void KItemListControllerTest::testDragMoveHoverIdempotency()
     m_view->setItemSize(QSizeF(100, 100));
     adjustGeometryForColumnCount(3);
     m_view->setScrollOffset(0);
-    QApplication::processEvents();
 
     QMimeData mimeData;
     mimeData.setUrls({QUrl("file:///external/dragged-file")});
+
+    // itemContextRect() is empty until the item's widget has been laid out, which can take
+    // more than one event-loop iteration after an item-size and geometry change on slow CI.
+    // Wait for it so the drag positions land on the items and not on the (0, 0) corner.
+    QTRY_VERIFY(!m_view->itemContextRect(0).isEmpty());
+    QTRY_VERIFY(!m_view->itemContextRect(1).isEmpty());
 
     const QPointF pos0 = m_view->itemContextRect(0).center();
     const QPointF pos1 = m_view->itemContextRect(1).center();
@@ -1351,10 +1356,13 @@ void KItemListControllerTest::testDragLeaveHoverCleanup()
     m_view->setItemSize(QSizeF(100, 100));
     adjustGeometryForColumnCount(3);
     m_view->setScrollOffset(0);
-    QApplication::processEvents();
 
     QMimeData mimeData;
     mimeData.setUrls({QUrl("file:///external/dragged-file")});
+
+    // itemContextRect() is empty until the item's widget has been laid out (see
+    // testDragMoveHoverIdempotency). Wait so the drag position lands on the item.
+    QTRY_VERIFY(!m_view->itemContextRect(0).isEmpty());
 
     const QPointF pos0 = m_view->itemContextRect(0).center();
 
