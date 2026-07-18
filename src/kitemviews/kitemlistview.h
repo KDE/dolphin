@@ -446,6 +446,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void slotAnimationFinished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type);
+    void slotAnimationStarted(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type, const QVariant &endValue);
 
     void slotRubberBandPosChanged();
     void slotRubberBandActivationChanged(bool active);
