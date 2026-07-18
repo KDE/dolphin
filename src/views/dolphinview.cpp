@@ -866,7 +866,7 @@ void DolphinView::renameSelectedItems()
 
                 hideToolTip();
 
-                connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
+                connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished, Qt::UniqueConnection);
             },
             Qt::SingleShotConnection);
         m_view->scrollToItem(index);
