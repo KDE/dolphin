@@ -14,6 +14,7 @@
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
 #include "global.h"
+#include "search/dolphinquery.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
@@ -74,7 +75,12 @@ void DolphinContextMenu::addAllActions()
     if (scheme == QLatin1String("trash")) {
         m_context |= TrashContext;
     } else if (scheme.contains(QLatin1String("search"))) {
-        m_context |= SearchContext;
+        const auto query = Search::DolphinQuery(m_baseUrl, QUrl());
+        if (query.searchPath().scheme() == QLatin1String("trash")) {
+            m_context |= TrashContext;
+        } else {
+            m_context |= SearchContext;
+        }
     } else if (scheme.contains(QLatin1String("timeline"))) {
         m_context |= TimelineContext;
     } else if (scheme == QStringLiteral("recentlyused")) {
