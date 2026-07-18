@@ -27,6 +27,7 @@ protected:
     void paintSeparator(QPainter *painter, const QColor &color) override;
     void roleChanged(const QByteArray &current, const QByteArray &previous) override;
     void dataChanged(const QVariant &current, const QVariant &previous) override;
+    void collapsedChanged(bool current, bool previous) override;
     void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 
 private:

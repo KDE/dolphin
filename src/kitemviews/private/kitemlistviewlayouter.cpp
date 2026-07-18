@@ -216,6 +216,16 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         return QRectF();
     }
 
+    if (!m_collapsedGroupRanges.isEmpty()) {
+        auto it = m_collapsedGroupRanges.upperBound(index);
+        if (it != m_collapsedGroupRanges.begin()) {
+            --it;
+            if (index >= it.key() && index <= it.value()) {
+                return QRectF();
+            }
+        }
+    }
+
     QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
 
     const qreal x = m_columnOffsets.at(m_itemInfos.at(index).column);
@@ -247,51 +257,46 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
 {
     const_cast<KItemListViewLayouter *>(this)->doLayout();
 
-    const QRectF firstItemRect = itemRect(index);
-    QPointF pos = firstItemRect.topLeft();
-    if (pos.isNull()) {
+    if (m_scrollOrientation == Qt::Vertical) {
+        auto it = m_groupHeaderAbsY.constFind(index);
+        if (it == m_groupHeaderAbsY.constEnd()) {
+            return QRectF();
+        }
+        return QRectF(0, it.value() - m_scrollOffset, m_size.width(), m_groupHeaderHeight);
+    }
+
+    // Use the stored absolute header position so collapsed groups (whose items return
+    // an empty itemRect) are still positioned correctly.
+    auto absIt = m_groupHeaderAbsY.constFind(index);
+    if (absIt == m_groupHeaderAbsY.constEnd()) {
         return QRectF();
     }
+    const qreal absPos = absIt.value();
 
-    QSizeF size;
-    if (m_scrollOrientation == Qt::Vertical) {
-        pos.rx() = 0;
-        pos.ry() -= m_groupHeaderHeight;
-        size = QSizeF(m_size.width(), m_groupHeaderHeight);
-    } else {
-        pos.ry() = 0;
-
-        // Determine the maximum width used in the current column. As the
-        // scroll-direction is Qt::Horizontal and m_itemRects is accessed
-        // directly, the logical height represents the visual width, and
-        // the logical row represents the column.
-        qreal headerWidth = minimumGroupHeaderWidth();
-        const int row = m_itemInfos[index].row;
-        const int maxIndex = m_itemInfos.count() - 1;
-        while (index <= maxIndex) {
-            if (m_itemInfos[index].row != row) {
-                break;
-            }
-
-            const qreal itemWidth =
-                (m_scrollOrientation == Qt::Vertical) ? m_sizeHintResolver->sizeHint(index).width() : m_sizeHintResolver->sizeHint(index).height();
-
-            if (itemWidth > headerWidth) {
-                headerWidth = itemWidth;
-            }
-
-            ++index;
+    // Determine the maximum width used in the current column. As the
+    // scroll-direction is Qt::Horizontal, the logical height represents the
+    // visual width and the logical row represents the column.
+    qreal headerWidth = minimumGroupHeaderWidth();
+    const int row = m_itemInfos[index].row;
+    const int maxIndex = m_itemInfos.count() - 1;
+    while (index <= maxIndex) {
+        if (m_itemInfos[index].row != row) {
+            break;
         }
-
-        size = QSizeF(headerWidth, m_size.height());
-
-        if (QGuiApplication::isRightToLeft()) {
-            pos.setX(firstItemRect.right() + m_itemMargin.width() - size.width());
-        } else {
-            pos.rx() -= m_itemMargin.width();
+        const qreal itemWidth = m_sizeHintResolver->sizeHint(index).height();
+        if (itemWidth > headerWidth) {
+            headerWidth = itemWidth;
         }
+        ++index;
     }
 
+    const QSizeF size(headerWidth, m_size.height());
+    QPointF pos(0, 0);
+    if (QGuiApplication::isRightToLeft()) {
+        pos.setX(m_size.width() - 1 + m_scrollOffset - absPos + m_itemMargin.width() - size.width());
+    } else {
+        pos.setX(absPos - m_scrollOffset - m_itemMargin.width());
+    }
     return QRectF(pos, size);
 }
 
@@ -333,6 +338,34 @@ bool KItemListViewLayouter::isFirstGroupItem(int itemIndex) const
 {
     const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_groupItemIndexes.contains(itemIndex);
+}
+
+void KItemListViewLayouter::setCollapsedGroupsData(const QList<QVariant> &collapsedGroupsData)
+{
+    if (m_collapsedGroupsData != collapsedGroupsData) {
+        m_collapsedGroupsData = collapsedGroupsData;
+        m_dirty = true;
+    }
+}
+
+bool KItemListViewLayouter::isCollapsedGroupFirstItem(int itemIndex) const
+{
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
+    return m_collapsedGroupFirstIndexes.contains(itemIndex);
+}
+
+bool KItemListViewLayouter::isCollapsedGroupItem(int itemIndex) const
+{
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
+    if (m_collapsedGroupRanges.isEmpty()) {
+        return false;
+    }
+    auto it = m_collapsedGroupRanges.upperBound(itemIndex);
+    if (it == m_collapsedGroupRanges.begin()) {
+        return false;
+    }
+    --it;
+    return itemIndex >= it.key() && itemIndex <= it.value();
 }
 
 void KItemListViewLayouter::markAsDirty()
@@ -470,9 +503,33 @@ void KItemListViewLayouter::doLayout()
                     // The first group header should be aligned on top
                     y -= itemMargin.height();
                 }
+                m_groupHeaderAbsY[index] = y;
 
                 if (!horizontalScrolling) {
                     y += m_groupHeaderHeight;
+                }
+
+                if (!m_collapsedGroupFirstIndexes.isEmpty() && m_collapsedGroupFirstIndexes.contains(index)) {
+                    m_rowOffsets[row] = y;
+                    qreal colWidth = minimumGroupHeaderWidth();
+                    int col = 0;
+                    while (index < itemCount) {
+                        m_itemInfos[index].column = col % m_columnCount;
+                        m_itemInfos[index].row = row;
+                        if (horizontalScrolling) {
+                            colWidth = qMax(colWidth, m_sizeHintResolver->sizeHint(index).height());
+                        }
+                        ++col;
+                        ++index;
+                        if (m_groupItemIndexes.contains(index)) {
+                            break;
+                        }
+                    }
+                    if (horizontalScrolling) {
+                        y += colWidth;
+                    }
+                    ++row;
+                    continue;
                 }
             }
         }
@@ -613,20 +670,30 @@ void KItemListViewLayouter::updateVisibleIndexes()
 
 bool KItemListViewLayouter::createGroupHeaders()
 {
+    m_groupItemIndexes.clear();
+    m_collapsedGroupFirstIndexes.clear();
+    m_collapsedGroupRanges.clear();
+    m_groupHeaderAbsY.clear();
+
     if (!m_model->groupedSorting()) {
         return false;
     }
-
-    m_groupItemIndexes.clear();
 
     const QList<QPair<int, QVariant>> groups = m_model->groups();
     if (groups.isEmpty()) {
         return false;
     }
 
+    const int totalItemCount = m_model->count();
     for (int i = 0; i < groups.count(); ++i) {
         const int firstItemIndex = groups.at(i).first;
         m_groupItemIndexes.insert(firstItemIndex);
+
+        if (!m_collapsedGroupsData.isEmpty() && m_collapsedGroupsData.contains(groups.at(i).second)) {
+            m_collapsedGroupFirstIndexes.insert(firstItemIndex);
+            const int lastItemIndex = (i + 1 < groups.count()) ? groups.at(i + 1).first - 1 : totalItemCount - 1;
+            m_collapsedGroupRanges.insert(firstItemIndex, lastItemIndex);
+        }
     }
 
     return true;

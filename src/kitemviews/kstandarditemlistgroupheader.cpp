@@ -9,7 +9,10 @@
 #include "kstandarditemlistgroupheader.h"
 
 #include <KRatingPainter>
+#include <QApplication>
 #include <QPainter>
+#include <QStyle>
+#include <QStyleOption>
 
 KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget *parent)
     : KItemListGroupHeader(parent)
@@ -31,11 +34,33 @@ void KStandardItemListGroupHeader::paint(QPainter *painter, const QStyleOptionGr
 
 void KStandardItemListGroupHeader::paintRole(QPainter *painter, const QRectF &roleBounds, const QColor &color)
 {
-    if (m_pixmap.isNull()) {
-        painter->setPen(color);
-        painter->drawText(roleBounds, 0, m_text);
+    const int arrowSize = qMax(8, styleOption().fontMetrics.height());
+    const int arrowSpacing = qMax(2, styleOption().padding);
+    const QRect arrowRect(qRound(roleBounds.left()), qRound(roleBounds.center().y() - arrowSize * 0.5), arrowSize, arrowSize);
+
+    QStyle::PrimitiveElement pe;
+    if (isCollapsed()) {
+        pe = (layoutDirection() == Qt::RightToLeft) ? QStyle::PE_IndicatorArrowLeft : QStyle::PE_IndicatorArrowRight;
     } else {
-        painter->drawPixmap(roleBounds.topLeft(), m_pixmap);
+        pe = QStyle::PE_IndicatorArrowDown;
+    }
+
+    QStyleOption opt;
+    opt.rect = arrowRect;
+    opt.state = QStyle::State_Enabled;
+    opt.palette = QApplication::palette();
+    opt.palette.setColor(QPalette::WindowText, color);
+    opt.palette.setColor(QPalette::ButtonText, color);
+    opt.palette.setColor(QPalette::Text, color);
+
+    QApplication::style()->drawPrimitive(pe, &opt, painter, nullptr);
+
+    const QRectF textBounds = roleBounds.adjusted(arrowSize + arrowSpacing, 0, 0, 0);
+    painter->setPen(color);
+    if (m_pixmap.isNull()) {
+        painter->drawText(textBounds, 0, m_text);
+    } else {
+        painter->drawPixmap(textBounds.topLeft(), m_pixmap);
     }
 }
 
@@ -68,6 +93,13 @@ void KStandardItemListGroupHeader::roleChanged(const QByteArray &current, const 
 }
 
 void KStandardItemListGroupHeader::dataChanged(const QVariant &current, const QVariant &previous)
+{
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
+    m_dirtyCache = true;
+}
+
+void KStandardItemListGroupHeader::collapsedChanged(bool current, bool previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)

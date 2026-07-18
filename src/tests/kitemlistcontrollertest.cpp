@@ -8,6 +8,7 @@
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistgroupheader.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
@@ -85,6 +86,8 @@ private Q_SLOTS:
     void testDragMoveHoverIdempotency();
     void testDragLeaveHoverCleanup();
 
+    void testCollapsibleGroups();
+
 private:
     /**
      * Make sure that the number of columns in the view is equal to \a count
@@ -92,6 +95,7 @@ private:
      */
     void adjustGeometryForColumnCount(int count);
     void simulateMouseClickOnItem(int index);
+    void simulateMouseClickOnGroupHeader(int firstItemIndex);
     void simulateDragMove(const QPointF &pos, QMimeData *mimeData);
     void simulateDragLeave(QMimeData *mimeData);
 
@@ -1189,6 +1193,24 @@ void KItemListControllerTest::simulateMouseClickOnItem(int index)
     m_view->event(&mouseReleaseEvent);
 }
 
+void KItemListControllerTest::simulateMouseClickOnGroupHeader(int firstItemIndex)
+{
+    const QPointF pos = m_view->m_layouter->groupHeaderRect(firstItemIndex).center();
+
+    QGraphicsSceneMouseEvent mousePressEvent(QEvent::GraphicsSceneMousePress);
+    mousePressEvent.setPos(pos);
+    mousePressEvent.setButton(Qt::LeftButton);
+    mousePressEvent.setButtons(Qt::LeftButton);
+
+    QGraphicsSceneMouseEvent mouseReleaseEvent(QEvent::GraphicsSceneMouseRelease);
+    mouseReleaseEvent.setPos(pos);
+    mouseReleaseEvent.setButton(Qt::LeftButton);
+    mouseReleaseEvent.setButtons(Qt::NoButton);
+
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+}
+
 void KItemListControllerTest::testKeyboardNavigationAfterMouseSelection()
 {
     QApplication::setLayoutDirection(Qt::LeftToRight);
@@ -1354,6 +1376,70 @@ void KItemListControllerTest::testDragLeaveHoverCleanup()
     simulateDragLeave(&mimeData);
     QCOMPARE(unhoveredSpy.count(), 1);
     QCOMPARE(hoveredSpy.count(), 1);
+}
+
+void KItemListControllerTest::testCollapsibleGroups()
+{
+    QApplication::setLayoutDirection(Qt::LeftToRight);
+    m_view->setLayoutDirection(Qt::LeftToRight);
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+    m_view->setScrollOrientation(Qt::Vertical);
+
+    m_model->setGroupedSorting(false);
+    QCOMPARE(m_model->groupedSorting(), false);
+    m_model->setGroupedSorting(true);
+    QCOMPARE(m_model->groupedSorting(), true);
+    QVERIFY(m_view->m_collapsedGroups.isEmpty());
+
+    adjustGeometryForColumnCount(3);
+    QCOMPARE(m_view->m_layouter->m_columnCount, 3);
+    m_view->setScrollOffset(0);
+    QCOMPARE(m_view->firstVisibleIndex(), 0);
+
+    const QList<QPair<int, QVariant>> groups = m_model->groups();
+    QVERIFY(groups.count() >= 2);
+    QCOMPARE(groups.at(0).first, 0);
+    QCOMPARE(groups.at(1).first, 3);
+    const QVariant groupAData = groups.at(0).second;
+
+    QVERIFY(m_view->m_layouter->isFirstGroupItem(0));
+    QVERIFY(!m_view->m_layouter->isCollapsedGroupItem(0));
+    QVERIFY(!m_view->m_layouter->itemRect(0).isEmpty());
+
+    KItemListGroupHeader *groupHeaderA = m_view->m_visibleGroups.value(0);
+    QVERIFY(groupHeaderA);
+    QVERIFY(!groupHeaderA->isCollapsed());
+
+    const QRectF itemRectBeforeCollapse = m_view->m_layouter->itemRect(3);
+    QVERIFY(!itemRectBeforeCollapse.isEmpty());
+
+    simulateMouseClickOnGroupHeader(0);
+
+    QVERIFY(m_view->m_collapsedGroups.contains(groupAData));
+    QVERIFY(groupHeaderA->isCollapsed());
+    QVERIFY(m_view->m_layouter->isCollapsedGroupFirstItem(0));
+    QVERIFY(m_view->m_layouter->isCollapsedGroupItem(0));
+    QVERIFY(m_view->m_layouter->isCollapsedGroupItem(1));
+    QVERIFY(m_view->m_layouter->isCollapsedGroupItem(2));
+    QVERIFY(!m_view->m_layouter->isCollapsedGroupItem(3));
+
+    QVERIFY(m_view->m_layouter->itemRect(0).isEmpty());
+    QVERIFY(m_view->m_layouter->itemRect(1).isEmpty());
+    QVERIFY(m_view->m_layouter->itemRect(2).isEmpty());
+
+    QVERIFY(!m_view->m_layouter->groupHeaderRect(0).isEmpty());
+
+    const QRectF itemRectAfterCollapse = m_view->m_layouter->itemRect(3);
+    QVERIFY(!itemRectAfterCollapse.isEmpty());
+    QVERIFY(itemRectAfterCollapse.top() < itemRectBeforeCollapse.top());
+
+    simulateMouseClickOnGroupHeader(0);
+
+    QVERIFY(!m_view->m_collapsedGroups.contains(groupAData));
+    QVERIFY(!groupHeaderA->isCollapsed());
+    QVERIFY(!m_view->m_layouter->isCollapsedGroupItem(0));
+    QVERIFY(!m_view->m_layouter->itemRect(0).isEmpty());
+    QCOMPARE(m_view->m_layouter->itemRect(3), itemRectBeforeCollapse);
 }
 
 QTEST_MAIN(KItemListControllerTest)

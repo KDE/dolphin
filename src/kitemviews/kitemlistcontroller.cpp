@@ -188,13 +188,13 @@ int KItemListController::indexCloseToMousePressedPosition() const
 {
     const QPointF pressedMousePos = m_view->transform().map(m_view->scene()->views().first()->mapFromGlobal(m_pressedMouseGlobalPos.toPoint()));
 
-    QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_view->m_visibleGroups);
+    QHashIterator<int, KItemListGroupHeader *> it(m_view->m_visibleGroups);
     while (it.hasNext()) {
         it.next();
         KItemListGroupHeader *groupHeader = it.value();
         const QPointF mappedToGroup = groupHeader->mapFromItem(nullptr, pressedMousePos);
         if (groupHeader->contains(mappedToGroup)) {
-            return it.key()->index();
+            return it.key();
         }
     }
     return -1;

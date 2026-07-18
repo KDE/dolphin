@@ -20,6 +20,7 @@
 
 #include <QGraphicsWidget>
 #include <QSet>
+#include <QVariant>
 
 class KItemListContainer;
 class KItemListContainerAccessible;
@@ -475,14 +476,6 @@ private Q_SLOTS:
      */
     void triggerAutoScrolling();
 
-    /**
-     * Is invoked if the geometry of the parent-widget from a group-header has been
-     * changed. The x-position and width of the group-header gets adjusted to assure
-     * that it always spans the whole width even during temporary transitions of the
-     * parent widget.
-     */
-    void slotGeometryOfGroupHeaderParentChanged();
-
     void slotRoleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
     void slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
@@ -547,27 +540,30 @@ private:
     void updateWidgetProperties(KItemListWidget *widget, int index);
 
     /**
-     * Helper method for updateWidgetPropertes() to create or update
-     * the itemlist group-header.
+     * Creates or updates the group-header for the group whose first item is
+     * \a firstItemIndex. The header is a direct child of the view (not of any
+     * item widget), so it is independent of item widget recycling.
+     * Called for both expanded groups (when the first item is visible) and
+     * collapsed groups (when the header enters the viewport).
+     */
+    void updateGroupHeaderForIndex(int firstItemIndex);
+
+    /**
+     * Updates the position and size of the group-header identified by
+     * \a firstItemIndex. The coordinates are derived from groupHeaderRect().
+     */
+    void updateGroupHeaderLayout(int firstItemIndex);
+
+    /**
+     * Called from updateWidgetProperties() when the widget represents the first
+     * item of a group.
      */
     void updateGroupHeaderForWidget(KItemListWidget *widget);
 
     /**
-     * Updates the position and size of the group-header that belongs
-     * to the itemlist widget \a widget. The given widget must represent
-     * the first item of a group.
-     */
-    void updateGroupHeaderLayout(KItemListWidget *widget);
-
-    /**
-     * Recycles the group-header for the widget.
-     */
-    void recycleGroupHeaderForWidget(KItemListWidget *widget);
-
-    /**
      * Helper method for slotGroupedSortingChanged(), slotSortOrderChanged()
-     * and slotSortRoleChanged(): Iterates through all visible items and updates
-     * the group-header widgets.
+     * and slotSortRoleChanged(): Iterates through all visible group headers and
+     * updates their data and collapse state.
      */
     void updateVisibleGroupHeaders();
 
@@ -577,6 +573,9 @@ private:
      *         belongs to. -1 is returned if no groups are available.
      */
     int groupIndexForItem(int index) const;
+
+    void toggleGroupCollapse(const QVariant &groupData);
+    void updateCollapsedGroupsInLayouter();
 
     /**
      * Updates the alternate background for all visible items.
@@ -749,7 +748,9 @@ private:
     KItemListStyleOption m_styleOption;
 
     QHash<int, KItemListWidget *> m_visibleItems;
-    QHash<KItemListWidget *, KItemListGroupHeader *> m_visibleGroups;
+    QHash<int, KItemListGroupHeader *> m_visibleGroups;
+
+    QList<QVariant> m_collapsedGroups;
 
     struct Cell {
         Cell()

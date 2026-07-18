@@ -51,6 +51,9 @@ public:
     void setItemIndex(int index);
     int itemIndex() const;
 
+    void setCollapsed(bool collapsed);
+    bool isCollapsed() const;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 protected:
@@ -62,6 +65,8 @@ protected:
      * to react on this change.
      */
     virtual void roleChanged(const QByteArray &current, const QByteArray &previous);
+
+    virtual void collapsedChanged(bool current, bool previous);
 
     /**
      * Is called after the role has been changed and allows the derived class
@@ -108,6 +113,7 @@ private:
     KItemListStyleOption m_styleOption;
     Qt::Orientation m_scrollOrientation;
     int m_itemIndex;
+    bool m_collapsed;
 
     QColor m_separatorColor;
     QColor m_roleColor;

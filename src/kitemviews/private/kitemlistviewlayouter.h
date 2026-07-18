@@ -9,10 +9,13 @@
 
 #include "dolphin_export.h"
 
+#include <QHash>
+#include <QMap>
 #include <QObject>
 #include <QRectF>
 #include <QSet>
 #include <QSizeF>
+#include <QVariant>
 #include <QVector>
 
 class KItemModelBase;
@@ -143,6 +146,10 @@ public:
      */
     bool isFirstGroupItem(int itemIndex) const;
 
+    void setCollapsedGroupsData(const QList<QVariant> &collapsedGroupsData);
+    bool isCollapsedGroupFirstItem(int itemIndex) const;
+    bool isCollapsedGroupItem(int itemIndex) const;
+
     /**
      * Marks the layouter as dirty. This means as soon as a property of
      * the layouter gets read, an expensive relayout will be done.
@@ -218,6 +225,11 @@ private:
     QSet<int> m_groupItemIndexes;
     qreal m_groupHeaderHeight;
     qreal m_groupHeaderMargin;
+
+    QList<QVariant> m_collapsedGroupsData;
+    QSet<int> m_collapsedGroupFirstIndexes;
+    QMap<int, int> m_collapsedGroupRanges;
+    QHash<int, qreal> m_groupHeaderAbsY;
 
     struct ItemInfo {
         int column;

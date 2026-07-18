@@ -948,6 +948,12 @@ void KItemListView::setStyleOption(const KItemListStyleOption &option)
         it.value()->setStyleOption(option);
     }
 
+    if (m_grouped) {
+        for (KItemListGroupHeader *header : std::as_const(m_visibleGroups)) {
+            header->setStyleOption(option);
+        }
+    }
+
     m_sizeHintResolver->clearCache();
     m_layouter->markAsDirty();
     doLayout(animate ? Animation : NoAnimation);
@@ -971,7 +977,7 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
     m_sizeHintResolver->clearCache();
 
     if (m_grouped) {
-        QMutableHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
+        QMutableHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
             it.value()->setScrollOrientation(orientation);
@@ -1073,6 +1079,23 @@ void KItemListView::onTransactionEnd()
 
 bool KItemListView::event(QEvent *event)
 {
+    if (m_grouped && event->type() == QEvent::GraphicsSceneMousePress) {
+        auto *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
+        const QPointF pos = transform().map(mouseEvent->pos());
+
+        QHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
+        while (it.hasNext()) {
+            it.next();
+            KItemListGroupHeader *header = it.value();
+            const QPointF mappedToGroup = header->mapFromItem(this, pos);
+            if (header->contains(mappedToGroup)) {
+                toggleGroupCollapse(header->data());
+                event->accept();
+                return true;
+            }
+        }
+    }
+
     switch (event->type()) {
     case QEvent::PaletteChange:
         updatePalette();
@@ -1502,15 +1525,14 @@ void KItemListView::slotGroupedSortingChanged(bool current)
     if (m_grouped) {
         updateGroupHeaderHeight();
     } else {
-        // Clear all visible headers. Note that the QHashIterator takes a copy of
-        // m_visibleGroups. Therefore, it remains valid even if items are removed
-        // from m_visibleGroups in recycleGroupHeaderForWidget().
-        QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
-        while (it.hasNext()) {
-            it.next();
-            recycleGroupHeaderForWidget(it.key());
+        for (KItemListGroupHeader *header : std::as_const(m_visibleGroups)) {
+            header->setParentItem(nullptr);
+            groupHeaderCreator()->recycle(header);
         }
-        Q_ASSERT(m_visibleGroups.isEmpty());
+        m_visibleGroups.clear();
+
+        m_collapsedGroups.clear();
+        updateCollapsedGroupsInLayouter();
     }
 
     if (useAlternateBackgrounds()) {
@@ -1538,6 +1560,8 @@ void KItemListView::slotSortRoleChanged(const QByteArray &current, const QByteAr
     Q_UNUSED(current)
     Q_UNUSED(previous)
     if (m_grouped) {
+        m_collapsedGroups.clear();
+        updateCollapsedGroupsInLayouter();
         updateVisibleGroupHeaders();
         doLayout(NoAnimation);
     }
@@ -1623,8 +1647,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget *widget, KItemListView
 
         // All KItemListWidgets that are animated by the DeleteAnimation are not maintained
         // by m_visibleWidgets and must be deleted manually after the animation has
-        // been finished.
-        recycleGroupHeaderForWidget(itemListWidget);
+        // been finished. Group headers are managed by index and cleaned up in doLayout().
         widgetCreator()->recycle(itemListWidget);
     } else {
         const int index = itemListWidget->index();
@@ -1772,15 +1795,6 @@ void KItemListView::triggerAutoScrolling()
     m_autoScrollTimer->start(RepeatingAutoScrollDelay);
 }
 
-void KItemListView::slotGeometryOfGroupHeaderParentChanged()
-{
-    KItemListWidget *widget = qobject_cast<KItemListWidget *>(sender());
-    Q_ASSERT(widget);
-    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
-    Q_ASSERT(groupHeader);
-    updateGroupHeaderLayout(widget);
-}
-
 void KItemListView::slotRoleEditingCanceled(int index, const QByteArray &role, const QVariant &value)
 {
     disconnectRoleEditingSignals(index);
@@ -1909,11 +1923,32 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     QList<int> reusableItems = recycleInvisibleItems(firstVisibleIndex, lastVisibleIndex, hint);
 
+    QSet<int> visitedGroupHeaders;
+
     // Assure that for each visible item a KItemListWidget is available. KItemListWidget
     // instances from invisible items are reused. If no reusable items are
     // found then new KItemListWidget instances get created.
     const bool animate = (hint == Animation);
     for (int i = firstVisibleIndex; i <= lastVisibleIndex; ++i) {
+        if (m_grouped && m_layouter->isCollapsedGroupItem(i)) {
+            if (m_layouter->isCollapsedGroupFirstItem(i)) {
+                updateGroupHeaderForIndex(i);
+                visitedGroupHeaders.insert(i);
+            }
+            KItemListWidget *existingWidget = m_visibleItems.value(i);
+            if (existingWidget) {
+                if (m_animation->isStarted(existingWidget)) {
+                    if (hint == NoAnimation) {
+                        m_animation->stop(existingWidget);
+                    }
+                } else {
+                    existingWidget->setVisible(false);
+                    reusableItems.append(i);
+                }
+            }
+            continue;
+        }
+
         bool applyNewPos = true;
 
         const QRectF itemBounds = m_layouter->itemRect(i);
@@ -2007,6 +2042,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             widget->setIconSize(newIconSize);
         }
 
+        if (m_grouped && m_layouter->isFirstGroupItem(i)) {
+            updateGroupHeaderForIndex(i);
+            visitedGroupHeaders.insert(i);
+        }
+
         // Updating the cell-information must be done as last step: The decision whether the
         // moving-animation should be started at all is based on the previous cell-information.
         const Cell cell(m_layouter->itemColumn(i), m_layouter->itemRow(i));
@@ -2024,11 +2064,19 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     }
 
     if (m_grouped) {
-        // Update the layout of all visible group headers
-        QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
+        // Update layout of all visited group headers and recycle those no longer visible.
+        QMutableHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
-            updateGroupHeaderLayout(it.key());
+            const int firstItemIndex = it.key();
+            if (visitedGroupHeaders.contains(firstItemIndex)) {
+                updateGroupHeaderLayout(firstItemIndex);
+            } else {
+                KItemListGroupHeader *header = it.value();
+                header->setParentItem(nullptr);
+                groupHeaderCreator()->recycle(header);
+                it.remove();
+            }
         }
     }
 
@@ -2067,10 +2115,6 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex, int lastV
             } else {
                 widget->setVisible(false);
                 items.append(index);
-
-                if (m_grouped) {
-                    recycleGroupHeaderForWidget(widget);
-                }
             }
         }
     }
@@ -2156,10 +2200,6 @@ KItemListWidget *KItemListView::createWidget(int index)
 
 void KItemListView::recycleWidget(KItemListWidget *widget)
 {
-    if (m_grouped) {
-        recycleGroupHeaderForWidget(widget);
-    }
-
     const int index = widget->index();
     m_visibleItems.remove(index);
     m_visibleCells.remove(index);
@@ -2234,76 +2274,63 @@ void KItemListView::updateWidgetProperties(KItemListWidget *widget, int index)
     }
 }
 
-void KItemListView::updateGroupHeaderForWidget(KItemListWidget *widget)
+void KItemListView::updateGroupHeaderForIndex(int firstItemIndex)
 {
     Q_ASSERT(m_grouped);
-
-    const int index = widget->index();
-    if (!m_layouter->isFirstGroupItem(index)) {
-        // The widget does not represent the first item of a group
-        // and hence requires no header
-        recycleGroupHeaderForWidget(widget);
-        return;
-    }
 
     const QList<QPair<int, QVariant>> groups = model()->groups();
     if (groups.isEmpty() || !groupHeaderCreator()) {
         return;
     }
 
-    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
+    const int groupIndex = groupIndexForItem(firstItemIndex);
+    if (groupIndex < 0) {
+        return;
+    }
+    const QVariant groupData = groups.at(groupIndex).second;
+
+    KItemListGroupHeader *groupHeader = m_visibleGroups.value(firstItemIndex);
     if (!groupHeader) {
         groupHeader = groupHeaderCreator()->create(this);
-        groupHeader->setParentItem(widget);
-        m_visibleGroups.insert(widget, groupHeader);
-        connect(widget, &KItemListWidget::geometryChanged, this, &KItemListView::slotGeometryOfGroupHeaderParentChanged);
+        groupHeader->setParentItem(this);
+        groupHeader->setZValue(1.0);
+        m_visibleGroups.insert(firstItemIndex, groupHeader);
     }
-    Q_ASSERT(groupHeader->parentItem() == widget);
 
-    const int groupIndex = groupIndexForItem(index);
-    Q_ASSERT(groupIndex >= 0);
-    groupHeader->setData(groups.at(groupIndex).second);
+    groupHeader->setData(groupData);
     groupHeader->setRole(model()->groupRole());
     groupHeader->setStyleOption(m_styleOption);
     groupHeader->setScrollOrientation(scrollOrientation());
-    groupHeader->setItemIndex(index);
-
+    groupHeader->setItemIndex(firstItemIndex);
+    groupHeader->setCollapsed(m_collapsedGroups.contains(groupData));
     groupHeader->show();
 }
 
-void KItemListView::updateGroupHeaderLayout(KItemListWidget *widget)
+void KItemListView::updateGroupHeaderLayout(int firstItemIndex)
 {
-    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
-    Q_ASSERT(groupHeader);
+    KItemListGroupHeader *groupHeader = m_visibleGroups.value(firstItemIndex);
+    if (!groupHeader) {
+        return;
+    }
 
-    const int index = widget->index();
-    const QRectF groupHeaderRect = m_layouter->groupHeaderRect(index);
-    const QRectF itemRect = m_layouter->itemRect(index);
-
-    // The group-header is a child of the itemlist widget. Translate the
-    // group header position to the relative position.
+    const QRectF headerRect = m_layouter->groupHeaderRect(firstItemIndex);
     if (scrollOrientation() == Qt::Vertical) {
-        // In the vertical scroll orientation the group header should always span
-        // the whole width no matter which temporary position the parent widget
-        // has. In this case the x-position and width will be adjusted manually.
-        const qreal x = -widget->x() - itemOffset();
+        // Headers span the full item area width regardless of horizontal scroll.
+        const qreal x = -itemOffset();
         const qreal width = maximumItemOffset();
-        groupHeader->setPos(x, -groupHeaderRect.height());
-        groupHeader->resize(width, groupHeaderRect.size().height());
+        groupHeader->setPos(x, headerRect.top());
+        groupHeader->resize(width, headerRect.height());
     } else {
-        groupHeader->setPos(groupHeaderRect.x() - itemRect.x(), -widget->y());
-        groupHeader->resize(groupHeaderRect.size());
+        groupHeader->setPos(headerRect.topLeft());
+        groupHeader->resize(headerRect.size());
     }
 }
 
-void KItemListView::recycleGroupHeaderForWidget(KItemListWidget *widget)
+void KItemListView::updateGroupHeaderForWidget(KItemListWidget *widget)
 {
-    KItemListGroupHeader *header = m_visibleGroups.value(widget);
-    if (header) {
-        header->setParentItem(nullptr);
-        groupHeaderCreator()->recycle(header);
-        m_visibleGroups.remove(widget);
-        disconnect(widget, &KItemListWidget::geometryChanged, this, &KItemListView::slotGeometryOfGroupHeaderParentChanged);
+    Q_ASSERT(m_grouped);
+    if (m_layouter->isFirstGroupItem(widget->index())) {
+        updateGroupHeaderForIndex(widget->index());
     }
 }
 
@@ -2312,10 +2339,10 @@ void KItemListView::updateVisibleGroupHeaders()
     Q_ASSERT(m_grouped);
     m_layouter->markAsDirty();
 
-    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
+    QHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
     while (it.hasNext()) {
         it.next();
-        updateGroupHeaderForWidget(it.value());
+        updateGroupHeaderForIndex(it.key());
     }
 }
 
@@ -2347,6 +2374,22 @@ int KItemListView::groupIndexForItem(int index) const
     }
 
     return mid;
+}
+
+void KItemListView::toggleGroupCollapse(const QVariant &groupData)
+{
+    if (m_collapsedGroups.contains(groupData)) {
+        m_collapsedGroups.removeOne(groupData);
+    } else {
+        m_collapsedGroups.append(groupData);
+    }
+    updateCollapsedGroupsInLayouter();
+    doLayout(NoAnimation);
+}
+
+void KItemListView::updateCollapsedGroupsInLayouter()
+{
+    m_layouter->setCollapsedGroupsData(m_collapsedGroups);
 }
 
 void KItemListView::updateAlternateBackgrounds()
