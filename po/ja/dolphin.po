@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-12 00:47+0000\n"
-"PO-Revision-Date: 2026-03-01 21:10+0900\n"
+"PO-Revision-Date: 2026-06-19 19:34+0900\n"
 "Last-Translator: Mint <5602mint@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
 "Language: ja\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -48,7 +48,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "管理者として行動します — 注意してください！"
+msgstr "管理者として行動中 — 操作は慎重に！"
 
 #: admin/bar.cpp:46
 #, kde-format
@@ -153,15 +153,15 @@ msgid ""
 "emphasis> before proceeding.</para>"
 msgstr ""
 "<para>管理者権限を使用しようとしています。管理者として操作すると、このシステ"
-"ム上の任意のファイルまたはフォルダを変更または置換できます。これには、このシ"
-"ステムが機能するために不可欠な項目が含まれます。</para><para>このコンピュータ"
-"上の<emphasis>すべてのユーザーのデータを削除</emphasis>し、<emphasis>このイン"
-"ストールを修復不能に破壊</emphasis>することができます。フォルダ名またはファイ"
-"ル名、またはその内容に1文字追加するだけで、システムが<emphasis>起動不能</"
-"emphasis>になる可能性があります。</para><para>このシステムを破壊しようとして"
-"いる場合でも、おそらく別の警告は表示されません。</para><para>続行する前に、"
-"<emphasis>ファイルとフォルダをバックアップ</emphasis>することをお勧めします。"
-"</para>"
+"ム上のすべてのファイルやフォルダを変更したり置き換えできるようになりますが、"
+"このシステムの動作に必要なものも操作可能になります。</para><para>そのため、こ"
+"のコンピュータ上の<emphasis>すべてのユーザーのデータを削除</emphasis>したり、"
+"<emphasis>OS･プログラムを修復不可能なほどに破壊</emphasis>するおそれがありま"
+"す。また、フォルダ名やファイル名、またはその内容に1文字追加するだけで、システ"
+"ムが<emphasis>起動不能</emphasis>になる可能性があります。</para><para>この"
+"後、システムの破壊につながる操作が実行される前に、再度警告が表示されるとは限"
+"りません。</para><para>続行する前に、<emphasis>ファイルとフォルダをバックアッ"
+"プ</emphasis>することをおすすめします。</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
@@ -265,7 +265,7 @@ msgstr "進む"
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
-msgstr "これは<interface>Go|Back</interface>アクションを元に戻します。"
+msgstr "これは<interface>進む|戻る</interface>アクションを元に戻します。"
 
 #: dolphinmainwindow.cpp:635 dolphinmainwindow.cpp:681
 #, kde-format
@@ -391,7 +391,7 @@ msgid ""
 ">You can drag and drop items between windows."
 msgstr ""
 "現在の場所を示す、このウィンドウと同様の新しいウィンドウが開きます。<nl/>ウィ"
-"ンドウ間でアイテムをドラッグアンドドロップできます。"
+"ンドウ間でアイテムをドラッグ・アンド・ドロップできます。"
 
 #: dolphinmainwindow.cpp:1806
 #, kde-format
@@ -409,7 +409,7 @@ msgid ""
 msgstr ""
 "現在の場所に新しい<emphasis>タブ</emphasis>が開きます。<nl/>タブを使用する"
 "と、このウィンドウ内の複数の場所とビューをすばやく切り替えることができます。"
-"タブ間で項目をドラッグアンドドロップできます。"
+"タブ間で項目をドラッグ・アンド・ドロップできます。"
 
 #: dolphinmainwindow.cpp:1817
 #, kde-format
@@ -650,9 +650,9 @@ msgid ""
 "bar</emphasis>. There you can enter search terms and specify settings to "
 "find the items you are looking for.</para>"
 msgstr ""
-"<para>これは<emphasis>検索バー</emphasis>を開きファイルやフォルダを見つけるこ"
-"とに役立ちます。検索したい語を入力し、設定を指定することで探している項目を見"
-"つけることができます。</para>"
+"<para>これはファイルやフォルダを見つける際に役立つ<emphasis>検索バー</"
+"emphasis>を開きます。検索したい語を入力し、設定を指定することで探している項目"
+"を見つけることができます。</para>"
 
 #: dolphinmainwindow.cpp:1944
 #, kde-format
@@ -852,10 +852,11 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
-"ファイルやフォルダに加えた最後の変更を元に戻します。<nl/>このような変更には"
-"<interface>作成</interface>, <interface>名前の変更</interface>, <interface>場"
-"所の移動</interface>や、<filename>ごみ箱</filename> への移動が含まれます。"
-"<nl/>元に戻せない変更は事前にあなたに確認を求めます。"
+"ファイルやフォルダに加えた最後の変更を元に戻します。<nl/>ここで指す変更とは、"
+"ファイルやフォルダの<interface>作成</interface>、<interface>名前の変更</"
+"interface>、<interface>場所の移動</interface>や、<filename>ごみ箱</filename> "
+"への移動が含まれます。<nl/>元に戻せない変更は事前に確認を求めるようになってい"
+"ます。"
 
 #: dolphinmainwindow.cpp:2128
 #, kde-kuit-format
@@ -867,10 +868,10 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"元に戻した最後の変更をやり直します。<nl/>このような変更には<interface>作成</"
-"interface>, <interface>名前の変更</interface>, <interface>場所の移動</"
+"元に戻した最後の変更をやり直します。<nl/>ここで指す変更には<interface>作成</"
+"interface>、<interface>名前の変更</interface>、<interface>場所の移動</"
 "interface>や、<filename>ごみ箱</filename> への移動が含まれます。<nl/>元に戻せ"
-"ない変更は事前にあなたに確認を求めます。"
+"ない変更は事前に確認を求めるようになっています。"
 
 #: dolphinmainwindow.cpp:2157
 #, kde-kuit-format
@@ -962,12 +963,11 @@ msgid ""
 "offer.</para><para>The %1 button is simpler and small which makes triggering "
 "advanced actions more time consuming.</para>"
 msgstr ""
-"<para>これは、<emphasis>メニューバー</emphasis>を表示するか、<interface>%1</"
-"interface>ボタンを表示するかの切り替えを行います。両者とも、ほぼ同じ操作と設"
-"定オプションを含みます。</para> <para>メニューバーに設定すると、多くのスペー"
-"スが占有されますが、整理されており、素早く操作を行うことができます。</para> "
-"<para>%1 ボタンはシンプルで小型ですが、高度な操作を実行するには時間がかかりま"
-"す。</para>"
+"<para>これは<emphasis>メニューバー</emphasis>や<interface>%1</interface>ボタ"
+"ンのどちらを使用するかを切り替えるものです。どちらでも同じ操作や設定を行うこ"
+"とができます。</para><para>メニューバーはスペースを大きく取りますが、整理され"
+"ており、すばやく操作を行うことができます。</para><para>%1 ボタンはシンプルで"
+"小型ですが、高度な操作を行う際には手間がかかります。</para>"
 
 #: dolphinmainwindow.cpp:2247
 #, kde-format
@@ -1087,9 +1087,8 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>このようなパネルの表示・非表示を切り替えるには<interface>メニュー | パ"
-"ネル</interface>もしくは<interface>表示 | パネル</interface>を選択します。</"
-"para>"
+"<para>このようなパネルの表示･非表示を切り替えるには<interface>メニュー|パネル"
+"</interface>もしくは<interface>表示|パネル</interface>を選択します。</para>"
 
 #: dolphinmainwindow.cpp:2372
 #, kde-kuit-format
@@ -1587,8 +1586,8 @@ msgid ""
 "Handbook</interface>."
 msgstr ""
 "このアプリケーションの様々な設定を変更するウィンドウを表示します。それぞれの"
-"設定についての説明は、<interface>ヘルプ→Dolphin Handbook</interface>の "
-"<emphasis>Dolphin の設定</emphasis> の章を参照してください。"
+"設定についての説明は、<interface>ヘルプ|Dolphin ハンドブック</interface>の "
+"<emphasis>Dolphin の設定</emphasis>の章をご覧ください。"
 
 #. i18n: If the external link isn't available in your language it might make
 #. sense to state the external link's language in brackets to not
@@ -2023,14 +2022,14 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
-"<para>下に表示されているファイルやフォルダーの場所を説明しています。</"
-"para><para>現在表示されているフォルダーの名前は一番右に表示されています。</"
-"para><para>その左には、それを含むフォルダの名前が表示されています。これらの"
-"フォルダを左から右にたどっていくとここにたどり着くので、この行全体を「現在地"
-"への<emphasis>パス</emphasis> 」と呼びます。このインタラクティブなパスは、予"
-"想以上に強力です。場所バーの基本的な機能と高度な機能については、<link "
-"url='help:/dolphin/location-bar.html'>ここをクリック</link> してください。ハ"
-"ンドブックの専用ページが表示されます。</para>"
+"<para>下に表示されているファイルやフォルダの場所を説明しています。</"
+"para><para>最後尾が現在表示されているフォルダの名前です。</para><para>その左"
+"は、表示中のフォルダが入っているフォルダの名前です。この一連のフォルダを左か"
+"ら右にたどると現在のフォルダに行き着くため、これ全体を「現在地への<emphasis>"
+"パス</emphasis>」と呼びます。このパス機能は、見た目以上に多機能になっていま"
+"す。場所バーの基本的な機能と高度な機能については <link url='help:/dolphin/"
+"location-bar.html'>こちら</link> をご覧ください。ハンドブックの専用ページが表"
+"示されます。</para>"
 
 #: dolphinurlnavigator.cpp:57
 #, kde-format
@@ -3542,7 +3541,7 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
-"インデックスされたすべての場所を検索します。<nl/><nl/> <interface>システム設"
+"インデックスされたすべての場所を検索します。<nl/><nl/><interface>システム設"
 "定|ワークスペース|検索</interface>で、インデックスする場所を設定します。"
 
 #: search/chip.cpp:21
@@ -3704,8 +3703,8 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
-"<para><application>%1</application> はファイル内容の検索において、システム上"
-"で利用可能で、より高速かつ正確な結果が期待できる場合にサードパーティ製の検索"
+"<para><application>%1</application> はファイル内容を検索する際により高速かつ"
+"正確な結果が期待できる場合、このシステムで使用できるサードパーティ製の検索"
 "ツールを使用します。<application>ripgrep</application> や "
 "<application>ripgrep-all</application> がインストール済みの場合、検索の利便性"
 "が向上することがあります。特に <application>ripgrep-all</application> によっ"
@@ -4144,7 +4143,7 @@ msgstr[0] "%2 の名前を変更"
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
-"選択モード: ファイル・フォルダをクリックして選択、または選択を解除します。"
+"選択モード: ファイル･フォルダをクリックして選択、または選択を解除します。"
 
 #: selectionmode/topbar.cpp:31
 #, kde-format
@@ -4168,15 +4167,15 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>選択モード</title> <para>ファイルやフォルダを選択します。<list> <item>"
-"ファイル・フォルダをクリックして選択します。</item> <item>既に選択されたファ"
-"イル・フォルダをクリックして選択を解除します。</item> <item>空白の領域をク"
-"リックしても、選択は解除<emphasis>されません</emphasis>。</item> <item>空白の"
+"<title>選択モード</title> <para>ファイルやフォルダを選択します。<list><item>"
+"クリックでファイル･フォルダを選択できます。</item><item>既に選択されたファイ"
+"ル･フォルダをクリックすると選択を解除できます。</item><item>空白の領域をク"
+"リックしても、選択は解除<emphasis>されません</emphasis>。</item><item>空白の"
 "領域からドラッグして選択枠を作成できます。選択枠内にある項目は、選択状態が反"
-"転します。</item> <item><shortcut>arrow keys</shortcut> で移動しても、選択状"
-"態は<emphasis>変わりません</emphasis>。</item> <item><shortcut>%1</"
-"shortcut>, <shortcut>%2</shortcut>, <shortcut>%3</shortcut> を押して、選択状"
-"態を切り替えます。</item> </list> </para> <para>下部にある操作ボタンは、現在"
+"転します。</item><item><shortcut>矢印キー</shortcut> で移動しても、選択状態は"
+"<emphasis>変わりません</emphasis>。</item><item><shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut>, <shortcut>%3</shortcut> を押して、選択状態を切り替え"
+"ることができます。</item> </list> </para> <para>下部にある操作ボタンは、現在"
 "の選択状態に応じて変化します。</para>"
 
 #: selectionmode/topbar.cpp:53
@@ -4200,18 +4199,16 @@ msgid "Search…"
 msgstr "検索..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "新しいサービスをダウンロード..."
+msgstr "サービスをダウンロード…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "ショートカット…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4474,8 +4471,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"このオプションはビューのスタイルをコントロールします。現在サポートされている"
-"値は、アイコン (0), 詳細 (1), カラム (2) 表示です。"
+"このオプションはビューのスタイルをコントロールします。現在対応している値は、"
+"アイコン (0), 詳細 (1), カラム (2) 表示です。"
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4942,12 +4939,10 @@ msgid "Warning"
 msgstr "警告"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "すべての KDE アプリケーションで確認を求める動作:"
+msgstr "KDE アプリケーション内で確認を求める操作:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4971,7 +4966,7 @@ msgstr "ファイル/フォルダを削除"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "Dolphin で確認を求める動作:"
+msgstr "Dolphin で確認を求める操作:"
 
 #: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
@@ -5280,7 +5275,7 @@ msgid ""
 "pressing the right mouse button on a panel."
 msgstr ""
 "パネル設定はコンテキストメニューからも利用できます。パネル上でマウスの右ボタ"
-"ンを押して開きます。"
+"ンを押すと開くことができます。"
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -5442,13 +5437,13 @@ msgstr "自然"
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr "アルファベット順,大文字と小文字を区別しない"
+msgstr "アルファベット順 (大文字と小文字を区別しない)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
-msgstr "アルファベット順,大文字と小文字を区別する"
+msgstr "アルファベット順 (大文字と小文字を区別する)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:47
 #, kde-format
@@ -5466,7 +5461,7 @@ msgstr "アイテム数を表示する"
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "コンテンツのサイズを表示する: 最大"
+msgstr "フォルダ内容のサイズを表示する / フォルダの深さ最大"
 
 #: settings/viewmodes/contentdisplaytab.cpp:55
 #, kde-format
@@ -5478,7 +5473,7 @@ msgstr "サイズを表示しない"
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] " 深い準位"
+msgstr[0] " 段"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
@@ -5579,8 +5574,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
-"検索, 最近使ったファイル, ごみ箱などの一部の特別なビューでは、引き続きカスタ"
-"ム表示スタイルを使用します。"
+"検索、最近使ったファイル、ごみ箱などの特別な画面では、引き続きカスタム表示ス"
+"タイルになります。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:43
 #, kde-format
@@ -6635,9 +6630,9 @@ msgid ""
 "This mode is handy to browse through pictures when the <interface>Preview</"
 "interface> option is enabled.</para>"
 msgstr ""
-"<para>フォルダやファイルのアイコンを中心とした表示モードに切り替わります。こ"
-"のモードでは、フォルダとファイルの区別や、特徴的な<emphasis>ファイルタイプ</"
-"emphasis>のアイテムの検出が容易になります。</para><para>このモードは、"
+"<para>フォルダやファイルのアイコンを中心とした表示モードに切り替えます。この"
+"モードでは、フォルダとファイルの区別や、特殊な<emphasis>ファイル形式</"
+"emphasis>をもつファイルが確認しやすくなります。</para><para>このモードは、"
 "<interface>プレビュー</interface>オプションが有効になっている場合、写真を閲覧"
 "するのに便利です。</para>"
 
@@ -6857,8 +6852,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
-"これは表示モードを切り替えます。ドロップダウンメニューには、表示に関する 様々"
-"な操作が含まれています。"
+"これは表示モードを切り替えます。ドロップダウンメニューから、表示に関する様々"
+"な操作を行うことができます。"
 
 #: views/dolphinviewactionhandler.cpp:433
 #, fuzzy, kde-format
@@ -7024,46 +7019,3 @@ msgstr "ズーム"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "ズーム"
-
-#~ msgid "Use tab for switching between right and left view"
-#~ msgstr "左右のビューを切り替えるのにタブを使用する"
-
-#~ msgctxt "option:check split view panes"
-#~ msgid "Switch between views with Tab key"
-#~ msgstr "Tab キーでビューを切り替える"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Show in Groups"
-#~ msgstr "グループ化して表示(&G)"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "This groups files and folders by their first letter."
-#~ msgstr "ファイルやフォルダーを最初の文字でグループ化します。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully copied."
-#~ msgstr "コピーしました。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved."
-#~ msgstr "移動しました。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully linked."
-#~ msgstr "リンクを作成しました。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully moved to trash."
-#~ msgstr "ごみ箱に移動しました。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Successfully renamed."
-#~ msgstr "名前を変更しました。"
-
-#~ msgctxt "@info:status"
-#~ msgid "Created folder."
-#~ msgstr "フォルダを作成しました。"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Select which services should be shown in the context menu:"
-#~ msgstr "コンテキストメニューに表示するサービスを選択します:"
