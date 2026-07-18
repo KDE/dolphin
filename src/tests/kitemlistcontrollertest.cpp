@@ -85,6 +85,8 @@ private Q_SLOTS:
     void testDragMoveHoverIdempotency();
     void testDragLeaveHoverCleanup();
 
+    void testRestartingInlineRenameKeepsEditor();
+
 private:
     /**
      * Make sure that the number of columns in the view is equal to \a count
@@ -1354,6 +1356,31 @@ void KItemListControllerTest::testDragLeaveHoverCleanup()
     simulateDragLeave(&mimeData);
     QCOMPARE(unhoveredSpy.count(), 1);
     QCOMPARE(hoveredSpy.count(), 1);
+}
+
+void KItemListControllerTest::testRestartingInlineRenameKeepsEditor()
+{
+    // Regression test: triggering inline renaming again on the item that is already being
+    // renamed (e.g. pressing F2 a second time) must be a no-op. It must NOT cancel the running
+    // edit - doing so used to silently discard the pending rename, so a later commit did nothing.
+    // See KItemListView::editRole().
+    m_selectionManager->setCurrentItem(0);
+
+    m_view->editRole(0, "text"); // start editing item 0
+
+    QSignalSpy canceledSpy(m_view, &KItemListView::roleEditingCanceled);
+    QSignalSpy finishedSpy(m_view, &KItemListView::roleEditingFinished);
+    QVERIFY(canceledSpy.isValid());
+
+    m_view->editRole(0, "text"); // "second F2" on the same item and role
+
+    // The ongoing edit must be left untouched: neither canceled nor finished.
+    QCOMPARE(canceledSpy.count(), 0);
+    QCOMPARE(finishedSpy.count(), 0);
+
+    // Sanity check that the edit really was live: clearing the edited role now cancels it.
+    m_view->editRole(0, QByteArray());
+    QVERIFY(canceledSpy.count() >= 1);
 }
 
 QTEST_MAIN(KItemListControllerTest)
