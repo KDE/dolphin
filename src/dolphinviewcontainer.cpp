@@ -277,9 +277,11 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
         connectUrlNavigator(connectedNavigator);
     }
 
-    if (wasActive) {
-        m_view->setActive(true);
-    }
+    // A freshly constructed view defaults to active (DolphinView::m_active is
+    // initialized true). Sync it to the container's real active state, or a
+    // view swapped in on an inactive split pane stays wrongly "active" and the
+    // window never wires its active-view signals (context menu, ...) to it.
+    m_view->setActive(wasActive);
 
     oldView->deleteLater();
 
