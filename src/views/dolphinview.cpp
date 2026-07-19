@@ -746,7 +746,7 @@ void DolphinView::requestStatusBarText()
         m_statJobForStatusBarText->kill();
     }
 
-    if (m_container->controller()->selectionManager()->hasSelection()) {
+    if (activeSelectionManager()->hasSelection()) {
         int folderCount = 0;
         int fileCount = 0;
         KIO::filesize_t totalFileSize = 0;
@@ -770,11 +770,12 @@ void DolphinView::requestStatusBarText()
             emitStatusBarText(folderCount, fileCount, totalFileSize, HasSelection);
         }
     } else { // has no selection
-        if (!m_model->rootItem().url().isValid()) {
+        const KFileItem root = rootItem();
+        if (!root.url().isValid()) {
             return;
         }
 
-        m_statJobForStatusBarText = KIO::stat(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
+        m_statJobForStatusBarText = KIO::stat(root.url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
         connect(m_statJobForStatusBarText, &KJob::result, this, &DolphinView::slotStatJobResult);
         m_statJobForStatusBarText->start();
     }
@@ -890,32 +891,34 @@ void DolphinView::renameSelectedItems()
     }
 
     if (items.count() == 1 && GeneralSettings::renameInline()) {
-        const int index = m_model->index(items.first());
+        DolphinItemListView *view = activeItemListView();
+        const int index = activeModel()->index(items.first());
 
         connect(
-            m_view,
+            view,
             &KItemListView::scrollingStopped,
             this,
-            [this, index]() {
-                m_view->editRole(index, "text");
+            [this, view, index]() {
+                view->editRole(index, "text");
 
                 hideToolTip();
 
-                connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished, Qt::UniqueConnection);
+                connect(view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished, Qt::UniqueConnection);
             },
             Qt::SingleShotConnection);
-        m_view->scrollToItem(index);
+        view->scrollToItem(index);
 
     } else {
         KIO::RenameFileDialog *dialog = new KIO::RenameFileDialog(items, this);
         connect(dialog, &KIO::RenameFileDialog::renamingFinished, this, [this, items](const QList<QUrl> &urls) {
             // The model may have already been updated, so it's possible that we don't find the old items.
+            KFileItemModel *model = activeModel();
             for (int i = 0; i < items.count(); ++i) {
-                const int index = m_model->index(items[i]);
+                const int index = model->index(items[i]);
                 if (index >= 0) {
                     SmallHash data;
                     data.insert("text", urls[i].fileName());
-                    m_model->setData(index, data);
+                    model->setData(index, data);
                 }
             }
 
@@ -2050,7 +2053,7 @@ void DolphinView::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUr
 void DolphinView::updateSelectionState()
 {
     if (!m_selectedUrls.isEmpty()) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = activeSelectionManager();
 
         const bool shouldScrollToCurrentItem = m_clearSelectionBeforeSelectingNewItems;
         // if there is a selection already, leave it that way
@@ -2065,7 +2068,7 @@ void DolphinView::updateSelectionState()
 
             QList<QUrl>::iterator it = m_selectedUrls.begin();
             while (it != m_selectedUrls.end()) {
-                const int index = m_model->index(*it);
+                const int index = activeModel()->index(*it);
                 if (index >= 0) {
                     selectedItems.insert(index);
                     it = m_selectedUrls.erase(it);
@@ -2078,7 +2081,7 @@ void DolphinView::updateSelectionState()
                 selectionManager->beginAnchoredSelection(selectionManager->currentItem());
                 selectionManager->setSelectedItems(selectedItems);
                 if (shouldScrollToCurrentItem) {
-                    m_view->scrollToItem(selectedItems.first());
+                    activeItemListView()->scrollToItem(selectedItems.first());
                 }
             }
         }
@@ -2147,6 +2150,11 @@ void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
     } else if (m_mode == DolphinView::IconsView) {
         QToolTip::hideText();
     }
+}
+
+bool DolphinView::urlChangeLeavesTheSelectionBehind() const
+{
+    return true;
 }
 
 bool DolphinView::handleSpaceAsNormalKey() const
@@ -2332,7 +2340,7 @@ void DolphinView::slotRoleEditingCanceled()
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value)
 {
-    disconnect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
+    disconnect(activeItemListView(), &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
 
     const KFileItemList items = selectedItems();
     if (items.count() != 1) {
@@ -2462,7 +2470,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             // The renamed item is re-sorted to a new position but stays selected, so scroll to keep it in view.
             scrollToItemOnceResorted(newUrl);
 
-            if (m_model->index(newUrl) < 0) {
+            if (activeModel()->index(newUrl) < 0) {
                 forceUrlsSelection(newUrl, {newUrl});
                 updateSelectionState();
 
@@ -2474,8 +2482,9 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
         }
         if (retVal.direction != EditDone) {
             const short indexShift = retVal.direction == EditNext ? 1 : -1;
-            m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
-            m_container->controller()->selectionManager()->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
+            KItemListSelectionManager *selectionManager = activeSelectionManager();
+            selectionManager->setSelected(index, 1, KItemListSelectionManager::Deselect);
+            selectionManager->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
             renameSelectedItems();
         }
     }
@@ -2804,12 +2813,17 @@ KFileItemModel *DolphinView::activeModel() const
     return m_model;
 }
 
+DolphinItemListView *DolphinView::activeItemListView() const
+{
+    return m_view;
+}
+
 void DolphinView::updateWritableState()
 {
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = false;
 
-    KFileItem item = m_model->rootItem();
+    KFileItem item = activeModel()->rootItem();
     if (item.isNull()) {
         // Try to find out if the URL is writable even if the "root item" is
         // null, see https://bugs.kde.org/show_bug.cgi?id=330001

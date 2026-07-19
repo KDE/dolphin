@@ -276,7 +276,7 @@ public:
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void setNameFilter(const QString &nameFilter);
+    virtual void setNameFilter(const QString &nameFilter);
     QString nameFilter() const;
 
     /**
@@ -290,13 +290,13 @@ public:
     /**
      * Sets the filtering mode of the currently used nameFilter.
      */
-    void setFilterMode(KFileItemModelFilter::FilterMode mode);
+    virtual void setFilterMode(KFileItemModelFilter::FilterMode mode);
     KFileItemModelFilter::FilterMode filterMode() const;
 
     /**
      * Enables or disable the caseSensitive matching of the currently used nameFilter.
      */
-    void setFilterCaseSensitive(bool caseSensitive);
+    virtual void setFilterCaseSensitive(bool caseSensitive);
     bool isFilterCaseSensitive() const;
 
     /**
@@ -394,7 +394,11 @@ public:
      *
      * See BUG 465489
      */
-    bool handleSpaceAsNormalKey() const;
+    virtual bool handleSpaceAsNormalKey() const;
+
+    /// Whether a change of url takes the view away from what the user was working on. Leaving
+    /// selection mode follows from that.
+    virtual bool urlChangeLeavesTheSelectionBehind() const;
 
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -844,6 +848,21 @@ protected:
      */
     virtual KFileItemModel *activeModel() const;
 
+    /**
+     * Returns the item list view of the currently active view. Subclasses that
+     * manage several item list views (e.g. ColumnsView) return the active one,
+     * so shared operations such as inline renaming act on the right widget.
+     */
+    virtual DolphinItemListView *activeItemListView() const;
+
+    /**
+     * Updates m_isFolderWritable dependent on whether the folder of the active
+     * view is writable, emitting writeStateChanged() if it changed. Subclasses
+     * that manage several views (e.g. ColumnsView) call this when the active
+     * folder changes so the state tracks the active view.
+     */
+    void updateWritableState();
+
 private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
@@ -1047,13 +1066,6 @@ private:
      * levels, only the parent is returned.
      */
     QList<QUrl> simplifiedSelectedUrls() const;
-
-    /**
-     * Updates m_isFolderWritable dependent on whether the folder represented by
-     * the current URL is writable. If the state has changed, the signal
-     * writeStateChanged() will be emitted.
-     */
-    void updateWritableState();
 
     /**
      * @return The current URL if no viewproperties-context is given (see
