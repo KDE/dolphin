@@ -20,6 +20,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QResizeEvent>
+#include <QScopedValueRollback>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
@@ -300,9 +301,10 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
         setFocusProxy(senderPane->container());
         updateUrl(m_columns.at(colIndex)->dirUrl());
 
-        m_blockNavigation = true;
-        senderPane->setActiveChildUrl(item.url());
-        m_blockNavigation = false;
+        {
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            senderPane->setActiveChildUrl(item.url());
+        }
 
         Q_EMIT urlChanged(m_columns.at(colIndex)->dirUrl());
     }
@@ -381,9 +383,10 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
     // Mark the parent's selected item; guard against cascading navigation
     // since setActiveChildUrl triggers slotCurrentChanged in the pane.
     auto *parentPane = m_columns.at(columnIndex);
-    m_blockNavigation = true;
-    parentPane->setActiveChildUrl(childUrl);
-    m_blockNavigation = false;
+    {
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        parentPane->setActiveChildUrl(childUrl);
+    }
 
     DolphinColumnPane *pane = createPane(childUrl);
     m_columns.append(pane);
@@ -465,8 +468,6 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
                 m_pendingAutoSelect = m_columns.at(childCol);
             }
             setActiveColumn(childCol);
-            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-            Q_EMIT urlChanged(url());
         }
     });
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
@@ -548,10 +549,8 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     }
 
     if (sourceColumn < 0) {
-        m_blockNavigation = true;
-        auto ret = DolphinView::eventFilter(watched, event);
-        m_blockNavigation = false;
-        return ret;
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        return DolphinView::eventFilter(watched, event);
     }
 
     if (event->type() == QEvent::KeyPress) {
@@ -589,8 +588,6 @@ void DolphinColumnsView::handleKeyLeft(int sourceColumn)
 {
     if (sourceColumn > 0) {
         setActiveColumn(sourceColumn - 1);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
     }
     // Always consumed to prevent leaking to the Places panel
 }
@@ -610,8 +607,6 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = childPane;
         }
         setActiveColumn(sourceColumn + 1);
-        updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-        Q_EMIT urlChanged(url());
         return;
     }
 
@@ -637,7 +632,6 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
             m_pendingAutoSelect = m_columns.at(childCol);
         }
         setActiveColumn(childCol);
-        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
 }
 
@@ -678,8 +672,6 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
             m_pendingAutoSelect = m_columns.at(childCol);
         }
         setActiveColumn(childCol);
-        updateUrl(m_columns.at(childCol)->dirUrl());
-        Q_EMIT urlChanged(m_columns.at(childCol)->dirUrl());
     }
     return true;
 }
@@ -708,8 +700,6 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
     // on an inactive column activates it before the context menu.
     if (colIndex != m_activeColumn) {
         setActiveColumn(colIndex);
-        updateUrl(pane->dirUrl());
-        Q_EMIT urlChanged(url());
     }
 
     if (!(buttons & Qt::LeftButton)) {
@@ -784,13 +774,12 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
     // Ensure the current item is set and selected.  Guard against cascading
     // navigation from the programmatic selection change.
     if (pane->model()->count() > 0) {
-        m_blockNavigation = true;
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
         if (selectionManager->currentItem() < 0) {
             selectionManager->setCurrentItem(0);
         }
         // Always re-apply selection; it may have been cleared by Left arrow
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
-        m_blockNavigation = false;
     }
 
     // Trigger navigation for the selected item directly, since
