@@ -63,9 +63,6 @@ Q_SIGNALS:
     void currentItemChanged(const KFileItem &item);
     void directoryLoadingCompleted();
 
-    void itemContextMenuRequested(const KFileItem &item, const QPointF &screenPos);
-    void viewContextMenuRequested(const QPointF &screenPos);
-
     void infoMessage(const QString &msg);
     void errorMessage(const QString &msg);
     void operationCompletedMessage(const QString &msg);
@@ -73,8 +70,6 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotItemActivated(int index);
     void slotCurrentChanged(int current, int previous);
-    void slotItemContextMenuRequested(int index, const QPointF &pos);
-    void slotViewContextMenuRequested(const QPointF &pos);
 
 private:
     KFileItemModel *m_model = nullptr;
