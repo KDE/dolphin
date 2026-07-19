@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -79,6 +80,7 @@ private Q_SLOTS:
     void testSelectionPreservedAcrossNavigation();
     void testLeftKeyClearsChildSelection();
     void testDirectorySelectionOpensChildOnce();
+    void testMouseClickOnDirectoryOpensChildOnce();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -622,6 +624,51 @@ void DolphinColumnsViewTest::testDirectorySelectionOpensChildOnce()
     QCOMPARE(m_view->columnAt(1), childPane);
     // beta is loaded exactly once: no double pop-and-rebuild of the child column.
     QCOMPARE(loadSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
+{
+    // A left-click opens the child of the *current* item (handleMouseButtonPressed).
+    // openChild() then calls setActiveChildUrl() on the parent, which changes the
+    // parent's selection and re-emits selectionChanged. Without the m_blockNavigation
+    // guard on that handler this re-enters openChild() before the first call has
+    // appended its column, so both calls see no child and build one each - two
+    // columns for the same folder. Verify exactly one child column is created.
+    activateColumn(0);
+    auto *pane = m_view->columnAt(0);
+    auto *selectionManager = pane->controller()->selectionManager();
+
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    // Make "beta" the current item without opening its child yet. During a real
+    // click the mouse button is held, so slotColumnsCurrentItemChanged()'s
+    // "mouseButtons() == NoButton" guard suppresses it and only
+    // handleMouseButtonPressed() opens the child. Offscreen there is no held
+    // button, so block signals while seeding the current item to reproduce that
+    // precondition (current == beta, no child column, selection differs from it).
+    selectionManager->blockSignals(true);
+    selectionManager->clearSelection();
+    selectionManager->setCurrentItem(betaIndex);
+    selectionManager->blockSignals(false);
+
+    // Simulate a left-click on the already-current "beta". This opens exactly one
+    // child column showing "beta"; the re-entrancy bug would open a second.
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+
+    // Let any queued re-entrant open settle, then confirm still exactly one child.
+    QTest::qWait(100); // UNAVOIDABLE: no signal for the absence of a re-entrant open
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
