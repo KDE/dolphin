@@ -2734,7 +2734,7 @@ void DolphinView::updateWritableState()
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = false;
 
-    KFileItem item = m_model->rootItem();
+    KFileItem item = activeModel()->rootItem();
     if (item.isNull()) {
         // Try to find out if the URL is writable even if the "root item" is
         // null, see https://bugs.kde.org/show_bug.cgi?id=330001

@@ -855,6 +855,14 @@ protected:
      */
     virtual DolphinItemListView *activeItemListView() const;
 
+    /**
+     * Updates m_isFolderWritable dependent on whether the folder of the active
+     * view is writable, emitting writeStateChanged() if it changed. Subclasses
+     * that manage several views (e.g. ColumnsView) call this when the active
+     * folder changes so the state tracks the active view.
+     */
+    void updateWritableState();
+
 private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
@@ -1055,13 +1063,6 @@ private:
      * levels, only the parent is returned.
      */
     QList<QUrl> simplifiedSelectedUrls() const;
-
-    /**
-     * Updates m_isFolderWritable dependent on whether the folder represented by
-     * the current URL is writable. If the state has changed, the signal
-     * writeStateChanged() will be emitted.
-     */
-    void updateWritableState();
 
     /**
      * @return The current URL if no viewproperties-context is given (see
