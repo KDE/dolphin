@@ -872,32 +872,34 @@ void DolphinView::renameSelectedItems()
     }
 
     if (items.count() == 1 && GeneralSettings::renameInline()) {
-        const int index = m_model->index(items.first());
+        DolphinItemListView *view = activeItemListView();
+        const int index = activeModel()->index(items.first());
 
         connect(
-            m_view,
+            view,
             &KItemListView::scrollingStopped,
             this,
-            [this, index]() {
-                m_view->editRole(index, "text");
+            [this, view, index]() {
+                view->editRole(index, "text");
 
                 hideToolTip();
 
-                connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished, Qt::UniqueConnection);
+                connect(view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished, Qt::UniqueConnection);
             },
             Qt::SingleShotConnection);
-        m_view->scrollToItem(index);
+        view->scrollToItem(index);
 
     } else {
         KIO::RenameFileDialog *dialog = new KIO::RenameFileDialog(items, this);
         connect(dialog, &KIO::RenameFileDialog::renamingFinished, this, [this, items](const QList<QUrl> &urls) {
             // The model may have already been updated, so it's possible that we don't find the old items.
+            KFileItemModel *model = activeModel();
             for (int i = 0; i < items.count(); ++i) {
-                const int index = m_model->index(items[i]);
+                const int index = model->index(items[i]);
                 if (index >= 0) {
                     QHash<QByteArray, QVariant> data;
                     data.insert("text", urls[i].fileName());
-                    m_model->setData(index, data);
+                    model->setData(index, data);
                 }
             }
 
@@ -2306,7 +2308,7 @@ void DolphinView::slotRoleEditingCanceled()
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value)
 {
-    disconnect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
+    disconnect(activeItemListView(), &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
 
     const KFileItemList items = selectedItems();
     if (items.count() != 1) {
@@ -2396,7 +2398,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
-            if (m_model->index(newUrl) < 0) {
+            if (activeModel()->index(newUrl) < 0) {
                 forceUrlsSelection(newUrl, {newUrl});
                 updateSelectionState();
 
@@ -2407,8 +2409,9 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
         }
         if (retVal.direction != EditDone) {
             const short indexShift = retVal.direction == EditNext ? 1 : -1;
-            m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
-            m_container->controller()->selectionManager()->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
+            KItemListSelectionManager *selectionManager = activeSelectionManager();
+            selectionManager->setSelected(index, 1, KItemListSelectionManager::Deselect);
+            selectionManager->setSelected(index + indexShift, 1, KItemListSelectionManager::Select);
             renameSelectedItems();
         }
     }
@@ -2719,6 +2722,11 @@ KItemListSelectionManager *DolphinView::activeSelectionManager() const
 KFileItemModel *DolphinView::activeModel() const
 {
     return m_model;
+}
+
+DolphinItemListView *DolphinView::activeItemListView() const
+{
+    return m_view;
 }
 
 void DolphinView::updateWritableState()

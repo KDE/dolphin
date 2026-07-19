@@ -848,6 +848,13 @@ protected:
      */
     virtual KFileItemModel *activeModel() const;
 
+    /**
+     * Returns the item list view of the currently active view. Subclasses that
+     * manage several item list views (e.g. ColumnsView) return the active one,
+     * so shared operations such as inline renaming act on the right widget.
+     */
+    virtual DolphinItemListView *activeItemListView() const;
+
 private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
