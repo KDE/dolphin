@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -50,6 +51,7 @@ public:
     KFileItemModel *model() const;
     KItemListController *controller() const;
     KItemListContainer *container() const;
+    DolphinItemListView *itemListView() const;
 
     void setPreviewsShown(bool show);
 
