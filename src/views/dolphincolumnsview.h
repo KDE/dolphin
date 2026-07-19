@@ -70,6 +70,13 @@ private:
     DolphinColumnPane *createPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
+    /**
+     * Returns the URL of the folder that @p item navigates into (a directory,
+     * or e.g. an archive when browsing those is supported), or an empty URL if
+     * @p item is not a navigable folder.
+     */
+    QUrl folderUrlForItem(const KFileItem &item) const;
+
     void handleKeyLeft(int sourceColumn);
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);

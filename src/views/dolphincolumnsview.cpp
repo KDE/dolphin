@@ -289,11 +289,9 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
     senderPane->controller()->selectionManager()->blockSignals(true);
 
     // Directory → open child column (no auto-select in the child)
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    const QUrl folderUrl = folderUrlForItem(item);
     if (!folderUrl.isEmpty()) {
         openChild(colIndex, folderUrl);
-    } else if (item.isDir()) {
-        openChild(colIndex, item.url());
     } else {
         // File selected → pop child columns
         popAfter(colIndex);
@@ -347,6 +345,18 @@ DolphinColumnPane *DolphinColumnsView::activePane() const
         return m_columns.at(m_activeColumn);
     }
     return nullptr;
+}
+
+QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
+{
+    if (item.isNull()) {
+        return QUrl();
+    }
+    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    if (!folderUrl.isEmpty()) {
+        return folderUrl;
+    }
+    return item.isDir() ? item.url() : QUrl();
 }
 
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
@@ -611,11 +621,9 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
     if (current >= 0 && current < pane->model()->count()) {
         const KFileItem item = pane->model()->fileItem(current);
         if (!item.isNull()) {
-            const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+            const QUrl folderUrl = folderUrlForItem(item);
             if (!folderUrl.isEmpty()) {
                 openChild(sourceColumn, folderUrl);
-            } else if (item.isDir()) {
-                openChild(sourceColumn, item.url());
             }
         }
     }
@@ -646,10 +654,7 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
         return false;
     }
 
-    QUrl targetUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (targetUrl.isEmpty() && item.isDir()) {
-        targetUrl = item.url();
-    }
+    const QUrl targetUrl = folderUrlForItem(item);
     if (targetUrl.isEmpty()) {
         Q_EMIT itemActivated(item);
         return true;
@@ -725,10 +730,7 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    QUrl targetUrl = DolphinView::openItemAsFolderUrl(item, false);
-    if (targetUrl.isEmpty() && item.isDir()) {
-        targetUrl = item.url();
-    }
+    const QUrl targetUrl = folderUrlForItem(item);
     if (targetUrl.isEmpty()) {
         return;
     }
@@ -805,11 +807,9 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
 
     Q_EMIT requestItemInfo(item);
 
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    const QUrl folderUrl = folderUrlForItem(item);
     if (!folderUrl.isEmpty()) {
         openChild(columnIndex, folderUrl);
-    } else if (item.isDir()) {
-        openChild(columnIndex, item.url());
     }
 }
 
