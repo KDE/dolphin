@@ -114,6 +114,14 @@ private Q_SLOTS:
     void testClosingColumnsLeavesTheScrollPositionAlone();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
+    void testNameFilterAppliesToEveryColumn();
+    void testAColumnOpenedLaterInheritsTheFilter();
+    void testFilterCaseSensitivityAppliesToEveryColumn();
+    void testFilterModeAppliesToEveryColumn();
+    void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
+    void testFilteringOutAFolderClosesItsColumn();
+    void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
+    void testSpaceIsAShortcutWhenAColumnHasTheFocus();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1439,6 +1447,159 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
         const int asked = qMin(viewportWidth, qMax(settings->minColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
         QVERIFY2(applied.at(i) == asked, qPrintable(QStringLiteral("column %1 asked for %2 and was given %3").arg(i).arg(asked).arg(applied.at(i))));
     }
+}
+
+void DolphinColumnsViewTest::testNameFilterAppliesToEveryColumn()
+{
+    // The filter belongs to the view, so it reaches every column and not only the active one.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    const int unfilteredRootCount = m_view->columnAt(0)->model()->count();
+    const int unfilteredChildCount = m_view->columnAt(1)->model()->count();
+
+    // "al" matches alpha in the root and alpha-child in alpha. It has to keep alpha itself
+    // visible, because filtering the folder a column was opened from closes that column.
+    m_view->setNameFilter(QStringLiteral("al"));
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnCount(), 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+
+    m_view->setNameFilter(QString());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), unfilteredRootCount, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), unfilteredChildCount, 5000);
+}
+
+void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilter()
+{
+    // A column opened while a filter is set is filtered as well.
+    m_view->setNameFilter(QStringLiteral("a"));
+    // alpha, beta and gamma carry an "a", single-file.txt does not.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 3, 5000);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // alpha holds alpha-child, file1.txt and file2.txt, and only the first carries an "a".
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+
+    m_view->setNameFilter(QString());
+}
+
+void DolphinColumnsViewTest::testFilterCaseSensitivityAppliesToEveryColumn()
+{
+    // Case sensitivity belongs to the view, so it reaches the columns that are already open.
+    m_testDir->createFile("alpha/ALPHA-UPPER.txt");
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 4, 5000);
+
+    m_view->setFilterCaseSensitive(false);
+    m_view->setNameFilter(QStringLiteral("alpha"));
+
+    // alpha in the root, and alpha-child plus ALPHA-UPPER.txt in alpha.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 2, 5000);
+
+    m_view->setFilterCaseSensitive(true);
+
+    QCOMPARE(m_view->columnAt(0)->model()->isFilterCaseSensitive(), true);
+    QCOMPARE(m_view->columnAt(1)->model()->isFilterCaseSensitive(), true);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testFilterModeAppliesToEveryColumn()
+{
+    // The filter mode reaches the columns that are already open. "^alpha" matches as a regular
+    // expression and matches nothing as a glob, where both characters are literal.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    m_view->setFilterMode(KFileItemModelFilter::Regex);
+    m_view->setNameFilter(QStringLiteral("^alpha"));
+
+    QCOMPARE(m_view->columnAt(0)->model()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(m_view->columnAt(1)->model()->filterMode(), KFileItemModelFilter::Regex);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilterModeAndCase()
+{
+    // createPane() gives a new column the whole filter, and not only the name.
+    m_view->setFilterMode(KFileItemModelFilter::Regex);
+    m_view->setFilterCaseSensitive(true);
+    m_view->setNameFilter(QStringLiteral("^alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    QCOMPARE(m_view->columnAt(1)->model()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(m_view->columnAt(1)->model()->isFilterCaseSensitive(), true);
+    QCOMPARE(m_view->columnAt(1)->model()->nameFilter(), QStringLiteral("^alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+}
+
+void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
+{
+    // A column stands for an item of the column to its left. Filtering that item away leaves the
+    // column with nothing to stand for, so it closes.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // "file" matches single-file.txt in the root and leaves out alpha.
+    m_view->setNameFilter(QStringLiteral("file"));
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->columnAt(0)->model()->count(), 1);
+}
+
+void DolphinColumnsViewTest::testActivatingAnotherColumnKeepsWhatTheUserWasDoing()
+{
+    // DolphinViewContainer leaves selection mode when the url changes, because what the user had
+    // selected is gone. Activating another column changes the url too, and closing selection mode
+    // then took it away from under them. The view answers for the url change it is emitting.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+
+    bool leavesBehindOnColumnSwitch = true;
+    auto columnSwitch = connect(m_view, &DolphinView::urlChanged, this, [this, &leavesBehindOnColumnSwitch]() {
+        leavesBehindOnColumnSwitch = m_view->urlChangeLeavesTheSelectionBehind();
+    });
+    m_view->setActiveColumn(0);
+    disconnect(columnSwitch);
+    QCOMPARE(leavesBehindOnColumnSwitch, false);
+
+    // A url that none of the columns shows is somewhere else, and there selection mode goes.
+    TestDir otherDir;
+    bool leavesBehindOnNavigation = false;
+    auto navigation = connect(m_view, &DolphinView::urlChanged, this, [this, &leavesBehindOnNavigation]() {
+        leavesBehindOnNavigation = m_view->urlChangeLeavesTheSelectionBehind();
+    });
+    m_view->setUrl(otherDir.url());
+    disconnect(navigation);
+    QCOMPARE(leavesBehindOnNavigation, true);
+}
+
+void DolphinColumnsViewTest::testSpaceIsAShortcutWhenAColumnHasTheFocus()
+{
+    // DolphinMainWindow asks this before letting Space through as a shortcut, and the answer has
+    // to be about the column that holds the focus. The base view asks its own container, which
+    // no column ever is, so Space always arrived as a normal key and selection mode never came on.
+    activateColumn(0);
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+
+    QCOMPARE(m_view->handleSpaceAsNormalKey(), false);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
