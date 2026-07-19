@@ -561,6 +561,22 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
         return DolphinView::eventFilter(watched, event);
     }
 
+    // A pane gaining focus makes both the view and that column active, mirroring
+    // how the base DolphinView activates on FocusIn of its container. Focus is
+    // how the window learns which view is active and wires the active-view
+    // signals (context menu, selection info, ...) to it, and the active-pane
+    // context-menu handler follows the active column. Activating the column here
+    // also covers a right-click on an inactive pane's background (which selects
+    // no item, so handleMouseButtonPressed() does not run). Doing this on FocusIn
+    // covers mouse, keyboard and programmatic focus, and it is reinstalled per
+    // pane in createPane(), so it is unaffected by swapView().
+    if (event->type() == QEvent::FocusIn) {
+        if (sourceColumn != m_activeColumn) {
+            setActiveColumn(sourceColumn);
+        }
+        setActive(true);
+    }
+
     if (event->type() == QEvent::KeyPress) {
         auto *keyEvent = static_cast<QKeyEvent *>(event);
 

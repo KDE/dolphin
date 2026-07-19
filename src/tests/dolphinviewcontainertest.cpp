@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -39,6 +40,7 @@ private Q_SLOTS:
     void testColumnsIconSizeStaysNonZeroOnPreviewToggle();
     void testSwapDoesNotPersistOutgoingMode();
     void testNavigatorFollowsViewAfterModeSwap();
+    void testSwapAdoptsContainerActiveState();
 
 private:
     void waitForViewReady();
@@ -259,6 +261,34 @@ void DolphinViewContainerTest::testNavigatorFollowsViewAfterModeSwap()
 
     m_container->disconnectUrlNavigator();
     delete navigator;
+}
+
+void DolphinViewContainerTest::testSwapAdoptsContainerActiveState()
+{
+    // A freshly constructed DolphinView defaults to active (m_active is
+    // initialized true). swapView() must sync the incoming view to the
+    // container's real active state. Otherwise a view swapped in on an inactive
+    // container (e.g. an inactive split pane switching to Columns) stays wrongly
+    // "active", so the window - which only wires active-view signals (context
+    // menu, ...) to the active view - never connects them to it.
+
+    // Inactive container: the swapped-in columns view must be inactive.
+    m_container->setActive(false);
+    QVERIFY(!m_container->view()->isActive());
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+    QVERIFY(!m_container->view()->isActive());
+
+    // Active container: the swapped-in view must be active.
+    m_container->setActive(true);
+    QVERIFY(m_container->view()->isActive());
+
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) == nullptr);
+    QVERIFY(m_container->view()->isActive());
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
