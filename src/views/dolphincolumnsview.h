@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -44,12 +45,22 @@ public:
     void reload() override;
     void stopLoading() override;
     void readSettings() override;
+
+    /// The filter belongs to the whole view, so every column gets it, new ones included.
+    void setNameFilter(const QString &nameFilter) override;
+    void setFilterMode(KFileItemModelFilter::FilterMode mode) override;
+    void setFilterCaseSensitive(bool caseSensitive) override;
     KFileItem rootItem() const override;
 
     /// The columns scroll horizontally in their own scroll area, not in the base container.
     int horizontalScrollBarHeight() const override;
     /// Each column has to leave room for the small status bar, not the hidden base view.
     void setStatusBarOffset(int offset) override;
+    /// Answers for the column that holds the focus, which the base container never does.
+    bool handleSpaceAsNormalKey() const override;
+    /// Moving to another column stays on what the user was working on, so the selection mode
+    /// they turned on stays with them.
+    bool urlChangeLeavesTheSelectionBehind() const override;
 
     // --- Columns-specific API ---
     int columnCount() const;
@@ -68,6 +79,7 @@ protected:
 
     KItemListSelectionManager *activeSelectionManager() const override;
     KFileItemModel *activeModel() const override;
+    DolphinItemListView *activeItemListView() const override;
 
 private Q_SLOTS:
     void slotFileActivated(const KFileItem &item);
@@ -137,6 +149,11 @@ private:
     bool m_splitterReleaseSeen = false;
 
     int m_statusBarOffset = 0;
+
+    bool m_switchingColumns = false;
+    QString m_nameFilter;
+    KFileItemModelFilter::FilterMode m_filterMode;
+    bool m_filterCaseSensitive = false;
 
     QList<DolphinColumnPane *> m_columns;
     int m_activeColumn = -1;
