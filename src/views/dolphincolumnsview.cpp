@@ -186,6 +186,14 @@ KFileItemModel *DolphinColumnsView::activeModel() const
     return DolphinView::activeModel();
 }
 
+DolphinItemListView *DolphinColumnsView::activeItemListView() const
+{
+    if (auto *pane = activePane()) {
+        return pane->itemListView();
+    }
+    return DolphinView::activeItemListView();
+}
+
 int DolphinColumnsView::columnCount() const
 {
     return m_columns.size();
