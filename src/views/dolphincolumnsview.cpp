@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -76,6 +77,12 @@ void DolphinColumnsView::initColumnsUi()
 {
     m_baseModel = DolphinView::activeModel(); // save original base model
 
+    // Every column is filtered the same way, so hold what the base model was set up with and
+    // hand it to each pane as it is created.
+    m_nameFilter = m_baseModel->nameFilter();
+    m_filterMode = m_baseModel->filterMode();
+    m_filterCaseSensitive = m_baseModel->isFilterCaseSensitive();
+
     m_columnsSelectionTimer = new QTimer(this);
     m_columnsSelectionTimer->setSingleShot(true);
     connect(m_columnsSelectionTimer, &QTimer::timeout, this, [this] {
@@ -124,6 +131,10 @@ void DolphinColumnsView::initColumnsUi()
         for (auto c : std::as_const(m_columns)) {
             c->setZoomLevel(zoomLevel());
         }
+        // Larger icons need wider columns; recompute so the rows (and their
+        // full-row selection highlight) still fit instead of spilling under the
+        // scrollbar.
+        recalculateColumnWidths();
     });
 }
 
@@ -168,6 +179,22 @@ void DolphinColumnsView::setStatusBarOffset(int offset)
     }
 }
 
+bool DolphinColumnsView::urlChangeLeavesTheSelectionBehind() const
+{
+    return !m_switchingColumns;
+}
+
+bool DolphinColumnsView::handleSpaceAsNormalKey() const
+{
+    // The base view asks its own container, which never holds the focus here: every column has a
+    // container of its own. Without this Space always reached the view as a normal key and never
+    // reached the shortcut that turns selection mode on.
+    if (auto *pane = activePane()) {
+        return !pane->container()->hasFocus() || pane->controller()->isSearchAsYouTypeActive();
+    }
+    return DolphinView::handleSpaceAsNormalKey();
+}
+
 void DolphinColumnsView::reload()
 {
     rebuildColumnsForUrl(url());
@@ -178,6 +205,33 @@ void DolphinColumnsView::stopLoading()
     for (auto *pane : std::as_const(m_columns)) {
         pane->model()->cancelDirectoryLoading();
     }
+}
+
+void DolphinColumnsView::setNameFilter(const QString &nameFilter)
+{
+    m_nameFilter = nameFilter;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setNameFilter(nameFilter);
+    }
+    DolphinView::setNameFilter(nameFilter);
+}
+
+void DolphinColumnsView::setFilterMode(KFileItemModelFilter::FilterMode mode)
+{
+    m_filterMode = mode;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setFilterMode(mode);
+    }
+    DolphinView::setFilterMode(mode);
+}
+
+void DolphinColumnsView::setFilterCaseSensitive(bool caseSensitive)
+{
+    m_filterCaseSensitive = caseSensitive;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setFilterCaseSensitive(caseSensitive);
+    }
+    DolphinView::setFilterCaseSensitive(caseSensitive);
 }
 
 void DolphinColumnsView::readSettings()
@@ -225,6 +279,14 @@ KFileItemModel *DolphinColumnsView::activeModel() const
     return DolphinView::activeModel();
 }
 
+DolphinItemListView *DolphinColumnsView::activeItemListView() const
+{
+    if (auto *pane = activePane()) {
+        return pane->itemListView();
+    }
+    return DolphinView::activeItemListView();
+}
+
 int DolphinColumnsView::columnCount() const
 {
     return m_columns.size();
@@ -263,7 +325,14 @@ void DolphinColumnsView::setActiveColumn(int index)
     ensureActiveColumnVisible();
 
     updateUrl(newPane->dirUrl());
-    Q_EMIT urlChanged(newPane->dirUrl());
+    {
+        QScopedValueRollback<bool> switching(m_switchingColumns, true);
+        Q_EMIT urlChanged(newPane->dirUrl());
+    }
+
+    // Track the writable state of the newly active pane's folder so the
+    // write-dependent actions (Create New, paste, ...) reflect it.
+    updateWritableState();
 }
 
 void DolphinColumnsView::applyModeToView()
@@ -378,6 +447,11 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
             autoSelectFirstItem(colIndex);
         }
     }
+
+    // The base write-state tracking is driven by the (unused) base model, so
+    // recompute it from the active pane now that a folder has finished loading.
+    // Otherwise "Create New"/paste stay disabled as if the folder were read-only.
+    updateWritableState();
 
     Q_EMIT directoryLoadingCompleted();
 }
@@ -580,6 +654,9 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     model->setShowHiddenFiles(hiddenFilesShown());
     model->setSortRole(sortRole());
     model->setSortOrder(sortOrder());
+    model->setFilterMode(m_filterMode);
+    model->setFilterCaseSensitive(m_filterCaseSensitive);
+    model->setNameFilter(m_nameFilter);
 
     auto *pane = new DolphinColumnPane(model, nullptr);
     if (KItemListView *paneView = pane->controller()->view()) {
