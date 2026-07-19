@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -233,6 +234,10 @@ void DolphinColumnsView::setActiveColumn(int index)
 
     updateUrl(newPane->dirUrl());
     Q_EMIT urlChanged(newPane->dirUrl());
+
+    // Track the writable state of the newly active pane's folder so the
+    // write-dependent actions (Create New, paste, ...) reflect it.
+    updateWritableState();
 }
 
 void DolphinColumnsView::applyModeToView()
@@ -334,6 +339,11 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
             autoSelectFirstItem(colIndex);
         }
     }
+
+    // The base write-state tracking is driven by the (unused) base model, so
+    // recompute it from the active pane now that a folder has finished loading.
+    // Otherwise "Create New"/paste stay disabled as if the folder were read-only.
+    updateWritableState();
 
     Q_EMIT directoryLoadingCompleted();
 }
