@@ -10,6 +10,8 @@
 
 #include "dolphin_export.h"
 
+#include "views/dolphinview.h" // for DolphinView::Mode
+
 #include <QDialog>
 
 class QCheckBox;
@@ -54,6 +56,13 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void isDirtyChanged(bool isDirty);
+
+    /**
+     * Emitted when the chosen view mode should be applied. Routed through the
+     * view container (not the DolphinView directly) because switching to or
+     * from the columns view swaps the DolphinView for a different subclass.
+     */
+    void viewModeChangeRequested(DolphinView::Mode mode);
 
 private:
     void applyViewProperties();

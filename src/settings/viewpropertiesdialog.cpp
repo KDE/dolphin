@@ -71,6 +71,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
+    m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-file-columns")), i18nc("@item:inlistbox", "Columns"), DolphinView::ColumnsView);
 
     m_sortOrder = new QComboBox();
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
@@ -370,7 +371,6 @@ void ViewPropertiesDialog::applyViewProperties()
         settings->save();
     }
 
-    m_dolphinView->setViewMode(m_viewProps->viewMode());
     m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
@@ -383,6 +383,13 @@ void ViewPropertiesDialog::applyViewProperties()
     m_viewProps->save();
 
     markAsDirty(false);
+
+    // Apply the view mode last, through the container: switching to or from the
+    // columns view swaps the DolphinView for a different subclass, so the mode
+    // must not be set on m_dolphinView directly (it would be a stale pointer
+    // afterwards). The container recreates the view from the properties saved
+    // above.
+    Q_EMIT viewModeChangeRequested(m_viewProps->viewMode());
 }
 
 void ViewPropertiesDialog::loadSettings()
@@ -397,6 +404,9 @@ void ViewPropertiesDialog::loadSettings()
         break;
     case DolphinView::DetailsView:
         m_viewMode->setCurrentIndex(2);
+        break;
+    case DolphinView::ColumnsView:
+        m_viewMode->setCurrentIndex(3);
         break;
     default:
         break;
