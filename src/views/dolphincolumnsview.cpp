@@ -378,6 +378,14 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 {
+    // If the child column already shows this folder, keep it. A single
+    // interaction can request opening the same sub-folder from more than one
+    // handler (currentItemChanged and selectionChanged), which would otherwise
+    // tear down and rebuild the child pane, making it flicker/appear twice.
+    if (columnIndex + 1 < m_columns.size() && m_columns.at(columnIndex + 1)->dirUrl() == childUrl) {
+        return;
+    }
+
     popAfter(columnIndex);
 
     // Mark the parent's selected item; guard against cascading navigation
@@ -926,6 +934,13 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
 
     // Selection changed with timer batching (like base view)
     connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this, newPane](const KItemSet &current, const KItemSet &previous) {
+        // Programmatic selection changes (e.g. openChild() marking the parent's
+        // active child) must not drive navigation, or they re-enter openChild()
+        // and build the child column twice. slotColumnsCurrentItemChanged()
+        // guards the same way.
+        if (m_blockNavigation) {
+            return;
+        }
         const bool stateChanged = (current.isEmpty() != previous.isEmpty());
         m_columnsSelectionTimer->setInterval(stateChanged ? 0 : 300);
         m_columnsSelectionTimer->start();
@@ -937,24 +952,29 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
         auto currentColumnIndex = m_columns.indexOf(newPane);
         auto currentUrl = newPane->dirUrl();
         auto item = newPane->model()->fileItem(current.first());
-        if (!item.isNull() && item.isDir()) {
-            for (int i = m_columns.size() - 1; i > 0; --i) {
-                if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
-                    popAfter(i - 1);
-                } else {
-                    break;
-                }
-            }
-        }
-
         if (item.isDir() && currentColumnIndex != -1) {
-            newPane->controller()->selectionManager()->blockSignals(true);
-            openChild(currentColumnIndex, item.url());
+            const int childCol = currentColumnIndex + 1;
+            // The child column may already show this folder because
+            // slotColumnsCurrentItemChanged() opened it for the same change.
+            // Only pop the stale descendant columns and (re)open it otherwise,
+            // so the child pane is not rebuilt twice for one interaction.
+            if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != item.url()) {
+                for (int i = m_columns.size() - 1; i > 0; --i) {
+                    if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
+                        popAfter(i - 1);
+                    } else {
+                        break;
+                    }
+                }
 
-            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-            Q_EMIT urlChanged(url());
+                newPane->controller()->selectionManager()->blockSignals(true);
+                openChild(currentColumnIndex, item.url());
 
-            newPane->controller()->selectionManager()->blockSignals(false);
+                updateUrl(m_columns.at(m_activeColumn)->dirUrl());
+                Q_EMIT urlChanged(url());
+
+                newPane->controller()->selectionManager()->blockSignals(false);
+            }
         }
     });
 

@@ -27,6 +27,8 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
 {
     Q_OBJECT
 
+    friend class DolphinColumnsViewTest;
+
 public:
     explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
     ~DolphinColumnsView() override;
