@@ -118,13 +118,6 @@ public:
     virtual void setActive(bool active);
     bool isActive() const;
 
-    /**
-     * Changes the view mode for the current directory to \a mode.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * changed view mode will be stored automatically.
-     */
-    void setViewMode(Mode mode);
     Mode viewMode() const;
 
     /**
@@ -816,6 +809,18 @@ protected:
     void updateUrl(const QUrl &url);
 
     /**
+     * Changes the view mode for the current directory to \a mode. If the view
+     * properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the changed view
+     * mode will be stored automatically.
+     *
+     * Only DolphinViewContainer (a friend) may call this: switching to or from
+     * the columns view mode requires swapping the DolphinView for a different
+     * subclass, which only the container can do.
+     */
+    void setViewMode(Mode mode);
+
+    /**
      * Applies the m_mode property to the corresponding
      * itemlayout-property of the KItemListView.
      * Subclasses can override to add custom view modes.
@@ -1145,6 +1150,7 @@ private:
     friend class DolphinDetailsViewTest;
     friend class DolphinMainWindowTest;
     friend class DolphinPart; // Accesses m_model
+    friend class DolphinViewContainer; // Calls the protected setViewMode()
     void updateSelectionState();
 };
 
