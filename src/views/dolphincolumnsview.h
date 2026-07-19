@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
+ * SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -57,6 +58,7 @@ protected:
 
     KItemListSelectionManager *activeSelectionManager() const override;
     KFileItemModel *activeModel() const override;
+    DolphinItemListView *activeItemListView() const override;
 
 private Q_SLOTS:
     void slotFileActivated(const KFileItem &item);
