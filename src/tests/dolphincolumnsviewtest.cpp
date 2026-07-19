@@ -78,6 +78,7 @@ private Q_SLOTS:
 
     void testSelectionPreservedAcrossNavigation();
     void testLeftKeyClearsChildSelection();
+    void testDirectorySelectionOpensChildOnce();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -584,6 +585,43 @@ void DolphinColumnsViewTest::testForwardButton_emitsGoForward()
     auto *pane = m_view->columnAt(m_view->activeColumnIndex());
     Q_EMIT pane->controller()->mouseButtonPressed(0, Qt::ForwardButton);
     QTRY_COMPARE_WITH_TIMEOUT(spy.count(), 1, 5000);
+}
+
+void DolphinColumnsViewTest::testDirectorySelectionOpensChildOnce()
+{
+    // Selecting a directory in the active, focused column changes both the
+    // current item and the selection, which drives two independent handlers
+    // (slotColumnsCurrentItemChanged and the selectionChanged lambda). Verify
+    // that the child column is opened once, shows the right folder, does not
+    // reload, and is not torn down and rebuilt.
+    activateColumn(0);
+    auto *rootContainer = m_view->columnAt(0)->container();
+    rootContainer->setFocus();
+    if (!QTest::qWaitFor(
+            [&]() {
+                return rootContainer->hasFocus();
+            },
+            1000)) {
+        QSKIP("Could not give keyboard focus to the column in this environment");
+    }
+
+    // "beta" is a directory and not the auto-selected first item.
+    QSignalSpy loadSpy(m_view, &DolphinView::directoryLoadingCompleted);
+    selectItemInColumn(0, "beta");
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+
+    // Let any queued re-open/auto-select settle, then confirm the child column
+    // is the same object (not rebuilt) and beta was loaded only once.
+    auto *childPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(loadSpy.count() >= 1, 5000);
+    // Settle briefly to confirm no second reload is queued; there is no signal for an event not happening.
+    QTest::qWait(300); // UNAVOIDABLE: no signal for the absence of a reload
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1), childPane);
+    // beta is loaded exactly once: no double pop-and-rebuild of the child column.
+    QCOMPARE(loadSpy.count(), 1);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
