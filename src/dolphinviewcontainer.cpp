@@ -244,7 +244,10 @@ void DolphinViewContainer::connectViewSignals()
 void DolphinViewContainer::swapView(DolphinView::Mode mode)
 {
     auto oldView = m_view;
-    const QUrl savedUrl = oldView->url();
+    // Use the navigator's location rather than oldView->url(): when the swap is
+    // triggered while navigating to a new folder, the outgoing view has not been
+    // moved there yet, but the navigator already points at the target.
+    const QUrl savedUrl = m_urlNavigator->locationUrl();
     const bool wasActive = oldView->isActive();
 
     // The incoming view carries the user's chosen mode; stop the outgoing view
@@ -977,6 +980,15 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
             // Hide the search bar because it shows an outdated search which the user does not care about anymore.
             setSearchBarVisible(false);
+        }
+
+        // A folder configured for the columns view needs the DolphinColumnsView
+        // subclass, which only the container can create. Swap to it before
+        // navigating. Only swap *into* the columns view here: it is sticky and
+        // is left through an explicit view-mode change, so browsing within it
+        // (into non-columns subfolders) must not swap it away.
+        if (!qobject_cast<DolphinColumnsView *>(m_view) && ViewProperties(url).viewMode() == DolphinView::ColumnsView) {
+            setViewMode(DolphinView::ColumnsView);
         }
 
         m_view->setUrl(url);
