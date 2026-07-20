@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-12 00:47+0000\n"
+"POT-Creation-Date: 2026-07-20 00:46+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -172,20 +172,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Больш не папярэджваць мяне пра гэтыя рызыкі"
 
-#: dolphincontextmenu.cpp:138
+#: dolphincontextmenu.cpp:144
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Ачысціць сметніцу"
 
-#: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:155 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Наладжванне сметніцы…"
 
-#: dolphincontextmenu.cpp:170
+#: dolphincontextmenu.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -200,38 +200,38 @@ msgstr[1] "Абраць хатняе размяшчэнне"
 msgstr[2] "Абраць хатняе размяшчэнне"
 msgstr[3] "Абраць хатняе размяшчэнне"
 
-#: dolphincontextmenu.cpp:236 dolphinmainwindow.cpp:1787
+#: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1787
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Стварыць"
 
-#: dolphincontextmenu.cpp:245
+#: dolphincontextmenu.cpp:251
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Адкрыць шлях"
 
-#: dolphincontextmenu.cpp:253
+#: dolphincontextmenu.cpp:259
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Адкрыць шлях у новай укладцы"
 
-#: dolphincontextmenu.cpp:261
+#: dolphincontextmenu.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Адкрыць шлях у новым акне"
 
-#: dolphincontextmenu.cpp:513
+#: dolphincontextmenu.cpp:519
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Пстрыканне сярэдняй кнопкай мышы"
 
-#: dolphincontextmenu.cpp:524
+#: dolphincontextmenu.cpp:530
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
