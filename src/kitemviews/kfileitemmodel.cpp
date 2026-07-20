@@ -25,7 +25,6 @@
 #include <QAccessible>
 #endif
 #include <QElapsedTimer>
-#include <QIcon>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QRecursiveMutex>
@@ -2333,13 +2332,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (item.isMimeTypeKnown()) {
-        QString iconName = item.iconName();
-        if (!QIcon::hasThemeIcon(iconName)) {
-            QMimeType mimeType = QMimeDatabase().mimeTypeForName(item.mimetype());
-            iconName = mimeType.genericIconName();
+        const QString iconName = item.iconName();
+        if (!iconName.isEmpty()) {
+            data.insert(sharedValue("iconName"), iconName);
         }
-
-        data.insert(sharedValue("iconName"), iconName);
 
         if (m_requestRole[TypeRole]) {
             data.insert(sharedValue("type"), item.mimeComment());
