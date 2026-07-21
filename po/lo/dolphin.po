@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-20 00:46+0000\n"
+"POT-Creation-Date: 2026-07-21 00:47+0000\n"
 "PO-Revision-Date: 2025-12-12 17:27+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -2472,92 +2472,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2703
+#: kitemviews/kfileitemmodel.cpp:2726
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2705
+#: kitemviews/kfileitemmodel.cpp:2728
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "ອື່ນໆ"
 
-#: kitemviews/kfileitemmodel.cpp:2737
+#: kitemviews/kfileitemmodel.cpp:2760
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "ໂຟນເດີ"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2768
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "ນ້ອຍ"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2770
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "ກາງ"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2772
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "ໃຫຍ່"
 
-#: kitemviews/kfileitemmodel.cpp:2795
+#: kitemviews/kfileitemmodel.cpp:2818
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "ມື້ນີ້"
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2821
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "ມື້ວານນີ້"
 
-#: kitemviews/kfileitemmodel.cpp:2801
+#: kitemviews/kfileitemmodel.cpp:2824
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2805
+#: kitemviews/kfileitemmodel.cpp:2828
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2833
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "ໜຶ່ງອາທິດກ່ອນ"
 
-#: kitemviews/kfileitemmodel.cpp:2813
+#: kitemviews/kfileitemmodel.cpp:2836
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "ສອງອາທິດກ່ອນ"
 
-#: kitemviews/kfileitemmodel.cpp:2816
+#: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "ສາມອາທິດກ່ອນ"
 
-#: kitemviews/kfileitemmodel.cpp:2820
+#: kitemviews/kfileitemmodel.cpp:2843
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "ຕົ້ນເດືອນນີ້"
 
-#: kitemviews/kfileitemmodel.cpp:2834
+#: kitemviews/kfileitemmodel.cpp:2857
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2567,7 +2567,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'ມື້ວານນີ້' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2864
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2575,7 +2575,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2854
+#: kitemviews/kfileitemmodel.cpp:2877
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2583,7 +2583,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2858
+#: kitemviews/kfileitemmodel.cpp:2881
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2591,7 +2591,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2866
+#: kitemviews/kfileitemmodel.cpp:2889
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2601,7 +2601,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'ໜຶ່ງອາທິດກ່ອນ' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2873
+#: kitemviews/kfileitemmodel.cpp:2896
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2609,7 +2609,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2910
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2619,7 +2619,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'ສອງອາທິດກ່ອນ' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2894
+#: kitemviews/kfileitemmodel.cpp:2917
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2627,7 +2627,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2908
+#: kitemviews/kfileitemmodel.cpp:2931
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2637,7 +2637,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'ສາມອາທິດກ່ອນ' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2915
+#: kitemviews/kfileitemmodel.cpp:2938
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2645,7 +2645,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2929
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2655,7 +2655,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'ກ່ອນໜ້ານີ້ໃນ' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2936
+#: kitemviews/kfileitemmodel.cpp:2959
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2663,7 +2663,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2950
+#: kitemviews/kfileitemmodel.cpp:2973
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2671,7 +2671,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2954
+#: kitemviews/kfileitemmodel.cpp:2977
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2679,179 +2679,179 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2994 kitemviews/kfileitemmodel.cpp:3007
-#: kitemviews/kfileitemmodel.cpp:3020
+#: kitemviews/kfileitemmodel.cpp:3017 kitemviews/kfileitemmodel.cpp:3030
+#: kitemviews/kfileitemmodel.cpp:3043
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "ອ່ານ, "
 
-#: kitemviews/kfileitemmodel.cpp:2997 kitemviews/kfileitemmodel.cpp:3010
-#: kitemviews/kfileitemmodel.cpp:3023
+#: kitemviews/kfileitemmodel.cpp:3020 kitemviews/kfileitemmodel.cpp:3033
+#: kitemviews/kfileitemmodel.cpp:3046
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "ຂຽນ, "
 
-#: kitemviews/kfileitemmodel.cpp:3000 kitemviews/kfileitemmodel.cpp:3013
-#: kitemviews/kfileitemmodel.cpp:3026
+#: kitemviews/kfileitemmodel.cpp:3023 kitemviews/kfileitemmodel.cpp:3036
+#: kitemviews/kfileitemmodel.cpp:3049
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "ປະຕິບັດການ, "
 
-#: kitemviews/kfileitemmodel.cpp:3002 kitemviews/kfileitemmodel.cpp:3015
-#: kitemviews/kfileitemmodel.cpp:3028
+#: kitemviews/kfileitemmodel.cpp:3025 kitemviews/kfileitemmodel.cpp:3038
+#: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "ຖືກຫ້າມ"
 
-#: kitemviews/kfileitemmodel.cpp:3030
+#: kitemviews/kfileitemmodel.cpp:3053
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "ຜູ້ໃຊ້: %1 | ກຸ່ມ: %2 | ອື່ນໆ: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3120
+#: kitemviews/kfileitemmodel.cpp:3143
 msgctxt "@label"
 msgid "Name"
 msgstr "ຊື່"
 
-#: kitemviews/kfileitemmodel.cpp:3121
+#: kitemviews/kfileitemmodel.cpp:3144
 msgctxt "@label"
 msgid "Size"
 msgstr "ຂະໜາດ"
 
-#: kitemviews/kfileitemmodel.cpp:3122
+#: kitemviews/kfileitemmodel.cpp:3145
 msgctxt "@label"
 msgid "Modified"
 msgstr "ດັດແກ້"
 
-#: kitemviews/kfileitemmodel.cpp:3122 kitemviews/kfileitemmodel.cpp:3123
-#: kitemviews/kfileitemmodel.cpp:3124
+#: kitemviews/kfileitemmodel.cpp:3145 kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "ຮູບແບບວັນທີສາມາດເລືອກໄດ້ໃນການຕັ້ງຄ່າ."
 
-#: kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3146
 msgctxt "@label"
 msgid "Created"
 msgstr "ສ້າງ"
 
-#: kitemviews/kfileitemmodel.cpp:3124
+#: kitemviews/kfileitemmodel.cpp:3147
 msgctxt "@label"
 msgid "Accessed"
 msgstr "ເຂົ້າເຖິງ"
 
-#: kitemviews/kfileitemmodel.cpp:3125
+#: kitemviews/kfileitemmodel.cpp:3148
 msgctxt "@label"
 msgid "Type"
 msgstr "ປະເພດ"
 
-#: kitemviews/kfileitemmodel.cpp:3126
+#: kitemviews/kfileitemmodel.cpp:3149
 msgctxt "@label"
 msgid "Rating"
 msgstr "ການຈັດອັນດັບ"
 
-#: kitemviews/kfileitemmodel.cpp:3127
+#: kitemviews/kfileitemmodel.cpp:3150
 msgctxt "@label"
 msgid "Tags"
 msgstr "ແທັກ"
 
-#: kitemviews/kfileitemmodel.cpp:3128
+#: kitemviews/kfileitemmodel.cpp:3151
 msgctxt "@label"
 msgid "Comment"
 msgstr "ຄວາມຄິດເຫັນ"
 
-#: kitemviews/kfileitemmodel.cpp:3129
+#: kitemviews/kfileitemmodel.cpp:3152
 msgctxt "@label"
 msgid "Title"
 msgstr "ຫົວຂໍ້"
 
-#: kitemviews/kfileitemmodel.cpp:3129 kitemviews/kfileitemmodel.cpp:3130
-#: kitemviews/kfileitemmodel.cpp:3131 kitemviews/kfileitemmodel.cpp:3132
-#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3134
+#: kitemviews/kfileitemmodel.cpp:3152 kitemviews/kfileitemmodel.cpp:3153
+#: kitemviews/kfileitemmodel.cpp:3154 kitemviews/kfileitemmodel.cpp:3155
+#: kitemviews/kfileitemmodel.cpp:3156 kitemviews/kfileitemmodel.cpp:3157
 msgctxt "@label"
 msgid "Document"
 msgstr "ເອກະສານ"
 
-#: kitemviews/kfileitemmodel.cpp:3130
+#: kitemviews/kfileitemmodel.cpp:3153
 msgctxt "@label"
 msgid "Author"
 msgstr "ຜູ້ແຕ່ງ"
 
-#: kitemviews/kfileitemmodel.cpp:3131
+#: kitemviews/kfileitemmodel.cpp:3154
 msgctxt "@label"
 msgid "Publisher"
 msgstr "ຜູ້ເຜີຍແຜ່"
 
-#: kitemviews/kfileitemmodel.cpp:3132
+#: kitemviews/kfileitemmodel.cpp:3155
 msgctxt "@label"
 msgid "Page Count"
 msgstr "ຈຳນວນໜ້າ"
 
-#: kitemviews/kfileitemmodel.cpp:3133
+#: kitemviews/kfileitemmodel.cpp:3156
 msgctxt "@label"
 msgid "Word Count"
 msgstr "ຈຳນວນຄຳ"
 
-#: kitemviews/kfileitemmodel.cpp:3134
+#: kitemviews/kfileitemmodel.cpp:3157
 msgctxt "@label"
 msgid "Line Count"
 msgstr "ຈຳນວນແຖວ"
 
-#: kitemviews/kfileitemmodel.cpp:3135
+#: kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "ວັນທີຖ່າຍ"
 
-#: kitemviews/kfileitemmodel.cpp:3135 kitemviews/kfileitemmodel.cpp:3136
-#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3138
-#: kitemviews/kfileitemmodel.cpp:3139
+#: kitemviews/kfileitemmodel.cpp:3158 kitemviews/kfileitemmodel.cpp:3159
+#: kitemviews/kfileitemmodel.cpp:3160 kitemviews/kfileitemmodel.cpp:3161
+#: kitemviews/kfileitemmodel.cpp:3162
 msgctxt "@label"
 msgid "Image"
 msgstr "ຮູບພາບ"
 
-#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3152
+#: kitemviews/kfileitemmodel.cpp:3159 kitemviews/kfileitemmodel.cpp:3175
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "ຂະໜາດ"
 
-#: kitemviews/kfileitemmodel.cpp:3137 kitemviews/kfileitemmodel.cpp:3155
+#: kitemviews/kfileitemmodel.cpp:3160 kitemviews/kfileitemmodel.cpp:3178
 msgctxt "@label"
 msgid "Height"
 msgstr "ຄວາມສູງ"
 
-#: kitemviews/kfileitemmodel.cpp:3138
+#: kitemviews/kfileitemmodel.cpp:3161
 msgctxt "@label"
 msgid "Orientation"
 msgstr "ແນວຕັ້ງ/ນອນ"
 
-#: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3158
+#: kitemviews/kfileitemmodel.cpp:3162 kitemviews/kfileitemmodel.cpp:3181
 msgctxt "@label"
 msgid "Width"
 msgstr "ຄວາມກວ້າງ"
 
-#: kitemviews/kfileitemmodel.cpp:3140
+#: kitemviews/kfileitemmodel.cpp:3163
 msgctxt "@label"
 msgid "Album"
 msgstr "ອັນບັ້ມ"
 
-#: kitemviews/kfileitemmodel.cpp:3140 kitemviews/kfileitemmodel.cpp:3141
-#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3143
-#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3145
-#: kitemviews/kfileitemmodel.cpp:3146 kitemviews/kfileitemmodel.cpp:3147
+#: kitemviews/kfileitemmodel.cpp:3163 kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3167 kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3169 kitemviews/kfileitemmodel.cpp:3170
 msgctxt "@label"
 msgid "Audio"
 msgstr "ສຽງ"
 
-#: kitemviews/kfileitemmodel.cpp:3141
+#: kitemviews/kfileitemmodel.cpp:3164
 msgctxt "@label"
 msgid "Artist"
 msgstr "ສິລະປິນ"
 
-#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3172
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Audio"
@@ -2859,62 +2859,62 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "ສຽງ"
 
-#: kitemviews/kfileitemmodel.cpp:3143 kitemviews/kfileitemmodel.cpp:3150
+#: kitemviews/kfileitemmodel.cpp:3166 kitemviews/kfileitemmodel.cpp:3173
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "ບິດເຣດ"
 
-#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3153
+#: kitemviews/kfileitemmodel.cpp:3167 kitemviews/kfileitemmodel.cpp:3176
 msgctxt "@label"
 msgid "Duration"
 msgstr "ໄລຍະເວລາ"
 
-#: kitemviews/kfileitemmodel.cpp:3145
+#: kitemviews/kfileitemmodel.cpp:3168
 msgctxt "@label"
 msgid "Genre"
 msgstr "ປະເພດ"
 
-#: kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3169
 msgctxt "@label"
 msgid "Release Year"
 msgstr "ປີທີ່ປ່ອຍ"
 
-#: kitemviews/kfileitemmodel.cpp:3147
+#: kitemviews/kfileitemmodel.cpp:3170
 msgctxt "@label"
 msgid "Track"
 msgstr "ແທຣັກ"
 
-#: kitemviews/kfileitemmodel.cpp:3148
+#: kitemviews/kfileitemmodel.cpp:3171
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "ອັດຕາສ່ວນ"
 
-#: kitemviews/kfileitemmodel.cpp:3148 kitemviews/kfileitemmodel.cpp:3149
-#: kitemviews/kfileitemmodel.cpp:3150 kitemviews/kfileitemmodel.cpp:3151
-#: kitemviews/kfileitemmodel.cpp:3152 kitemviews/kfileitemmodel.cpp:3153
-#: kitemviews/kfileitemmodel.cpp:3154 kitemviews/kfileitemmodel.cpp:3155
-#: kitemviews/kfileitemmodel.cpp:3156 kitemviews/kfileitemmodel.cpp:3157
-#: kitemviews/kfileitemmodel.cpp:3158
+#: kitemviews/kfileitemmodel.cpp:3171 kitemviews/kfileitemmodel.cpp:3172
+#: kitemviews/kfileitemmodel.cpp:3173 kitemviews/kfileitemmodel.cpp:3174
+#: kitemviews/kfileitemmodel.cpp:3175 kitemviews/kfileitemmodel.cpp:3176
+#: kitemviews/kfileitemmodel.cpp:3177 kitemviews/kfileitemmodel.cpp:3178
+#: kitemviews/kfileitemmodel.cpp:3179 kitemviews/kfileitemmodel.cpp:3180
+#: kitemviews/kfileitemmodel.cpp:3181
 msgctxt "@label"
 msgid "Video"
 msgstr "ວິດີໂອ"
 
-#: kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3174
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3154
+#: kitemviews/kfileitemmodel.cpp:3177
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "ເຟຣມເຣດ"
 
-#: kitemviews/kfileitemmodel.cpp:3156
+#: kitemviews/kfileitemmodel.cpp:3179
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3180
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Video"
@@ -2922,21 +2922,21 @@ msgctxt "@label"
 msgid "Video Codec"
 msgstr "ວິດີໂອ"
 
-#: kitemviews/kfileitemmodel.cpp:3159
+#: kitemviews/kfileitemmodel.cpp:3182
 msgctxt "@label"
 msgid "Path"
 msgstr "ທີ່ຢູ່"
 
-#: kitemviews/kfileitemmodel.cpp:3159 kitemviews/kfileitemmodel.cpp:3160
-#: kitemviews/kfileitemmodel.cpp:3161 kitemviews/kfileitemmodel.cpp:3162
-#: kitemviews/kfileitemmodel.cpp:3163 kitemviews/kfileitemmodel.cpp:3164
-#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
-#: kitemviews/kfileitemmodel.cpp:3167
+#: kitemviews/kfileitemmodel.cpp:3182 kitemviews/kfileitemmodel.cpp:3183
+#: kitemviews/kfileitemmodel.cpp:3184 kitemviews/kfileitemmodel.cpp:3185
+#: kitemviews/kfileitemmodel.cpp:3186 kitemviews/kfileitemmodel.cpp:3187
+#: kitemviews/kfileitemmodel.cpp:3188 kitemviews/kfileitemmodel.cpp:3189
+#: kitemviews/kfileitemmodel.cpp:3190
 msgctxt "@label"
 msgid "Other"
 msgstr "ອື່ນໆ"
 
-#: kitemviews/kfileitemmodel.cpp:3160
+#: kitemviews/kfileitemmodel.cpp:3183
 #, fuzzy
 #| msgctxt "@title:group"
 #| msgid "Folder size:"
@@ -2944,32 +2944,32 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "ຂະໜາດໂຟນເດີ:"
 
-#: kitemviews/kfileitemmodel.cpp:3161
+#: kitemviews/kfileitemmodel.cpp:3184
 msgctxt "@label"
 msgid "File Extension"
 msgstr "ນາມສະກຸນໄຟລ໌"
 
-#: kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3185
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "ເວລາລຶບ"
 
-#: kitemviews/kfileitemmodel.cpp:3163
+#: kitemviews/kfileitemmodel.cpp:3186
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "ປາຍທາງລິ້ງ"
 
-#: kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3187
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "ດາວໂຫຼດຈາກ"
 
-#: kitemviews/kfileitemmodel.cpp:3165
+#: kitemviews/kfileitemmodel.cpp:3188
 msgctxt "@label"
 msgid "Permissions"
 msgstr "ສິດ"
 
-#: kitemviews/kfileitemmodel.cpp:3165
+#: kitemviews/kfileitemmodel.cpp:3188
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2977,17 +2977,17 @@ msgid ""
 msgstr ""
 "ຮູບແບບສິດອະນຸຍາດສາມາດປ່ຽນໄດ້ໃນການຕັ້ງຄ່າ. ຕົວເລືອກຄື ສັນຍາລັກ, ຕົວເລກ (Octal) ຫຼື ຮູບແບບລວມ"
 
-#: kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3189
 msgctxt "@label"
 msgid "Owner"
 msgstr "ເຈົ້າຂອງ"
 
-#: kitemviews/kfileitemmodel.cpp:3167
+#: kitemviews/kfileitemmodel.cpp:3190
 msgctxt "@label"
 msgid "User Group"
 msgstr "ກຸ່ມຜູ້ໃຊ້"
 
-#: kitemviews/kfileitemmodel.cpp:3268
+#: kitemviews/kfileitemmodel.cpp:3291
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
