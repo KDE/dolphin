@@ -63,12 +63,18 @@ Bar::Bar(DolphinViewContainer *parentViewContainer)
             actAsAdminAction->trigger();
         }
     });
-    connect(m_parentViewContainer->view(), &DolphinView::urlChanged, this, [this](const QUrl &url) {
-        // The bar is closely related to administrative rights, so we want to hide it instantly when we are no longer using the admin protocol.
-        if (url.scheme() != QStringLiteral("admin")) {
-            setVisible(false, WithAnimation);
-        }
-    });
+
+    const auto connectToView = [this]() {
+        connect(m_parentViewContainer->view(), &DolphinView::urlChanged, this, [this](const QUrl &url) {
+            // The bar is closely related to administrative rights, so we want to hide it instantly when we are no longer using the admin protocol.
+            if (url.scheme() != QStringLiteral("admin")) {
+                setVisible(false, WithAnimation);
+            }
+        });
+    };
+    connectToView();
+
+    connect(m_parentViewContainer, &DolphinViewContainer::viewReplaced, connectToView);
 
     QHBoxLayout *layout = new QHBoxLayout(contenntsContainer);
     auto contentsMargins = layout->contentsMargins();
