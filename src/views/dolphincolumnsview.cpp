@@ -16,6 +16,7 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemlistview.h"
 #include "tooltips/tooltipmanager.h"
+#include "zoomlevelinfo.h"
 #include <KIO/Global>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGuiApplication>
@@ -154,6 +155,24 @@ void DolphinColumnsView::stopLoading()
     for (auto *pane : std::as_const(m_columns)) {
         pane->model()->cancelDirectoryLoading();
     }
+}
+
+void DolphinColumnsView::readSettings()
+{
+    DolphinView::readSettings();
+
+    // With global view properties the configured icon/preview size is what every
+    // column should use, so push it to the shared zoom level. Per-folder view
+    // properties keep their own saved zoom, matching the other view modes.
+    if (GeneralSettings::globalViewProps()) {
+        const auto *settings = ColumnsModeSettings::self();
+        const int iconSize = previewsShown() ? settings->previewSize() : settings->iconSize();
+        setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize)));
+    }
+
+    // Pick up changes to the width behaviour, minimum width, and visible-column
+    // count that the settings dialog just applied.
+    recalculateColumnWidths();
 }
 
 KFileItem DolphinColumnsView::rootItem() const
@@ -499,6 +518,18 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
     connect(pane, &DolphinColumnPane::directoryLoadingCompleted, this, &DolphinColumnsView::slotPaneLoadingCompleted);
 
+    // In "adjust to content" mode a rename or an added/removed item changes how wide
+    // the column needs to be. A KIO rename refreshes the item in place (itemsChanged
+    // with the "text" role); a rename seen on disk arrives as a remove plus insert.
+    // Handle both so the column re-fits either way.
+    connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::refitColumnsToContent);
+    connect(model, &KFileItemModel::itemsRemoved, this, &DolphinColumnsView::refitColumnsToContent);
+    connect(model, &KFileItemModel::itemsChanged, this, [this](const KItemRangeList &, const QSet<QByteArray> &changedRoles) {
+        if (changedRoles.contains("text")) {
+            refitColumnsToContent();
+        }
+    });
+
     // Forward VCS observer messages
     connect(pane, &DolphinColumnPane::infoMessage, this, &DolphinView::infoMessage);
     connect(pane, &DolphinColumnPane::errorMessage, this, [this](const QString &msg) {
@@ -555,11 +586,11 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
-    // Splitter handle double-click: cycle column width
-    if (event->type() == QEvent::MouseButtonDblClick && watched == m_splitter) {
+    // Double-clicking a splitter handle fits all columns to their content.
+    if (event->type() == QEvent::MouseButtonDblClick) {
         for (int i = 1; i < m_splitter->count(); ++i) {
             if (m_splitter->handle(i) == watched) {
-                cycleColumnWidth(i - 1);
+                autoAdjustColumns();
                 return true;
             }
         }
@@ -844,6 +875,13 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
     }
 }
 
+void DolphinColumnsView::refitColumnsToContent()
+{
+    if (ColumnsModeSettings::self()->dynamicColumnWidth()) {
+        recalculateColumnWidths();
+    }
+}
+
 void DolphinColumnsView::recalculateColumnWidths()
 {
     const int numColumns = m_columns.size();
@@ -863,30 +901,44 @@ void DolphinColumnsView::recalculateColumnWidths()
     // default-width columns fits the viewport exactly, instead of overflowing it
     // by a few pixels and tripping the horizontal scrollbar.
     const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
+    const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
+    const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
+    const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
     for (int i = 0; i < numColumns; ++i) {
         if (m_customColumnWidths.contains(i)) {
+            // A width the user set by dragging the handle always wins.
             sizes.append(m_customColumnWidths.value(i));
+        } else if (dynamicWidth) {
+            // Size the column to its content, never below the configured minimum.
+            sizes.append(qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth()));
         } else {
             sizes.append(defaultWidth);
         }
     }
-    sizes.append(0); // filler
+    applyColumnSizes(sizes);
+}
 
-    m_splitter->setSizes(sizes);
+void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
+{
+    const int numColumns = m_columns.size();
+    const int handleWidth = m_splitter->handleWidth();
+
+    columnSizes.append(0); // filler
+    m_splitter->setSizes(columnSizes);
 
     int totalWidth = 0;
     for (int i = 0; i < numColumns; ++i) {
-        totalWidth += sizes.at(i);
+        totalWidth += columnSizes.at(i);
     }
     totalWidth += (numColumns - 1) * handleWidth;
 
     // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
     // width under fractional scaling does not flip the scrollbar on and off
     // while resizing.
+    const int viewportWidth = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     if (totalWidth > viewportWidth + handleWidth) {
         m_splitter->setMinimumWidth(totalWidth);
     } else {
@@ -894,46 +946,32 @@ void DolphinColumnsView::recalculateColumnWidths()
     }
 }
 
-void DolphinColumnsView::cycleColumnWidth(int colIndex)
+void DolphinColumnsView::autoAdjustColumns()
 {
-    if (colIndex < 0 || colIndex >= m_columns.size()) {
+    if (m_columns.isEmpty()) {
         return;
     }
 
-    const int currentWidth = m_splitter->sizes().at(colIndex);
-    const int optimalWidth = m_columns.at(colIndex)->calculateOptimalWidth();
-    const int viewportWidth = m_scrollArea->viewport()->width();
-    const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), m_columns.size());
-    const int handleWidth = m_splitter->handleWidth();
-    const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
-    const int defaultWidth = qMax(ColumnsModeSettings::self()->minColumnWidth(), availableForColumns / divisor);
-    const bool hasCustom = m_customColumnWidths.contains(colIndex);
-    const int customWidth = hasCustom ? m_customColumnWidths.value(colIndex) : 0;
+    // Fit every column to its content and drop any width the user dragged, so the
+    // whole set is tidy again.
+    m_customColumnWidths.clear();
+    const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
+    const bool fixedWidth = !ColumnsModeSettings::self()->dynamicColumnWidth();
 
-    int newWidth;
-    const int tolerance = 5;
-
-    // Cycle: Optimal -> Default -> Custom (if available) -> Optimal ...
-    if (qAbs(currentWidth - optimalWidth) <= tolerance) {
-        newWidth = defaultWidth;
-    } else if (qAbs(currentWidth - defaultWidth) <= tolerance) {
-        newWidth = (hasCustom && qAbs(customWidth - defaultWidth) > tolerance && qAbs(customWidth - optimalWidth) > tolerance) ? customWidth : optimalWidth;
-    } else if (hasCustom && qAbs(currentWidth - customWidth) <= tolerance) {
-        newWidth = optimalWidth;
-    } else {
-        newWidth = optimalWidth;
-    }
-
-    QList<int> sizes = m_splitter->sizes();
-    sizes[colIndex] = newWidth;
-    m_splitter->setSizes(sizes);
-
-    int totalWidth = 0;
+    QList<int> sizes;
+    sizes.reserve(m_columns.size());
     for (int i = 0; i < m_columns.size(); ++i) {
-        totalWidth += sizes.at(i);
+        const int width = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
+        sizes.append(width);
+        if (fixedWidth) {
+            // In fixed-width mode the fit is a one-off, so pin it as a custom width.
+            // Otherwise the next relayout (e.g. a resize) would snap the column
+            // back to the fixed width. In adjust-to-content mode the layout already
+            // tracks the content, so no pinning is needed.
+            m_customColumnWidths[i] = width;
+        }
     }
-    totalWidth += (m_columns.size() - 1) * handleWidth;
-    m_splitter->setMinimumWidth(totalWidth > viewportWidth + handleWidth ? totalWidth : 0);
+    applyColumnSizes(sizes);
 }
 
 void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane)
