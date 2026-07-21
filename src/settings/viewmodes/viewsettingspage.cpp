@@ -53,11 +53,17 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     tabWidget->addTab(detailsTab, QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@title:tab", "Details"));
     connect(detailsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
+    // Initialize 'Columns' tab
+    ViewSettingsTab *columnsTab = new ViewSettingsTab(ViewSettingsTab::ColumnsViewMode, tabWidget);
+    tabWidget->addTab(columnsTab, QIcon::fromTheme(QStringLiteral("view-file-columns")), i18nc("@title:tab", "Columns"));
+    connect(columnsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
+
     m_tabs.append(generalViewPage);
     m_tabs.append(contentDisplayTab);
     m_tabs.append(iconsTab);
     m_tabs.append(compactTab);
     m_tabs.append(detailsTab);
+    m_tabs.append(columnsTab);
 
     topLayout->addWidget(tabWidget, 0);
 }
