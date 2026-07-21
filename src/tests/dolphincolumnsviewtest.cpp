@@ -6,15 +6,19 @@
  */
 
 #include "views/dolphincolumnsview.h"
+#include "dolphin_columnsmodesettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
+#include "views/zoomlevelinfo.h"
 
 #include <QCoreApplication>
+#include <QFile>
 #include <QKeyEvent>
+#include <QScopeGuard>
 #include <QSignalSpy>
 #include <QSplitter>
 #include <QStandardPaths>
@@ -63,6 +67,10 @@ private Q_SLOTS:
     void testDefaultWidths();
     void testCustomWidthPreserved();
     void testCustomWidthCleanupOnPop();
+    void testColumnWidthMode();
+    void testAutoAdjustColumns();
+    void testIconSizeFollowsSettings();
+    void testRenameRefitsColumnWhenAdjustingToContent();
 
     void testSelectionMatchesActiveColumn();
     void testModelMatchesActiveColumn();
@@ -361,6 +369,145 @@ void DolphinColumnsViewTest::testCustomWidthCleanupOnPop()
     navigateLeft();
 
     QVERIFY(m_view->columnCount() >= 1);
+}
+
+void DolphinColumnsViewTest::testColumnWidthMode()
+{
+    // With "adjust to content" a column shrinks to fit its items; with "fixed" it
+    // takes an equal share of the viewport. A small minimum keeps the two modes
+    // clearly apart regardless of the viewport size.
+    auto *settings = ColumnsModeSettings::self();
+    const int savedMin = settings->minColumnWidth();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setMinColumnWidth(savedMin);
+        settings->setDynamicColumnWidth(savedDynamic);
+    });
+    settings->setMinColumnWidth(10);
+
+    activateColumn(0);
+    auto *splitter = m_view->findChild<QSplitter *>();
+    QVERIFY(splitter);
+
+    settings->setDynamicColumnWidth(false);
+    m_view->recalculateColumnWidths();
+    const int fixedWidth = splitter->sizes().at(0);
+
+    settings->setDynamicColumnWidth(true);
+    m_view->recalculateColumnWidths();
+    const int contentWidth = splitter->sizes().at(0);
+
+    QVERIFY(fixedWidth > 0);
+    QVERIFY(contentWidth >= 10); // never below the configured minimum
+    QVERIFY2(contentWidth < fixedWidth,
+             qPrintable(QStringLiteral("content-sized column (%1) should be narrower than the fixed one (%2)").arg(contentWidth).arg(fixedWidth)));
+}
+
+void DolphinColumnsViewTest::testAutoAdjustColumns()
+{
+    // A double-click on a splitter handle (which calls autoAdjustColumns) fits
+    // every column to its content and drops the widths the user dragged. How the
+    // fit is kept afterwards depends on the width mode.
+    auto *settings = ColumnsModeSettings::self();
+    const int savedMin = settings->minColumnWidth();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setMinColumnWidth(savedMin);
+        settings->setDynamicColumnWidth(savedDynamic);
+    });
+    settings->setMinColumnWidth(10);
+
+    activateColumn(0);
+    auto *splitter = m_view->findChild<QSplitter *>();
+    QVERIFY(splitter);
+
+    // Adjust-to-content mode: fitting drops the manual widths so the columns keep
+    // tracking their content, and nothing is pinned.
+    settings->setDynamicColumnWidth(true);
+    QList<int> sizes = splitter->sizes();
+    const int manualWidth = 600;
+    sizes[0] = manualWidth;
+    splitter->setSizes(sizes);
+    Q_EMIT splitter->splitterMoved(manualWidth, 1);
+    QVERIFY(!m_view->m_customColumnWidths.isEmpty());
+
+    m_view->autoAdjustColumns();
+    const int fittedDynamic = splitter->sizes().at(0);
+    QVERIFY2(fittedDynamic < manualWidth,
+             qPrintable(QStringLiteral("fitted column (%1) should be narrower than the manual width (%2)").arg(fittedDynamic).arg(manualWidth)));
+    QVERIFY(m_view->m_customColumnWidths.isEmpty());
+
+    // Fixed-width mode: the fixed layout would otherwise snap columns back to an
+    // equal share of the viewport, so the fit is pinned as a custom width and
+    // survives a relayout.
+    settings->setDynamicColumnWidth(false);
+    m_view->recalculateColumnWidths();
+    const int fixedWidth = splitter->sizes().at(0);
+
+    m_view->autoAdjustColumns();
+    const int fittedFixed = splitter->sizes().at(0);
+    QVERIFY2(fittedFixed < fixedWidth,
+             qPrintable(QStringLiteral("fitted column (%1) should be narrower than the fixed width (%2)").arg(fittedFixed).arg(fixedWidth)));
+    QVERIFY(!m_view->m_customColumnWidths.isEmpty());
+
+    // A later relayout keeps the fitted width instead of restoring the fixed one.
+    m_view->recalculateColumnWidths();
+    QCOMPARE(splitter->sizes().at(0), fittedFixed);
+}
+
+void DolphinColumnsViewTest::testIconSizeFollowsSettings()
+{
+    // With global view properties (the default) the columns-mode icon/preview size
+    // drives the shared zoom level, so changing it in the settings resizes the icons.
+    auto *settings = ColumnsModeSettings::self();
+    const int savedIcon = settings->iconSize();
+    const int savedPreview = settings->previewSize();
+    auto restore = qScopeGuard([&]() {
+        settings->setIconSize(savedIcon);
+        settings->setPreviewSize(savedPreview);
+    });
+
+    const int levelA = ZoomLevelInfo::minimumLevel();
+    const int levelB = ZoomLevelInfo::minimumLevel() + 2;
+    QVERIFY(levelB <= ZoomLevelInfo::maximumLevel());
+
+    // Set both sizes so the result does not depend on whether previews are shown.
+    settings->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(levelA));
+    settings->setPreviewSize(ZoomLevelInfo::iconSizeForZoomLevel(levelA));
+    m_view->readSettings();
+    QCOMPARE(m_view->zoomLevel(), levelA);
+
+    settings->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(levelB));
+    settings->setPreviewSize(ZoomLevelInfo::iconSizeForZoomLevel(levelB));
+    m_view->readSettings();
+    QCOMPARE(m_view->zoomLevel(), levelB);
+}
+
+void DolphinColumnsViewTest::testRenameRefitsColumnWhenAdjustingToContent()
+{
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    // A small minimum keeps the content width from being clamped, so the change is visible.
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    activateColumn(0);
+    m_view->recalculateColumnWidths();
+    auto *splitter = m_view->findChild<QSplitter *>();
+    QVERIFY(splitter);
+    const int widthBefore = splitter->sizes().at(0);
+
+    // Renaming a file to a much longer name widens the column it lives in.
+    const QString dir = m_testDir->url().toLocalFile();
+    const QString longName = QStringLiteral("single-file-") + QString(80, QLatin1Char('x')) + QStringLiteral(".txt");
+    QVERIFY(QFile::rename(dir + QStringLiteral("/single-file.txt"), dir + QLatin1Char('/') + longName));
+
+    QTRY_VERIFY_WITH_TIMEOUT(splitter->sizes().at(0) > widthBefore, 5000);
 }
 
 void DolphinColumnsViewTest::testSelectionMatchesActiveColumn()
