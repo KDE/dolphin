@@ -267,7 +267,7 @@ public:
      * Refreshes the view to get synchronized with the settings (e.g. icons size,
      * font, ...).
      */
-    void readSettings();
+    virtual void readSettings();
 
     /**
      * Saves the current settings (e.g. icons size, font, ..).
