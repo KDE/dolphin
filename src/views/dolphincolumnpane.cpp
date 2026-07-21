@@ -129,7 +129,14 @@ int DolphinColumnPane::calculateOptimalWidth() const
     const QFontMetrics &fm = option.fontMetrics;
     qreal maxWidth = 0;
 
+    // A hidden name takes part in the width exactly while the model shows hidden
+    // files, so the column has room for every name on display.
+    const bool hiddenFilesShown = m_model->showHiddenFiles();
+
     for (int i = 0; i < m_model->count(); ++i) {
+        if (!hiddenFilesShown && m_model->fileItem(i).isHidden()) {
+            continue;
+        }
         const QString text = m_model->data(i).value("text").toString();
         qreal width = option.padding * 6; // matches KStandardItemListWidget::columnPadding()
         width += option.padding * 2 + option.iconSize;
