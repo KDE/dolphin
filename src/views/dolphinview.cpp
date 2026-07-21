@@ -83,7 +83,7 @@
 #include <QToolTip>
 #include <QVBoxLayout>
 
-DolphinView::DolphinView(const QUrl &url, QWidget *parent)
+DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
     : QWidget(parent)
     , m_active(true)
     , m_tabsForFiles(false)
@@ -276,7 +276,14 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     m_twoClicksRenamingTimer->setSingleShot(true);
     connect(m_twoClicksRenamingTimer, &QTimer::timeout, this, &DolphinView::slotTwoClicksRenamingTimerTimeout);
 
-    applyViewProperties();
+    if (initialMode.has_value()) {
+        ViewProperties props(viewPropertiesUrl());
+        props.setAutoSaveEnabled(false);
+        props.setViewMode(initialMode.value());
+        applyViewProperties(props);
+    } else {
+        applyViewProperties();
+    }
     m_topLayout->addWidget(m_container);
     updateContainerFrame();
 
@@ -320,7 +327,6 @@ bool DolphinView::isActive() const
 void DolphinView::setViewMode(Mode mode)
 {
     if (mode != m_mode) {
-        // Reset scrollbars before changing the view mode.
         m_container->horizontalScrollBar()->setValue(0);
         m_container->verticalScrollBar()->setValue(0);
 
@@ -457,30 +463,30 @@ int DolphinView::itemsCount() const
 
 KFileItemList DolphinView::selectedItems() const
 {
-    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+    auto *selectionManager = activeSelectionManager();
+    auto *model = activeModel();
 
     KFileItemList selectedItems;
     const auto items = selectionManager->selectedItems();
     selectedItems.reserve(items.count());
     for (int index : items) {
-        selectedItems.append(m_model->fileItem(index));
+        selectedItems.append(model->fileItem(index));
     }
     return selectedItems;
 }
 
 std::optional<KFileItem> DolphinView::firstSelectedItem() const
 {
-    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+    auto *selectionManager = activeSelectionManager();
     if (selectionManager->selectedItems().count() == 1) {
-        return {m_model->fileItem(selectionManager->selectedItems().first())};
+        return {activeModel()->fileItem(selectionManager->selectedItems().first())};
     }
     return std::nullopt;
 }
 
 int DolphinView::selectedItemsCount() const
 {
-    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-    return selectionManager->selectedItems().count();
+    return activeSelectionManager()->selectedItems().count();
 }
 
 void DolphinView::markUrlsAsSelected(const QList<QUrl> &urls)
@@ -848,21 +854,19 @@ void DolphinView::setUrl(const QUrl &url)
 
 void DolphinView::selectAll()
 {
-    KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-    selectionManager->setSelected(0, m_model->count());
+    activeSelectionManager()->setSelected(0, activeModel()->count());
 }
 
 void DolphinView::invertSelection()
 {
-    KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-    selectionManager->setSelected(0, m_model->count(), KItemListSelectionManager::Toggle);
+    activeSelectionManager()->setSelected(0, activeModel()->count(), KItemListSelectionManager::Toggle);
 }
 
 void DolphinView::clearSelection()
 {
     m_selectJobCreatedItems = false;
     m_selectedUrls.clear();
-    m_container->controller()->selectionManager()->clearSelection();
+    activeSelectionManager()->clearSelection();
 }
 
 void DolphinView::scrollToItemOnceResorted(const QUrl &url)
@@ -1101,6 +1105,21 @@ void DolphinView::updateContainerFrame()
     if (m_container->frameWidth() > 0) {
         m_container->setFrameShape(QFrame::NoFrame);
     }
+}
+
+QVBoxLayout *DolphinView::topLayout() const
+{
+    return m_topLayout;
+}
+
+KItemListContainer *DolphinView::itemListContainer() const
+{
+    return m_container;
+}
+
+void DolphinView::updateUrl(const QUrl &url)
+{
+    m_url = url;
 }
 
 void DolphinView::updatePalette()
@@ -1548,19 +1567,22 @@ void DolphinView::slotItemUnhovered(int index)
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *event)
 {
+    handleItemDropEvent(m_model, url(), index, event);
+}
+
+void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event)
+{
     QUrl destUrl;
-    KFileItem destItem = m_model->fileItem(index);
+    KFileItem destItem = model->fileItem(index);
     if (destItem.isNull() || (!destItem.isDir() && !destItem.isDesktopFile() && !destItem.isExecutable())) {
-        // Use the URL of the view as drop target if the item is no directory
-        // or desktop-file
-        destItem = m_model->rootItem();
-        destUrl = url();
+        destUrl = fallbackUrl;
     } else {
-        // The item represents a directory or desktop-file
         destUrl = destItem.mostLocalUrl();
     }
 
-    QDropEvent dropEvent(event->pos().toPoint(), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
+    // Map from screen coordinates to this widget's local coordinates
+    // so KIO::drop() positions the popup menu correctly.
+    QDropEvent dropEvent(mapFromGlobal(event->screenPos()), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
     dropUrls(destUrl, &dropEvent, this);
 
     setActive(true);
@@ -2653,9 +2675,6 @@ void DolphinView::applyModeToView()
     case DetailsView:
         m_view->setItemLayout(KFileItemListView::DetailsLayout);
         break;
-    default:
-        Q_ASSERT(false);
-        break;
     }
 }
 
@@ -2769,10 +2788,18 @@ QList<QUrl> DolphinView::simplifiedSelectedUrls() const
 
 QMimeData *DolphinView::selectionMimeData() const
 {
-    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-    const KItemSet selectedIndexes = selectionManager->selectedItems();
+    const KItemSet selectedIndexes = activeSelectionManager()->selectedItems();
+    return activeModel()->createMimeData(selectedIndexes);
+}
 
-    return m_model->createMimeData(selectedIndexes);
+KItemListSelectionManager *DolphinView::activeSelectionManager() const
+{
+    return m_container->controller()->selectionManager();
+}
+
+KFileItemModel *DolphinView::activeModel() const
+{
+    return m_model;
 }
 
 void DolphinView::updateWritableState()
