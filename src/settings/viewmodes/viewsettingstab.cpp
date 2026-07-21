@@ -37,6 +37,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     , m_fontRequester(nullptr)
     , m_widthBox(nullptr)
     , m_maxLinesBox(nullptr)
+    , m_columnWidthBox(nullptr)
     , m_expandableFolders(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
@@ -125,7 +126,10 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         break;
     }
     case ColumnsViewMode: {
-        // TODO
+        m_columnWidthBox = new QComboBox();
+        m_columnWidthBox->addItem(i18nc("@item:inlistbox Column width", "Fixed"));
+        m_columnWidthBox->addItem(i18nc("@item:inlistbox Column width", "Adjust to content"));
+        topLayout->addRow(i18nc("@label:listbox", "Column width:"), m_columnWidthBox);
         break;
     }
     }
@@ -150,7 +154,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         break;
     case ColumnsViewMode:
-        // TODO
+        connect(m_columnWidthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         break;
     }
 }
@@ -213,8 +217,8 @@ void ViewSettingsTab::applySettings()
         break;
     }
     case ColumnsViewMode:
+        ColumnsModeSettings::setDynamicColumnWidth(m_columnWidthBox->currentIndex() == 1);
         ColumnsModeSettings::self()->save();
-        // TODO
         break;
     }
 
@@ -257,7 +261,7 @@ void ViewSettingsTab::loadSettings()
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
         break;
     case ColumnsViewMode:
-        // TODO
+        m_columnWidthBox->setCurrentIndex(ColumnsModeSettings::dynamicColumnWidth() ? 1 : 0);
         break;
     }
 

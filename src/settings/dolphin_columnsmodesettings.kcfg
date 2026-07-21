@@ -31,5 +31,9 @@
             <label>Maximum number of visible columns before scrolling</label>
             <default>4</default>
         </entry>
+        <entry name="DynamicColumnWidth" type="Bool">
+            <label>Adjust column width to its content</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>
