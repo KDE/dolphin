@@ -212,6 +212,7 @@ private:
      */
     void connectViewActivatedSignals();
     void disconnectViewActivatedSignals();
+    void connectToContainerView(DolphinViewContainer *container) const;
 
 private:
     DolphinTabPageSplitter *m_splitter;

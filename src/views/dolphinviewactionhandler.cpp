@@ -504,7 +504,7 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
 {
     const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
-    m_currentView->setViewMode(mode);
+    Q_EMIT viewModeChangeRequested(mode);
 
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
