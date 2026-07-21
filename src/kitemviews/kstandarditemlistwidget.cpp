@@ -1708,7 +1708,11 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray &role) const
 
     QRectF rect(textInfo->pos, textInfo->staticText.size());
     if (m_layout == DetailsLayout) {
-        rect.setWidth(columnWidth(role) - rect.x());
+        if (layoutDirection() == Qt::LeftToRight) {
+            rect.setWidth(columnWidth(role) - rect.x());
+        } else {
+            rect.setX(m_columnWidthSum - columnWidth(role) + leftPadding() + rightPadding());
+        }
     }
 
     return rect;
