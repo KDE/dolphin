@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 00:47+0000\n"
-"PO-Revision-Date: 2026-05-07 20:23+0300\n"
+"PO-Revision-Date: 2026-07-22 13:31+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -574,20 +574,16 @@ msgid "Move to Other View"
 msgstr "Perkelti į kitą rodinį"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Kopijuoti į kitą rodinį"
+msgstr "Fokusuoti kitą rodinį"
 
 #: dolphinmainwindow.cpp:1902
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Perkelti klaviatūros fokusavimą į arba iš vietų skydelio."
+msgstr "Perkelti klaviatūros fokusą į neaktyvų rodinį."
 
 #: dolphinmainwindow.cpp:1908
 #, kde-format
@@ -1177,7 +1173,7 @@ msgstr "Fokusuoti terminalo skydelį"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Perkelti klaviatūros fokusą į terminalo skydelį arba iš jo."
 
 #: dolphinmainwindow.cpp:2475
 #, kde-format
@@ -1192,6 +1188,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Nustato, ar esamas darbinis katalogas privalo būti sinchronizuojamas su "
+"terminalu kas kartą, kai keičiamas katalogas."
 
 #: dolphinmainwindow.cpp:2493
 #, kde-format
@@ -1859,14 +1857,13 @@ msgstr "Užverti kitas korteles"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Užverti korteles kairėje"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Užverti dešinįjį polangį"
+msgstr "Užverti korteles dešinėje"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -3011,20 +3008,20 @@ msgstr "Nežinoma klaida."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 su puse žvaigždutė"
+msgstr[1] "%1 su puse žvaigždutės"
+msgstr[2] "%1 su puse žvaigždučių"
+msgstr[3] "%1 su puse žvaigždutė"
 
 #: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 žvaigždutė"
+msgstr[1] "%1 žvaigždutės"
+msgstr[2] "%1 žvaigždučių"
+msgstr[3] "%1 žvaigždutė"
 
 #: main.cpp:62
 #, kde-kuit-format
@@ -3459,6 +3456,7 @@ msgstr "Apriboti paiešką iki <filename>%1</filename> ir jo poaplankių."
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
 msgstr ""
+"Atlikti paiešką visuose kataloguose, pradedant nuo šakninio ir einant toliau."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3470,6 +3468,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Atlikti paiešką visose indeksuotose vietose.<nl/><nl/>Konfigūruokite, kurios "
+"vietos yra indeksuotos, perėję į <interface>Sistemos nuostatos|Darbo sritis|"
+"Paieška</interface>."
 
 #: search/chip.cpp:21
 #, kde-format
@@ -3555,7 +3556,7 @@ msgstr "Paieškos rezultatai pagal užklausą „%1“"
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Failai, kuriuose yra „%1“"
 
 #: search/dolphinquery.cpp:430
 #, kde-format
@@ -3645,12 +3646,10 @@ msgid "File Type:"
 msgstr "Failo tipas:"
 
 #: search/popup.cpp:216
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "Pakeista"
+msgstr "Modifikuotas nuo:"
 
 #: search/popup.cpp:225
 #, kde-format
@@ -3942,6 +3941,8 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Pažymėkite failą ar aplanką, kuris turėtų būti pervadintas.\n"
+"Masinis pervadinimas yra įmanomas, kai pažymėti keli elementai."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:467
@@ -4093,12 +4094,10 @@ msgid "Exit Selection Mode"
 msgstr "Išeiti iš žymėjimo veiksenos"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Kontekstinis meniu"
+msgstr "Kontekstinio meniu veiksmai"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4107,12 +4106,10 @@ msgid "Search…"
 msgstr "Ieškoti…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "Atsisiųsti naujas paslaugas…"
+msgstr "Atsisiųsti paslaugų…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
@@ -4204,7 +4201,7 @@ msgstr "Rodyti turinio dydį"
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Nerodyti jokių katalogų dydžio"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4398,7 +4395,7 @@ msgstr "Mastelio lygis"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr "Aplanko mastelio lygis"
+msgstr "Aplanko mastelio lygis."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -4455,12 +4452,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Rikiuoti failus pagal"
+msgstr "Grupuoti failus pagal"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4581,10 +4576,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Ar turėtų būti rodomas visas kelias lango antraštės juostoje"
+msgstr ""
+"Ar kortelių juosta turėtų būti visada rodoma, net tada, kai yra tik viena "
+"kortelė"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
@@ -4942,21 +4938,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Aplankus, korteles ir lango būseną iš ankstesnio karto"
 
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Paleidus, rodyti:"
+msgstr "Paleidus, rodyti namų katalogo vietą"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Vieta tuščia."
+msgstr "Įveskite namų katalogo kelią"
 
 #: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
@@ -6665,7 +6657,7 @@ msgstr "Rodyti papildomą informaciją"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Grupuoti pagal"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6676,9 +6668,7 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Nėra"
@@ -6736,17 +6726,16 @@ msgstr ""
 "Tai atveria langą, kuriame gali būti derinamos visos aplanko rodinio savybės."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Numatytasis mastelis"
+msgstr "Atkurti numatytąsias reikšmes"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Atkurti rodinio nuostatas į numatytąsias reikšmes"
 
 #: views/dolphinviewactionhandler.cpp:399
 #, kde-format
@@ -6769,12 +6758,10 @@ msgid "Sort by Field"
 msgstr "Rikiuoti pagal lauką"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Rikiuoti pagal lauką"
+msgstr "Grupuoti pagal lauką"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format

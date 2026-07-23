@@ -121,7 +121,7 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2022-01-17</date>
+>2022–01–17</date>
 <releaseinfo
 >KDE Gear 22.04</releaseinfo>
 
@@ -150,7 +150,7 @@
 >Einleitung</title>
 
 <para
->&dolphin; ist die Standard-Dateiverwaltung für &plasma;. Es wird besonderer Wert darauf gelegt, dass &dolphin; leicht und intuitiv zu bedienen ist. &dolphin; beschränkt sich auf die Dateiverwaltung, während &konqueror;, die Standard-Dateiverwaltung für &kde; 3, auch weiterhin als ein Webbrowser, Dateiverwaltung und universeller Dokumentenbetrachter für die verschiedensten Dokumenttypen benutzt werden kann. </para>
+>&dolphin; ist die Standard-Dateiverwaltung für &plasma;. Es wird besonderer Wert darauf gelegt, dass &dolphin; leicht und intuitiv zu bedienen ist. &dolphin; beschränkt sich auf die Dateiverwaltung, während &konqueror;, die Standard-Dateiverwaltung für &kde; 3, auch weiterhin als ein Webbrowser, Dateiverwaltung und universeller Dokumentenbetrachter für die verschiedensten Dokumenttypen verwendet werden kann. </para>
 
 <para
 >Auf diese Weise ist es den Entwicklern möglich, die Benutzeroberfläche von &dolphin; genau an die typischen Aufgaben bei der Dateiverwaltung anzupassen. </para>
@@ -202,9 +202,9 @@
 
 <listitem
 ><para
->Die Werkzeugleiste, die einen schnellen Zugriff auf häufig benutzte Aktionen ermöglicht. Die Einstellungen für die Werkzeugleiste erreichen Sie entweder durch Klicken mit der &RMBn; und Auswahl von <menuchoice
+>Die Werkzeugleiste, die einen schnellen Zugriff auf häufig verwendete Aktionen ermöglicht. Die Einstellungen für die Werkzeugleiste erreichen Sie entweder durch Klicken mit der &RMBn; und Auswahl von <menuchoice
 ><guimenuitem
->Werkzeugleisten einrichten ...</guimenuitem
+>Werkzeugleisten einrichten …</guimenuitem
 ></menuchoice
 > aus dem Kontextmenü, unter <guibutton
 >Einstellungen</guibutton
@@ -212,7 +212,7 @@
 ><guimenu
 >Einstellungen</guimenu
 ><guimenuitem
->Werkzeugleisten einrichten ...</guimenuitem
+>Werkzeugleisten einrichten …</guimenuitem
 ></menuchoice
 > </para>
 <screenshot>
@@ -328,7 +328,7 @@
 
 <sect2 id="dolphin-view-using">
 <title
->Die Ordneransicht benutzen</title>
+>Die Ordneransicht verwenden</title>
 
 <para
 >Die Ordneransicht zeigt alle Dateien und Ordner im aktuellen Ordner. Diese können auf mehrere Arten geöffnet oder verändert werden: </para>
@@ -359,7 +359,7 @@
 
 </itemizedlist>
 <para
->&dolphin; speichert den Verlauf der geöffneten Ordner. Benutzen Sie die entsprechenden Knöpfe in der Werkzeugleiste, um im Verlauf vor oder zurück zu navigieren. </para>
+>&dolphin; speichert den Verlauf der geöffneten Ordner. Verwenden Sie die entsprechenden Knöpfe in der Werkzeugleiste, um im Verlauf vor oder zurück zu navigieren. </para>
 
 <screenshot>
 <screeninfo
@@ -469,7 +469,7 @@
 >Im Kontextmenü der Kopfzeile können Sie Seitenränder hinzufügen oder entfernen indem Sie die entsprechenden Menüeinträge an- bzw. abwählen und zwischen benutzerdefinierter und automatischer Spaltenbreite wählen. Bei automatischer Anpassung wird die Breite der Spalten beim Öffnen eines Ordners so eingestellt, dass der längste Eintrag jeder Spalte vollständig angezeigt wird, mit Ausnahme der Spalte <guilabel
 >Name</guilabel
 >, in der die Dateierweiterung durch drei Auslassungspunkte <quote
->...</quote
+> …</quote
 > ersetzt wird. </para>
 <para
 >Die Reihenfolge der Spalten kann durch Verschieben der Spaltenköpfe mit der Maus geändert werden. Nur die Spalte <guilabel
@@ -902,7 +902,7 @@ has all features from dolphin ?-->
 ><guisubmenu
 > Seitenleisten anzeigen</guisubmenu
 ></menuchoice
-> aktiviert werden. Sie können die Seitenleisten anders anordnen, indem Sie den Titel einer Seitenleiste anklicken und entsperren und dann die Seitenleiste an eine andere Stelle - auch außerhalb des Hauptfensters - ziehen. </para>
+> aktiviert werden. Sie können die Seitenleisten anders anordnen, indem Sie den Titel einer Seitenleiste anklicken und entsperren und dann die Seitenleiste an eine andere Stelle – auch außerhalb des Hauptfensters – ziehen. </para>
 
 <sect2 id="places-panel">
 <title
@@ -920,9 +920,9 @@ context menu Icon Size? No different entries ?-->
 >Orte</guilabel
 > hinzuzufügen, ist, den Ordner mit der Maus in die Seitenleiste zu ziehen. Sie können auch in der Seitenleiste mit der &RMBn; klicken und <menuchoice
 ><guimenuitem
->Eintrag hinzufügen ...</guimenuitem
+>Eintrag hinzufügen …</guimenuitem
 > </menuchoice
-> aus dem Kontextmenü auswählen. Mit der ersten Möglichkeit erstellen Sie systemweite Lesezeichen. mit der zweiten können Sie den aktuellen Pfad in der Adressleiste oder einen anderen Ordner und auch ein Gerät hinzufügen. Es wird dann ein Dialog angezeigt, in dem Name, Ort und ein Symbol gewählt werden kann. Außerdem kann die Anzeige dieses Eintrags nur auf &dolphin; beschränkt werden. </para>
+> aus dem Kontextmenü auswählen. Mit der ersten Möglichkeit erstellen Sie systemweite Lesezeichen, mit der zweiten können Sie den aktuellen Pfad in der Adressleiste oder einen anderen Ordner und auch ein Gerät hinzufügen. Es wird dann ein Dialog angezeigt, in dem Name, Ort und ein Symbol gewählt werden kann. Außerdem kann die Anzeige dieses Eintrags nur auf &dolphin; beschränkt werden. </para>
 
 <para
 >Durch Klicken mit der &RMBn; öffnen Sie ein Kontextmenü, um Einträge zu bearbeiten, hinzuzufügen, auszublenden oder zu entfernen. Im Kontextmenü kann ebenfalls die Symbolgröße aus vorgegebenen Werten gewählt und die Seitenleiste gesperrt bzw. entsperrt werden. </para>
@@ -950,7 +950,7 @@ context menu Icon Size? No different entries ?-->
 >Ordner</guilabel
 > zeigt eine Baumstruktur des Dateisystems an. Hier werden nur Ordner angezeigt, keine Dateien. Wenn Sie mit der &LMBn; auf einen Ordner klicken, wird dieser Ordner in der Ordneransicht von &dolphin;geöffnet. </para>
 <para
->Benutzen Sie <guilabel
+>Verwenden Sie <guilabel
 >Auf persönlichen Ordner beschränken</guilabel
 >, um alle Ordner der Baumansicht außer dem <guilabel
 >Persönlichen Ordner</guilabel
@@ -1041,7 +1041,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Bearbeiten</guimenu
 > <guimenuitem
->Suchen ...</guimenuitem
+>Suchen …</guimenuitem
 > </menuchoice
 > auf, so wird die <guilabel
 >Suchen</guilabel
@@ -1058,7 +1058,7 @@ context menu Icon Size? No different entries ?-->
 </textobject>
 <caption
 ><para
->&dolphin; - Suche nach Dateien und nach Inhalt in Dateien</para
+>&dolphin; – Suche nach Dateien und nach Inhalt in Dateien</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -1074,7 +1074,7 @@ context menu Icon Size? No different entries ?-->
 >?</userinput
 > nur für ein einzelnes Zeichen.</para>
 <para
->Diese Funktion kann mit laufenden Baloo-Diensten benutzt werden, ohne diese Dienste wird für die Suche ein zusätzliches Ein-/Ausgabemodul gestartet.</para>
+>Diese Funktion kann mit laufenden Baloo-Diensten verwendet werden, ohne diese Dienste wird für die Suche ein zusätzliches Ein-/Ausgabemodul gestartet.</para>
 <para
 >Die Einstellung von <guilabel
 >Überall</guilabel
@@ -1094,13 +1094,13 @@ context menu Icon Size? No different entries ?-->
 </textobject>
 <caption
 ><para
->&dolphin; - Suche mit erweiterten Optionen.</para
+>&dolphin; – Suche mit erweiterten Optionen.</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
->Benutzen Sie den Knopf <guilabel
+>Verwenden Sie den Knopf <guilabel
 >Mehr Optionen</guilabel
 >, um die <guilabel
 >Suchen</guilabel
@@ -1130,10 +1130,10 @@ context menu Icon Size? No different entries ?-->
 >Orte</guilabel
 > zusammen mit der <guilabel
 >Filterleiste</guilabel
-> benutzen, um Dateien mit Baloo zu suchen oder die Suche auf ausgewählte Dateien einzugrenzen.</para>
+> verwenden, um Dateien mit Baloo zu suchen oder die Suche auf ausgewählte Dateien einzugrenzen.</para>
 
 <para
->Benutzen Sie das Speichersymbol, um eine Suche im Abschnitt <guilabel
+>Verwenden Sie das Speichersymbol, um eine Suche im Abschnitt <guilabel
 >Suchen nach</guilabel
 > der Seitenleiste <guilabel
 >Orte</guilabel
@@ -1192,7 +1192,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Datei</guimenu
 ><guimenuitem
->Umbenennen ...</guimenuitem
+>Umbenennen …</guimenuitem
 ></menuchoice
 >. </para>
 
@@ -1204,7 +1204,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Haben alle Dateien in Ihrer Auswahl unterschiedliche Dateierweiterungen, kann der Name aller Dateien geändert werden, ohne den Platzhalter <userinput
 >#</userinput
->. Dabei bleiben die Dateierweiterungen unverändert. Dies kann &eg; dazu benutzt werden, um eine Videodatei und alle zugehörigen Dateien mit den Untertiteln umzubenennen, die normalerweise den gleichen Dateinamen, aber verschiedenen Dateierweiterung haben. </para>
+>. Dabei bleiben die Dateierweiterungen unverändert. Dies kann &eg; dazu verwendet werden, um eine Videodatei und alle zugehörigen Dateien mit den Untertiteln umzubenennen, die normalerweise den gleichen Dateinamen, aber verschiedenen Dateierweiterung haben. </para>
 </sect2>
 
 <sect2 id="compare-files">
@@ -1212,7 +1212,7 @@ context menu Icon Size? No different entries ?-->
 >Vergleichen mehrerer Dateien oder Ordner</title>
 
 <para
->Wenn das Programm &kompare; installiert ist, können Sie es benutzen, um Unterschiede zwischen Dateien oder Ordnern anzusehen und abzugleichen. </para>
+>Wenn das Programm &kompare; installiert ist, können Sie es verwenden, um Unterschiede zwischen Dateien oder Ordnern anzusehen und abzugleichen. </para>
 
 <para
 >Zunächst müssen Sie zwei Dateien oder Ordner für den Vergleich auswählen. Danach starten Sie das Vergleichsprogramm &kompare;, indem Sie aus dem Menü <menuchoice
@@ -1270,7 +1270,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Einstellungen</guimenu
 > <guimenuitem
->&dolphin; einrichten ...</guimenuitem
+>&dolphin; einrichten …</guimenuitem
 ></menuchoice
 > in der Menüleiste geöffnet. Die Einstellungen sind in mehrere Gruppen eingeteilt, die durch einen Klick auf das jeweilige Symbol auf der linken Seite des Dialogs zu erreichen sind. </para>
 
@@ -1281,7 +1281,7 @@ context menu Icon Size? No different entries ?-->
 >Statusleiste</guilabel
 > auf der Seite <guilabel
 >Allgemein</guilabel
-> werden auch von &konqueror; im Dateiverwaltungsmodus benutzt. </para>
+> werden auch von &konqueror; im Dateiverwaltungsmodus verwendet. </para>
 
 <sect2 id="preferences-dialog-general">
 <title
@@ -1375,14 +1375,14 @@ context menu Icon Size? No different entries ?-->
 >+</guibutton
 >- oder <guibutton
 >-</guibutton
->-Knopf über Symbolen, wenn diese mit der Maus überfahren werden. Diese Knöpfe können zum Aus- oder Abwählen von Elementen benutzt werden. </para
+>-Knopf über Symbolen, wenn diese mit der Maus überfahren werden. Diese Knöpfe können zum Aus- oder Abwählen von Elementen verwendet werden. </para
 ></listitem>
 
 <listitem
 ><para
 >Aktivieren Sie <guilabel
 >Direktes Umbenennen</guilabel
->, um diesen Modus zu verwenden, wenn nur ein Element aktuell ausgewählt ist. Ist diese Einstellung abgeschaltet oder mehrere Elemente ausgewählt, wird zum Umbenennen ein Dialog angezeigt. </para
+>, um diesen Modus zu verwenden, wenn nur ein Element aktuell ausgewählt ist. Ist diese Einstellung deaktiviert oder mehrere Elemente ausgewählt, wird zum Umbenennen ein Dialog angezeigt. </para
 ></listitem>
 
 <listitem
@@ -1398,7 +1398,7 @@ context menu Icon Size? No different entries ?-->
 >Ausschalten der geteilten Ansicht schließt die aktive Ansicht</guilabel
 >, um die nicht aktive Ansicht zu schließen, wenn Sie die geteilte Ansicht &eg; durch <keycap
 >F3</keycap
-> abschalten. </para
+> deaktivieren. </para
 ></listitem>
 
 </itemizedlist>
@@ -1438,7 +1438,7 @@ context menu Icon Size? No different entries ?-->
 >Verschieben von Dateien und Ordnern in den Papierkorb</guilabel
 > und <guilabel
 >Löschen von Dateien und Ordnern</guilabel
-> werden für alle Dateioperationen in &dolphin;, &konqueror;, &gwenview; und allen &kde;-Anwendungen, die den &kde;-Dateidialog benutzen, verwendet, die Einstellung <guilabel
+> werden für alle Dateioperationen in &dolphin;, &konqueror;, &gwenview; und allen &kde;-Anwendungen, die den &kde;-Dateidialog verwenden, verwendet, die Einstellung <guilabel
 >Schließen von &dolphin;-Fenstern mit Unterfenstern</guilabel
 > betrifft nur &dolphin;.</para
 ></warning>
@@ -1467,7 +1467,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Benutzen Sie <guilabel
+>Verwenden Sie <guilabel
 >Speicherplatz-Informationen anzeigen</guilabel
 >, um die Anzeige des freien Speicherplatzes auf dem aktuellen Laufwerk ein- oder auszuschalten. </para
 ></listitem>
@@ -1512,7 +1512,7 @@ context menu Icon Size? No different entries ?-->
 > können Sie auswählen, welcher Ordner beim Start angezeigt wird. </para>
 <para
 >Ist <guimenuitem
->Ordner, Unterfenster und Fensterstatus vom letzten Start</guimenuitem
+>Ordner, Unterfenster und Fensterstatus vom letzten Mal</guimenuitem
 > ausgewählt, dann: </para>
 <itemizedlist>
     <listitem>
@@ -1635,7 +1635,7 @@ context menu Icon Size? No different entries ?-->
 >Standard</guilabel
 >- und <guilabel
 >Vorschau</guilabel
->-Größen werden benutzt, wenn die Vorschau deaktiviert bzw. aktiviert ist. Die Symbolgröße kann einfach mit dem Schieberegler in der Statusleiste geändert werden, wenn die entsprechende Option im <link linkend="preferences-dialog-general-statusbar"
+>-Größen werden verwendet, wenn die Vorschau deaktiviert bzw. aktiviert ist. Die Symbolgröße kann einfach mit dem Schieberegler in der Statusleiste geändert werden, wenn die entsprechende Option im <link linkend="preferences-dialog-general-statusbar"
 >Bereich <quote
 >Allgemein</quote
 > des Einstellungsdialogs</link
@@ -1706,13 +1706,15 @@ context menu Icon Size? No different entries ?-->
 >v</guiicon
 > klicken. </para>
 <para
->Mit der Einstellung <guilabel
->Ordnergröße zeigt</guilabel
-> können Sie festlegen, welche Eigenschaft bei der Sortierung von Ordnern nach der Größe verwendet wird. Ordner können nach <guilabel
->Anzahl der Einträge</guilabel
-> oder nach <guilabel
->Größe des Inhalts</guilabel
-> sortiert werden. Dabei kann ein Grenzwert für die rekursive Tiefe festgelegt werden. Das ist nützlich für die Beschränkung unnötiger Iterationen bei tiefen Ordnerstrukturen oder langsamen Dateisystemen. </para>
+>Mithilfe von <guilabel
+>Ordnergröße</guilabel
+> können Sie festlegen, welche Eigenschaft bei der Sortierung von Ordnern nach ihrer Größe verwendet wird. Ordner können nach Anzahl der Einträge durch die Wahl von <guilabel
+>Anzahl der Einträge anzeigen</guilabel
+> oder nach Größe des Inhalts durch die Wahl von <guilabel
+>Größe des Inhalts anzeigen</guilabel
+> sortiert werden. Dabei kann ein Grenzwert für die Rekursionstiefe festgelegt werden. Das ist nützlich für die Beschränkung unnötiger Iterationen bei tiefen Ordnerstrukturen oder langsamen Dateisystemen. Es ist ebenfalls möglich, Anzeige der Ordnergröße durch die Wahl von <guilabel
+>Keine Größe anzeigen</guilabel
+> zu deaktivieren. In seltenen Fällen kann dies zwar die Leistung verbessern, beeinflusst jedoch andere Funktionalitäten (wie z. B. Sortierung). </para>
 <para
 >Mit der Einstellung <guilabel
 >Datumsstil</guilabel
@@ -1817,7 +1819,7 @@ context menu Icon Size? No different entries ?-->
 
 <para
 >Mit <guibutton
->Neue Dienste herunterladen ...</guibutton
+>Neue Dienste herunterladen …</guibutton
 > können Sie zusätzliche Dienste für das Kontextmenü installieren. </para>
 <para
 >Wenn Sie die &dolphin;-Module für <guilabel
@@ -1950,7 +1952,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Die Sortierung von Elementen, die die durch die Sortierreihenfolge (aufsteigend, absteigend) und die Eigenschaften (Name, Größe, ...), nach denen Elemente sortiert werden, festlegt wird. </para
+>Die Sortierung von Elementen, die die durch die Sortierreihenfolge (aufsteigend, absteigend) und die Eigenschaften (Name, Größe, …), nach denen Elemente sortiert werden, festlegt wird. </para
 ></listitem>
 
 <listitem
@@ -2022,7 +2024,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Wenn <guilabel
 >Als Voreinstellung für Ansichten verwenden</guilabel
-> aktiviert ist, werden die Einstellungen auch für alle Ordner benutzt, für die noch keine eigenen Einstellungen ausgewählt wurden. </para>
+> aktiviert ist, werden die Einstellungen auch für alle Ordner verwendet, für die noch keine eigenen Einstellungen ausgewählt wurden. </para>
 
 </sect2>
 
@@ -2427,7 +2429,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Bearbeiten</guimenu
 > <guimenuitem
->Inhalt der Zwischenablage einfügen ...</guimenuitem
+>Inhalt der Zwischenablage einfügen …</guimenuitem
 ></menuchoice
 > oder <menuchoice
 ><guimenu
@@ -2514,7 +2516,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Bearbeiten</guimenu
 > <guimenuitem
->Filter ...</guimenuitem
+>Filter …</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2543,7 +2545,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Bearbeiten</guimenu
 > <guimenuitem
->Suchen ...</guimenuitem
+>Suchen …</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2986,7 +2988,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Ansicht</guimenu
 > <guimenuitem
->Anzeigestil anpassen ...</guimenuitem
+>Anzeigestil anpassen …</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -3208,7 +3210,7 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Erlaubt es, die Zeichenkodierung, die von einer Netzwerk-Sitzung benutzt wird, manuell auszuwählen.</action
+>Erlaubt es, die Zeichenkodierung, die von einer Netzwerk-Sitzung verwendet wird, manuell auszuwählen.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -3225,7 +3227,7 @@ context menu Icon Size? No different entries ?-->
 ></title
 > 
 <para
->&dolphin; benutzt die bekannten &kde;-Menüeinträge <guimenu
+>&dolphin; verwendet die bekannten &kde;-Menüeinträge <guimenu
 >Einstellungen</guimenu
 > und <guimenu
 >Hilfe</guimenu
@@ -3308,7 +3310,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >&dolphin; </para>
 <para
->Program copyright 2006&ndash;2014 Peter Penz <email
+>Programm-Copyright 2006&ndash;2014 Peter Penz <email
 >peter.penz@gmx.at</email
 >, Frank Reininghaus <email
 >frank78ac@googlemail.com</email
@@ -3353,7 +3355,7 @@ context menu Icon Size? No different entries ?-->
 >tuxedup@users.sourceforge.net</email
 > </para>
 <para
->Dokumentation Copyright 2009 Frank Reininghaus <email
+>Dokumentation-Copyright 2009 Frank Reininghaus <email
 >frank78ac@googlemail.com</email
 > </para>
 
