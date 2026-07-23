@@ -406,7 +406,11 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList &selection)
     updateFileAndEditActions();
 
     if (m_fileItemActions) {
-        m_fileItemActions->setItemListProperties(KFileItemListProperties(selection));
+        if (selection.count() > 0) {
+            m_fileItemActions->setItemListProperties(KFileItemListProperties(selection));
+        } else {
+            m_fileItemActions->setItemListProperties(KFileItemListProperties(KFileItemList() << m_activeViewContainer->rootItem()));
+        }
     }
 
     const int selectedUrlsCount = m_tabWidget->currentTabPage()->selectedItemsCount();
