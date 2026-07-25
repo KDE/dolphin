@@ -12,6 +12,9 @@
 
 #include <QPointer>
 
+#include <optional>
+#include <utility>
+
 class DolphinColumnPane;
 class QScrollArea;
 class QSplitter;
@@ -43,6 +46,11 @@ public:
     void readSettings() override;
     KFileItem rootItem() const override;
 
+    /// The columns scroll horizontally in their own scroll area, not in the base container.
+    int horizontalScrollBarHeight() const override;
+    /// Each column has to leave room for the small status bar, not the hidden base view.
+    void setStatusBarOffset(int offset) override;
+
     // --- Columns-specific API ---
     int columnCount() const;
     DolphinColumnPane *columnAt(int index) const;
@@ -70,6 +78,8 @@ private Q_SLOTS:
 private:
     void initColumnsUi();
     void rebuildColumnsForUrl(const QUrl &url);
+    /// Scrolls to a column once the splitter has laid out the sizes it was given.
+    void scrollToColumnWhenLaidOut(int index);
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
     DolphinColumnPane *createPane(const QUrl &dirUrl);
@@ -89,9 +99,20 @@ private:
     void handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex);
 
     void ensureActiveColumnVisible();
+    /// Scrolls the column at @p index into view, if any part of it is outside the viewport.
+    void ensureColumnVisible(int index);
     void autoSelectFirstItem(int columnIndex);
-    void recalculateColumnWidths();
+    // Whether a column may end up narrower than it is now. Only the user asking for it does
+    // that: the width mode, the handle, the fit, or the size of the window.
+    enum class WidthPolicy {
+        GrowOnly,
+        Refit,
+    };
+    void recalculateColumnWidths(WidthPolicy policy = WidthPolicy::GrowOnly);
     /// Set the per-column widths on the splitter and update the horizontal-scroll overflow.
+    // The width a column keeps whatever its content asks for: what it has now, or the width of
+    // the column it replaced.
+    int widthFloorFor(int index, const QList<int> &currentSizes) const;
     void applyColumnSizes(QList<int> columnSizes);
     /**
      * In "adjust to content" mode, re-fit the columns to their content so a rename
@@ -112,6 +133,11 @@ private:
     QSplitter *m_splitter = nullptr;
     QWidget *m_filler = nullptr;
 
+    /// A splitter handle does not reliably get a double click, so two releases count as one.
+    bool m_splitterReleaseSeen = false;
+
+    int m_statusBarOffset = 0;
+
     QList<DolphinColumnPane *> m_columns;
     int m_activeColumn = -1;
 
@@ -122,6 +148,10 @@ private:
     // loading.  slotPaneLoadingCompleted() uses this to auto-select the
     // first item once the model is ready.
     DolphinColumnPane *m_pendingAutoSelect = nullptr;
+
+    // Width handed from the column that was shown to the right of the active one to the one
+    // that replaced it, as the index and the width. Empty when nothing is being carried.
+    std::optional<std::pair<int, int>> m_carriedColumnWidth;
 
     // What a left press landed on, until the button comes back up on the same item or the press
     // turns into a drag.
