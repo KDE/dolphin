@@ -379,7 +379,7 @@ int KFileItemModel::count() const
     return m_itemData.count();
 }
 
-QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
+SmallHash KFileItemModel::data(int index) const
 {
     if (index >= 0 && index < count()) {
         ItemData *data = m_itemData.at(index);
@@ -399,27 +399,32 @@ QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
             }
         }
 
-        return data->values;
+        SmallHash result = data->values;
+        // The url is not stored per item (it is derivable from the KFileItem); inject it here.
+        result.insert(sharedValue("url"), data->item.url());
+        return result;
     }
-    return QHash<QByteArray, QVariant>();
+    return SmallHash();
 }
 
-bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant> &values)
+QUrl KFileItemModel::url(int index) const
+{
+    // "url" is not stored in the per-item role cache; read it straight from the item.
+    return fileItem(index).url();
+}
+
+bool KFileItemModel::setData(int index, const SmallHash &values)
 {
     if (index < 0 || index >= count()) {
         return false;
     }
 
-    QHash<QByteArray, QVariant> currentValues = data(index);
+    SmallHash currentValues = data(index);
 
     // Determine which roles have been changed
     QSet<QByteArray> changedRoles;
-    QHashIterator<QByteArray, QVariant> it(values);
-    while (it.hasNext()) {
-        it.next();
-        const QByteArray role = sharedValue(it.key());
-        const QVariant value = it.value();
-
+    for (const auto &[key, value] : values) {
+        const QByteArray role = sharedValue(key);
         if (currentValues[role] != value) {
             currentValues[role] = value;
             changedRoles.insert(role);
@@ -443,6 +448,8 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant> &value
             currentValues["url"] = url;
         }
     }
+    // "url" is injected by data(), not stored per item.
+    currentValues.remove(sharedValue("url"));
     m_itemData[index]->values = currentValues;
 
     emitItemsChangedAndTriggerResorting(KItemRangeList() << KItemRange(index, 1), changedRoles);
@@ -870,7 +877,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
-    QHash<QByteArray, QVariant> values;
+    SmallHash values;
     values.insert(sharedValue("isExpanded"), expanded);
     if (!setData(index, values)) {
         return false;
@@ -1650,12 +1657,10 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &
             // Keep old values as long as possible if they could not retrieved synchronously yet.
             // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
             ItemData *const itemData = m_itemData.at(indexForItem);
-            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, itemData->parent));
-            while (it.hasNext()) {
-                it.next();
-                const QByteArray &role = it.key();
-                if (itemData->values.value(role) != it.value()) {
-                    itemData->values.insert(role, it.value());
+            const SmallHash newData = retrieveData(newItem, itemData->parent);
+            for (const auto &[role, value] : newData) {
+                if (itemData->values.value(role) != value) {
+                    itemData->values.insert(role, value);
                     changedRoles.insert(role);
                 }
             }
@@ -2203,13 +2208,12 @@ QByteArray KFileItemModel::roleForType(RoleType roleType) const
     return roles.value(roleType);
 }
 
-QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, const ItemData *parent) const
+SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *parent) const
 {
     // It is important to insert only roles that are fast to retrieve. E.g.
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
-    QHash<QByteArray, QVariant> data;
-    data.insert(sharedValue("url"), item.url());
+    SmallHash data;
 
     const bool isDir = item.isDir();
     if (m_requestRole[IsDirRole] && isDir) {

@@ -43,7 +43,7 @@ bool KFileItemListWidgetInformant::itemIsLink(int index, const KItemListView *vi
     return item.isLink();
 }
 
-QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs) const
+QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const SmallHash &values, ForUsageAs forUsageAs) const
 {
     QString text;
     const QVariant roleValue = values.value(role);

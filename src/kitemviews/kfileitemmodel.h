@@ -10,6 +10,7 @@
 #include "dolphin_export.h"
 #include "kitemviews/kitemmodelbase.h"
 #include "kitemviews/private/kfileitemmodelfilter.h"
+#include "smallhash.h"
 
 #include <KFileItem>
 #include <KLazyLocalizedString>
@@ -18,6 +19,7 @@
 #include <QHash>
 #include <QSet>
 #include <QUrl>
+#include <QVariant>
 
 #include <functional>
 
@@ -77,8 +79,9 @@ public:
     void cancelDirectoryLoading();
 
     int count() const override;
-    QHash<QByteArray, QVariant> data(int index) const override;
-    bool setData(int index, const QHash<QByteArray, QVariant> &values) override;
+    SmallHash data(int index) const override;
+    QUrl url(int index) const override;
+    bool setData(int index, const SmallHash &values) override;
 
     /**
      * Sets a separate sorting with directories first (true) or a mixed
@@ -373,7 +376,7 @@ private:
 
     struct ItemData {
         KFileItem item;
-        QHash<QByteArray, QVariant> values;
+        SmallHash values;
         ItemData *parent;
     };
 
@@ -429,7 +432,7 @@ private:
      */
     QByteArray roleForType(RoleType roleType) const;
 
-    QHash<QByteArray, QVariant> retrieveData(const KFileItem &item, const ItemData *parent) const;
+    SmallHash retrieveData(const KFileItem &item, const ItemData *parent) const;
 
     /**
      * @return True if role values benefit from natural or case insensitive sorting.

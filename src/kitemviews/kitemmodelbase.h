@@ -12,6 +12,7 @@
 #include "dolphin_export.h"
 #include "kitemviews/kitemrange.h"
 #include "kitemviews/kitemset.h"
+#include "smallhash.h"
 
 #include <QHash>
 #include <QObject>
@@ -47,7 +48,7 @@ public:
     /** @return The number of items. */
     virtual int count() const = 0;
 
-    virtual QHash<QByteArray, QVariant> data(int index) const = 0;
+    virtual SmallHash data(int index) const = 0;
 
     /**
      * Sets the data for the item at \a index to the given \a values. Returns true
@@ -56,7 +57,7 @@ public:
      * The default implementation does not set the data, and will always return
      * false.
      */
-    virtual bool setData(int index, const QHash<QByteArray, QVariant> &values);
+    virtual bool setData(int index, const SmallHash &values);
 
     /**
      * Enables/disables the grouped sorting. The method KItemModelBase::onGroupedSortingChanged() will be

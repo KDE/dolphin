@@ -11,6 +11,7 @@
 
 #include "dolphin_export.h"
 #include "kitemviews/kitemliststyleoption.h"
+#include "smallhash.h"
 
 #include <QBitArray>
 #include <QGraphicsWidget>
@@ -59,8 +60,8 @@ public:
     void setIndex(int index);
     int index() const;
 
-    void setData(const QHash<QByteArray, QVariant> &data, const QSet<QByteArray> &roles = QSet<QByteArray>());
-    QHash<QByteArray, QVariant> data() const;
+    void setData(const SmallHash &data, const QSet<QByteArray> &roles = QSet<QByteArray>());
+    SmallHash data() const;
     QVariant value(const QByteArray &key) const;
 
     /**
@@ -206,7 +207,7 @@ Q_SIGNALS:
     void roleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
 protected:
-    virtual void dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles = QSet<QByteArray>());
+    virtual void dataChanged(const SmallHash &current, const QSet<QByteArray> &roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
     virtual void columnWidthChanged(const QByteArray &role, qreal current, qreal previous);
     virtual void sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth);
@@ -267,7 +268,7 @@ private:
     bool m_alternateBackground;
     bool m_enabledSelectionToggle;
     bool m_clickHighlighted;
-    QHash<QByteArray, QVariant> m_data;
+    SmallHash m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;
     qreal m_leftPadding;

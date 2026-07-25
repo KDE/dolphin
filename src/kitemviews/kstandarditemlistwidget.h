@@ -42,7 +42,7 @@ protected:
      * @return The value of the "text" role. The default implementation returns
      *         view->model()->data(index)["text"]. If a derived class can
      *         prevent the (possibly expensive) construction of the
-     *         QHash<QByteArray, QVariant> returned by KItemModelBase::data(int),
+     *         SmallHash returned by KItemModelBase::data(int),
      *         it can reimplement this function.
      */
     virtual QString itemText(int index, const KItemListView *view) const;
@@ -66,7 +66,7 @@ protected:
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.
      */
-    virtual QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs = ForUsageAs::DisplayedText) const;
+    virtual QString roleText(const QByteArray &role, const SmallHash &values, ForUsageAs forUsageAs = ForUsageAs::DisplayedText) const;
 
     /**
     * @return A font based on baseFont which is customized for symlinks.
@@ -164,7 +164,7 @@ protected:
     /**
      * @see KStandardItemListWidgetInformant::roleText().
      */
-    QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const;
+    QString roleText(const QByteArray &role, const SmallHash &values) const;
 
     static int numberOfUnicodeCharactersIn(const QString &text);
 
@@ -173,7 +173,7 @@ protected:
      */
     virtual int selectionLength(const QString &text) const;
 
-    void dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles = QSet<QByteArray>()) override;
+    void dataChanged(const SmallHash &current, const QSet<QByteArray> &roles = QSet<QByteArray>()) override;
     void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous) override;
     void columnWidthChanged(const QByteArray &role, qreal current, qreal previous) override;
     void sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth) override;

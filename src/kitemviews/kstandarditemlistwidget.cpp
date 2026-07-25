@@ -63,7 +63,7 @@ void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<std::pair<
 
 qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const
 {
-    const QHash<QByteArray, QVariant> values = view->model()->data(index);
+    const SmallHash values = view->model()->data(index);
     const KItemListStyleOption &option = view->styleOption();
 
     const QString text = roleText(role, values);
@@ -108,7 +108,7 @@ bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView
     return false;
 }
 
-QString KStandardItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs) const
+QString KStandardItemListWidgetInformant::roleText(const QByteArray &role, const SmallHash &values, ForUsageAs forUsageAs) const
 {
     if (role == "rating") {
         if (forUsageAs == ForUsageAs::DisplayedText) {
@@ -221,7 +221,7 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
         if (showOnlyTextRole) {
             maximumRequiredWidth = fontMetrics.horizontalAdvance(itemText(index, view));
         } else {
-            const QHash<QByteArray, QVariant> &values = view->model()->data(index);
+            const SmallHash &values = view->model()->data(index);
             for (const QByteArray &role : visibleRoles) {
                 const QString &text = roleText(role, values);
                 const qreal requiredWidth = fontMetrics.horizontalAdvance(text);
@@ -628,7 +628,7 @@ void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation
             wantedIconName = "folder-open";
         }
 
-        QHash<QByteArray, QVariant> itemData{data()};
+        SmallHash itemData{data()};
         if (itemData["iconName"] != wantedIconName) {
             itemData.insert("iconName", wantedIconName);
             setData(itemData);
@@ -637,7 +637,7 @@ void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation
     });
 
     connect(m_activateSoonAnimation, &QObject::destroyed, this, [originalIconName, this]() {
-        QHash<QByteArray, QVariant> itemData{data()};
+        SmallHash itemData{data()};
         if (itemData["iconName"] == "folder-open") {
             itemData.insert("iconName", originalIconName);
             setData(itemData);
@@ -740,12 +740,12 @@ QHash<Qt::Corner, QString> KStandardItemListWidget::overlays() const
     return m_overlays;
 }
 
-QString KStandardItemListWidget::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const
+QString KStandardItemListWidget::roleText(const QByteArray &role, const SmallHash &values) const
 {
     return static_cast<const KStandardItemListWidgetInformant *>(informant())->roleText(role, values);
 }
 
-void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles)
+void KStandardItemListWidget::dataChanged(const SmallHash &current, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(current)
 
@@ -1027,7 +1027,7 @@ void KStandardItemListWidget::triggerCacheRefreshing()
 
     refreshCache();
 
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
     m_isExpandable = m_supportsItemExpanding && values["isExpandable"].toBool();
     m_isHidden = isHidden();
     m_customizedFont = customizedFont(styleOption().font);
@@ -1049,7 +1049,7 @@ void KStandardItemListWidget::triggerCacheRefreshing()
 void KStandardItemListWidget::updateExpansionArea()
 {
     if (m_supportsItemExpanding) {
-        const QHash<QByteArray, QVariant> values = data();
+        const SmallHash values = data();
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
             const int widgetIconSize = styleOption().iconSize;
@@ -1086,7 +1086,7 @@ void KStandardItemListWidget::updatePixmapCache()
     const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : widgetIconSize;
     const int maxIconHeight = widgetIconSize;
 
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
 
     bool updatePixmap = (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight);
     if (!updatePixmap && m_dirtyContent) {
@@ -1322,7 +1322,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     //  Additional role 1
     //  Additional role 2
 
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
 
     const KItemListStyleOption &option = styleOption();
     const qreal padding = option.padding;
@@ -1441,7 +1441,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     // | Icon |  Additional role 1
     // +------+  Additional role 2
 
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
 
     const KItemListStyleOption &option = styleOption();
     const qreal widgetHeight = size().height();
@@ -1493,7 +1493,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     m_textRect = QRectF();
 
     const KItemListStyleOption &option = styleOption();
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
 
     const qreal widgetHeight = size().height();
     const int fontHeight = m_customizedFontMetrics.height();

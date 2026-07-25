@@ -130,7 +130,7 @@ QRect KItemListDelegateAccessible::rect() const
 
 QString KItemListDelegateAccessible::text(QAccessible::Text t) const
 {
-    const QHash<QByteArray, QVariant> data = m_view->model()->data(m_index);
+    const SmallHash data = m_view->model()->data(m_index);
     switch (t) {
     case QAccessible::Name: {
         return data["text"].toString();

@@ -75,7 +75,7 @@ int KItemListWidget::index() const
     return m_index;
 }
 
-void KItemListWidget::setData(const QHash<QByteArray, QVariant> &data, const QSet<QByteArray> &roles)
+void KItemListWidget::setData(const SmallHash &data, const QSet<QByteArray> &roles)
 {
     clearHoverCache();
     if (roles.isEmpty()) {
@@ -90,7 +90,7 @@ void KItemListWidget::setData(const QHash<QByteArray, QVariant> &data, const QSe
     update();
 }
 
-QHash<QByteArray, QVariant> KItemListWidget::data() const
+SmallHash KItemListWidget::data() const
 {
     return m_data;
 }
@@ -456,7 +456,7 @@ void KItemListWidget::startActivateSoonAnimation(int timeUntilActivation)
     Q_UNUSED(timeUntilActivation)
 }
 
-void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles)
+void KItemListWidget::dataChanged(const SmallHash &current, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(current)
     Q_UNUSED(roles)

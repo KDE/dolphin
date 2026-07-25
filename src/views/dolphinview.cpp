@@ -878,7 +878,7 @@ void DolphinView::renameSelectedItems()
             for (int i = 0; i < items.count(); ++i) {
                 const int index = m_model->index(items[i]);
                 if (index >= 0) {
-                    QHash<QByteArray, QVariant> data;
+                    SmallHash data;
                     data.insert("text", urls[i].fileName());
                     m_model->setData(index, data);
                 }
@@ -2163,7 +2163,7 @@ void DolphinView::slotRenamingResult(KJob *job)
         const QUrl oldUrl = copyJob->srcUrls().at(0);
         const int index = m_model->index(newUrl);
         if (m_model->index(oldUrl) == index) {
-            QHash<QByteArray, QVariant> data;
+            SmallHash data;
             data.insert("text", newUrl.fileName());
             m_model->setData(index, data);
         }

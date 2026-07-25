@@ -85,9 +85,9 @@ QSet<QByteArray> KBalooRolesProvider::roles() const
     return m_roles;
 }
 
-QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const
+SmallHash KBalooRolesProvider::roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const
 {
-    QHash<QByteArray, QVariant> values;
+    SmallHash values;
 
     using entry = std::pair<const KFileMetaData::Property::Property &, const QVariant &>;
 

@@ -315,14 +315,14 @@ private:
 
     enum ResolveHint { ResolveFast, ResolveAll };
     bool applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem = KFileItem());
-    QHash<QByteArray, QVariant> rolesData(const KFileItem &item, int index);
+    SmallHash rolesData(const KFileItem &item, int index);
 
     /**
      * Sets \a data on the model item at \a index without re-entering
      * slotItemsChanged() for this self-induced change (other listeners, e.g. the
      * view, still get the change). Replaces a manual disconnect/setData/connect.
      */
-    void setModelData(int index, const QHash<QByteArray, QVariant> &data);
+    void setModelData(int index, const SmallHash &data);
 
     /**
      * Must be invoked if a property has been changed that affects

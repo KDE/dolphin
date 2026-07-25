@@ -571,7 +571,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
         return;
     }
 
-    QHash<QByteArray, QVariant> data = rolesData(item, index);
+    SmallHash data = rolesData(item, index);
     data.insert("iconPixmap", transformPreviewPixmap(pixmap));
     data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
@@ -592,7 +592,7 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
 
     const int index = m_model->index(item);
     if (index >= 0) {
-        QHash<QByteArray, QVariant> data;
+        SmallHash data;
         data.insert("iconPixmap", QPixmap());
 
         setModelData(index, data);
@@ -628,7 +628,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
         return;
     }
 
-    QHash<QByteArray, QVariant> data = m_model->data(index);
+    SmallHash data = m_model->data(index);
     QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
     const int loadedIndex = pixmaps.size();
 
@@ -674,7 +674,7 @@ void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem 
 
     static const int numRetries = 2;
 
-    QHash<QByteArray, QVariant> data = m_model->data(index);
+    SmallHash data = m_model->data(index);
     QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
 
     qCDebug(DolphinDebug).nospace() << "Failed to generate hover sequence preview #" << pixmaps.size() << " for file " << item.url().toString() << " (attempt "
@@ -788,7 +788,7 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
         if (m_clearPreviews) {
             // Only go through the list if there are items which might still have previews.
             if (m_finishedItems.count() != m_model->count()) {
-                QHash<QByteArray, QVariant> data;
+                SmallHash data;
                 data.insert("iconPixmap", QPixmap());
                 data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
 
@@ -837,7 +837,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
     file.load();
 
     const KBalooRolesProvider &rolesProvider = KBalooRolesProvider::instance();
-    QHash<QByteArray, QVariant> data;
+    SmallHash data;
 
     const auto roles = rolesProvider.roles();
     for (const QByteArray &role : roles) {
@@ -847,10 +847,9 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
         data.insert(role, QVariant());
     }
 
-    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(file, m_roles));
-    while (it.hasNext()) {
-        it.next();
-        data.insert(it.key(), it.value());
+    const SmallHash roleValues = rolesProvider.roleValues(file, m_roles);
+    for (const auto &[key, value] : roleValues) {
+        data.insert(key, value);
     }
 
     const int index = m_model->index(item);
@@ -870,7 +869,7 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
     if (getSizeRole || getIsExpandableRole) {
         const int index = m_model->index(QUrl::fromLocalFile(path));
         if (index >= 0) {
-            QHash<QByteArray, QVariant> data;
+            SmallHash data;
 
             if (getSizeRole) {
                 data.insert("count", count);
@@ -1055,7 +1054,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     // We generate the next few sequence indices in advance (buffering)
     const int maxSeqIdx = m_hoverSequenceIndex + 5;
 
-    QHash<QByteArray, QVariant> data = m_model->data(index);
+    SmallHash data = m_model->data(index);
 
     if (!data.contains("hoverSequencePixmaps")) {
         // The pixmap at index 0 isn't used ("iconPixmap" will be used instead)
@@ -1180,7 +1179,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     }
 }
 
-void KFileItemModelRolesUpdater::setModelData(int index, const QHash<QByteArray, QVariant> &data)
+void KFileItemModelRolesUpdater::setModelData(int index, const SmallHash &data)
 {
     const QScopedValueRollback<bool> guard(m_applyingChangesToModel, true);
     m_model->setData(index, data);
@@ -1188,7 +1187,7 @@ void KFileItemModelRolesUpdater::setModelData(int index, const QHash<QByteArray,
 
 void KFileItemModelRolesUpdater::applySortRole(int index)
 {
-    QHash<QByteArray, QVariant> data;
+    SmallHash data;
     const KFileItem item = m_model->fileItem(index);
 
     if (m_model->sortRole() == "type") {
@@ -1234,7 +1233,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
             return false;
         }
 
-        QHash<QByteArray, QVariant> data;
+        SmallHash data;
         if (resolveAll) {
             data = rolesData(item, index);
         }
@@ -1321,7 +1320,7 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
             auto data = m_model->data(index);
             int origCount = data.value("count").toInt();
 
-            QHash<QByteArray, QVariant> newData;
+            SmallHash newData;
             QVariant expandable = data.value("isExpandable");
             if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
                 // if expandable has changed
@@ -1348,9 +1347,9 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
     m_directoryContentsCounter->scanDirectory(path, priority);
 }
 
-QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index)
+SmallHash KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index)
 {
-    QHash<QByteArray, QVariant> data;
+    SmallHash data;
 
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
@@ -1392,7 +1391,7 @@ void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl &url, const QStr
         return;
     }
     const int index = m_model->index(item);
-    QHash<QByteArray, QVariant> data = m_model->data(index);
+    SmallHash data = m_model->data(index);
     QStringList overlays = item.overlays();
     for (KOverlayIconPlugin *it : std::as_const(m_overlayIconsPlugin)) {
         overlays.append(it->getOverlays(url));
@@ -1502,7 +1501,7 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
 
         const int index = m_model->index(item);
         if (index >= 0) {
-            QHash<QByteArray, QVariant> data = m_model->data(index);
+            SmallHash data = m_model->data(index);
             data["hoverSequencePixmaps"] = QVariant::fromValue(QVector<QPixmap>() << QPixmap());
             m_model->setData(index, data);
         }

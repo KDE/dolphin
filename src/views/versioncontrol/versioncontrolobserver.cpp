@@ -210,7 +210,7 @@ void VersionControlObserver::slotThreadFinished()
         for (const ItemState &item : items) {
             const KFileItem &fileItem = item.first;
             const KVersionControlPlugin::ItemVersion version = item.second;
-            QHash<QByteArray, QVariant> values;
+            SmallHash values;
             values.insert("version", QVariant(version));
             m_model->setData(m_model->index(fileItem), values);
         }

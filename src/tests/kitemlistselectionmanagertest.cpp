@@ -19,7 +19,7 @@ public:
     DummyModel();
     void setCount(int count);
     int count() const override;
-    QHash<QByteArray, QVariant> data(int index) const override;
+    SmallHash data(int index) const override;
 
 private:
     int m_count;
@@ -41,10 +41,10 @@ int DummyModel::count() const
     return m_count;
 }
 
-QHash<QByteArray, QVariant> DummyModel::data(int index) const
+SmallHash DummyModel::data(int index) const
 {
     Q_UNUSED(index)
-    return QHash<QByteArray, QVariant>();
+    return SmallHash();
 }
 
 class KItemListSelectionManagerTest : public QObject

@@ -26,7 +26,7 @@ KItemModelBase::KItemModelBase(const QByteArray &sortRole, QObject *parent)
 
 KItemModelBase::~KItemModelBase() = default;
 
-bool KItemModelBase::setData(int index, const QHash<QByteArray, QVariant> &values)
+bool KItemModelBase::setData(int index, const SmallHash &values)
 {
     Q_UNUSED(index)
     Q_UNUSED(values)

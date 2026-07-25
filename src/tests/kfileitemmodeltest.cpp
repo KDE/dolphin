@@ -261,7 +261,7 @@ void KFileItemModelTest::testSetData()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
 
-    QHash<QByteArray, QVariant> values;
+    SmallHash values;
     values.insert("customRole1", "Test1");
     values.insert("customRole2", "Test2");
 
@@ -327,15 +327,15 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     // b.txt -> 4
     // c.txt -> 6
 
-    QHash<QByteArray, QVariant> ratingA;
+    SmallHash ratingA;
     ratingA.insert("rating", 2);
     m_model->setData(0, ratingA);
 
-    QHash<QByteArray, QVariant> ratingB;
+    SmallHash ratingB;
     ratingB.insert("rating", 4);
     m_model->setData(1, ratingB);
 
-    QHash<QByteArray, QVariant> ratingC;
+    SmallHash ratingC;
     ratingC.insert("rating", 6);
     m_model->setData(2, ratingC);
 
@@ -345,7 +345,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
 
     // Now change the rating from a.txt. This usually results
     // in reordering of the items.
-    QHash<QByteArray, QVariant> rating;
+    SmallHash rating;
     rating.insert("rating", changedRating);
     m_model->setData(changedIndex, rating);
 
@@ -427,7 +427,7 @@ void KFileItemModelTest::testResortAfterChangingName()
 
     // We rename a.txt to d.txt. Even though the size has not changed at all,
     // the model must re-sort the items.
-    QHash<QByteArray, QVariant> data;
+    SmallHash data;
     data.insert("text", "d.txt");
     m_model->setData(0, data);
 
@@ -2170,7 +2170,7 @@ void KFileItemModelTest::testNameRoleGroups()
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Rename d.txt to a.txt.
-    QHash<QByteArray, QVariant> data;
+    SmallHash data;
     data.insert("text", "a.txt");
     m_model->setData(2, data);
     QVERIFY(itemsMovedSpy.wait());

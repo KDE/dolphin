@@ -21,7 +21,7 @@ DolphinFileItemListWidget::~DolphinFileItemListWidget() = default;
 void DolphinFileItemListWidget::refreshCache()
 {
     QColor color;
-    const QHash<QByteArray, QVariant> values = data();
+    const SmallHash values = data();
     QHash<Qt::Corner, QString> overlays;
     if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding

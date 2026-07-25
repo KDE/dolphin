@@ -204,7 +204,7 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget *item)
     KStandardItemListView::initializeItemListWidget(item);
 
     // Make sure that the item has an icon.
-    QHash<QByteArray, QVariant> data = item->data();
+    SmallHash data = item->data();
     if (!data.contains("iconName") && data["iconPixmap"].value<QPixmap>().isNull()) {
         Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
         KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());

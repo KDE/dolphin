@@ -9,6 +9,7 @@
 #define KBALOO_ROLESPROVIDER_H
 
 #include "dolphin_export.h"
+#include "smallhash.h"
 
 #include <QHash>
 #include <QSet>
@@ -40,7 +41,7 @@ public:
      * @return Values for the roles \a roles that can be determined from the file
      *         with the URL \a url.
      */
-    QHash<QByteArray, QVariant> roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const;
+    SmallHash roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const;
 
 protected:
     KBalooRolesProvider();
