@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:47+0000\n"
-"PO-Revision-Date: 2026-06-19 18:56+0300\n"
+"PO-Revision-Date: 2026-07-24 19:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2132,12 +2132,10 @@ msgid "You do not have permission to create the folder"
 msgstr "Klasörü oluşturmak için gerekli izniniz yok"
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "Aç: %1"
+msgstr "%1 ile Aç"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format

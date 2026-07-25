@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:47+0000\n"
-"PO-Revision-Date: 2026-06-19 06:54+0200\n"
+"PO-Revision-Date: 2026-07-24 06:50+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2152,12 +2152,10 @@ msgid "You do not have permission to create the folder"
 msgstr "Nimate dovoljenja za kreiranje mape"
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "Odpri %1"
+msgstr "Odpri z %1"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format

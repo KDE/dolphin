@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:47+0000\n"
-"PO-Revision-Date: 2026-06-30 16:00+0200\n"
+"PO-Revision-Date: 2026-07-24 11:46+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2154,12 +2154,10 @@ msgid "You do not have permission to create the folder"
 msgstr "Tu non ha le permission a crear le dossier."
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "Aperi %1"
+msgstr "Aperi con %1"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format
