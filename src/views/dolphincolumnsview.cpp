@@ -25,8 +25,14 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
+#include <QSplitterHandle>
 #include <QTimer>
 #include <QVBoxLayout>
+
+/// How long a column opened from a folder keeps out of the layout while its folder lists, so
+/// that it is only ever drawn at the width its content asks for. After this it takes a width
+/// anyway, rather than leaving the click looking ignored on a slow folder.
+static constexpr int s_pendingWidthTimeoutMs = 200;
 
 DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
     : DolphinView(url, parent, initialMode, true)
@@ -144,6 +150,24 @@ void DolphinColumnsView::setActive(bool active)
     }
 }
 
+int DolphinColumnsView::horizontalScrollBarHeight() const
+{
+    if (m_scrollArea && m_scrollArea->horizontalScrollBar() && m_scrollArea->horizontalScrollBar()->isVisible()) {
+        return m_scrollArea->horizontalScrollBar()->height();
+    }
+    return DolphinView::horizontalScrollBarHeight();
+}
+
+void DolphinColumnsView::setStatusBarOffset(int offset)
+{
+    m_statusBarOffset = offset;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        if (KItemListView *view = pane->controller()->view()) {
+            view->setStatusBarOffset(offset);
+        }
+    }
+}
+
 void DolphinColumnsView::reload()
 {
     rebuildColumnsForUrl(url());
@@ -167,7 +191,7 @@ void DolphinColumnsView::readSettings()
 
     // Pick up changes to the width behaviour, minimum width, and visible-column
     // count that the settings dialog just applied.
-    recalculateColumnWidths();
+    recalculateColumnWidths(WidthPolicy::Refit);
 }
 
 KFileItem DolphinColumnsView::rootItem() const
@@ -338,6 +362,12 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
         pane->reapplyActiveChildMark();
     }
 
+    if (pane && pane->isWidthPending()) {
+        pane->setWidthPending(false);
+        recalculateColumnWidths();
+        scrollToColumnWhenLaidOut(m_columns.indexOf(pane));
+    }
+
     // If this pane was flagged for auto-selection (Right arrow opened a
     // new child column whose model was still loading), select the first
     // item and open its child/preview now that items are available.
@@ -355,11 +385,15 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 void DolphinColumnsView::slotSplitterMoved(int pos, int handleIndex)
 {
     Q_UNUSED(pos)
-    // handleIndex is 1-based (handle 1 = between widget 0 and widget 1)
-    const int colIndex = handleIndex - 1;
-    if (colIndex >= 0 && colIndex < m_columns.size()) {
-        const int width = m_splitter->sizes().at(colIndex);
-        m_customColumnWidths[colIndex] = width;
+    // handleIndex is 1-based (handle 1 = between widget 0 and widget 1). The drag resizes the
+    // column on either side of the handle, so both keep the width it gave them. Pinning only
+    // the left one let the right one snap back to its content width at the next relayout,
+    // which moved the handle away from where it was dropped.
+    const QList<int> sizes = m_splitter->sizes();
+    for (const int colIndex : {handleIndex - 1, handleIndex}) {
+        if (colIndex >= 0 && colIndex < m_columns.size() && colIndex < sizes.size()) {
+            m_customColumnWidths[colIndex] = sizes.at(colIndex);
+        }
     }
 }
 
@@ -416,6 +450,22 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
         return;
     }
 
+    // Moving between folders in this column swaps what the column to its right shows. Give
+    // the new one the width the old one had, so that the columns and the scroll position stay
+    // where they are instead of shifting under the folder being looked through. The column
+    // grows from there if the folder that arrives needs more room.
+    // Moving between siblings replaces the column to the right, and the view must not jump then.
+    // A column opened where there was none is new on screen, so it is worth scrolling to.
+    const bool replacesExistingColumn = columnIndex + 1 < m_columns.size();
+
+    int carriedWidth = -1;
+    if (columnIndex + 1 < m_columns.size()) {
+        const QList<int> sizes = m_splitter->sizes();
+        if (columnIndex + 1 < sizes.size()) {
+            carriedWidth = sizes.at(columnIndex + 1);
+        }
+    }
+
     popAfter(columnIndex);
 
     // Mark the parent's selected item; guard against cascading navigation
@@ -433,9 +483,54 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
     m_splitter->insertWidget(m_splitter->count() - 1, pane);
     m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
 
+    if (carriedWidth > 0) {
+        m_carriedColumnWidth = {columnIndex + 1, carriedWidth};
+    }
+
+    // A column sized before its folder has listed takes the width of an empty model and then
+    // resizes to the width of its content, which is the column visibly jumping. Only a width
+    // that follows the content has that problem.
+    if (ColumnsModeSettings::self()->dynamicColumnWidth() && carriedWidth <= 0) {
+        pane->setWidthPending(true);
+        QTimer::singleShot(s_pendingWidthTimeoutMs, pane, [this, pane]() {
+            if (pane->isWidthPending()) {
+                pane->setWidthPending(false);
+                recalculateColumnWidths();
+                scrollToColumnWhenLaidOut(m_columns.indexOf(pane));
+            }
+        });
+    }
+
     recalculateColumnWidths();
 
-    QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
+    // Scroll to the column that was just opened. Selecting a folder leaves the parent column
+    // active, so waiting for the active one would leave a new column off the right edge. A
+    // column that has no width yet has nowhere to be scrolled to, and working the position out
+    // from a column of no width moves the view by the width of a handle. It is scrolled to when
+    // it takes its width instead.
+    if (pane->isWidthPending()) {
+        // Nothing to do here.
+    } else if (!replacesExistingColumn) {
+        scrollToColumnWhenLaidOut(columnIndex + 1);
+    } else {
+        QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
+    }
+}
+
+void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
+{
+    // The splitter takes its new sizes on the next layout, so the position can only be worked out
+    // after that.
+    const int activeWhenScheduled = m_activeColumn;
+    QTimer::singleShot(0, this, [this, index, activeWhenScheduled]() {
+        // The user can move to another column before the layout happens. Scrolling to the column
+        // this was scheduled for would then pull the view away from the one they moved to.
+        if (m_activeColumn != activeWhenScheduled && m_activeColumn != index) {
+            ensureColumnVisible(m_activeColumn);
+            return;
+        }
+        ensureColumnVisible(index);
+    });
 }
 
 void DolphinColumnsView::popAfter(int columnIndex)
@@ -487,6 +582,11 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     model->setSortOrder(sortOrder());
 
     auto *pane = new DolphinColumnPane(model, nullptr);
+    if (KItemListView *paneView = pane->controller()->view()) {
+        // Leave the same room at the bottom that the columns already open leave, so the small
+        // status bar does not cover the last item of a freshly opened column either.
+        paneView->setStatusBarOffset(m_statusBarOffset);
+    }
     pane->setPreviewsShown(previewsShown());
     pane->setZoomLevel(zoomLevel());
     model->loadDirectory(dirUrl);
@@ -583,13 +683,35 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
-    // Double-clicking a splitter handle fits all columns to their content.
-    if (event->type() == QEvent::MouseButtonDblClick) {
+    // Double-clicking a splitter handle fits all columns to their content. A handle does not
+    // reliably receive MouseButtonDblClick, which is why DolphinTabPageSplitterHandle counts two
+    // releases in a row instead; do the same here, and leave press and release to the handle so
+    // that dragging still works.
+    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease || event->type() == QEvent::MouseButtonDblClick) {
         for (int i = 1; i < m_splitter->count(); ++i) {
-            if (m_splitter->handle(i) == watched) {
-                autoAdjustColumns();
-                return true;
+            if (m_splitter->handle(i) != watched) {
+                continue;
             }
+            switch (event->type()) {
+            case QEvent::MouseButtonPress:
+                m_splitterReleaseSeen = false;
+                break;
+            case QEvent::MouseButtonRelease:
+                if (m_splitterReleaseSeen) {
+                    // Resizing the splitter's widgets from inside their own mouse event, while
+                    // the implicit grab is still held, is asking for trouble. Do it after.
+                    QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                }
+                m_splitterReleaseSeen = !m_splitterReleaseSeen;
+                break;
+            case QEvent::MouseButtonDblClick:
+                m_splitterReleaseSeen = false;
+                QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                return true;
+            default:
+                break;
+            }
+            break;
         }
     }
 
@@ -645,7 +767,7 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 void DolphinColumnsView::resizeEvent(QResizeEvent *event)
 {
     DolphinView::resizeEvent(event);
-    recalculateColumnWidths();
+    recalculateColumnWidths(WidthPolicy::Refit);
 }
 
 void DolphinColumnsView::showEvent(QShowEvent *event)
@@ -846,27 +968,44 @@ void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int 
 
 void DolphinColumnsView::ensureActiveColumnVisible()
 {
-    if (m_columns.isEmpty()) {
-        return;
-    }
-    QWidget *activeWidget = activePane();
-    if (!activeWidget) {
-        return;
-    }
-    QWidget *rightTarget = m_columns.last();
+    ensureColumnVisible(m_activeColumn);
+}
 
-    const int activeLeft = activeWidget->mapTo(m_splitter, QPoint(0, 0)).x();
-    const int rightEdge = rightTarget->mapTo(m_splitter, QPoint(rightTarget->width(), 0)).x();
+void DolphinColumnsView::ensureColumnVisible(int index)
+{
+    if (index < 0 || index >= m_columns.size() || !m_scrollArea) {
+        return;
+    }
+    QWidget *activeWidget = m_columns.at(index);
+
+    // Where the active column sits comes from the sizes given to the splitter rather than from
+    // the geometry of the panes. A column that was just added has its size already and its
+    // geometry only after the next layout pass, and asking the panes that early answers as if
+    // every column were at the very left, which leaves the view where it was until some later
+    // navigation scrolls it again.
+    const QList<int> sizes = m_splitter->sizes();
+    const int handleWidth = m_splitter->handleWidth();
+    int activeLeft = 0;
+    for (int i = 0; i < index && i < sizes.size(); ++i) {
+        activeLeft += sizes.at(i);
+        // The handle counted here is the one before the next column. A column with no width yet
+        // has no handle either, so it takes up nothing at all.
+        const int nextColumn = i + 1;
+        if (nextColumn >= m_columns.size() || !m_columns.at(nextColumn)->isWidthPending()) {
+            activeLeft += handleWidth;
+        }
+    }
+    const int activeWidth = index < sizes.size() ? sizes.at(index) : activeWidget->width();
+    const int activeRight = activeLeft + activeWidth;
     const int viewportWidth = m_scrollArea->viewport()->width();
 
     int scrollValue = m_scrollArea->horizontalScrollBar()->value();
 
-    // Try to show the right edge of the rightmost content
-    if (rightEdge > scrollValue + viewportWidth) {
-        scrollValue = rightEdge - viewportWidth;
+    if (activeRight > scrollValue + viewportWidth) {
+        scrollValue = activeRight - viewportWidth;
     }
 
-    // Ensure the active column's left edge is visible (takes priority)
+    // The active column's left edge takes priority so its start stays visible.
     if (activeLeft < scrollValue) {
         scrollValue = activeLeft;
     }
@@ -914,7 +1053,7 @@ void DolphinColumnsView::refitColumnsToContent()
     }
 }
 
-void DolphinColumnsView::recalculateColumnWidths()
+void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
 {
     const int numColumns = m_columns.size();
     if (numColumns == 0) {
@@ -936,21 +1075,52 @@ void DolphinColumnsView::recalculateColumnWidths()
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
+    const QList<int> currentSizes = m_splitter->sizes();
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
     for (int i = 0; i < numColumns; ++i) {
+        int columnWidth;
+        if (m_columns.at(i)->isWidthPending()) {
+            // No width until its content says what it should be. The filler takes up the room.
+            sizes.append(0);
+            continue;
+        }
         if (m_customColumnWidths.contains(i)) {
             // A width the user set by dragging the handle always wins.
-            sizes.append(m_customColumnWidths.value(i));
+            columnWidth = m_customColumnWidths.value(i);
         } else if (dynamicWidth) {
             // Size the column to its content, never below the configured minimum.
-            sizes.append(qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth()));
+            columnWidth = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
+            if (policy == WidthPolicy::GrowOnly) {
+                // A column only ever grows on its own. Narrowing one is the user's to do, by
+                // dragging the handle, fitting the column or making the window smaller, so a
+                // folder with shorter names in it leaves the width alone.
+                columnWidth = qMax(columnWidth, widthFloorFor(i, currentSizes));
+            }
         } else {
-            sizes.append(defaultWidth);
+            columnWidth = defaultWidth;
         }
+        // A column fits in the viewport, so scrolling to it brings all of it into view, its vertical
+        // scrollbar included. A width that came from the content of a long name, from the configured
+        // minimum or from the handle the user dragged can be larger than that.
+        sizes.append(qMin(viewportWidth, columnWidth));
     }
     applyColumnSizes(sizes);
+}
+
+int DolphinColumnsView::widthFloorFor(int index, const QList<int> &currentSizes) const
+{
+    int floor = 0;
+    if (index < currentSizes.size()) {
+        floor = currentSizes.at(index);
+    }
+    // A column that replaced another one has no width of its own yet, so the width of the one
+    // it replaced stands in until its folder has listed.
+    if (m_carriedColumnWidth && m_carriedColumnWidth->first == index) {
+        floor = qMax(floor, m_carriedColumnWidth->second);
+    }
+    return floor;
 }
 
 void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
@@ -958,14 +1128,47 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     const int numColumns = m_columns.size();
     const int handleWidth = m_splitter->handleWidth();
 
-    columnSizes.append(0); // filler
-    m_splitter->setSizes(columnSizes);
-
     int totalWidth = 0;
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += columnSizes.at(i);
     }
-    totalWidth += (numColumns - 1) * handleWidth;
+    int visibleHandles = qMax(0, numColumns - 1);
+    for (int i = 1; i < numColumns; ++i) {
+        if (m_columns.at(i)->isWidthPending()) {
+            --visibleHandles;
+        }
+    }
+    // The handle between the last column and the filler is drawn too. Leaving it out makes the
+    // splitter one handle narrower than what it has to lay out, and it takes that back by
+    // shaving a pixel off one of the columns, which moves every column after it.
+    if (numColumns > 0) {
+        ++visibleHandles;
+    }
+    totalWidth += visibleHandles * handleWidth;
+
+    // Closing a column leaves the content narrower than where the view is scrolled to, and the
+    // scroll position is then pulled back, sliding everything sideways under the user. The filler
+    // takes up exactly what the current position needs, so nothing moves. It shrinks again on its
+    // own as the user scrolls back towards the left.
+    const int viewportWidthForFiller = m_scrollArea ? m_scrollArea->viewport()->width() : width();
+    const int scrollValue = m_scrollArea ? m_scrollArea->horizontalScrollBar()->value() : 0;
+    const int filler = qMax(0, scrollValue + viewportWidthForFiller - totalWidth);
+    totalWidth += filler;
+
+    // A column with no width still has a handle of its own, so opening one puts a second
+    // separator next to the column it came from and moves everything after it by a handle. Take
+    // the handle away for as long as the column has no width, before the sizes are applied so
+    // that the layout is worked out with the handles it will actually draw.
+    // From 1: the handle before the first column is not a separator and stays as the splitter
+    // keeps it.
+    for (int i = 1; i < numColumns; ++i) {
+        if (QSplitterHandle *handle = m_splitter->handle(i)) {
+            handle->setVisible(!m_columns.at(i)->isWidthPending());
+        }
+    }
+
+    columnSizes.append(filler);
+    m_splitter->setSizes(columnSizes);
 
     // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
     // width under fractional scaling does not flip the scrollbar on and off
@@ -976,6 +1179,12 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     } else {
         m_splitter->setMinimumWidth(0);
     }
+
+    // A column is as wide as the longest name it holds, which is only known once its folder
+    // has been listed, and that happens after the column was added. Look at the scroll
+    // position again here, so that the view follows the active column as it takes its final
+    // width instead of being pulled there by whatever the user does next.
+    ensureActiveColumnVisible();
 }
 
 void DolphinColumnsView::autoAdjustColumns()
