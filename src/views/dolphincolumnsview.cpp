@@ -119,6 +119,10 @@ void DolphinColumnsView::initColumnsUi()
         for (auto c : m_columns) {
             c->setZoomLevel(zoomLevel());
         }
+        // Larger icons need wider columns; recompute so the rows (and their
+        // full-row selection highlight) still fit instead of spilling under the
+        // scrollbar.
+        recalculateColumnWidths();
     });
 }
 
