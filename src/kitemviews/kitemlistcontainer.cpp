@@ -386,6 +386,11 @@ void KItemListContainer::updateGeometries()
 {
     QRect rect = geometry();
 
+    // A view whose horizontal scrollbar is disabled cannot reveal content wider
+    // than itself, so let it clamp such content to its width instead of letting
+    // rows overflow (e.g. the full-row selection highlight under the scrollbar).
+    m_controller->view()->setHorizontalScrollingEnabled(horizontalScrollBarPolicy() != Qt::ScrollBarAlwaysOff);
+
     int extra = frameWidth() * 2;
     QStyleOption option;
     option.initFrom(this);

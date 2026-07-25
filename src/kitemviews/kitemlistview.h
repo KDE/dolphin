@@ -235,6 +235,17 @@ public:
     bool alternateBackgrounds() const;
 
     /**
+     * Tells the view whether its content can be scrolled horizontally. This is
+     * managed by KItemListContainer from its horizontal scrollbar policy; it is
+     * not meant to be called directly. When horizontal scrolling is disabled, a
+     * single column wider than the view is shrunk to fit (its content elides)
+     * instead of making the row - and its full-row selection highlight - spill
+     * past the visible area, e.g. under a vertical scrollbar. Enabled by default.
+     */
+    void setHorizontalScrollingEnabled(bool enabled);
+    bool horizontalScrollingEnabled() const;
+
+    /**
      * @return The rectangle of the item relative to the top/left of
      *         the currently visible area (see KItemListView::offset()).
      */
@@ -730,6 +741,7 @@ private:
     bool m_grouped;
     bool m_highlightEntireRow;
     bool m_alternateBackgrounds;
+    bool m_horizontalScrollingEnabled = true;
     bool m_supportsItemExpanding;
     bool m_editingRole;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()

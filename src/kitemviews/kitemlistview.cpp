@@ -539,6 +539,22 @@ bool KItemListView::alternateBackgrounds() const
     return m_alternateBackgrounds;
 }
 
+void KItemListView::setHorizontalScrollingEnabled(bool enabled)
+{
+    if (m_horizontalScrollingEnabled != enabled) {
+        m_horizontalScrollingEnabled = enabled;
+        if (m_headerWidget->automaticColumnResizing()) {
+            applyAutomaticColumnWidths();
+            doLayout(NoAnimation);
+        }
+    }
+}
+
+bool KItemListView::horizontalScrollingEnabled() const
+{
+    return m_horizontalScrollingEnabled;
+}
+
 QRectF KItemListView::itemRect(int index) const
 {
     return m_layouter->itemRect(index);
@@ -2585,17 +2601,24 @@ void KItemListView::applyAutomaticColumnWidths()
         // Stretch the first column to use the whole remaining width
         firstColumnWidth += availableWidth - requiredWidth;
         m_headerWidget->setColumnWidth(firstRole, firstColumnWidth);
-    } else if (requiredWidth > availableWidth && m_visibleRoles.count() > 1) {
+    } else if (requiredWidth > availableWidth && (m_visibleRoles.count() > 1 || !m_horizontalScrollingEnabled)) {
         // Shrink the first column to be able to show as much other
         // columns as possible
         qreal shrinkedFirstColumnWidth = firstColumnWidth - requiredWidth + availableWidth;
 
-        // TODO: A proper calculation of the minimum width depends on the implementation
-        // of KItemListWidget. Probably a kind of minimum size-hint should be introduced
-        // later.
-        const qreal minWidth = qMin(firstColumnWidth, qreal(m_styleOption.iconSize * 2 + 200));
-        if (shrinkedFirstColumnWidth < minWidth) {
-            shrinkedFirstColumnWidth = minWidth;
+        if (m_visibleRoles.count() > 1) {
+            // TODO: A proper calculation of the minimum width depends on the implementation
+            // of KItemListWidget. Probably a kind of minimum size-hint should be introduced
+            // later.
+            const qreal minWidth = qMin(firstColumnWidth, qreal(m_styleOption.iconSize * 2 + 200));
+            if (shrinkedFirstColumnWidth < minWidth) {
+                shrinkedFirstColumnWidth = minWidth;
+            }
+        } else {
+            // A single column that cannot be reached by horizontal scrolling:
+            // clamp it fully to the view so the row (and its full-row highlight)
+            // never overflows, e.g. under the vertical scrollbar. Content elides.
+            shrinkedFirstColumnWidth = qMax(qreal(0), shrinkedFirstColumnWidth);
         }
 
         m_headerWidget->setColumnWidth(firstRole, shrinkedFirstColumnWidth);
