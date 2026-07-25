@@ -13,12 +13,15 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistheader.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "views/dolphinview.h"
 
 #include <QScrollBar>
+#include <QStyle>
+#include <QStyleOption>
 #include <QVBoxLayout>
 #include <cmath>
 
@@ -37,6 +40,12 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_view->setAlternateBackgrounds(false);
     m_view->setEnabledSelectionToggles(DolphinItemListView::False);
     m_view->setHighlightEntireRow(true);
+
+    // The full-row selection highlight is drawn styleOption().padding wider than
+    // the row on each side. Give the list matching side padding so the highlight
+    // stays inside the pane instead of spilling past the right edge.
+    const int sidePadding = 2 * m_view->styleOption().padding;
+    m_view->header()->setSidePadding(sidePadding, sidePadding);
 
     // Controller takes ownership of the model.
     m_controller = new KItemListController(m_model, m_view, this);
@@ -144,8 +153,22 @@ int DolphinColumnPane::calculateOptimalWidth() const
         maxWidth = qMax(maxWidth, width);
     }
 
-    const int scrollBarWidth = m_container->verticalScrollBar()->isVisible() ? m_container->verticalScrollBar()->width() : 0;
-    return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + scrollBarWidth);
+    // Reserve the horizontal chrome the container subtracts from the content area
+    // (frame + scrollbar spacing + scrollbar extent), always including the scrollbar
+    // even while it is hidden. This keeps the column width stable as the bar toggles
+    // and guarantees the row - and thus its full-row selection highlight - never ends
+    // up wider than the viewport (which would draw it under the scrollbar).
+    QStyleOption styleOpt;
+    styleOpt.initFrom(m_container);
+    int scrollBarSpacing = 0;
+    if (m_container->style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents, &styleOpt, m_container)) {
+        scrollBarSpacing = m_container->style()->pixelMetric(QStyle::PM_ScrollView_ScrollBarSpacing, &styleOpt, m_container);
+    }
+    const int chrome = m_container->frameWidth() * 2 + scrollBarSpacing + m_container->style()->pixelMetric(QStyle::PM_ScrollBarExtent, &styleOpt, m_container);
+    // Side padding (set in the constructor) reserved on both sides so the widest
+    // entry is not truncated by it.
+    const int sidePadding = 2 * (2 * option.padding);
+    return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + sidePadding + chrome);
 }
 
 void DolphinColumnPane::setZoomLevel(int level)
