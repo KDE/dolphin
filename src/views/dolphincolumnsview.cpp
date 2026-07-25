@@ -818,20 +818,17 @@ void DolphinColumnsView::ensureActiveColumnVisible()
     if (!activeWidget) {
         return;
     }
-    QWidget *rightTarget = m_columns.last();
-
     const int activeLeft = activeWidget->mapTo(m_splitter, QPoint(0, 0)).x();
-    const int rightEdge = rightTarget->mapTo(m_splitter, QPoint(rightTarget->width(), 0)).x();
+    const int activeRight = activeWidget->mapTo(m_splitter, QPoint(activeWidget->width(), 0)).x();
     const int viewportWidth = m_scrollArea->viewport()->width();
 
     int scrollValue = m_scrollArea->horizontalScrollBar()->value();
 
-    // Try to show the right edge of the rightmost content
-    if (rightEdge > scrollValue + viewportWidth) {
-        scrollValue = rightEdge - viewportWidth;
+    if (activeRight > scrollValue + viewportWidth) {
+        scrollValue = activeRight - viewportWidth;
     }
 
-    // Ensure the active column's left edge is visible (takes priority)
+    // The active column's left edge takes priority so its start stays visible.
     if (activeLeft < scrollValue) {
         scrollValue = activeLeft;
     }
