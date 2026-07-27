@@ -1903,8 +1903,9 @@ void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<b
                 break;
             }
         }
-        // check whether the selection should be changed
-        if (condition()) {
+        // check whether the selection should be changed, but only once the item really is there:
+        // forceUrlsSelection() clears the current selection, so calling it early would drop it
+        if (found && condition()) {
             forceUrlsSelection(url, {url});
         }
         if (found) {
@@ -1920,11 +1921,6 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
         return;
     }
 
-    // if there was no selection but a new directory was created
-    if (m_container->controller()->selectionManager()->hasSelection()) {
-        return;
-    }
-
     // select the new directory
     if (!m_model->fileItem(newDirectoryUrl).isNull()) {
         forceUrlsSelection(newDirectoryUrl, {newDirectoryUrl});
@@ -1936,9 +1932,11 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
         return;
     }
 
-    // since this is async make sure the selection state hasn't change in the meantime
-    std::function<bool()> condition([this]() {
-        return !m_container->controller()->selectionManager()->hasSelection();
+    // since this is async make sure the selection hasn't changed in the meantime.
+    // Compare URLs, not indexes: those shift when items are inserted.
+    const QList<QUrl> selectedUrls = selectedItems().urlList();
+    std::function<bool()> condition([this, selectedUrls]() {
+        return selectedItems().urlList() == selectedUrls;
     });
 
     // in case, a new hiercachy was created, select the first folder in its parent path

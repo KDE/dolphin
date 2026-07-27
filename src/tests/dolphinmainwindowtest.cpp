@@ -5,6 +5,7 @@
  */
 
 #include "dolphinmainwindow.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphintabpage.h"
@@ -33,6 +34,7 @@
 #include <QFileSystemWatcher>
 #include <QKeySequence>
 #include <QPixmap>
+#include <QScopeGuard>
 #include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -59,6 +61,9 @@ private Q_SLOTS:
     void testOpenInNewTabTitle();
     void testNewFileMenuEnabled_data();
     void testNewFileMenuEnabled();
+    void testCreateDirectoryFocus_data();
+    void testCreateDirectoryFocus();
+    void testCreateSubdirectory();
     void testCreateFileAction();
     void testCreateFileActionRequiresWritePermission();
     void testWindowTitle_data();
@@ -79,6 +84,8 @@ private Q_SLOTS:
     void cleanupTestCase();
 
 private:
+    bool createDirectory(QAction *action, const QString &name);
+
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
 
@@ -439,6 +446,152 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
 
     QFETCH(bool, expectedEnabled);
     QTRY_COMPARE(newFileMenu->isEnabled(), expectedEnabled);
+}
+
+bool DolphinMainWindowTest::createDirectory(QAction *action, const QString &name)
+{
+    if (!QTest::qWaitFor([this, action] {
+            return action->isEnabled() && !m_mainWindow->m_newFileMenu->isCreateDirectoryRunning();
+        })) {
+        return false;
+    }
+    action->trigger();
+    if (!QTest::qWaitFor([] {
+            return QApplication::activeModalWidget() != nullptr;
+        })) {
+        return false;
+    }
+    QWidget *dialog = QApplication::activeModalWidget()->focusWidget();
+    if (!dialog) {
+        return false;
+    }
+    QTest::keyClicks(dialog, name);
+    QTest::keyClick(dialog, Qt::Key_Enter);
+    return QTest::qWaitFor([] {
+        return QApplication::activeModalWidget() == nullptr;
+    });
+}
+
+void DolphinMainWindowTest::testCreateDirectoryFocus_data()
+{
+    QTest::addColumn<DolphinView::Mode>("viewMode");
+
+    QTest::newRow("icons") << DolphinView::IconsView;
+    QTest::newRow("expandable details") << DolphinView::DetailsView;
+}
+
+/**
+ * A new directory gets selected and focused in every view mode, even if something else was selected before.
+ */
+void DolphinMainWindowTest::testCreateDirectoryFocus()
+{
+    QFETCH(DolphinView::Mode, viewMode);
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFile("selected-file");
+    const QUrl selectedFileUrl = QUrl::fromLocalFile(testDir->url().toLocalFile() + "/selected-file");
+    // sorts before "selected-file", so inserting it shifts the index of the pre-selected item
+    const QUrl newDirectoryUrl = QUrl::fromLocalFile(testDir->url().toLocalFile() + "/new-directory");
+
+    // this setting is global and persisted, so restore it even when the test aborts early
+    const bool expandableFoldersBefore = DetailsModeSettings::expandableFolders();
+    auto restoreExpandableFolders = qScopeGuard([expandableFoldersBefore] {
+        DetailsModeSettings::setExpandableFolders(expandableFoldersBefore);
+        DetailsModeSettings::self()->save();
+    });
+    DetailsModeSettings::setExpandableFolders(true);
+    DetailsModeSettings::self()->save();
+
+    m_mainWindow->openDirectories({QDir::cleanPath(testDir->url().toString())}, false);
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+    QVERIFY(m_mainWindow->isVisible());
+
+    DolphinView *view = m_mainWindow->m_activeViewContainer->view();
+    view->setViewMode(viewMode);
+    QCOMPARE(view->m_view->supportsItemExpanding(), viewMode == DolphinView::DetailsView);
+
+    QTRY_COMPARE(view->items().count(), 1);
+
+    KItemListSelectionManager *selectionManager = view->m_container->controller()->selectionManager();
+    const auto currentItemUrl = [view, selectionManager]() {
+        return view->m_model->fileItem(selectionManager->currentItem()).url();
+    };
+
+    // a pre-existing selection used to prevent the new directory from being selected
+    view->forceUrlsSelection(selectedFileUrl, {selectedFileUrl});
+    view->updateViewState();
+    QCOMPARE(view->selectedItems().urlList(), QList<QUrl>{selectedFileUrl});
+    QCOMPARE(currentItemUrl(), selectedFileUrl);
+
+    QAction *createDirectoryAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
+    QVERIFY(createDirectoryAction);
+    QVERIFY(createDirectory(createDirectoryAction, QStringLiteral("new-directory")));
+
+    QTRY_COMPARE(view->items().count(), 2);
+
+    QTRY_COMPARE(view->selectedItems().urlList(), QList<QUrl>{newDirectoryUrl});
+    QTRY_COMPARE(currentItemUrl(), newDirectoryUrl);
+}
+
+void DolphinMainWindowTest::testCreateSubdirectory()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("parent");
+    testDir->createFile("a-file");
+    const QUrl parentUrl = QUrl::fromLocalFile(testDir->url().toLocalFile() + "/parent");
+    const QUrl fileUrl = QUrl::fromLocalFile(testDir->url().toLocalFile() + "/a-file");
+
+    m_mainWindow->openDirectories({QDir::cleanPath(testDir->url().toString())}, false);
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+
+    DolphinView *view = m_mainWindow->m_activeViewContainer->view();
+    QTRY_COMPARE(view->items().count(), 2);
+
+    QAction *createSubdir = m_mainWindow->actionCollection()->action(QStringLiteral("create_subdir"));
+    QVERIFY(createSubdir);
+    QAction *createInView = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
+    QVERIFY(createInView);
+
+    QVERIFY(createSubdir->shortcut().isEmpty());
+
+    // With nothing selected there is no subfolder to create in, so this acts like create_dir.
+    QTRY_VERIFY(createSubdir->isEnabled());
+    QVERIFY(createDirectory(createSubdir, QStringLiteral("no-selection")));
+    QTRY_VERIFY(QFileInfo::exists(testDir->url().toLocalFile() + QStringLiteral("/no-selection")));
+
+    view->forceUrlsSelection(fileUrl, {fileUrl});
+    view->updateViewState();
+    QTRY_COMPARE(view->selectedItems().urlList(), QList<QUrl>{fileUrl});
+    QTRY_VERIFY(!createSubdir->isEnabled());
+
+    view->forceUrlsSelection(parentUrl, {parentUrl});
+    view->updateViewState();
+    QTRY_COMPARE(view->selectedItems().urlList(), QList<QUrl>{parentUrl});
+    QTRY_VERIFY(createSubdir->isEnabled());
+
+    QVERIFY(createDirectory(createSubdir, QStringLiteral("child")));
+    QTRY_VERIFY(QFileInfo::exists(parentUrl.toLocalFile() + QStringLiteral("/child")));
+
+    QTRY_VERIFY(!view->selectedItems().isEmpty());
+
+    QVERIFY(createDirectory(createInView, QStringLiteral("sibling")));
+    QTRY_VERIFY(QFileInfo::exists(testDir->url().toLocalFile() + QStringLiteral("/sibling")));
+    QVERIFY(!QFileInfo::exists(parentUrl.toLocalFile() + QStringLiteral("/sibling")));
+    QVERIFY(!QFileInfo::exists(parentUrl.toLocalFile() + QStringLiteral("/child/sibling")));
 }
 
 void DolphinMainWindowTest::testCreateFileAction()

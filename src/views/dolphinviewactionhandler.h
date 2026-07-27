@@ -81,11 +81,11 @@ Q_SIGNALS:
     void actionBeingHandled();
 
     /**
-     * Emitted if the user requested creating a new directory by the F10 key.
+     * Emitted if the user requested creating a new directory in @p parent.
      * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
      * the method createDirectory of their KNewFileMenu instance.
      */
-    void createDirectoryTriggered();
+    void createDirectoryTriggered(const QUrl &parent);
 
     /**
      * Emitted if the user requested creating a new file.
@@ -244,6 +244,17 @@ private:
      * This is called only once (by the constructor)
      */
     void createActions(SelectionMode::ActionTextHelper *actionTextHelper);
+
+    /**
+     * Returns the directory the 'Create Subfolder...' action creates in: the selected
+     * folder, or the viewed directory if nothing is selected.
+     */
+    QUrl subdirectoryParent() const;
+
+    /**
+     * Updates the state of the 'Create Subfolder...' action.
+     */
+    void updateCreateSubdirectoryAction();
 
     /**
      * Creates an action-group out of all roles from KFileItemModel.
