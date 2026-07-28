@@ -16,9 +16,12 @@
 #include "views/zoomlevelinfo.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QFile>
 #include <QKeyEvent>
 #include <QScopeGuard>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QSignalSpy>
 #include <QSplitter>
 #include <QStandardPaths>
@@ -71,6 +74,7 @@ private Q_SLOTS:
     void testAutoAdjustColumns();
     void testIconSizeFollowsSettings();
     void testRenameRefitsColumnWhenAdjustingToContent();
+    void testNoJumpWhenSiblingSelectionReplacesWideColumn();
     void testShownHiddenFileWidensColumn();
 
     void testSelectionMatchesActiveColumn();
@@ -540,6 +544,77 @@ void DolphinColumnsViewTest::testShownHiddenFileWidensColumn()
     // Showing the file makes the column wide enough for its name.
     m_view->setHiddenFilesShown(true);
     QTRY_VERIFY_WITH_TIMEOUT(splitter->sizes().at(0) > widthWithoutTheFile, 5000);
+}
+
+void DolphinColumnsViewTest::testNoJumpWhenSiblingSelectionReplacesWideColumn()
+{
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    // alpha/alpha-child holds a name far wider than the window, and alpha has a second folder
+    // to move to.
+    m_testDir->createFile(QStringLiteral("alpha/alpha-child/") + QString(200, QLatin1Char('w')) + QStringLiteral(".txt"));
+    m_testDir->createDir(QStringLiteral("alpha/alpha-child2"));
+
+    // A window too narrow to hold every column at once.
+    m_view->resize(350, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    auto activeScreenX = [this]() {
+        const int index = m_view->activeColumnIndex();
+        return m_view->columnAt(index)->mapTo(m_view->m_scrollArea->viewport(), QPoint(0, 0)).x();
+    };
+
+    // root -> alpha -> alpha-child, so the wide column is the third one.
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1, 5000);
+    navigateRight();
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 2, 5000);
+    navigateRight();
+
+    // The folder is listed after its column was added, so the column only takes its full width
+    // then. The view has to follow it, rather than being pulled there by a later keystroke.
+    QTRY_COMPARE_WITH_TIMEOUT(activeScreenX(), 0, 5000);
+
+    navigateLeft();
+    QTRY_COMPARE_WITH_TIMEOUT(activeScreenX(), 0, 5000);
+    const int screenXBefore = activeScreenX();
+    const int scrollBefore = m_view->m_scrollArea->horizontalScrollBar()->value();
+
+    const int childWidthBefore = m_view->m_splitter->sizes().at(2);
+
+    // Moving to the sibling folder replaces the wide column with one holding shorter names.
+    // The replacement keeps the width, so nothing shifts under the folder being looked at.
+    // alpha was listed before this test added the second folder, so wait for the watcher.
+    auto *alphaModel = m_view->columnAt(1)->model();
+    auto alphaHoldsChild2 = [alphaModel]() {
+        for (int i = 0; i < alphaModel->count(); ++i) {
+            if (alphaModel->fileItem(i).name() == QStringLiteral("alpha-child2")) {
+                return true;
+            }
+        }
+        return false;
+    };
+    QTRY_VERIFY_WITH_TIMEOUT(alphaHoldsChild2(), 10000);
+
+    selectItemInColumn(1, QStringLiteral("alpha-child2"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 2
+                                 && m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName() == QStringLiteral("alpha-child2"),
+                             5000);
+    QTest::qWait(200);
+
+    QCOMPARE(m_view->m_splitter->sizes().at(2), childWidthBefore);
+    QCOMPARE(activeScreenX(), screenXBefore);
+    QCOMPARE(m_view->m_scrollArea->horizontalScrollBar()->value(), scrollBefore);
 }
 
 void DolphinColumnsViewTest::testSelectionMatchesActiveColumn()
