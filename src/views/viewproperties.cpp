@@ -26,7 +26,8 @@ namespace
 const int AdditionalInfoViewPropertiesVersion = 1;
 const int NameRolePropertiesVersion = 2;
 const int DateRolePropertiesVersion = 4;
-const int CurrentViewPropertiesVersion = 4;
+const int ViewModeZoomLevelPropertiesVersion = 5;
+const int CurrentViewPropertiesVersion = 5;
 
 const QString MetaDataKey = QStringLiteral("kde.fm.viewproperties#1");
 
@@ -37,6 +38,9 @@ const char CustomizedDetailsString[] = "CustomizedDetails";
 
 // Filename that is used for storing the properties
 const char ViewPropertiesFileName[] = ".directory";
+
+// The view modes a folder can be shown in, each with a zoom level of its own.
+constexpr DolphinView::Mode ViewModes[] = {DolphinView::IconsView, DolphinView::CompactView, DolphinView::DetailsView};
 }
 
 ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) const
@@ -135,7 +139,9 @@ bool ViewProperties::isDefaults() const
     });
     // clang-format off
     return m_node->viewMode() == defaultProps->viewMode()
-        && m_node->zoomLevel() == defaultProps->zoomLevel()
+        && m_node->iconsZoomLevel() == defaultProps->iconsZoomLevel()
+        && m_node->compactZoomLevel() == defaultProps->compactZoomLevel()
+        && m_node->detailsZoomLevel() == defaultProps->detailsZoomLevel()
         && m_node->previewsShown() == defaultProps->previewsShown()
         && m_node->hiddenFilesShown() == defaultProps->hiddenFilesShown()
         && m_node->groupedSorting() == defaultProps->groupedSorting()
@@ -294,7 +300,7 @@ ViewProperties::ViewProperties(const QUrl &url)
         } else {
             m_changedProps = false;
         }
-        setZoomLevel(-1);
+        resetZoomLevels();
     }
 
     if (m_node->version() < CurrentViewPropertiesVersion) {
@@ -313,6 +319,11 @@ ViewProperties::ViewProperties(const QUrl &url)
         if (m_node->version() < DateRolePropertiesVersion) {
             convertDateRoleToModificationTimeRole();
             Q_ASSERT(m_node->version() == DateRolePropertiesVersion);
+        }
+
+        if (m_node->version() < ViewModeZoomLevelPropertiesVersion) {
+            convertZoomLevelToViewModeZoomLevel();
+            Q_ASSERT(m_node->version() == ViewModeZoomLevelPropertiesVersion);
         }
 
         m_node->setVersion(CurrentViewPropertiesVersion);
@@ -335,17 +346,37 @@ ViewProperties::~ViewProperties()
     m_node = nullptr;
 }
 
-void ViewProperties::setZoomLevel(int zoomLevel)
+int ViewProperties::zoomLevel(DolphinView::Mode mode) const
 {
-    if (m_node->zoomLevel() != zoomLevel) {
-        m_node->setZoomLevel(zoomLevel);
-        update();
+    switch (mode) {
+    case DolphinView::IconsView:
+        return m_node->iconsZoomLevel();
+    case DolphinView::CompactView:
+        return m_node->compactZoomLevel();
+    case DolphinView::DetailsView:
+        return m_node->detailsZoomLevel();
     }
+    Q_UNREACHABLE();
 }
 
-int ViewProperties::zoomLevel() const
+void ViewProperties::setZoomLevel(DolphinView::Mode mode, int level)
 {
-    return m_node->zoomLevel();
+    if (zoomLevel(mode) == level) {
+        return;
+    }
+
+    switch (mode) {
+    case DolphinView::IconsView:
+        m_node->setIconsZoomLevel(level);
+        break;
+    case DolphinView::CompactView:
+        m_node->setCompactZoomLevel(level);
+        break;
+    case DolphinView::DetailsView:
+        m_node->setDetailsZoomLevel(level);
+        break;
+    }
+    update();
 }
 
 void ViewProperties::setViewMode(DolphinView::Mode mode)
@@ -579,7 +610,9 @@ QList<int> ViewProperties::headerColumnWidths() const
 void ViewProperties::setDirProperties(const ViewProperties &props)
 {
     setViewMode(props.viewMode());
-    setZoomLevel(props.zoomLevel());
+    for (const DolphinView::Mode mode : ViewModes) {
+        setZoomLevel(mode, props.zoomLevel(mode));
+    }
     setPreviewsShown(props.previewsShown());
     setHiddenFilesShown(props.hiddenFilesShown());
     setGroupedSorting(props.groupedSorting());
@@ -842,6 +875,23 @@ void ViewProperties::convertDateRoleToModificationTimeRole()
     m_node->setVisibleRoles(visibleRoles);
     m_node->setSortRole(sortRole);
     m_node->setVersion(DateRolePropertiesVersion);
+    update();
+}
+
+void ViewProperties::resetZoomLevels()
+{
+    for (const DolphinView::Mode mode : ViewModes) {
+        setZoomLevel(mode, -1);
+    }
+}
+
+void ViewProperties::convertZoomLevelToViewModeZoomLevel()
+{
+    // The single zoom level of the folder was chosen while the folder was shown in the view mode it
+    // still holds, so it becomes the zoom level of that mode. The remaining modes keep the default,
+    // which is the icon size each of them is configured with.
+    setZoomLevel(viewMode(), m_node->zoomLevel());
+    m_node->setVersion(ViewModeZoomLevelPropertiesVersion);
     update();
 }
 
