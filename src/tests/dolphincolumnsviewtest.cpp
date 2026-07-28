@@ -79,6 +79,7 @@ private Q_SLOTS:
     void testRenameRefitsColumnWhenAdjustingToContent();
     void testNoJumpWhenSiblingSelectionReplacesWideColumn();
     void testShownHiddenFileWidensColumn();
+    void testColumnIsNeverWiderThanTheViewport();
 
     void testSelectionMatchesActiveColumn();
     void testModelMatchesActiveColumn();
@@ -964,6 +965,38 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
     QTest::qWait(100); // UNAVOIDABLE: no signal for the absence of a re-entrant open
     QCOMPARE(m_view->columnCount(), 2);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
+{
+    // A column that fits its content stops at the width of the viewport, so scrolling to it always
+    // reaches its right edge, where its vertical scrollbar is.
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    // A name far longer than the window is wide.
+    m_testDir->createFile(QString(200, QLatin1Char('x')) + QStringLiteral(".txt"));
+    m_view->resize(400, 400);
+
+    auto *scrollArea = m_view->findChild<QScrollArea *>();
+    QVERIFY(scrollArea);
+    auto *splitter = m_view->findChild<QSplitter *>();
+    QVERIFY(splitter);
+
+    activateColumn(0);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->calculateOptimalWidth() > scrollArea->viewport()->width(), 5000);
+    m_view->recalculateColumnWidths();
+
+    const int columnWidth = splitter->sizes().at(0);
+    const int viewportWidth = scrollArea->viewport()->width();
+    QVERIFY2(columnWidth <= viewportWidth, qPrintable(QStringLiteral("column (%1) should fit the viewport (%2)").arg(columnWidth).arg(viewportWidth)));
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
