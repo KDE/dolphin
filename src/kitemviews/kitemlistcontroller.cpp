@@ -1643,6 +1643,12 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         return true;
     }
 
+    if (buttons & Qt::MiddleButton) {
+        // The middle button opens an item in a new tab on release and leaves the selection
+        // alone, so there is nothing to select here and no rubber band to draw.
+        return true;
+    }
+
     const QPointF pressedMousePos = m_view->transform().map(pos);
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex.value_or(-1), pressedMousePos)) {
