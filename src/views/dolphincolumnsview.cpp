@@ -938,17 +938,22 @@ void DolphinColumnsView::recalculateColumnWidths()
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
     for (int i = 0; i < numColumns; ++i) {
+        int columnWidth;
         if (m_customColumnWidths.contains(i)) {
             // A width the user set by dragging the handle always wins.
-            sizes.append(m_customColumnWidths.value(i));
+            columnWidth = m_customColumnWidths.value(i);
         } else if (m_carriedColumnWidth && m_carriedColumnWidth->first == i) {
-            sizes.append(m_carriedColumnWidth->second);
+            columnWidth = m_carriedColumnWidth->second;
         } else if (dynamicWidth) {
             // Size the column to its content, never below the configured minimum.
-            sizes.append(qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth()));
+            columnWidth = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
         } else {
-            sizes.append(defaultWidth);
+            columnWidth = defaultWidth;
         }
+        // A column fits in the viewport, so scrolling to it brings all of it into view, its vertical
+        // scrollbar included. A width that came from the content of a long name, from the configured
+        // minimum or from the handle the user dragged can be larger than that.
+        sizes.append(qMin(viewportWidth, columnWidth));
     }
     applyColumnSizes(sizes);
 }
