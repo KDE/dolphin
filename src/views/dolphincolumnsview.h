@@ -11,6 +11,9 @@
 #include "dolphin_export.h"
 #include "dolphinview.h"
 
+#include <optional>
+#include <utility>
+
 class DolphinColumnPane;
 class QScrollArea;
 class QSplitter;
@@ -121,6 +124,10 @@ private:
     // loading.  slotPaneLoadingCompleted() uses this to auto-select the
     // first item once the model is ready.
     DolphinColumnPane *m_pendingAutoSelect = nullptr;
+
+    // Width handed from the column that was shown to the right of the active one to the one
+    // that replaced it, as the index and the width. Empty when nothing is being carried.
+    std::optional<std::pair<int, int>> m_carriedColumnWidth;
 
     // Per-column custom width set by user dragging splitter handles.
     // Key = column index, value = width in pixels. Session-only, not persisted.
