@@ -7,6 +7,7 @@
 
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
+#include "dolphintabpage.h"
 #include "dolphinurlnavigator.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
@@ -33,6 +34,7 @@ private Q_SLOTS:
 
     void testSetViewMode_iconsToDetails();
     void testSetViewMode_iconsToColumns();
+    void testTabUrlFollowsColumnsViewAfterSwap();
     void testSetViewMode_columnsToIcons();
     void testSetViewMode_fullCycle();
     void testSetViewMode_columnsToDetailsThenBackToColumns();
@@ -289,6 +291,28 @@ void DolphinViewContainerTest::testSwapAdoptsContainerActiveState()
     waitForViewReady();
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) == nullptr);
     QVERIFY(m_container->view()->isActive());
+}
+
+void DolphinViewContainerTest::testTabUrlFollowsColumnsViewAfterSwap()
+{
+    // The tab and window titles follow DolphinTabPage::activeViewUrlChanged, which is wired to
+    // the view the container holds. Switching to the columns view replaces that view, so the
+    // wiring has to be made again.
+    DolphinTabPage page(m_testDir->url(), QUrl(), nullptr);
+    page.resize(800, 600);
+    page.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&page));
+    QTRY_VERIFY_WITH_TIMEOUT(page.activeViewContainer()->view()->itemsCount() > 0, 5000);
+
+    page.activeViewContainer()->setViewMode(DolphinView::ColumnsView);
+    QTRY_VERIFY_WITH_TIMEOUT(qobject_cast<DolphinColumnsView *>(page.activeViewContainer()->view()) != nullptr, 5000);
+
+    QSignalSpy urlSpy(&page, &DolphinTabPage::activeViewUrlChanged);
+    const QUrl subdirUrl = QUrl::fromLocalFile(m_testDir->url().toLocalFile() + QStringLiteral("/subdir"));
+    page.activeViewContainer()->view()->setUrl(subdirUrl);
+
+    QTRY_VERIFY_WITH_TIMEOUT(urlSpy.count() > 0, 5000);
+    QCOMPARE(urlSpy.last().first().toUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("subdir"));
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
