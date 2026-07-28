@@ -49,6 +49,8 @@ private Q_SLOTS:
     void testNavigatorFollowsViewAfterModeSwap();
     void testSwapAdoptsContainerActiveState();
     void testEachViewModeKeepsItsOwnZoomLevel();
+    void testEachViewModeKeepsItsOwnZoomLevelInTheFolder();
+    void testColumnsViewKeepsItsOwnZoomLevelInTheFolder();
 
 private:
     void waitForViewReady();
@@ -360,8 +362,12 @@ void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
     setSize(details, detailsLevel);
     setSize(columns, columnsLevel);
 
-    // The container starts in Icons mode, and a view only picks up a size that changed in the
-    // settings when it is asked to read them, so every size below is checked after a switch.
+    // A view picks up a size that changed in the settings only when it is asked to read them, so
+    // every level below is checked after a switch that really changed the mode. The compact view
+    // gives the checks that follow a mode to come from.
+    m_container->setViewMode(DolphinView::CompactView);
+    waitForViewReady();
+
     m_container->setViewMode(DolphinView::DetailsView);
     waitForViewReady();
     QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
@@ -373,6 +379,94 @@ void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
     m_container->setViewMode(DolphinView::IconsView);
     waitForViewReady();
     QCOMPARE(m_container->view()->zoomLevel(), iconsLevel);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
+}
+
+void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevelInTheFolder()
+{
+    // With per-folder view properties, a zoom level belongs to the view mode it was chosen in, so
+    // switching modes shows the size that mode was last given, not the one just left behind.
+    auto *icons = IconsModeSettings::self();
+    auto *details = DetailsModeSettings::self();
+    const int savedIconsIcon = icons->iconSize();
+    const int savedDetailsIcon = details->iconSize();
+    auto restore = qScopeGuard([&]() {
+        icons->setIconSize(savedIconsIcon);
+        details->setIconSize(savedDetailsIcon);
+    });
+
+    const int iconsDefault = ZoomLevelInfo::minimumLevel();
+    const int detailsDefault = ZoomLevelInfo::minimumLevel() + 2;
+    icons->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(iconsDefault));
+    details->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(detailsDefault));
+
+    const int iconsLevel = iconsDefault + 1;
+    const int detailsLevel = detailsDefault + 3;
+    QVERIFY(detailsLevel <= ZoomLevelInfo::maximumLevel());
+
+    // The container starts in Icons mode, so the details view is the first one to switch to.
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsDefault);
+    m_container->view()->setZoomLevel(detailsLevel);
+
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), iconsDefault);
+    m_container->view()->setZoomLevel(iconsLevel);
+
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
+
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), iconsLevel);
+}
+
+void DolphinViewContainerTest::testColumnsViewKeepsItsOwnZoomLevelInTheFolder()
+{
+    // Switching to or from the columns view replaces the whole view, and a zoom made in the view
+    // that came in belongs to its own view mode just as in the modes that share one view.
+    auto *columns = ColumnsModeSettings::self();
+    auto *details = DetailsModeSettings::self();
+    const int savedColumnsIcon = columns->iconSize();
+    const int savedDetailsIcon = details->iconSize();
+    auto restore = qScopeGuard([&]() {
+        columns->setIconSize(savedColumnsIcon);
+        details->setIconSize(savedDetailsIcon);
+    });
+
+    const int detailsDefault = ZoomLevelInfo::minimumLevel();
+    const int columnsDefault = ZoomLevelInfo::minimumLevel() + 1;
+    details->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(detailsDefault));
+    columns->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(columnsDefault));
+
+    const int detailsLevel = detailsDefault + 2;
+    const int columnsLevel = columnsDefault + 4;
+    QVERIFY(columnsLevel <= ZoomLevelInfo::maximumLevel());
+
+    // The compact view gives the checks that follow a mode to come from, whatever mode the folder
+    // is shown in to begin with.
+    m_container->setViewMode(DolphinView::CompactView);
+    waitForViewReady();
+
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsDefault);
+    m_container->view()->setZoomLevel(detailsLevel);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsDefault);
+    m_container->view()->setZoomLevel(columnsLevel);
+
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
 
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();

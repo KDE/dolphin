@@ -10,6 +10,7 @@
 
 #include <KFileMetaData/UserMetaData>
 
+#include <QScopeGuard>
 #include <QStorageInfo>
 #include <QTest>
 
@@ -42,6 +43,8 @@ private Q_SLOTS:
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
     void testSymlinkSharesProperties();
+    void testZoomLevelBelongsToTheViewMode();
+    void testZoomLevelOfAnOlderPropertiesFileGoesToItsViewMode();
 
 private:
     bool m_globalViewProps;
@@ -738,6 +741,57 @@ void ViewPropertiesTest::testSymlinkSharesProperties()
         ViewProperties props(QUrl::fromLocalFile(linkPath));
         QCOMPARE(props.viewMode(), DolphinView::CompactView);
     }
+}
+
+void ViewPropertiesTest::testZoomLevelBelongsToTheViewMode()
+{
+    // A zoom level is stored for the view mode the properties hold, so each mode keeps the size it
+    // was last given for this folder and starts from its own default until then.
+    ViewProperties props(m_testDir->url());
+
+    props.setZoomLevel(DolphinView::IconsView, 4);
+    QCOMPARE(props.zoomLevel(DolphinView::IconsView), 4);
+    QCOMPARE(props.zoomLevel(DolphinView::DetailsView), -1);
+
+    props.setZoomLevel(DolphinView::DetailsView, 2);
+    QCOMPARE(props.zoomLevel(DolphinView::IconsView), 4);
+    QCOMPARE(props.zoomLevel(DolphinView::DetailsView), 2);
+}
+
+void ViewPropertiesTest::testZoomLevelOfAnOlderPropertiesFileGoesToItsViewMode()
+{
+    const QString dotDirectoryFilePath = m_testDir->url().toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    // The properties of the folder are read only while they are newer than the global default
+    // properties, so the defaults are dated before the file written below.
+    GeneralSettings *settings = GeneralSettings::self();
+    const QDateTime globalTimestamp = settings->viewPropsTimestamp();
+    settings->setViewPropsTimestamp(QDateTime(QDate(2020, 1, 1), QTime(0, 0)));
+    QVERIFY(settings->save());
+    auto restoreTimestamp = qScopeGuard([&]() {
+        settings->setViewPropsTimestamp(globalTimestamp);
+        settings->save();
+    });
+
+    // A file written by a Dolphin that has one zoom level per folder, showing the details view.
+    const char *settingsContent = R"SETTINGS(
+[Dolphin]
+Version=4
+ViewMode=1
+ZoomLevel=5
+Timestamp=2023,12,29,10,44,15.793)SETTINGS";
+    auto dotDirectoryFile = QFile(dotDirectoryFilePath);
+    QVERIFY(dotDirectoryFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate));
+    QTextStream out(&dotDirectoryFile);
+    out << settingsContent;
+    dotDirectoryFile.close();
+
+    ViewProperties props(m_testDir->url());
+    QCOMPARE(props.viewMode(), DolphinView::Mode::DetailsView);
+    // The level was chosen in the details view, so it is the level of that mode alone.
+    QCOMPARE(props.zoomLevel(DolphinView::DetailsView), 5);
+    QCOMPARE(props.zoomLevel(DolphinView::IconsView), -1);
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

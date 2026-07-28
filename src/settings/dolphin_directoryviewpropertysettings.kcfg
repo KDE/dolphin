@@ -29,7 +29,31 @@
 
         <entry name="ZoomLevel" type="Int" >
             <label context="@label">Zoom Level</label>
-            <whatsthis context="@info:whatsthis">Zoom level of the folder.</whatsthis>
+            <whatsthis context="@info:whatsthis">Zoom level that earlier versions of Dolphin stored for a whole folder. It is read once, to give the level to the view mode the folder is shown in.</whatsthis>
+            <default>-1</default>
+        </entry>
+
+        <entry name="IconsZoomLevel" type="Int" >
+            <label context="@label">Icons Zoom Level</label>
+            <whatsthis context="@info:whatsthis">Zoom level of the folder in the icons view. A value below zero means the icon size that the icons view is configured with.</whatsthis>
+            <default>-1</default>
+        </entry>
+
+        <entry name="CompactZoomLevel" type="Int" >
+            <label context="@label">Compact Zoom Level</label>
+            <whatsthis context="@info:whatsthis">Zoom level of the folder in the compact view. A value below zero means the icon size that the compact view is configured with.</whatsthis>
+            <default>-1</default>
+        </entry>
+
+        <entry name="DetailsZoomLevel" type="Int" >
+            <label context="@label">Details Zoom Level</label>
+            <whatsthis context="@info:whatsthis">Zoom level of the folder in the details view. A value below zero means the icon size that the details view is configured with.</whatsthis>
+            <default>-1</default>
+        </entry>
+
+        <entry name="ColumnsZoomLevel" type="Int" >
+            <label context="@label">Columns Zoom Level</label>
+            <whatsthis context="@info:whatsthis">Zoom level of the folder in the columns view. A value below zero means the icon size that the columns view is configured with.</whatsthis>
             <default>-1</default>
         </entry>
 

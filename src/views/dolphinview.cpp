@@ -534,7 +534,9 @@ void DolphinView::setZoomLevel(int level)
     const int newZoomLevel = zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
         ViewProperties props(viewPropertiesUrl());
-        props.setZoomLevel(level == m_defaultZoomLevel ? -1 : level);
+        // The stored properties are not always on the view mode in use yet, so the level goes to the
+        // mode the view shows.
+        props.setZoomLevel(m_mode, level == m_defaultZoomLevel ? -1 : level);
 
         hideToolTip();
 
@@ -2534,7 +2536,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 
     // Only check for folder zoom changes if we're using local view props
     if (!GeneralSettings::globalViewProps()) {
-        const int propZoomLevel = props.zoomLevel();
+        const int propZoomLevel = props.zoomLevel(m_mode);
         if (m_defaultZoomLevel < 0) {
             updateDefaultZoomLevel();
         }

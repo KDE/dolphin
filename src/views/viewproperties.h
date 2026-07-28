@@ -44,9 +44,9 @@ public:
     void setViewMode(DolphinView::Mode mode);
     DolphinView::Mode viewMode() const;
 
-    void setZoomLevel(int zoomLevel);
-    /// -1 is the default zoom
-    int zoomLevel() const;
+    /// The zoom level of @p mode. -1 is the default zoom of that mode.
+    void setZoomLevel(DolphinView::Mode mode, int zoomLevel);
+    int zoomLevel(DolphinView::Mode mode) const;
 
     void setPreviewsShown(bool show);
     bool previewsShown() const;
@@ -168,6 +168,16 @@ private:
      */
 
     void convertDateRoleToModificationTimeRole();
+
+    /**
+     * Provides backward compatibility with .directory files that hold one zoom level for the whole
+     * folder: gives the zoom level to the view mode the folder is shown in.
+     */
+    void convertZoomLevelToViewModeZoomLevel();
+
+    /// Puts every view mode back to the icon size it is configured with.
+    void resetZoomLevels();
+
     /**
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
      */
