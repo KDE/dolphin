@@ -125,6 +125,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     m_view = new DolphinItemListView();
     m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     m_view->setVisibleRoles({"text"});
+    m_view->setViewMode(m_mode);
     applyModeToView();
 
     KItemListController *controller = new KItemListController(m_model, m_view, this);
@@ -2458,6 +2459,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
         // the zoom level. Remember the old zoom level so
         // that zoomLevelChanged() can get emitted.
         const int oldZoomLevel = m_view->zoomLevel();
+        m_view->setViewMode(m_mode);
         applyModeToView();
 
         Q_EMIT modeChanged(m_mode, previousMode);

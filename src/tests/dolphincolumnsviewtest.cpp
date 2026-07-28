@@ -7,6 +7,8 @@
 
 #include "views/dolphincolumnsview.h"
 #include "dolphin_columnsmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
@@ -73,6 +75,7 @@ private Q_SLOTS:
     void testColumnWidthMode();
     void testAutoAdjustColumns();
     void testIconSizeFollowsSettings();
+    void testZoomingLeavesTheOtherViewModesAlone();
     void testRenameRefitsColumnWhenAdjustingToContent();
     void testNoJumpWhenSiblingSelectionReplacesWideColumn();
     void testShownHiddenFileWidensColumn();
@@ -462,14 +465,15 @@ void DolphinColumnsViewTest::testAutoAdjustColumns()
 
 void DolphinColumnsViewTest::testIconSizeFollowsSettings()
 {
-    // With global view properties (the default) the columns-mode icon/preview size
-    // drives the shared zoom level, so changing it in the settings resizes the icons.
+    // With global view properties (the default) the icons are the size that is configured for
+    // the columns view mode, so changing that size resizes them.
     auto *settings = ColumnsModeSettings::self();
     const int savedIcon = settings->iconSize();
     const int savedPreview = settings->previewSize();
     auto restore = qScopeGuard([&]() {
         settings->setIconSize(savedIcon);
         settings->setPreviewSize(savedPreview);
+        settings->save();
     });
 
     const int levelA = ZoomLevelInfo::minimumLevel();
@@ -479,13 +483,50 @@ void DolphinColumnsViewTest::testIconSizeFollowsSettings()
     // Set both sizes so the result does not depend on whether previews are shown.
     settings->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(levelA));
     settings->setPreviewSize(ZoomLevelInfo::iconSizeForZoomLevel(levelA));
+    settings->save();
     m_view->readSettings();
     QCOMPARE(m_view->zoomLevel(), levelA);
 
     settings->setIconSize(ZoomLevelInfo::iconSizeForZoomLevel(levelB));
     settings->setPreviewSize(ZoomLevelInfo::iconSizeForZoomLevel(levelB));
+    settings->save();
     m_view->readSettings();
     QCOMPARE(m_view->zoomLevel(), levelB);
+}
+
+void DolphinColumnsViewTest::testZoomingLeavesTheOtherViewModesAlone()
+{
+    // Zooming keeps the new icon size for the columns view mode. The other view modes keep the
+    // size each of them is configured with.
+    auto *columns = ColumnsModeSettings::self();
+    auto *icons = IconsModeSettings::self();
+    auto *details = DetailsModeSettings::self();
+
+    const int savedColumnsIcon = columns->iconSize();
+    const int savedColumnsPreview = columns->previewSize();
+    const int savedIconsIcon = icons->iconSize();
+    const int savedDetailsIcon = details->iconSize();
+    auto restore = qScopeGuard([&]() {
+        columns->setIconSize(savedColumnsIcon);
+        columns->setPreviewSize(savedColumnsPreview);
+        icons->setIconSize(savedIconsIcon);
+        details->setIconSize(savedDetailsIcon);
+    });
+
+    const int otherModesLevel = ZoomLevelInfo::minimumLevel();
+    const int columnsLevel = ZoomLevelInfo::minimumLevel() + 2;
+    QVERIFY(columnsLevel <= ZoomLevelInfo::maximumLevel());
+    const int otherModesSize = ZoomLevelInfo::iconSizeForZoomLevel(otherModesLevel);
+    icons->setIconSize(otherModesSize);
+    details->setIconSize(otherModesSize);
+
+    m_view->setZoomLevel(columnsLevel);
+
+    QCOMPARE(m_view->zoomLevel(), columnsLevel);
+    const int columnsSize = ZoomLevelInfo::iconSizeForZoomLevel(columnsLevel);
+    QCOMPARE(m_view->previewsShown() ? columns->previewSize() : columns->iconSize(), columnsSize);
+    QCOMPARE(icons->iconSize(), otherModesSize);
+    QCOMPARE(details->iconSize(), otherModesSize);
 }
 
 void DolphinColumnsViewTest::testRenameRefitsColumnWhenAdjustingToContent()

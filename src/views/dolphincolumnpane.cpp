@@ -35,6 +35,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_view = new DolphinItemListView();
     m_view->setVisibleRoles({"text"});
+    m_view->setViewMode(DolphinView::ColumnsView);
     m_view->setItemLayout(KFileItemListView::DetailsLayout);
     m_view->setHeaderVisible(false);
     m_view->setAlternateBackgrounds(false);
