@@ -6,6 +6,7 @@
 
 #include "dolphinitemlistview.h"
 
+#include "dolphin_columnsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
 #include "dolphin_contentdisplaysettings.h"
 #include "dolphin_detailsmodesettings.h"
@@ -40,7 +41,7 @@ void DolphinItemListView::setZoomLevel(int level)
     }
 
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
-    ViewModeSettings settings(itemLayout());
+    ViewModeSettings settings = viewModeSettings();
 
     // The size belonging to the requested zoom level must be applied even when the zoom level
     // itself did not change: m_iconSize/m_previewSize may still be unset, e.g. because this is
@@ -79,6 +80,23 @@ int DolphinItemListView::zoomLevel() const
     return m_zoomLevel;
 }
 
+void DolphinItemListView::setViewMode(DolphinView::Mode mode)
+{
+    if (m_viewMode == mode) {
+        return;
+    }
+
+    m_viewMode = mode;
+
+    updateFont();
+    updateGridSize();
+}
+
+ViewModeSettings DolphinItemListView::viewModeSettings() const
+{
+    return m_viewMode ? ViewModeSettings(*m_viewMode) : ViewModeSettings(itemLayout());
+}
+
 void DolphinItemListView::setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled selectionTogglesEnabled)
 {
     m_selectionTogglesEnabled = selectionTogglesEnabled;
@@ -104,6 +122,7 @@ void DolphinItemListView::readSettings()
     IconsModeSettings::self()->load();
     CompactModeSettings::self()->load();
     DetailsModeSettings::self()->load();
+    ColumnsModeSettings::self()->load();
 
     ContentDisplaySettings::self()->load();
 
@@ -126,6 +145,7 @@ void DolphinItemListView::writeSettings()
     IconsModeSettings::self()->save();
     CompactModeSettings::self()->save();
     DetailsModeSettings::self()->save();
+    ColumnsModeSettings::self()->save();
 }
 
 KItemListWidgetCreatorBase *DolphinItemListView::defaultWidgetCreator() const
@@ -167,7 +187,7 @@ void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray> &current
 
 void DolphinItemListView::updateFont()
 {
-    const ViewModeSettings settings(itemLayout());
+    const ViewModeSettings settings = viewModeSettings();
     KItemListStyleOption option = styleOption();
 
     if (settings.useSystemFont()) {
@@ -183,7 +203,7 @@ void DolphinItemListView::updateFont()
 
 void DolphinItemListView::updateGridSize()
 {
-    const ViewModeSettings settings(itemLayout());
+    const ViewModeSettings settings = viewModeSettings();
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
     // Calculate the size of the icon

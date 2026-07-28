@@ -10,13 +10,13 @@
 #include "dolphin_columnsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphincolumnpane.h"
+#include "dolphinitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemlistview.h"
 #include "tooltips/tooltipmanager.h"
-#include "zoomlevelinfo.h"
 #include <KIO/Global>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGuiApplication>
@@ -165,13 +165,9 @@ void DolphinColumnsView::readSettings()
 {
     DolphinView::readSettings();
 
-    // With global view properties the configured icon/preview size is what every
-    // column should use, so push it to the shared zoom level. Per-folder view
-    // properties keep their own saved zoom, matching the other view modes.
-    if (GeneralSettings::globalViewProps()) {
-        const auto *settings = ColumnsModeSettings::self();
-        const int iconSize = previewsShown() ? settings->previewSize() : settings->iconSize();
-        setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize)));
+    // Every column shows the font and the icon size that the columns view is configured with.
+    for (DolphinColumnPane *pane : m_columns) {
+        pane->itemListView()->readSettings();
     }
 
     // Pick up changes to the width behaviour, minimum width, and visible-column
