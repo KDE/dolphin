@@ -1081,17 +1081,19 @@ bool KItemListView::event(QEvent *event)
 {
     if (m_grouped && event->type() == QEvent::GraphicsSceneMousePress) {
         auto *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        const QPointF pos = transform().map(mouseEvent->pos());
+        if (mouseEvent->button() == Qt::LeftButton) {
+            const QPointF pos = transform().map(mouseEvent->pos());
 
-        QHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
-        while (it.hasNext()) {
-            it.next();
-            KItemListGroupHeader *header = it.value();
-            const QPointF mappedToGroup = header->mapFromItem(this, pos);
-            if (header->contains(mappedToGroup)) {
-                toggleGroupCollapse(header->data());
-                event->accept();
-                return true;
+            QHashIterator<int, KItemListGroupHeader *> it(m_visibleGroups);
+            while (it.hasNext()) {
+                it.next();
+                KItemListGroupHeader *header = it.value();
+                const QPointF mappedToGroup = header->mapFromItem(this, pos);
+                if (header->contains(mappedToGroup)) {
+                    toggleGroupCollapse(header->data());
+                    event->accept();
+                    return true;
+                }
             }
         }
     }
