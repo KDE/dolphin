@@ -2,7 +2,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 A S Alam <aalam@users.sf.net>
+# SPDX-FileCopyrightText: 2007, 2009-2012, 2015-2016, 2018-2026 A S Alam <aalam@users.sf.net>
 # AP S Alam <aalam@users.sf.net>, 2007.
 # Amanpreet Singh Alam <apreet.alam@gmail.com>, 2008.
 # Amanpreet Singh <aalam@users.sf.net>, 2008.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-26 00:47+0000\n"
-"PO-Revision-Date: 2026-02-11 17:44-0600\n"
+"PO-Revision-Date: 2026-07-27 08:47-0500\n"
 "Last-Translator: A S Alam <aman@punlinux.org>\n"
 "Language-Team: pa\n"
 "Language: pa\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -532,12 +532,10 @@ msgid "Move to Other View"
 msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਭੇਜੋ"
 
 #: dolphinmainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr "ਹੋਰ ਝਲਕ ਲਈ ਫੋਕਸ"
 
 #: dolphinmainwindow.cpp:1902
 #, fuzzy, kde-format
@@ -1534,7 +1532,7 @@ msgstr "ਨੈੱਟਵਰਕ ਫੋਲਡਰ ਜੋੜੋ"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr ""
+msgstr "KDE ਕਨੈਕਟ ਨੂੰ ਖੋਲ੍ਹੋ"
 
 #: dolphinnavigatorswidgetaction.cpp:356
 #, kde-format
@@ -1725,20 +1723,19 @@ msgstr "ਹੋਰ ਟੈਬਾਂ ਬੰਦ ਕਰੋ"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "ਖੱਬੇ ਪਾਸੇ ਦੀਆਂ ਟੈਬਾਂ ਬੰਦ ਕਰੋ"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "ਸੱਜੀ ਬਾਹੀ ਨੂੰ ਬੰਦ ਕਰੋ"
+msgstr "ਸੱਜੇ ਪਾਸੇ ਦੀਆਂ ਟੈਬਾਂ ਬੰਦ ਕਰੋ"
 
 #: dolphintabbar.cpp:196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
-msgstr "ਟੈਬ ਬੰਦ ਕਰੋ"
+msgstr "ਟੈਬ ਨੂੰ ਬੰਦ ਕਰੋ"
 
 #: dolphintabbar.cpp:224
 #, kde-format
@@ -1841,13 +1838,10 @@ msgid "No items found."
 msgstr "ਕੋਈ ਆਈਟਮ ਨਹੀਂ ਲੱਭੀ।"
 
 #: dolphinviewcontainer.cpp:733
-#, fuzzy, kde-format
-#| msgctxt "Textual representation of files. %1 is the number of files."
-#| msgid "One File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "@action"
 msgid "Open as File"
-msgstr "ਇੱਕ ਫਾਇਲ"
+msgstr "ਫ਼ਾਇਲ ਵਜੋਂ ਖੋਲ੍ਹੋ"
 
 #: dolphinviewcontainer.cpp:750
 #, fuzzy, kde-kuit-format
@@ -1908,12 +1902,10 @@ msgid "You do not have permission to create the folder"
 msgstr "ਤੁਹਾਡੇ ਕੋਲ ਫੋਲਡਰ ਬਣਾਉਣ ਲਈ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ"
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "%1 ਨੂੰ ਖੋਲ੍ਹੋ"
+msgstr "%1 ਨਾਲ ਖੋਲ੍ਹੋ"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format
@@ -1943,13 +1935,13 @@ msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "ਅੱਖਰ ਆਕਾਰ ਮੇਲ"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
-msgstr ""
+msgstr "ਸਰਲ ਲਿਖਤ"
 
 #: filterbar/filterbar.cpp:67
 #, kde-format
@@ -2727,12 +2719,9 @@ msgid "Artist"
 msgstr "ਕਲਾਕਾਰ"
 
 #: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3172
-#, fuzzy
-#| msgctxt "@item:inlistbox"
-#| msgid "Audio Files"
 msgctxt "@label"
 msgid "Audio Codec"
-msgstr "ਆਡੀਓ ਫਾਇਲਾਂ"
+msgstr "ਆਡੀਓ ਕੋਡਕ"
 
 #: kitemviews/kfileitemmodel.cpp:3166 kitemviews/kfileitemmodel.cpp:3173
 msgctxt "@label"
@@ -2777,7 +2766,7 @@ msgstr "ਵਿਡੀਓ"
 #: kitemviews/kfileitemmodel.cpp:3174
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "ਰੰਗ ਥਾਂ"
 
 #: kitemviews/kfileitemmodel.cpp:3177
 msgctxt "@label"
@@ -2787,15 +2776,12 @@ msgstr "ਫਰੇਮ ਰੇਟ"
 #: kitemviews/kfileitemmodel.cpp:3179
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "ਪਿਕਸਲ ਫਾਰਮੈਟ"
 
 #: kitemviews/kfileitemmodel.cpp:3180
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Video"
 msgctxt "@label"
 msgid "Video Codec"
-msgstr "ਵਿਡੀਓ"
+msgstr "ਵਿਡੀਓ ਕੋਡਕ"
 
 #: kitemviews/kfileitemmodel.cpp:3182
 msgctxt "@label"
@@ -2812,17 +2798,14 @@ msgid "Other"
 msgstr "ਹੋਰ"
 
 #: kitemviews/kfileitemmodel.cpp:3183
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Filenames"
 msgctxt "@label"
 msgid "Folder Name"
-msgstr "ਫਾਇਲ-ਨਾਂ"
+msgstr "ਫੋਲਡਰ ਦਾ ਨਾਂ"
 
 #: kitemviews/kfileitemmodel.cpp:3184
 msgctxt "@label"
 msgid "File Extension"
-msgstr "ਫਾਇਲ ਐਕਸ਼ਟੇਸ਼ਨ"
+msgstr "ਫਾਇਲ ਇਕਸਟੈਂਸ਼ਨ"
 
 #: kitemviews/kfileitemmodel.cpp:3185
 msgctxt "@label"
@@ -2939,9 +2922,7 @@ msgid "Elvis Angelaccio"
 msgstr ""
 
 #: main.cpp:109
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੧੪-੨੦੧੮) ਅਤੇ ਡਿਵੈਲਪਰ"
@@ -3935,12 +3916,10 @@ msgid "Exit Selection Mode"
 msgstr "ਚੋਣ ਦੇ ਢੰਗ ਵਿੱਚੋਂ ਬਾਹਰ"
 
 #: servicemenushortcutmanager.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Context Menu"
+#, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "ਪਰਸੰਗ ਮੇਨੂ"
+msgstr "ਪਰਸੰਗ ਮੇਨੂ ਕਾਰਵਾਈਆਂ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -3949,18 +3928,16 @@ msgid "Search…"
 msgstr "…ਖੋਜੋ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Download Services…"
-msgstr "…ਨਵੀਆਂ ਸਰਵਿਸਾਂ ਡਾਊਨਲੋਡ ਕਰੋ"
+msgstr "…ਸਰਵਿਸਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "…ਸ਼ਾਰਟਕੱਟ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -3974,7 +3951,7 @@ msgstr "ਹਟਾਓ"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "ਬਿਲਟ-ਇਨ ਡਾਲਫਿਨ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:241
 #, kde-format
@@ -4228,12 +4205,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Reset Zoom Level"
+#, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr "ਜ਼ੂਮ ਪੱਧਰ ਨੂੰ ਮੁੜ-ਸੈੱਟ ਕਰੋ"
+msgstr "ਜ਼ੂਮ ਪੱਧਰ"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -4291,12 +4266,10 @@ msgstr "ਇਹ ਚੋਣ ਤਹਿ ਕਰਦੀ ਹੈ ਕਿ ਕਿਸ ਗੁ�
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "ਫਾਇਲਾਂ ਰਾਹੀਂ ਲੜੀਬੱਧ"
+msgstr "ਫਾਇਲਾਂ ਦਾ ਗਰੁੱਪ ਇੰਝ"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4681,12 +4654,10 @@ msgid "Warning"
 msgstr "ਸਾਵਧਾਨ"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "ਸਭ KDE ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਪੁਸ਼ਟੀ ਲਈ ਪੁੱਛੋ, ਜਦੋਂ:"
+msgstr "KDE ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਪੁਸ਼ਟੀ ਲਈ ਪੁੱਛੋ, ਜਦੋਂ:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4843,12 +4814,10 @@ msgid "Show filter bar"
 msgstr "ਫਿਲਟਰ ਪੱਟੀ ਨੂੰ ਵੇਖਾਓ"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "ਟੈਬ ਪੱਟੀ ਦੇ ਅੰਤ ਉੱਤੇ"
+msgstr "ਹਮੇਸ਼ਾਂ ਟੈਬ ਪੱਟੀ ਨੂੰ ਵੇਖਾਓ"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4905,17 +4874,15 @@ msgid "Open new tabs: "
 msgstr "ਨਵੀਆਂ ਟੈਬਾਂ ਨੂੰ ਖੋਲ੍ਹੋ:"
 
 #: settings/interface/folderstabssettingspage.cpp:151
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "ਵੰਡੀ ਗਈ ਝਲਕ ਨਾਲ ਸ਼ੁਰੂ"
+msgstr "ਜਦੋਂ ਵੰਡੀ ਗਈ ਝਲਕ ਨੂੰ ਬੰਦ ਕਰਨਾ ਹੋਵੇ"
 
 #: settings/interface/folderstabssettingspage.cpp:153
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "ਸਰਗਰਮ ਬਾਹੀ ਨੂੰ ਬੰਦ ਕਰੋ"
 
 #: settings/interface/folderstabssettingspage.cpp:153
 #, kde-format
@@ -4953,7 +4920,7 @@ msgstr "ਹੋਮ ਫੋਲਡਰ ਦੀ ਸਥਿਤੀ ਗਲਤ ਹੈ ਜਾ
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "ਫੋਲਡਰ ਤੇ ਟੈਬਾਂ"
+msgstr "ਫੋਲਡਰ ਅਤੇ ਟੈਬਾਂ"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -4979,7 +4946,7 @@ msgstr "ਪੈਨਲ"
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "ਸਥਿਤੀ ਤੇ ਟਿਕਾਣਾ ਪੱਟੀਆਂ"
+msgstr "ਸਥਿਤੀ ਅਤੇ ਟਿਕਾਣਾ ਪੱਟੀਆਂ"
 
 #: settings/interface/panelsettingspage.cpp:41
 #, kde-format
@@ -4994,11 +4961,10 @@ msgid "Auto-play media files"
 msgstr "ਮੀਡਿਆ ਫਾਇਲਾਂ ਆਪੇ-ਚਲਾਓ"
 
 #: settings/interface/panelsettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
+msgstr "ਕੋਲ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
@@ -5211,12 +5177,10 @@ msgid "Show size of contents, up to "
 msgstr "ਸਮੱਗਰੀਆਂ ਦਾ ਆਕਾਰ, ਇਸ ਤੱਕ"
 
 #: settings/viewmodes/contentdisplaytab.cpp:55
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "ਜ਼ੂਮ ਸਲਾਈਡਰ ਵੇਖੋ"
+msgstr "ਕੋਈ ਆਕਾਰ ਨਾ ਵੇਖਾਓ"
 
 #: settings/viewmodes/contentdisplaytab.cpp:64
 #, kde-format
@@ -5370,11 +5334,10 @@ msgid "Browsing: "
 msgstr "ਬਰਾਊਜ਼ਿੰਗ: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:74
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
+msgstr "ਕੋਲ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਦੀ ਜਾਣਕਾਰੀ ਵੇਖਾਓ"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:75
 #: settings/viewmodes/generalviewsettingspage.cpp:83
@@ -5862,7 +5825,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "ਫਾਇਲ-ਲਾਈਟ ਇੰਸਟਾਲ ਕਰੋ…"
 
 #: statusbar/dolphinstatusbar.cpp:68
 #, kde-format
@@ -6220,15 +6183,14 @@ msgid "No Apple devices found"
 msgstr "ਕੋਈ ਐਪਲ ਡਿਵਾਈਸ ਨਹੀਂ ਲੱਭਿਆ"
 
 #: views/dolphinview.cpp:2834
-#, fuzzy, kde-format
-#| msgid "No Apple devices found"
+#, kde-format
 msgid "No KDE Connect devices found"
-msgstr "ਕੋਈ ਐਪਲ ਡਿਵਾਈਸ ਨਹੀਂ ਲੱਭਿਆ"
+msgstr "ਕੋਈ KDE ਡਿਵਾਈਸ ਨਹੀਂ ਲੱਭਿਆ"
 
 #: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No storage found on this device"
-msgstr ""
+msgstr "ਇਸ ਡਿਵਾਈਸ ਉੱਤੇ ਕੋਈ ਸਟੋਰੇਜ਼ ਨਹੀਂ ਲੱਭੀ ਹੈ"
 
 #: views/dolphinview.cpp:2839
 #, kde-format
@@ -6375,12 +6337,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:225
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "ਵੇਖਣ ਮੋਡ"
+msgstr "ਵੇਖਣ ਢੰਗ ਨੂੰ ਬਦਲੋ"
 
 #: views/dolphinviewactionhandler.cpp:226
 #, kde-kuit-format
@@ -6465,12 +6425,10 @@ msgid "Show Additional Information"
 msgstr "ਹੋਰ ਜਾਣਕਾਰੀ ਵੇਖੋ"
 
 #: views/dolphinviewactionhandler.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "ਗਰੁੱਪ"
+msgstr "ਇਸ ਮੁਤਾਬਕ ਗਰੁੱਪ"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -6481,9 +6439,7 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
@@ -6492,7 +6448,7 @@ msgstr "ਕੋਈ ਨਹੀਂ"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "ਲੜੀਬੱਧ ਵਾਂਗ ਹੀ"
 
 #: views/dolphinviewactionhandler.cpp:368
 #, kde-format
@@ -6529,11 +6485,10 @@ msgstr ""
 "ਇਹ ਵਿੰਡੋ ਖੋਲ੍ਹਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਫੋਲਡਰਾਂ ਲਈ ਵੇਖਣ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਅਡਜੱਸਟ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "ਡਿਫਾਲਟ ਲਈ ਜ਼ੂਮ ਕਰੋ"
+msgstr "ਡਿਫਾਲਟ ਨੂੰ ਬਹਾਲ ਕਰੋ"
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
@@ -6562,12 +6517,10 @@ msgid "Sort by Field"
 msgstr "ਖੇਤਰ ਰਾਹੀਂ ਲੜੀਬੱਧ"
 
 #: views/dolphinviewactionhandler.cpp:436
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "ਖੇਤਰ ਰਾਹੀਂ ਲੜੀਬੱਧ"
+msgstr "ਖੇਤਰ ਰਾਹੀਂ ਗਰੁੱਪ"
 
 #: views/dolphinviewactionhandler.cpp:439
 #, kde-format
