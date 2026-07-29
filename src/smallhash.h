@@ -47,6 +47,10 @@ public:
     {
         (*this)[key] = value;
     }
+    void reserve(int size)
+    {
+        m_data.reserve(size);
+    }
     QVariant operator[](const QByteArray &key) const
     {
         return value(key);

@@ -2214,6 +2214,7 @@ SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *pa
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
     SmallHash data;
+    data.reserve(m_roles.count());
 
     const bool isDir = item.isDir();
     if (m_requestRole[IsDirRole] && isDir) {
