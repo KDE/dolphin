@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-26 00:47+0000\n"
+"POT-Creation-Date: 2026-07-29 00:48+0000\n"
 "PO-Revision-Date: 2025-12-12 17:27+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -186,7 +186,7 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "ກູ້ຄືນໄປຍັງບ່ອນເດີມ"
 
-#: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1787
+#: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1789
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -273,7 +273,7 @@ msgid ""
 msgstr "ທ່ານມີຫຼາຍແຖບເປີດຢູ່ໃນປ່ອງຢ້ຽມນີ້, ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອອກ?"
 
 #: dolphinmainwindow.cpp:652 dolphinmainwindow.cpp:702
-#: views/dolphinview.cpp:2346
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "Do not ask again"
 msgstr "ບໍ່ຕ້ອງຖາມອີກ"
@@ -308,7 +308,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "ເປີດ %1"
 
-#: dolphinmainwindow.cpp:1365 dolphinmainwindow.cpp:2176
+#: dolphinmainwindow.cpp:1365 dolphinmainwindow.cpp:2178
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -343,25 +343,35 @@ msgid ""
 "folder."
 msgstr "ບໍ່ສາມາດສ້າງໂຟນເດີໃຫມ່: ທ່ານບໍ່ມີສິດສ້າງລາຍການໃນ ໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:1612
+#: dolphinmainwindow.cpp:1515
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Cannot create new folder: You do not have permission to create items in "
+#| "this folder."
+msgctxt "@info"
+msgid "Cannot create new subfolder: Select a single folder you can write to."
+msgstr "ບໍ່ສາມາດສ້າງໂຟນເດີໃຫມ່: ທ່ານບໍ່ມີສິດສ້າງລາຍການໃນ ໂຟນເດີນີ້."
+
+#: dolphinmainwindow.cpp:1614
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "ຕັ້ງຄ່າ"
 
-#: dolphinmainwindow.cpp:1796
+#: dolphinmainwindow.cpp:1798
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "&ປ່ອງຢ້ຽມໃຫມ່"
 
-#: dolphinmainwindow.cpp:1797
+#: dolphinmainwindow.cpp:1799
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "ເປີດປ່ອງຢ້ຽມ Dolphin ໃຫມ່"
 
-#: dolphinmainwindow.cpp:1799
+#: dolphinmainwindow.cpp:1801
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -371,13 +381,13 @@ msgstr ""
 "ນີ້ຈະເປີດປ່ອງຢ້ຽມໃຫມ່ຄືກັບປ່ອງຢ້ຽມນີ້ດ້ວຍທີ່ຢູ່ປັດຈຸບັນ.<nl/>ທ່ານສາມາດລາກ ແລະ "
 "ວາງລາຍການລະຫວ່າງປ່ອງຢ້ຽມໄດ້."
 
-#: dolphinmainwindow.cpp:1806
+#: dolphinmainwindow.cpp:1808
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "ແຖບໃຫມ່"
 
-#: dolphinmainwindow.cpp:1808
+#: dolphinmainwindow.cpp:1810
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -389,31 +399,31 @@ msgstr ""
 ">ແຖບຊ່ວຍໃຫ້ທ່ານສະຫຼັບລະຫວ່າງຫຼາຍທີ່ຢູ່ ແລະ ມຸມມອງ ພາຍໃນປ່ອງຢ້ຽມນີ້ໄດ້ຢ່າງໄວວາ. ທ່ານສາມາດລາກ ແລະ "
 "ວາງລາຍການລະຫວ່າງແຖບໄດ້."
 
-#: dolphinmainwindow.cpp:1817
+#: dolphinmainwindow.cpp:1819
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "ເພີ່ມໄປຍັງ Places"
 
-#: dolphinmainwindow.cpp:1819
+#: dolphinmainwindow.cpp:1821
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "ນີ້ຈະເພີ່ມໂຟນເດີທີ່ເລືອກໄປຍັງແຖບ Places."
 
-#: dolphinmainwindow.cpp:1824
+#: dolphinmainwindow.cpp:1826
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "ປິດແຖບ"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1827
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "ປິດແຖບ"
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1829
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -421,13 +431,13 @@ msgid ""
 "the whole window instead."
 msgstr "ນີ້ຈະປິດແຖບທີ່ເບິ່ງຢູ່ປັດຈຸບັນ. ຖ້າບໍ່ມີແຖບເຫຼືອຢູ່, ມັນຈະປິດ ປ່ອງຢ້ຽມທັງໝົດແທນ."
 
-#: dolphinmainwindow.cpp:1832
+#: dolphinmainwindow.cpp:1834
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "ນີ້ຈະປິດປ່ອງຢ້ຽມນີ້."
 
-#: dolphinmainwindow.cpp:1841
+#: dolphinmainwindow.cpp:1843
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -443,13 +453,13 @@ msgstr ""
 "shortcut>, <shortcut>Ctrl+C</shortcut> ແລະ <shortcut>Ctrl+V</shortcut>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:1848
+#: dolphinmainwindow.cpp:1850
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "ຕັດ…"
 
-#: dolphinmainwindow.cpp:1850
+#: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -462,13 +472,13 @@ msgstr ""
 ">ໃຊ້ການກະທຳ <emphasis>ວາງ</emphasis> ຫຼັງຈາກນັ້ນເພື່ອສຳເນົາ "
 "ພວກມັນຈາກຄລິບບອດໄປຍັງບ່ອນໃຫມ່. ລາຍການຈະຖືກລຶບອອກຈາກ ບ່ອນເດີມຂອງພວກມັນ."
 
-#: dolphinmainwindow.cpp:1857
+#: dolphinmainwindow.cpp:1859
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "ສຳເນົາ…"
 
-#: dolphinmainwindow.cpp:1859
+#: dolphinmainwindow.cpp:1861
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -479,13 +489,13 @@ msgstr ""
 "ນີ້ຈະສຳເນົາລາຍການໃນການເລືອກປັດຈຸບັນຂອງທ່ານໄປຍັງ <emphasis>ຄລິບບອດ</emphasis>.<nl/"
 ">ໃຊ້ການກະທຳ <emphasis>ວາງ</emphasis> ຫຼັງຈາກນັ້ນເພື່ອສຳເນົາ ພວກມັນຈາກຄລິບບອດໄປຍັງບ່ອນໃຫມ່."
 
-#: dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1870
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "ວາງ"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1872
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -497,19 +507,19 @@ msgstr ""
 ">ຖ້າລາຍການຖືກເພີ່ມໃສ່ຄລິບບອດໂດຍການກະທຳ <emphasis>ຕັດ</emphasis> "
 "ພວກມັນຈະຖືກລຶບອອກຈາກບ່ອນເກົ່າຂອງພວກມັນ."
 
-#: dolphinmainwindow.cpp:1877
+#: dolphinmainwindow.cpp:1879
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "ສຳເນົາໄປຍັງມຸມມອງອື່ນ"
 
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1880
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "ສຳເນົາໄປຍັງມຸມມອງອື່ນ…"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1882
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -518,25 +528,25 @@ msgid ""
 msgstr ""
 "ນີ້ຈະສຳເນົາລາຍການທີ່ເລືອກຈາກມຸມມອງທີ່ໂຟກັສໄປຍັງມຸມມອງອື່ນ. (ມີໃຫ້ໃຊ້ສະເພາະໃນໂໝດ Split View.)"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1886
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "ສຳເນົາໄປຍັງມຸມມອງອື່ນ"
 
-#: dolphinmainwindow.cpp:1889
+#: dolphinmainwindow.cpp:1891
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "ຍ້າຍໄປຍັງມຸມມອງອື່ນ"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "ຍ້າຍໄປຍັງມຸມມອງອື່ນ…"
 
-#: dolphinmainwindow.cpp:1892
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -545,13 +555,13 @@ msgid ""
 msgstr ""
 "ນີ້ຈະຍ້າຍລາຍການທີ່ເລືອກຈາກມຸມມອງທີ່ໂຟກັສໄປຍັງມຸມມອງອື່ນ. (ມີໃຫ້ໃຊ້ສະເພາະໃນໂໝດ Split View.)"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1898
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "ຍ້າຍໄປຍັງມຸມມອງອື່ນ"
 
-#: dolphinmainwindow.cpp:1901
+#: dolphinmainwindow.cpp:1903
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -559,7 +569,7 @@ msgctxt "@action:inmenu"
 msgid "Focus Other View"
 msgstr "ສຳເນົາໄປຍັງມຸມມອງອື່ນ"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1904
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Move keyboard focus to and from the Places panel."
@@ -567,19 +577,19 @@ msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
 msgstr "ຍ້າຍໂຟກັສແປ້ນພິມໄປ ແລະ ກັບຈາກແຖບ Places."
 
-#: dolphinmainwindow.cpp:1908
+#: dolphinmainwindow.cpp:1910
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "ກັ່ນຕອງ…"
 
-#: dolphinmainwindow.cpp:1909
+#: dolphinmainwindow.cpp:1911
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "ສະແດງແຖບກັ່ນຕອງ"
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1913
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -592,30 +602,30 @@ msgstr ""
 "ທີ່ນັ້ນທ່ານສາມາດປ້ອນຂໍ້ຄວາມເພື່ອກັ່ນຕອງໄຟລ໌ ແລະ ໂຟນເດີທີ່ສະແດງຢູ່ປັດຈຸບັນ. "
 "ສະເພາະຕົວທີ່ມີຂໍ້ຄວາມໃນຊື່ຂອງພວກມັນເທົ່ານັ້ນທີ່ຈະຖືກສະແດງ."
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1925
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "ເປີດ/ປິດ ແຖບກັ່ນຕອງ"
 
-#: dolphinmainwindow.cpp:1924
+#: dolphinmainwindow.cpp:1926
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ກັ່ນຕອງ"
 
-#: dolphinmainwindow.cpp:1932 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1934 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
 msgstr "ຄົ້ນຫາ…"
 
-#: dolphinmainwindow.cpp:1933
+#: dolphinmainwindow.cpp:1935
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "ຄົ້ນຫາໄຟລ໌ ແລະ ໂຟນເດີ"
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1937
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -626,20 +636,20 @@ msgstr ""
 "<para>ນີ້ຊ່ວຍໃຫ້ທ່ານຄົ້ນຫາໄຟລ໌ ແລະ ໂຟນເດີໂດຍການເປີດ <emphasis>ແຖບຄົ້ນຫາ</emphasis>. "
 "ທີ່ນັ້ນທ່ານສາມາດປ້ອນຄຳຄົ້ນຫາ ແລະ ກຳນົດການຕັ້ງຄ່າເພື່ອ ຊອກຫາລາຍການທີ່ທ່ານກຳລັງຊອກຫາ.</para>"
 
-#: dolphinmainwindow.cpp:1944
+#: dolphinmainwindow.cpp:1946
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "ເປີດ/ປິດ ແຖບຄົ້ນຫາ"
 
-#: dolphinmainwindow.cpp:1945
+#: dolphinmainwindow.cpp:1947
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "ຄົ້ນຫາ"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1960
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -647,13 +657,13 @@ msgstr "ເລືອກໄຟລ໌ ແລະ ໂຟນເດີ"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1965
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "ເລືອກ"
 
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1968
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -670,19 +680,19 @@ msgstr ""
 "para><para>ໃນຂະນະທີ່ຢູ່ໃນໂໝດນີ້, "
 "ແຖບເຂົ້າເຖິງດ່ວນຢູ່ທາງລຸ່ມຈະສະແດງການກະທຳທີ່ມີໃຫ້ສຳລັບລາຍການທີ່ເລືອກ ໃນປັດຈຸບັນ.</para>"
 
-#: dolphinmainwindow.cpp:1989
+#: dolphinmainwindow.cpp:1991
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "ນີ້ຈະເລືອກໄຟລ໌ ແລະ ໂຟນເດີທັງໝົດໃນທີ່ຢູ່ປັດຈຸບັນ."
 
-#: dolphinmainwindow.cpp:1993 dolphinpart.cpp:166
+#: dolphinmainwindow.cpp:1995 dolphinpart.cpp:169
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "ກັບຄ່າການເລືອກ"
 
-#: dolphinmainwindow.cpp:1995
+#: dolphinmainwindow.cpp:1997
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -690,7 +700,7 @@ msgid ""
 "selected instead."
 msgstr "ນີ້ຈະເລືອກລາຍການທັງໝົດທີ່ທ່ານ <emphasis>ບໍ່ໄດ້</emphasis> ເລືອກໃນປັດຈຸບັນແທນ."
 
-#: dolphinmainwindow.cpp:2015
+#: dolphinmainwindow.cpp:2017
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -703,7 +713,7 @@ msgstr ""
 "ສາມາດເບິ່ງເນື້ອຫາຂອງສອງໂຟນເດີພ້ອມກັນ ແລະ ຍ້າຍລາຍການລະຫວ່າງ ພວກມັນໄດ້ຢ່າງງ່າຍດາຍ.</"
 "para><para>ມຸມມອງທີ່ບໍ່ໄດ້ \"ຢູ່ໃນໂຟກັສ\" ຈະມືດລົງ. </para>ຄລິກປຸ່ມນີ້ອີກຄັ້ງເພື່ອປິດໜຶ່ງໃນມຸມມອງ."
 
-#: dolphinmainwindow.cpp:2030
+#: dolphinmainwindow.cpp:2032
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -711,25 +721,25 @@ msgid ""
 "window."
 msgstr "ຖ້າມຸມມອງຖືກແບ່ງອອກ, ນີ້ຈະແຍກມຸມມອງທີ່ຢູ່ໃນໂຟກັສອອກເປັນ ປ່ອງຢ້ຽມໃຫມ່."
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2040
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Stash"
 
-#: dolphinmainwindow.cpp:2039
+#: dolphinmainwindow.cpp:2041
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "ເປີດໄດເລກະທໍລີສະເໝືອນ stash ໃນປ່ອງຢ້ຽມທີ່ແບ່ງເຄິ່ງ"
 
-#: dolphinmainwindow.cpp:2048
+#: dolphinmainwindow.cpp:2050
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "ໂຫຼດມຸມມອງຄືນໃໝ່"
 
-#: dolphinmainwindow.cpp:2050
+#: dolphinmainwindow.cpp:2052
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -742,31 +752,31 @@ msgstr ""
 "ການໂຫຼດຄືນໃໝ່ຈະສະແກນໂຟນເດີນີ້ອີກຄັ້ງ ແລະ ສະແດງ ມຸມມອງທີ່ອັບເດດໃໝ່ຂອງໄຟລ໌ ແລະ ໂຟນເດີທີ່ມີຢູ່ທີ່ນີ້.</"
 "para><para>ຖ້າ ມຸມມອງຖືກແບ່ງອອກ, ນີ້ຈະໂຫຼດຄືນໃໝ່ສະເພາະມຸມມອງທີ່ຢູ່ໃນໂຟກັສ.</para>"
 
-#: dolphinmainwindow.cpp:2057
+#: dolphinmainwindow.cpp:2059
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "ຢຸດ"
 
-#: dolphinmainwindow.cpp:2058
+#: dolphinmainwindow.cpp:2060
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "ຢຸດການໂຫຼດ"
 
-#: dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:2061
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "ນີ້ຈະຢຸດການໂຫຼດເນື້ອຫາຂອງໂຟນເດີປັດຈຸບັນ."
 
-#: dolphinmainwindow.cpp:2064
+#: dolphinmainwindow.cpp:2066
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "ທີ່ຢູ່ທີ່ແກ້ໄຂໄດ້"
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2068
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -779,13 +789,13 @@ msgstr ""
 "ປ້ອນທີ່ຢູ່ທີ່ທ່ານຕ້ອງການໄປຫາໄດ້ໂດຍກົງ.<nl/>ທ່ານຍັງສາມາດປ່ຽນໄປ ແກ້ໄຂໄດ້ໂດຍການຄລິກທາງຂວາຂອງທີ່ຢູ່ "
 "ແລະ ປ່ຽນກັບຄືນໂດຍການ ຢືນຢັນທີ່ຢູ່ທີ່ແກ້ໄຂແລ້ວ."
 
-#: dolphinmainwindow.cpp:2074
+#: dolphinmainwindow.cpp:2076
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "ແທນທີ່ທີ່ຢູ່"
 
-#: dolphinmainwindow.cpp:2079
+#: dolphinmainwindow.cpp:2081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -793,19 +803,19 @@ msgid ""
 "enter a different location."
 msgstr "ນີ້ຈະປ່ຽນໄປແກ້ໄຂທີ່ຢູ່ ແລະ ເລືອກມັນ ເພື່ອໃຫ້ທ່ານສາມາດ ປ້ອນທີ່ຢູ່ອື່ນໄດ້ຢ່າງໄວວາ."
 
-#: dolphinmainwindow.cpp:2109
+#: dolphinmainwindow.cpp:2111
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "ຍົກເລີກການປິດແຖບ"
 
-#: dolphinmainwindow.cpp:2110
+#: dolphinmainwindow.cpp:2112
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "ນີ້ຈະພາທ່ານກັບຄືນໄປຍັງແຖບທີ່ປິດກ່ອນໜ້ານີ້."
 
-#: dolphinmainwindow.cpp:2118
+#: dolphinmainwindow.cpp:2120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -820,7 +830,7 @@ msgstr ""
 "<interface>ການຍ້າຍ</interface> ພວກມັນໄປຍັງບ່ອນອື່ນ ຫຼື ໄປຍັງ <filename>ຖັງຂີ້ເຫຍື້ອ</"
 "filename>. <nl/>ການປ່ຽນແປງໃດໆທີ່ບໍ່ສາມາດຍົກເລີກໄດ້ ຈະຂໍ ການຢືນຢັນຈາກທ່ານກ່ອນ."
 
-#: dolphinmainwindow.cpp:2128
+#: dolphinmainwindow.cpp:2130
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -835,7 +845,7 @@ msgstr ""
 "<interface>ການຍ້າຍ</interface> ໄຟລ໌ ຫຼື ໂຟນເດີໄປຍັງບ່ອນອື່ນ ຫຼື ໄປຍັງ <filename>ຖັງຂີ້ເຫຍື້ອ</"
 "filename>.<nl/>ການປ່ຽນແປງໃດໆທີ່ບໍ່ສາມາດຍົກເລີກໄດ້ ຈະຂໍການຢືນຢັນຈາກທ່ານກ່ອນ."
 
-#: dolphinmainwindow.cpp:2157
+#: dolphinmainwindow.cpp:2159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -847,19 +857,19 @@ msgstr ""
 "filename> ຂອງຕົນເອງ ເຊິ່ງບັນຈຸໄຟລ໌ສ່ວນຕົວຂອງເຂົາເຈົ້າ, "
 "ເຊັ່ນດຽວກັນກັບໂຟນເດີທີ່ເຊື່ອງໄວ້ສຳລັບຂໍ້ມູນແອັບພລິເຄຊັນ ແລະ ໄຟລ໌ການຕັ້ງຄ່າ."
 
-#: dolphinmainwindow.cpp:2164
+#: dolphinmainwindow.cpp:2166
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "ປຽບທຽບໄຟລ໌"
 
-#: dolphinmainwindow.cpp:2170
+#: dolphinmainwindow.cpp:2172
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "ຈັດການການໃຊ້ພື້ນທີ່ດິດ"
 
-#: dolphinmainwindow.cpp:2178
+#: dolphinmainwindow.cpp:2180
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -870,13 +880,13 @@ msgstr ""
 "<para>ນີ້ຈະເປີດເຄື່ອງມືຄົ້ນຫາທີ່ຕ້ອງການສຳລັບທີ່ຢູ່ທີ່ເບິ່ງຢູ່.</para><para>ໃຊ້ເມນູ "
 "<emphasis>ເຄື່ອງມືຄົ້ນຫາເພີ່ມເຕີມ</emphasis> ເພື່ອຕັ້ງຄ່າມັນ.</para>"
 
-#: dolphinmainwindow.cpp:2192
+#: dolphinmainwindow.cpp:2194
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "ເປີດ Terminal"
 
-#: dolphinmainwindow.cpp:2194
+#: dolphinmainwindow.cpp:2196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -889,13 +899,13 @@ msgstr ""
 "terminal.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2202
+#: dolphinmainwindow.cpp:2204
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "ເປີດ Terminal ທີ່ນີ້"
 
-#: dolphinmainwindow.cpp:2204
+#: dolphinmainwindow.cpp:2206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -907,13 +917,13 @@ msgstr ""
 "para><para>ເພື່ອຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບ terminals ໃຫ້ໃຊ້ຄຸນສົມບັດຊ່ວຍເຫຼືອໃນ ແອັບພລິເຄຊັນ "
 "terminal.</para>"
 
-#: dolphinmainwindow.cpp:2212
+#: dolphinmainwindow.cpp:2214
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&ບຸກມາກ"
 
-#: dolphinmainwindow.cpp:2222
+#: dolphinmainwindow.cpp:2224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -930,73 +940,73 @@ msgstr ""
 "ໄດ້ຢ່າງໄວວາ ແລະ ເປັນລະບຽບ.</para><para>ປຸ່ມ %1 ນັ້ນງ່າຍກວ່າ ແລະ ນ້ອຍກວ່າ "
 "ເຊິ່ງເຮັດໃຫ້ການເປີດໃຊ້ ການກະທຳຂັ້ນສູງໃຊ້ເວລາຫຼາຍກວ່າ.</para>"
 
-#: dolphinmainwindow.cpp:2247
+#: dolphinmainwindow.cpp:2249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "ໄປທີ່ແຖບ %1"
 
-#: dolphinmainwindow.cpp:2260
+#: dolphinmainwindow.cpp:2262
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "ແຖບສຸດທ້າຍ"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2263
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "ໄປທີ່ແຖບສຸດທ້າຍ"
 
-#: dolphinmainwindow.cpp:2267
+#: dolphinmainwindow.cpp:2269
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "ແຖບຖັດໄປ"
 
-#: dolphinmainwindow.cpp:2268
+#: dolphinmainwindow.cpp:2270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "ໄປທີ່ແຖບຖັດໄປ"
 
-#: dolphinmainwindow.cpp:2274
+#: dolphinmainwindow.cpp:2276
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "ແຖບກ່ອນໜ້າ"
 
-#: dolphinmainwindow.cpp:2275
+#: dolphinmainwindow.cpp:2277
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "ໄປທີ່ແຖບກ່ອນໜ້າ"
 
-#: dolphinmainwindow.cpp:2282
+#: dolphinmainwindow.cpp:2284
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "ສະແດງເປົ້າໝາຍ"
 
-#: dolphinmainwindow.cpp:2288
+#: dolphinmainwindow.cpp:2290
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "ເປີດໃນແຖບໃຫມ່"
 
-#: dolphinmainwindow.cpp:2293
+#: dolphinmainwindow.cpp:2295
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "ເປີດໃນແຖບໃຫມ່"
 
-#: dolphinmainwindow.cpp:2298
+#: dolphinmainwindow.cpp:2300
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "ເປີດໃນປ່ອງຢ້ຽມໃຫມ່"
 
-#: dolphinmainwindow.cpp:2303 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2305 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
 #: tests/placespaneltest.cpp:169
 #, kde-format
@@ -1004,24 +1014,24 @@ msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "ເປີດໃນມຸມມອງແບ່ງເຄິ່ງ"
 
-#: dolphinmainwindow.cpp:2315
+#: dolphinmainwindow.cpp:2317
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "&ໂທນສີປ່ອງຢ້ຽມ"
 
-#: dolphinmainwindow.cpp:2328
+#: dolphinmainwindow.cpp:2330
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "ປົດລັອກແຖບເຄື່ອງມື"
 
-#: dolphinmainwindow.cpp:2330
+#: dolphinmainwindow.cpp:2332
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "ລັອກແຖບເຄື່ອງມື"
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2335
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1034,13 +1044,13 @@ msgstr ""
 "emphasis>.<nl/>ແຖບເຄື່ອງມືທີ່ປົດລັອກສາມາດລາກໄປຍັງ ອີກດ້ານຫນຶ່ງຂອງປ່ອງຢ້ຽມໄດ້ ແລະ ມີປຸ່ມປິດ.<nl/"
 ">ແຖບເຄື່ອງມືທີ່ລັອກຈະ ຖືກຝັງໄວ້ຢ່າງສວຍງາມກວ່າ."
 
-#: dolphinmainwindow.cpp:2342
+#: dolphinmainwindow.cpp:2344
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "ຂໍ້ມູນ"
 
-#: dolphinmainwindow.cpp:2365
+#: dolphinmainwindow.cpp:2367
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1050,7 +1060,7 @@ msgstr ""
 "<para>ເພື່ອສະແດງ ຫຼື ເຊື່ອງແຖບເຄື່ອງມືແບບນີ້ ໃຫ້ໄປທີ່ <interface>Menu|Panels</interface> ຫຼື "
 "<interface>View|Panels</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2372
+#: dolphinmainwindow.cpp:2374
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1065,7 +1075,7 @@ msgstr ""
 "ຖ້າບໍ່ດັ່ງນັ້ນ ມັນຈະແຈ້ງໃຫ້ທ່ານຮູ້ກ່ຽວກັບໂຟນເດີທີ່ເບິ່ງຢູ່ປັດຈຸບັນ.<nl/>ສຳລັບລາຍການ ດຽວ "
 "ຈະມີການສະແດງຕົວຢ່າງເນື້ອຫາຂອງມັນ.</para>"
 
-#: dolphinmainwindow.cpp:2380
+#: dolphinmainwindow.cpp:2382
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1080,13 +1090,13 @@ msgstr ""
 "ເນື້ອຫາຂອງມັນ.</para><para>ທ່ານສາມາດຕັ້ງຄ່າວ່າລາຍລະອຽດໃດ ແລະ ວິທີການ "
 "ສະແດງໄດ້ທີ່ນີ້ໂດຍການຄລິກຂວາ.</para>"
 
-#: dolphinmainwindow.cpp:2389
+#: dolphinmainwindow.cpp:2391
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "ໂຟນເດີ"
 
-#: dolphinmainwindow.cpp:2409
+#: dolphinmainwindow.cpp:2411
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1098,7 +1108,7 @@ msgstr ""
 ">ມັນສະແດງໂຟນເດີຂອງ <emphasis>ລະບົບໄຟລ໌</emphasis> ໃນ <emphasis>ມຸມມອງໂຄງສ້າງຕົ້ນໄມ້</"
 "emphasis>."
 
-#: dolphinmainwindow.cpp:2414
+#: dolphinmainwindow.cpp:2416
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1112,13 +1122,13 @@ msgstr ""
 "ຄລິກລູກສອນທາງຊ້າຍຂອງໂຟນເດີເພື່ອເບິ່ງໂຟນເດີຍ່ອຍຂອງມັນ. ນີ້ຊ່ວຍໃຫ້ "
 "ສາມາດສະຫຼັບລະຫວ່າງໂຟນເດີໃດກໍໄດ້ຢ່າງໄວວາ.</para>"
 
-#: dolphinmainwindow.cpp:2424
+#: dolphinmainwindow.cpp:2426
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2452
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1135,7 +1145,7 @@ msgstr ""
 "ແຕ່ສາມາດເປັນປະໂຫຍດສຳລັບວຽກຂັ້ນສູງ. ເພື່ອ ຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບ terminals "
 "ໃຫ້ໃຊ້ຄຸນສົມບັດຊ່ວຍເຫຼືອໃນແອັບພລິເຄຊັນ terminal ແບບແຍກຕ່າງຫາກ ເຊັ່ນ Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2458
+#: dolphinmainwindow.cpp:2460
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1152,25 +1162,25 @@ msgstr ""
 "ເພື່ອຮຽນຮູ້ເພີ່ມເຕີມ ກ່ຽວກັບ terminals ໃຫ້ໃຊ້ຄຸນສົມບັດຊ່ວຍເຫຼືອໃນແອັບພລິເຄຊັນ terminal "
 "ແບບແຍກຕ່າງຫາກ ເຊັ່ນ Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2468 dolphinmainwindow.cpp:3135
+#: dolphinmainwindow.cpp:2470 dolphinmainwindow.cpp:3137
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "ໂຟກັສແຖບ Terminal"
 
-#: dolphinmainwindow.cpp:2469
+#: dolphinmainwindow.cpp:2471
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "ຍ້າຍໂຟກັສແປ້ນພິມໄປ ແລະ ກັບຈາກແຖບ Terminal."
 
-#: dolphinmainwindow.cpp:2475
+#: dolphinmainwindow.cpp:2477
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2477
+#: dolphinmainwindow.cpp:2479
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1178,19 +1188,19 @@ msgid ""
 "whenever directory is changed."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2493
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Places"
 
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2523
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "ສະແດງ Places ທີ່ເຊື່ອງໄວ້"
 
-#: dolphinmainwindow.cpp:2525
+#: dolphinmainwindow.cpp:2527
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1201,7 +1211,7 @@ msgstr ""
 "ນີ້ສະແດງສະຖານທີ່ທັງໝົດໃນແຖບ Places ທີ່ຖືກເຊື່ອງໄວ້. ພວກມັນ ຈະປະກົດເປັນແບບເຄິ່ງໂປ່ງໃສ ແລະ "
 "ອະນຸຍາດໃຫ້ທ່ານຍົກເລີກການກວດສອບຄຸນສົມບັດ \"ເຊື່ອງ\" ຂອງພວກມັນ."
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2539
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1215,7 +1225,7 @@ msgstr ""
 "para><para>ມັນຊ່ວຍໃຫ້ທ່ານໄປທີ່ທີ່ຢູ່ທີ່ທ່ານໄດ້ບຸກມາກໄວ້ ແລະ ເຂົ້າເຖິງດິດ ຫຼື ສື່ທີ່ເຊື່ອມຕໍ່ກັບຄອມພິວເຕີ ຫຼື "
 "ເຄືອຂ່າຍ. ມັນ ຍັງມີພາກສ່ວນເພື່ອຊອກຫາໄຟລ໌ທີ່ບັນທຶກໄວ້ຫຼ້າສຸດ ຫຼື ໄຟລ໌ປະເພດສະເພາະ.</para>"
 
-#: dolphinmainwindow.cpp:2544
+#: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1237,45 +1247,45 @@ msgstr ""
 "ລາຍການໃດກໍໄດ້ເພື່ອເຊື່ອງມັນ. ຄລິກຂວາໃສ່ ພື້ນທີ່ວ່າງໃນແຖບນີ້ ແລະ ເລືອກ <interface>Show Hidden "
 "Places</interface> ເພື່ອສະແດງມັນອີກຄັ້ງ.</para>"
 
-#: dolphinmainwindow.cpp:2558 dolphinmainwindow.cpp:3153
+#: dolphinmainwindow.cpp:2560 dolphinmainwindow.cpp:3155
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "ໂຟກັສແຖບ Places"
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2561
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "ຍ້າຍໂຟກັສແປ້ນພິມໄປ ແລະ ກັບຈາກແຖບ Places."
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2567
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "ສະແດງແຖບເຄື່ອງມື"
 
-#: dolphinmainwindow.cpp:2651
+#: dolphinmainwindow.cpp:2653
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr "ບໍ່ສາມາດປ່ຽນຊື່: ທ່ານບໍ່ມີສິດປ່ຽນຊື່ລາຍການໃນໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:2654 dolphinmainwindow.cpp:2671
+#: dolphinmainwindow.cpp:2656 dolphinmainwindow.cpp:2673
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "ບໍ່ສາມາດລຶບ: ທ່ານບໍ່ມີສິດລຶບລາຍການອອກຈາກໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:2656
+#: dolphinmainwindow.cpp:2658
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "ບໍ່ສາມາດຕັດ: ທ່ານບໍ່ມີສິດຍ້າຍລາຍການອອກຈາກໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:2661
+#: dolphinmainwindow.cpp:2663
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1283,31 +1293,31 @@ msgid ""
 "folder."
 msgstr "ບໍ່ສາມາດສ້າງຊ້ຳທີ່ນີ້: ທ່ານບໍ່ມີສິດສ້າງລາຍການໃນ ໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:2683
+#: dolphinmainwindow.cpp:2685
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "ບໍ່ສາມາດສຳເນົາໄປຍັງມຸມມອງອື່ນ: ບໍ່ມີໄຟລ໌ຖືກເລືອກ."
 
-#: dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2687
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "ບໍ່ສາມາດຍ້າຍໄປຍັງມຸມມອງອື່ນ: ບໍ່ມີໄຟລ໌ຖືກເລືອກ."
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2706
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "ບໍ່ສາມາດສຳເນົາໄປຍັງມຸມມອງອື່ນ: ມຸມມອງອື່ນມີລາຍການເຫຼົ່ານີ້ແລ້ວ."
 
-#: dolphinmainwindow.cpp:2707
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "ບໍ່ສາມາດຍ້າຍໄປຍັງມຸມມອງອື່ນ: ມຸມມອງອື່ນມີລາຍການເຫຼົ່ານີ້ແລ້ວ."
 
-#: dolphinmainwindow.cpp:2712
+#: dolphinmainwindow.cpp:2714
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1315,7 +1325,7 @@ msgid ""
 "destination folder."
 msgstr "ບໍ່ສາມາດສຳເນົາໄປຍັງມຸມມອງອື່ນ: ທ່ານບໍ່ມີສິດຂຽນລົງໃນ ໂຟນເດີປາຍທາງ."
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1323,7 +1333,7 @@ msgid ""
 "destination folder."
 msgstr "ບໍ່ສາມາດຍ້າຍໄປຍັງມຸມມອງອື່ນ: ທ່ານບໍ່ມີສິດຂຽນລົງໃນ ໂຟນເດີປາຍທາງ."
 
-#: dolphinmainwindow.cpp:2722
+#: dolphinmainwindow.cpp:2724
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1331,7 +1341,7 @@ msgid ""
 "this folder."
 msgstr "ບໍ່ສາມາດຍ້າຍໄປຍັງມຸມມອງອື່ນ: ທ່ານບໍ່ມີສິດຍ້າຍລາຍການອອກຈາກ ໂຟນເດີນີ້."
 
-#: dolphinmainwindow.cpp:2749
+#: dolphinmainwindow.cpp:2751
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1345,90 +1355,90 @@ msgstr ""
 "<emphasis>ລະບົບໄຟລ໌</emphasis> ແບບລຳດັບຊັ້ນ. ຢູ່ເທິງສຸດຂອງລຳດັບຊັ້ນນີ້ແມ່ນໄດເລກະທໍລີ "
 "ທີ່ບັນຈຸຂໍ້ມູນທັງໝົດທີ່ເຊື່ອມຕໍ່ກັບຄອມພິວເຕີນີ້—<emphasis>root directory</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2842 dolphinmainwindow.cpp:2861
+#: dolphinmainwindow.cpp:2844 dolphinmainwindow.cpp:2863
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "ປິດ"
 
-#: dolphinmainwindow.cpp:2843 dolphinmainwindow.cpp:2862
-#, kde-format
-msgctxt "@info View refer here to split view"
-msgid "Close Left View"
-msgstr "ປິດມຸມມອງດ້ານຊ້າຍ"
-
 #: dolphinmainwindow.cpp:2845 dolphinmainwindow.cpp:2864
 #, kde-format
-msgctxt "@action:inmenu View refer here to split view"
+msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "ປິດມຸມມອງດ້ານຊ້າຍ"
 
 #: dolphinmainwindow.cpp:2847 dolphinmainwindow.cpp:2866
 #, kde-format
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Left View"
+msgstr "ປິດມຸມມອງດ້ານຊ້າຍ"
+
+#: dolphinmainwindow.cpp:2849 dolphinmainwindow.cpp:2868
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "ແຍກມຸມມອງດ້ານຊ້າຍອອກ"
 
-#: dolphinmainwindow.cpp:2848 dolphinmainwindow.cpp:2867
+#: dolphinmainwindow.cpp:2850 dolphinmainwindow.cpp:2869
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "ຍ້າຍມຸມມອງແບ່ງດ້ານຊ້າຍໄປຍັງປ່ອງຢ້ຽມໃຫມ່"
 
-#: dolphinmainwindow.cpp:2850 dolphinmainwindow.cpp:2869
-#: dolphinmainwindow.cpp:2879
+#: dolphinmainwindow.cpp:2852 dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2881
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "ປິດ"
 
-#: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
-#: dolphinmainwindow.cpp:2880
-#, kde-format
-msgctxt "@info View refer here to split view"
-msgid "Close Right View"
-msgstr "ປິດມຸມມອງດ້ານຂວາ"
-
 #: dolphinmainwindow.cpp:2853 dolphinmainwindow.cpp:2872
 #: dolphinmainwindow.cpp:2882
 #, kde-format
-msgctxt "@action:inmenu View refer here to split view"
+msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "ປິດມຸມມອງດ້ານຂວາ"
 
 #: dolphinmainwindow.cpp:2855 dolphinmainwindow.cpp:2874
 #: dolphinmainwindow.cpp:2884
 #, kde-format
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Right View"
+msgstr "ປິດມຸມມອງດ້ານຂວາ"
+
+#: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
+#: dolphinmainwindow.cpp:2886
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "ແຍກມຸມມອງດ້ານຂວາອອກ"
 
-#: dolphinmainwindow.cpp:2856 dolphinmainwindow.cpp:2875
-#: dolphinmainwindow.cpp:2885
+#: dolphinmainwindow.cpp:2858 dolphinmainwindow.cpp:2877
+#: dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "ຍ້າຍມຸມມອງແບ່ງດ້ານຂວາໄປຍັງປ່ອງຢ້ຽມໃຫມ່"
 
-#: dolphinmainwindow.cpp:2897
+#: dolphinmainwindow.cpp:2899
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "ແບ່ງ"
 
-#: dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2901
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "ແບ່ງມຸມມອງ"
 
-#: dolphinmainwindow.cpp:2901
+#: dolphinmainwindow.cpp:2903
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "ແຍກອອກ"
 
-#: dolphinmainwindow.cpp:2961
+#: dolphinmainwindow.cpp:2963
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1445,7 +1455,7 @@ msgstr ""
 "interface>. ຈາກນັ້ນເນື້ອຫາສ່ວນໃຫຍ່ຂອງມັນ ຈະມີໃຫ້ຜ່ານປຸ່ມ <interface>Menu</interface> ໃນ "
 "<emphasis>Toolbar</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2968
+#: dolphinmainwindow.cpp:2970
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1466,7 +1476,7 @@ msgstr ""
 "para><para>ຕຳແໜ່ງຂອງແຖບ ແລະ ຮູບແບບຂອງປຸ່ມຍັງສາມາດປ່ຽນແປງໄດ້ໃນເມນູຄລິກຂວາ. ຄລິກຂວາ "
 "ໃສ່ປຸ່ມຖ້າທ່ານຕ້ອງການສະແດງ ຫຼື ເຊື່ອງຂໍ້ຄວາມຂອງມັນ.</para>"
 
-#: dolphinmainwindow.cpp:2980
+#: dolphinmainwindow.cpp:2982
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1492,7 +1502,7 @@ msgstr ""
 "<link url='help:/dolphin/dolphin-view.html'>ຄລິກ ທີ່ນີ້</link> ແທນ. ນີ້ຈະເປີດໜ້າຈາກ "
 "<emphasis>Handbook</emphasis> ທີ່ກວມເອົາພື້ນຖານ.</para>"
 
-#: dolphinmainwindow.cpp:2996
+#: dolphinmainwindow.cpp:2998
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1505,7 +1515,7 @@ msgstr ""
 ">ທີ່ນັ້ນທ່ານສາມາດຕັ້ງຄ່າການປະສົມປຸ່ມເພື່ອກະຕຸ້ນການກະທຳ ເມື່ອພວກມັນຖືກກົດພ້ອມກັນ. "
 "ຄຳສັ່ງທັງໝົດໃນແອັບພລິເຄຊັນນີ້ສາມາດ ຖືກກະຕຸ້ນດ້ວຍວິທີນີ້.</para>"
 
-#: dolphinmainwindow.cpp:3002
+#: dolphinmainwindow.cpp:3004
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1517,7 +1527,7 @@ msgstr ""
 "para><para>ລາຍການທັງໝົດທີ່ທ່ານເຫັນໃນ <interface>Menu</interface> ຍັງສາມາດວາງໄວ້ໃນ "
 "Toolbar ໄດ້.</para>"
 
-#: dolphinmainwindow.cpp:3006
+#: dolphinmainwindow.cpp:3008
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1535,7 +1545,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3026
+#: dolphinmainwindow.cpp:3028
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1551,7 +1561,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'>ຄລິກ ທີ່ນີ້</link>. "
 "ມັນຈະເປີດໜ້າສະເພາະໃນ KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:3031
+#: dolphinmainwindow.cpp:3033
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1572,7 +1582,7 @@ msgstr ""
 "Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>ການຊ່ວຍເຫຼືອ "
 "\"ນີ້ແມ່ນຫຍັງ?\" ແມ່ນຫາຍໄປໃນ ປ່ອງຢ້ຽມອື່ນໆສ່ວນໃຫຍ່ ດັ່ງນັ້ນຢ່າຄຸ້ນເຄີຍກັບສິ່ງນີ້ເກີນໄປ.</para>"
 
-#: dolphinmainwindow.cpp:3042
+#: dolphinmainwindow.cpp:3044
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1587,7 +1597,7 @@ msgstr ""
 "ເພື່ອຮຽນຮູ້ວິທີເຮັດໃຫ້ລາຍງານຂໍ້ບົກຜ່ອງຂອງທ່ານ ມີປະສິດທິພາບທີ່ສຸດ <link url='https://community."
 "kde.org/Get_Involved/Bug_Reporting'>ຄລິກທີ່ນີ້</link>.</para>"
 
-#: dolphinmainwindow.cpp:3051
+#: dolphinmainwindow.cpp:3053
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1608,7 +1618,7 @@ msgstr ""
 "ແລະອື່ນໆ.</para><para><emphasis>KDE e.V.</emphasis> ແມ່ນອົງການຈັດຕັ້ງທີ່ບໍ່ຫວັງຜົນກຳໄລ "
 "ທີ່ຢູ່ເບື້ອງຫຼັງຊຸມຊົນ KDE.</para>"
 
-#: dolphinmainwindow.cpp:3064
+#: dolphinmainwindow.cpp:3066
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1619,7 +1629,7 @@ msgstr ""
 "ດ້ວຍສິ່ງນີ້ ທ່ານສາມາດປ່ຽນພາສາທີ່ແອັບພລິເຄຊັນນີ້ໃຊ້.<nl/>ທ່ານສາມາດ "
 "ຕັ້ງພາສາຮອງທີ່ຈະຖືກໃຊ້ຖ້າຂໍ້ຄວາມບໍ່ມີໃນ ພາສາທີ່ທ່ານຕ້ອງການ."
 
-#: dolphinmainwindow.cpp:3069
+#: dolphinmainwindow.cpp:3071
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1628,7 +1638,7 @@ msgid ""
 msgstr ""
 "ນີ້ຈະເປີດປ່ອງຢ້ຽມທີ່ແຈ້ງໃຫ້ທ່ານຮູ້ກ່ຽວກັບເວີຊັນ, ໃບອະນຸຍາດ, ໄລບຣາຣີທີ່ໃຊ້ ແລະ ຜູ້ບຳລຸງຮັກສາແອັບພລິເຄຊັນນີ້."
 
-#: dolphinmainwindow.cpp:3074
+#: dolphinmainwindow.cpp:3076
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1641,19 +1651,19 @@ msgstr ""
 "ແມ່ນຄົນທີ່ຢູ່ເບື້ອງຫຼັງຊອບແວຟຣີນີ້.<nl/>ຖ້າທ່ານມັກໃຊ້ ແອັບພລິເຄຊັນນີ້ແຕ່ບໍ່ຮູ້ກ່ຽວກັບ KDE ຫຼື "
 "ຕ້ອງການເບິ່ງມັງກອນທີ່ໜ້າຮັກ ລອງ ເຂົ້າໄປເບິ່ງ!"
 
-#: dolphinmainwindow.cpp:3129 dolphinmainwindow.cpp:3140
+#: dolphinmainwindow.cpp:3131 dolphinmainwindow.cpp:3142
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "ຍົກເລີກໂຟກັສແຖບ Terminal"
 
-#: dolphinmainwindow.cpp:3147
+#: dolphinmainwindow.cpp:3149
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "ຍົກເລີກໂຟກັສແຖບ Terminal"
 
-#: dolphinmainwindow.cpp:3158
+#: dolphinmainwindow.cpp:3160
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -1718,84 +1728,84 @@ msgstr ""
 "ການຕິດຕັ້ງ <application>%1</application> ລົ້ມເຫຼວ: %2 (%3)<nl/>ກະລຸນາລອງ ຕິດຕັ້ງ "
 "<application>%1</application> ດ້ວຍຕົນເອງແທນ."
 
-#: dolphinpart.cpp:147
+#: dolphinpart.cpp:150
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&ແກ້ໄຂປະເພດໄຟລ໌…"
 
-#: dolphinpart.cpp:151
+#: dolphinpart.cpp:154
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "ເລືອກລາຍການທີ່ກົງກັນ…"
 
-#: dolphinpart.cpp:156
+#: dolphinpart.cpp:159
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "ຍົກເລີກການເລືອກລາຍການທີ່ກົງກັນ…"
 
-#: dolphinpart.cpp:162
+#: dolphinpart.cpp:165
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "ຍົກເລີກການເລືອກທັງໝົດ"
 
-#: dolphinpart.cpp:177
+#: dolphinpart.cpp:180
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "ແອັບ&ພລິເຄຊັນ"
 
-#: dolphinpart.cpp:178
+#: dolphinpart.cpp:181
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "&ໂຟນເດີເຄືອຂ່າຍ"
 
-#: dolphinpart.cpp:179
+#: dolphinpart.cpp:182
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "ຖັງຂີ້ເຫຍື້ອ"
 
-#: dolphinpart.cpp:182
+#: dolphinpart.cpp:185
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "Autostart"
 
-#: dolphinpart.cpp:188
+#: dolphinpart.cpp:191
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "ຊອກຫາໄຟລ໌…"
 
-#: dolphinpart.cpp:194
+#: dolphinpart.cpp:197
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "ເປີດ &Terminal"
 
-#: dolphinpart.cpp:446
+#: dolphinpart.cpp:449
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "ເລືອກ"
 
-#: dolphinpart.cpp:446
+#: dolphinpart.cpp:449
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "ເລືອກລາຍການທັງໝົດທີ່ກົງກັບຮູບແບບນີ້:"
 
-#: dolphinpart.cpp:451
+#: dolphinpart.cpp:454
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "ຍົກເລີກການເລືອກ"
 
-#: dolphinpart.cpp:451
+#: dolphinpart.cpp:454
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "ຍົກເລີກການເລືອກລາຍການທັງໝົດທີ່ກົງກັບຮູບແບບນີ້:"
@@ -1849,56 +1859,56 @@ msgstr "ແຖບທີ່ປິດຫຼ້າສຸດ"
 msgid "Empty Recently Closed Tabs"
 msgstr "ລ້າງແຖບທີ່ປິດຫຼ້າສຸດ"
 
-#: dolphintabbar.cpp:186
+#: dolphintabbar.cpp:183
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "ແຖບໃຫມ່"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "ແຍກແຖບອອກ"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:186
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "ປ່ຽນຊື່ແຖບ"
 
-#: dolphintabbar.cpp:191
+#: dolphintabbar.cpp:188
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "ປິດແຖບອື່ນ"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:194
+#: dolphintabbar.cpp:191
 #, fuzzy, kde-format
 #| msgid "Close the right pane"
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "ປິດ pane ດ້ານຂວາ"
 
-#: dolphintabbar.cpp:196
+#: dolphintabbar.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "ປິດແຖບ"
 
-#: dolphintabbar.cpp:224
+#: dolphintabbar.cpp:221
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "ປ່ຽນຊື່ແຖບ"
 
-#: dolphintabbar.cpp:224
+#: dolphintabbar.cpp:221
 #, kde-format
 msgid "New tab name:"
 msgstr "ຊື່ແຖບໃຫມ່:"
@@ -6241,25 +6251,25 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "ຄວາມກວ້າງຖັນກຳນົດເອງ"
 
-#: views/dolphinview.cpp:2116
+#: views/dolphinview.cpp:2114
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ການດຳເນີນການຖັງຂີ້ເຫຍື້ອສຳເລັດ."
 
-#: views/dolphinview.cpp:2126
+#: views/dolphinview.cpp:2124
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "ການລຶບສຳເລັດ."
 
-#: views/dolphinview.cpp:2294
+#: views/dolphinview.cpp:2292
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ປ່ຽນຊື່ ແລະ ເຊື່ອງ"
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2296
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6268,7 +6278,7 @@ msgstr ""
 "ການເພີ່ມຈຸດໃສ່ທາງໜ້າຊື່ໄຟລ໌ນີ້ ຈະເຊື່ອງມັນຈາກມຸມມອງ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6277,23 +6287,23 @@ msgstr ""
 "ການເພີ່ມຈຸດໃສ່ທາງໜ້າຊື່ໂຟນເດີນີ້ ຈະເຊື່ອງມັນຈາກມຸມມອງ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid "Hide this File?"
 msgstr "ເຊື່ອງໄຟລ໌ນີ້ບໍ່?"
 
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "ເຊື່ອງໂຟນເດີນີ້ບໍ່?"
 
-#: views/dolphinview.cpp:2323
+#: views/dolphinview.cpp:2321
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "ປ່ຽນຊື່"
 
-#: views/dolphinview.cpp:2333
+#: views/dolphinview.cpp:2331
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6305,7 +6315,7 @@ msgstr ""
 "ເນື້ອຫາໄຟລ໌ຈະບໍ່ປ່ຽນ ແຕ່ແອັບພລິເຄຊັນອາດຈະບໍ່ຮູ້ຈັກມັນອີກຕໍ່ໄປ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2335
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6317,101 +6327,101 @@ msgstr ""
 "ເນື້ອຫາໄຟລ໌ຈະບໍ່ປ່ຽນ ແຕ່ແອັບພລິເຄຊັນອາດຈະບໍ່ຮູ້ຈັກມັນອີກຕໍ່ໄປ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ປ່ຽນປະເພດໄຟລ໌"
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2385
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "ສະຖານທີ່ວ່າງເປົ່າ."
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2387
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "ສະຖານທີ່ '%1' ບໍ່ຖືກຕ້ອງ."
 
-#: views/dolphinview.cpp:2778
+#: views/dolphinview.cpp:2776
 #, kde-format
 msgid "Loading…"
 msgstr "ກຳລັງໂຫຼດ…"
 
-#: views/dolphinview.cpp:2807
+#: views/dolphinview.cpp:2805
 #, kde-format
 msgid "Loading canceled"
 msgstr "ການໂຫຼດຖືກຍົກເລີກ"
 
-#: views/dolphinview.cpp:2809
+#: views/dolphinview.cpp:2807
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ບໍ່ມີລາຍການທີ່ກົງກັບການກັ່ນຕອງ"
 
-#: views/dolphinview.cpp:2811
+#: views/dolphinview.cpp:2809
 #, kde-format
 msgid "No items matching the search"
 msgstr "ບໍ່ມີລາຍການທີ່ກົງກັບການຊອກຫາ"
 
-#: views/dolphinview.cpp:2813
+#: views/dolphinview.cpp:2811
 #, kde-format
 msgid "Trash is empty"
 msgstr "ຖັງຂີ້ເຫຍື້ອວ່າງເປົ່າ"
 
-#: views/dolphinview.cpp:2816
+#: views/dolphinview.cpp:2814
 #, kde-format
 msgid "No tags"
 msgstr "ບໍ່ມີແທັກ"
 
-#: views/dolphinview.cpp:2819
+#: views/dolphinview.cpp:2817
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ບໍ່ມີໄຟລ໌ທີ່ແທັກດ້ວຍ \"%1\""
 
-#: views/dolphinview.cpp:2823
+#: views/dolphinview.cpp:2821
 #, kde-format
 msgid "No recently used items"
 msgstr "ບໍ່ມີລາຍການທີ່ໃຊ້ລ່າສຸດ"
 
-#: views/dolphinview.cpp:2825
+#: views/dolphinview.cpp:2823
 #, kde-format
 msgid "No shared folders found"
 msgstr "ບໍ່ພົບໂຟນເດີທີ່ແບ່ງປັນ"
 
-#: views/dolphinview.cpp:2827
+#: views/dolphinview.cpp:2825
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "ບໍ່ພົບຊັບພະຍາກອນເຄືອຂ່າຍທີ່ກ່ຽວຂ້ອງ"
 
-#: views/dolphinview.cpp:2829
+#: views/dolphinview.cpp:2827
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "ບໍ່ພົບອຸປະກອນທີ່ຮອງຮັບ MTP"
 
-#: views/dolphinview.cpp:2831
+#: views/dolphinview.cpp:2829
 #, kde-format
 msgid "No Apple devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Apple"
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2832
 #, fuzzy, kde-format
 #| msgid "No Apple devices found"
 msgid "No KDE Connect devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Apple"
 
-#: views/dolphinview.cpp:2836
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2839
+#: views/dolphinview.cpp:2837
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Bluetooth"
 
-#: views/dolphinview.cpp:2841
+#: views/dolphinview.cpp:2839
 #, kde-format
 msgid "Folder is empty"
 msgstr "ໂຟນເດີວ່າງເປົ່າ"
@@ -6422,13 +6432,21 @@ msgctxt "@action"
 msgid "Create Folder…"
 msgstr "ສ້າງໂຟນເດີ…"
 
-#: views/dolphinviewactionhandler.cpp:93
+#: views/dolphinviewactionhandler.cpp:95
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action"
+msgid "Create Subfolder…"
+msgstr "ສ້າງໂຟນເດີ…"
+
+#: views/dolphinviewactionhandler.cpp:103
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "ສ້າງໄຟລ໌…"
 
-#: views/dolphinviewactionhandler.cpp:102
+#: views/dolphinviewactionhandler.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6438,7 +6456,7 @@ msgstr ""
 "ອັນນີ້ປ່ຽນຊື່ລາຍການໃນການເລືອກຂອງທ່ານ.<nl/>ການປ່ຽນຊື່ຫຼາຍລາຍການພ້ອມກັນ "
 "ຈະເຮັດໃຫ້ຊື່ໃໝ່ຂອງພວກມັນຕ່າງກັນພຽງແຕ່ຕົວເລກ."
 
-#: views/dolphinviewactionhandler.cpp:114
+#: views/dolphinviewactionhandler.cpp:124
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6449,7 +6467,7 @@ msgstr ""
 "ອັນນີ້ຍ້າຍລາຍການໃນການເລືອກຂອງທ່ານໄປຍັງ <filename>ຖັງຂີ້ເຫຍື້ອ</filename>.<nl/"
 ">ຖັງຂີ້ເຫຍື້ອແມ່ນບ່ອນເກັບຂໍ້ມູນຊົ່ວຄາວ ທີ່ລາຍການສາມາດຖືກລຶບໃນພາຍຫຼັງໄດ້ ຖ້າຕ້ອງການພື້ນທີ່ດິດ."
 
-#: views/dolphinviewactionhandler.cpp:127
+#: views/dolphinviewactionhandler.cpp:137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6457,25 +6475,25 @@ msgid ""
 "recovered by normal means."
 msgstr "ອັນນີ້ລຶບລາຍການໃນການເລືອກຂອງທ່ານຢ່າງຖາວອນ. ພວກມັນບໍ່ສາມາດກູ້ຄືນໄດ້ດ້ວຍວິທີປົກກະຕິ."
 
-#: views/dolphinviewactionhandler.cpp:137
+#: views/dolphinviewactionhandler.cpp:147
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "ລຶບ (ໃຊ້ທາງລັດສຳລັບຖັງຂີ້ເຫຍື້ອ)"
 
-#: views/dolphinviewactionhandler.cpp:143
+#: views/dolphinviewactionhandler.cpp:153
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "ສ້າງສຳເນົາທີ່ນີ້"
 
-#: views/dolphinviewactionhandler.cpp:151
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "ຄຸນສົມບັດ"
 
-#: views/dolphinviewactionhandler.cpp:153
+#: views/dolphinviewactionhandler.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6488,43 +6506,43 @@ msgstr ""
 "ໜ້າຕ່າງຈະກ່ຽວກັບໂຟນເດີທີ່ເບິ່ງຢູ່ແທນ.<nl/>ທ່ານສາມາດຕັ້ງຄ່າຂັ້ນສູງໄດ້ທີ່ນັ້ນ ເຊັ່ນ ການຈັດການສິດທິການອ່ານ "
 "ແລະ ຂຽນ."
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:173
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "ສຳເນົາທີ່ຢູ່"
 
-#: views/dolphinviewactionhandler.cpp:164
+#: views/dolphinviewactionhandler.cpp:174
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "ອັນນີ້ຈະສຳເນົາທີ່ຢູ່ຂອງລາຍການທຳອິດທີ່ເລືອກໄປຍັງຄລິບບອດ."
 
-#: views/dolphinviewactionhandler.cpp:172
+#: views/dolphinviewactionhandler.cpp:182
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "ຍ້າຍໄປຖັງຂີ້ເຫຍື້ອ…"
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:183
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "ລຶບ…"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:184
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "ສ້າງສຳເນົາທີ່ນີ້…"
 
-#: views/dolphinviewactionhandler.cpp:175
+#: views/dolphinviewactionhandler.cpp:185
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "ສຳເນົາທີ່ຢູ່…"
 
-#: views/dolphinviewactionhandler.cpp:204
+#: views/dolphinviewactionhandler.cpp:214
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6539,7 +6557,7 @@ msgstr ""
 "emphasis> ທີ່ໂດດເດັ່ນ.</para><para> ໂໝດນີ້ສະດວກໃນການເບິ່ງຮູບພາບ ເມື່ອຕົວເລືອກ "
 "<interface>ຕົວຢ່າງ</interface> ເປີດໃຊ້ງານ.</para>"
 
-#: views/dolphinviewactionhandler.cpp:211
+#: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6550,7 +6568,7 @@ msgstr ""
 "<para>ອັນນີ້ສະຫຼັບໄປຍັງມຸມມອງກະທັດຮັດ ທີ່ລາຍຊື່ໂຟນເດີ ແລະ ໄຟລ໌ເປັນຖັນ ພ້ອມຊື່ຂ້າງໄອຄອນ.</"
 "para><para>ອັນນີ້ຊ່ວຍໃຫ້ທ່ານເຫັນພາບລວມໃນໂຟນເດີທີ່ມີຫຼາຍລາຍການ.</para>"
 
-#: views/dolphinviewactionhandler.cpp:215
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6568,60 +6586,60 @@ msgstr ""
 "ໂດຍບໍ່ຕ້ອງອອກຈາກສະຖານທີ່ປັດຈຸບັນ ໂດຍການຄິກໃສ່ພື້ນທີ່ເບື້ອງຊ້າຍຂອງມັນ. ດ້ວຍວິທີນີ້ "
 "ທ່ານສາມາດເບິ່ງເນື້ອຫາຂອງຫຼາຍໂຟນເດີໃນລາຍຊື່ດຽວກັນ.</para>"
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:235
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "ປ່ຽນມຸມມອງ"
 
-#: views/dolphinviewactionhandler.cpp:226
+#: views/dolphinviewactionhandler.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr "ອັນນີ້ໝູນວຽນຜ່ານທຸກມຸມມອງ."
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:256
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "ອັນນີ້ເພີ່ມຂະໜາດໄອຄອນ."
 
-#: views/dolphinviewactionhandler.cpp:249
+#: views/dolphinviewactionhandler.cpp:259
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "ຣີເຊັດລະດັບການຊູມ"
 
-#: views/dolphinviewactionhandler.cpp:250
+#: views/dolphinviewactionhandler.cpp:260
 #, kde-format
 msgid "Zoom To Default"
 msgstr "ຊູມເປັນຄ່າເລີ່ມຕົ້ນ"
 
-#: views/dolphinviewactionhandler.cpp:251
+#: views/dolphinviewactionhandler.cpp:261
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "ອັນນີ້ຣີເຊັດຂະໜາດໄອຄອນເປັນຄ່າເລີ່ມຕົ້ນ."
 
-#: views/dolphinviewactionhandler.cpp:257
+#: views/dolphinviewactionhandler.cpp:267
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "ອັນນີ້ຫຼຸດຂະໜາດໄອຄອນ."
 
-#: views/dolphinviewactionhandler.cpp:263
+#: views/dolphinviewactionhandler.cpp:273
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "ສະແດງຕົວຢ່າງ"
 
-#: views/dolphinviewactionhandler.cpp:264
+#: views/dolphinviewactionhandler.cpp:274
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "ສະແດງຕົວຢ່າງຂອງໄຟລ໌ ແລະ ໂຟນເດີ"
 
-#: views/dolphinviewactionhandler.cpp:266
+#: views/dolphinviewactionhandler.cpp:276
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6632,37 +6650,37 @@ msgstr ""
 "ເມື່ອອັນນີ້ເປີດໃຊ້ງານ, ໄອຄອນຈະອີງຕາມເນື້ອຫາຂອງໄຟລ໌ ຫຼື ໂຟນເດີຕົວຈິງ.<nl/>ຕົວຢ່າງ "
 "ໄອຄອນຂອງຮູບພາບຈະກາຍເປັນຮູບພາບນັ້ນທີ່ຫຍໍ້ຂະໜາດລົງ."
 
-#: views/dolphinviewactionhandler.cpp:275
+#: views/dolphinviewactionhandler.cpp:285
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "ໂຟນເດີກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:279
+#: views/dolphinviewactionhandler.cpp:289
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "ໄຟລ໌ທີ່ເຊື່ອງໄວ້ສຸດທ້າຍ"
 
-#: views/dolphinviewactionhandler.cpp:287
+#: views/dolphinviewactionhandler.cpp:297
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "ລຽງລຳດັບໂດຍ"
 
-#: views/dolphinviewactionhandler.cpp:322
+#: views/dolphinviewactionhandler.cpp:332
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "ສະແດງຂໍ້ມູນເພີ່ມເຕີມ"
 
-#: views/dolphinviewactionhandler.cpp:333
+#: views/dolphinviewactionhandler.cpp:343
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:345
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6670,7 +6688,7 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:346
+#: views/dolphinviewactionhandler.cpp:356
 #, fuzzy, kde-format
 #| msgctxt "@action:button Required tags for search results: None"
 #| msgid "None"
@@ -6678,19 +6696,19 @@ msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "ບໍ່ມີ"
 
-#: views/dolphinviewactionhandler.cpp:353
+#: views/dolphinviewactionhandler.cpp:363
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:368
+#: views/dolphinviewactionhandler.cpp:378
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "ສະແດງໄຟລ໌ທີ່ເຊື່ອງໄວ້"
 
-#: views/dolphinviewactionhandler.cpp:370
+#: views/dolphinviewactionhandler.cpp:380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6711,39 +6729,39 @@ msgstr ""
 "ເຊັ່ນ ໄຟລ໌ສຳຮອງ ກໍ່ສາມາດຖືກເຊື່ອງໄດ້ ໂດຍການເປີດການຕັ້ງຄ່ານັ້ນໃນ ຕັ້ງຄ່າ Dolphin > ມຸມມອງ > ທົ່ວໄປ."
 "</para>"
 
-#: views/dolphinviewactionhandler.cpp:384
+#: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "ປັບແຕ່ງຮູບແບບການສະແດງຜົນ…"
 
-#: views/dolphinviewactionhandler.cpp:387
+#: views/dolphinviewactionhandler.cpp:397
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr "ອັນນີ້ເປີດໜ້າຕ່າງທີ່ສາມາດປັບແຕ່ງຄຸນສົມບັດມຸມມອງໂຟນເດີທັງໝົດໄດ້."
 
-#: views/dolphinviewactionhandler.cpp:393
+#: views/dolphinviewactionhandler.cpp:403
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "ຊູມເປັນຄ່າເລີ່ມຕົ້ນ"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:404
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:399
+#: views/dolphinviewactionhandler.cpp:409
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "ການຕັ້ງຄ່າມຸມມອງ"
 
-#: views/dolphinviewactionhandler.cpp:401
+#: views/dolphinviewactionhandler.cpp:411
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6751,13 +6769,13 @@ msgid ""
 "related actions."
 msgstr "ອັນນີ້ໝູນວຽນຜ່ານທຸກມຸມມອງ. ເມນູ dropdown ປະກອບດ້ວຍການກະທຳທີ່ກ່ຽວຂ້ອງກັບມຸມມອງຕ່າງໆ."
 
-#: views/dolphinviewactionhandler.cpp:433
+#: views/dolphinviewactionhandler.cpp:443
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "ລຽງລຳດັບຕາມ Field"
 
-#: views/dolphinviewactionhandler.cpp:436
+#: views/dolphinviewactionhandler.cpp:446
 #, fuzzy, kde-format
 #| msgctxt "@item:intable, Heading of a list of fields"
 #| msgid "Sort by Field"
@@ -6765,109 +6783,109 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
 msgstr "ລຽງລຳດັບຕາມ Field"
 
-#: views/dolphinviewactionhandler.cpp:439
+#: views/dolphinviewactionhandler.cpp:449
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "ສະແດງ Field"
 
-#: views/dolphinviewactionhandler.cpp:770
+#: views/dolphinviewactionhandler.cpp:781
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "ໄອຄອນ"
 
-#: views/dolphinviewactionhandler.cpp:771
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "ມຸມມອງໄອຄອນ"
 
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:792
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "ກະທັດຮັດ"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "ມຸມມອງກະທັດຮັດ"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:803
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "ລາຍລະອຽດ"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "ມຸມມອງລາຍລະອຽດ"
 
-#: views/dolphinviewactionhandler.cpp:816
+#: views/dolphinviewactionhandler.cpp:827
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:817
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:819
+#: views/dolphinviewactionhandler.cpp:830
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "ໃຫຍ່ສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:820
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "ນ້ອຍສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:822
+#: views/dolphinviewactionhandler.cpp:833
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "ໃໝ່ສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:823
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "ເກົ່າສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:825
+#: views/dolphinviewactionhandler.cpp:836
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ສູງສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:826
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "ຕ່ຳສຸດກ່ອນ"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:839
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "ຈາກໃຫຍ່ຫານ້ອຍ"
 
-#: views/dolphinviewactionhandler.cpp:829
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ຈາກນ້ອຍຫາໃຫຍ່"
 
-#: views/dolphinviewactionhandler.cpp:927
+#: views/dolphinviewactionhandler.cpp:938
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6880,12 +6898,12 @@ msgstr "ການກະທຳສຳລັບມຸມມອງປັດຈຸບ
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:936
+#: views/dolphinviewactionhandler.cpp:947
 #, kde-format
 msgid "Actions for %1"
 msgstr "ການກະທຳສຳລັບ %1"
 
-#: views/dolphinviewactionhandler.cpp:943
+#: views/dolphinviewactionhandler.cpp:954
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
