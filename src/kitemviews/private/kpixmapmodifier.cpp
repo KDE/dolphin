@@ -285,10 +285,21 @@ void KPixmapModifier::scale(QPixmap &pixmap, const QSize &scaledSize)
     pixmap.setDevicePixelRatio(dpr);
 }
 
-void KPixmapModifier::applyFrame(QPixmap &icon, const QSize &scaledSize)
+void KPixmapModifier::scale(QImage &image, const QSize &scaledSize)
+{
+    if (scaledSize.isEmpty() || image.isNull()) {
+        image = QImage();
+        return;
+    }
+    const qreal dpr = image.devicePixelRatio();
+    image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    image.setDevicePixelRatio(dpr);
+}
+
+void KPixmapModifier::applyFrame(QImage &icon, const QSize &scaledSize)
 {
     if (icon.isNull()) {
-        icon = QPixmap(scaledSize);
+        icon = QImage(scaledSize, QImage::Format_ARGB32_Premultiplied);
         icon.fill(Qt::transparent);
         return;
     }
@@ -301,8 +312,9 @@ void KPixmapModifier::applyFrame(QPixmap &icon, const QSize &scaledSize)
     scale(icon, size * dpr);
     icon.setDevicePixelRatio(dpr);
 
-    QPixmap framedIcon(icon.size().width() + (TileSet::LeftMargin + TileSet::RightMargin) * dpr,
-                       icon.size().height() + (TileSet::TopMargin + TileSet::BottomMargin) * dpr);
+    QImage framedIcon(QSize(icon.size().width() + (TileSet::LeftMargin + TileSet::RightMargin) * dpr,
+                            icon.size().height() + (TileSet::TopMargin + TileSet::BottomMargin) * dpr),
+                      QImage::Format_ARGB32_Premultiplied);
     framedIcon.setDevicePixelRatio(dpr);
     framedIcon.fill(Qt::transparent);
 
@@ -311,7 +323,8 @@ void KPixmapModifier::applyFrame(QPixmap &icon, const QSize &scaledSize)
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     tileSet.paint(&painter, QRect(QPoint(0, 0), framedIcon.size() / dpr));
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    painter.drawPixmap(TileSet::LeftMargin, TileSet::TopMargin, icon);
+    painter.drawImage(TileSet::LeftMargin, TileSet::TopMargin, icon);
+    painter.end();
 
     icon = framedIcon;
 }

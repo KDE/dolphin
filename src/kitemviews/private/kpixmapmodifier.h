@@ -9,6 +9,7 @@
 
 #include "dolphin_export.h"
 
+class QImage;
 class QPixmap;
 class QSize;
 
@@ -23,11 +24,16 @@ public:
     static void scale(QPixmap &pixmap, const QSize &scaledSize);
 
     /**
+     * QImage overload of scale().
+     */
+    static void scale(QImage &image, const QSize &scaledSize);
+
+    /**
      * Resize and paint a frame round an icon
      * @arg scaledSize is in device-independent pixels
      * The returned image will be scaled by the application devicePixelRatio
      */
-    static void applyFrame(QPixmap &icon, const QSize &scaledSize);
+    static void applyFrame(QImage &icon, const QSize &scaledSize);
 
     /**
      * return and paint a frame round an icon

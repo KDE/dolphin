@@ -33,6 +33,7 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QImage>
 #include <QPainter>
 #include <QPluginLoader>
 #include <QScopedValueRollback>
@@ -558,7 +559,7 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray &current, 
     }
 }
 
-void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPixmap &pixmap)
+void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QImage &image)
 {
     if (m_state != PreviewJobRunning) {
         return;
@@ -572,7 +573,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     }
 
     SmallHash data = rolesData(item, index);
-    data.insert("iconPixmap", transformPreviewPixmap(pixmap));
+    data.insert("iconPixmap", transformPreviewImage(image));
     data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
     setModelData(index, data);
@@ -621,7 +622,7 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished()
     }
 }
 
-void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &item, const QPixmap &pixmap)
+void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &item, const QImage &image)
 {
     const int index = m_model->index(item);
     if (index < 0) {
@@ -648,7 +649,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
         // Add the preview to the model data
 
-        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
+        const QPixmap scaledPixmap = transformPreviewImage(image);
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -979,55 +980,58 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotGotPreview);
+    connect(job, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotGotPreview);
     connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
     connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
 
     m_previewJob = job;
 }
 
-QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap)
+QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
 {
-    QPixmap scaledPixmap = pixmap;
-
-    if (pixmap.isNull()) {
-        return scaledPixmap;
+    if (image.isNull()) {
+        return QPixmap();
     }
 
-    if (!pixmap.hasAlpha() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
+    QImage scaledImage = image;
+
+    if (!image.hasAlphaChannel() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
         if (m_enlargeSmallPreviews) {
-            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+            KPixmapModifier::applyFrame(scaledImage, m_iconSize);
         } else {
             // Assure that small previews don't get enlarged. Instead they
             // should be shown centered within the frame.
             const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
-            const bool enlargingRequired = scaledPixmap.width() < contentSize.width() && scaledPixmap.height() < contentSize.height();
+            const bool enlargingRequired = scaledImage.width() < contentSize.width() && scaledImage.height() < contentSize.height();
             if (enlargingRequired) {
-                QSize frameSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
+                QSize frameSize = scaledImage.size() / scaledImage.devicePixelRatio();
                 frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
 
-                QPixmap largeFrame(frameSize);
+                QImage largeFrame(frameSize, QImage::Format_ARGB32_Premultiplied);
                 largeFrame.fill(Qt::transparent);
 
                 KPixmapModifier::applyFrame(largeFrame, frameSize);
 
                 QPainter painter(&largeFrame);
-                painter.drawPixmap((largeFrame.width() - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
-                                   (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
-                                   scaledPixmap);
-                scaledPixmap = largeFrame;
+                painter.drawImage((largeFrame.width() - scaledImage.width() / scaledImage.devicePixelRatio()) / 2,
+                                  (largeFrame.height() - scaledImage.height() / scaledImage.devicePixelRatio()) / 2,
+                                  scaledImage);
+                painter.end();
+                scaledImage = largeFrame;
             } else {
                 // The image must be shrunk as it is too large to fit into
                 // the available icon size
-                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+                KPixmapModifier::applyFrame(scaledImage, m_iconSize);
             }
         }
     } else {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
-        scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
+        KPixmapModifier::scale(scaledImage, m_iconSize * m_devicePixelRatio);
+        scaledImage.setDevicePixelRatio(m_devicePixelRatio);
     }
 
-    return scaledPixmap;
+    QPixmap result = QPixmap::fromImage(scaledImage);
+    result.setDevicePixelRatio(scaledImage.devicePixelRatio());
+    return result;
 }
 
 QSize KFileItemModelRolesUpdater::cacheSize()
@@ -1081,13 +1085,14 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     }
 
     KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize(), &m_enabledPlugins);
+    job->setDevicePixelRatio(m_devicePixelRatio);
 
     job->setSequenceIndex(loadSeqIdx);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+    connect(job, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
     connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
     connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
 
@@ -1097,7 +1102,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
 void KFileItemModelRolesUpdater::killHoverSequencePreviewJob()
 {
     if (m_hoverSequencePreviewJob) {
-        disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+        disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
         disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
         disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
         m_hoverSequencePreviewJob->kill();
@@ -1413,7 +1418,7 @@ void KFileItemModelRolesUpdater::updateAllPreviews()
 void KFileItemModelRolesUpdater::killPreviewJob()
 {
     if (m_previewJob) {
-        disconnect(m_previewJob, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotGotPreview);
+        disconnect(m_previewJob, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotGotPreview);
         disconnect(m_previewJob, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
         disconnect(m_previewJob, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
         m_previewJob->kill();

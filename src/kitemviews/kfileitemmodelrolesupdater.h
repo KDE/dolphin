@@ -22,6 +22,7 @@
 
 class KDirectoryContentsCounter;
 class KFileItemModel;
+class QImage;
 class QPixmap;
 class QTimer;
 class KOverlayIconPlugin;
@@ -178,13 +179,14 @@ private Q_SLOTS:
     void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
     /**
-     * Is invoked after a preview has been received successfully.
+     * Is invoked after a preview has been received successfully, connected to
+     * PreviewJob::generated and transformed straight from the QImage.
      *
      * Note that this is not called for hover sequence previews.
      *
      * @see startPreviewJob()
      */
-    void slotGotPreview(const KFileItem &item, const QPixmap &pixmap);
+    void slotGotPreview(const KFileItem &item, const QImage &image);
 
     /**
      * Is invoked after generating a preview has failed.
@@ -209,7 +211,7 @@ private Q_SLOTS:
     /**
      * Is invoked after a hover sequence preview has been received successfully.
      */
-    void slotHoverSequenceGotPreview(const KFileItem &item, const QPixmap &pixmap);
+    void slotHoverSequenceGotPreview(const KFileItem &item, const QImage &image);
 
     /**
      * Is invoked after generating a hover sequence preview has failed.
@@ -282,13 +284,13 @@ private:
     void startPreviewJob();
 
     /**
-     * Transforms a raw preview image, applying scale and frame.
+     * Transforms a raw preview image from a PreviewJob, applying scale and frame.
+     * The transform is done in QImage space and converted to a QPixmap once.
      *
-     * @param pixmap A raw preview image from a PreviewJob.
-     * @param overlays the overlays to add to the pixmap
+     * @param image A raw preview image from a PreviewJob.
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewPixmap(const QPixmap &pixmap);
+    QPixmap transformPreviewImage(const QImage &image);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.
