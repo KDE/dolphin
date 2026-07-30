@@ -217,7 +217,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     addOpenWithActions();
 
     // set up 'Create New' menu
-    QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
+    QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_subdir"));
     QAction *newFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
     // Do not parent this to the menu, it has to outlive it. It is deleted manually below once a file has been created.
     DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, m_mainWindow);

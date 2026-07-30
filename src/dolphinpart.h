@@ -216,6 +216,11 @@ private Q_SLOTS:
      */
     void updateProgress(int percent);
 
+    /**
+     * Sets the directory the 'Create New...' menu creates in.
+     */
+    void setNewFileMenuWorkingDirectory(const QUrl &directory);
+
     void createDirectory();
 
     /**

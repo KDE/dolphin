@@ -826,14 +826,14 @@ void DolphinMainWindow::updateNewMenu()
     m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
 }
 
-void DolphinMainWindow::createDirectory()
+void DolphinMainWindow::createDirectory(const QUrl &parent)
 {
     // When creating directory, namejob is being run. In network folders,
     // this job can take long time, so instead of starting multiple namejobs,
     // just check if we are already running one. This prevents opening multiple
     // dialogs. BUG:481401
     if (!m_newFileMenu->isCreateDirectoryRunning()) {
-        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+        m_newFileMenu->setWorkingDirectory(parent);
         m_newFileMenu->createDirectory();
     }
 }
@@ -1515,6 +1515,8 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
                                                     i18nc("@info", "Cannot create new file: You do not have permission to create items in this folder."));
         m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_dir")),
                                                     i18nc("@info", "Cannot create new folder: You do not have permission to create items in this folder."));
+        m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_subdir")),
+                                                    i18nc("@info", "Cannot create new subfolder: Select a single folder you can write to."));
     });
 }
 

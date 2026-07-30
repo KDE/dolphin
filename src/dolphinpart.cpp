@@ -97,7 +97,10 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), nullptr, this);
     m_actionHandler->setCurrentView(m_view);
-    connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinPart::createDirectory);
+    connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, [this](const QUrl &parent) {
+        setNewFileMenuWorkingDirectory(parent);
+        createDirectory();
+    });
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinPart::aboutToOpenURL, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
@@ -549,9 +552,13 @@ void DolphinPart::updateProgress(int percent)
     Q_EMIT m_extension->loadingProgress(percent);
 }
 
+void DolphinPart::setNewFileMenuWorkingDirectory(const QUrl &directory)
+{
+    m_newFileMenu->setWorkingDirectory(directory);
+}
+
 void DolphinPart::createDirectory()
 {
-    m_newFileMenu->setWorkingDirectory(url());
     m_newFileMenu->createDirectory();
 }
 

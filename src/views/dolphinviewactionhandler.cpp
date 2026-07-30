@@ -87,7 +87,17 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     m_actionCollection->setDefaultShortcuts(newDirAction, KStandardShortcut::createFolder());
     newDirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     newDirAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
-    connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectoryTriggered);
+    connect(newDirAction, &QAction::triggered, this, [this] {
+        Q_EMIT createDirectoryTriggered(m_currentView->url());
+    });
+
+    QAction *newSubdirAction = m_actionCollection->addAction(QStringLiteral("create_subdir"));
+    newSubdirAction->setText(i18nc("@action", "Create Subfolder…"));
+    newSubdirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
+    newSubdirAction->setEnabled(false);
+    connect(newSubdirAction, &QAction::triggered, this, [this] {
+        Q_EMIT createDirectoryTriggered(subdirectoryParent());
+    });
 
     QAction *newFileAction = m_actionCollection->addAction(QStringLiteral("create_file"));
     newFileAction->setText(i18nc("@action", "Create File…"));
@@ -762,6 +772,7 @@ void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
     const bool supportsMakeDir = KProtocolManager::supportsMakeDir(currentView()->url());
     m_actionCollection->action(QStringLiteral("create_dir"))->setEnabled(isFolderWritable && supportsMakeDir);
     m_actionCollection->action(QStringLiteral("create_file"))->setEnabled(isFolderWritable);
+    updateCreateSubdirectoryAction();
 }
 
 KToggleAction *DolphinViewActionHandler::iconsModeAction()
@@ -960,6 +971,29 @@ void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList &selecti
             basicActionsMenu->menu()->addAction(m_actionCollection->action(QStringLiteral("add_to_places")));
         }
     }
+
+    updateCreateSubdirectoryAction();
+}
+
+QUrl DolphinViewActionHandler::subdirectoryParent() const
+{
+    const KFileItemList selection = m_currentView->selectedItems();
+    if (selection.count() == 1 && selection.first().isDir()) {
+        return selection.first().url();
+    }
+    return m_currentView->url();
+}
+
+void DolphinViewActionHandler::updateCreateSubdirectoryAction()
+{
+    const KFileItemList selection = m_currentView->selectedItems();
+    bool enabled;
+    if (selection.isEmpty()) {
+        enabled = m_actionCollection->action(QStringLiteral("create_dir"))->isEnabled();
+    } else {
+        enabled = selection.count() == 1 && selection.first().isDir() && KFileItemListProperties(selection).supportsWriting();
+    }
+    m_actionCollection->action(QStringLiteral("create_subdir"))->setEnabled(enabled);
 }
 
 void DolphinViewActionHandler::restoreViewSettingsToDefaults()
