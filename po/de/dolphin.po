@@ -926,7 +926,7 @@ msgid ""
 "para>"
 msgstr ""
 "<para>Dies öffnet das für die betrachtete Adresse eingestellte Suchwerkzeug."
-"</para><para>Benutzen Sie das Menü <emphasis>Weitere Suchwerkzeuge</"
+"</para><para>Verwenden Sie das Menü <emphasis>Weitere Suchwerkzeuge</"
 "emphasis>, um das zu konfigurieren.</para>"
 
 #: dolphinmainwindow.cpp:2192
@@ -944,7 +944,7 @@ msgid ""
 "the terminal application.</para>"
 msgstr ""
 "<para>Dies öffnet ein <emphasis>Terminal</emphasis> für die angezeigte "
-"Adresse.</para><para>Um mehr über Terminals zu erfahren, benutzen Sie die "
+"Adresse.</para><para>Um mehr über Terminals zu erfahren, verwenden Sie die "
 "Hilfe in der Terminal-Anwendung.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
@@ -964,7 +964,7 @@ msgid ""
 msgstr ""
 "<para>Dies öffnet <emphasis>Terminal</emphasis>-Anwendungen für die Adresse "
 "des ausgewählten Eintrags.</para><para>Um mehr über Terminals zu erfahren, "
-"benutzen Sie die Hilfe in der Terminal-Anwendung.</para>"
+"verwenden Sie die Hilfe in der Terminal-Anwendung.</para>"
 
 #: dolphinmainwindow.cpp:2212
 #, kde-format
@@ -1680,7 +1680,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 "<para>Dieser Knopf startet die Hilfefunktion, die Sie in diesem Moment "
-"benutzen. Klicken Sie ihn und anschließend das Element an, zu dem Sie die "
+"verwenden. Klicken Sie ihn und anschließend das Element an, zu dem Sie die "
 "Frage „Was ist das?“ beantwortet haben möchten. Der Mauszeiger ändert seine "
 "Form, wenn an einer Stelle keine Hilfe verfügbar ist.</para><para>Es gibt "
 "zwei weitere Arten, Hilfe zu erhalten: das <link url='help:/dolphin/index."
@@ -1725,7 +1725,7 @@ msgstr ""
 "Spende ist die einfachste und effizienteste Art, KDE und dessen Projekte zu "
 "unterstützen. KDE-Projekte sind kostenlos verfügbar, sodass wir auf Spenden "
 "angewiesen sind, um finanzielle Kosten zu decken, wie etwa Server, "
-"Konferenzen usw.</para><para><emphasis>KDE e.V.</emphasis> ist der "
+"Konferenzen usw.</para><para><emphasis>KDE e. V.</emphasis> ist der "
 "gemeinnützige Verein hinter der KDE-Gemeinschaft.</para>"
 
 #: dolphinmainwindow.cpp:3064
@@ -1762,7 +1762,7 @@ msgstr ""
 "Dies öffnet ein Fenster mit Informationen über KDE. Die KDE-Gemeinschaft "
 "besteht aus den Menschen, die diese Anwendung geschaffen haben.<nl/>Schauen "
 "Sie hier rein, wenn Sie diese Anwendung gern verwenden, aber KDE noch nicht "
-"kennen oder einen niedlichen Drachen sehen wollen."
+"kennen oder einen niedlichen Drachen sehen möchten."
 
 #: dolphinmainwindow.cpp:3129 dolphinmainwindow.cpp:3140
 #, kde-format
@@ -1785,7 +1785,7 @@ msgstr "Fokus aus Seitenleiste „Orte“ abziehen"
 #: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr "Serveradresse eingeben (z.B. smb://[IP-Adresse])"
+msgstr "Serveradresse eingeben (z. B. smb://[IP-Adresse])"
 
 #: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
@@ -3771,7 +3771,7 @@ msgstr ""
 "bessere oder schnellere Suche versprechen. <application>ripgrep</"
 "application> und <application>ripgrep-all</application> können die Suche "
 "verbessern, sofern sie installiert sind. Insbesondere <application>ripgrep-"
-"all</application> ermöglicht die Suche in mehr Dateitypen (z. B. pdf, docx, "
+"all</application> ermöglicht die Suche in mehr Dateitypen (z. B. pdf, docx, "
 "sqlite, jpg, Filmuntertitel (mkv, mp4)).</para><para>Die Art und Weise, wie "
 "diese Programme aufgerufen werden, kann durch Bearbeiten einer Skriptdatei "
 "konfiguriert werden. Kopieren Sie sie von <filename>%2</filename> nach "
@@ -4519,7 +4519,7 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Wenn diese Einstellung aktiviert ist, werden versteckte Dateien (z. B. die "
+"Wenn diese Einstellung aktiviert ist, werden versteckte Dateien (z. B. die "
 "mit einem „.“ beginnen) in der Dateiansicht angezeigt."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
@@ -5590,13 +5590,13 @@ msgstr "Ordnergröße:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Relativ (z.B. „%1“)"
+msgstr "Relativ (z. B. „%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:85
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Absolut (z.B. „%1“)"
+msgstr "Absolut (z. B. „%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
@@ -5608,19 +5608,19 @@ msgstr "Datumsstil:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Symbolisch (z. B. 'drwxr-xr-x')"
+msgstr "Symbolisch (z. B. 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numerisch (Oktal) (z. B. '755')"
+msgstr "Numerisch (Oktal) (z. B. '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Kombiniert (z. B. 'drwxr-xr-x (755)')"
+msgstr "Kombiniert (z. B. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:98
 #, kde-format
@@ -5838,7 +5838,7 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
-"Benutzen Sie {path}, um den Pfad des aktuellen Ordners zu erhalten. "
+"Verwenden Sie {path}, um den Pfad des aktuellen Ordners zu erhalten. "
 "Beispiel: dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:31
