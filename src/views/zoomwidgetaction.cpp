@@ -51,6 +51,18 @@ protected:
 
         painter.drawControl(QStyle::CE_MenuItem, option);
     }
+
+    void focusInEvent(QFocusEvent *event) override
+    {
+        const auto buttons = findChildren<QToolButton *>();
+        Q_ASSERT(!buttons.isEmpty());
+
+        if (event->reason() == Qt::BacktabFocusReason) {
+            buttons.last()->setFocus(event->reason());
+        } else {
+            buttons.first()->setFocus(event->reason());
+        }
+    }
 };
 
 ZoomWidgetAction::ZoomWidgetAction(QAction *zoomInAction, QAction *zoomResetAction, QAction *zoomOutAction, QObject *parent)
@@ -128,7 +140,6 @@ QWidget *ZoomWidgetAction::createWidget(QWidget *parent)
     zoomOutButton->setDefaultAction(m_zoomOutAction);
     zoomOutButton->installEventFilter(this);
     zoomWidgetLayout->addWidget(zoomOutButton);
-    zoomWidget->setFocusProxy(zoomOutButton);
 
     QIcon zoomOutIcon;
     QPixmap zoomOutPixmapNormal = m_zoomOutAction->icon().pixmap(zoomOutButton->iconSize(), QIcon::Normal);
