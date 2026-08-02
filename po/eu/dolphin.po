@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-30 00:48+0000\n"
-"PO-Revision-Date: 2026-07-27 05:21+0200\n"
+"PO-Revision-Date: 2026-08-01 09:38+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -362,16 +362,12 @@ msgstr ""
 "sortzeko baimenik."
 
 #: dolphinmainwindow.cpp:1515
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Ezin du karpeta berria sortu: Ez duzu karpeta honetan elementu berriak "
-"sortzeko baimenik."
+"Ezin da azpikarpeta berria sortu: hautatu idazteko baimena duzun karpeta "
+"bakar bat."
 
 #: dolphinmainwindow.cpp:1614
 #, kde-format
@@ -6587,12 +6583,10 @@ msgid "Create Folder…"
 msgstr "Sortu karpeta…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Sortu karpeta…"
+msgstr "Azpikarpeta sortu…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format

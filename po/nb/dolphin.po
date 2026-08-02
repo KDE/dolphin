@@ -6,13 +6,14 @@
 # Kjetil Kilhavn <kjetil@kilhavn.no>, 2011, 2012.
 # Øystein Steffensen-Alværvik <oysteins.omsetting@protonmail.com>, 2018.
 # John Ivar Eriksen <jieriksen@runbox.com>, 2022, 2023.
+# Kjetil Sørlund <translate@sorlund.no>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-30 00:48+0000\n"
 "PO-Revision-Date: 2026-03-09 23:55+0100\n"
-"Last-Translator: Kjetil Sorlund <translate@sorlund.no>\n"
+"Last-Translator: Kjetil Sørlund <translate@sorlund.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@nuug.no>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +30,7 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Bjørn Kvisli,Nils Kristian Tomren,Bjørn Steensrud,Kjetil Kilhavn,John Ivar "
-"Eriksen,Kjetil Sorlund"
+"Eriksen,Kjetil Sørlund"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"

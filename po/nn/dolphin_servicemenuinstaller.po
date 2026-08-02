@@ -1,5 +1,6 @@
 # Translation of dolphin_servicemenuinstaller to Norwegian Nynorsk
 #
+# Karl Ove Hufthammer <karl@huftis.org>, 2019, 2020, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
