@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-30 00:48+0000\n"
-"PO-Revision-Date: 2026-07-24 13:47+0200\n"
+"PO-Revision-Date: 2026-07-29 15:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -357,16 +357,12 @@ msgstr ""
 "elementi in questa cartella."
 
 #: dolphinmainwindow.cpp:1515
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Impossibile creare una nuova cartella: non hai i permessi per creare "
-"elementi in questa cartella."
+"Impossibile creare una nuova sottocartella: seleziona una singola cartella "
+"che puoi scrivere."
 
 #: dolphinmainwindow.cpp:1614
 #, kde-format
@@ -6626,12 +6622,10 @@ msgid "Create Folder…"
 msgstr "Crea cartella…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Crea cartella…"
+msgstr "Crea sottocartella…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
