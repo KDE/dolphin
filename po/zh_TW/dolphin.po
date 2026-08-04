@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-30 00:48+0000\n"
-"PO-Revision-Date: 2026-06-25 23:57+0900\n"
+"PO-Revision-Date: 2026-08-04 06:54+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 26.07.70\n"
+"X-Generator: Lokalize 26.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -355,14 +355,10 @@ msgid ""
 msgstr "無法建立新資料夾：您沒有在此資料夾建立新項目的權限。"
 
 #: dolphinmainwindow.cpp:1515
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr "無法建立新資料夾：您沒有在此資料夾建立新項目的權限。"
+msgstr "無法建立新的子資料夾：請選取單一個您可以寫入的資料夾。"
 
 #: dolphinmainwindow.cpp:1614
 #, kde-format
@@ -2061,12 +2057,10 @@ msgid "You do not have permission to create the folder"
 msgstr "您沒有建立該資料夾的權限"
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "開啟 %1"
+msgstr "以 %1 開啟"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format
@@ -6373,12 +6367,10 @@ msgid "Create Folder…"
 msgstr "建立資料夾…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "建立資料夾…"
+msgstr "建立子資料夾…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
