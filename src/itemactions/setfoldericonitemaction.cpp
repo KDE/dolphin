@@ -92,6 +92,21 @@ public:
 
     bool eventFilter(QObject *object, QEvent *event) override
     {
+        if (event->type() == QEvent::FocusIn && !qobject_cast<QPushButton *>(object)) {
+            // The menu focuses the container widget; the focus reason gives the direction,
+            // so enter on the last button when approached from below and the first from above.
+            const auto buttons = static_cast<QWidget *>(object)->findChildren<QPushButton *>();
+            if (!buttons.isEmpty()) {
+                const Qt::FocusReason reason = static_cast<QFocusEvent *>(event)->reason();
+                if (reason == Qt::BacktabFocusReason) {
+                    buttons.last()->setFocus(reason);
+                } else {
+                    buttons.first()->setFocus(reason);
+                }
+                return true;
+            }
+        }
+
         if (event->type() == QEvent::KeyPress) {
             const QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             auto widget = qobject_cast<QWidget *>(object);
@@ -122,9 +137,6 @@ public:
             }
         }
 
-        // TODO implement proper SHIFT+TAB
-        // See https://bugreports.qt.io/browse/QTBUG-137298
-
         return false;
     }
 
@@ -133,7 +145,6 @@ public:
         QWidget *widget = new QWidget(parent);
         auto layout = new QHBoxLayout(widget);
 
-        bool firstAction = false;
         for (const auto action : std::as_const(m_actions)) {
             if (!action->parent()) {
                 action->setParent(widget);
@@ -151,11 +162,6 @@ public:
             connect(action, &QAction::toggled, p, &QPushButton::setChecked);
 
             layout->addWidget(p);
-
-            if (!firstAction) {
-                widget->setFocusProxy(p);
-                firstAction = true;
-            }
         }
 
         auto p = new QPushButton(widget);
@@ -166,6 +172,7 @@ public:
         p->installEventFilter(this);
 
         widget->setFocusPolicy(Qt::StrongFocus);
+        widget->installEventFilter(this);
 
         return widget;
     }
