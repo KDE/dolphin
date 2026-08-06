@@ -288,6 +288,13 @@ Q_SIGNALS:
     void fileItemsChanged(const KFileItemList &changedFileItems);
 
     /**
+     * Emitted for items whose file content changed on disk while their metadata
+     * stayed the same, so that content-derived data such as thumbnails can be
+     * refreshed.
+     */
+    void itemsContentChanged(const KItemRangeList &itemRanges);
+
+    /**
      * It is emitted when the parent directory was removed.
      */
     void currentDirectoryRemoved();
@@ -310,6 +317,7 @@ private Q_SLOTS:
     void slotItemsAdded(const QUrl &directoryUrl, const KFileItemList &items);
     void slotItemsDeleted(const KFileItemList &items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &items);
+    void slotItemsContentChanged(const KFileItemList &items);
     void slotClear();
     void slotSortingChoiceChanged();
     void slotListerError(KIO::Job *job);

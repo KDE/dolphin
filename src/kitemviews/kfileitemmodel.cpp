@@ -288,6 +288,7 @@ KFileItemModel::KFileItemModel(QObject *parent)
     m_dirLister = new KDirLister(this);
     m_dirLister->setAutoErrorHandlingEnabled(false);
     m_dirLister->setDelayedMimeTypes(true);
+    m_dirLister->setContentChangeNotificationsEnabled(true);
 
     const QWidget *parentWidget = qobject_cast<QWidget *>(parent);
     if (parentWidget) {
@@ -299,6 +300,7 @@ KFileItemModel::KFileItemModel(QObject *parent)
     connect(m_dirLister, &KCoreDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
     connect(m_dirLister, &KCoreDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
     connect(m_dirLister, &KCoreDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
+    connect(m_dirLister, &KCoreDirLister::itemsContentChanged, this, &KFileItemModel::slotItemsContentChanged);
     connect(m_dirLister, &KCoreDirLister::clear, this, &KFileItemModel::slotClear);
     connect(m_dirLister, &KCoreDirLister::infoMessage, this, &KFileItemModel::infoMessage);
     connect(m_dirLister, &KCoreDirLister::jobError, this, &KFileItemModel::slotListerError);
@@ -1619,6 +1621,20 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList &items)
     removeItems(itemRanges, filteredParentsCount > 0 ? DeleteItemDataIfUnfiltered : DeleteItemData);
 
     Q_EMIT fileItemsChanged(dirsChanged);
+}
+
+void KFileItemModel::slotItemsContentChanged(const KFileItemList &items)
+{
+    KItemRangeList itemRanges;
+    for (const KFileItem &item : items) {
+        const int i = index(item);
+        if (i >= 0) {
+            itemRanges.append(KItemRange(i, 1));
+        }
+    }
+    if (!itemRanges.isEmpty()) {
+        Q_EMIT itemsContentChanged(itemRanges);
+    }
 }
 
 void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &items)

@@ -176,6 +176,10 @@ private Q_SLOTS:
     void slotItemsRemoved(const KItemRangeList &itemRanges);
     void slotItemsMoved(KItemRange itemRange, const QList<int> &movedToIndexes);
     void slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles);
+    void slotItemsContentChanged(const KItemRangeList &itemRanges);
+    void slotGotForcedPreview(const KFileItem &item, const QImage &image);
+    void slotForcedPreviewFailed(const KFileItem &item);
+    void slotForcedPreviewJobFinished();
     void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
     /**
@@ -282,6 +286,7 @@ private:
      * @see slotPreviewJobFinished()
      */
     void startPreviewJob();
+    void startForcedPreviewJob();
 
     /**
      * Transforms a raw preview image from a PreviewJob, applying scale and frame.
@@ -400,6 +405,8 @@ private:
     KFileItemList m_pendingPreviewItems;
 
     KIO::PreviewJob *m_previewJob;
+    KIO::PreviewJob *m_forcedPreviewJob = nullptr;
+    KFileItemList m_pendingForcedPreviewItems;
 
     // Info about the item that the user currently hovers, and the current sequence
     // index for thumb generation.

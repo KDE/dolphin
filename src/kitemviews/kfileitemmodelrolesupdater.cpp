@@ -102,6 +102,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     connect(m_model, &KFileItemModel::itemsInserted, this, &KFileItemModelRolesUpdater::slotItemsInserted);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &KFileItemModelRolesUpdater::slotItemsRemoved);
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsContentChanged, this, &KFileItemModelRolesUpdater::slotItemsContentChanged);
     connect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
     connect(m_model, &KFileItemModel::sortRoleChanged, this, &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
@@ -987,6 +988,95 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_previewJob = job;
 }
 
+void KFileItemModelRolesUpdater::slotItemsContentChanged(const KItemRangeList &itemRanges)
+{
+    if (!m_previewShown) {
+        return;
+    }
+
+    for (const KItemRange &range : itemRanges) {
+        for (int index = range.index; index < range.index + range.count; ++index) {
+            const KFileItem item = m_model->fileItem(index);
+            if (item.isNull()) {
+                continue;
+            }
+            // The content changed even though the metadata did not, so drop any finished
+            // preview and regenerate it, bypassing the mtime based thumbnail cache.
+            m_finishedItems.remove(item);
+            m_pendingForcedPreviewItems.append(item);
+        }
+    }
+
+    if (!m_forcedPreviewJob && !m_pendingForcedPreviewItems.isEmpty()) {
+        startForcedPreviewJob();
+    }
+}
+
+void KFileItemModelRolesUpdater::startForcedPreviewJob()
+{
+    if (m_pendingForcedPreviewItems.isEmpty()) {
+        return;
+    }
+
+    const KFileItemList items = m_pendingForcedPreviewItems;
+    m_pendingForcedPreviewItems.clear();
+
+    KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
+    job->setDevicePixelRatio(m_devicePixelRatio);
+    job->setForceCacheRefresh(true);
+    if (job->uiDelegate()) {
+        KJobWidgets::setWindow(job, qApp->activeWindow());
+    }
+
+    connect(job, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotGotForcedPreview);
+    connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotForcedPreviewFailed);
+    connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotForcedPreviewJobFinished);
+
+    m_forcedPreviewJob = job;
+}
+
+void KFileItemModelRolesUpdater::slotGotForcedPreview(const KFileItem &item, const QImage &image)
+{
+    // Independent of the normal preview job state machine, so do not gate on m_state
+    // or dereference m_previewJob here.
+    const int index = m_model->index(item);
+    if (index < 0) {
+        return;
+    }
+    m_changedItems.remove(item);
+
+    SmallHash data = rolesData(item, index);
+    data.insert("iconPixmap", transformPreviewImage(image));
+    data.insert("supportsSequencing", m_forcedPreviewJob ? m_forcedPreviewJob->handlesSequences() : false);
+
+    setModelData(index, data);
+    applyResolvedRoles(index, ResolveAll, item);
+    m_finishedItems.insert(item);
+}
+
+void KFileItemModelRolesUpdater::slotForcedPreviewFailed(const KFileItem &item)
+{
+    const int index = m_model->index(item);
+    if (index < 0) {
+        return;
+    }
+    m_changedItems.remove(item);
+
+    SmallHash data;
+    data.insert("iconPixmap", QPixmap());
+    setModelData(index, data);
+    applyResolvedRoles(index, ResolveAll, item);
+    m_finishedItems.insert(item);
+}
+
+void KFileItemModelRolesUpdater::slotForcedPreviewJobFinished()
+{
+    m_forcedPreviewJob = nullptr;
+    if (!m_pendingForcedPreviewItems.isEmpty()) {
+        startForcedPreviewJob();
+    }
+}
+
 QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
 {
     if (image.isNull()) {
@@ -1424,6 +1514,12 @@ void KFileItemModelRolesUpdater::killPreviewJob()
         m_previewJob->kill();
         m_previewJob = nullptr;
         m_pendingPreviewItems.clear();
+    }
+    if (m_forcedPreviewJob) {
+        disconnect(m_forcedPreviewJob, nullptr, this, nullptr);
+        m_forcedPreviewJob->kill();
+        m_forcedPreviewJob = nullptr;
+        m_pendingForcedPreviewItems.clear();
     }
 }
 
