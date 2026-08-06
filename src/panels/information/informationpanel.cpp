@@ -317,10 +317,26 @@ void InformationPanel::slotFilesAdded(const QString &directory)
 
 void InformationPanel::slotFilesItemChanged(const KFileItemList &changedFileItems)
 {
-    const auto item = changedFileItems.findByUrl(m_shownUrl);
-    if (!item.isNull()) {
-        showItemInfo();
+    if (changedFileItems.findByUrl(m_shownUrl).isNull()) {
+        return;
     }
+
+    // Adopt the refreshed items so their new modification time and size reach showItem(),
+    // which otherwise keeps the old entry and skips the metadata and preview refresh.
+    for (KFileItem &selected : m_selection) {
+        const KFileItem changed = changedFileItems.findByUrl(selected.url());
+        if (!changed.isNull()) {
+            selected = changed;
+        }
+    }
+    if (!m_hoveredItem.isNull()) {
+        const KFileItem changed = changedFileItems.findByUrl(m_hoveredItem.url());
+        if (!changed.isNull()) {
+            m_hoveredItem = changed;
+        }
+    }
+
+    showItemInfo();
 }
 
 void InformationPanel::slotFilesChanged(const QStringList &files)
