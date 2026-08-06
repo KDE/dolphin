@@ -95,9 +95,24 @@ void PixmapViewer::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
 
-    if (!m_pixmap.isNull()) {
-        style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
+    if (m_pixmap.isNull()) {
+        return;
     }
+
+    // A pixmap made for a wider panel is drawn to fit the one it is in, rather than being cut off by it.
+    const QSizeF shown = m_pixmap.deviceIndependentSize();
+    if (shown.width() > width() || shown.height() > height()) {
+        if (m_scaledFrom != m_pixmap.cacheKey() || m_scaledFor != size()) {
+            m_scaled = m_pixmap.scaled(size() * m_pixmap.devicePixelRatio(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            m_scaled.setDevicePixelRatio(m_pixmap.devicePixelRatio());
+            m_scaledFrom = m_pixmap.cacheKey();
+            m_scaledFor = size();
+        }
+        style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_scaled);
+        return;
+    }
+
+    style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
 }
 
 void PixmapViewer::updateAnimatedImageFrame()

@@ -137,6 +137,12 @@ private:
      */
     void refreshPixmapView();
 
+    /**
+     * Asks for a preview of the size the viewer has, when it has room for a bigger one than the preview it
+     * holds was made for, and no preview is being made already.
+     */
+    void refreshPixmapViewForItsSize();
+
     bool gestureEvent(QGestureEvent *event);
 
 private:
@@ -144,6 +150,8 @@ private:
 
     QPointer<KIO::PreviewJob> m_previewJob;
     QTimer *m_outdatedPreviewTimer;
+    /** The size the preview that is shown was asked for. */
+    QSize m_previewSize;
 
     PixmapViewer *m_preview;
     MediaWidget *m_mediaWidget;

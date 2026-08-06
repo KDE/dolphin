@@ -139,10 +139,6 @@ void InformationPanel::showEvent(QShowEvent *event)
 
 void InformationPanel::resizeEvent(QResizeEvent *event)
 {
-    if (isVisible()) {
-        m_urlCandidate = m_shownUrl;
-        m_infoTimer->start();
-    }
     Panel::resizeEvent(event);
 }
 

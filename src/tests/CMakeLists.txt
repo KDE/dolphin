@@ -127,6 +127,19 @@ ecm_add_test(placespaneltest.cpp
     TEST_NAME placespaneltest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 
+# The information panel is built only where Baloo is, and so are the tests of it.
+if(HAVE_BALOO)
+    # PixmapViewerTest
+    ecm_add_test(pixmapviewertest.cpp
+        TEST_NAME pixmapviewertest
+        LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
+    # InformationPanelContentTest
+    ecm_add_test(informationpanelcontenttest.cpp
+        TEST_NAME informationpanelcontenttest
+        LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+endif()
+
 find_gem(test-unit)
 set_package_properties(Gem_test-unit PROPERTIES
     TYPE RECOMMENDED

@@ -143,6 +143,7 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     grabGesture(Qt::TapAndHoldGesture);
 
     parent->installEventFilter(this);
+    m_preview->installEventFilter(this);
 }
 
 InformationPanelContent::~InformationPanelContent()
@@ -182,8 +183,11 @@ void InformationPanelContent::refreshPixmapView()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
-    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, QSize(m_preview->width(), m_preview->height()), &plugins);
-    m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+    m_previewSize = m_preview->size();
+    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, m_previewSize, &plugins);
+    // Asking for a preview to be kept lets it be handed out again for this file until the file changes,
+    // which is told from the time the file was modified and its size.
+    m_previewJob->setScaleType(KIO::PreviewJob::ScaledAndCached);
     m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     m_previewJob->setDevicePixelRatio(devicePixelRatioF());
     if (m_previewJob->uiDelegate()) {
@@ -192,6 +196,32 @@ void InformationPanelContent::refreshPixmapView()
 
     connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview, this, &InformationPanelContent::showPreview);
     connect(m_previewJob.data(), &KIO::PreviewJob::failed, this, &InformationPanelContent::showIcon);
+    connect(m_previewJob.data(), &KJob::finished, this, [this]() {
+        // The job is done with, so it is no longer what a request has to wait for.
+        m_previewJob = nullptr;
+        refreshPixmapViewForItsSize();
+    });
+}
+
+void InformationPanelContent::refreshPixmapViewForItsSize()
+{
+    if (m_item.isNull() || !m_preview->isVisible()) {
+        return;
+    }
+
+    // A preview is drawn to fit a viewer smaller than the one it was made for, so only a viewer with more
+    // room than that has anything to gain from another.
+    const QSize size = m_preview->size();
+    if (size.width() <= m_previewSize.width() && size.height() <= m_previewSize.height()) {
+        return;
+    }
+
+    if (m_previewJob) {
+        // One is being made, and the size the viewer has by then is what is asked for next.
+        return;
+    }
+
+    refreshPixmapView();
 }
 
 void InformationPanelContent::refreshPreview()
@@ -308,6 +338,8 @@ bool InformationPanelContent::eventFilter(QObject *obj, QEvent *event)
             // The size of the meta text area has changed. Adjust the fixed
             // width in a way that no horizontal scrollbar needs to be shown.
             m_metaDataWidget->setFixedWidth(resizeEvent->size().width());
+        } else if (obj == m_preview) {
+            refreshPixmapViewForItsSize();
         } else if (obj == parent()) {
             adjustWidgetSizes(resizeEvent->size().width());
         }

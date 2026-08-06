@@ -57,6 +57,9 @@ private Q_SLOTS:
 
 private:
     QPixmap m_pixmap;
+    QPixmap m_scaled;
+    qint64 m_scaledFrom = 0;
+    QSize m_scaledFor;
     QMovie *m_animatedImage;
     QSize m_sizeHint;
     bool m_hasAnimatedImage;
