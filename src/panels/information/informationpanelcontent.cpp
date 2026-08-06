@@ -49,8 +49,6 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     , m_metaDataArea(nullptr)
     , m_isVideo(false)
 {
-    parent->installEventFilter(this);
-
     // Initialize timer for disabling an outdated preview with a small
     // delay. This prevents flickering if the new preview can be generated
     // within a very small timeframe.
@@ -143,6 +141,8 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     layout->addWidget(m_configureButtons);
 
     grabGesture(Qt::TapAndHoldGesture);
+
+    parent->installEventFilter(this);
 }
 
 InformationPanelContent::~InformationPanelContent()
@@ -315,7 +315,9 @@ bool InformationPanelContent::eventFilter(QObject *obj, QEvent *event)
     }
 
     case QEvent::Polish:
-        adjustWidgetSizes(parentWidget()->width());
+        if (obj == parent()) {
+            adjustWidgetSizes(parentWidget()->width());
+        }
         break;
 
     case QEvent::FontChange:
