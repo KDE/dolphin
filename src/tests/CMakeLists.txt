@@ -57,7 +57,7 @@ if (KF6Baloo_FOUND)
 endif()
 
 # DolphinQuery
-if (KF6Baloo_FOUND)
+if (HAVE_BALOO)
     ecm_add_test(dolphinquerytest.cpp
     TEST_NAME dolphinquerytest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
