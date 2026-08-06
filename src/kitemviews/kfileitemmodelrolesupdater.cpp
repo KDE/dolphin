@@ -103,6 +103,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     connect(m_model, &KFileItemModel::itemsInserted, this, &KFileItemModelRolesUpdater::slotItemsInserted);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &KFileItemModelRolesUpdater::slotItemsRemoved);
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsContentChanged, this, &KFileItemModelRolesUpdater::slotItemsContentChanged);
     connect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
     connect(m_model, &KFileItemModel::sortRoleChanged, this, &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
@@ -562,7 +563,9 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray &current, 
 
 void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QImage &image)
 {
-    if (m_state != PreviewJobRunning) {
+    // Results arrive from the normal preview job (gated by m_state) and from the
+    // forced job used for content changes, which runs outside that state machine.
+    if (m_state != PreviewJobRunning && sender() != m_forcedPreviewJob) {
         return;
     }
 
@@ -573,9 +576,11 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QIm
         return;
     }
 
+    const auto *previewJob = qobject_cast<KIO::PreviewJob *>(sender());
+
     SmallHash data = rolesData(item, index);
     data.insert("iconPixmap", transformPreviewImage(image));
-    data.insert("supportsSequencing", m_previewJob->handlesSequences());
+    data.insert("supportsSequencing", previewJob && previewJob->handlesSequences());
 
     setModelData(index, data);
     Q_EMIT previewJobFinished(); // For unit testing
@@ -586,7 +591,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QIm
 
 void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
 {
-    if (m_state != PreviewJobRunning) {
+    if (m_state != PreviewJobRunning && sender() != m_forcedPreviewJob) {
         return;
     }
 
@@ -986,6 +991,61 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
 
     m_previewJob = job;
+}
+
+void KFileItemModelRolesUpdater::slotItemsContentChanged(const KItemRangeList &itemRanges)
+{
+    if (!m_previewShown) {
+        return;
+    }
+
+    for (const KItemRange &range : itemRanges) {
+        for (int index = range.index; index < range.index + range.count; ++index) {
+            const KFileItem item = m_model->fileItem(index);
+            if (item.isNull()) {
+                continue;
+            }
+            // The content changed even though the metadata did not, so drop any finished
+            // preview and regenerate it, bypassing the mtime based thumbnail cache.
+            m_finishedItems.remove(item);
+            m_pendingForcedPreviewItems.append(item);
+        }
+    }
+
+    if (!m_forcedPreviewJob && !m_pendingForcedPreviewItems.isEmpty()) {
+        startForcedPreviewJob();
+    }
+}
+
+void KFileItemModelRolesUpdater::startForcedPreviewJob()
+{
+    if (m_pendingForcedPreviewItems.isEmpty()) {
+        return;
+    }
+
+    const KFileItemList items = m_pendingForcedPreviewItems;
+    m_pendingForcedPreviewItems.clear();
+
+    KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
+    job->setDevicePixelRatio(m_devicePixelRatio);
+    job->setForceCacheRefresh(true);
+    if (job->uiDelegate()) {
+        KJobWidgets::setWindow(job, qApp->activeWindow());
+    }
+
+    connect(job, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotGotPreview);
+    connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
+    connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotForcedPreviewJobFinished);
+
+    m_forcedPreviewJob = job;
+}
+
+void KFileItemModelRolesUpdater::slotForcedPreviewJobFinished()
+{
+    m_forcedPreviewJob = nullptr;
+    if (!m_pendingForcedPreviewItems.isEmpty()) {
+        startForcedPreviewJob();
+    }
 }
 
 QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
@@ -1435,6 +1495,12 @@ void KFileItemModelRolesUpdater::killPreviewJob()
         m_previewJob->kill();
         m_previewJob = nullptr;
         m_pendingPreviewItems.clear();
+    }
+    if (m_forcedPreviewJob) {
+        disconnect(m_forcedPreviewJob, nullptr, this, nullptr);
+        m_forcedPreviewJob->kill();
+        m_forcedPreviewJob = nullptr;
+        m_pendingForcedPreviewItems.clear();
     }
 }
 
