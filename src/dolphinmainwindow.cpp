@@ -46,7 +46,6 @@
 #include <KColorSchemeMenu>
 #include <KConfig>
 #include <KConfigGui>
-#include <KDesktopFile>
 #include <KDialogJobUiDelegate>
 #include <KDualAction>
 #include <KFileItemListProperties>
@@ -61,6 +60,7 @@
 #include <KProtocolManager>
 #include <KRecentFilesAction>
 #include <KRuntimePlatform>
+#include <KService>
 #include <KShell>
 #include <KShortcutsDialog>
 #include <KStandardAction>
@@ -2191,8 +2191,8 @@ void DolphinMainWindow::setupActions()
         // Get icon of user default terminal emulator application
         const KConfigGroup group(KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::SimpleConfig), QStringLiteral("General"));
         const QString terminalDesktopFilename = group.readEntry("TerminalService");
-        // Use utilities-terminal icon from theme if readEntry() has failed
-        const QString terminalIcon = terminalDesktopFilename.isEmpty() ? "utilities-terminal" : KDesktopFile(terminalDesktopFilename).readIcon();
+        const KService::Ptr terminalService = KService::serviceByStorageId(terminalDesktopFilename);
+        const QString terminalIcon = terminalService ? terminalService->icon() : QLatin1String("utilities-terminal");
 
         QAction *openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
