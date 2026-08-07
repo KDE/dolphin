@@ -573,7 +573,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QIm
     }
 
     SmallHash data = rolesData(item, index);
-    data.insert("iconPixmap", transformPreviewImage(image));
+    data.insert("iconPixmap", transformPreviewImage(image, m_iconSize));
     data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
     setModelData(index, data);
@@ -649,7 +649,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
         // Add the preview to the model data
 
-        const QPixmap scaledPixmap = transformPreviewImage(image);
+        const QPixmap scaledPixmap = transformPreviewImage(image, m_iconSize);
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -974,7 +974,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     const KFileItemList items = m_pendingPreviewItems;
     m_pendingPreviewItems.clear();
 
-    KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(m_iconSize), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
@@ -987,7 +987,18 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_previewJob = job;
 }
 
-QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
+QPixmap KFileItemModelRolesUpdater::cachedPreviewPixmap(const KFileItem &item, const QSize &iconSize)
+{
+    // Same size and device pixel ratio the asynchronous preview job would request, so
+    // the freedesktop cache tier matches and the result is pixel-identical.
+    const QImage image = KIO::PreviewJob::cachedPreview(item, cacheSize(iconSize), m_devicePixelRatio);
+    if (image.isNull()) {
+        return QPixmap();
+    }
+    return transformPreviewImage(image, iconSize);
+}
+
+QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image, const QSize &iconSize)
 {
     if (image.isNull()) {
         return QPixmap();
@@ -995,17 +1006,17 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
 
     QImage scaledImage = image;
 
-    if (!image.hasAlphaChannel() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
+    if (!image.hasAlphaChannel() && iconSize.width() > KIconLoader::SizeSmallMedium && iconSize.height() > KIconLoader::SizeSmallMedium) {
         if (m_enlargeSmallPreviews) {
-            KPixmapModifier::applyFrame(scaledImage, m_iconSize);
+            KPixmapModifier::applyFrame(scaledImage, iconSize);
         } else {
             // Assure that small previews don't get enlarged. Instead they
             // should be shown centered within the frame.
-            const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
+            const QSize contentSize = KPixmapModifier::sizeInsideFrame(iconSize);
             const bool enlargingRequired = scaledImage.width() < contentSize.width() && scaledImage.height() < contentSize.height();
             if (enlargingRequired) {
                 QSize frameSize = scaledImage.size() / scaledImage.devicePixelRatio();
-                frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
+                frameSize.scale(iconSize, Qt::KeepAspectRatio);
 
                 QImage largeFrame(frameSize, QImage::Format_ARGB32_Premultiplied);
                 largeFrame.fill(Qt::transparent);
@@ -1021,11 +1032,11 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
             } else {
                 // The image must be shrunk as it is too large to fit into
                 // the available icon size
-                KPixmapModifier::applyFrame(scaledImage, m_iconSize);
+                KPixmapModifier::applyFrame(scaledImage, iconSize);
             }
         }
     } else {
-        KPixmapModifier::scale(scaledImage, m_iconSize * m_devicePixelRatio);
+        KPixmapModifier::scale(scaledImage, iconSize * m_devicePixelRatio);
         scaledImage.setDevicePixelRatio(m_devicePixelRatio);
     }
 
@@ -1034,14 +1045,14 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewImage(const QImage &image)
     return result;
 }
 
-QSize KFileItemModelRolesUpdater::cacheSize()
+QSize KFileItemModelRolesUpdater::cacheSize(const QSize &iconSize)
 {
     // PreviewJob internally caches items always with the size of
     // 128 x 128 pixels or 256 x 256 pixels. A (slow) downscaling is done
     // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
     // do a downscaling anyhow because of the frame, so in this case only the provided
     // cache sizes are requested.
-    return (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
+    return (iconSize.width() > 128) || (iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 }
 
 void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
@@ -1084,7 +1095,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
         return;
     }
 
-    KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize(), &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize(m_iconSize), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
 
     job->setSequenceIndex(loadSeqIdx);

@@ -110,6 +110,16 @@ public:
     bool previewsShown() const;
 
     /**
+     * Returns the already-cached thumbnail for the given item as a ready-to-show
+     * pixmap (scaled and framed like a normal preview), or a null pixmap when none
+     * is cached. It is synchronous, so the view can show cached thumbnails on the
+     * first paint instead of waiting for the asynchronous preview job. The caller
+     * passes the target icon size, because on the first paint the internal icon
+     * size is not set yet.
+     */
+    QPixmap cachedPreviewPixmap(const KFileItem &item, const QSize &iconSize);
+
+    /**
      * If enabled a small preview gets upscaled to the icon size in case where
      * the icon size is larger than the preview. Per default enlarging is
      * enabled.
@@ -288,9 +298,10 @@ private:
      * The transform is done in QImage space and converted to a QPixmap once.
      *
      * @param image A raw preview image from a PreviewJob.
+     * @param iconSize The target icon size to scale and frame the image to.
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewImage(const QImage &image);
+    QPixmap transformPreviewImage(const QImage &image, const QSize &iconSize);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.
@@ -343,7 +354,7 @@ private:
     void recountDirectoryItems(const QList<QUrl> &directories);
 
 private:
-    QSize cacheSize();
+    QSize cacheSize(const QSize &iconSize);
     /**
      * enqueue directory size counting for KFileItem item at index
      */

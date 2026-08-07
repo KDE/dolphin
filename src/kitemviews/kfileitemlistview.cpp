@@ -203,13 +203,27 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget *item)
 {
     KStandardItemListView::initializeItemListWidget(item);
 
-    // Make sure that the item has an icon.
     SmallHash data = item->data();
-    if (!data.contains("iconName") && data["iconPixmap"].value<QPixmap>().isNull()) {
-        Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
-        KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
+    const bool hasPixmap = !data["iconPixmap"].value<QPixmap>().isNull();
 
-        const KFileItem fileItem = fileItemModel->fileItem(item->index());
+    Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
+    KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
+    const KFileItem fileItem = fileItemModel->fileItem(item->index());
+
+    // Show an already-cached thumbnail immediately, so it is present on the first paint
+    // instead of arriving later through the asynchronous preview job. This runs even when
+    // a mime icon name is already set, because a pixmap takes precedence when painting.
+    if (!hasPixmap && previewsShown()) {
+        const QPixmap cached = m_modelRolesUpdater->cachedPreviewPixmap(fileItem, availableIconSize());
+        if (!cached.isNull()) {
+            data.insert("iconPixmap", cached);
+            item->setData(data, {"iconPixmap"});
+            return;
+        }
+    }
+
+    // Make sure that the item has an icon.
+    if (!data.contains("iconName") && !hasPixmap) {
         QString iconName = fileItem.iconName();
         if (!QIcon::hasThemeIcon(iconName)) {
             QMimeDatabase mimeDb;
