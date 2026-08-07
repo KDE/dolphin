@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-06 00:47+0000\n"
+"POT-Creation-Date: 2026-08-07 00:49+0000\n"
 "PO-Revision-Date: 2026-05-01 22:58+0100\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -2296,139 +2296,139 @@ msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Bog go Fillteán Nua…"
 
-#: itemactions/setfoldericonitemaction.cpp:162
+#: itemactions/setfoldericonitemaction.cpp:168
 #, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Eile"
 
-#: itemactions/setfoldericonitemaction.cpp:163
+#: itemactions/setfoldericonitemaction.cpp:169
 #, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
 msgstr "Roghanna eile deilbhíní fillteáin"
 
-#: itemactions/setfoldericonitemaction.cpp:197
+#: itemactions/setfoldericonitemaction.cpp:204
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
 msgstr "Dearg"
 
-#: itemactions/setfoldericonitemaction.cpp:198
+#: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
 msgstr "Buí"
 
-#: itemactions/setfoldericonitemaction.cpp:199
+#: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
 msgstr "Oráiste"
 
-#: itemactions/setfoldericonitemaction.cpp:200
+#: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
 msgstr "Glas"
 
-#: itemactions/setfoldericonitemaction.cpp:201
+#: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
 msgstr "Cian"
 
-#: itemactions/setfoldericonitemaction.cpp:203
+#: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: itemactions/setfoldericonitemaction.cpp:205
+#: itemactions/setfoldericonitemaction.cpp:212
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
 msgstr "Gorm"
 
-#: itemactions/setfoldericonitemaction.cpp:206
+#: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
 msgstr "Vialait"
 
-#: itemactions/setfoldericonitemaction.cpp:207
+#: itemactions/setfoldericonitemaction.cpp:214
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
 msgstr "Donn"
 
-#: itemactions/setfoldericonitemaction.cpp:208
+#: itemactions/setfoldericonitemaction.cpp:215
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
 msgstr "Liath"
 
-#: itemactions/setfoldericonitemaction.cpp:211
+#: itemactions/setfoldericonitemaction.cpp:218
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
 msgstr "Leabharmharc"
 
-#: itemactions/setfoldericonitemaction.cpp:212
+#: itemactions/setfoldericonitemaction.cpp:219
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
 msgstr "Néal"
 
-#: itemactions/setfoldericonitemaction.cpp:213
+#: itemactions/setfoldericonitemaction.cpp:220
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "Forbairt"
 
-#: itemactions/setfoldericonitemaction.cpp:214
+#: itemactions/setfoldericonitemaction.cpp:221
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
 msgstr "Cluichí"
 
-#: itemactions/setfoldericonitemaction.cpp:215
+#: itemactions/setfoldericonitemaction.cpp:222
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
 msgstr "Ríomhphost"
 
-#: itemactions/setfoldericonitemaction.cpp:216
+#: itemactions/setfoldericonitemaction.cpp:223
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "Ceol"
 
-#: itemactions/setfoldericonitemaction.cpp:217
+#: itemactions/setfoldericonitemaction.cpp:224
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
 msgstr "Priontáil"
 
-#: itemactions/setfoldericonitemaction.cpp:218
+#: itemactions/setfoldericonitemaction.cpp:225
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
 msgstr "Comhbhrúite"
 
-#: itemactions/setfoldericonitemaction.cpp:219
+#: itemactions/setfoldericonitemaction.cpp:226
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
 msgstr "Sealadach"
 
-#: itemactions/setfoldericonitemaction.cpp:220
+#: itemactions/setfoldericonitemaction.cpp:227
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
 msgstr "Tábhachtach"
 
-#: itemactions/setfoldericonitemaction.cpp:242
+#: itemactions/setfoldericonitemaction.cpp:249
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
