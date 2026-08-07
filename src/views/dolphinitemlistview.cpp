@@ -39,17 +39,18 @@ void DolphinItemListView::setZoomLevel(int level)
         level = ZoomLevelInfo::maximumLevel();
     }
 
-    if (level == m_zoomLevel) {
-        return;
-    }
-
-    m_zoomLevel = level;
-
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
     ViewModeSettings settings(itemLayout());
 
+    // The size belonging to the requested zoom level must be applied even when the zoom level
+    // itself did not change: m_iconSize/m_previewSize may still be unset, e.g. because this is
+    // the first call for the current view mode. Otherwise the view would keep using a stale size.
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
+    bool changed = (level != m_zoomLevel);
+
     if (previewsShown()) {
-        m_previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        changed = changed || (m_previewSize != size);
+        m_previewSize = size;
         // Only update the icon size settings if we're using global view props
         // to prevent inconsistent state on zoom level changes
         if (useGlobalViewProps) {
@@ -57,11 +58,18 @@ void DolphinItemListView::setZoomLevel(int level)
         }
     } else {
         // Same as above
-        m_iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        changed = changed || (m_iconSize != size);
+        m_iconSize = size;
         if (useGlobalViewProps) {
             settings.setIconSize(m_iconSize);
         }
     }
+
+    if (!changed) {
+        return;
+    }
+
+    m_zoomLevel = level;
 
     updateGridSize();
 }
@@ -180,7 +188,14 @@ void DolphinItemListView::updateGridSize()
 
     // Calculate the size of the icon
     // Only use zoom stored in settings if we're using global view props
-    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : (previewsShown() ? m_previewSize : m_iconSize);
+    int &cachedSize = previewsShown() ? m_previewSize : m_iconSize;
+    if (cachedSize <= 0) {
+        // setZoomLevel() has not been called yet for this view mode and preview state, so the
+        // per-folder zoom is not known yet. Falling back to the configured size keeps the view
+        // usable: a size of 0 would mean that no icons are rendered at all.
+        cachedSize = previewsShown() ? settings.previewSize() : settings.iconSize();
+    }
+    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : cachedSize;
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption option = styleOption();
 

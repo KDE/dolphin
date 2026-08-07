@@ -7,13 +7,15 @@
 #ifndef ZOOMLEVELINFO_H
 #define ZOOMLEVELINFO_H
 
+#include "dolphin_export.h"
+
 class QSize;
 
 /**
  * @short Helper class for getting information about the zooming
  *        capabilities.
  */
-class ZoomLevelInfo
+class DOLPHIN_EXPORT ZoomLevelInfo
 {
 public:
     static int minimumLevel();
