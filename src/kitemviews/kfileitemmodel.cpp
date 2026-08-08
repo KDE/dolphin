@@ -2455,8 +2455,7 @@ void KFileItemModel::sort(const QList<KFileItemModel::ItemData *>::iterator &beg
     };
 
     const QByteArray rawRole = rawGroupRole();
-    const bool groupKeyIsString = !rawRole.isEmpty() && groupRole() != sortRole()
-        && isRoleValueNatural(typeForRole(rawRole));
+    const bool groupKeyIsString = !rawRole.isEmpty() && groupRole() != sortRole() && isRoleValueNatural(typeForRole(rawRole));
     // String-based sorts benefit from parallelism; non-string sorts use one thread
     // to avoid non-reentrant comparison functions (bug 312679).
     const bool primaryKeyIsString = m_sortRole == NameRole || isRoleValueNatural(m_sortRole) || groupKeyIsString;

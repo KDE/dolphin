@@ -317,7 +317,7 @@ void DolphinPart::slotErrorMessage(const QString &msg)
 {
     qCDebug(DolphinDebug) << msg;
     Q_EMIT canceled(msg);
-    //KMessageBox::error(m_view, msg);
+    // KMessageBox::error(m_view, msg);
 }
 
 void DolphinPart::slotRequestItemInfo(const KFileItem &item)

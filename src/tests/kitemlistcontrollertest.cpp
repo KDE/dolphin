@@ -88,6 +88,7 @@ private Q_SLOTS:
 
     void testCollapsibleGroups();
     void testRestartingInlineRenameKeepsEditor();
+
 private:
     /**
      * Make sure that the number of columns in the view is equal to \a count

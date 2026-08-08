@@ -17,7 +17,10 @@ class KDirectoryContentsCounterWorker : public QObject
     Q_OBJECT
 
 public:
-    enum Option { NoOptions = 0x0, CountHiddenFiles = 0x1 };
+    enum Option {
+        NoOptions = 0x0,
+        CountHiddenFiles = 0x1
+    };
     Q_DECLARE_FLAGS(Options, Option)
 
     explicit KDirectoryContentsCounterWorker(QObject *parent = nullptr);

@@ -315,7 +315,10 @@ private:
 
     void applySortProgressToModel();
 
-    enum ResolveHint { ResolveFast, ResolveAll };
+    enum ResolveHint {
+        ResolveFast,
+        ResolveAll
+    };
     bool applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem = KFileItem());
     SmallHash rolesData(const KFileItem &item, int index);
 
@@ -349,7 +352,13 @@ private:
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
 
-    enum State { Idle, Paused, ResolvingSortRole, ResolvingAllRoles, PreviewJobRunning };
+    enum State {
+        Idle,
+        Paused,
+        ResolvingSortRole,
+        ResolvingAllRoles,
+        PreviewJobRunning
+    };
 
     State m_state;
 

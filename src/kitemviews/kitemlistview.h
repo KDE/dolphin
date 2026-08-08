@@ -61,7 +61,12 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
 
 public:
     /** The position in the view to which an item should be scrolled to. */
-    enum ViewItemPosition { Beginning, Middle, End, Nearest };
+    enum ViewItemPosition {
+        Beginning,
+        Middle,
+        End,
+        Nearest
+    };
 
     explicit KItemListView(QGraphicsWidget *parent = nullptr);
     ~KItemListView() override;
@@ -480,9 +485,15 @@ private Q_SLOTS:
     void slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
 private:
-    enum LayoutAnimationHint { NoAnimation, Animation };
+    enum LayoutAnimationHint {
+        NoAnimation,
+        Animation
+    };
 
-    enum SizeType { LayouterSize, ItemSize };
+    enum SizeType {
+        LayouterSize,
+        ItemSize
+    };
 
     void setController(KItemListController *controller);
     void setModel(KItemModelBase *model);

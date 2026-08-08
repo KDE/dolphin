@@ -21,7 +21,11 @@
 
 namespace
 {
-enum ScriptExecution { AlwaysAsk = 0, Open = 1, Execute = 2 };
+enum ScriptExecution {
+    AlwaysAsk = 0,
+    Open = 1,
+    Execute = 2
+};
 
 const bool ConfirmEmptyTrash = true;
 const bool ConfirmTrash = false;

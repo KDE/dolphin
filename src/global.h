@@ -23,7 +23,10 @@ QList<QUrl> validateUris(const QStringList &uriList);
  */
 QUrl homeUrl();
 
-enum class OpenNewWindowFlag { None = 0, Select = 1 << 1 };
+enum class OpenNewWindowFlag {
+    None = 0,
+    Select = 1 << 1
+};
 Q_DECLARE_FLAGS(OpenNewWindowFlags, OpenNewWindowFlag)
 
 /**
@@ -53,7 +56,10 @@ constexpr int VERTICAL_SPACER_HEIGHT = 12;
 constexpr int LAYOUT_SPACING_SMALL = 4;
 }
 
-enum Animated { WithAnimation, WithoutAnimation };
+enum Animated {
+    WithAnimation,
+    WithoutAnimation
+};
 
 class GlobalConfig : public QObject
 {
@@ -77,4 +83,4 @@ private:
     static double s_animationDurationFactor;
 };
 
-#endif //GLOBAL_H
+#endif // GLOBAL_H

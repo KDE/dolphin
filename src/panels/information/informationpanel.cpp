@@ -222,7 +222,7 @@ void InformationPanel::showItemInfo()
     }
 
     cancelRequest();
-    //qDebug() << "showItemInfo" << m_fileItem;
+    // qDebug() << "showItemInfo" << m_fileItem;
 
     bool canShowHoverItem = !m_isSelectionActive && !m_hoveredItem.isNull() && InformationPanelSettings::showHovered();
     if (m_selection.count() > 1 && !canShowHoverItem) {

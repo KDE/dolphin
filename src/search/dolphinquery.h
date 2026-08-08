@@ -297,4 +297,4 @@ private:
 void setTestMode();
 }
 
-#endif //DOLPHINQUERY_H
+#endif // DOLPHINQUERY_H

@@ -622,7 +622,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent *event, const
     if (!m_pressedIndex.has_value()) {
         Q_EMIT clickViewBackground(event->button());
     }
-    
+
     if (!onPress(event->pos(), event->modifiers(), buttons)) {
         startRubberBand();
         return false;
@@ -1003,7 +1003,8 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent *event, const 
             if (oldHoveredExpansionWidget && *oldHoveredExpansionWidget != newHoveredWidget) {
                 (*oldHoveredExpansionWidget)->setExpansionAreaHovered(false);
             }
-            // we also unhover any old icon+text hovers, in case the mouse movement from icon+text to expansion toggle is too fast (i.e. newHoveredWidget is never null between the transition)
+            // we also unhover any old icon+text hovers, in case the mouse movement from icon+text to expansion toggle is too fast (i.e. newHoveredWidget is
+            // never null between the transition)
             unhoverOldHoveredWidget();
 
             newHoveredWidget->setExpansionAreaHovered(true);
@@ -1014,7 +1015,8 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent *event, const 
                 oldHoveredWidget->setHovered(false);
                 Q_EMIT itemUnhovered(oldHoveredWidget->index());
             }
-            // we also unhover any old expansion toggle hovers, in case the mouse movement from expansion toggle to icon+text is too fast (i.e. newHoveredWidget is never null between the transition)
+            // we also unhover any old expansion toggle hovers, in case the mouse movement from expansion toggle to icon+text is too fast (i.e. newHoveredWidget
+            // is never null between the transition)
             unhoverOldExpansionWidget();
 
             const bool isOverIconAndText = newHoveredWidget->selectionRectCore().contains(mappedPos);
@@ -1085,9 +1087,9 @@ bool KItemListController::gestureEvent(QGestureEvent *event, const QTransform &t
         return false;
     }
 
-    //you can touch on different views at the same time, but only one QWidget gets a mousePressEvent
-    //we use this to get the right QWidget
-    //the only exception is a tap gesture with state GestureStarted, we need to reset some variable
+    // you can touch on different views at the same time, but only one QWidget gets a mousePressEvent
+    // we use this to get the right QWidget
+    // the only exception is a tap gesture with state GestureStarted, we need to reset some variable
     if (!m_mousePress) {
         if (QGesture *tap = event->gesture(Qt::TapGesture)) {
             QTapGesture *tapGesture = static_cast<QTapGesture *>(tap);
@@ -1146,8 +1148,8 @@ void KItemListController::tapTriggered(QTapGesture *tap, const QTransform &trans
     if (tap->state() == Qt::GestureFinished) {
         m_mousePress = false;
 
-        //if at the moment of the gesture start the QScroller was active, the user made the tap
-        //to stop the QScroller and not to tap on an item
+        // if at the moment of the gesture start the QScroller was active, the user made the tap
+        // to stop the QScroller and not to tap on an item
         if (scrollerWasActive) {
             return;
         }
@@ -1170,14 +1172,14 @@ void KItemListController::tapTriggered(QTapGesture *tap, const QTransform &trans
 
 void KItemListController::tapAndHoldTriggered(QGestureEvent *event, const QTransform &transform)
 {
-    //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
+    // the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
     if (!m_isTouchEvent) {
         return;
     }
 
     const QTapAndHoldGesture *tap = static_cast<QTapAndHoldGesture *>(event->gesture(Qt::TapAndHoldGesture));
     if (tap->state() == Qt::GestureFinished) {
-        //if a pinch gesture is in progress we don't want a TabAndHold gesture
+        // if a pinch gesture is in progress we don't want a TabAndHold gesture
         if (m_pinchGestureInProgress) {
             return;
         }
@@ -1218,7 +1220,7 @@ void KItemListController::pinchTriggered(QGestureEvent *event, const QTransform 
         counter = 0;
     }
     if (pinch->state() == Qt::GestureUpdated) {
-        //if a swipe gesture was recognized or in progress, we don't want a pinch gesture to change the zoom
+        // if a swipe gesture was recognized or in progress, we don't want a pinch gesture to change the zoom
         if (m_isSwipeGesture) {
             return;
         }

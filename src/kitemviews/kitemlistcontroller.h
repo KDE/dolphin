@@ -54,12 +54,22 @@ class DOLPHIN_EXPORT KItemListController : public QObject
     Q_PROPERTY(KItemListView *view READ view WRITE setView NOTIFY viewChanged)
 
 public:
-    enum SelectionBehavior { NoSelection, SingleSelection, MultiSelection };
+    enum SelectionBehavior {
+        NoSelection,
+        SingleSelection,
+        MultiSelection
+    };
     Q_ENUM(SelectionBehavior)
 
-    enum AutoActivationBehavior { ActivationAndExpansion, ExpansionOnly };
+    enum AutoActivationBehavior {
+        ActivationAndExpansion,
+        ExpansionOnly
+    };
 
-    enum MouseDoubleClickAction { ActivateAndExpandItem, ActivateItemOnly };
+    enum MouseDoubleClickAction {
+        ActivateAndExpandItem,
+        ActivateItemOnly
+    };
 
     /**
      * @param model  Model of the controller. The ownership is passed to the controller.

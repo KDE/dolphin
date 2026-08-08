@@ -86,7 +86,7 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
                               QPalette::ColorRole::Base,
                               nameLabelPalette.color(QPalette::ColorGroup::Normal, QPalette::ColorRole::Window));
     m_nameLabel->setPalette(nameLabelPalette);
-    m_nameLabel->setContentsMargins(0, 0, 0, 0); 
+    m_nameLabel->setContentsMargins(0, 0, 0, 0);
     m_nameLabel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_nameLabel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QTextDocument *doc = m_nameLabel->document();

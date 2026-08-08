@@ -684,7 +684,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
                 focusRectOption.state = QStyle::State_HasFocus | QStyle::State_Selected;
             }
             if (m_hovered) {
-                 focusRectOption.state |= QStyle::State_MouseOver;
+                focusRectOption.state |= QStyle::State_MouseOver;
             }
             focusRectOption.rect = viewItemOption.rect;
             style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);

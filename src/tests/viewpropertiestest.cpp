@@ -255,7 +255,7 @@ void ViewPropertiesTest::testGlobalDefaultConfigFromDirectory()
     QUrl globalPropertiesPath =
         QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/view_properties/").append(QStringLiteral("global")));
     QVERIFY(QDir().mkpath(globalPropertiesPath.toLocalFile()));
-    
+
     QString dotDirectoryFilePath = globalPropertiesPath.toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFilePath));
 
@@ -286,12 +286,12 @@ ThoseShouldBeKept=true
     ViewProperties props(m_testDir->url());
     props.save();
 
-    // We delete a temporary file in 'ViewProperties::save()' after reading the default config, 
+    // We delete a temporary file in 'ViewProperties::save()' after reading the default config,
     // and that temp file is created as copy from '.directory' if we have metadata enabled.
     //
-    // But it can be original '.directory' instead of temp file, 
+    // But it can be original '.directory' instead of temp file,
     // if we read default config from 'global' directory, which does not support attributes.
-    // So we make sure that it is not deleted here, 
+    // So we make sure that it is not deleted here,
     // because we do not want to delete '.directory' file.
     QVERIFY(QFile::exists(dotDirectoryFilePath));
 

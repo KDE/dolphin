@@ -12,8 +12,12 @@ class KFileItemList;
 class QFontMetrics;
 class QString;
 
-enum ItemsState { None, Selected };
+enum ItemsState {
+    None,
+    Selected
+};
 
+// clang-format off
 /**
  * @brief Generates a textual representation of the given list of KFileItems.
  *
@@ -48,6 +52,7 @@ enum ItemsState { None, Selected };
  *          Otherwise returns something like "5 Files", "8 Selected Folders" or "60 Items"
  *          while being as specific as possible.
  */
+// clang-format on
 QString fileItemListToString(KFileItemList items, int maximumTextWidth, const QFontMetrics &fontMetrics, ItemsState itemsState = ItemsState::None);
 
 #endif // KFILEITEMLISTTOSTRING_H

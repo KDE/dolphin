@@ -48,8 +48,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys, bool searchBac
         m_searchedString.append(keys);
 
         const QChar firstChar = m_searchedString.at(0);
-        const bool allSameChars = m_searchedString.length() > 1 &&
-                                 m_searchedString.count(firstChar) == m_searchedString.length();
+        const bool allSameChars = m_searchedString.length() > 1 && m_searchedString.count(firstChar) == m_searchedString.length();
 
         // Overall strategy:
         // 1. First attempt full string matching for exact file names

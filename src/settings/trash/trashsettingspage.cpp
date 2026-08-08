@@ -6,8 +6,8 @@
 
 #include "trashsettingspage.h"
 
-#include <KCModuleLoader>
 #include <KCModule>
+#include <KCModuleLoader>
 #include <KPluginMetaData>
 
 #include <QFormLayout>

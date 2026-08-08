@@ -649,10 +649,10 @@ private Q_SLOTS:
     void slotAboutToShowBackPopupMenu();
 
     /**
-      * This slot is used by the Back Popup Menu to go back to a specific
-      * history index. The QAction::data will carry an int with the index
-      * to go to.
-      */
+     * This slot is used by the Back Popup Menu to go back to a specific
+     * history index. The QAction::data will carry an int with the index
+     * to go to.
+     */
     void slotGoBack(QAction *action);
 
     /**
@@ -667,10 +667,10 @@ private Q_SLOTS:
     void slotAboutToShowForwardPopupMenu();
 
     /**
-      * This slot is used by the Forward Popup Menu to go forward to a specific
-      * history index. The QAction::data will carry an int with the index
-      * to go to.
-      */
+     * This slot is used by the Forward Popup Menu to go forward to a specific
+     * history index. The QAction::data will carry an int with the index
+     * to go to.
+     */
     void slotGoForward(QAction *action);
 
     /**

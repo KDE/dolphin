@@ -7,13 +7,13 @@
 #include "movetonewfolderitemaction.h"
 
 #include <KFileItem>
-#include <KLocalizedString>
-#include <KPluginFactory>
-#include <KNewFileMenu>
-#include <KJobWidgets>
 #include <KIO/CopyJob>
-#include <KIO/JobUiDelegate>
 #include <KIO/FileUndoManager>
+#include <KIO/JobUiDelegate>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KNewFileMenu>
+#include <KPluginFactory>
 
 #include <QUrl>
 
@@ -22,13 +22,12 @@ K_PLUGIN_CLASS_WITH_JSON(MoveToNewFolderItemAction, "movetonewfolderitemaction.j
 MoveToNewFolderItemAction::MoveToNewFolderItemAction(QObject *parent)
     : KAbstractFileItemActionPlugin(parent)
 {
-
 }
 
 QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget)
 {
     const KFileItemList &selectedItems = fileItemInfos.items();
-    
+
     if (selectedItems.size() == 1 && selectedItems[0].isDir()) {
         // skip single directory like the current working directory
         return {};

@@ -24,10 +24,17 @@ class DOLPHIN_EXPORT KItemListSelectionManager : public QObject
 {
     Q_OBJECT
 
-    enum RangesRemovingBehaviour { DiscardRemovedIndex, AdjustRemovedIndex };
+    enum RangesRemovingBehaviour {
+        DiscardRemovedIndex,
+        AdjustRemovedIndex
+    };
 
 public:
-    enum SelectionMode { Select, Deselect, Toggle };
+    enum SelectionMode {
+        Select,
+        Deselect,
+        Toggle
+    };
 
     explicit KItemListSelectionManager(QObject *parent = nullptr);
     ~KItemListSelectionManager() override;

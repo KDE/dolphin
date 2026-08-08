@@ -18,7 +18,7 @@ class PreventFocusWhileHidden : public QObject
 {
 public:
     PreventFocusWhileHidden(QObject *parent)
-        : QObject(parent){};
+        : QObject(parent) {};
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override
@@ -218,7 +218,12 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
             Q_EMIT tabCloseRequested(index);
         } else if (selectedAction == renameTabAction) {
             bool renamed = false;
-            const QString tabNewName = QInputDialog::getText(this, i18nc("@title:window for text input", "Rename Tab"), i18n("New tab name:"), QLineEdit::Normal, tabText(index), &renamed);
+            const QString tabNewName = QInputDialog::getText(this,
+                                                             i18nc("@title:window for text input", "Rename Tab"),
+                                                             i18n("New tab name:"),
+                                                             QLineEdit::Normal,
+                                                             tabText(index),
+                                                             &renamed);
 
             if (renamed) {
                 Q_EMIT tabRenamed(index, tabNewName);

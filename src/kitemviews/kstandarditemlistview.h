@@ -31,7 +31,11 @@ class DOLPHIN_EXPORT KStandardItemListView : public KItemListView
     Q_OBJECT
 
 public:
-    enum ItemLayout { IconsLayout, CompactLayout, DetailsLayout };
+    enum ItemLayout {
+        IconsLayout,
+        CompactLayout,
+        DetailsLayout
+    };
 
     explicit KStandardItemListView(QGraphicsWidget *parent = nullptr);
     ~KStandardItemListView() override;

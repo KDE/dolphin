@@ -21,7 +21,10 @@ class DolphinFontRequester : public QWidget
     Q_OBJECT
 
 public:
-    enum Mode { SystemFont = 0, CustomFont = 1 };
+    enum Mode {
+        SystemFont = 0,
+        CustomFont = 1
+    };
 
     explicit DolphinFontRequester(QWidget *parent);
     ~DolphinFontRequester() override;

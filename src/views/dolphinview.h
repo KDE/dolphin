@@ -956,7 +956,10 @@ private:
      */
     void applyDynamicView();
 
-    enum Selection { HasSelection, NoSelection };
+    enum Selection {
+        HasSelection,
+        NoSelection
+    };
     /**
      * Helper method for DolphinView::requestStatusBarText().
      * Generates the status bar text from the parameters and
@@ -1027,7 +1030,12 @@ private:
                      // tooltip may be shown when hovering an item.
     bool m_selectNextItem;
 
-    enum class LoadingState { Idle, Loading, Canceled, Completed };
+    enum class LoadingState {
+        Idle,
+        Loading,
+        Canceled,
+        Completed
+    };
     LoadingState m_loadingState = LoadingState::Idle;
 
     QUrl m_url;

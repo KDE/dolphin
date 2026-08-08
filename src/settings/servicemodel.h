@@ -26,7 +26,9 @@ class ServiceModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum Role { DesktopEntryNameRole = Qt::UserRole };
+    enum Role {
+        DesktopEntryNameRole = Qt::UserRole
+    };
 
     explicit ServiceModel(QObject *parent = nullptr);
     ~ServiceModel() override;

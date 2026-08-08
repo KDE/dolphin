@@ -11,9 +11,9 @@
 #include <KFileItem>
 
 #include <QPointer>
+#include <QTextEdit>
 #include <QUrl>
 #include <QWidget>
-#include <QTextEdit>
 
 class KFileItemList;
 class MediaWidget;
@@ -37,7 +37,7 @@ class FileMetaDataWidget;
 
 /**
  * @brief Manages the widgets that display the meta information
-*         for file items of the Information Panel.
+ *         for file items of the Information Panel.
  */
 class InformationPanelContent : public QWidget
 {

@@ -11,8 +11,8 @@
 #include "kitemviews/kitemlistwidget.h"
 
 #include <QPixmap>
-#include <QPointer>
 #include <QPointF>
+#include <QPointer>
 #include <QStaticText>
 
 class KItemListRoleEditor;
@@ -55,7 +55,10 @@ protected:
     virtual bool itemIsLink(int index, const KItemListView *view) const;
 
     /** Configure whether the requested text should be optimized for viewing on a screen or for being read out aloud by a text-to-speech engine. */
-    enum class ForUsageAs { DisplayedText, SpokenText };
+    enum class ForUsageAs {
+        DisplayedText,
+        SpokenText
+    };
 
     /**
      * @param role          The role the text is being requested for.
@@ -69,8 +72,8 @@ protected:
     virtual QString roleText(const QByteArray &role, const SmallHash &values, ForUsageAs forUsageAs = ForUsageAs::DisplayedText) const;
 
     /**
-    * @return A font based on baseFont which is customized for symlinks.
-    */
+     * @return A font based on baseFont which is customized for symlinks.
+     */
     virtual QFont customizedFontForLinks(const QFont &baseFont) const;
 
     void calculateIconsLayoutItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const;
@@ -90,7 +93,11 @@ class DOLPHIN_EXPORT KStandardItemListWidget : public KItemListWidget
     Q_OBJECT
 
 public:
-    enum Layout { IconsLayout, CompactLayout, DetailsLayout };
+    enum Layout {
+        IconsLayout,
+        CompactLayout,
+        DetailsLayout
+    };
 
     KStandardItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~KStandardItemListWidget() override;
@@ -277,7 +284,7 @@ private:
     Layout m_layout;
     QPointF m_pixmapPos;
     QPixmap m_pixmap;
-    QSize m_scaledPixmapSize; //Size of the pixmap in device independent pixels
+    QSize m_scaledPixmapSize; // Size of the pixmap in device independent pixels
 
     qreal m_columnWidthSum;
     QRectF m_iconRect; // Cache for KItemListWidget::iconRect()

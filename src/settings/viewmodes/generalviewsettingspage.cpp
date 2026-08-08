@@ -101,6 +101,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 
     // list of actions allowed to be triggered by double click
     // actions were selected based on their usefulness of being triggered with the mouse
+    // clang-format off
     QStringList allowedActions{"new_tab",
                                "file_new",
                                "show_places_panel",
@@ -121,6 +122,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
                                "show_hidden_files",
                                "group_by",
                                "view_properties"};
+    // clang-format on
 
     // create actions combo-box and add actions
     m_doubleClickViewComboBox = new QComboBox();

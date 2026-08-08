@@ -233,7 +233,7 @@ DolphinMainWindow::DolphinMainWindow()
     }
 
     QAction *showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
-    showMenuBarAction->setChecked(!menuBar()->isHidden()); //workaround for bug #171080
+    showMenuBarAction->setChecked(!menuBar()->isHidden()); // workaround for bug #171080
     QTimer::singleShot(0, this, [this, showMenuBarAction]() {
         menuBar()->setVisible(showMenuBarAction->isChecked());
     });
@@ -773,8 +773,10 @@ void DolphinMainWindow::slotSaveSession()
 void DolphinMainWindow::slotClickViewBackground()
 {
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
+    // clang-format off
     KUrlNavigator *navigator =
         m_tabWidget->currentTabPage()->primaryViewActive() ? navigators->primaryUrlNavigator() : navigators->secondaryUrlNavigator();
+    // clang-format on
 
     if (navigator->isUrlEditable() && !GeneralSettings::editableUrl()) {
         navigator->setUrlEditable(false);

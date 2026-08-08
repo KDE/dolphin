@@ -886,7 +886,8 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
 
     // Make all selection mode bars appear and test for each that this doesn't affect the places panel's width.
-    // One of the bottom bars (SelectionMode::BottomBar::GeneralContents) only shows up when at least one item is selected so we do that before we begin iterating.
+    // One of the bottom bars (SelectionMode::BottomBar::GeneralContents) only shows up when at least one item is selected so we do that before we begin
+    // iterating.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::SelectAll))->trigger();
     for (int selectionModeStates = SelectionMode::BottomBar::CopyContents; selectionModeStates != SelectionMode::BottomBar::RenameContents;
          selectionModeStates++) {

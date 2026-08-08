@@ -30,7 +30,11 @@ public:
     void setZoomLevel(int level);
     int zoomLevel() const;
 
-    enum SelectionTogglesEnabled { True, False, FollowSetting };
+    enum SelectionTogglesEnabled {
+        True,
+        False,
+        FollowSetting
+    };
     /**
      * Sets whether the items in this view should show a small selection toggle area on mouse hover.
      * The default for this view is to follow the "showSelectionToggle" setting but this method can

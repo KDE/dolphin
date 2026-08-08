@@ -122,7 +122,7 @@ void TreeViewContextMenu::open(const QPoint &pos)
     autoScrollingAction->setChecked(m_parent->autoScrolling());
     // TODO: Temporary disabled. Horizontal autoscrolling will be implemented later either
     // in KItemViews or manually as part of the FoldersPanel
-    //popup->addAction(autoScrollingAction);
+    // popup->addAction(autoScrollingAction);
     connect(autoScrollingAction, &QAction::toggled, this, &TreeViewContextMenu::setAutoScrolling);
 
     if (!m_fileItem.isNull()) {

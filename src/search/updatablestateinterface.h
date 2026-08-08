@@ -21,7 +21,7 @@ public:
     inline explicit UpdatableStateInterface(std::shared_ptr<const DolphinQuery> dolphinQuery)
         : m_searchConfiguration{std::move(dolphinQuery)} {};
 
-    virtual ~UpdatableStateInterface(){};
+    virtual ~UpdatableStateInterface() {};
 
     /**
      * Updates this object and its child widgets so their states are correctly described by the @p dolphinQuery.

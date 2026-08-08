@@ -295,7 +295,14 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
 
 namespace
 {
-enum ChangeType { NoChange, InsertItems, RemoveItems, MoveItems, EndAnchoredSelection, SetSelected };
+enum ChangeType {
+    NoChange,
+    InsertItems,
+    RemoveItems,
+    MoveItems,
+    EndAnchoredSelection,
+    SetSelected
+};
 }
 
 Q_DECLARE_METATYPE(KItemSet)

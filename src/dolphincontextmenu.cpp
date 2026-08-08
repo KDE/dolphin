@@ -31,10 +31,10 @@
 #include <KNewFileMenu>
 #include <KStandardAction>
 
+#include <QAction>
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
-#include <QAction>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow *parent,
                                        const KFileItem &fileInfo,

@@ -21,7 +21,10 @@ class KDirectoryContentsCounter : public QObject
     Q_OBJECT
 
 public:
-    enum PathCountPriority { Normal, High };
+    enum PathCountPriority {
+        Normal,
+        High
+    };
 
     explicit KDirectoryContentsCounter(KFileItemModel *model, QObject *parent = nullptr);
     ~KDirectoryContentsCounter() override;

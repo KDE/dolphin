@@ -79,7 +79,10 @@ private Q_SLOTS:
     void slotKonsolePartCurrentDirectoryChanged(const QString &dir);
 
 private:
-    enum class HistoryPolicy { AddToHistory, SkipHistory };
+    enum class HistoryPolicy {
+        AddToHistory,
+        SkipHistory
+    };
 
     void changeDir(const QUrl &url);
     void emitUrlChanged(const QUrl &url);

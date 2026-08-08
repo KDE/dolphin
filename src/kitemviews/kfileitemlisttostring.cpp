@@ -22,8 +22,10 @@ QString fileItemListToString(KFileItemList items, int maximumTextWidth, const QF
         text = i18nc("Textual representation of a file. %1 is the name of the file/folder.", "\"%1\"", items.first().name().replace("&", "&&"));
         break;
     case 2:
-        text =
-            i18nc("Textual representation of two files. %1 and %2 are names of files/folders.", "\"%1\" and \"%2\"", items.first().name().replace("&", "&&"), items.last().name().replace("&", "&&"));
+        text = i18nc("Textual representation of two files. %1 and %2 are names of files/folders.",
+                     "\"%1\" and \"%2\"",
+                     items.first().name().replace("&", "&&"),
+                     items.last().name().replace("&", "&&"));
         break;
     case 3:
         text = i18nc("Textual representation of three files. %1, %2 and %3 are names of files/folders.",

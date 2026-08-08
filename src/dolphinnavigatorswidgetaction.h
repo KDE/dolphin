@@ -110,7 +110,10 @@ private:
     /**
      * In Left-to-right languages the Primary side will be the left one.
      */
-    enum Side { Primary, Secondary };
+    enum Side {
+        Primary,
+        Secondary
+    };
     /**
      * Used to create the navigatorWidgets for both sides of the QSplitter.
      */
@@ -159,7 +162,10 @@ private:
      */
     QPushButton *newKdeConnectButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
 
-    enum Position { Leading, Trailing };
+    enum Position {
+        Leading,
+        Trailing
+    };
     /**
      * Used to retrieve both the leading and trailing spacing for the navigatorWidgets
      * on both sides. A secondary leading spacing does not exist.

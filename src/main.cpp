@@ -241,7 +241,7 @@ int main(int argc, char **argv)
     // Only restore session if:
     // 1. The "remember state" setting is enabled or session restoration after
     //    reboot is in use
-    // 2. This is the first instance or restoring multiple instances with 
+    // 2. This is the first instance or restoring multiple instances with
     //    session restoration after reboot enabled
     // 3. There is a session available to restore
     if (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs()) {

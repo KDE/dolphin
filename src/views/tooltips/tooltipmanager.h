@@ -29,7 +29,10 @@ class ToolTipManager : public QObject
     Q_OBJECT
 
 public:
-    enum class HideBehavior { Instantly, Later };
+    enum class HideBehavior {
+        Instantly,
+        Later
+    };
 
     explicit ToolTipManager(QWidget *parent);
     ~ToolTipManager() override;

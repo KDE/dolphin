@@ -190,7 +190,7 @@ void BottomBarContentsContainer::addCopyContents()
     connect(copyButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
-                // it instantly deletes the button and then the other slots won't be called.
+                                                               // it instantly deletes the button and then the other slots won't be called.
         }
         Q_EMIT selectionModeLeavingRequested();
     });
@@ -268,7 +268,7 @@ void BottomBarContentsContainer::addCutContents()
     connect(cutButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
-                // it instantly deletes the button and then the other slots won't be called.
+                                                               // it instantly deletes the button and then the other slots won't be called.
         }
         Q_EMIT selectionModeLeavingRequested();
     });

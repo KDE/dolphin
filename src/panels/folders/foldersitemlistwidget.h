@@ -11,7 +11,7 @@
 
 /**
  * @brief Extends KFileItemListWidget to use the right text color.
-*/
+ */
 class FoldersItemListWidget : public KFileItemListWidget
 {
     Q_OBJECT

@@ -42,7 +42,10 @@ public:
     void textsWhenNothingIsSelectedEnabled(bool enabled);
 
 private:
-    enum TextState { TextWhenNothingIsSelected, TextWhenSomethingIsSelected };
+    enum TextState {
+        TextWhenNothingIsSelected,
+        TextWhenSomethingIsSelected
+    };
 
     /**
      * Utility struct to allow switching back and forth between registered actions showing their
@@ -58,7 +61,7 @@ private:
         RegisteredActionTextChange(QAction *action, QString registeredText, TextState state)
             : action{action}
             , registeredText{std::move(std::move(registeredText))}
-            , textStateOfRegisteredText{state} { };
+            , textStateOfRegisteredText{state} {};
     };
 
     /**

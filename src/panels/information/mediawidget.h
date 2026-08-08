@@ -25,7 +25,10 @@ class MediaWidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum MediaKind { Video, Audio };
+    enum MediaKind {
+        Video,
+        Audio
+    };
 
     explicit MediaWidget(QWidget *parent = nullptr);
 

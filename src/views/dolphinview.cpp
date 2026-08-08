@@ -2579,7 +2579,7 @@ void DolphinView::applyDynamicView()
     uint imageAndVideoCount = 0;
     uint checkedItems = 0;
     uint checkedItemDir = 0;
-    constexpr float folderWeight = 1.00/3;
+    constexpr float folderWeight = 1.00 / 3;
     const uint totalItems = itemsCount();
     const KFileItemList itemList = items();
     bool applyDynamicView = false;

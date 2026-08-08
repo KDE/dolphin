@@ -26,7 +26,11 @@ class DOLPHIN_EXPORT DolphinRemoveAction : public QAction
 {
     Q_OBJECT
 public:
-    enum class ShiftState { Unknown, Pressed, Released };
+    enum class ShiftState {
+        Unknown,
+        Pressed,
+        Released
+    };
 
     DolphinRemoveAction(QObject *parent, KActionCollection *collection);
 

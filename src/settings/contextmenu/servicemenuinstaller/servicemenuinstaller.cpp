@@ -26,7 +26,10 @@ Q_GLOBAL_STATIC_WITH_ARGS(QStringList,
                             QLatin1String("application/x-xz"),
                             QLatin1String("application/zstd")}))
 
-enum PackageOperation { Install, Uninstall };
+enum PackageOperation {
+    Install,
+    Uninstall
+};
 
 #if HAVE_PACKAGEKIT
 #include <PackageKit/Daemon>
@@ -131,7 +134,10 @@ struct UncompressCommand {
     QStringList args2;
 };
 
-enum ScriptExecution { Process, Konsole };
+enum ScriptExecution {
+    Process,
+    Konsole
+};
 
 static void runUncompress(const QString &inputPath, const QString &outputPath)
 {
