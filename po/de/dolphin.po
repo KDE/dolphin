@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 00:49+0000\n"
+"POT-Creation-Date: 2026-08-08 00:48+0000\n"
 "PO-Revision-Date: 2026-06-03 07:55+0200\n"
 "Last-Translator: Andreas Pietzowski <pietz@gmx.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -3461,43 +3461,43 @@ msgstr "Element beim Überfahren anzeigen"
 msgid "Date display format"
 msgstr "Anzeigeformat des Datums"
 
-#: panels/information/informationpanel.cpp:159
+#: panels/information/informationpanel.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Vorschau"
 
-#: panels/information/informationpanel.cpp:164
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Mediendateien automatisch abspielen"
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Element beim Überfahren anzeigen"
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Einrichten …"
 
-#: panels/information/informationpanel.cpp:180
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Abgekürztes Datum"
 
-#: panels/information/informationpanelcontent.cpp:109
+#: panels/information/informationpanelcontent.cpp:107
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Wählen Sie, welche Informationen angezeigt werden sollen:"
 
-#: panels/information/informationpanelcontent.cpp:293
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

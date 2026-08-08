@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 00:49+0000\n"
+"POT-Creation-Date: 2026-08-08 00:48+0000\n"
 "PO-Revision-Date: 2025-09-15 16:33+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3607,25 +3607,25 @@ msgstr "Tampilkan item saat melayanginya"
 msgid "Date display format"
 msgstr "Format tampilan tanggal"
 
-#: panels/information/informationpanel.cpp:159
+#: panels/information/informationpanel.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Pratinjau"
 
-#: panels/information/informationpanel.cpp:164
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Auto-Putar file media"
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Tampilkan item saat melayanginya"
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:170
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu menu for configure actions"
 #| msgid "Configure"
@@ -3633,19 +3633,19 @@ msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Konfigurasikan"
 
-#: panels/information/informationpanel.cpp:180
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Tanggal Singkat"
 
-#: panels/information/informationpanelcontent.cpp:109
+#: panels/information/informationpanelcontent.cpp:107
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Pilih data mana yang harus ditampilkan:"
 
-#: panels/information/informationpanelcontent.cpp:293
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

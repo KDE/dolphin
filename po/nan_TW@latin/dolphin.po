@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 00:49+0000\n"
+"POT-Creation-Date: 2026-08-08 00:48+0000\n"
 "PO-Revision-Date: 2026-07-23 22:52+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Min Nan Chinese Latin <zh-l10n@lists.slat.org>\n"
@@ -3095,43 +3095,43 @@ msgstr ""
 msgid "Date display format"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:159
+#: panels/information/informationpanel.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Ī-lám"
 
-#: panels/information/informationpanel.cpp:164
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Siat-tīng…"
 
-#: panels/information/informationpanel.cpp:180
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:109
+#: panels/information/informationpanelcontent.cpp:107
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:293
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

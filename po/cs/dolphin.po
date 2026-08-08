@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 00:49+0000\n"
+"POT-Creation-Date: 2026-08-08 00:48+0000\n"
 "PO-Revision-Date: 2026-07-29 11:00+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3404,43 +3404,43 @@ msgstr "Zobrazit položku při přejetí myší"
 msgid "Date display format"
 msgstr "Formát zobrazení data"
 
-#: panels/information/informationpanel.cpp:159
+#: panels/information/informationpanel.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Náhled"
 
-#: panels/information/informationpanel.cpp:164
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Automatický přehrávat multimediální soubory"
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Zobrazit položku při přejetí myší"
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Nastavit…"
 
-#: panels/information/informationpanel.cpp:180
+#: panels/information/informationpanel.cpp:176
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Zúžené datum"
 
-#: panels/information/informationpanelcontent.cpp:109
+#: panels/information/informationpanelcontent.cpp:107
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Zvolte, která data mají být zobrazena:"
 
-#: panels/information/informationpanelcontent.cpp:293
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
