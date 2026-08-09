@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin_servicemenuinstaller\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2026-08-09 00:48+0000\n"
 "PO-Revision-Date: 2020-05-06 08:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -20,62 +20,62 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.07.70\n"
 
-#: servicemenuinstaller.cpp:43
+#: servicemenuinstaller.cpp:46
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "Встановлення службового меню Dolphin зазнало невдачі"
 
-#: servicemenuinstaller.cpp:70
+#: servicemenuinstaller.cpp:73
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "Не вдалося встановити «%1», завершення роботи зі станом «%2»"
 
-#: servicemenuinstaller.cpp:99
+#: servicemenuinstaller.cpp:102
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "Не вдалося вилучити «%1», завершення роботи зі станом «%2»"
 
-#: servicemenuinstaller.cpp:111
+#: servicemenuinstaller.cpp:114
 #, kde-format
 msgid "The file does not exist!"
 msgstr "Файла не існує!"
 
-#: servicemenuinstaller.cpp:120
+#: servicemenuinstaller.cpp:123
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "Невідома помилка під час встановлення пакунка"
 
-#: servicemenuinstaller.cpp:183
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "Непідтримуваний тип архівів %1: %2"
 
-#: servicemenuinstaller.cpp:189
+#: servicemenuinstaller.cpp:195
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr "Не вдалося запустити команду розпаковування для %1"
 
-#: servicemenuinstaller.cpp:193
+#: servicemenuinstaller.cpp:199
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "Роботу процесу не було завершено у прийнятні терміни: %1 %2"
 
-#: servicemenuinstaller.cpp:197
+#: servicemenuinstaller.cpp:203
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "Не вдалося розпакувати %1"
 
-#: servicemenuinstaller.cpp:234
+#: servicemenuinstaller.cpp:240
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "Не вдалося запустити скрипт встановлення %1"
 
-#: servicemenuinstaller.cpp:257
+#: servicemenuinstaller.cpp:263
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "Не вдалося встановити права доступу до %1: %2"
 
-#: servicemenuinstaller.cpp:273
+#: servicemenuinstaller.cpp:279
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
@@ -83,70 +83,70 @@ msgstr ""
 "Виконання скрипту встановлення %1 зазнало невдачі. Використані аргументи: "
 "«%2»."
 
-#: servicemenuinstaller.cpp:275
+#: servicemenuinstaller.cpp:281
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
 msgstr "», «"
 
-#: servicemenuinstaller.cpp:289
+#: servicemenuinstaller.cpp:295
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "Не вдалося створити каталог %1"
 
-#: servicemenuinstaller.cpp:303
+#: servicemenuinstaller.cpp:309
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "Не вдалося скопіювати файл .desktop %1 до %2: %3"
 
-#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "Не вдалося вилучити каталог %1"
 
-#: servicemenuinstaller.cpp:321
+#: servicemenuinstaller.cpp:327
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "Не вдалося створити каталог %1"
 
-#: servicemenuinstaller.cpp:360
+#: servicemenuinstaller.cpp:366
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "Не вдалося виявити скрипт встановлення у %1"
 
-#: servicemenuinstaller.cpp:374
+#: servicemenuinstaller.cpp:380
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "Не вдалося вилучити файл .desktop %1: %2"
 
-#: servicemenuinstaller.cpp:417
+#: servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "Не вдалося виявити скрипт вилучення у %1"
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "Команда, яку слід виконати: встановити або вилучити."
 
-#: servicemenuinstaller.cpp:437
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Шлях до архіву."
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:448
 #, kde-format
 msgid "Command is required."
 msgstr "Слід вказати команду."
 
-#: servicemenuinstaller.cpp:445
+#: servicemenuinstaller.cpp:451
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Слід вказати шлях до архіву."
 
-#: servicemenuinstaller.cpp:461
+#: servicemenuinstaller.cpp:467
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Непідтримувана команда %1"

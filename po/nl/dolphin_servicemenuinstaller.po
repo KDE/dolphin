@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2026-08-09 00:48+0000\n"
 "PO-Revision-Date: 2020-05-06 11:43+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -17,135 +17,135 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 20.04.0\n"
 
-#: servicemenuinstaller.cpp:43
+#: servicemenuinstaller.cpp:46
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "Installatie van Dolphin servicemenu is mislukt"
 
-#: servicemenuinstaller.cpp:70
+#: servicemenuinstaller.cpp:73
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "Installatie van \"%1\" is mislukt, beëindigd met status \"%2\""
 
-#: servicemenuinstaller.cpp:99
+#: servicemenuinstaller.cpp:102
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr ""
 "Ongedaan maken van installatie van \"%1\" is mislukt, beëindigd met status "
 "\"%2\""
 
-#: servicemenuinstaller.cpp:111
+#: servicemenuinstaller.cpp:114
 #, kde-format
 msgid "The file does not exist!"
 msgstr "Het bestand bestaat niet!"
 
-#: servicemenuinstaller.cpp:120
+#: servicemenuinstaller.cpp:123
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "Onbekende fout bij installeren van pakket"
 
-#: servicemenuinstaller.cpp:183
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "Niet ondersteund archieftype %1: %2."
 
-#: servicemenuinstaller.cpp:189
+#: servicemenuinstaller.cpp:195
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr ""
 "Uitvoeren van commando voor compressie ongedaan maken voor %1 is mislukt"
 
-#: servicemenuinstaller.cpp:193
+#: servicemenuinstaller.cpp:199
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "Proces is niet binnen een redelijke tijd geëindigd: %1 %2"
 
-#: servicemenuinstaller.cpp:197
+#: servicemenuinstaller.cpp:203
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "Compressie ongedaan maken van %1 is mislukt"
 
-#: servicemenuinstaller.cpp:234
+#: servicemenuinstaller.cpp:240
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "Uitvoeren van script voor installatie %1 is mislukt"
 
-#: servicemenuinstaller.cpp:257
+#: servicemenuinstaller.cpp:263
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "Beveiligingsrechten instellen op %1 is mislukt: %2"
 
-#: servicemenuinstaller.cpp:273
+#: servicemenuinstaller.cpp:279
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr "Script voor installatie %1 is mislukt, argument \"%2\" is geprobeerd."
 
-#: servicemenuinstaller.cpp:275
+#: servicemenuinstaller.cpp:281
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
 msgstr "\", \""
 
-#: servicemenuinstaller.cpp:289
+#: servicemenuinstaller.cpp:295
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "Aanmaken van pad %1 is mislukt"
 
-#: servicemenuinstaller.cpp:303
+#: servicemenuinstaller.cpp:309
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "Kopiëren van .desktop-bestand %1 naar %2 is mislukt: %3"
 
-#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "Map %1 verwijderen is mislukt"
 
-#: servicemenuinstaller.cpp:321
+#: servicemenuinstaller.cpp:327
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "De map %1 kon niet worden gemaakt"
 
-#: servicemenuinstaller.cpp:360
+#: servicemenuinstaller.cpp:366
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "Zoeken van een installatiescript in %1 is mislukt"
 
-#: servicemenuinstaller.cpp:374
+#: servicemenuinstaller.cpp:380
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "Verwijderen van .desktop-bestand %1 is mislukt: %2"
 
-#: servicemenuinstaller.cpp:417
+#: servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr ""
 "Zoeken naar een script voor installatie ongedaan maken in %1 is mislukt"
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "Uit te voeren commando: installeren of installatie ongedaan maken."
 
-#: servicemenuinstaller.cpp:437
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Pad naar archief."
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:448
 #, kde-format
 msgid "Command is required."
 msgstr "Commando is vereist."
 
-#: servicemenuinstaller.cpp:445
+#: servicemenuinstaller.cpp:451
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Pad naar archief is vereist."
 
-#: servicemenuinstaller.cpp:461
+#: servicemenuinstaller.cpp:467
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Niet ondersteund commando %1"
