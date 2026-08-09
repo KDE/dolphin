@@ -700,7 +700,8 @@ private:
     void setupDockWidgets();
 
     /**
-     * Initializes or re-initializes the KFileItemActions instance.
+     * Initializes or re-initializes the KFileItemActions instance. Deferred while a
+     * context menu is holding on to the current instance, see openContextMenu().
      */
     void setupFileItemActions();
 
@@ -802,6 +803,8 @@ private:
     QMenu m_searchTools;
     KConfigWatcher::Ptr m_serviceMenuConfigWatcher;
     KFileItemActions *m_fileItemActions = nullptr;
+    bool m_contextMenuOpen = false;
+    bool m_fileItemActionsSetupPending = false;
     ServiceMenuShortcutManager *m_serviceMenuShortcutManager = nullptr;
 
     QTimer *m_sessionSaveTimer;

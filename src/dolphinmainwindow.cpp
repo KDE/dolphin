@@ -86,6 +86,7 @@
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QPushButton>
+#include <QScopeGuard>
 #include <QSharedPointer>
 #include <QShowEvent>
 #include <QStandardPaths>
@@ -1524,6 +1525,18 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::openContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url)
 {
+    // Building the menu queries KFileItemAction plugins, which are free to spin the event loop, so
+    // replacing m_fileItemActions has to wait until the menu is gone. Otherwise the plugins queried
+    // afterwards read the fresh instance's empty item list. See BUG: 519624
+    const bool contextMenuWasOpen = m_contextMenuOpen;
+    m_contextMenuOpen = true;
+    auto resetContextMenuOpen = qScopeGuard([this, contextMenuWasOpen] {
+        m_contextMenuOpen = contextMenuWasOpen;
+        if (!m_contextMenuOpen && m_fileItemActionsSetupPending) {
+            setupFileItemActions();
+        }
+    });
+
     QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, m_fileItemActions);
     contextMenu->exec(pos);
     delete contextMenu;
@@ -2595,10 +2608,13 @@ void DolphinMainWindow::setupDockWidgets()
 
 void DolphinMainWindow::setupFileItemActions()
 {
-    if (m_fileItemActions) {
-        delete m_fileItemActions;
+    if (m_contextMenuOpen) {
+        m_fileItemActionsSetupPending = true;
+        return;
     }
+    m_fileItemActionsSetupPending = false;
 
+    delete m_fileItemActions;
     m_fileItemActions = new KFileItemActions(this);
     m_fileItemActions->setParentWidget(this);
     connect(m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {

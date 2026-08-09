@@ -28,6 +28,10 @@ QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListPropertie
 {
     const KFileItemList &selectedItems = fileItemInfos.items();
 
+    if (selectedItems.isEmpty()) {
+        return {};
+    }
+
     if (selectedItems.size() == 1 && selectedItems[0].isDir()) {
         // skip single directory like the current working directory
         return {};

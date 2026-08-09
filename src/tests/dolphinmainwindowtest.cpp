@@ -7,6 +7,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
+#include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
@@ -81,6 +82,7 @@ private Q_SLOTS:
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
     void testActiveViewAfterTabSwitchWithSplitView();
+    void testFileItemActionsOutliveContextMenu();
     void cleanupTestCase();
 
 private:
@@ -1678,6 +1680,78 @@ void DolphinMainWindowTest::testActiveViewAfterTabSwitchWithSplitView()
     QCOMPARE(firstTabPage->activeViewContainer(), firstTabSecondary);
     QVERIFY(firstTabSecondary->isActive());
     QVERIFY(!firstTabPage->primaryViewContainer()->isActive());
+}
+
+/**
+ * A KFileItemAction plugin may spin the event loop while the context menu queries it, so the
+ * KFileItemActions instance the menu was built from must survive unchanged until the menu is
+ * gone. Recreating it in between left the plugins queried afterwards with an empty item list.
+ * See BUG: 519624
+ */
+void DolphinMainWindowTest::testFileItemActionsOutliveContextMenu()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFile("a-file");
+
+    m_mainWindow->openDirectories({QDir::cleanPath(testDir->url().toString())}, false);
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+
+    DolphinView *view = m_mainWindow->m_activeViewContainer->view();
+    QTRY_COMPARE(view->items().count(), 1);
+
+    const QPointer<KFileItemActions> fileItemActions = m_mainWindow->m_fileItemActions;
+    QVERIFY(fileItemActions);
+
+    bool ranReentrantSetup = false;
+    bool keptSameInstance = false;
+    bool deferredSetup = false;
+    bool menuWasShown = false;
+    int attempts = 0;
+
+    // Runs while the menu below owns the KFileItemActions instance, like a plugin spinning
+    // the event loop would. The menu is only up once exec() is reached, so keep trying.
+    QTimer reentrancyTimer;
+    reentrancyTimer.setInterval(10);
+    connect(&reentrancyTimer, &QTimer::timeout, m_mainWindow.data(), [&]() {
+        if (!ranReentrantSetup) {
+            m_mainWindow->setupFileItemActions();
+            keptSameInstance = m_mainWindow->m_fileItemActions == fileItemActions;
+            deferredSetup = m_mainWindow->m_fileItemActionsSetupPending;
+            ranReentrantSetup = true;
+        }
+
+        DolphinContextMenu *contextMenu = m_mainWindow->findChild<DolphinContextMenu *>();
+        if (!contextMenu) {
+            return;
+        }
+
+        menuWasShown = contextMenu->isVisible();
+        // Fail the test instead of blocking the run if the platform never maps the popup.
+        if (!menuWasShown && ++attempts <= 200) {
+            return;
+        }
+
+        contextMenu->close();
+        reentrancyTimer.stop();
+    });
+    reentrancyTimer.start();
+
+    m_mainWindow->openContextMenu(m_mainWindow->mapToGlobal(m_mainWindow->rect().center()), KFileItem(), KFileItemList(), view->url());
+
+    QVERIFY(menuWasShown);
+    QVERIFY(keptSameInstance);
+    QVERIFY(deferredSetup);
+
+    QVERIFY(!m_mainWindow->m_contextMenuOpen);
+    QVERIFY(!m_mainWindow->m_fileItemActionsSetupPending);
+    QVERIFY(fileItemActions.isNull());
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
