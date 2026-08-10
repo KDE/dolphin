@@ -190,8 +190,8 @@ msgctxt ""
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Terugzetten op voormalige locatie"
-msgstr[1] "Terugzetten op voormalige locaties"
+msgstr[0] "Terugzetten op voormalige plaats"
+msgstr[1] "Terugzetten op voormalige plaatsen"
 
 #: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1795
 #, kde-format
@@ -411,7 +411,7 @@ msgid ""
 "within this window. You can drag and drop items between tabs."
 msgstr ""
 "Dit opent een nieuw <emphasis>Tabblad</emphasis> met de huidige locatie.<nl/"
-">Tabbladen bieden u het snel omschakelen tussen meerdere locaties en "
+">Tabbladen bieden u het snel omschakelen tussen meerdere plaatsen en "
 "weergaven binnen dit venster. U kunt items tussen tabbladen verslepen en "
 "loslaten."
 
@@ -419,13 +419,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
-msgstr "Aan Locaties toevoegen"
+msgstr "Aan Plaatsen toevoegen"
 
 #: dolphinmainwindow.cpp:1827
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
-msgstr "Dit voegt de geselecteerde map toe aan het paneel Locaties."
+msgstr "Dit voegt de geselecteerde map toe aan het paneel Plaatsen."
 
 #: dolphinmainwindow.cpp:1832
 #, kde-format
@@ -952,7 +952,7 @@ msgid ""
 "features in the terminal application.</para>"
 msgstr ""
 "<para>Dit opent een <emphasis>terminal</emphasis>toepassingen voor de "
-"geselecteerde locaties van items.</para><para>Om meer te leren over "
+"geselecteerde plaatsen van items.</para><para>Om meer te leren over "
 "terminals gebruikt u de helpfuncties in de terminaltoepassing.</para>"
 
 #: dolphinmainwindow.cpp:2220
@@ -1238,13 +1238,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
-msgstr "Locaties"
+msgstr "Plaatsen"
 
 #: dolphinmainwindow.cpp:2529
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
-msgstr "Verborgen locaties tonen"
+msgstr "Verborgen plaatsen tonen"
 
 #: dolphinmainwindow.cpp:2533
 #, kde-format
@@ -1254,7 +1254,7 @@ msgid ""
 "will appear semi-transparent and allow you to uncheck their \"Hide\" "
 "property."
 msgstr ""
-"Dit toont alle locaties in het paneel Locaties die verborgen zijn. Ze zullen "
+"Dit toont alle plaatsen in het paneel Plaatsen die verborgen zijn. Ze zullen "
 "half doorzichtig zijn biedt u het uitschakelen van hun eigenschap \"Verbergen"
 "\"."
 
@@ -1268,8 +1268,8 @@ msgid ""
 "also contains sections to find recently saved files or files of a certain "
 "type.</para>"
 msgstr ""
-"<para>Dit wisselt het paneel <emphasis>Locaties</emphasis> aan de linkerkant "
-"van het venster.</para><para>Het biedt u om te gaan naar locaties waarvoor u "
+"<para>Dit wisselt het paneel <emphasis>Plaatsen</emphasis> aan de linkerkant "
+"van het venster.</para><para>Het biedt u om te gaan naar plaatsen waarvoor u "
 "een bladwijzer hebt gemaakt en voor toegang tot schijf of media aangekoppeld "
 "aan de computer of aan het netwerk. Het bevat ook secties om recent "
 "opgeslagen bestanden of bestanden van een bepaald type te vinden.</para>"
@@ -1288,8 +1288,8 @@ msgid ""
 "empty space on this panel and select <interface>Show Hidden Places</"
 "interface> to display it again.</para>"
 msgstr ""
-"<para>Dit is het paneel <emphasis>Locaties</emphasis>. Het biedt u om te "
-"gaan naar locaties waarvoor u een bladwijzer hebt gemaakt en voor toegang "
+"<para>Dit is het paneel <emphasis>Plaatsen</emphasis>. Het biedt u om te "
+"gaan naar plaatsen waarvoor u een bladwijzer hebt gemaakt en voor toegang "
 "tot schijf of media aangekoppeld aan de computer of aan het netwerk. Het "
 "bevat ook secties om recent opgeslagen bestanden of bestanden van een "
 "bepaald type te vinden.</para><para>Klik op een item om er naar toe te gaan. "
@@ -1297,7 +1297,7 @@ msgstr ""
 "een nieuw tabblad of venster te openen.</para><para>Nieuwe items kunnen "
 "toegevoegd worden door mappen naar dit paneel te slepen. Klik rechts op een "
 "willekeurige sectie of item om het te verbergen. Klik rechts op een lege "
-"ruimte in dit paneel en selecteer <interface>Verborgen locaties tonen</"
+"ruimte in dit paneel en selecteer <interface>Verborgen plaatsen tonen</"
 "interface> om ze opnieuw te tonen.</para>"
 
 #: dolphinmainwindow.cpp:2566 dolphinmainwindow.cpp:3161
@@ -3474,7 +3474,7 @@ msgstr "pauzeren"
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
-"Grootte van pictogrammen in het paneel Locaties (-1 betekent \"automatisch\")"
+"Grootte van pictogrammen in het paneel Plaatsen (-1 betekent \"automatisch\")"
 
 #: panels/terminal/terminalpanel.cpp:204
 #, kde-format
@@ -3578,7 +3578,7 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
-"Doorzoek alle geïndexeerde locaties.<nl/><nl/>Configureer welke locaties "
+"Doorzoek alle geïndexeerde plaatsen.<nl/><nl/>Configureer welke plaatsen "
 "geïndexeerd zijn in <interface>Systeeminstellingen|Werkruimte|Zoeken</"
 "interface>."
 
@@ -5669,7 +5669,7 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
-"Modus pictogramweergave gebruiken voor locaties die meestal mediabestanden "
+"Modus pictogramweergave gebruiken voor plaatsen die meestal mediabestanden "
 "bevatten"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:56
