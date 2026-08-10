@@ -125,6 +125,9 @@ void DolphinTabWidget::refreshViews()
 void DolphinTabWidget::updateTabName(int index)
 {
     Q_ASSERT(index >= 0);
+    if (index < 0) {
+        return;
+    }
 
     if (!tabPageAt(index)->customLabel().isEmpty()) {
         QString name = tabPageAt(index)->customLabel();
