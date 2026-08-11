@@ -262,7 +262,10 @@ DolphinMainWindow::DolphinMainWindow()
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
-    m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc")));
+    // Opened without the globals, so that the watcher hears about the service menu settings alone.
+    // A watcher on a config that includes the globals is also told about every kdeglobals change,
+    // of which a running session has plenty. (See Bug 521633)
+    m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc"), KConfig::NoGlobals));
     connect(m_serviceMenuConfigWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup & /*group*/, const QByteArrayList & /*names*/) {
         setupFileItemActions();
     });
@@ -2610,7 +2613,13 @@ void DolphinMainWindow::setupFileItemActions()
     }
     m_fileItemActionsSetupPending = false;
 
-    delete m_fileItemActions;
+    if (m_fileItemActions) {
+        // This object owns the plugins that provide the context menu actions, and one of those
+        // actions may be running right now with a dialog of its own open. The deletion waits for
+        // the event loop, so an action that is running keeps the plugin it started with.
+        // (See Bug 521633)
+        m_fileItemActions->deleteLater();
+    }
     m_fileItemActions = new KFileItemActions(this);
     m_fileItemActions->setParentWidget(this);
     connect(m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
