@@ -149,12 +149,12 @@
                 {
                     "type": "git",
                     "url": "https://github.com/LMDB/lmdb.git",
-                    "tag": "LMDB_1.0.0",
+                    "tag": "LMDB_1.0.1",
                     "x-checker-data": {
                         "type": "git",
                         "tag-pattern": "^LMDB_([\\d.]+)$"
                     },
-                    "commit": "2562c3297402d82bbc049c7e645515edb4079eba"
+                    "commit": "6f0a32496a5aadee15a5e5103c479bd3355ae273"
                 }
             ],
             "no-autogen": true,
