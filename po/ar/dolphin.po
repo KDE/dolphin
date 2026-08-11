@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 00:48+0000\n"
-"PO-Revision-Date: 2026-06-21 20:20+0400\n"
+"POT-Creation-Date: 2026-08-11 00:48+0000\n"
+"PO-Revision-Date: 2026-08-10 18:31+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -40,13 +40,13 @@ msgstr "doc@arabeyes.org,zayed.alsaidi@gmail.com,osamak.wfm@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "أنت تعمل بصلاحيات مدير النظام — كن حذرًا!"
+msgstr "أنت تعمل بدور مدير النظام — كن حذرًا!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr "تعمل بصلاحيات مدير"
+msgstr "تعمل بدور مدير"
 
 #: admin/bar.cpp:55
 #, kde-format
@@ -58,25 +58,25 @@ msgstr "أنهِ"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "أنه العمل بصلاحيات مدير النظام"
+msgstr "أنه العمل بدور مدير النظام"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "اعمل بصلاحيات مدير النظام مرة أخرى"
+msgstr "اعمل بدور مدير النظام مرة أخرى"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr "انتهت صلاحية إذْن مدير النظام."
+msgstr "انته تفويض مدير النظام."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr "اعمل بصلاحيات مدير النظام"
+msgstr "اعمل بدور مدير النظام"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -114,7 +114,7 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
-"<para> كيفية استخدم صلاحيات مدير النظام في دولفين:"
+"<para> كيفية استخدم قدرات مدير النظام في دولفين:"
 "<numberedlist><numbereditem>انتقل إلى الملف أو المجلد الذي تريد تغييره.</"
 "numbereditem><numbereditem> نشّط الإجراء \"%1\" إما ضمن <interface>فتح "
 "القائمة|المزيد|عرض</interface> أو <interface>شريط القائمة|عرض</interface>."
@@ -143,10 +143,10 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
-"<para>أنت على وشك استخدام صلاحيات مدير النظام. أثناء العمل بصلاحيات مدير "
-"النظام يمكنك تغيير أو استبدال أي ملف أو مجلد على هذا النظام.يتضمن ذلك "
-"العناصر المهمة لكي يعمل هذا النظام.</para><para>يمكنك <emphasis>حذف بيانات "
-"كل المستخدمين</emphasis> على هذا الحاسوب و<emphasis>إتلاف هذا النظام بشكل لا "
+"<para>أنت على وشك استخدام أذون مدير النظام. أثناء العمل بدور مدير النظام "
+"يمكنك تغيير أو استبدال أي ملف أو مجلد على هذا النظام. يتضمن ذلك العناصر "
+"المهمة لكي يعمل هذا النظام.</para><para>يمكنك <emphasis>حذف بيانات كل "
+"المستخدمين</emphasis> على هذا الحاسوب و<emphasis>إتلاف هذا النظام بشكل لا "
 "يمكن إصلاحه.</emphasis>  كذلك يمكن أن تؤدي إضافة حرف واحد فقط في اسم المجلد "
 "أو الملف أو محتوياته إلى جعل النظام <emphasis>غير قابل للإقلاع.</emphasis></"
 "para><para>ربما لن يكون هناك تحذير آخر حتى لو كنت على وشك كسر هذا النظام.</"
@@ -157,7 +157,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr "مخاطر العمل بصلاحيات مدير النظام"
+msgstr "مخاطر العمل بدور مدير النظام"
 
 #: admin/workerintegration.cpp:163
 #, kde-format
@@ -315,7 +315,7 @@ msgstr "لا يمكن اللصق: الحافظة فارغة."
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr "لا يمكن اللصق: ليست لديك الصلاحيات للكتابة في هذا المجلد."
+msgstr "لا يمكن اللصق: ليست لديك أذون للكتابة في هذا المجلد."
 
 #: dolphinmainwindow.cpp:1362
 #, kde-format
@@ -358,8 +358,7 @@ msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
-msgstr ""
-"لا يمكن إنشاء ملفًا جديدًا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
+msgstr "لا يمكن إنشاء ملفًا جديدًا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:1519
 #, kde-format
@@ -367,19 +366,13 @@ msgctxt "@info"
 msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
-msgstr ""
-"لا يمكن إنشاء مجلدًا جديدًا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
+msgstr "لا يمكن إنشاء مجلدًا جديدًا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:1521
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr ""
-"لا يمكن إنشاء مجلدًا جديدًا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
+msgstr "يتعذر إنشاء مجلد فرعي جديد: حدد مجلدًا واحدًا يمكنك الكتابة فيه."
 
 #: dolphinmainwindow.cpp:1620
 #, kde-format
@@ -1315,21 +1308,20 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
-"لا يمكن إعادة التسمية: ليست لديك الصلاحيات لإعادة تسمية العناصر في هذا "
-"المجلد."
+"لا يمكن إعادة التسمية: ليست لديك الأذن لإعادة تسمية العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2662 dolphinmainwindow.cpp:2679
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
-msgstr "لا يمكن الحذف: ليست لديك الصلاحيات لحذف العناصر في هذا المجلد."
+msgstr "لا يمكن الحذف: ليست لديك الأذن لحذف العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2664
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr "لا يمكن القص: ليست لديك الصلاحيات لنقل العناصر في هذا المجلد."
+msgstr "لا يمكن القص: ليست لديك الأذن لنقل العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2669
 #, kde-format
@@ -1337,7 +1329,7 @@ msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr "لا يمكن التكرار هنا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
+msgstr "لا يمكن التكرار هنا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2691
 #, kde-format
@@ -1369,8 +1361,7 @@ msgctxt "@info"
 msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
-"تعذر النسخ للعرض الآخر: ليست لديك الصلاحيات للكتابة في المجلد المستهدف."
+msgstr "تعذر النسخ للعرض الآخر: ليست لديك الأذن للكتابة في المجلد المستهدف."
 
 #: dolphinmainwindow.cpp:2724
 #, kde-format
@@ -1378,8 +1369,7 @@ msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
-"تعذر النقل للعرض الآخر: ليست لديك الصلاحيات للكتابة في المجلد المستهدف."
+msgstr "تعذر النقل للعرض الآخر: ليست لديك الأذن للكتابة في المجلد المستهدف."
 
 #: dolphinmainwindow.cpp:2730
 #, kde-format
@@ -1387,8 +1377,7 @@ msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
-msgstr ""
-"لا يمكن النقل للعرض الآخر: ليست لديك الصلاحيات لنقل العناصر في هذا المجلد."
+msgstr "لا يمكن النقل للعرض الآخر: ليست لديك الأذن لنقل العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2757
 #, kde-kuit-format
@@ -1984,7 +1973,7 @@ msgstr "عرض الموقع"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:544
+#: dolphintabwidget.cpp:547
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1992,7 +1981,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:548
+#: dolphintabwidget.cpp:551
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -2132,12 +2121,10 @@ msgid "You do not have permission to create the folder"
 msgstr "لا تملك إذْن لإنشاء هذا المجلّد"
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "افتح %1"
+msgstr "افتح في %1"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format
@@ -3087,7 +3074,7 @@ msgstr "نُزّل من"
 #: kitemviews/kfileitemmodel.cpp:3188
 msgctxt "@label"
 msgid "Permissions"
-msgstr "التصاريح"
+msgstr "الأذون"
 
 #: kitemviews/kfileitemmodel.cpp:3188
 msgctxt "@tooltip"
@@ -5063,7 +5050,7 @@ msgstr "فتح العديد من الطرفيات في آن واحد"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr "التحول للعمل بصلاحيات مدير النظام"
+msgstr "التحول للعمل بدور مدير النظام"
 
 #: settings/interface/confirmationssettingspage.cpp:74
 #, kde-format
@@ -6611,12 +6598,10 @@ msgid "Create Folder…"
 msgstr "أنشئ مجلدًا…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "أنشئ مجلدًا…"
+msgstr "أنشئ مجلّدًا فرعيًّا…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6685,7 +6670,7 @@ msgid ""
 msgstr ""
 "يعرض هذا قائمة كاملة بخصائص العناصر المحددة حاليًا في نافذة جديدة. <nl/>إذا "
 "لم تُحدد أي شيء، فستكون النافذة حول المجلد المعروض حاليًا بدلاً من ذلك. <nl/"
-">يمكنك ضبط خيارات متقدمة هناك مثل إدارة القراءة- وأذونات الكتابة."
+">يمكنك ضبط خيارات متقدمة هناك مثل إدارة القراءة- وأذون الكتابة."
 
 #: views/dolphinviewactionhandler.cpp:173
 #, kde-format
