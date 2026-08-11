@@ -1301,6 +1301,13 @@ void DolphinView::slotItemContextMenuRequested(int index, const QPointF &pos)
 
 void DolphinView::slotViewContextMenuRequested(const QPointF &pos)
 {
+    // Clicking the background clears the selection, and that change goes out on a timer.
+    // Announcing it here means the selection is up to date by the time the menu is built
+    // from it. (See Bug 522372)
+    if (m_selectionChangedTimer->isActive()) {
+        emitSelectionChangedSignal();
+    }
+
     Q_EMIT requestContextMenu(pos.toPoint(), KFileItem(), selectedItems(), url());
 }
 
