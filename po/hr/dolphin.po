@@ -2801,9 +2801,6 @@ msgid "Type"
 msgstr "Vrsta"
 
 #: kitemviews/kfileitemmodel.cpp:3126
-#, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Rating"
 msgctxt "@label"
 msgid "Rating"
 msgstr "Ocjena"
@@ -2898,9 +2895,6 @@ msgid "Orientation"
 msgstr "Orijentacija"
 
 #: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3158
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Width"
 msgctxt "@label"
 msgid "Width"
 msgstr "Širina"
@@ -7129,9 +7123,7 @@ msgid "Same as Sort"
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:378
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Show Hidden Files"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Prikaži skrivene datoteke"

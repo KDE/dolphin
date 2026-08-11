@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-10 02:43+0000\n"
-"PO-Revision-Date: 2026-06-19 06:54+0200\n"
+"PO-Revision-Date: 2026-08-10 06:55+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -370,16 +370,11 @@ msgstr ""
 "elementov v tej mapi."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Ni bilo mogoče ustvariti nove mape: Nimate dovoljenja za ustvarjanje "
-"elementov v tej mapi."
+"Ni mogoče ustvariti nove podmape: Izberite eno samo mapo kamor lahko pišete."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6620,12 +6615,10 @@ msgid "Create Folder…"
 msgstr "Ustvari mapo …"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Ustvari mapo …"
+msgstr "Ustvari podmapo…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format

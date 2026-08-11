@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-10 02:43+0000\n"
-"PO-Revision-Date: 2026-06-19 10:07+0200\n"
+"PO-Revision-Date: 2026-08-10 14:04+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -361,16 +361,12 @@ msgstr ""
 "aan te maken."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Kan geen nieuwe map aanmaken: u hebt geen rechten om items in deze map te "
-"aan te maken."
+"Kan geen nieuwe submap aanmaken: selecteer een enkele map waarin u kunt "
+"schrijven."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6599,12 +6595,10 @@ msgid "Create Folder…"
 msgstr "Map aanmaken…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Map aanmaken…"
+msgstr "Submap aanmaken…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format

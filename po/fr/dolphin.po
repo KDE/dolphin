@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-10 02:43+0000\n"
-"PO-Revision-Date: 2026-06-20 09:25+0200\n"
+"PO-Revision-Date: 2026-07-30 08:59+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -386,16 +386,12 @@ msgstr ""
 "des éléments dans ce dossier."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Impossible de créer un nouveau dossier : vous n'êtes pas autorisé à créer "
-"des éléments dans ce dossier."
+"Impossible de créer un nouveau sous-dossier : sélectionnez un dossier "
+"classique pour lequel vous avez un accès en écriture."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6717,12 +6713,10 @@ msgid "Create Folder…"
 msgstr "Créer un dossier…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Créer un dossier…"
+msgstr "Créer un sous-dossier…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
