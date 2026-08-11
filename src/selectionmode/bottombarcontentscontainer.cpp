@@ -508,7 +508,11 @@ std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFile
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::Copy)));
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::Cut)));
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::RenameFile)));
-    contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::MoveToTrash)));
+    if (baseUrl.scheme() != QLatin1String("trash")) {
+        contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::MoveToTrash)));
+    } else {
+        contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::DeleteFile)));
+    }
 
     // We are going to add the actions from the right-click context menu for the selected items.
     auto *dolphinMainWindow = qobject_cast<DolphinMainWindow *>(window());
