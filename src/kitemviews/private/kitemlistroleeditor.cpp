@@ -57,7 +57,12 @@ bool KItemListRoleEditor::event(QEvent *event)
 {
     if (event->type() == QEvent::FocusOut) {
         QFocusEvent *focusEvent = static_cast<QFocusEvent *>(event);
-        if (focusEvent->reason() != Qt::PopupFocusReason) {
+        // A menu or another window takes the keyboard focus for as long as it is up, and the name
+        // stays under edit until the user turns to something else in this window. On a touchscreen
+        // the on-screen keyboard is such a window, and it appears the moment the name is tapped.
+        // (See Bug 470238)
+        const bool focusWentToAnotherWindow = focusEvent->reason() == Qt::PopupFocusReason || focusEvent->reason() == Qt::ActiveWindowFocusReason;
+        if (!focusWentToAnotherWindow) {
             emitRoleEditingFinished();
         }
     }
