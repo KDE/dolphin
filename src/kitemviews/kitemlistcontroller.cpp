@@ -733,6 +733,17 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
         return false;
     }
 
+    if (event->button() == Qt::RightButton) {
+        // A rapid second right-click at the same spot is delivered as a double-click instead of a
+        // press, so the selection that a single right-click applies in onPress() never runs. The
+        // following context menu event then finds the item under the cursor unselected and opens
+        // the general view menu instead of the item's menu. Treat this like a single right-click
+        // press so the item gets selected and the context menu targets it.
+        m_pressedIndex = index;
+        onPress(event->pos(), event->modifiers(), event->buttons());
+        return false;
+    }
+
     if (!index.has_value()) {
         Q_EMIT doubleClickViewBackground(event->button());
         return false;

@@ -13,6 +13,7 @@
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
+#include <QContextMenuEvent>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
@@ -81,6 +82,7 @@ private Q_SLOTS:
     void testKeyboardNavigationSingleSelectionNoSelection_data();
     void testKeyboardNavigationSingleSelectionNoSelection();
     void testMouseClickActivation();
+    void testRapidRightClickShowsItemContextMenu();
     void testKeyboardNavigationAfterMouseSelection();
 
     void testDragMoveHoverIdempotency();
@@ -1172,6 +1174,60 @@ void KItemListControllerTest::testMouseClickActivation()
     // Restore previous settings.
     m_controller->setSingleClickActivationEnforced(true);
     m_testStyle->setActivateItemOnSingleClick(restoreSettingsSingleClick);
+}
+
+void KItemListControllerTest::testRapidRightClickShowsItemContextMenu()
+{
+    // Bug 504878: right-clicking an item, then rapidly right-clicking a second item, opened the
+    // general view context menu instead of the second item's menu. The rapid second click is
+    // delivered as a double-click rather than a press, so the item was never selected and the
+    // context menu, which only targets selected items, fell back to the view menu.
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+    adjustGeometryForColumnCount(5);
+    m_view->setScrollOffset(0);
+    QCOMPARE(m_view->firstVisibleIndex(), 0);
+
+    const QPointF firstItemPos = m_view->itemContextRect(0).center();
+    const QPointF secondItemPos = m_view->itemContextRect(1).center();
+
+    QSignalSpy spyItemContextMenu(m_controller, &KItemListController::itemContextMenuRequested);
+    QSignalSpy spyViewContextMenu(m_controller, &KItemListController::viewContextMenuRequested);
+
+    // Right-click the first item so that a different item is selected to begin with.
+    QGraphicsSceneMouseEvent firstPress(QEvent::GraphicsSceneMousePress);
+    firstPress.setPos(firstItemPos);
+    firstPress.setButton(Qt::RightButton);
+    firstPress.setButtons(Qt::RightButton);
+    QGraphicsSceneMouseEvent firstRelease(QEvent::GraphicsSceneMouseRelease);
+    firstRelease.setPos(firstItemPos);
+    firstRelease.setButton(Qt::RightButton);
+    firstRelease.setButtons(Qt::NoButton);
+    m_view->event(&firstPress);
+    m_view->event(&firstRelease);
+    QCOMPARE(m_selectionManager->selectedItems(), KItemSet() << 0);
+
+    // The rapid second right-click on the second item arrives as a double-click, because the
+    // press that would normally precede it was consumed by dismissing the first menu.
+    QGraphicsSceneMouseEvent secondDoubleClick(QEvent::GraphicsSceneMouseDoubleClick);
+    secondDoubleClick.setPos(secondItemPos);
+    secondDoubleClick.setButton(Qt::RightButton);
+    secondDoubleClick.setButtons(Qt::RightButton);
+    QGraphicsSceneMouseEvent secondRelease(QEvent::GraphicsSceneMouseRelease);
+    secondRelease.setPos(secondItemPos);
+    secondRelease.setButton(Qt::RightButton);
+    secondRelease.setButtons(Qt::NoButton);
+    m_view->event(&secondDoubleClick);
+    m_view->event(&secondRelease);
+
+    // The second item is now the only selected item.
+    QCOMPARE(m_selectionManager->selectedItems(), KItemSet() << 1);
+
+    // A context menu request on the second item therefore opens its menu, not the view menu.
+    QContextMenuEvent contextMenu(QContextMenuEvent::Mouse, secondItemPos.toPoint(), secondItemPos.toPoint());
+    m_view->event(&contextMenu);
+    QCOMPARE(spyViewContextMenu.count(), 0);
+    QCOMPARE(spyItemContextMenu.count(), 1);
+    QCOMPARE(spyItemContextMenu.first().at(0).toInt(), 1);
 }
 
 /**
