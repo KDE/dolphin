@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-10 02:43+0000\n"
+"POT-Creation-Date: 2026-08-12 03:14+0000\n"
 "PO-Revision-Date: 2026-02-11 17:44-0600\n"
 "Last-Translator: A S Alam <aman@punlinux.org>\n"
 "Language-Team: pa\n"
@@ -3811,7 +3811,7 @@ msgstr "ਨਾਂ ਬਦਲਣਾ ਰੱਦ ਕਰੋ"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:614
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -3824,7 +3824,7 @@ msgstr[1] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ �
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:625
+#: selectionmode/bottombarcontentscontainer.cpp:629
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -3837,7 +3837,7 @@ msgstr[1] "%2 ਦੇ ਟਿਕਾਣੇ ਨੂੰ ਕਲਿੱਪਬੋਰਡ �
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:633
+#: selectionmode/bottombarcontentscontainer.cpp:637
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3850,7 +3850,7 @@ msgstr[1] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕੱਟੋ"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:641
+#: selectionmode/bottombarcontentscontainer.cpp:645
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3863,7 +3863,7 @@ msgstr[1] "%2 ਨੂੰ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਓ"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:649
+#: selectionmode/bottombarcontentscontainer.cpp:653
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -3876,7 +3876,7 @@ msgstr[1] "%2 ਨੂੰ ਡੁਪਲੀਕੇਟ ਬਣਾਓ"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:657
+#: selectionmode/bottombarcontentscontainer.cpp:661
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -3889,7 +3889,7 @@ msgstr[1] "%2 ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਭੇਜੋ"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:665
+#: selectionmode/bottombarcontentscontainer.cpp:669
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"

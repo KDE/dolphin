@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-10 02:43+0000\n"
+"POT-Creation-Date: 2026-08-12 03:14+0000\n"
 "PO-Revision-Date: 2026-08-10 18:31+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -333,12 +333,12 @@ msgstr "افتح أداة البحث المفضلة"
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "أتريد حقاً فتح لا شيء؟"
-msgstr[1] "أتريد حقاً فتح طرفية واحد؟"
-msgstr[2] "أتريد حقاً فتح طرفيتين؟"
-msgstr[3] "أتريد حقاً فتح %1 طرفيات؟"
-msgstr[4] "أتريد حقاً فتح %1 طرفية؟"
-msgstr[5] "أتريد حقاً فتح %1 طرفية؟"
+msgstr[0] "أتريد حقًا فتح لا شيء؟"
+msgstr[1] "أتريد حقًا فتح طرفية واحد؟"
+msgstr[2] "أتريد حقًا فتح طرفيتين؟"
+msgstr[3] "أتريد حقًا فتح %1 طرفيات؟"
+msgstr[4] "أتريد حقًا فتح %1 طرفية؟"
+msgstr[5] "أتريد حقًا فتح %1 طرفية؟"
 
 #: dolphinmainwindow.cpp:1414
 #, kde-format
@@ -451,7 +451,7 @@ msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
-"هذا يغلق اللسان المعروض حاليا. إذا لم يبق أي ألسنة؛ فستغلق هذه النافذة بدلاً "
+"هذا يغلق اللسان المعروض حاليا. إذا لم يبق أي ألسنة؛ فستغلق هذه النافذة بدلًا "
 "من ذلك."
 
 #: dolphinmainwindow.cpp:1838
@@ -698,8 +698,8 @@ msgid ""
 "items.</para>"
 msgstr ""
 "<para> هذا التطبيق يعرف فقط الملفات أو المجلدات التي يجب التعامل معها إذا "
-"<emphasis>حددت</emphasis> أولاً. اضغط على هذا للتبديل إلى <emphasis> وضع "
-"التحديد </emphasis> مما يجعل التحديد وإلغائه سهلاً مثل الضغط على عنصر مرة "
+"<emphasis>حددت</emphasis> أولًا. اضغط على هذا للتبديل إلى <emphasis> وضع "
+"التحديد </emphasis> مما يجعل التحديد وإلغائه سهلًا مثل الضغط على عنصر مرة "
 "واحدة. </para> <para> أثناء وجودك في هذا الوضع، يعرض شريط الوصول السريع في "
 "الجزء السفلي الإجراءات المتاحة لـ العناصر المحددة حاليًا. </para>"
 
@@ -723,7 +723,7 @@ msgid ""
 "selected instead."
 msgstr ""
 "يؤدي هذا إلى تحديد جميع الكائنات التي <emphasis>لم تقم</emphasis> بتحديدها "
-"بدلاً من ذلك."
+"بدلًا من ذلك."
 
 #: dolphinmainwindow.cpp:2021
 #, kde-kuit-format
@@ -813,7 +813,7 @@ msgid ""
 "editing by clicking to the right of the location and switch back by "
 "confirming the edited location."
 msgstr ""
-"يؤدي هذا إلى تبديل <emphasis>شريط العنوان</emphasis> ليكون قابلاً للتعديل حتى "
+"يؤدي هذا إلى تبديل <emphasis>شريط العنوان</emphasis> ليكون قابلًا للتعديل حتى "
 "تتمكن من إدخال الموقع الذي تريد الانتقال إليه مباشرةً. <nl/> يمكنك أيضًا "
 "التبديل إلى التحرير عن طريق النقر على يمين الموقع والرجوع مرة أخرى عن طريق "
 "تأكيد الموقع المعدل."
@@ -1278,7 +1278,7 @@ msgstr ""
 "المواقع التي وضعت إشارة مرجعية عليها والوصول إلى القرص أو الوسائط المتصلة "
 "بالحاسوب أو بالشبكة. يحتوي أيضًا على أقسام للعثور على الملفات أو الملفات "
 "المحفوظة مؤخرًا من نوع معين. </para> <para> انقر فوق إدخال للذهاب إلى هناك. "
-"انقر بزر الفأرة الأيمن بدلاً من ذلك لفتح أي إدخال في لسان جديد أو نافذة "
+"انقر بزر الفأرة الأيمن بدلًا من ذلك لفتح أي إدخال في لسان جديد أو نافذة "
 "جديدة. </para> <para> يمكن إضافة إدخالات جديدة عن طريق سحب المجلدات إلى هذه "
 "اللوحة. انقر بزر الفأرة الأيمن فوق أي قسم أو إدخال لإخفائه. انقر بزر الفأرة "
 "الأيمن فوق مساحة فارغة في هذه اللوحة وحدد <interface> أظهر الملفات المخفية </"
@@ -1541,7 +1541,7 @@ msgstr ""
 "File_Management#Introduction_to_Dolphin'> انقر هنا </link>. سيؤدي هذا إلى "
 "فتح مقالة تمهيدية من <emphasis> KDE UserBase Wiki </emphasis>. </para> "
 "<para> للحصول على تفسيرات مختصرة لجميع ميزات عرض <emphasis> هذا </emphasis> "
-"<link url= 'help:/dolphin/dolphin-view.html'> انقر هنا </link> بدلاً من ذلك. "
+"<link url= 'help:/dolphin/dolphin-view.html'> انقر هنا </link> بدلًا من ذلك. "
 "سيؤدي هذا إلى فتح صفحة من <emphasis> كتيب دولفين </emphasis> تغطي الأساسيات. "
 "</para>"
 
@@ -1568,7 +1568,7 @@ msgid ""
 msgstr ""
 "<para> هذا يفتح نافذة يمكنك من خلالها تغيير الأزرار التي تظهر على <emphasis> "
 "شريط الأدوات </emphasis>. </para> <para> جميع العناصر التي تراها في "
-"<interface>القائمة</interface> يمكن أن تضعها على شريط الأدوات أيضاً. </para>"
+"<interface>القائمة</interface> يمكن أن تضعها على شريط الأدوات أيضًا. </para>"
 
 #: dolphinmainwindow.cpp:3012
 #, kde-kuit-format
@@ -1637,7 +1637,7 @@ msgid ""
 msgstr ""
 "<para> هذا يفتح نافذة ستوجهك خلال الإبلاغ عن الأخطاء أو العيوب في هذا "
 "التطبيق أو في برامج كِيدِي الأخرى. </para><para>  تقارير الأخطاء عالية الجودة "
-"محل تقدير كبير. لمعرفة كيفية جعل تقرير الأخطاء الخاص بك فعالاً قدر الإمكان "
+"محل تقدير كبير. لمعرفة كيفية جعل تقرير الأخطاء الخاص بك فعالًا قدر الإمكان "
 "<link url = 'https: //community.kde.org/Get_Involved/Bug_Reporting'> انقر "
 "هنا </link>. </para> "
 
@@ -1776,7 +1776,7 @@ msgid ""
 "installing <application>%1</application> manually instead."
 msgstr ""
 "فشل تثبيت <application>%1</application>: %2 (%3)<nl/>يرجى محاولة تثبيت "
-"<application>%1</application> يدويًا بدلاً من ذلك."
+"<application>%1</application> يدويًا بدلًا من ذلك."
 
 #: dolphinpart.cpp:150
 #, kde-format
@@ -2497,7 +2497,7 @@ msgstr[0] "لم يحدد ملف"
 msgstr[1] "ملف محدد"
 msgstr[2] "ملفان محددان"
 msgstr[3] "%1 الملفات المحددة"
-msgstr[4] "%1 ملفاً محدداً"
+msgstr[4] "%1 ملفًا محددًا"
 msgstr[5] "%1 ملف محدد"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
@@ -2524,7 +2524,7 @@ msgstr[0] "عنصر محدد"
 msgstr[1] "عنصر واحد محدد"
 msgstr[2] "عنصران محددان"
 msgstr[3] "%1 عناصر محددة"
-msgstr[4] "%1 عنصراً محدداً"
+msgstr[4] "%1 عنصرًا محددًا"
 msgstr[5] "%1 عنصر محدد"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
@@ -2536,7 +2536,7 @@ msgstr[0] "ملف واحد"
 msgstr[1] "ملف واحد"
 msgstr[2] "ملفان"
 msgstr[3] "%1 ملفّات"
-msgstr[4] "%1 ملفاً"
+msgstr[4] "%1 ملفًا"
 msgstr[5] "%1 ملفّ"
 
 #: kitemviews/kfileitemlisttostring.cpp:84
@@ -3127,7 +3127,7 @@ msgid ""
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
 " ينصح بتشغيل <application>دولفين</application> باستخدام <command>sudo</"
-"command>. يرجى تشغيل <icode>%1</icode> بدلاً من ذلك."
+"command>. يرجى تشغيل <icode>%1</icode> بدلًا من ذلك."
 
 #: main.cpp:96
 #, kde-format
@@ -4085,7 +4085,7 @@ msgstr "ألغ إعادة تسمية"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:614
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -4102,7 +4102,7 @@ msgstr[5] "انسخ %2 إلى الحافظة"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:625
+#: selectionmode/bottombarcontentscontainer.cpp:629
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -4119,7 +4119,7 @@ msgstr[5] "انسخ موقع %2 إلى الحافظة"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:633
+#: selectionmode/bottombarcontentscontainer.cpp:637
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -4136,7 +4136,7 @@ msgstr[5] "قص %2 إلى الحافظة"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:641
+#: selectionmode/bottombarcontentscontainer.cpp:645
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -4153,7 +4153,7 @@ msgstr[5] "احذف %2 للأبد"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:649
+#: selectionmode/bottombarcontentscontainer.cpp:653
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -4170,7 +4170,7 @@ msgstr[5] "كرّر %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:657
+#: selectionmode/bottombarcontentscontainer.cpp:661
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -4187,7 +4187,7 @@ msgstr[5] "انقل %2 إلى المهملات"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:665
+#: selectionmode/bottombarcontentscontainer.cpp:669
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
@@ -4773,7 +4773,7 @@ msgstr "تذكر  المجلدات و الألسنة المفتوحة"
 #: settings/dolphin_generalsettings.kcfg:82
 #, kde-format
 msgid "Place two views side by side"
-msgstr "ضَعْ عرضين جنباً إلى جنب"
+msgstr "ضَعْ عرضين جنبًا إلى جنب"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
@@ -5585,7 +5585,7 @@ msgstr "شطب في الوسط (على سبيل المثال ”بعض…الا�
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr "شطب في النهاية (على سبيل المثال ”اسم طويل جداً….txt“)"
+msgstr "شطب في النهاية (على سبيل المثال ”اسم طويل جدًا….txt“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:110
 #, kde-format
@@ -6663,7 +6663,7 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 "يعرض هذا قائمة كاملة بخصائص العناصر المحددة حاليًا في نافذة جديدة. <nl/>إذا "
-"لم تُحدد أي شيء، فستكون النافذة حول المجلد المعروض حاليًا بدلاً من ذلك. <nl/"
+"لم تُحدد أي شيء، فستكون النافذة حول المجلد المعروض حاليًا بدلًا من ذلك. <nl/"
 ">يمكنك ضبط خيارات متقدمة هناك مثل إدارة القراءة- وأذون الكتابة."
 
 #: views/dolphinviewactionhandler.cpp:173
@@ -7014,13 +7014,13 @@ msgstr "الأصغر أوّلًا"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
-msgstr "الأحدث أولاً"
+msgstr "الأحدث أولًا"
 
 #: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
-msgstr "الأقدم أولاً"
+msgstr "الأقدم أولًا"
 
 #: views/dolphinviewactionhandler.cpp:836
 #, kde-format
