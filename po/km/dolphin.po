@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-11 00:48+0000\n"
+"POT-Creation-Date: 2026-08-12 00:50+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -262,7 +262,7 @@ msgid ""
 msgstr "អ្នក​មាន​ផ្ទាំង​ជា​ច្រើន​បានបើក​នៅ​ក្នុង​បង្អួច​នេះ តើ​អ្នក​ប្រាកដ​ជា​ចង់​ចេញ​ដែរឬទេ ?"
 
 #: dolphinmainwindow.cpp:656 dolphinmainwindow.cpp:706
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2351
 #, kde-format
 msgid "Do not ask again"
 msgstr "កុំ​សួរ​ម្ដង​ទៀត"
@@ -4071,7 +4071,7 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:614
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -4083,7 +4083,7 @@ msgstr[0] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:625
+#: selectionmode/bottombarcontentscontainer.cpp:629
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -4095,7 +4095,7 @@ msgstr[0] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:633
+#: selectionmode/bottombarcontentscontainer.cpp:637
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -4107,7 +4107,7 @@ msgstr[0] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:641
+#: selectionmode/bottombarcontentscontainer.cpp:645
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -4119,7 +4119,7 @@ msgstr[0] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:649
+#: selectionmode/bottombarcontentscontainer.cpp:653
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -4131,7 +4131,7 @@ msgstr[0] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:657
+#: selectionmode/bottombarcontentscontainer.cpp:661
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Trash"
@@ -4145,7 +4145,7 @@ msgstr[0] "ផ្លាស់​ទី​ទៅ​​ធុង​សំរាម
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:665
+#: selectionmode/bottombarcontentscontainer.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -6480,25 +6480,25 @@ msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "បើក​ផ្លូវ​​​នៅ​ក្នុង​ផ្ទាំង​ថ្មី"
 
-#: views/dolphinview.cpp:1361
+#: views/dolphinview.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1365
+#: views/dolphinview.cpp:1372
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "ទទឹង​ជួរឈរ​ស្វ័យប្រវត្តិ"
 
-#: views/dolphinview.cpp:1370
+#: views/dolphinview.cpp:1377
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "ទទឹង​ជួរឈរ​ផ្ទាល់​ខ្លួន"
 
-#: views/dolphinview.cpp:2114
+#: views/dolphinview.cpp:2121
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Delete operation completed."
@@ -6506,48 +6506,48 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "បាន​បញ្ចប់​ការ​លុប ។"
 
-#: views/dolphinview.cpp:2124
+#: views/dolphinview.cpp:2131
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "បាន​បញ្ចប់​ការ​លុប ។"
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2299
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ប្ដូរ​ឈ្មោះ​​ក្នុង​តួ"
 
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2303
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2305
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2307
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "បង្ហាញ​ឯកសារ​ដែល​លាក់"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2307
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "ថត​ផ្ទះ"
 
-#: views/dolphinview.cpp:2321
+#: views/dolphinview.cpp:2328
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6555,7 +6555,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "ប្តូរ​ឈ្មោះ..."
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2338
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6564,7 +6564,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2342
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6573,7 +6573,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2348
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -6581,107 +6581,107 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "កែ​សម្រួល​ប្រភេទ​ឯកសារ..."
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "ទីតាំង​គឺ​ទទេ ។"
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "ទីតាំង '%1' មិនត្រឹមត្រូវ ។"
 
-#: views/dolphinview.cpp:2776
+#: views/dolphinview.cpp:2783
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "កំពុង​ផ្ទុក​ថត..."
 
-#: views/dolphinview.cpp:2805
+#: views/dolphinview.cpp:2812
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "កំពុង​ផ្ទុក​ថត..."
 
-#: views/dolphinview.cpp:2807
+#: views/dolphinview.cpp:2814
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "ជ្រើស​ធាតុ​ទាំងអស់​ដែល​ផ្គូផ្គង​នឹង​លំនាំដើម​នេះ ៖"
 
-#: views/dolphinview.cpp:2809
+#: views/dolphinview.cpp:2816
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "ជ្រើស​ធាតុ​ទាំងអស់​ដែល​ផ្គូផ្គង​នឹង​លំនាំដើម​នេះ ៖"
 
-#: views/dolphinview.cpp:2811
+#: views/dolphinview.cpp:2818
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "ទីតាំង​គឺ​ទទេ ។"
 
-#: views/dolphinview.cpp:2814
+#: views/dolphinview.cpp:2821
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2817
+#: views/dolphinview.cpp:2824
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2821
+#: views/dolphinview.cpp:2828
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "ផ្ទាំង​ដែល​បាន​បិទ​ថ្មី"
 
-#: views/dolphinview.cpp:2823
+#: views/dolphinview.cpp:2830
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2825
+#: views/dolphinview.cpp:2832
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2827
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2829
+#: views/dolphinview.cpp:2836
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "រកមិនឃើញ​ធាតុ​ទេ"
 
-#: views/dolphinview.cpp:2832
+#: views/dolphinview.cpp:2839
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No KDE Connect devices found"
 msgstr "រកមិនឃើញ​ធាតុ​ទេ"
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2841
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2837
+#: views/dolphinview.cpp:2844
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2839
+#: views/dolphinview.cpp:2846
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-11 00:48+0000\n"
+"POT-Creation-Date: 2026-08-12 00:50+0000\n"
 "PO-Revision-Date: 2026-06-24 23:44+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -301,7 +301,7 @@ msgid ""
 msgstr "Закрыть это окно со всеми открытыми вкладками?"
 
 #: dolphinmainwindow.cpp:656 dolphinmainwindow.cpp:706
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2351
 #, kde-format
 msgid "Do not ask again"
 msgstr "Не задавать больше этот вопрос"
@@ -4209,7 +4209,7 @@ msgstr "Отменить переименование"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:614
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -4224,7 +4224,7 @@ msgstr[3] "Копировать в буфер обмена (%2)"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:625
+#: selectionmode/bottombarcontentscontainer.cpp:629
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -4239,7 +4239,7 @@ msgstr[3] "Копировать расположение в буфер обме�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:633
+#: selectionmode/bottombarcontentscontainer.cpp:637
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -4254,7 +4254,7 @@ msgstr[3] "Вырезать в буфер обмена (%2)"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:641
+#: selectionmode/bottombarcontentscontainer.cpp:645
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -4269,7 +4269,7 @@ msgstr[3] "Безвозвратно удалить (%2)"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:649
+#: selectionmode/bottombarcontentscontainer.cpp:653
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -4284,7 +4284,7 @@ msgstr[3] "Создать копию (%2)"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:657
+#: selectionmode/bottombarcontentscontainer.cpp:661
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -4299,7 +4299,7 @@ msgstr[3] "Удалить в корзину (%2)"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:665
+#: selectionmode/bottombarcontentscontainer.cpp:669
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
@@ -6532,43 +6532,43 @@ msgstr[1] "Открыть %1 объекта"
 msgstr[2] "Открыть %1 объектов"
 msgstr[3] "Открыть объект"
 
-#: views/dolphinview.cpp:1361
+#: views/dolphinview.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Боковой отступ"
 
-#: views/dolphinview.cpp:1365
+#: views/dolphinview.cpp:1372
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Автоматическая ширина столбцов"
 
-#: views/dolphinview.cpp:1370
+#: views/dolphinview.cpp:1377
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Выборочная ширина столбцов"
 
-#: views/dolphinview.cpp:2114
+#: views/dolphinview.cpp:2121
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Удаление в корзину выполнено."
 
-#: views/dolphinview.cpp:2124
+#: views/dolphinview.cpp:2131
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Удаление выполнено."
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2299
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Переименовать и скрыть"
 
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2303
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6577,7 +6577,7 @@ msgstr ""
 "После добавления точки в начало имени, файл будет скрыт.\n"
 "Продолжить переименование?"
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2305
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6586,23 +6586,23 @@ msgstr ""
 "После добавления точки в начало имени, папка будет скрыта.\n"
 "Продолжить переименование?"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2307
 #, kde-format
 msgid "Hide this File?"
 msgstr "Скрыть файл?"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2307
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Скрыть папку?"
 
-#: views/dolphinview.cpp:2321
+#: views/dolphinview.cpp:2328
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2338
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6615,7 +6615,7 @@ msgstr ""
 "определять его.\n"
 "Переименовать файл?"
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2342
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6628,100 +6628,100 @@ msgstr ""
 "определять его.\n"
 "Переименовать файл?"
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2348
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Изменение типа файла"
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Путь пуст."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Недопустимый путь «%1»."
 
-#: views/dolphinview.cpp:2776
+#: views/dolphinview.cpp:2783
 #, kde-format
 msgid "Loading…"
 msgstr "Открытие…"
 
-#: views/dolphinview.cpp:2805
+#: views/dolphinview.cpp:2812
 #, kde-format
 msgid "Loading canceled"
 msgstr "Открытие прервано"
 
-#: views/dolphinview.cpp:2807
+#: views/dolphinview.cpp:2814
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Не найдено ни одного объекта, соответствующего фильтру."
 
-#: views/dolphinview.cpp:2809
+#: views/dolphinview.cpp:2816
 #, kde-format
 msgid "No items matching the search"
 msgstr "Не найдено ни одного объекта, соответствующего критерию поиска."
 
-#: views/dolphinview.cpp:2811
+#: views/dolphinview.cpp:2818
 #, kde-format
 msgid "Trash is empty"
 msgstr "В корзине ничего нет."
 
-#: views/dolphinview.cpp:2814
+#: views/dolphinview.cpp:2821
 #, kde-format
 msgid "No tags"
 msgstr "Нет ни одной метки"
 
-#: views/dolphinview.cpp:2817
+#: views/dolphinview.cpp:2824
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Нет ни одного файла с меткой «%1»"
 
-#: views/dolphinview.cpp:2821
+#: views/dolphinview.cpp:2828
 #, kde-format
 msgid "No recently used items"
 msgstr "Не найдено ни одного недавно открытого объекта."
 
-#: views/dolphinview.cpp:2823
+#: views/dolphinview.cpp:2830
 #, kde-format
 msgid "No shared folders found"
 msgstr "Сетевая папка не содержит ни одного файла."
 
-#: views/dolphinview.cpp:2825
+#: views/dolphinview.cpp:2832
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Не найдено ни одного соответствующего сетевого ресурса."
 
-#: views/dolphinview.cpp:2827
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Не найдено ни одного MTP-совместимого устройства."
 
-#: views/dolphinview.cpp:2829
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Не найдено ни одного устройства Apple."
 
-#: views/dolphinview.cpp:2832
+#: views/dolphinview.cpp:2839
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Не найдено ни одного устройства KDE Connect."
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2841
 #, kde-format
 msgid "No storage found on this device"
 msgstr "На этом устройстве не найдено хранилищ."
 
-#: views/dolphinview.cpp:2837
+#: views/dolphinview.cpp:2844
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Не найдено ни одного устройства Bluetooth."
 
-#: views/dolphinview.cpp:2839
+#: views/dolphinview.cpp:2846
 #, kde-format
 msgid "Folder is empty"
 msgstr "В этой папке ничего нет."
