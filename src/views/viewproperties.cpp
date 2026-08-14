@@ -179,12 +179,20 @@ ViewProperties::ViewProperties(const QUrl &url)
     } else if (url.scheme() == QLatin1String("timeline")) {
         m_filePath = destinationDir(QStringLiteral("timeline"));
         useRecentDocumentsView = true;
-    } else if (url.scheme() == QLatin1String("snapshot") && url.adjusted(QUrl::StripTrailingSlash).path().count(QChar('/')) == 1) {
-        m_filePath = destinationDir(QStringLiteral("snapshot"));
-        useSnapshotsView = true;
-    } else if (url.scheme() == QLatin1String("filesnapshots")) {
-        m_filePath = destinationDir(QStringLiteral("filesnapshots"));
-        useFileSnapshotsView = true;
+    } else if (url.scheme() == QLatin1String("snapshot")) {
+        const auto mode = url.path().section(QChar('/'), 0, 0, QString::SectionSkipEmpty);
+        if (mode == QLatin1String("file")) {
+            useFileSnapshotsView = true;
+            m_filePath = destinationDir(QStringLiteral("snapshot_file"));
+        } else {
+            const auto numComponents = url.adjusted(QUrl::StripTrailingSlash).path().count(QChar('/'));
+            qDebug() << numComponents;
+            if (numComponents == 2) {
+                // snapshot:// /subvolume/{subvolumeId}
+                useSnapshotsView = true;
+                m_filePath = destinationDir(QStringLiteral("snapshot_subvolume"));
+            }
+        }
     } else if (useGlobalViewProps) {
         m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.isLocalFile()) {
@@ -289,16 +297,20 @@ ViewProperties::ViewProperties(const QUrl &url)
         } else if (useTrashView) {
             setViewMode(DolphinView::DetailsView);
             setVisibleRoles({"text", "path", "deletiontime"});
-        } else if (useSnapshotsView || useFileSnapshotsView) {
+        } else if (useSnapshotsView) {
+            setViewMode(DolphinView::DetailsView);
+            setSortRole(QByteArrayLiteral("creationtime"));
+            setSortOrder(Qt::DescendingOrder);
+            setGroupedSorting(true);
+            setVisibleRoles({"text", "creationtime", "size"});
+        } else if (useFileSnapshotsView) {
             setViewMode(DolphinView::DetailsView);
             setSortRole(QByteArrayLiteral("creationtime"));
             setSortOrder(Qt::DescendingOrder);
             setGroupedSorting(true);
             setVisibleRoles({"text", "modificationtime", "size"});
-            if (useFileSnapshotsView) {
-                setPreviewsShown(true);
-                setHiddenFilesShown(true);
-            }
+            setPreviewsShown(true);
+            setHiddenFilesShown(true);
         } else if (useRecentDocumentsView || useDownloadsView) {
             setSortOrder(Qt::DescendingOrder);
             setSortFoldersFirst(false);
