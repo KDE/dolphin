@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-13 00:53+0000\n"
-"PO-Revision-Date: 2026-07-23 22:52+0900\n"
+"PO-Revision-Date: 2026-08-14 23:03+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Min Nan Chinese Latin <zh-l10n@lists.slat.org>\n"
 "Language: nan_TW@latin\n"
@@ -31,25 +31,25 @@ msgstr "mail@kisaragi-hiu.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Tsit-má sī í Kuán-lí-tsiá sin-hūn leh tshau-tsok — tshiánn sè-lī!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Leh Iōng Kuán-lí-tsiá Sin-hūn"
 
 #: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Uân-sîng"
 
 #: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Uân-sîng í kuán-lí-tsiá sin-hūn tshau-tsok ê hîng-tōng"
 
 #: admin/bar.cpp:140
 #, kde-format
@@ -67,7 +67,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Í Kuán-lí-tsiá Sin-hūn Tshau-tsok"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -77,6 +77,10 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> su-iàu <application>%1</application> lâi "
+"kuán-lí hē-thóng sóo khòng-tsè ê tóng-àn, m̄-koh i suah bô hōo an-tsong.<nl/"
+">Tshiánn tshi̍h %2 lâi an-tsong <application>%1</application> á-sī %3 lâi "
+"tshú-siau."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
@@ -107,7 +111,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "Kuán-lí Hong-huat"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -147,7 +151,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
-msgstr ""
+msgstr "Tshing-tû Pùn-sò-tháng"
 
 #: dolphincontextmenu.cpp:155 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
@@ -164,7 +168,7 @@ msgctxt ""
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] ""
+msgstr[0] "Hue-ho̍k Kàu Guân-pún ê Uī-tì"
 
 #: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1808
 #, kde-format
@@ -182,13 +186,13 @@ msgstr "Khui Lōo-kìng"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
-msgstr ""
+msgstr "Tī Sin Hun-ia̍h Khui Lōo-kìng"
 
 #: dolphincontextmenu.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
-msgstr ""
+msgstr "Tī Sin Sī-thang Khui Lōo-kìng"
 
 #: dolphincontextmenu.cpp:519
 #, kde-format
@@ -269,18 +273,21 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
+"Tîng-sik '%1' iáu-koh tī-leh Tsiong-tuan-ki bīn-pán lāi-té tsip-hîng. Lí kám "
+"tsin-tsiànn ài lī-khui?"
 
 #: dolphinmainwindow.cpp:951
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Bô-huat-tōo tah--khí-khì: tsián-tah-phōo sī khang-ê."
 
 #: dolphinmainwindow.cpp:952
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
+"Bô-huat-tōo tah--khí-khì: lí bô khuân-hān siá-ji̍p tsit-ê tsu-liāu-giap-á."
 
 #: dolphinmainwindow.cpp:1363
 #, kde-format
@@ -292,20 +299,20 @@ msgstr "Phah-khui %1"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
-msgstr ""
+msgstr "Phah-khui Iu-sian ê Tshiau-tshuē Kang-khū"
 
 #: dolphinmainwindow.cpp:1412
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] ""
+msgstr[0] "Lí kám tsin-tsiànn ài khui %1 ê tsiong-tuan-ki sī-thang?"
 
 #: dolphinmainwindow.cpp:1417
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] ""
+msgstr[0] "Khui %1 ê Tsiong-tuan-ki"
 
 #: dolphinmainwindow.cpp:1518
 #, kde-format
@@ -314,6 +321,8 @@ msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Bô-huat-tōo kiàn-li̍p tóng-àn: Lí bô khuân-hān tī tsit-ê tsu-liāu-giap-á kiàn-"
+"li̍p hāng-bo̍k."
 
 #: dolphinmainwindow.cpp:1520
 #, kde-format
@@ -322,6 +331,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Bô-huat-tōo kiàn-li̍p tsu-liāu-giap-á: Lí bô khuân-hān tī tsit-ê tsu-liāu-"
+"giap-á kiàn-li̍p hāng-bo̍k."
 
 #: dolphinmainwindow.cpp:1522
 #, kde-format
@@ -345,7 +356,7 @@ msgstr "Sin Sī-thang(&W)"
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
-msgstr ""
+msgstr "Khui sin-ê Dolphin sī-thang"
 
 #: dolphinmainwindow.cpp:1820
 #, kde-kuit-format
@@ -439,7 +450,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr ""
+msgstr "Khóo-pih…"
 
 #: dolphinmainwindow.cpp:1880
 #, kde-kuit-format
@@ -454,7 +465,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
-msgstr ""
+msgstr "Tah--khí-khì"
 
 #: dolphinmainwindow.cpp:1891
 #, kde-kuit-format
@@ -555,7 +566,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
-msgstr ""
+msgstr "Tshiat-uānn Kè-lī-lia̍t"
 
 #: dolphinmainwindow.cpp:1945
 #, kde-format
@@ -566,13 +577,13 @@ msgstr "Kè-lī"
 #: dolphinmainwindow.cpp:1953 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
-msgstr ""
+msgstr "Tshuē…"
 
 #: dolphinmainwindow.cpp:1954
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
-msgstr ""
+msgstr "Tshuē tóng-àn á-sī tsu-liāu-giap-á"
 
 #: dolphinmainwindow.cpp:1956
 #, kde-kuit-format
@@ -587,7 +598,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
-msgstr ""
+msgstr "Tshiat-uānn Tshiau-tshuē-lia̍t"
 
 #: dolphinmainwindow.cpp:1966
 #, kde-format
@@ -835,7 +846,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
-msgstr ""
+msgstr "Su-tshiam(&B)"
 
 #: dolphinmainwindow.cpp:2243
 #, kde-kuit-format
@@ -859,7 +870,7 @@ msgstr "Khì Hun-ia̍h %1"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr ""
+msgstr "Siōng-bué ê Hun-ia̍h"
 
 #: dolphinmainwindow.cpp:2282
 #, kde-format
@@ -883,7 +894,7 @@ msgstr "Khì Ē-tsi̍t-ê Hun-ia̍h"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
-msgstr ""
+msgstr "Tíng-tsi̍t-ê Hun-ia̍h"
 
 #: dolphinmainwindow.cpp:2296
 #, kde-format
@@ -895,25 +906,25 @@ msgstr "Khì Tíng-tsi̍t-ê Hun-ia̍h"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
-msgstr ""
+msgstr "Hián-sī Bo̍k-piau"
 
 #: dolphinmainwindow.cpp:2309
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
-msgstr ""
+msgstr "Khui tī Sin Hun-ia̍h"
 
 #: dolphinmainwindow.cpp:2314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
-msgstr ""
+msgstr "Khui tī Sin Hun-ia̍h"
 
 #: dolphinmainwindow.cpp:2319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
-msgstr ""
+msgstr "Khui tī Sin Sī-thang"
 
 #: dolphinmainwindow.cpp:2324 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
@@ -921,7 +932,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr ""
+msgstr "Khui tī Hun-kuah Kiám-sī"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -954,7 +965,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
-msgstr ""
+msgstr "Tsu-sìn"
 
 #: dolphinmainwindow.cpp:2386
 #, kde-kuit-format
@@ -990,7 +1001,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
-msgstr ""
+msgstr "Tsu-liāu-giap-á"
 
 #: dolphinmainwindow.cpp:2430
 #, kde-kuit-format
@@ -1015,7 +1026,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
-msgstr ""
+msgstr "Tsiong-tuan-ki"
 
 #: dolphinmainwindow.cpp:2471
 #, kde-kuit-format
@@ -1288,13 +1299,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
-msgstr ""
+msgstr "Hun-kuah"
 
 #: dolphinmainwindow.cpp:2923
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
-msgstr ""
+msgstr "Hun-kuah kiám-sī"
 
 #: dolphinmainwindow.cpp:2925
 #, kde-format
@@ -1483,7 +1494,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
-msgstr ""
+msgstr "Tshing-tû Pùn-sò-tháng"
 
 #: dolphinnavigatorswidgetaction.cpp:258
 #, kde-format
@@ -1571,13 +1582,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
-msgstr ""
+msgstr "Pùn-sò-tháng"
 
 #: dolphinpart.cpp:185
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
-msgstr ""
+msgstr "Tsū-tōng Khí-tōng"
 
 #: dolphinpart.cpp:191
 #, kde-format
@@ -1617,7 +1628,7 @@ msgstr ""
 #: dolphinpart.rc:5
 #, kde-format
 msgid "&Edit"
-msgstr ""
+msgstr "&Pian-tsi̍p"
 
 #. i18n: ectx: Menu (selection)
 #: dolphinpart.rc:15
@@ -1636,7 +1647,7 @@ msgstr ""
 #: dolphinpart.rc:34
 #, kde-format
 msgid "&Go"
-msgstr ""
+msgstr "Tsiân-óng(&G)"
 
 #. i18n: ectx: Menu (tools)
 #: dolphinpart.rc:42
@@ -1752,7 +1763,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Tsú Kang-kū-lia̍t"
 
 #: dolphinurlnavigator.cpp:39
 #, kde-kuit-format
@@ -1866,12 +1877,10 @@ msgid "You do not have permission to create the folder"
 msgstr ""
 
 #: dolphinviewcontainer.cpp:1078
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "Phah-khui %1"
+msgstr "Iōng %1 khui"
 
 #: dolphinviewcontainer.cpp:1124 dolphinviewcontainer.cpp:1127
 #, kde-kuit-format
@@ -1883,7 +1892,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr ""
+msgstr "Tsu-liāu-giap-á ū Piàn ê Sî-tsūn mā Pó-liû Lī-á"
 
 #: filterbar/filterbar.cpp:43
 #, kde-format
@@ -1923,7 +1932,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
-msgstr ""
+msgstr "Tshàng Kè-lī-lia̍t"
 
 #: itemactions/hidefileitemaction.cpp:113
 #, kde-format
@@ -2031,7 +2040,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr ""
+msgstr "Khai-huat"
 
 #: itemactions/setfoldericonitemaction.cpp:221
 #, kde-format
@@ -2043,7 +2052,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Email"
 
 #: itemactions/setfoldericonitemaction.cpp:223
 #, kde-format
@@ -2290,19 +2299,19 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
-msgstr ""
+msgstr "Kî-thann"
 
 #: kitemviews/kfileitemmodel.cpp:2760
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
-msgstr ""
+msgstr "Tsu-liāu-giap-á"
 
 #: kitemviews/kfileitemmodel.cpp:2768
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
-msgstr ""
+msgstr "Sè"
 
 #: kitemviews/kfileitemmodel.cpp:2770
 #, kde-format
@@ -2320,13 +2329,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
-msgstr ""
+msgstr "Kin-á-ji̍t"
 
 #: kitemviews/kfileitemmodel.cpp:2821
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
-msgstr ""
+msgstr "Tsa-hng"
 
 #: kitemviews/kfileitemmodel.cpp:2824
 #, kde-format
@@ -2339,7 +2348,7 @@ msgstr ""
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2833
 #, kde-format
@@ -2381,7 +2390,7 @@ msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
 "context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2877
 #, kde-format
@@ -2397,7 +2406,7 @@ msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
 "@title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2889
 #, kde-format
@@ -2415,7 +2424,7 @@ msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
 "context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2910
 #, kde-format
@@ -2433,7 +2442,7 @@ msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
 "context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2931
 #, kde-format
@@ -2451,7 +2460,7 @@ msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
 "context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
@@ -2469,7 +2478,7 @@ msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
 "context @title:group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2973
 #, kde-format
@@ -2485,7 +2494,7 @@ msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
 "group Date"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:3017 kitemviews/kfileitemmodel.cpp:3030
 #: kitemviews/kfileitemmodel.cpp:3043
@@ -2506,7 +2515,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
-msgstr ""
+msgstr "Tsip-hîng, "
 
 #: kitemviews/kfileitemmodel.cpp:3025 kitemviews/kfileitemmodel.cpp:3038
 #: kitemviews/kfileitemmodel.cpp:3051
@@ -2529,7 +2538,7 @@ msgstr "Miâ"
 #: kitemviews/kfileitemmodel.cpp:3144
 msgctxt "@label"
 msgid "Size"
-msgstr ""
+msgstr "Tuā-sè"
 
 #: kitemviews/kfileitemmodel.cpp:3145
 msgctxt "@label"
@@ -2555,17 +2564,17 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:3148
 msgctxt "@label"
 msgid "Type"
-msgstr ""
+msgstr "Luī"
 
 #: kitemviews/kfileitemmodel.cpp:3149
 msgctxt "@label"
 msgid "Rating"
-msgstr ""
+msgstr "Phîng-kè"
 
 #: kitemviews/kfileitemmodel.cpp:3150
 msgctxt "@label"
 msgid "Tags"
-msgstr ""
+msgstr "Piau-tshiam"
 
 #: kitemviews/kfileitemmodel.cpp:3151
 msgctxt "@label"
@@ -2587,7 +2596,7 @@ msgstr "Bûn-kiānn"
 #: kitemviews/kfileitemmodel.cpp:3153
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Tsok-tsiá"
 
 #: kitemviews/kfileitemmodel.cpp:3154
 msgctxt "@label"
@@ -2634,12 +2643,12 @@ msgstr "Kuân-tōo"
 #: kitemviews/kfileitemmodel.cpp:3161
 msgctxt "@label"
 msgid "Orientation"
-msgstr ""
+msgstr "Hong-hiòng"
 
 #: kitemviews/kfileitemmodel.cpp:3162 kitemviews/kfileitemmodel.cpp:3181
 msgctxt "@label"
 msgid "Width"
-msgstr ""
+msgstr "Khuah-tōo"
 
 #: kitemviews/kfileitemmodel.cpp:3163
 msgctxt "@label"
@@ -2652,7 +2661,7 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:3169 kitemviews/kfileitemmodel.cpp:3170
 msgctxt "@label"
 msgid "Audio"
-msgstr ""
+msgstr "Im-sìn"
 
 #: kitemviews/kfileitemmodel.cpp:3164
 msgctxt "@label"
@@ -2778,32 +2787,32 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:3189
 msgctxt "@label"
 msgid "Owner"
-msgstr ""
+msgstr "Sóo-iú-tsiá"
 
 #: kitemviews/kfileitemmodel.cpp:3190
 msgctxt "@label"
 msgid "User Group"
-msgstr ""
+msgstr "Iōng-tsiá Kûn-tsoo"
 
 #: kitemviews/kfileitemmodel.cpp:3291
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
-msgstr ""
+msgstr "M̄-tsai ê tshò-gōo."
 
 #: kitemviews/kstandarditemlistwidget.cpp:121
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
+msgstr[0] "%1.5 ê tshenn-hō"
 
 #: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
+msgstr[0] "%1 ê tshenn-hō"
 
 #: main.cpp:62
 #, kde-kuit-format
@@ -2828,7 +2837,7 @@ msgstr "Tóng-àn Kuán-lí-khì"
 #, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr ""
+msgstr "© 2006–2025 Dolphin Khai-huat-tsiá"
 
 #: main.cpp:102
 #, kde-format
@@ -2840,7 +2849,7 @@ msgstr "Felix Ernst"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr ""
+msgstr "Uî-hōo-tsiá (2021 nî í-lâi) kap khai-huat-tsiá"
 
 #: main.cpp:105
 #, kde-format
@@ -2852,7 +2861,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr ""
+msgstr "Uî-hōo-tsiá (2021 nî í-lâi) kap khai-huat-tsiá (2019 nî í-lâi)"
 
 #: main.cpp:108
 #, kde-format
@@ -2864,7 +2873,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr ""
+msgstr "Uî-hōo-tsiá (2018–2021) kap khai-huat-tsiá"
 
 #: main.cpp:111
 #, kde-format
@@ -2876,19 +2885,19 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr ""
+msgstr "Uî-hōo-tsiá (2014–2018) kap khai-huat-tsiá"
 
 #: main.cpp:114
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
-msgstr ""
+msgstr "Frank Reininghaus"
 
 #: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr ""
+msgstr "Uî-hōo-tsiá (2012–2014) kap khai-huat-tsiá"
 
 #: main.cpp:117
 #, kde-format
@@ -2900,20 +2909,20 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr ""
+msgstr "Uî-hōo-tsiá kap khai-huat-tsiá (2006–2012)"
 
 #: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
-msgstr ""
+msgstr "Sebastian Trüg"
 
 #: main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124
 #: main.cpp:125 main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
-msgstr ""
+msgstr "Khai-huat-tsiá"
 
 #: main.cpp:121
 #, kde-format
@@ -2925,37 +2934,37 @@ msgstr "David Faure"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
-msgstr ""
+msgstr "Aaron J. Seigo"
 
 #: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
-msgstr ""
+msgstr "Rafael Fernández López"
 
 #: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
-msgstr ""
+msgstr "Kevin Ottens"
 
 #: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
-msgstr ""
+msgstr "Holger Freyther"
 
 #: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
-msgstr ""
+msgstr "Max Blazejak"
 
 #: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
-msgstr ""
+msgstr "Michael Austin"
 
 #: main.cpp:127
 #, kde-format
@@ -3010,6 +3019,8 @@ msgstr ""
 #, kde-format
 msgid "Limit folders panel to home directory if inside home"
 msgstr ""
+"Tī ka-bo̍k-lo̍k lāi-té ê sî-tsūn hān-tsè tsu-liāu-giap-á bīn-pán tī ka-bo̍k-lo̍k "
+"lāi-bīn"
 
 #. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
@@ -3033,7 +3044,7 @@ msgstr "Khóo-pih"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr ""
+msgstr "Kái-miâ…"
 
 #: panels/folders/treeviewcontextmenu.cpp:81
 #, kde-format
@@ -3057,7 +3068,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Limit to Home Directory"
-msgstr ""
+msgstr "Hān-tsè kàu Ka-bo̍k-lo̍k"
 
 #: panels/folders/treeviewcontextmenu.cpp:120
 #, kde-format
@@ -3081,7 +3092,7 @@ msgstr ""
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr ""
+msgstr "Tsū-tōng hòng-sàng muî-thé tóng-àn"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -3093,7 +3104,7 @@ msgstr ""
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
-msgstr ""
+msgstr "Ji̍t-kî hián-sī keh-sik"
 
 #: panels/information/informationpanel.cpp:155
 #, kde-format
@@ -3105,7 +3116,7 @@ msgstr "Ī-lám"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr ""
+msgstr "Tsū-tōng hòng-sàng muî-thé tóng-àn"
 
 #: panels/information/informationpanel.cpp:165
 #, kde-format
@@ -3141,12 +3152,12 @@ msgstr[0] ""
 #: panels/information/mediawidget.cpp:264
 #, kde-format
 msgid "play"
-msgstr ""
+msgstr "hòng-sàng"
 
 #: panels/information/mediawidget.cpp:270
 #, kde-format
 msgid "pause"
-msgstr ""
+msgstr "tsiām-thîng"
 
 #. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
 #: panels/places/dolphin_placespanelsettings.kcfg:11
@@ -3164,7 +3175,7 @@ msgstr ""
 #: panels/terminal/terminalpanel.cpp:211
 #, kde-format
 msgid "Install Konsole"
-msgstr ""
+msgstr "An-tsong Konsole"
 
 #: search/bar.cpp:63
 #, kde-format
@@ -3182,19 +3193,19 @@ msgstr "Kè-lī"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
-msgstr ""
+msgstr "Mài koh tshuē--ah"
 
 #: search/bar.cpp:102
 #, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr ""
+msgstr "Tsit-má ê sóo-tsāi"
 
 #: search/bar.cpp:117
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
-msgstr ""
+msgstr "Sóo-ū ê sóo-tsāi"
 
 #: search/bar.cpp:152
 #, kde-kuit-format
@@ -3214,7 +3225,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Tshuē tóng-àn ê lāi-iông…"
 
 #: search/bar.cpp:229
 #, kde-kuit-format
@@ -3248,25 +3259,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr ""
+msgstr "Î-tû Lī-á"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
 #, kde-format
 msgid "Location"
-msgstr ""
+msgstr "Uī-tì"
 
 #. i18n: ectx: label, entry (What), group (Search)
 #: search/dolphin_searchsettings.kcfg:14
 #, kde-format
 msgid "What"
-msgstr ""
+msgstr "Tuì-siōng"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
 #, kde-format
 msgid "SearchTool"
-msgstr ""
+msgstr "Tshiau-tshuē Kang-khū"
 
 #: search/dolphinquery.cpp:382
 #, kde-format
@@ -3354,7 +3365,7 @@ msgstr ""
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr ""
+msgstr "Tshiau-tshuē kiat-kó"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:47
@@ -3384,7 +3395,7 @@ msgstr "Tóng-miâ"
 #, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr ""
+msgstr "Tshiau-tshuē hong-huat:"
 
 #: search/popup.cpp:131
 #, kde-kuit-format
@@ -3425,13 +3436,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr ""
+msgstr "Phîng-kè:"
 
 #: search/popup.cpp:233
 #, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr ""
+msgstr "Piau-tshiam:"
 
 #: search/popup.cpp:251
 #, kde-format
@@ -3461,7 +3472,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr ""
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:295
 #, kde-kuit-format
@@ -3502,80 +3513,80 @@ msgstr "Phah-khui %1"
 #, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr ""
+msgstr "An-tsong KFind…"
 
 #: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr ""
+msgstr "<application>KFind</application> sîng-kong an-tsong--ah."
 
 #: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr ""
+msgstr "Tī-leh an-tsong KFind"
 
 #: search/selectors/dateselector.cpp:59
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Any Date"
-msgstr ""
+msgstr "Jīm-hô Ji̍t-kî"
 
 #: search/selectors/filetypeselector.cpp:25
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Any Type"
-msgstr ""
+msgstr "Jīm-hô Luī-pia̍t"
 
 #: search/selectors/minimumratingselector.cpp:22
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Any Rating"
-msgstr ""
+msgstr "Jīm-hô Phîng-kè"
 
 #: search/selectors/minimumratingselector.cpp:24
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "1 or more"
-msgstr ""
+msgstr "1 í-siōng"
 
 #: search/selectors/minimumratingselector.cpp:25
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "2 or more"
-msgstr ""
+msgstr "2 í-siōng"
 
 #: search/selectors/minimumratingselector.cpp:26
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "3 or more"
-msgstr ""
+msgstr "3 í-siōng"
 
 #: search/selectors/minimumratingselector.cpp:27
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "4 or more"
-msgstr ""
+msgstr "4 í-siōng"
 
 #: search/selectors/minimumratingselector.cpp:28
 #, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: search/selectors/tagsselector.cpp:191
 #, kde-format
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:194
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr ""
+msgstr "Bô"
 
 #: selectionmode/bottombarcontentscontainer.cpp:168
 #, kde-format
@@ -3591,7 +3602,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Tshú-siau Khóo-pih"
 
 #: selectionmode/bottombarcontentscontainer.cpp:203
 #, kde-format
@@ -3617,7 +3628,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Tshú-siau Ka--lo̍h"
 
 #: selectionmode/bottombarcontentscontainer.cpp:282
 #, kde-format
@@ -3632,7 +3643,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Tshú-siau"
 
 #: selectionmode/bottombarcontentscontainer.cpp:302
 #, kde-format
@@ -3653,7 +3664,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Khah-tsè"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:372
@@ -3667,7 +3678,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Tshú-siau Suá-uī"
 
 #: selectionmode/bottombarcontentscontainer.cpp:394
 #, kde-format
@@ -3717,7 +3728,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Tshú-siau Kái-miâ"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3753,7 +3764,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "Kā %2 Ka--lo̍h-khì Tsián-tah-phōo"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3842,7 +3853,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr ""
+msgstr "Lāi-bûn Suán-tuann Tōng-tsok"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -3860,7 +3871,7 @@ msgstr "Hā-tsài Ho̍k-bū…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Shortcuts…"
-msgstr ""
+msgstr "Khuài-sok-khí…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -3886,7 +3897,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #. i18n: ectx: label, entry (UseSystemFont), group (IconsMode)
 #. i18n: ectx: label, entry (UseSystemFont), group (DetailsMode)
@@ -3896,7 +3907,7 @@ msgstr ""
 #: settings/dolphin_iconsmodesettings.kcfg:12
 #, kde-format
 msgid "Use system font"
-msgstr ""
+msgstr "Iōng hē-thóng jī-hîng"
 
 #. i18n: ectx: label, entry (IconSize), group (IconsMode)
 #. i18n: ectx: label, entry (IconSize), group (DetailsMode)
@@ -3916,7 +3927,7 @@ msgstr "Tôo-sī tuā-sè"
 #: settings/dolphin_iconsmodesettings.kcfg:23
 #, kde-format
 msgid "Preview size"
-msgstr ""
+msgstr "Ī-lám tuā-sè"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -3934,19 +3945,19 @@ msgstr ""
 #: settings/dolphin_contentdisplaysettings.kcfg:13
 #, kde-format
 msgid "Show the content count"
-msgstr ""
+msgstr "Hián-sī lāi-iông sòo-liōng"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
 #, kde-format
 msgid "Show the content size"
-msgstr ""
+msgstr "Hián-sī lāi-iông tuā-sè"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Mài hián-sī jīm-hô bo̍k-lo̍k tuā-sè"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3964,7 +3975,7 @@ msgstr ""
 #: settings/dolphin_contentdisplaysettings.kcfg:33
 #, kde-format
 msgid "Permissions style format"
-msgstr ""
+msgstr "Khuân-hān ê keh-sik"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
@@ -4095,7 +4106,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Version"
-msgstr ""
+msgstr "Pán-pún"
 
 #. i18n: ectx: whatsthis, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:20
@@ -4125,14 +4136,14 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Zoom Level"
-msgstr ""
+msgstr "Hòng-tuā Sok-sió ê Pí-lē"
 
 #. i18n: ectx: whatsthis, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "Zoom level of the folder."
-msgstr ""
+msgstr "Tsu-liāu-giap-á ê hòng-tuā/sok-sió pí-lē."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -4321,7 +4332,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:56
 #, kde-format
 msgid "Tab style"
-msgstr ""
+msgstr "Hun-ia̍h hong-keh"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4344,7 +4355,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:74
 #, kde-format
 msgid "Home URL"
-msgstr ""
+msgstr "Ka-bo̍k-lo̍k URL"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:78
@@ -4414,7 +4425,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:124
 #, kde-format
 msgid "Close split view"
-msgstr ""
+msgstr "Kā hun-kuah kiám-sī kuainn--khì"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:128
@@ -4444,7 +4455,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:148
 #, kde-format
 msgid "Statusbar"
-msgstr ""
+msgstr "Tsōng-thài-lia̍t"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:153
@@ -4536,25 +4547,25 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr ""
+msgstr "Kiám-sī"
 
 #: settings/dolphinsettingsdialog.cpp:70
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
-msgstr ""
+msgstr "Lāi-bûn Suán-tuann"
 
 #: settings/dolphinsettingsdialog.cpp:80
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
-msgstr ""
+msgstr "Pùn-sò-tháng"
 
 #: settings/dolphinsettingsdialog.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
-msgstr ""
+msgstr "Iōng-tsiá Huê-kuī"
 
 #: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
@@ -4565,7 +4576,7 @@ msgstr ""
 #: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
-msgstr ""
+msgstr "Kíng-kò"
 
 #: settings/interface/confirmationssettingspage.cpp:54
 #, kde-format
@@ -4647,49 +4658,49 @@ msgstr ""
 #: settings/interface/confirmationssettingspage.cpp:80
 #, kde-format
 msgid "Open in application"
-msgstr ""
+msgstr "Iōng ìng-iōng-tîng-sik khui"
 
 #: settings/interface/confirmationssettingspage.cpp:80
 #, kde-format
 msgid "Run script"
-msgstr ""
+msgstr "Tsip-hîng tsí-līng-kó"
 
 #: settings/interface/folderstabssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr ""
+msgstr "Tíng-kái ê tsu-liāu-giap-á, hun-ia̍h, kap sī-thang tsōng-thài"
 
 #: settings/interface/folderstabssettingspage.cpp:58
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr ""
+msgstr "Khí-tōng ê sî-tsūn hián-sī ka-bo̍k-lo̍k"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:66
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr ""
+msgstr "Su-ji̍p ka-bo̍k-lo̍k uī-tì ê lōo-kìng"
 
 #: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
-msgstr ""
+msgstr "Suán Ka-bo̍k-lo̍k Uī-tì"
 
 #: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
-msgstr ""
+msgstr "Iōng Tsit-má ê Uī-tì"
 
 #: settings/interface/folderstabssettingspage.cpp:88
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
-msgstr ""
+msgstr "Iōng Ū-siat ê Uī-tì"
 
 #: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
@@ -4713,7 +4724,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr ""
+msgstr "Sī-thang:"
 
 #: settings/interface/folderstabssettingspage.cpp:115
 #, kde-format
@@ -4773,52 +4784,52 @@ msgstr ""
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr ""
+msgstr "Tī tsit-má hun-ia̍h āu-piah"
 
 #: settings/interface/folderstabssettingspage.cpp:141
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr ""
+msgstr "Tī hun-ia̍h-lia̍t ê bué"
 
 #: settings/interface/folderstabssettingspage.cpp:145
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr ""
+msgstr "Khui sin hun-ia̍h:"
 
 #: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr ""
+msgstr "Kuainn-tiāu hun-kuah kiám-sī ê sî-tsūn"
 
 #: settings/interface/folderstabssettingspage.cpp:153
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close the active pane"
-msgstr "Kuainn-tiāu tsit-má leh iōng ê "
+msgstr "Kuainn-tiāu tsit-má leh iōng ê hit-pîng"
 
 #: settings/interface/folderstabssettingspage.cpp:153
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Kuainn-tiāu bô leh iōng ê hit-pîng"
 
 #: settings/interface/folderstabssettingspage.cpp:153
 #, kde-format
 msgid "Close the right pane"
-msgstr ""
+msgstr "Kuainn-tiāu tsiànn-pîng--ê"
 
 #: settings/interface/folderstabssettingspage.cpp:160
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr ""
+msgstr "Hun-kuah kiám-sī: "
 
 #: settings/interface/folderstabssettingspage.cpp:163
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr ""
+msgstr "Iōng hun-kuah kiám-sī bôo-sik khui sin sī-thang"
 
 #: settings/interface/folderstabssettingspage.cpp:331
 #, kde-format
@@ -4827,6 +4838,7 @@ msgid ""
 "The location for the home folder is invalid or does not exist, it will not "
 "be applied."
 msgstr ""
+"Ka-bo̍k-lo̍k ê uī-tì bô-hāu á-sī bô tsûn-tsāi, sóo-í bô thò-iōng piàn-king."
 
 #: settings/interface/interfacesettingspage.cpp:37
 #, kde-format
@@ -4852,7 +4864,7 @@ msgstr "Khak-tīng"
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr ""
+msgstr "Bīn-pán"
 
 #: settings/interface/interfacesettingspage.cpp:59
 #, kde-format
@@ -4934,7 +4946,7 @@ msgstr ""
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #: settings/interface/previewssettingspage.cpp:71
 #, kde-format
@@ -4980,7 +4992,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr ""
+msgstr "Sè"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4998,13 +5010,13 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Thîng-iōng"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
 #, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr ""
+msgstr "Tsōng-thài-lia̍t:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, kde-format
@@ -5015,7 +5027,7 @@ msgstr ""
 #: settings/interface/statusandlocationbarssettingspage.cpp:70
 #, kde-format
 msgid "Location bar:"
-msgstr ""
+msgstr "Uī-tì-lia̍t:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:72
 #, kde-format
@@ -5027,7 +5039,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
-msgstr ""
+msgstr "Hîng-uî"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:38
 #: settings/viewmodes/viewsettingspage.cpp:43
@@ -5349,7 +5361,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
-msgstr ""
+msgstr "It-puann"
 
 #: settings/viewmodes/viewsettingspage.cpp:38
 #, kde-format
@@ -5385,25 +5397,25 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
-msgstr ""
+msgstr "Sè"
 
 #: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Medium"
-msgstr ""
+msgstr "Tiong"
 
 #: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
-msgstr ""
+msgstr "Tuā"
 
 #: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
-msgstr ""
+msgstr "Tsiok-tuā"
 
 #: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
@@ -5415,73 +5427,73 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
-msgstr ""
+msgstr "Bô hān-tsè"
 
 #: settings/viewmodes/viewsettingstab.cpp:90
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: settings/viewmodes/viewsettingstab.cpp:91
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: settings/viewmodes/viewsettingstab.cpp:95
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
-msgstr ""
+msgstr "Siōng-tsē hián-sī kuí hâng:"
 
 #: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
-msgstr ""
+msgstr "Bô hān-tsè"
 
 #: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
-msgstr ""
+msgstr "Sè"
 
 #: settings/viewmodes/viewsettingstab.cpp:102
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
-msgstr ""
+msgstr "Tiong"
 
 #: settings/viewmodes/viewsettingstab.cpp:103
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
-msgstr ""
+msgstr "Tuā"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
-msgstr ""
+msgstr "Siōng-tuā ê khuah-tōo:"
 
 #: settings/viewmodes/viewsettingstab.cpp:108
 #, kde-format
@@ -5493,7 +5505,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
-msgstr ""
+msgstr "Tsu-liāu-giap-á:"
 
 #: settings/viewmodes/viewsettingstab.cpp:112
 #, kde-format
@@ -5550,43 +5562,43 @@ msgstr "Siông-sè"
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
-msgstr ""
+msgstr "Tsing-sū"
 
 #: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
-msgstr ""
+msgstr "Kiám-sū"
 
 #: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
-msgstr ""
+msgstr "Tsu-liāu-giap-á tī thâu-tsîng"
 
 #: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr ""
+msgstr "Ún-tsông tóng-àn tī thâu-tsîng"
 
 #: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr ""
+msgstr "Hián-sī ī-lám"
 
 #: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
-msgstr ""
+msgstr "Kûn-tsoo-huà hián-sī"
 
 #: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
-msgstr ""
+msgstr "Hián-sī ún-tsông tóng-àn"
 
 #: settings/viewpropertiesdialog.cpp:92
 #, kde-format
@@ -5741,7 +5753,7 @@ msgstr ""
 #: statusbar/dolphinstatusbar.cpp:72
 #, kde-format
 msgid "Zoom"
-msgstr ""
+msgstr "Hòng-tuā Sok-sió"
 
 #: statusbar/dolphinstatusbar.cpp:73
 #, kde-format
@@ -5825,7 +5837,7 @@ msgstr ""
 #, kde-format
 msgctxt "name of kuserfeedback data source provided by dolphin"
 msgid "Settings"
-msgstr ""
+msgstr "Siat-tīng"
 
 #: userfeedback/settingsdatasource.cpp:29
 #, kde-format
@@ -5846,7 +5858,7 @@ msgstr "Ū-siat"
 #: views/dolphinremoteencoding.cpp:98
 #, kde-format
 msgid "Reload"
-msgstr ""
+msgstr "Tîng Tsài-ji̍p"
 
 #: views/dolphinview.cpp:771
 #, kde-format
@@ -5874,19 +5886,19 @@ msgstr[0] ""
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] ""
+msgstr[0] "%1 ê tóng-àn"
 
 #: views/dolphinview.cpp:779
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
-msgstr ""
+msgstr "%1, %2 (%3)"
 
 #: views/dolphinview.cpp:781
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
-msgstr ""
+msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:785
 #, kde-format
@@ -6023,7 +6035,7 @@ msgstr ""
 #: views/dolphinview.cpp:2812
 #, kde-format
 msgid "Loading canceled"
-msgstr ""
+msgstr "Tsài-ji̍p hōo tshú-siau--ah"
 
 #: views/dolphinview.cpp:2814
 #, kde-format
@@ -6172,7 +6184,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
-msgstr ""
+msgstr "Khóo-pih Uī-tì"
 
 #: views/dolphinviewactionhandler.cpp:174
 #, kde-format
@@ -6303,7 +6315,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
-msgstr ""
+msgstr "Tsu-liāu-giap-á tī Thâu-tsîng"
 
 #: views/dolphinviewactionhandler.cpp:289
 #, kde-format
@@ -6341,7 +6353,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr ""
+msgstr "Bô"
 
 #: views/dolphinviewactionhandler.cpp:363
 #, kde-format
@@ -6466,37 +6478,37 @@ msgstr ""
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
-msgstr ""
+msgstr "Z-A"
 
 #: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: views/dolphinviewactionhandler.cpp:830
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
-msgstr ""
+msgstr "Tuā ê tī Thâu-tsîng"
 
 #: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
-msgstr ""
+msgstr "Sé ê tī Thâu-tsîng"
 
 #: views/dolphinviewactionhandler.cpp:833
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
-msgstr ""
+msgstr "Sin ê tī Thâu-tsîng"
 
 #: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
-msgstr ""
+msgstr "Kū ê tī Thâu-tsîng"
 
 #: views/dolphinviewactionhandler.cpp:836
 #, kde-format
@@ -6514,13 +6526,13 @@ msgstr ""
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
-msgstr ""
+msgstr "Kiám-sū"
 
 #: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
-msgstr ""
+msgstr "Tsing-sū"
 
 #: views/dolphinviewactionhandler.cpp:938
 #, kde-format
@@ -6559,10 +6571,10 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr ""
+msgstr "Hòng-tuā Sok-sió"
 
 #: views/zoomwidgetaction.cpp:69
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr ""
+msgstr "Hòng-tuā Sok-sió"
