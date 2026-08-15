@@ -363,16 +363,12 @@ msgstr ""
 "folder."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Cannot create new folder: You do not have permission to create items in this "
-"folder."
+"Nedá sa vytvoriť nový podpriečinok: vyberte jeden priečinok, do ktorého "
+"môžete zapisovať."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -588,20 +584,16 @@ msgid "Move to Other View"
 msgstr "Presunúť do iného zobrazenia"
 
 #: dolphinmainwindow.cpp:1907
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "Kopírovať do iného zobrazenia"
+msgstr "Zamerať druhé zobrazenie"
 
 #: dolphinmainwindow.cpp:1908
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Presunúť zameranie klávesnice na panel Miesta a z neho."
+msgstr "Presunúť zameranie klávesnice na neaktívne zobrazenie."
 
 #: dolphinmainwindow.cpp:1914
 #, kde-format
@@ -1971,14 +1963,13 @@ msgstr "Zavrieť ostatné karty"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Zavrieť karty naľavo"
 
 #: dolphintabbar.cpp:194
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Zatvoriť pravý panel"
+msgstr "Zavrieť karty napravo"
 
 #: dolphintabbar.cpp:196
 #, kde-format
@@ -4588,12 +4579,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Zoradiť súbory podľa"
+msgstr "Zoskupiť súbory podľa"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4604,6 +4593,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Táto možnosť určuje, podľa ktorého atribútu sa položky zoskupujú, keď je "
+"zapnuté zoskupené triedenie. Prázdna hodnota znamená, že kritérium "
+"zoskupovania sa riadi kritériom triedenia."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6579,12 +6571,10 @@ msgid "Create Folder…"
 msgstr "Vytvoriť priečinok..."
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Vytvoriť priečinok..."
+msgstr "Vytvoriť podpriečinok…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6834,7 +6824,7 @@ msgstr "Zobraziť ďalšie informácie"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Zoskupiť podľa"
 
 #: views/dolphinviewactionhandler.cpp:345
 #, kde-format
@@ -6843,11 +6833,11 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Zoskupí súbory a priečinky podľa zvoleného atribútu. „Žiadne“ zoskupovanie "
+"vypne. „Rovnako ako triedenie“ zoskupuje podľa aktívneho kritéria triedenia."
 
 #: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Žiadne"
@@ -6856,7 +6846,7 @@ msgstr "Žiadne"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Rovnako ako triedenie"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
@@ -6899,17 +6889,16 @@ msgstr ""
 "priečinkov."
 
 #: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Priblížiť na predvolenú úroveň"
+msgstr "Obnoviť na predvolené"
 
 #: views/dolphinviewactionhandler.cpp:404
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "Obnoviť predvolené nastavenia pohľadu"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format
@@ -6934,12 +6923,10 @@ msgid "Sort by Field"
 msgstr "Triediť podľa poľa"
 
 #: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Triediť podľa poľa"
+msgstr "Zoskupiť podľa poľa"
 
 #: views/dolphinviewactionhandler.cpp:449
 #, kde-format
