@@ -74,6 +74,7 @@ private Q_SLOTS:
     void testFocusOtherView();
     void testPlacesPanelWidthResistance();
     void testGoActions();
+    void testNewTabActivation();
     void testOpenFiles();
     void testAccessibilityTree();
     void testAutoSaveSession();
@@ -1001,7 +1002,8 @@ void DolphinMainWindowTest::testGoActions()
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().constFirst().url(), childDirUrl); // It should still be selected.
 
     // Open a new tab for the "b" child dir and verify that this doesn't interfere with anything.
-    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier); // Open new inactive tab
+    // Shift is what keeps the new tab in the background, so this view stays where it is.
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier | Qt::ShiftModifier);
     QVERIFY(m_mainWindow->m_tabWidget->count() == 2);
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
     QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
@@ -1047,6 +1049,81 @@ void DolphinMainWindowTest::testGoActions()
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->isEnabled());
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
     QVERIFY(m_mainWindow->actionCollection()->action(QStringLiteral("undo_close_tab"))->isEnabled());
+}
+
+/**
+ * Opening a folder in a new tab switches to that tab, unless Shift is held down, which leaves it in
+ * the background.
+ */
+void DolphinMainWindowTest::testNewTabActivation()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a");
+    const QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/a"));
+    m_mainWindow->openDirectories({childDirUrl}, false); // Open the "a" dir
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+    QVERIFY(m_mainWindow->isVisible());
+
+    // Emerging from "a" leaves it as the item the keyboard acts on.
+    QSignalSpy spyDirectoryLoadingCompleted(m_mainWindow->m_activeViewContainer->view(), &DolphinView::directoryLoadingCompleted);
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    const QUrl parentDirUrl = m_mainWindow->activeViewContainer()->url();
+
+    auto currentItemUrl = [this]() {
+        const int currentIndex = m_mainWindow->m_activeViewContainer->view()->m_container->controller()->selectionManager()->currentItem();
+        return m_mainWindow->m_activeViewContainer->view()->m_model->fileItem(currentIndex).url();
+    };
+    QTRY_COMPARE(currentItemUrl(), childDirUrl);
+
+    auto openTabs = [this]() {
+        std::set<QWidget *> tabs;
+        for (int i = 0; i < m_mainWindow->m_tabWidget->count(); ++i) {
+            tabs.insert(m_mainWindow->m_tabWidget->widget(i));
+        }
+        return tabs;
+    };
+
+    // Ctrl and the Enter key open the folder in a new tab, which the window switches to.
+    std::set<QWidget *> tabsBefore = openTabs();
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QVERIFY2(!tabsBefore.contains(m_mainWindow->m_tabWidget->currentWidget()), "The window stayed on the tab the folder was opened from.");
+    QTRY_COMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
+
+    // Holding Shift down as well opens the folder in a tab in the background.
+    m_mainWindow->m_tabWidget->activateTab(0);
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
+    tabsBefore = openTabs();
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier | Qt::ShiftModifier);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 3);
+    QVERIFY2(tabsBefore.contains(m_mainWindow->m_tabWidget->currentWidget()), "The window switched to the tab that was asked for in the background.");
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
+
+    // A key click sends its release with the modifiers of the press still set, so the keys have to
+    // be let go of explicitly for the entries below to see the state a user would leave them in.
+    QTest::keyRelease(m_mainWindow.data(), Qt::Key::Key_Shift, Qt::NoModifier);
+
+    // The context menu entry switches to the tab it opens too.
+    tabsBefore = openTabs();
+    m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab"))->trigger();
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 4);
+    QVERIFY2(!tabsBefore.contains(m_mainWindow->m_tabWidget->currentWidget()), "The window stayed on the tab the entry was triggered from.");
+
+    // The same entry leaves the new tab in the background while Shift is held down.
+    QTest::keyPress(m_mainWindow.data(), Qt::Key::Key_Shift, Qt::ShiftModifier);
+    tabsBefore = openTabs();
+    m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab"))->trigger();
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 5);
+    QVERIFY2(tabsBefore.contains(m_mainWindow->m_tabWidget->currentWidget()), "The window switched to the tab that was asked for in the background.");
+    QTest::keyRelease(m_mainWindow.data(), Qt::Key::Key_Shift, Qt::NoModifier);
 }
 
 void DolphinMainWindowTest::testOpenFiles()

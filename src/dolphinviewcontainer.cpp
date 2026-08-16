@@ -762,9 +762,9 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
-            Q_EMIT activeTabRequested(url);
-        } else if (modifiers & Qt::ControlModifier) {
             Q_EMIT tabRequested(url);
+        } else if (modifiers & Qt::ControlModifier) {
+            Q_EMIT activeTabRequested(url);
         } else if (modifiers & Qt::ShiftModifier) {
             Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
         } else {
@@ -819,9 +819,9 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         if (!url.isEmpty()) {
             // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
             if (modifiers & Qt::ShiftModifier) {
-                Q_EMIT activeTabRequested(url);
-            } else {
                 Q_EMIT tabRequested(url);
+            } else {
+                Q_EMIT activeTabRequested(url);
             }
         }
     }

@@ -191,9 +191,9 @@ void FoldersPanel::slotItemActivated(int index)
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
-            Q_EMIT folderInNewActiveTab(item.url());
-        } else if (modifiers & Qt::ControlModifier) {
             Q_EMIT folderInNewTab(item.url());
+        } else if (modifiers & Qt::ControlModifier) {
+            Q_EMIT folderInNewActiveTab(item.url());
         } else if (modifiers & Qt::ShiftModifier) {
             // The shift modifier is not considered because it is used to expand the tree view without actually
             // opening the folder
@@ -211,9 +211,9 @@ void FoldersPanel::slotItemMiddleClicked(int index)
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
-            Q_EMIT folderInNewActiveTab(item.url());
-        } else {
             Q_EMIT folderInNewTab(item.url());
+        } else {
+            Q_EMIT folderInNewActiveTab(item.url());
         }
     }
 }
