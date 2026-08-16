@@ -25,6 +25,7 @@
 #include <KIO/PreviewJob>
 #include <KIconTheme>
 #include <KLocalizedString>
+#include <KToolTipHelper>
 #include <KWindowSystem>
 
 #define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
@@ -74,6 +75,12 @@ int main(int argc, char **argv)
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("org.kde.dolphin"), app.windowIcon()));
+
+    /**
+     * show the tooltip of a menu entry which has something to say beyond its own text, and offer the
+     * "What's This" help of a widget on the line below its tooltip
+     */
+    app.installEventFilter(KToolTipHelper::instance());
 
 #if HAVE_STYLE_MANAGER
     /**
