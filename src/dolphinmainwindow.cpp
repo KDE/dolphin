@@ -112,6 +112,13 @@ const int CurrentDolphinVersion = 202;
 const int MaxNumberOfNavigationentries = 12;
 // The maximum number of "Go to Tab" shortcuts
 const int MaxActivateTabShortcuts = 9;
+
+// A context menu action which opens a new tab activates it, unless the Shift key is held down,
+// which leaves the new tab in the background.
+bool focusedTabRequested()
+{
+    return !(QGuiApplication::keyboardModifiers() & Qt::ShiftModifier);
+}
 }
 
 DolphinMainWindow::DolphinMainWindow()
@@ -501,6 +508,15 @@ void DolphinMainWindow::openNewTabAndActivate(const QUrl &url)
     m_tabWidget->openNewActivatedTab(url, QUrl());
 }
 
+DolphinTabPage *DolphinMainWindow::openNewTabFromContextMenu(const QUrl &url)
+{
+    if (!focusedTabRequested()) {
+        return openNewTab(url);
+    }
+    openNewTabAndActivate(url);
+    return m_tabWidget->currentTabPage();
+}
+
 void DolphinMainWindow::openNewWindow(const QUrl &url)
 {
     Dolphin::openNewWindow({url}, this);
@@ -518,23 +534,49 @@ void DolphinMainWindow::slotTabBarChanged()
     m_tabWidget->tabBar()->setTabsClosable(GeneralSettings::showCloseButtonOnTabs());
 }
 
-void DolphinMainWindow::openInNewTab()
+DolphinTabPage *DolphinMainWindow::openNewTabsForSelection()
 {
     const KFileItemList &list = m_activeViewContainer->view()->selectedItems();
-    bool tabCreated = false;
+    DolphinTabPage *firstTabPage = nullptr;
 
     for (const KFileItem &item : list) {
         const QUrl &url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
-            openNewTab(url);
-            tabCreated = true;
+            DolphinTabPage *tabPage = openNewTab(url);
+            if (!firstTabPage) {
+                firstTabPage = tabPage;
+            }
         }
     }
 
     // if no new tab has been created from the selection
     // open the current directory in a new tab
-    if (!tabCreated) {
-        openNewTab(m_activeViewContainer->url());
+    if (!firstTabPage) {
+        firstTabPage = openNewTab(m_activeViewContainer->url());
+    }
+
+    return firstTabPage;
+}
+
+void DolphinMainWindow::openInNewTab()
+{
+    openNewTabsForSelection();
+}
+
+void DolphinMainWindow::openInNewTabActivated()
+{
+    // The tabs are all opened in the background first, so that they keep the order of the selection.
+    // The first one is activated once they are all in place.
+    DolphinTabPage *firstTabPage = openNewTabsForSelection();
+    m_tabWidget->activateTab(m_tabWidget->indexOf(firstTabPage));
+}
+
+void DolphinMainWindow::openInNewTabFromContextMenu()
+{
+    if (focusedTabRequested()) {
+        openInNewTabActivated();
+    } else {
+        openInNewTab();
     }
 }
 
@@ -2308,12 +2350,12 @@ void DolphinMainWindow::setupActions()
     QAction *openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
     openInNewTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
-    connect(openInNewTab, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
+    connect(openInNewTab, &QAction::triggered, this, &DolphinMainWindow::openInNewTabFromContextMenu);
 
     QAction *openInNewTabs = actionCollection()->addAction(QStringLiteral("open_in_new_tabs"));
     openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
     openInNewTabs->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
-    connect(openInNewTabs, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
+    connect(openInNewTabs, &QAction::triggered, this, &DolphinMainWindow::openInNewTabFromContextMenu);
 
     QAction *openInNewWindow = actionCollection()->addAction(QStringLiteral("open_in_new_window"));
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));

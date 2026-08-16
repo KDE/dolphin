@@ -222,6 +222,14 @@ public Q_SLOTS:
     void openNewTabAndActivate(const QUrl &url);
 
     /**
+     * Opens a new tab showing the URL \a url for a context menu action. The new tab is activated,
+     * unless the Shift key is held down while the action is triggered, which opens the tab in the
+     * background.
+     * @return A pointer to the opened DolphinTabPage.
+     */
+    DolphinTabPage *openNewTabFromContextMenu(const QUrl &url);
+
+    /**
      * Opens a new window showing the URL \a url.
      */
     void openNewWindow(const QUrl &url);
@@ -537,6 +545,19 @@ private Q_SLOTS:
     void openInNewTab();
 
     /**
+     * Opens the selected folder in a new tab and activates that tab. A selection of several folders
+     * opens one tab each, of which the first one is activated.
+     */
+    void openInNewTabActivated();
+
+    /**
+     * Opens the selected folder in a new tab for a context menu action. The new tab is activated,
+     * unless the Shift key is held down while the action is triggered, which opens the tab in the
+     * background.
+     */
+    void openInNewTabFromContextMenu();
+
+    /**
      * Opens the selected folder in a new window.
      */
     void openInNewWindow();
@@ -708,6 +729,13 @@ private:
     void updateFileAndEditActions();
     void updateViewActions();
     void updateGoActions();
+
+    /**
+     * Opens every selected folder in a new tab in the background. When no folder is selected, the
+     * current folder is opened in a new tab instead.
+     * @return A pointer to the first opened DolphinTabPage.
+     */
+    DolphinTabPage *openNewTabsForSelection();
 
     /**
      * Connects the signals from the created DolphinView with
