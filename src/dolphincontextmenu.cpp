@@ -60,6 +60,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow *parent,
 
 DolphinContextMenu::~DolphinContextMenu()
 {
+    // The actions of the action collection outlive this menu, so they are left with their plain text.
+    updateOpenInNewTabActions(false);
     delete m_baseFileItem;
     m_baseFileItem = nullptr;
     delete m_selectedItemsProperties;
@@ -104,6 +106,23 @@ void DolphinContextMenu::addAllActions()
     } else {
         addViewportContextMenu();
     }
+
+    // The menu can be opened with Shift already held down.
+    updateOpenInNewTabActions(QGuiApplication::keyboardModifiers() & Qt::ShiftModifier);
+}
+
+void DolphinContextMenu::registerOpenInNewTabAction(QAction *action, const QString &backgroundText)
+{
+    m_openInNewTabActions.append({action, action->text(), backgroundText});
+}
+
+void DolphinContextMenu::updateOpenInNewTabActions(bool shiftPressed)
+{
+    for (const OpenInNewTabAction &openInNewTabAction : std::as_const(m_openInNewTabActions)) {
+        if (openInNewTabAction.action) {
+            openInNewTabAction.action->setText(shiftPressed ? openInNewTabAction.backgroundText : openInNewTabAction.text);
+        }
+    }
 }
 
 bool DolphinContextMenu::eventFilter(QObject *object, QEvent *event)
@@ -113,12 +132,12 @@ bool DolphinContextMenu::eventFilter(QObject *object, QEvent *event)
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
 
-        if (m_removeAction && keyEvent->key() == Qt::Key_Shift) {
-            if (event->type() == QEvent::KeyPress) {
-                m_removeAction->update(DolphinRemoveAction::ShiftState::Pressed);
-            } else {
-                m_removeAction->update(DolphinRemoveAction::ShiftState::Released);
+        if (keyEvent->key() == Qt::Key_Shift) {
+            const bool shiftPressed = event->type() == QEvent::KeyPress;
+            if (m_removeAction) {
+                m_removeAction->update(shiftPressed ? DolphinRemoveAction::ShiftState::Pressed : DolphinRemoveAction::ShiftState::Released);
             }
+            updateOpenInNewTabActions(shiftPressed);
         }
     }
 
@@ -209,7 +228,9 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     // insert 'Open in new window' and 'Open in new tab' entries
     const KFileItemListProperties &selectedItemsProps = selectedItemsProperties();
     if (ContextMenuSettings::showOpenInNewTab()) {
-        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
+        QAction *openInNewTab = m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab"));
+        addAction(openInNewTab);
+        registerOpenInNewTabAction(openInNewTab, i18nc("@action:inmenu", "Open in New Background Tab"));
     }
     if (ContextMenuSettings::showOpenInNewWindow()) {
         addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
@@ -256,13 +277,15 @@ void DolphinContextMenu::addOpenParentFolderActions()
         m_mainWindow->activeViewContainer()->view()->markUrlAsCurrent(url);
     });
 
-    addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "Open Path in New Tab"), [this]() {
+    QAction *openPathInNewTab = addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "Open Path in New Tab"), [this]() {
         const QUrl url = m_fileInfo.targetUrl();
         const QUrl parentUrl = KIO::upUrl(url);
         DolphinTabPage *tabPage = m_mainWindow->openNewTabFromContextMenu(parentUrl);
         tabPage->activeViewContainer()->view()->markUrlsAsSelected({url});
         tabPage->activeViewContainer()->view()->markUrlAsCurrent(url);
     });
+    openPathInNewTab->setToolTip(i18nc("@info:tooltip", "Hold Shift to open the new tab in the background instead of switching to it."));
+    registerOpenInNewTabAction(openPathInNewTab, i18nc("@action:inmenu", "Open Path in New Background Tab"));
 
     addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@action:inmenu", "Open Path in New Window"), [this]() {
         Dolphin::openNewWindow({m_fileInfo.targetUrl()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
@@ -309,7 +332,9 @@ void DolphinContextMenu::addItemContextMenu()
 
         if (selectionHasOnlyDirs && ContextMenuSettings::showOpenInNewTab()) {
             // insert 'Open in new tab' entry
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tabs")));
+            QAction *openInNewTabs = m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tabs"));
+            addAction(openInNewTabs);
+            registerOpenInNewTabAction(openInNewTabs, i18nc("@action:inmenu", "Open in New Background Tabs"));
         }
         // Insert 'Open With" entries
         addOpenWithActions();

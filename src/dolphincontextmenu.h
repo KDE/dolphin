@@ -12,6 +12,7 @@
 #include <KFileItemActions>
 
 #include <QMenu>
+#include <QPointer>
 #include <QUrl>
 
 class QAction;
@@ -94,6 +95,18 @@ private:
      */
     void addAdditionalActions(const KFileItemListProperties &props);
 
+    /**
+     * Registers @p action as one which opens a new tab, so that its text follows the state of the
+     * Shift key while this menu is open. @p backgroundText is the text shown while Shift is held
+     * down, which is when the new tab is opened in the background.
+     */
+    void registerOpenInNewTabAction(QAction *action, const QString &backgroundText);
+
+    /**
+     * Gives every registered new tab action the text matching @p shiftPressed.
+     */
+    void updateOpenInNewTabActions(bool shiftPressed);
+
 private:
     void addDirectoryItemContextMenu();
     void addOpenParentFolderActions();
@@ -132,6 +145,14 @@ private:
 
     DolphinRemoveAction *m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
     KFileItemActions *m_fileItemActions;
+
+    /** An action opening a new tab, with the two texts it shows depending on the Shift key. */
+    struct OpenInNewTabAction {
+        QPointer<QAction> action;
+        QString text;
+        QString backgroundText;
+    };
+    QList<OpenInNewTabAction> m_openInNewTabActions;
 };
 
 #endif

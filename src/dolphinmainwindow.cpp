@@ -2349,11 +2349,13 @@ void DolphinMainWindow::setupActions()
 
     QAction *openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
+    openInNewTab->setToolTip(i18nc("@info:tooltip", "Hold Shift to open the new tab in the background instead of switching to it."));
     openInNewTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     connect(openInNewTab, &QAction::triggered, this, &DolphinMainWindow::openInNewTabFromContextMenu);
 
     QAction *openInNewTabs = actionCollection()->addAction(QStringLiteral("open_in_new_tabs"));
     openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
+    openInNewTabs->setToolTip(i18nc("@info:tooltip", "Hold Shift to open the new tabs in the background instead of switching to them."));
     openInNewTabs->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     connect(openInNewTabs, &QAction::triggered, this, &DolphinMainWindow::openInNewTabFromContextMenu);
 
