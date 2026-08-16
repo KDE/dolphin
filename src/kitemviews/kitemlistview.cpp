@@ -381,6 +381,15 @@ void KItemListView::setGeometry(const QRectF &rect)
         return;
     }
 
+    // A narrower view fits fewer items per row, so the whole list is laid out again and every item
+    // ends up somewhere else. What the user is looking at is the items, not the pixel the list
+    // happens to be scrolled to, so hold on to the topmost visible one and put it back where it
+    // was once the new layout is known. See bug 524143.
+    if (m_scrollAnchorIndex < 0 || m_layouter->scrollOffset() != m_scrollAnchorOffset) {
+        m_scrollAnchorIndex = m_layouter->firstVisibleIndex();
+        m_scrollAnchorDistance = m_scrollAnchorIndex < 0 ? 0 : m_layouter->itemScrollPosition(m_scrollAnchorIndex) - m_layouter->scrollOffset();
+    }
+
     const QSizeF newSize = rect.size();
     if (m_itemSize.isEmpty()) {
         m_headerWidget->resize(rect.width(), m_headerWidget->size().height());
@@ -394,6 +403,14 @@ void KItemListView::setGeometry(const QRectF &rect)
     }
 
     m_layouter->setSize(newSize);
+
+    if (m_scrollAnchorIndex >= 0) {
+        const qreal visibleLength = (scrollOrientation() == Qt::Vertical) ? newSize.height() : newSize.width();
+        const qreal lastOffset = qMax(qreal(0), m_layouter->maximumScrollOffset() - visibleLength);
+        setScrollOffset(qBound(qreal(0), m_layouter->itemScrollPosition(m_scrollAnchorIndex) - m_scrollAnchorDistance, lastOffset));
+        m_scrollAnchorOffset = m_layouter->scrollOffset();
+    }
+
     // We don't animate the moving of the items here because
     // it would look like the items are slow to find their position.
     doLayout(NoAnimation);
@@ -972,6 +989,8 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
         return;
     }
 
+    m_scrollAnchorIndex = -1;
+
     m_layouter->setScrollOrientation(orientation);
     m_animation->setScrollOrientation(orientation);
     m_sizeHintResolver->clearCache();
@@ -1213,6 +1232,8 @@ void KItemListView::updatePalette()
 
 void KItemListView::slotItemsInserted(const KItemRangeList &itemRanges)
 {
+    m_scrollAnchorIndex = -1;
+
     if (m_itemSize.isEmpty()) {
         updatePreferredColumnWidths(itemRanges);
     }
@@ -1322,6 +1343,8 @@ void KItemListView::slotItemsInserted(const KItemRangeList &itemRanges)
 
 void KItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
 {
+    m_scrollAnchorIndex = -1;
+
     if (m_itemSize.isEmpty()) {
         // Don't pass the item-range: The preferred column-widths of
         // all items must be adjusted when removing items.
@@ -1440,6 +1463,8 @@ void KItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
 
 void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes)
 {
+    m_scrollAnchorIndex = -1;
+
     m_sizeHintResolver->itemsMoved(itemRange, movedToIndexes);
     m_layouter->markAsDirty();
 
@@ -1840,6 +1865,8 @@ void KItemListView::setModel(KItemModelBase *model)
     if (m_model == model) {
         return;
     }
+
+    m_scrollAnchorIndex = -1;
 
     KItemModelBase *previous = m_model;
 

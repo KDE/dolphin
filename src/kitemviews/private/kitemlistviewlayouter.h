@@ -114,6 +114,15 @@ public:
     QRectF itemRect(int index) const;
 
     /**
+     * @return Position of the item with the index \a index along the
+     *         scrolling direction, counted from the start of the whole
+     *         list rather than from the visible part of it, so with the
+     *         scroll offset still in it. 0 is returned if an invalid
+     *         index is given.
+     */
+    qreal itemScrollPosition(int index) const;
+
+    /**
      * @return Rectangle of the group header for the item with the
      *         index \a index. Note that the layouter does not check
      *         whether the item really has a header: Usually only

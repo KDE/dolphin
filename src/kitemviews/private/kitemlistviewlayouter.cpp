@@ -253,6 +253,18 @@ QRectF KItemListViewLayouter::itemRect(int index) const
     return QRectF(pos, sizeHint);
 }
 
+qreal KItemListViewLayouter::itemScrollPosition(int index) const
+{
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
+    if (index < 0 || index >= m_itemInfos.count()) {
+        return 0;
+    }
+
+    // The row offsets are the positions along the scrolling direction in both orientations: with a
+    // horizontal orientation the logical rows are laid out as physical columns.
+    return m_rowOffsets.at(m_itemInfos.at(index).row);
+}
+
 QRectF KItemListViewLayouter::groupHeaderRect(int index) const
 {
     const_cast<KItemListViewLayouter *>(this)->doLayout();

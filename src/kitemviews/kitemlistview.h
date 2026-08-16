@@ -746,6 +746,16 @@ private:
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
     LayoutAnimationHint m_endTransactionAnimationHint;
 
+    /**
+     * The item a resize keeps the view scrolled to, its distance from the top of the visible area,
+     * and the scroll offset that put it there. An index of -1 means none is held, which is what a
+     * change to the items leaves behind, since their indexes shift, and a change of scrolling
+     * direction, since the distance is measured along it.
+     */
+    int m_scrollAnchorIndex = -1;
+    qreal m_scrollAnchorDistance = 0;
+    qreal m_scrollAnchorOffset = -1;
+
     QSizeF m_itemSize;
     KItemListController *m_controller;
     KItemModelBase *m_model;

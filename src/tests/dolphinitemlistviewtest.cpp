@@ -10,9 +10,12 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
+#include "testdir.h"
 #include "views/zoomlevelinfo.h"
 
+#include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
 
@@ -41,6 +44,9 @@ private Q_SLOTS:
     void testZoomLevelChangesAreApplied();
 
     void testZoomLevelIsClamped();
+
+    void testTheFilesOnScreenStayOnScreenWhenTheViewGetsNarrower();
+    void testTheViewComesBackToWhereItWasWhenTheWidthDoes();
 
 private:
     /** The configured icon or preview size of @p layout, i.e. the size a view falls back to. */
@@ -220,6 +226,110 @@ void DolphinItemListViewTest::testZoomLevelIsClamped()
     m_view->setZoomLevel(ZoomLevelInfo::maximumLevel() + 1);
     QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
     QCOMPARE(iconSize(), ZoomLevelInfo::iconSizeForZoomLevel(ZoomLevelInfo::maximumLevel()));
+}
+
+/**
+ * Opening the split view halves the width of the view the user was looking at, and in the icons
+ * layout that reflows the items into fewer columns. The files that were on screen have to still be
+ * on screen afterwards. See bug 524143.
+ */
+void DolphinItemListViewTest::testTheFilesOnScreenStayOnScreenWhenTheViewGetsNarrower()
+{
+    // The container gives the view the scene it needs to lay items out in, and takes over the
+    // controller, so cleanup() must not delete that a second time.
+    KItemListContainer container(m_controller);
+    m_controller = nullptr;
+#ifndef QT_NO_ACCESSIBILITY
+    m_view->setAccessibleParentsObject(&container);
+#endif
+    m_view->setItemLayout(KStandardItemListView::IconsLayout);
+    container.resize(800, 600);
+    container.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&container));
+
+    TestDir testDir;
+    QStringList files;
+    for (int i = 0; i < 500; ++i) {
+        files.append(QStringLiteral("file_%1").arg(i, 3, 10, QLatin1Char('0')));
+    }
+    testDir.createFiles(files);
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    m_model->loadDirectory(testDir.url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), files.count());
+
+    // Somewhere in the middle of the folder, so that there is content above and below.
+    m_view->setScrollOffset(m_view->maximumScrollOffset() / 2);
+    const int topItem = m_view->firstVisibleIndex();
+    QVERIFY(topItem > 0);
+    QVERIFY(m_view->lastVisibleIndex() < m_model->count() - 1);
+
+    // Opening the split view leaves this view with half of the width it had.
+    container.resize(400, 600);
+    QVERIFY(QTest::qWaitFor([this]() {
+        return m_view->size().width() < 500;
+    }));
+
+    QVERIFY2(topItem >= m_view->firstVisibleIndex() && topItem <= m_view->lastVisibleIndex(),
+             qPrintable(QStringLiteral("item %1 was at the top and is now outside the visible range %2 to %3")
+                            .arg(topItem)
+                            .arg(m_view->firstVisibleIndex())
+                            .arg(m_view->lastVisibleIndex())));
+}
+
+/**
+ * Opening and closing the split view has to leave the view where it started. Every reflow moves
+ * where the top row begins, so a view that took the topmost item afresh on each resize would hold
+ * on to a slightly earlier one every time and creep towards the start of the folder, a row per
+ * toggle. See bug 524143.
+ */
+void DolphinItemListViewTest::testTheViewComesBackToWhereItWasWhenTheWidthDoes()
+{
+    KItemListContainer container(m_controller);
+    m_controller = nullptr;
+#ifndef QT_NO_ACCESSIBILITY
+    m_view->setAccessibleParentsObject(&container);
+#endif
+    m_view->setItemLayout(KStandardItemListView::IconsLayout);
+    container.resize(800, 600);
+    container.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&container));
+
+    TestDir testDir;
+    QStringList files;
+    for (int i = 0; i < 500; ++i) {
+        files.append(QStringLiteral("file_%1").arg(i, 3, 10, QLatin1Char('0')));
+    }
+    testDir.createFiles(files);
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    m_model->loadDirectory(testDir.url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), files.count());
+
+    m_view->setScrollOffset(m_view->maximumScrollOffset() / 2);
+    const int topItem = m_view->firstVisibleIndex();
+    const qreal offset = m_view->scrollOffset();
+    QVERIFY(topItem > 0);
+
+    // The width is walked down and back up the way the split view animation walks it.
+    for (int round = 0; round < 3; ++round) {
+        for (int width = 800; width >= 400; width -= 50) {
+            container.resize(width, 600);
+            QCoreApplication::processEvents();
+        }
+        for (int width = 400; width <= 800; width += 50) {
+            container.resize(width, 600);
+            QCoreApplication::processEvents();
+        }
+        QVERIFY(QTest::qWaitFor([this]() {
+            return m_view->size().width() > 700;
+        }));
+
+        QCOMPARE(m_view->firstVisibleIndex(), topItem);
+        QCOMPARE(m_view->scrollOffset(), offset);
+    }
 }
 
 QTEST_MAIN(DolphinItemListViewTest)
