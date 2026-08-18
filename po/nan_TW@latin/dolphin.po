@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-13 00:53+0000\n"
-"PO-Revision-Date: 2026-08-14 23:03+0900\n"
+"PO-Revision-Date: 2026-08-18 02:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Min Nan Chinese Latin <zh-l10n@lists.slat.org>\n"
 "Language: nan_TW@latin\n"
@@ -1588,7 +1588,7 @@ msgstr "Pùn-sò-tháng"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
-msgstr "Tsū-tōng Khí-tōng"
+msgstr "Tsū-tōng Khé-tōng"
 
 #: dolphinpart.cpp:191
 #, kde-format
@@ -4675,7 +4675,7 @@ msgstr "Tíng-kái ê tsu-liāu-giap-á, hun-ia̍h, kap sī-thang tsōng-thài"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Khí-tōng ê sî-tsūn hián-sī ka-bo̍k-lo̍k"
+msgstr "Khé-tōng ê sî-tsūn hián-sī ka-bo̍k-lo̍k"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:66
