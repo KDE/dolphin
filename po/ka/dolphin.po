@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-12 03:14+0000\n"
-"PO-Revision-Date: 2026-06-19 07:17+0200\n"
+"PO-Revision-Date: 2026-08-17 08:12+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -359,16 +359,12 @@ msgstr ""
 "უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"ახალი საქაღალდის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის "
-"უფლება არ გაქვთ."
+"ახალი ქვესაქაღალდის შექმნა შეუძლებელია: აირჩიეთ ერთი საქაღალდე, სადაც ჩაწერა "
+"შეგიძლიათ."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6557,12 +6553,10 @@ msgid "Create Folder…"
 msgstr "საქაღალდის შექმნა…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "საქაღალდის შექმნა…"
+msgstr "ქვესაქაღალდის შექმნა…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
