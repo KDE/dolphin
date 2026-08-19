@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-12 03:14+0000\n"
-"PO-Revision-Date: 2026-08-10 18:31+0400\n"
+"PO-Revision-Date: 2026-08-19 17:51+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -302,8 +302,7 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
-"لا يزال البرنامج '%1' قيد التشغيل في لوحة الطرفية. هل أنت متأكد من أنك تريد "
-"الخروج؟"
+"لا يزال البرنامج '%1' قيد التشغيل في لوحة الطرفية. أمتأكد مِن أنك تريد الخروج؟"
 
 #: dolphinmainwindow.cpp:948
 #, kde-format
@@ -4979,7 +4978,7 @@ msgstr "مشاركة بياناتك"
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
-msgstr "لم تحفظ التغييرات. هل تريد تطبيق التغييرات أم تجاهلها؟"
+msgstr "لم تحفظ التغييرات. أتريد تطبيق التغييرات أم تجاهلها؟"
 
 #: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
@@ -6155,7 +6154,7 @@ msgstr "KDiskFree"
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr "حرر مساحة القرص"
+msgstr "حرّر مساحة القرص"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/diskspaceusagemenu.cpp:165
@@ -6436,7 +6435,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "ستؤدي إضافة نقطة إلى بداية اسم هذا الملف إلى إخفائه عن العرض. \n"
-"هل ما زلت تريد إعادة تسميته؟"
+"أما زلت تريد إعادة تسميته؟"
 
 #: views/dolphinview.cpp:2298
 #, kde-format
@@ -6445,7 +6444,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "ستؤدي إضافة نقطة إلى بداية اسم هذا المجلد إلى إخفائه عن العرض. \n"
-"هل ما زلت تريد إعادة تسميته؟"
+"أما زلت تريد إعادة تسميته؟"
 
 #: views/dolphinview.cpp:2300
 #, kde-format
@@ -6473,7 +6472,7 @@ msgid ""
 msgstr ""
 "سيؤدي ذلك إلى جعل نوع الملف غير معروف.\n"
 "لن يتغير محتوى الملف، ولكن قد لا تتمكن التطبيقات من التعرف عليه بعد الآن.\n"
-"هل ما زلت تريد تغيير تسميته؟"
+"أما زلت تريد تغيير تسميته؟"
 
 #: views/dolphinview.cpp:2335
 #, kde-format
@@ -6485,7 +6484,7 @@ msgid ""
 msgstr ""
 "سيؤدي ذلك إلى تغيير نوع الملف من ”%1“ إلى ”%2“.\n"
 "لن يتغير محتوى الملف، ولكن قد لا تعرفه التطبيقات بعد الآن.\n"
-"هل تريد تغيير تسميته؟"
+"أتريد تغيير تسميته؟"
 
 #: views/dolphinview.cpp:2341
 #, kde-format

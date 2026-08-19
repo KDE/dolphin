@@ -350,14 +350,10 @@ msgid ""
 msgstr "无法创建新文件夹：您没有在此文件夹中创建项目的权限。"
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr "无法创建新文件夹：您没有在此文件夹中创建项目的权限。"
+msgstr "无法创建新子文件夹：请选择一个您能够写入的文件夹。"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6358,12 +6354,10 @@ msgid "Create Folder…"
 msgstr "创建文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "创建文件夹…"
+msgstr "创建子文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
