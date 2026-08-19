@@ -8,6 +8,7 @@
 
 #include "kfileitemmodel.h"
 
+#include "config-dolphin.h"
 #include "dolphin_contentdisplaysettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
@@ -261,6 +262,17 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
 }
 }
 
+#if HAVE_KIO_SIZE_ON_DISK
+// The room taken up refines the size of the contents, so it follows that choice: with the number of
+// items or no size at all, a folder shows no size to read as room taken up, and files stay on the
+// size of their data to match.
+static bool showSizeOnDisk()
+{
+    return ContentDisplaySettings::showSizeOnDisk()
+        && ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentSize;
+}
+#endif
+
 KFileItemModel::KFileItemModel(QObject *parent)
     : KItemModelBase("text", parent)
     , m_dirLister(nullptr)
@@ -288,6 +300,9 @@ KFileItemModel::KFileItemModel(QObject *parent)
     m_dirLister = new KDirLister(this);
     m_dirLister->setAutoErrorHandlingEnabled(false);
     m_dirLister->setDelayedMimeTypes(true);
+#if HAVE_KIO_SIZE_ON_DISK
+    m_dirLister->setRequestSizeOnDiskWhileListing(showSizeOnDisk());
+#endif
 
     const QWidget *parentWidget = qobject_cast<QWidget *>(parent);
     if (parentWidget) {
@@ -502,6 +517,32 @@ void KFileItemModel::scheduleResortAllItems()
     if (!m_resortAllItemsTimer->isActive()) {
         m_resortAllItemsTimer->start();
     }
+}
+
+KIO::filesize_t KFileItemModel::sizeToShow(const KFileItem &item)
+{
+#if HAVE_KIO_SIZE_ON_DISK
+    // The room a file takes up on its storage is only there when the lister was asked for it, and a
+    // protocol that cannot tell leaves the size of the data as the only answer.
+    if (showSizeOnDisk()) {
+        if (const std::optional<KIO::filesize_t> sizeOnDisk = item.sizeOnDisk()) {
+            return sizeOnDisk.value();
+        }
+    }
+#endif
+    return item.size();
+}
+
+bool KFileItemModel::updateSizeOnDiskRequest()
+{
+#if HAVE_KIO_SIZE_ON_DISK
+    const bool show = showSizeOnDisk();
+    if (m_dirLister->requestSizeOnDiskWhileListing() != show) {
+        m_dirLister->setRequestSizeOnDiskWhileListing(show);
+        return true;
+    }
+#endif
+    return false;
 }
 
 void KFileItemModel::setShowHiddenFiles(bool show)
@@ -2240,7 +2281,7 @@ SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *pa
     }
 
     if (m_requestRole[SizeRole] && !isDir) {
-        data.insert(sharedValue("size"), item.size());
+        data.insert(sharedValue("size"), sizeToShow(item));
     }
 
     if (m_requestRole[ModificationTimeRole]) {
@@ -2510,13 +2551,13 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         if (itemA.isDir()) {
             sizeA = a->values.value("size").toULongLong();
         } else {
-            sizeA = itemA.size();
+            sizeA = sizeToShow(itemA);
         }
         KIO::filesize_t sizeB = 0;
         if (itemB.isDir()) {
             sizeB = b->values.value("size").toULongLong();
         } else {
-            sizeB = itemB.size();
+            sizeB = sizeToShow(itemB);
         }
         if (sizeA < sizeB) {
             return -1;
@@ -2753,7 +2794,7 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
         }
 
         const KFileItem &item = m_itemData.at(i)->item;
-        KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
+        KIO::filesize_t fileSize = !item.isNull() ? sizeToShow(item) : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
             if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount || m_sortDirsFirst) {

@@ -666,11 +666,19 @@ void DolphinView::readSettings()
     m_view->readSettings();
     applyViewProperties();
 
+    // The listing only carries the room a file takes up on its storage when it was asked for it, so
+    // turning that on or off means reading the directory again.
+    const bool sizesHaveToBeListedAgain = m_model->updateSizeOnDiskRequest();
+
     m_container->controller()->setAutoActivationEnabled(GeneralSettings::autoExpandFolders());
 
     const int newZoomLevel = m_view->zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
         Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
+    }
+
+    if (sizesHaveToBeListedAgain) {
+        reload();
     }
 }
 
@@ -739,7 +747,7 @@ void DolphinView::requestStatusBarText()
                 ++folderCount;
             } else {
                 ++fileCount;
-                totalFileSize += item.size();
+                totalFileSize += KFileItemModel::sizeToShow(item);
             }
         }
 
@@ -1688,7 +1696,7 @@ void DolphinView::slotStatJobResult(KJob *job)
         } else {
             ++fileCount;
             if (countFileSize) {
-                totalFileSize += item.size();
+                totalFileSize += KFileItemModel::sizeToShow(item);
             }
         }
     }

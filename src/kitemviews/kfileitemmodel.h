@@ -96,6 +96,19 @@ public:
     void setSortHiddenLast(bool hiddenLast);
     bool sortHiddenLast() const;
 
+    /**
+     * Returns the size a file is shown with: how many bytes of data it holds, or the room it takes
+     * up on its storage when the content display settings ask for that and the listing carries it.
+     */
+    static KIO::filesize_t sizeToShow(const KFileItem &item);
+
+    /**
+     * Asks the listing for the room each file takes up on its storage, or stops asking, following
+     * the current content display settings. Returns true when the setting changed, in which case the
+     * directory has to be listed again for the new numbers to arrive.
+     */
+    bool updateSizeOnDiskRequest();
+
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 

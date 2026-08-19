@@ -36,6 +36,8 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
+include(CheckCXXSourceCompiles)
+include(CMakePushCheckState)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckFunctionExists)
@@ -155,6 +157,23 @@ if(WIN32)
 else()
     set(HAVE_TERMINAL TRUE)
 endif()
+
+# KFileItem::sizeOnDisk() and the lister asking for it. The version cannot be tested for, because
+# the frameworks carry the number of the release they are heading towards long before the release
+# happens, so ask the headers themselves.
+cmake_push_check_state(RESET)
+set(CMAKE_REQUIRED_LIBRARIES KF6::KIOCore)
+check_cxx_source_compiles("
+#include <KCoreDirLister>
+#include <KFileItem>
+int main()
+{
+    KCoreDirLister lister;
+    lister.setRequestSizeOnDiskWhileListing(true);
+    return KFileItem().sizeOnDisk().has_value();
+}
+" HAVE_KIO_SIZE_ON_DISK)
+cmake_pop_check_state()
 
 # Compatibility with platforms without native fts (e.g. musl)
 check_include_files("sys/types.h;sys/stat.h;fts.h" HAVE_FTS_H)

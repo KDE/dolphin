@@ -29,10 +29,11 @@ public:
     QString scannedPath() const;
 Q_SIGNALS:
     /**
-     * Signals that the directory \a path contains \a count items and optionally the size of its content.
+     * Signals that the directory \a path contains \a count items, optionally the size of its
+     * content, and optionally the room that content takes up on its storage.
      */
-    void result(const QString &path, int count, long long size);
-    void intermediateResult(const QString &path, int count, long long size);
+    void result(const QString &path, int count, long long size, long long sizeOnDisk);
+    void intermediateResult(const QString &path, int count, long long size, long long sizeOnDisk);
     void finished();
 
 public Q_SLOTS:

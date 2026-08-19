@@ -1314,6 +1314,27 @@ The recursion level can be limited, which can be useful to constrain unneeded it
 It is also possible to disable displaying folder size by choosing <guilabel>Show no size</guilabel> (which might improve performance in rare cases, however impacts other features like sorting).
 </para>
 <para>
+<guilabel>Show size on disk</guilabel> refines <guilabel>Show size of contents</guilabel> and can
+only be chosen along with it. The size column then reports the room the storage gave a file, rather
+than how many bytes of data it holds. A file whose last block is only partly used takes up more room
+than its data, and a sparse or a compressed one takes up less.
+</para>
+<para>
+The size of a folder is then the room the folder and everything inside it was given, the folder
+itself included.
+</para>
+<para>
+On some filesystems, ext4 and FAT among them, the room a folder takes up grows with the number of
+files in it and with the length of their names, and on ext4 it is not given back when those files
+are deleted, so a folder that once held a great many files still takes up room while it looks empty.
+Others charge a folder nothing at all. None of this shows in a plain sum of file sizes, and it is why
+the same folder can take up a different amount of room once copied elsewhere. The recursion level
+limits this count the same way it limits the other one.
+</para>
+<para>
+The room taken up is only reported for files on this computer.
+</para>
+<para>
 The <guilabel>Date style</guilabel> option can be used to configure the mode to display dates in &dolphin;. It is possible to choose between <guilabel>Relative</guilabel> (&eg;, <quote>Yesterday, 3:00pm</quote>) or <guilabel>Absolute</guilabel> (&eg;, <quote>2020-12-23 15:00</quote>).
 </para>
 </listitem>

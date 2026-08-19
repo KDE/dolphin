@@ -21,6 +21,10 @@
             </choices>
             <default>ContentCount</default>
         </entry>
+        <entry name="ShowSizeOnDisk" type="Bool">
+            <label>Show the room a file takes up on its storage rather than the size of its data</label>
+            <default>false</default>
+        </entry>
         <entry name="RecursiveDirectorySizeLimit" type="UInt">
             <label>Recursive directory size limit</label>
             <default>10</default>

@@ -10,6 +10,7 @@
 #include "dolphin_generalsettings.h"
 #include "settings/settingspagebase.h"
 
+class QCheckBox;
 class QRadioButton;
 class QSpinBox;
 
@@ -38,6 +39,7 @@ private:
     QRadioButton *m_sizeOfContents;
     QRadioButton *m_noDirectorySize;
     QSpinBox *m_recursiveDirectorySizeLimit;
+    QCheckBox *m_showSizeOnDisk;
     QRadioButton *m_useRelatetiveDates;
     QRadioButton *m_useShortDates;
     QRadioButton *m_useSymbolicPermissions;

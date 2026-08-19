@@ -24,6 +24,7 @@ public:
     struct cacheData {
         int count = 0;
         long long size = 0;
+        long long sizeOnDisk = 0;
         ushort refCount = 0;
         qint64 timestamp = 0;
 
@@ -123,7 +124,7 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
     s_cache->unRefAll(m_watchedDirs);
 }
 
-void KDirectoryContentsCounter::slotResult(const QString &path, int count, long long size)
+void KDirectoryContentsCounter::slotResult(const QString &path, int count, long long size, long long sizeOnDisk)
 {
     const auto fileInfo = QFileInfo(path);
     const QString resolvedPath = fileInfo.canonicalFilePath();
@@ -133,10 +134,10 @@ void KDirectoryContentsCounter::slotResult(const QString &path, int count, long 
     bool inserted = m_watchedDirs.insert(resolvedPath) == m_watchedDirs.end();
 
     // update cache or overwrite value
-    s_cache->insert(resolvedPath, {count, size, true}, inserted);
+    s_cache->insert(resolvedPath, {count, size, sizeOnDisk, true}, inserted);
 
     // sends the results
-    Q_EMIT result(path, count, size);
+    Q_EMIT result(path, count, size, sizeOnDisk);
 }
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString &path)
@@ -208,7 +209,7 @@ void KDirectoryContentsCounter::scheduleNext()
     if (pair) {
         // fast path when in cache
         // will be updated later if result has changed
-        Q_EMIT result(m_currentPath, pair.count, pair.size);
+        Q_EMIT result(m_currentPath, pair.count, pair.size, pair.sizeOnDisk);
     }
 
     // if scanned fully recently, skip rescan
@@ -267,7 +268,7 @@ void KDirectoryContentsCounter::scanDirectory(const QString &path, PathCountPrio
     if (pair) {
         // fast path when in cache
         // will be updated later if result has changed
-        Q_EMIT result(path, pair.count, pair.size);
+        Q_EMIT result(path, pair.count, pair.size, pair.sizeOnDisk);
     }
 
     // if scanned fully recently, skip rescan
