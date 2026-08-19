@@ -24,6 +24,13 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject *parent
 }
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_HAIKU)
+// A block count is in units of 512 bytes whatever the filesystem uses for its own blocks. This is
+// not st_blksize, which is the size a read is best done in.
+static long long blocksToBytes(blkcnt_t blocks)
+{
+    return static_cast<long long>(blocks) * 512;
+}
+
 void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool countHiddenFiles, uint allowedRecursiveLevel)
 {
     QByteArray text = dirPath.toLocal8Bit();
@@ -40,6 +47,7 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
 
     FTSENT *node;
     long long totalSize = -1;
+    long long totalSizeOnDisk = -1;
     int totalCount = -1;
     QElapsedTimer timer;
     timer.start();
@@ -80,12 +88,14 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
             if (node->fts_statp->st_blocks > 0) {
                 totalSize += node->fts_statp->st_size;
             }
+            totalSizeOnDisk += blocksToBytes(node->fts_statp->st_blocks);
         }
 
         if (info == FTS_D) {
             if (node->fts_level == 0) {
                 // first read was successful, we can init counters
                 totalSize = 0;
+                totalSizeOnDisk = 0;
                 totalCount = 0;
             }
 
@@ -94,6 +104,11 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
                 fts_set(tree, node, FTS_SKIP);
                 continue;
             }
+
+            // Some filesystems, ext4 and FAT among them, charge a directory for the list of entries
+            // it holds, and that room counts here too. The ones that keep the entries elsewhere
+            // charge it nothing and report no blocks, which adds nothing.
+            totalSizeOnDisk += blocksToBytes(node->fts_statp->st_blocks);
         }
         // count first level elements
         if (node->fts_level == 1) {
@@ -102,7 +117,7 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
 
         // delay intermediate results
         if (timer.hasExpired(200) || node->fts_level == 0) {
-            Q_EMIT intermediateResult(dirPath, totalCount, totalSize);
+            Q_EMIT intermediateResult(dirPath, totalCount, totalSize, totalSizeOnDisk);
             timer.restart();
         }
     }
@@ -114,7 +129,7 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
     }
 
     if (!m_stopping) {
-        Q_EMIT result(dirPath, totalCount, totalSize);
+        Q_EMIT result(dirPath, totalCount, totalSize, totalSizeOnDisk);
     }
 }
 #endif
@@ -145,7 +160,7 @@ void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path
         filters |= QDir::Hidden;
     }
 
-    Q_EMIT result(path, static_cast<int>(dir.entryList(filters).count()), 0);
+    Q_EMIT result(path, static_cast<int>(dir.entryList(filters).count()), 0, 0);
 #else
 
     m_scannedPath = path;

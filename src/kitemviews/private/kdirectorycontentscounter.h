@@ -49,15 +49,16 @@ public:
 
 Q_SIGNALS:
     /**
-     * Signals that the directory \a path contains \a count items of size \a
+     * Signals that the directory \a path contains \a count items holding \a size bytes of data and
+     * taking up \a sizeOnDisk bytes on their storage.
      * Size calculation depends on parameter ContentDisplaySettings::recursiveDirectorySizeLimit
      */
-    void result(const QString &path, int count, long long size);
+    void result(const QString &path, int count, long long size, long long sizeOnDisk);
 
     void requestDirectoryContentsCount(const QString &path, KDirectoryContentsCounterWorker::Options options, int maxRecursiveLevel);
 
 private Q_SLOTS:
-    void slotResult(const QString &path, int count, long long size);
+    void slotResult(const QString &path, int count, long long size, long long sizeOnDisk);
     void slotDirWatchDirty(const QString &path);
     void slotItemsRemoved();
     void slotDirectoryRefreshing();
