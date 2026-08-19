@@ -8,12 +8,15 @@
 
 #include <KFormat>
 #include <KLocalizedString>
+#include <kio_version.h>
 
 #include <QButtonGroup>
+#include <QCheckBox>
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QRadioButton>
 #include <QSpinBox>
+#include <QStyle>
 
 ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     : SettingsPageBase(parent)
@@ -24,6 +27,7 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     , m_sizeOfContents(nullptr)
     , m_noDirectorySize(nullptr)
     , m_recursiveDirectorySizeLimit(nullptr)
+    , m_showSizeOnDisk(nullptr)
     , m_useRelatetiveDates(nullptr)
     , m_useShortDates(nullptr)
     , m_useSymbolicPermissions(nullptr)
@@ -72,6 +76,22 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
 
     topLayout->addRow(i18nc("@title:group", "Folder size:"), m_numberOfItems);
     topLayout->addRow(QString(), contentsSizeLayout);
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    m_showSizeOnDisk = new QCheckBox(i18nc("@option:check", "Show size on disk"));
+    m_showSizeOnDisk->setToolTip(i18nc("@info:tooltip",
+                                       "The room the storage gave a file, rather than how many bytes of data it holds. A file whose last block is "
+                                       "partly unused takes up more than its data, and a sparse or a compressed one takes up less. A folder showing "
+                                       "the size of its contents reports the room the folder and everything inside it was given, which on some "
+                                       "filesystems includes what each folder is charged for the list of entries it holds."));
+
+    // It refines the size of contents, so it sits under that choice and follows it.
+    QHBoxLayout *sizeOnDiskLayout = new QHBoxLayout();
+    sizeOnDiskLayout->addSpacing(style()->pixelMetric(QStyle::PM_ExclusiveIndicatorWidth) + style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing));
+    sizeOnDiskLayout->addWidget(m_showSizeOnDisk);
+    topLayout->addRow(QString(), sizeOnDiskLayout);
+#endif
+
     topLayout->addRow(QString(), m_noDirectorySize);
 #endif
 
@@ -119,6 +139,9 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     connect(m_numberOfItems, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_sizeOfContents, &QRadioButton::toggled, this, [=, this]() {
         m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+        m_showSizeOnDisk->setEnabled(m_sizeOfContents->isChecked());
+#endif
     });
     connect(m_noDirectorySize, &QRadioButton::toggled, this, &SettingsPageBase::changed);
 #endif
@@ -128,6 +151,9 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     connect(m_useSymbolicPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_useNumericPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_useCombinedPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+#if !defined(Q_OS_WIN) && KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    connect(m_showSizeOnDisk, &QCheckBox::toggled, this, &SettingsPageBase::changed);
+#endif
     connect(m_naturalSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_caseInsensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
@@ -150,6 +176,9 @@ void ContentDisplayTab::applySettings()
     }
 
     settings->setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    settings->setShowSizeOnDisk(m_showSizeOnDisk->isChecked());
+#endif
 #endif
     setSortingChoiceValue();
     settings->setUseShortRelativeDates(m_useRelatetiveDates->isChecked());
@@ -179,6 +208,10 @@ void ContentDisplayTab::loadSettings()
     m_sizeOfContents->setChecked(settings->directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentSize);
     m_noDirectorySize->setChecked(settings->directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None);
     m_recursiveDirectorySizeLimit->setValue(settings->recursiveDirectorySizeLimit());
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    m_showSizeOnDisk->setChecked(settings->showSizeOnDisk());
+    m_showSizeOnDisk->setEnabled(m_sizeOfContents->isChecked());
+#endif
 #endif
     m_useRelatetiveDates->setChecked(settings->useShortRelativeDates());
     m_useShortDates->setChecked(!settings->useShortRelativeDates());

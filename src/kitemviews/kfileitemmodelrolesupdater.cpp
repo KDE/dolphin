@@ -25,6 +25,8 @@
 
 #include "dolphin_contentdisplaysettings.h"
 
+#include <kio_version.h>
+
 #if HAVE_BALOO
 #include "private/kbaloorolesprovider.h"
 #include <Baloo/File>
@@ -913,7 +915,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long long size)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long long size, long long sizeOnDisk)
 {
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
     const bool getSizeRole = m_roles.contains("size");
@@ -925,7 +927,14 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
 
             if (getSizeRole) {
                 data.insert("count", count);
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+                const bool roomTakenUp = ContentDisplaySettings::showSizeOnDisk()
+                    && ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentSize;
+                data.insert("size", QVariant::fromValue(roomTakenUp ? sizeOnDisk : size));
+#else
+                Q_UNUSED(sizeOnDisk)
                 data.insert("size", QVariant::fromValue(size));
+#endif
             }
             if (getIsExpandableRole) {
                 data.insert("isExpandable", count > 0);

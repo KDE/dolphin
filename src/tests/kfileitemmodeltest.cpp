@@ -11,6 +11,8 @@
 #include <QStandardPaths>
 #include <QTest>
 #include <QTimer>
+#include <kio_version.h>
+#include <qplatformdefs.h>
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -20,6 +22,7 @@
 #include <KFileMetaData/UserMetaData>
 
 #include "config-dolphin.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
@@ -59,6 +62,7 @@ private Q_SLOTS:
     void testBackupFilesAreHidden();
     void testDefaultSortRole();
     void testDefaultGroupedSorting();
+    void testSizeOnDisk();
     void testNewItems();
     void testRemoveItems();
     void testDirLoadingCompleted();
@@ -238,6 +242,42 @@ void KFileItemModelTest::testDefaultSortRole()
     QCOMPARE(m_model->data(0).value("text").toString(), QStringLiteral("a.txt"));
     QCOMPARE(m_model->data(1).value("text").toString(), QStringLiteral("b.txt"));
     QCOMPARE(m_model->data(2).value("text").toString(), QStringLiteral("c.txt"));
+}
+
+void KFileItemModelTest::testSizeOnDisk()
+{
+#if defined(Q_OS_WIN) || KIO_VERSION < QT_VERSION_CHECK(6, 33, 0)
+    QSKIP("The size a file takes up needs a Unix system and KIO 6.33");
+#else
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    m_model->setRoles({"text", "size"});
+
+    m_testDir->createFile("a.txt", "hello");
+
+    ContentDisplaySettings::self()->setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::ContentSize);
+    ContentDisplaySettings::self()->setShowSizeOnDisk(true);
+    QVERIFY(m_model->updateSizeOnDiskRequest());
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 1);
+
+    // A five byte file was given a whole block, so the size column shows more than the data.
+    QT_STATBUF buf;
+    QCOMPARE(QT_LSTAT(QFile::encodeName(m_testDir->url().toLocalFile() + QStringLiteral("/a.txt")).constData(), &buf), 0);
+    const KIO::filesize_t expected = KIO::filesize_t(buf.st_blocks) * 512;
+    QVERIFY(expected > 5);
+    QCOMPARE(m_model->data(0).value("size").toULongLong(), expected);
+
+    // Turned off again, the column is back to the bytes of data the file holds.
+    ContentDisplaySettings::self()->setShowSizeOnDisk(false);
+    QVERIFY(m_model->updateSizeOnDiskRequest());
+
+    itemsInsertedSpy.clear();
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->data(0).value("size").toULongLong(), KIO::filesize_t(5));
+#endif
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()
