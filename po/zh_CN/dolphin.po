@@ -353,7 +353,7 @@ msgstr "无法创建新文件夹：您没有在此文件夹中创建项目的权
 #, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr ""
+msgstr "无法创建新子文件夹：请选择一个您能够写入的文件夹。"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-format
@@ -6363,7 +6363,7 @@ msgstr "创建文件夹…"
 #, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr ""
+msgstr "创建子文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
