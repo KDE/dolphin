@@ -60,6 +60,7 @@ private Q_SLOTS:
     void testUpdateWindowTitleAfterClosingSplitView();
     void testUpdateWindowTitleAfterChangingSplitView();
     void testOpenInNewTabTitle();
+    void testHandleUrlOpensAFolderInTheView();
     void testNewFileMenuEnabled_data();
     void testNewFileMenuEnabled();
     void testCreateDirectoryFocus_data();
@@ -417,6 +418,33 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
     QVERIFY2(!tabWidget->tabIcon(0).isNull() && !tabWidget->tabIcon(1).isNull(), "Tabs are supposed to have icons.");
     QCOMPARE(KIO::iconNameForUrl(homePathUrl), tabWidget->tabIcon(0).name());
     QCOMPARE(KIO::iconNameForUrl(tempPathUrl), tabWidget->tabIcon(1).name());
+}
+
+// A URL handed to handleUrl, which is what a link in a tooltip or in the information panel does, ends up in
+// the view when it is a folder. The type is settled by a job, so the view changes after the call rather than
+// during it.
+void DolphinMainWindowTest::testHandleUrlOpensAFolderInTheView()
+{
+    TestDir dir;
+    dir.createDir("folder");
+    const QUrl folderUrl = QUrl::fromLocalFile(dir.path() + QLatin1String("/folder"));
+
+    m_mainWindow->openDirectories({dir.url()}, false);
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), dir.url());
+
+    m_mainWindow->handleUrl(folderUrl);
+
+    // The type is settled by a job, so nothing has moved by the time the call returns.
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), dir.url());
+    QTRY_COMPARE(m_mainWindow->activeViewContainer()->url(), folderUrl);
 }
 
 void DolphinMainWindowTest::testNewFileMenuEnabled_data()
