@@ -2544,7 +2544,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 void DolphinView::updateDefaultZoomLevel()
 {
     ViewModeSettings settings{m_mode};
-    const int userDefaultIconSize = settings.iconSize();
+    const int userDefaultIconSize = previewsShown() ? settings.previewSize() : settings.iconSize();
 
     m_defaultZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize));
 }
