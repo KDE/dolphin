@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-13 00:53+0000\n"
-"PO-Revision-Date: 2026-08-17 14:24+0300\n"
+"PO-Revision-Date: 2026-08-20 14:10+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -39,13 +39,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Naudojamasi administratoriaus teisėmis – Būkite atsargūs!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Naudojamasi administratoriaus teisėmis"
 
 #: admin/bar.cpp:55
 #, kde-format
@@ -57,13 +57,13 @@ msgstr "Užbaigti"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Užbaigti naudotis administratoriaus teisėmis"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr ""
+msgstr "Vėl naudotis administratoriaus teisėmis"
 
 #: admin/bar.cpp:148
 #, kde-format
@@ -75,7 +75,7 @@ msgstr "Administratoriaus įgaliojimai baigė galioti."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Naudotis administratoriaus teisėmis"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -114,6 +114,14 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Naudokitės administratoriaus teisėmis Dolphin programoje:"
+"<numberedlist><numbereditem>Naršykite į failą ar aplanką, kurį norite "
+"pakeisti.</numbereditem><numbereditem>Aktyvuokite veiksmą „%1“ "
+"<interface>Atverdami Meniu|Daugiau|Rodinys</interface> arba "
+"<interface>Atverdami meniu juostą|Rodinys</interface>.<nl/>Numatytasis "
+"spartusis klavišas: <shortcut>%2</shortcut></numbereditem><numbereditem>Gavę "
+"įgaliojimus, galite tvarkyti failus administratoriaus teisėmis.</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
@@ -136,12 +144,23 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Jūs ketinate naudotis administratoriaus teisėmis. Naudodamiesi "
+"administratoriaus teisėmis galite keisti ar pakeisti bet kurį failą ar "
+"aplanką šioje sistemoje. Įskaitant elementus, kurie yra kritiškai būtini "
+"šios sistemos funkcionavimui.</para><para>Jūs galite <emphasis>ištrinti visų "
+"naudotojų duomenis</emphasis> šiame kompiuteryje ir <emphasis>nepataisomai "
+"sugadinti įdiegtą sistemą.</emphasis> Net vienos raidės pridėjimas į failo "
+"ar aplanko pavadinimą ar turinį, gali padaryti taip, kad ši sistema "
+"<emphasis>nebepasileis.</emphasis></para><para>Daugiau, tikriausiai, nebebus "
+"jokių įspėjimų, net jeigu ketinsite atlikti veiksmus, kurie sugadins sistemą."
+"</para><para>Prieš tęsdami, tikriausiai, pageidautumėte <emphasis>pasidaryti "
+"failų ir aplankų atsarginę kopiją</emphasis>.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Naudojimosi administratoriaus teisėmis rizikos"
 
 #: admin/workerintegration.cpp:163
 #, kde-format
@@ -3208,7 +3227,7 @@ msgstr "Dolphin bus aiškiai atverta naujame lange."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Paruošti Dolphin administravimo užduotims."
 
 #: main.cpp:145
 #, kde-format
@@ -4091,6 +4110,18 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Žymėjimo veiksena</title><para>Žymėkite failus ar aplankus norėdami "
+"juos tvarkyti ar paveikti.<list><item>Paspauskite ant failo ar aplanko "
+"norėdami jį žymėti.</item><item>Paspauskite ant jau pažymėto failo ar "
+"aplanko norėdami nuimti nuo jo žymėjimą.</item><item>Paspaudimas ant tuščios "
+"srities <emphasis>nepanaikina</emphasis> žymėjimo.</item><item>Žymėjimo "
+"stačiakampiai (sukuriami spustelėjus ir pradedant tempti pelę tuščioje "
+"srityje) invertuoja juose esančių elementų žymėjimo būseną.</"
+"item><item>Judėjimas naudojant <shortcut>rodyklės klavišus</shortcut> "
+"<emphasis>nekeičia</emphasis> žymėjimo.</item><item>Paspaudus <shortcut>%1</"
+"shortcut>, <shortcut>%2</shortcut> ar <shortcut>%3</shortcut>, žymėjimas bus "
+"perjungiamas.</item></list></para><para>Apačioje esantys veiksmų mygtukai "
+"keičiasi, priklausomai nuo esamo žymėjimo.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -4907,7 +4938,7 @@ msgstr "Vienu metu atveriama daug terminalų"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Perjungiama naudotis administratoriaus teisėmis"
 
 #: settings/interface/confirmationssettingspage.cpp:74
 #, kde-format
@@ -6688,7 +6719,7 @@ msgstr "Nėra"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Taip pat kaip ir rikiuoti"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
