@@ -1483,28 +1483,24 @@ void DolphinMainWindow::handleUrl(const QUrl &url)
     delete m_lastHandleUrlOpenJob;
     m_lastHandleUrlOpenJob = nullptr;
 
-    if (url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir()) {
-        activeViewContainer()->setUrl(url);
-    } else {
-        m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
-        m_lastHandleUrlOpenJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-        m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
+    m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
+    m_lastHandleUrlOpenJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
 
-        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this, [this, url](const QString &mimetype) {
-            if (mimetype == QLatin1String("inode/directory")) {
-                // If it's a dir, we'll take it from here
-                m_lastHandleUrlOpenJob->kill();
-                m_lastHandleUrlOpenJob = nullptr;
-                activeViewContainer()->setUrl(url);
-            }
-        });
-
-        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::result, this, [this]() {
+    connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this, [this, url](const QString &mimetype) {
+        if (mimetype == QLatin1String("inode/directory")) {
+            // If it's a dir, we'll take it from here
+            m_lastHandleUrlOpenJob->kill();
             m_lastHandleUrlOpenJob = nullptr;
-        });
+            activeViewContainer()->setUrl(url);
+        }
+    });
 
-        m_lastHandleUrlOpenJob->start();
-    }
+    connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::result, this, [this]() {
+        m_lastHandleUrlOpenJob = nullptr;
+    });
+
+    m_lastHandleUrlOpenJob->start();
 }
 
 void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
