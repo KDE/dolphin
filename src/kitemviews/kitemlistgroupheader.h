@@ -54,6 +54,9 @@ public:
     void setCollapsed(bool collapsed);
     bool isCollapsed() const;
 
+    void setCollapsingEnabled(bool allowCollapsing);
+    bool isCollapsingEnabled() const;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 protected:
@@ -114,6 +117,7 @@ private:
     Qt::Orientation m_scrollOrientation;
     int m_itemIndex;
     bool m_collapsed;
+    bool m_collapsingEnabled;
 
     QColor m_separatorColor;
     QColor m_roleColor;

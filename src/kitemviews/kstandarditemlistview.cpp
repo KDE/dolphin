@@ -38,6 +38,7 @@ void KStandardItemListView::setItemLayout(ItemLayout layout)
     // keep the leading padding option unchanged here
     setHighlightEntireRow(itemLayoutHighlightEntireRow(layout));
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(layout));
+    setSupportsGroupCollapsing(itemLayoutSupportsGroupCollapsing(layout));
     setScrollOrientation(layout == CompactLayout ? Qt::Horizontal : Qt::Vertical);
 
     onItemLayoutChanged(layout, previous);
@@ -108,6 +109,11 @@ bool KStandardItemListView::itemLayoutHighlightEntireRow(ItemLayout layout) cons
 bool KStandardItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const
 {
     return layout == DetailsLayout;
+}
+
+bool KStandardItemListView::itemLayoutSupportsGroupCollapsing(ItemLayout layout) const
+{
+    return layout == IconsLayout || layout == DetailsLayout;
 }
 
 qreal KStandardItemListView::scrollSingleStep() const

@@ -75,6 +75,7 @@ KItemListView::KItemListView(QGraphicsWidget *parent)
     , m_highlightEntireRow(false)
     , m_alternateBackgrounds(false)
     , m_supportsItemExpanding(false)
+    , m_supportsGroupCollapsing(false)
     , m_editingRole(false)
     , m_activeTransactions(0)
     , m_endTransactionAnimationHint(Animation)
@@ -528,6 +529,28 @@ void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
 bool KItemListView::supportsItemExpanding() const
 {
     return m_supportsItemExpanding;
+}
+
+void KItemListView::setSupportsGroupCollapsing(bool supportsCollapsing)
+{
+    if (m_supportsGroupCollapsing == supportsCollapsing) {
+        return;
+    }
+
+    m_supportsGroupCollapsing = supportsCollapsing;
+
+    if (m_grouped) {
+        updateVisibleGroupHeaders();
+        if (!supportsCollapsing) {
+            m_collapsedGroups.clear();
+            updateCollapsedGroupsInLayouter();
+        }
+    }
+}
+
+bool KItemListView::supportsGroupCollapsing() const
+{
+    return m_supportsGroupCollapsing;
 }
 
 void KItemListView::setHighlightEntireRow(bool highlightEntireRow)
@@ -1098,7 +1121,7 @@ void KItemListView::onTransactionEnd()
 
 bool KItemListView::event(QEvent *event)
 {
-    if (m_grouped && event->type() == QEvent::GraphicsSceneMousePress) {
+    if (m_grouped && m_supportsGroupCollapsing && event->type() == QEvent::GraphicsSceneMousePress) {
         auto *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
         if (mouseEvent->button() == Qt::LeftButton) {
             const QPointF pos = transform().map(mouseEvent->pos());
@@ -2332,6 +2355,7 @@ void KItemListView::updateGroupHeaderForIndex(int firstItemIndex)
     groupHeader->setScrollOrientation(scrollOrientation());
     groupHeader->setItemIndex(firstItemIndex);
     groupHeader->setCollapsed(m_collapsedGroups.contains(groupData));
+    groupHeader->setCollapsingEnabled(m_supportsGroupCollapsing);
     groupHeader->show();
 }
 
@@ -2407,6 +2431,8 @@ int KItemListView::groupIndexForItem(int index) const
 
 void KItemListView::toggleGroupCollapse(const QVariant &groupData)
 {
+    Q_ASSERT(m_supportsGroupCollapsing);
+
     if (m_collapsedGroups.contains(groupData)) {
         m_collapsedGroups.removeOne(groupData);
     } else {

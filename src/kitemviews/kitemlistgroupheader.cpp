@@ -23,6 +23,7 @@ KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget *parent)
     , m_scrollOrientation(Qt::Vertical)
     , m_itemIndex(-1)
     , m_collapsed(false)
+    , m_collapsingEnabled()
     , m_separatorColor()
     , m_roleColor()
     , m_roleBounds()
@@ -107,6 +108,8 @@ int KItemListGroupHeader::itemIndex() const
 
 void KItemListGroupHeader::setCollapsed(bool collapsed)
 {
+    collapsed &= m_collapsingEnabled; // Enforce
+
     if (m_collapsed != collapsed) {
         const bool previous = m_collapsed;
         m_collapsed = collapsed;
@@ -119,6 +122,22 @@ bool KItemListGroupHeader::isCollapsed() const
 {
     return m_collapsed;
 }
+
+void KItemListGroupHeader::setCollapsingEnabled(bool allowCollapsing)
+{
+    if (m_collapsingEnabled == allowCollapsing) {
+        return;
+    }
+    m_collapsingEnabled = allowCollapsing;
+    if (!allowCollapsing) {
+        setCollapsed(false);
+    }
+};
+
+bool KItemListGroupHeader::isCollapsingEnabled() const
+{
+    return m_collapsingEnabled;
+};
 
 Qt::Orientation KItemListGroupHeader::scrollOrientation() const
 {

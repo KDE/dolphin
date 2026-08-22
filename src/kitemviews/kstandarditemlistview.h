@@ -49,6 +49,7 @@ protected:
     void initializeItemListWidget(KItemListWidget *item) override;
     bool itemSizeHintUpdateRequired(const QSet<QByteArray> &changedRoles) const override;
     virtual bool itemLayoutSupportsItemExpanding(ItemLayout layout) const;
+    virtual bool itemLayoutSupportsGroupCollapsing(ItemLayout layout) const;
     /** To be overridden by sub-classes to specify when full row highlighting should be enabled. */
     virtual bool itemLayoutHighlightEntireRow(ItemLayout layout) const;
     virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
