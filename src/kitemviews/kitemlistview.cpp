@@ -717,7 +717,7 @@ void KItemListView::setHeaderVisible(bool visible)
         m_headerWidget->resize(size().width(), headerSize.height());
         m_headerWidget->setModel(m_model);
         m_headerWidget->setColumns(m_visibleRoles);
-        m_headerWidget->setZValue(1);
+        m_headerWidget->setZValue(10.0); // always on top of the items
 
         connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged, this, &KItemListView::slotHeaderColumnWidthChanged);
         connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged, this, &KItemListView::slotSidePaddingChanged);
