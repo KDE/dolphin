@@ -233,6 +233,9 @@ public:
     void setSupportsItemExpanding(bool supportsExpanding);
     bool supportsItemExpanding() const;
 
+    void setSupportsGroupCollapsing(bool supportsCollapsing);
+    bool supportsGroupCollapsing() const;
+
     void setHighlightEntireRow(bool highlightEntireRow);
     bool highlightEntireRow() const;
 
@@ -742,6 +745,7 @@ private:
     bool m_highlightEntireRow;
     bool m_alternateBackgrounds;
     bool m_supportsItemExpanding;
+    bool m_supportsGroupCollapsing;
     bool m_editingRole;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
     LayoutAnimationHint m_endTransactionAnimationHint;
