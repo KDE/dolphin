@@ -661,6 +661,8 @@ void DolphinView::readSettings()
     const int oldZoomLevel = m_view->zoomLevel();
 
     GeneralSettings::self()->load();
+    // The default zoom level depends on the settings and may have changed
+    updateDefaultZoomLevel();
     m_view->readSettings();
     applyViewProperties();
 
