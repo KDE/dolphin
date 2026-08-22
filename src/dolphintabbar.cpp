@@ -130,8 +130,6 @@ void DolphinTabBar::dropEvent(QDropEvent *event)
     QTabBar::dropEvent(event);
 }
 
-// Qt 6.11 added its own middle click tab closing
-#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
 void DolphinTabBar::mousePressEvent(QMouseEvent *event)
 {
     const int index = tabAt(event->pos());
@@ -156,7 +154,6 @@ void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
 
     QTabBar::mouseReleaseEvent(event);
 }
-#endif
 
 void DolphinTabBar::mouseDoubleClickEvent(QMouseEvent *event)
 {
