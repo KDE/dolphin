@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-13 00:53+0000\n"
+"POT-Creation-Date: 2026-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-10-11 18:21+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -259,7 +259,7 @@ msgstr ""
 "əminsiniz?"
 
 #: dolphinmainwindow.cpp:657 dolphinmainwindow.cpp:707
-#: views/dolphinview.cpp:2351
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Do not ask again"
 msgstr "Bir daha soruşma"
@@ -6541,7 +6541,7 @@ msgstr "Standart"
 msgid "Reload"
 msgstr "Təkrarlamaq"
 
-#: views/dolphinview.cpp:771
+#: views/dolphinview.cpp:773
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6552,7 +6552,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "%1 qovluq seçildi"
 msgstr[1] "%1 qovluq seçildi"
 
-#: views/dolphinview.cpp:772
+#: views/dolphinview.cpp:774
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6563,7 +6563,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "%1 fayl seçildi"
 msgstr[1] "%1 fayl seçildi"
 
-#: views/dolphinview.cpp:774
+#: views/dolphinview.cpp:776
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -6574,7 +6574,7 @@ msgid_plural "%1 folders"
 msgstr[0] "%1 qovluq"
 msgstr[1] "%1 qovluq"
 
-#: views/dolphinview.cpp:775
+#: views/dolphinview.cpp:777
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Your files"
@@ -6584,19 +6584,19 @@ msgid_plural "%1 files"
 msgstr[0] "Sizin fayllarınız"
 msgstr[1] "Sizin fayllarınız"
 
-#: views/dolphinview.cpp:779
+#: views/dolphinview.cpp:781
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:781
+#: views/dolphinview.cpp:783
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:785
+#: views/dolphinview.cpp:787
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -6604,20 +6604,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 qovluqlar, 0 fayllar"
 
-#: views/dolphinview.cpp:1027 views/dolphinview.cpp:1036
+#: views/dolphinview.cpp:1029 views/dolphinview.cpp:1038
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 nüsxə"
 
-#: views/dolphinview.cpp:1222
+#: views/dolphinview.cpp:1224
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Siz %1 element açmaq istədiyinizə əminsiniz?"
 msgstr[1] "Siz %1 element açmaq istədiyinizə əminsiniz?"
 
-#: views/dolphinview.cpp:1227
+#: views/dolphinview.cpp:1229
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6625,43 +6625,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 elementi açın"
 msgstr[1] "%1 elementi açın"
 
-#: views/dolphinview.cpp:1368
+#: views/dolphinview.cpp:1370
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Sütun abzası"
 
-#: views/dolphinview.cpp:1372
+#: views/dolphinview.cpp:1374
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Sütunların avtomatik eni"
 
-#: views/dolphinview.cpp:1377
+#: views/dolphinview.cpp:1379
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Sütunların seçilmiş eni"
 
-#: views/dolphinview.cpp:2121
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Səbətə atıldı"
 
-#: views/dolphinview.cpp:2131
+#: views/dolphinview.cpp:2133
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Silindi"
 
-#: views/dolphinview.cpp:2299
+#: views/dolphinview.cpp:2301
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Adını dəyişmək və Gizlətmək"
 
-#: views/dolphinview.cpp:2303
+#: views/dolphinview.cpp:2305
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6670,7 +6670,7 @@ msgstr ""
 "Adın əvvəlinə nöqtə əlavə olunarsa fayl gizlənəcəkdir.\n"
 "Ad bu şəkildə dəyişdirilsin?"
 
-#: views/dolphinview.cpp:2305
+#: views/dolphinview.cpp:2307
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6679,17 +6679,17 @@ msgstr ""
 "Adın əvvəlinə nöqtə əlavə olunarsa qovluq gizlənəcəkdir.\n"
 "Ad bu şəkildə dəyişdirilsin?"
 
-#: views/dolphinview.cpp:2307
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this File?"
 msgstr "Bu fayl gizlədilsin?"
 
-#: views/dolphinview.cpp:2307
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Bu qovluq gizlədilsin?"
 
-#: views/dolphinview.cpp:2328
+#: views/dolphinview.cpp:2330
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6697,7 +6697,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Adını dəyişin..."
 
-#: views/dolphinview.cpp:2338
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6706,7 +6706,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2342
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6715,7 +6715,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2348
+#: views/dolphinview.cpp:2350
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type…"
@@ -6723,95 +6723,95 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Fayl növünə düzəliş e&din..."
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Ünvan sətiri boşdur."
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' ünvan sətiri boşdur."
 
-#: views/dolphinview.cpp:2783
+#: views/dolphinview.cpp:2785
 #, kde-format
 msgid "Loading…"
 msgstr "Yüklənir..."
 
-#: views/dolphinview.cpp:2812
+#: views/dolphinview.cpp:2814
 #, kde-format
 msgid "Loading canceled"
 msgstr "Yükləmə ləğv edildi"
 
-#: views/dolphinview.cpp:2814
+#: views/dolphinview.cpp:2816
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Filtrə uyğun elementlər yoxdur"
 
-#: views/dolphinview.cpp:2816
+#: views/dolphinview.cpp:2818
 #, kde-format
 msgid "No items matching the search"
 msgstr "Axtarışa uyğun elementlər yoxdur"
 
-#: views/dolphinview.cpp:2818
+#: views/dolphinview.cpp:2820
 #, kde-format
 msgid "Trash is empty"
 msgstr "Səbət boşdur"
 
-#: views/dolphinview.cpp:2821
+#: views/dolphinview.cpp:2823
 #, kde-format
 msgid "No tags"
 msgstr "Yarlıq yoxdur"
 
-#: views/dolphinview.cpp:2824
+#: views/dolphinview.cpp:2826
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "\"%1\" yarlıqlı heç bir fayl yoxdur"
 
-#: views/dolphinview.cpp:2828
+#: views/dolphinview.cpp:2830
 #, kde-format
 msgid "No recently used items"
 msgstr "Son istifadə olunan elementlər yoxdur"
 
-#: views/dolphinview.cpp:2830
+#: views/dolphinview.cpp:2832
 #, kde-format
 msgid "No shared folders found"
 msgstr "Paylaşılan qovluqlar tapılmadı"
 
-#: views/dolphinview.cpp:2832
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Müvafiq şəbəkə mənbələri tapılmadı"
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-yə uyğun cihazlar tapılmadı"
 
-#: views/dolphinview.cpp:2836
+#: views/dolphinview.cpp:2838
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Heç bir Apple cihazı tapılmadı"
 
-#: views/dolphinview.cpp:2839
+#: views/dolphinview.cpp:2841
 #, fuzzy, kde-format
 #| msgid "No Apple devices found"
 msgid "No KDE Connect devices found"
 msgstr "Heç bir Apple cihazı tapılmadı"
 
-#: views/dolphinview.cpp:2841
+#: views/dolphinview.cpp:2843
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2844
+#: views/dolphinview.cpp:2846
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetooth cihazı tapılmadı"
 
-#: views/dolphinview.cpp:2846
+#: views/dolphinview.cpp:2848
 #, kde-format
 msgid "Folder is empty"
 msgstr "Qovluqlar boşdur"
