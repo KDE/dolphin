@@ -401,7 +401,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     QAction *restoreViewSettingsToDefault = actionCollection()->addAction(QStringLiteral("restore_view_settings_default"));
     restoreViewSettingsToDefault->setIcon(QIcon::fromTheme(QStringLiteral("view-restore")));
     restoreViewSettingsToDefault->setText(i18nc("@action:inmenu", "Restore to Defaults"));
-    restoreViewSettingsToDefault->setToolTip(i18nc("info:tooltip", "Restore View Settings to Defaults Value"));
+    restoreViewSettingsToDefault->setToolTip(i18nc("info:tooltip", "Restore View Settings to Default Values"));
     connect(restoreViewSettingsToDefault, &QAction::triggered, this, &DolphinViewActionHandler::restoreViewSettingsToDefaults);
 
     // View settings: the dropdown menu contains various view-related actions
