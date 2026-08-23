@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-12 03:14+0000\n"
+"POT-Creation-Date: 2026-08-23 02:41+0000\n"
 "PO-Revision-Date: 2026-07-29 15:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -277,7 +277,7 @@ msgstr ""
 "Ci sono diverse schede aperte in questa finestra, sei sicuro di voler uscire?"
 
 #: dolphinmainwindow.cpp:656 dolphinmainwindow.cpp:706
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "Do not ask again"
 msgstr "Non chiedere ancora"
@@ -1959,55 +1959,55 @@ msgstr "Schede chiuse di recente"
 msgid "Empty Recently Closed Tabs"
 msgstr "Svuota le schede chiuse di recente"
 
-#: dolphintabbar.cpp:186
+#: dolphintabbar.cpp:183
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nuova scheda"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Sgancia scheda"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:186
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Rinomina scheda"
 
-#: dolphintabbar.cpp:191
+#: dolphintabbar.cpp:188
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Chiudi altre schede"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "Chiudi le schede a sinistra"
 
-#: dolphintabbar.cpp:194
+#: dolphintabbar.cpp:191
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Chiudi le schede a destra"
 
-#: dolphintabbar.cpp:196
+#: dolphintabbar.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Chiudi scheda"
 
-#: dolphintabbar.cpp:224
+#: dolphintabbar.cpp:221
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Rinomina scheda"
 
-#: dolphintabbar.cpp:224
+#: dolphintabbar.cpp:221
 #, kde-format
 msgid "New tab name:"
 msgstr "Nuovo nome della scheda:"
@@ -6340,7 +6340,7 @@ msgstr "Predefinito"
 msgid "Reload"
 msgstr "Ricarica"
 
-#: views/dolphinview.cpp:771
+#: views/dolphinview.cpp:773
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6348,7 +6348,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 cartella selezionata"
 msgstr[1] "%1 cartelle selezionate"
 
-#: views/dolphinview.cpp:772
+#: views/dolphinview.cpp:774
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6356,7 +6356,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 file selezionato"
 msgstr[1] "%1 file selezionati"
 
-#: views/dolphinview.cpp:774
+#: views/dolphinview.cpp:776
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6364,7 +6364,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 cartella"
 msgstr[1] "%1 cartelle"
 
-#: views/dolphinview.cpp:775
+#: views/dolphinview.cpp:777
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6372,38 +6372,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 file"
 msgstr[1] "%1 file"
 
-#: views/dolphinview.cpp:779
+#: views/dolphinview.cpp:781
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:781
+#: views/dolphinview.cpp:783
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:785
+#: views/dolphinview.cpp:787
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 cartelle, 0 file"
 
-#: views/dolphinview.cpp:1027 views/dolphinview.cpp:1036
+#: views/dolphinview.cpp:1029 views/dolphinview.cpp:1038
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "Copia di %1"
 
-#: views/dolphinview.cpp:1222
+#: views/dolphinview.cpp:1224
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Sei sicuro di voler aprire un elemento?"
 msgstr[1] "Sei sicuro di voler aprire %1 elementi?"
 
-#: views/dolphinview.cpp:1227
+#: views/dolphinview.cpp:1229
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6411,45 +6411,45 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Apri %1 elemento"
 msgstr[1] "Apri %1 elementi"
 
-#: views/dolphinview.cpp:1361
+#: views/dolphinview.cpp:1363
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Spaziatura laterale"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1365
+#: views/dolphinview.cpp:1367
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Larghezza automatica delle colonne"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1370
+#: views/dolphinview.cpp:1372
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Larghezza delle colonne personalizzata"
 
-#: views/dolphinview.cpp:2114
+#: views/dolphinview.cpp:2116
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operazione di cestinamento completata."
 
-#: views/dolphinview.cpp:2124
+#: views/dolphinview.cpp:2126
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operazione di eliminazione completata."
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2294
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Rinomina e nascondi"
 
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6459,7 +6459,7 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarlo?"
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6469,23 +6469,23 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarla?"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2302
 #, kde-format
 msgid "Hide this File?"
 msgstr "Vuoi nascondere questo file?"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2302
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Vuoi nascondere questa cartella?"
 
-#: views/dolphinview.cpp:2321
+#: views/dolphinview.cpp:2323
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Rinomina"
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2333
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6498,7 +6498,7 @@ msgstr ""
 "riconoscerlo più.\n"
 "Vuoi rinominarlo comunque?"
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2337
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6511,100 +6511,100 @@ msgstr ""
 "riconoscerlo più.\n"
 "Vuoi rinominarlo comunque?"
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Cambia tipo di file"
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2387
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "La posizione è vuota."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2389
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "La posizione «%1» non è valida."
 
-#: views/dolphinview.cpp:2776
+#: views/dolphinview.cpp:2778
 #, kde-format
 msgid "Loading…"
 msgstr "Caricamento…"
 
-#: views/dolphinview.cpp:2805
+#: views/dolphinview.cpp:2807
 #, kde-format
 msgid "Loading canceled"
 msgstr "Caricamento annullato"
 
-#: views/dolphinview.cpp:2807
+#: views/dolphinview.cpp:2809
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nessun elemento corrispondente al filtro"
 
-#: views/dolphinview.cpp:2809
+#: views/dolphinview.cpp:2811
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nessun elemento corrispondente alla ricerca"
 
-#: views/dolphinview.cpp:2811
+#: views/dolphinview.cpp:2813
 #, kde-format
 msgid "Trash is empty"
 msgstr "Il cestino è vuoto"
 
-#: views/dolphinview.cpp:2814
+#: views/dolphinview.cpp:2816
 #, kde-format
 msgid "No tags"
 msgstr "Nessuna etichetta"
 
-#: views/dolphinview.cpp:2817
+#: views/dolphinview.cpp:2819
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nessun file etichettato con «%1»"
 
-#: views/dolphinview.cpp:2821
+#: views/dolphinview.cpp:2823
 #, kde-format
 msgid "No recently used items"
 msgstr "Non ci sono elementi utilizzati di recente"
 
-#: views/dolphinview.cpp:2823
+#: views/dolphinview.cpp:2825
 #, kde-format
 msgid "No shared folders found"
 msgstr "Non è stata trovata alcuna cartella condivisa"
 
-#: views/dolphinview.cpp:2825
+#: views/dolphinview.cpp:2827
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Non sono state trovate risorse di rete pertinenti"
 
-#: views/dolphinview.cpp:2827
+#: views/dolphinview.cpp:2829
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Non è stato trovato alcun dispositivo MTP compatibile"
 
-#: views/dolphinview.cpp:2829
+#: views/dolphinview.cpp:2831
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nessun dispositivo Apple trovato"
 
-#: views/dolphinview.cpp:2832
+#: views/dolphinview.cpp:2834
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Nessun dispositivo di KDE Connect trovato"
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "No storage found on this device"
 msgstr "Nessuna archiviazione trovata su questo dispositivo"
 
-#: views/dolphinview.cpp:2837
+#: views/dolphinview.cpp:2839
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Non è stato trovato alcun dispositivo Bluetooth"
 
-#: views/dolphinview.cpp:2839
+#: views/dolphinview.cpp:2841
 #, kde-format
 msgid "Folder is empty"
 msgstr "La cartella è vuota"
