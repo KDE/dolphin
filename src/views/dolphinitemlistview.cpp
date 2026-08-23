@@ -188,14 +188,11 @@ void DolphinItemListView::updateGridSize()
 
     // Calculate the size of the icon
     // Only use zoom stored in settings if we're using global view props
-    int &cachedSize = previewsShown() ? m_previewSize : m_iconSize;
-    if (cachedSize <= 0) {
-        // setZoomLevel() has not been called yet for this view mode and preview state, so the
-        // per-folder zoom is not known yet. Falling back to the configured size keeps the view
-        // usable: a size of 0 would mean that no icons are rendered at all.
-        cachedSize = previewsShown() ? settings.previewSize() : settings.iconSize();
-    }
-    const int iconSize = useGlobalViewProps ? (previewsShown() ? settings.previewSize() : settings.iconSize()) : cachedSize;
+    const int configuredSize = previewsShown() ? settings.previewSize() : settings.iconSize();
+    // The cached size is the per-folder zoom, shared by every view mode, so the fallback below must
+    // not be stored: it would reach the other modes as though the folder carried it.
+    const int cachedSize = previewsShown() ? m_previewSize : m_iconSize;
+    const int iconSize = (useGlobalViewProps || cachedSize <= 0) ? configuredSize : cachedSize;
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption option = styleOption();
 
