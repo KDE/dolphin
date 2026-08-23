@@ -83,21 +83,61 @@ void DolphinTabWidget::saveProperties(KConfigGroup &group) const
     group.writeEntry("Tab Count", tabCount);
     group.writeEntry("Active Tab Index", currentIndex());
 
+    // Written from scratch every time, so a tab that is gone leaves nothing of itself behind.
+    group.deleteGroup(QStringLiteral("Tabs"));
+    KConfigGroup tabsGroup = group.group(QStringLiteral("Tabs"));
     for (int i = 0; i < tabCount; ++i) {
         const DolphinTabPage *tabPage = tabPageAt(i);
-        group.writeEntry("Tab Data " % QString::number(i), tabPage->saveState());
+        // One url per view of the tab, so a split tab has two of them and any other tab has one.
+        QList<QUrl> urls{tabPage->primaryViewContainer()->url()};
+        if (tabPage->splitViewEnabled()) {
+            urls.append(tabPage->secondaryViewContainer()->url());
+        }
+        KConfigGroup tabGroup = tabsGroup.group(QString::number(i));
+        tabGroup.writeEntry("Urls", urls);
+        tabGroup.writeEntry("State", tabPage->saveState());
+    }
+
+    // The one entry per tab that a Dolphin of 26.08 or older wrote here is read no more, and only
+    // this replaces it, so it goes.
+    const QStringList keys = group.keyList();
+    for (const QString &key : keys) {
+        if (key.startsWith(QLatin1String("Tab Data "))) {
+            group.deleteEntry(key);
+        }
     }
 }
 
 void DolphinTabWidget::readProperties(const KConfigGroup &group)
 {
     const int tabCount = group.readEntry("Tab Count", 0);
+    const KConfigGroup tabsGroup = group.group(QStringLiteral("Tabs"));
     for (int i = 0; i < tabCount; ++i) {
+        // A session written by Dolphin 26.08 or older has no group of its own for a tab. Its urls
+        // are part of the state of the tab, so both of these come out invalid there.
+        const KConfigGroup tabGroup = tabsGroup.group(QString::number(i));
+        const QList<QUrl> urls = tabGroup.readEntry("Urls", QList<QUrl>());
+        const QUrl primaryUrl = urls.value(0);
+        const QUrl secondaryUrl = urls.value(1);
         if (i >= count()) {
-            openNewActivatedTab();
+            // Create the tab at the directory it will show, so that it lists that one and no other.
+            if (primaryUrl.isValid()) {
+                openNewActivatedTab(primaryUrl, secondaryUrl);
+            } else {
+                openNewActivatedTab();
+            }
+        } else if (primaryUrl.isValid()) {
+            DolphinTabPage *tabPage = tabPageAt(i);
+            tabPage->primaryViewContainer()->setUrl(primaryUrl);
+            if (secondaryUrl.isValid()) {
+                tabPage->setSplitViewEnabled(true, WithoutAnimation, secondaryUrl);
+            }
         }
-        const QByteArray state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
         setCurrentIndex(i);
+        QByteArray state = tabGroup.readEntry("State", QByteArray());
+        if (state.isEmpty()) {
+            state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
+        }
         tabPageAt(i)->restoreState(state);
     }
 

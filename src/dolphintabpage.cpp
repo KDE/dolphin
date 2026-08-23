@@ -304,16 +304,14 @@ QByteArray DolphinTabPage::saveState() const
     QByteArray state;
     QDataStream stream(&state, QIODevice::WriteOnly);
 
-    stream << quint32(3); // Tab state version
+    stream << quint32(4); // Tab state version
 
     stream << m_splitViewEnabled;
 
-    stream << m_primaryViewContainer->url();
     stream << m_primaryViewContainer->urlNavigatorInternalWithHistory()->isUrlEditable();
     m_primaryViewContainer->view()->saveState(stream);
 
     if (m_splitViewEnabled) {
-        stream << m_secondaryViewContainer->url();
         stream << m_secondaryViewContainer->urlNavigatorInternalWithHistory()->isUrlEditable();
         m_secondaryViewContainer->view()->saveState(stream);
     }
@@ -341,7 +339,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     // Read the version number of the tab state and check if the version is supported.
     quint32 version = 0;
     stream >> version;
-    if (version < 2 || version > 3) {
+    if (version < 2 || version > 4) {
         // The version of the tab state isn't supported, we can't restore it.
         return;
     }
@@ -350,18 +348,24 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     stream >> isSplitViewEnabled;
     setSplitViewEnabled(isSplitViewEnabled, WithoutAnimation);
 
-    QUrl primaryUrl;
-    stream >> primaryUrl;
-    m_primaryViewContainer->setUrl(primaryUrl);
+    // Up to version 3 the urls were part of this state. From version 4 on they belong to the
+    // session state of the tab widget, and this state carries everything else.
+    if (version <= 3) {
+        QUrl primaryUrl;
+        stream >> primaryUrl;
+        m_primaryViewContainer->setUrl(primaryUrl);
+    }
     bool primaryUrlEditable;
     stream >> primaryUrlEditable;
     m_primaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(primaryUrlEditable);
     m_primaryViewContainer->view()->restoreState(stream);
 
     if (isSplitViewEnabled) {
-        QUrl secondaryUrl;
-        stream >> secondaryUrl;
-        m_secondaryViewContainer->setUrl(secondaryUrl);
+        if (version <= 3) {
+            QUrl secondaryUrl;
+            stream >> secondaryUrl;
+            m_secondaryViewContainer->setUrl(secondaryUrl);
+        }
         bool secondaryUrlEditable;
         stream >> secondaryUrlEditable;
         m_secondaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(secondaryUrlEditable);

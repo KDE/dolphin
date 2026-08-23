@@ -39,6 +39,7 @@
 #include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QTest>
 
 #include "testhelpers.h"
@@ -78,6 +79,10 @@ private Q_SLOTS:
     void testOpenFiles();
     void testAccessibilityTree();
     void testAutoSaveSession();
+    void testSavingFewerTabsDropsTheOldEntries();
+    void testRestoredTabIsCreatedAtItsUrl();
+    void testRestoredSplitTabIsCreatedAtBothUrls();
+    void testOlderSessionStillRestoresItsUrls();
     void testInlineRename();
     void testThumbnailAfterRename();
     void testViewModeAfterDynamicView();
@@ -91,6 +96,15 @@ private:
 
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
+
+namespace
+{
+/** The urls the session in @p group holds for the tab at @p index. */
+QList<QUrl> tabUrls(const KConfigGroup &group, int index)
+{
+    return group.group(QStringLiteral("Tabs")).group(QString::number(index)).readEntry("Urls", QList<QUrl>());
+}
+}
 
 void DolphinMainWindowTest::initTestCase()
 {
@@ -1312,6 +1326,166 @@ void DolphinMainWindowTest::testAutoSaveSession()
 
     // Disable session autosave.
     m_mainWindow->setSessionAutoSaveEnabled(false);
+}
+
+/**
+ * Saving a session with fewer tabs than the last one has to take the entries of the tabs that are
+ * gone with it. Writing an entry replaces only that one key, so they would otherwise stay for good.
+ */
+void DolphinMainWindowTest::testSavingFewerTabsDropsTheOldEntries()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::tempPath()));
+    QCOMPARE(tabWidget->count(), 2);
+
+    // A config of its own per run, so nothing is inherited from the last one.
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+
+    tabWidget->saveProperties(group);
+    QCOMPARE(group.readEntry("Tab Count", 0), 2);
+    QVERIFY(group.group(QStringLiteral("Tabs")).hasGroup(QStringLiteral("1")));
+
+    tabWidget->closeTab(1);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->saveProperties(group);
+    QCOMPARE(group.readEntry("Tab Count", 0), 1);
+    QVERIFY(!group.group(QStringLiteral("Tabs")).hasGroup(QStringLiteral("1")));
+}
+
+/**
+ * A tab restored from the session has to be created at the directory it will show, so that the url
+ * restoreState() sets is the one the view already has and nothing is listed twice.
+ */
+void DolphinMainWindowTest::testRestoredTabIsCreatedAtItsUrl()
+{
+    const QUrl firstUrl = QUrl::fromLocalFile(QDir::homePath());
+    const QUrl secondUrl = QUrl::fromLocalFile(QDir::tempPath());
+
+    m_mainWindow->openDirectories({firstUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    tabWidget->openNewActivatedTab(secondUrl);
+    QCOMPARE(tabWidget->count(), 2);
+
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    tabWidget->saveProperties(group);
+
+    // The url of a tab is part of the saved session, so it is known before a tab is built.
+    QCOMPARE(tabUrls(group, 0), QList<QUrl>({firstUrl}));
+    QCOMPARE(tabUrls(group, 1), QList<QUrl>({secondUrl}));
+
+    // Restoring into a widget that lost the second tab creates it at its own url.
+    tabWidget->closeTab(1);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->readProperties(group);
+    QCOMPARE(tabWidget->count(), 2);
+    QCOMPARE(tabWidget->tabPageAt(0)->primaryViewContainer()->url(), firstUrl);
+    QCOMPARE(tabWidget->tabPageAt(1)->primaryViewContainer()->url(), secondUrl);
+
+    // The url it ends up at says nothing about where it started, since restoreState() sets it
+    // either way. A tab created somewhere else and then moved leaves that first directory in its
+    // history, so a history of one is what says it was never moved, and never listed twice.
+    QCOMPARE(tabWidget->tabPageAt(1)->primaryViewContainer()->urlNavigatorInternalWithHistory()->historySize(), 1);
+}
+
+/**
+ * Each view of a restored split tab has to be created at the directory that view will show.
+ */
+void DolphinMainWindowTest::testRestoredSplitTabIsCreatedAtBothUrls()
+{
+    const QUrl firstUrl = QUrl::fromLocalFile(QDir::homePath());
+    const QUrl secondUrl = QUrl::fromLocalFile(QDir::tempPath());
+    const QUrl thirdUrl = QUrl::fromLocalFile(QDir::rootPath());
+
+    m_mainWindow->openDirectories({firstUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    tabWidget->openNewActivatedTab(secondUrl, thirdUrl);
+    QCOMPARE(tabWidget->count(), 2);
+    QVERIFY(tabWidget->tabPageAt(1)->splitViewEnabled());
+
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    tabWidget->saveProperties(group);
+
+    // A split tab saves the url of each of its two views.
+    QCOMPARE(tabUrls(group, 1), QList<QUrl>({secondUrl, thirdUrl}));
+
+    tabWidget->closeTab(1);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->readProperties(group);
+    QCOMPARE(tabWidget->count(), 2);
+
+    const DolphinTabPage *restored = tabWidget->tabPageAt(1);
+    QVERIFY(restored->splitViewEnabled());
+    QCOMPARE(restored->primaryViewContainer()->url(), secondUrl);
+    QCOMPARE(restored->secondaryViewContainer()->url(), thirdUrl);
+
+    // A view created at the directory of the other one and then moved keeps that first directory
+    // in its history, so a history of one entry is what says it was never moved.
+    QCOMPARE(restored->secondaryViewContainer()->urlNavigatorInternalWithHistory()->historySize(), 1);
+}
+
+/**
+ * A session saved while the urls were still part of the tab state has to restore its directories
+ * all the same.
+ */
+void DolphinMainWindowTest::testOlderSessionStillRestoresItsUrls()
+{
+    const QUrl startUrl = QUrl::fromLocalFile(QDir::homePath());
+    const QUrl savedUrl = QUrl::fromLocalFile(QDir::tempPath());
+
+    m_mainWindow->openDirectories({startUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    QCOMPARE(tabWidget->count(), 1);
+
+    // A tab state of version 3, which carries the url of the primary view as its third field.
+    QByteArray state;
+    QDataStream stream(&state, QIODevice::WriteOnly);
+    stream << quint32(3) << false << savedUrl << false;
+    stream << quint32(1) << QUrl() << QList<QUrl>() << QPoint(0, 0) << QSet<QUrl>();
+    stream << true << QByteArray() << int(0);
+
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    group.writeEntry("Tab Count", 1);
+    group.writeEntry("Active Tab Index", 0);
+    group.writeEntry("Tab Data 0", state);
+
+    tabWidget->readProperties(group);
+    QCOMPARE(tabWidget->count(), 1);
+    QCOMPARE(tabWidget->tabPageAt(0)->primaryViewContainer()->url(), savedUrl);
+
+    // Saving it again writes the group of the tab and takes the entry that stood in its place.
+    tabWidget->saveProperties(group);
+    QVERIFY(group.group(QStringLiteral("Tabs")).hasGroup(QStringLiteral("0")));
+    QVERIFY(!group.hasKey("Tab Data 0"));
+    QCOMPARE(tabUrls(group, 0), QList<QUrl>({savedUrl}));
 }
 
 void DolphinMainWindowTest::testInlineRename()
