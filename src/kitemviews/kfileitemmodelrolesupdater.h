@@ -15,6 +15,7 @@
 #include "config-dolphin.h"
 #include <KFileItem>
 
+#include <QImage>
 #include <QObject>
 #include <QSet>
 #include <QSize>
@@ -362,10 +363,30 @@ private:
     // bucket on a miss. Sets fromRequestedBucket to whether the hit came from the
     // requested bucket (a fallback hit is not final). Returns a null image on a full miss.
     QImage cachedPreviewWithFallback(const KFileItem &item, const QSize &requestSize, bool &fromRequestedBucket);
+
+    // Writes the thumbnails that were read for the widgets of visible items into the model.
+    void applyPreviewsReadForWidgets();
     /**
      * enqueue directory size counting for KFileItem item at index
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
+
+    // A thumbnail read from the cache while the view was creating a widget, held until the
+    // model can be written on the next turn of the event loop. requestSize is the cache
+    // bucket it was asked for, and fromRequestedBucket says whether the hit came from that
+    // bucket rather than from a smaller one.
+    struct PreviewReadForWidget {
+        KFileItem item;
+        QImage image;
+        QSize requestSize;
+        QSize iconSize;
+        bool fromRequestedBucket = false;
+    };
+    // Held by the url of the item, so that the pass over the visible items can use the image
+    // instead of reading the same cache entry again. An icon size change keeps the same cache
+    // bucket in most cases, and requestSize is what says whether it still does.
+    QHash<QUrl, PreviewReadForWidget> m_previewsReadForWidgets;
+    bool m_previewsReadForWidgetsFlushScheduled = false;
 
     enum State {
         Idle,

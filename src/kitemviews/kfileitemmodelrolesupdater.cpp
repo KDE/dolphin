@@ -967,8 +967,16 @@ void KFileItemModelRolesUpdater::updateVisibleIcons()
             if (m_finishedItems.contains(item)) {
                 continue;
             }
-            bool fromRequestedBucket;
-            const QImage cached = cachedPreviewWithFallback(item, cacheSize(m_iconSize), fromRequestedBucket);
+            const QSize requestSize = cacheSize(m_iconSize);
+            bool fromRequestedBucket = false;
+            QImage cached;
+            const auto held = m_previewsReadForWidgets.constFind(item.url());
+            if (held != m_previewsReadForWidgets.cend() && held->requestSize == requestSize) {
+                cached = held->image;
+                fromRequestedBucket = held->fromRequestedBucket;
+            } else {
+                cached = cachedPreviewWithFallback(item, requestSize, fromRequestedBucket);
+            }
             if (!cached.isNull()) {
                 SmallHash data = rolesData(item, index);
                 data.insert("iconPixmap", transformPreviewImage(cached, m_iconSize));
@@ -987,6 +995,8 @@ void KFileItemModelRolesUpdater::updateVisibleIcons()
 #endif
         applyResolvedRoles(index, ResolveFast);
     }
+
+    m_previewsReadForWidgets.clear();
 
     // KFileItemListView::initializeItemListWidget(KItemListWidget*) will load
     // preliminary icons (i.e., without mime type determination) for the
@@ -1116,13 +1126,56 @@ QPixmap KFileItemModelRolesUpdater::cachedPreviewPixmap(const KFileItem &item, c
     // Used by the view to show a cached thumbnail on the first paint, before this updater
     // writes it into the model on its own turn. The caller passes the icon size, because
     // the internal one may not be set yet that early.
+    const QSize requestSize = cacheSize(iconSize);
     bool fromRequestedBucket;
-    const QImage cached = cachedPreviewWithFallback(item, cacheSize(iconSize), fromRequestedBucket);
-    Q_UNUSED(fromRequestedBucket)
+    const QImage cached = cachedPreviewWithFallback(item, requestSize, fromRequestedBucket);
     if (cached.isNull()) {
         return QPixmap();
     }
+
+    // The widget keeps this pixmap only until it is recycled, so hold the thumbnail and write it
+    // into the model on the next turn of the event loop, once the view is done building widgets.
+    if (!m_previewsReadForWidgetsFlushScheduled) {
+        m_previewsReadForWidgetsFlushScheduled = true;
+        QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::applyPreviewsReadForWidgets);
+    }
+    m_previewsReadForWidgets.insert(item.url(), {item, cached, requestSize, iconSize, fromRequestedBucket});
+
     return transformPreviewImage(cached, iconSize);
+}
+
+void KFileItemModelRolesUpdater::applyPreviewsReadForWidgets()
+{
+    m_previewsReadForWidgetsFlushScheduled = false;
+
+    if (!m_previewShown) {
+        return;
+    }
+
+    // Iterate over a copy. Writing the model tells the view about the change, which can have it
+    // build a widget, and that adds to the held thumbnails.
+    const QHash<QUrl, PreviewReadForWidget> previews = m_previewsReadForWidgets;
+
+    for (const PreviewReadForWidget &preview : previews) {
+        // Only write what the view asked for. A thumbnail scaled to a different icon size than the
+        // one on the widget would replace what is on screen with a picture of the wrong size, and
+        // the pass over the visible items writes it at the size it settles on anyway.
+        if (preview.iconSize != m_iconSize || m_finishedItems.contains(preview.item)) {
+            continue;
+        }
+        const int index = m_model->index(preview.item);
+        if (index < 0) {
+            continue;
+        }
+
+        SmallHash data = rolesData(preview.item, index);
+        data.insert("iconPixmap", transformPreviewImage(preview.image, m_iconSize));
+        setModelData(index, data);
+
+        if (preview.fromRequestedBucket && KIO::PreviewJob::cachedPreviewMatchesFile(preview.image, preview.item)) {
+            m_finishedItems.insert(preview.item);
+        }
+    }
 }
 
 void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
