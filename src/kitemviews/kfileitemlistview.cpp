@@ -203,13 +203,30 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget *item)
 {
     KStandardItemListView::initializeItemListWidget(item);
 
-    // Make sure that the item has an icon.
     SmallHash data = item->data();
-    if (!data.contains("iconName") && data["iconPixmap"].value<QPixmap>().isNull()) {
-        Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
-        KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
+    const bool hasPixmap = !data["iconPixmap"].value<QPixmap>().isNull();
+    if (hasPixmap) {
+        return;
+    }
 
-        const KFileItem fileItem = fileItemModel->fileItem(item->index());
+    Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
+    KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
+    const KFileItem fileItem = fileItemModel->fileItem(item->index());
+
+    // Show an already-cached thumbnail on the first paint. It is set on the widget, not
+    // the model, so no model change is emitted while this widget is being created; the
+    // roles updater writes the model on its own turn.
+    if (previewsShown()) {
+        const QPixmap cached = m_modelRolesUpdater->cachedPreviewPixmap(fileItem, availableIconSize());
+        if (!cached.isNull()) {
+            data.insert("iconPixmap", cached);
+            item->setData(data, {"iconPixmap"});
+            return;
+        }
+    }
+
+    // Make sure that the item has an icon.
+    if (!data.contains("iconName")) {
         QString iconName = fileItem.iconName();
         if (!QIcon::hasThemeIcon(iconName)) {
             QMimeDatabase mimeDb;

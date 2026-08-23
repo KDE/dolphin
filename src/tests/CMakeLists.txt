@@ -57,6 +57,11 @@ ecm_add_test(kfileitemmodeltest.cpp testdir.cpp
 TEST_NAME kfileitemmodeltest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 
+# KFileItemModelRolesUpdaterTest
+ecm_add_test(kfileitemmodelrolesupdatertest.cpp testdir.cpp
+TEST_NAME kfileitemmodelrolesupdatertest
+LINK_LIBRARIES dolphinprivate Qt6::Test)
+
 # KFileItemModelBenchmark, not run automatically with `ctest` or `make test`
 add_executable(kfileitemmodelbenchmark kfileitemmodelbenchmark.cpp testdir.cpp)
 target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt6::Test)
