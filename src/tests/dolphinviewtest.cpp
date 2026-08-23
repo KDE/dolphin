@@ -5,11 +5,19 @@
  */
 
 #include "views/dolphinview.h"
+#include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "testdir.h"
+#include "views/viewproperties.h"
+#include "views/zoomlevelinfo.h"
+
+#include <KIconLoader>
 
 #include <QApplication>
 #include <QContextMenuEvent>
+#include <QDir>
+#include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -24,6 +32,7 @@ private Q_SLOTS:
     void cleanup();
 
     void selectionIsAnnouncedBeforeTheBackgroundContextMenu();
+    void defaultZoomLevelComesFromThePreviewSizeWhenPreviewsAreShown();
 
 private:
     void requestBackgroundContextMenu();
@@ -83,6 +92,56 @@ void DolphinViewTest::selectionIsAnnouncedBeforeTheBackgroundContextMenu()
 
     QCOMPARE(signalsInOrder, QStringList({QStringLiteral("selectionChanged"), QStringLiteral("requestContextMenu")}));
     QCOMPARE(selectionChanged.last().first().value<KFileItemList>().count(), 0);
+}
+
+/**
+ * A folder that carries no zoom level of its own falls back to the default one, and while previews
+ * are shown that default has to come from the configured preview size rather than the icon size.
+ * Otherwise the preview size never reaches such a folder and its slider looks like it does nothing.
+ * See Bug 524532.
+ */
+void DolphinViewTest::defaultZoomLevelComesFromThePreviewSizeWhenPreviewsAreShown()
+{
+    const bool globalViewProps = GeneralSettings::globalViewProps();
+    const int iconSize = IconsModeSettings::iconSize();
+    const int previewSize = IconsModeSettings::previewSize();
+    auto restoreSettings = qScopeGuard([globalViewProps, iconSize, previewSize] {
+        GeneralSettings::setGlobalViewProps(globalViewProps);
+        IconsModeSettings::setIconSize(iconSize);
+        IconsModeSettings::setPreviewSize(previewSize);
+    });
+
+    // Only per-folder view properties have a folder without a zoom level to fall back for.
+    GeneralSettings::setGlobalViewProps(false);
+    IconsModeSettings::setIconSize(KIconLoader::SizeMedium);
+    IconsModeSettings::setPreviewSize(KIconLoader::SizeEnormous);
+
+    const int iconZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(KIconLoader::SizeMedium, KIconLoader::SizeMedium));
+    const int previewZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous));
+    QVERIFY(iconZoomLevel != previewZoomLevel);
+
+    // A folder of its own, so that nothing has ever stored a zoom level for it.
+    m_testDir->createDir(QStringLiteral("fresh"));
+    const QUrl freshFolder = QUrl::fromLocalFile(QDir(m_testDir->path()).filePath(QStringLiteral("fresh")));
+    QCOMPARE(ViewProperties(freshFolder).zoomLevel(), -1);
+
+    {
+        DolphinView view(freshFolder, nullptr);
+        QVERIFY(view.previewsShown());
+        QCOMPARE(view.zoomLevel(), previewZoomLevel);
+    }
+
+    // The same folder with previews turned off has to fall back to the icon size instead.
+    {
+        ViewProperties props(freshFolder);
+        props.setPreviewsShown(false);
+        props.save();
+        QCOMPARE(props.zoomLevel(), -1);
+    }
+
+    DolphinView view(freshFolder, nullptr);
+    QVERIFY(!view.previewsShown());
+    QCOMPARE(view.zoomLevel(), iconZoomLevel);
 }
 
 void DolphinViewTest::requestBackgroundContextMenu()
