@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testOnlyTheWindowAroundTheViewIsResolved();
     void testTheWindowLeansTheWayTheViewIsMoving();
     void testASmallMovementDoesNotTurnTheWindowRound();
+    void testWhatIsFarBehindTheViewIsGivenBack();
 
 private:
     TestDir *m_testDir = nullptr;
@@ -154,6 +155,54 @@ void KFileItemModelRolesUpdaterTest::testASmallMovementDoesNotTurnTheWindowRound
     indexes = m_updater->indexesToResolve();
     QCOMPARE(*std::min_element(indexes.cbegin(), indexes.cend()), 131);
     QCOMPARE(*std::max_element(indexes.cbegin(), indexes.cend()), 210);
+}
+
+/**
+ * A thumbnail more than two screens behind the view, on the side the view is moving away from, is
+ * given back: the model no longer holds it and it counts as unresolved again.
+ */
+void KFileItemModelRolesUpdaterTest::testWhatIsFarBehindTheViewIsGivenBack()
+{
+    const int fileCount = 400;
+    for (int i = 0; i < fileCount; ++i) {
+        m_testDir->createFile(QStringLiteral("image%1.png").arg(i, 3, 10, QLatin1Char('0')));
+    }
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(loadingCompletedSpy.wait());
+
+    m_updater = new KFileItemModelRolesUpdater(m_model, this);
+    m_updater->setDevicePixelRatio(1.0);
+    m_updater->setIconSize(QSize(128, 128));
+    m_updater->m_previewShown = true;
+    m_updater->setMaximumVisibleItems(10);
+    m_updater->setVisibleIndexRange(200, 10);
+
+    // Stand in for the previews of a window around the view, both further behind it than two
+    // screens and just behind it.
+    QPixmap thumbnail(128, 128);
+    thumbnail.fill(Qt::blue);
+    const QList<int> resolved{150, 199, 285, 300};
+    for (int index : resolved) {
+        SmallHash data;
+        data.insert("iconPixmap", thumbnail);
+        m_model->setData(index, data);
+        m_updater->m_finishedItems.insert(m_model->fileItem(index));
+    }
+
+    // Ten screens on, the two screens behind the view begin at 280.
+    m_updater->setVisibleIndexRange(300, 10);
+
+    QVERIFY(!m_updater->m_finishedItems.contains(m_model->fileItem(150)));
+    QVERIFY(!m_updater->m_finishedItems.contains(m_model->fileItem(199)));
+    QVERIFY(m_model->data(150).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+    QVERIFY(m_model->data(199).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+
+    // What is within two screens behind the view, and what is in view, stays.
+    QVERIFY(m_updater->m_finishedItems.contains(m_model->fileItem(285)));
+    QVERIFY(m_updater->m_finishedItems.contains(m_model->fileItem(300)));
+    QVERIFY(!m_model->data(285).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+    QVERIFY(!m_model->data(300).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
 }
 
 QTEST_MAIN(KFileItemModelRolesUpdaterTest)

@@ -352,6 +352,19 @@ private:
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
 
+    // Gives back the thumbnail of anything further behind the view than a screen, on the side the
+    // view is moving away from, so that a walk through a large directory does not end up holding
+    // one per file. Such an item is read from the cache again if the view turns round.
+    void releasePreviewsLeftBehind();
+
+    // How many thumbnails may be held, from what one costs at the icon size in use.
+    int previewCountBudget() const;
+
+    // The share of that for the side the view is heading into, and the share for the side behind
+    // it.
+    int previewCountBudgetAhead() const;
+    int previewCountBudgetBehind() const;
+
     // The first and the last item the window covers. It reaches further in the direction the view
     // is travelling, which is where it will be needed.
     int previewWindowFirst() const;

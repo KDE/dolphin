@@ -51,11 +51,33 @@ namespace
 // may perform a blocking operation
 const int MaxBlockTimeout = 200;
 
+// A thumbnail further behind the view than this, counted in screens and only on the side the view
+// is moving away from, is given back. It reaches well beyond the screens that are fetched, because
+// turning round is common and reading everything again is dear: what bounds the memory is that this
+// is a number of screens at all, not that it is a small one.
+const int PagesKeptBehind = 2;
+
 // Screens resolved ahead of the visible area, in the direction it is travelling, and behind it,
 // for a change of mind. Reaching further costs previews that are thrown away when the view moves
 // on, reaching less makes a scroll wait.
 const int PagesAhead = 6;
 const int PagesBehind = 1;
+
+// However many screens that comes to, no more thumbnails are held than fit in this. One costs its
+// icon size squared in device pixels, four bytes a pixel, so the same figure is thousands of items
+// at a small zoom and a couple of screens at a large one, which is where the cost actually is.
+const qint64 ThumbnailBudgetBytes = 96 * 1024 * 1024;
+
+// How that is divided between the two sides of the view, in quarters. Most of it lies ahead, where
+// the view is going, and the quarter behind it is also what is kept when the view moves away, so
+// what is held on both sides together comes to the budget rather than to a multiple of it.
+const int BudgetQuartersAhead = 3;
+const int BudgetQuartersBehind = 1;
+
+// And no more items than this on either side, whatever the screens come to. Every item in the
+// window costs a mime type determination and the other roles besides its thumbnail, and a screen
+// holds hundreds of them in the compact view at a small icon size.
+const int MaxReachItems = 500;
 }
 
 KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QObject *parent)
@@ -202,6 +224,8 @@ void KFileItemModelRolesUpdater::setVisibleIndexRange(int index, int count)
     }
     m_firstVisibleIndex = index;
     m_lastVisibleIndex = qMin(index + count - 1, m_model->count() - 1);
+
+    releasePreviewsLeftBehind();
 
     startUpdating();
 }
@@ -1458,17 +1482,67 @@ void KFileItemModelRolesUpdater::killPreviewJob()
     }
 }
 
+void KFileItemModelRolesUpdater::releasePreviewsLeftBehind()
+{
+    if (!m_previewShown || m_lastVisibleIndex < m_firstVisibleIndex) {
+        return;
+    }
+
+    // Only the side being left. What lies ahead is where the view is going, and what is in view or
+    // just off it stays whichever way it is moving.
+    const int behind = qMin(PagesKeptBehind * m_maximumVisibleItems, previewCountBudgetBehind());
+    const int dropBelow = m_viewIsMovingBackwards ? -1 : m_firstVisibleIndex - behind;
+    const int dropAbove = m_viewIsMovingBackwards ? m_lastVisibleIndex + behind : m_model->count();
+
+    QList<std::pair<KFileItem, int>> leftBehind;
+    for (const KFileItem &item : std::as_const(m_finishedItems)) {
+        const int index = m_model->index(item);
+        if (index < dropBelow || index > dropAbove) {
+            leftBehind.append({item, index});
+        }
+    }
+
+    for (const auto &[item, index] : leftBehind) {
+        SmallHash data;
+        data.insert("iconPixmap", QPixmap());
+        setModelData(index, data);
+        m_finishedItems.remove(item);
+    }
+}
+
+int KFileItemModelRolesUpdater::previewCountBudget() const
+{
+    // In device pixels, since that is what a thumbnail is made and held at.
+    const qreal scale = qMax(qreal(1), m_devicePixelRatio);
+    const qint64 side = qint64(m_iconSize.width() * scale) * qint64(m_iconSize.height() * scale);
+    return qMax(1, int(ThumbnailBudgetBytes / qMax(qint64(1), side * 4)));
+}
+
+int KFileItemModelRolesUpdater::previewCountBudgetAhead() const
+{
+    return qMax(1, previewCountBudget() * BudgetQuartersAhead / 4);
+}
+
+int KFileItemModelRolesUpdater::previewCountBudgetBehind() const
+{
+    return qMax(1, previewCountBudget() * BudgetQuartersBehind / 4);
+}
+
 int KFileItemModelRolesUpdater::previewWindowFirst() const
 {
-    const int pages = m_viewIsMovingBackwards ? PagesAhead : PagesBehind;
-    const int reach = pages * m_maximumVisibleItems;
+    const bool headingThatWay = m_viewIsMovingBackwards;
+    const int pages = headingThatWay ? PagesAhead : PagesBehind;
+    const int budget = headingThatWay ? previewCountBudgetAhead() : previewCountBudgetBehind();
+    const int reach = qMin(qMin(pages * m_maximumVisibleItems, budget), MaxReachItems);
     return qBound(0, m_firstVisibleIndex - reach, qMax(0, m_model->count() - 1));
 }
 
 int KFileItemModelRolesUpdater::previewWindowLast() const
 {
-    const int pages = m_viewIsMovingBackwards ? PagesBehind : PagesAhead;
-    const int reach = pages * m_maximumVisibleItems;
+    const bool headingThatWay = !m_viewIsMovingBackwards;
+    const int pages = headingThatWay ? PagesAhead : PagesBehind;
+    const int budget = headingThatWay ? previewCountBudgetAhead() : previewCountBudgetBehind();
+    const int reach = qMin(qMin(pages * m_maximumVisibleItems, budget), MaxReachItems);
     return qBound(0, m_lastVisibleIndex + reach, qMax(0, m_model->count() - 1));
 }
 
