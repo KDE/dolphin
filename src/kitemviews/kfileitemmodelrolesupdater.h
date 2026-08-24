@@ -352,6 +352,11 @@ private:
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
 
+    // The first and the last item the window covers. It reaches further in the direction the view
+    // is travelling, which is where it will be needed.
+    int previewWindowFirst() const;
+    int previewWindowLast() const;
+
     enum State {
         Idle,
         Paused,
@@ -390,6 +395,8 @@ private:
     KFileItemModel *m_model;
     QSize m_iconSize;
     qreal m_devicePixelRatio;
+    // Which way the visible range last moved, so the window can reach ahead of it.
+    bool m_viewIsMovingBackwards = false;
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
     int m_maximumVisibleItems;
@@ -437,6 +444,8 @@ private:
     Baloo::FileMonitor *m_balooFileMonitor;
     Baloo::IndexerConfig m_balooConfig;
 #endif
+
+    friend class KFileItemModelRolesUpdaterTest; // For unit testing
 };
 
 #endif

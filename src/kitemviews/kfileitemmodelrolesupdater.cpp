@@ -51,13 +51,11 @@ namespace
 // may perform a blocking operation
 const int MaxBlockTimeout = 200;
 
-// If the number of items is smaller than ResolveAllItemsLimit,
-// the roles of all items will be resolved.
-const int ResolveAllItemsLimit = 500;
-
-// Not only the visible area, but up to ReadAheadPages before and after
-// this area will be resolved.
-const int ReadAheadPages = 5;
+// Screens resolved ahead of the visible area, in the direction it is travelling, and behind it,
+// for a change of mind. Reaching further costs previews that are thrown away when the view moves
+// on, reaching less makes a scroll wait.
+const int PagesAhead = 6;
+const int PagesBehind = 1;
 }
 
 KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QObject *parent)
@@ -195,6 +193,13 @@ void KFileItemModelRolesUpdater::setVisibleIndexRange(int index, int count)
         return;
     }
 
+    // Half a screen either way before the window turns round with the view. A notch of a wheel or a
+    // wobble of a scrollbar is not a change of mind, and turning the window round gives back what
+    // lies on the side it stops reaching towards.
+    const int moved = index - m_firstVisibleIndex;
+    if (qAbs(moved) * 2 >= m_maximumVisibleItems) {
+        m_viewIsMovingBackwards = moved < 0;
+    }
     m_firstVisibleIndex = index;
     m_lastVisibleIndex = qMin(index + count - 1, m_model->count() - 1);
 
@@ -258,7 +263,9 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
 
     if (paused) {
         m_state = Paused;
-        killPreviewJob();
+        // The job in flight keeps the screen it is making, and only the screens after it are held
+        // back. What it finishes while this lasts is stored in the thumbnail cache, so the job
+        // that runs when the view settles reads it back rather than making it again.
     } else {
         const bool updatePreviews = (m_iconSizeChangedDuringPausing && m_previewShown) || m_previewChangedDuringPausing;
         const bool resolveAll = updatePreviews || m_rolesChangedDuringPausing;
@@ -442,6 +449,11 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         m_changedItems.clear();
         m_hoverSequenceLoadedItems.clear();
 
+        // The next folder is shown from its top, travelling forwards.
+        m_viewIsMovingBackwards = false;
+        m_firstVisibleIndex = 0;
+        m_lastVisibleIndex = -1;
+
         killPreviewJob();
         if (!m_model->showDirectoriesOnly()) {
             m_directoryContentsCounter->stopWorker();
@@ -606,6 +618,10 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
 
 void KFileItemModelRolesUpdater::slotPreviewJobFinished()
 {
+    if (!m_pendingPreviewItems.isEmpty() && m_state != Paused) {
+        startPreviewJob();
+        return;
+    }
     m_previewJob = nullptr;
 
     if (m_state != PreviewJobRunning) {
@@ -972,8 +988,12 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         return;
     }
 
-    const KFileItemList items = m_pendingPreviewItems;
-    m_pendingPreviewItems.clear();
+    // One screen at a time. The job is killed whenever the view moves or the updater is paused,
+    // and the work in flight goes with it, so a job that covers the whole window loses hundreds of
+    // items each time. The rest stays pending and follows when this one is done.
+    const int chunk = qMax(1, m_maximumVisibleItems);
+    KFileItemList items = m_pendingPreviewItems.mid(0, chunk);
+    m_pendingPreviewItems = m_pendingPreviewItems.mid(items.count());
 
     KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
@@ -1438,12 +1458,26 @@ void KFileItemModelRolesUpdater::killPreviewJob()
     }
 }
 
+int KFileItemModelRolesUpdater::previewWindowFirst() const
+{
+    const int pages = m_viewIsMovingBackwards ? PagesAhead : PagesBehind;
+    const int reach = pages * m_maximumVisibleItems;
+    return qBound(0, m_firstVisibleIndex - reach, qMax(0, m_model->count() - 1));
+}
+
+int KFileItemModelRolesUpdater::previewWindowLast() const
+{
+    const int pages = m_viewIsMovingBackwards ? PagesBehind : PagesAhead;
+    const int reach = pages * m_maximumVisibleItems;
+    return qBound(0, m_lastVisibleIndex + reach, qMax(0, m_model->count() - 1));
+}
+
 QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
 {
     const int count = m_model->count();
 
     QList<int> result;
-    result.reserve(qMin(count, (m_lastVisibleIndex - m_firstVisibleIndex + 1) + ResolveAllItemsLimit + (2 * m_maximumVisibleItems)));
+    result.reserve(qMin(count, (m_lastVisibleIndex - m_firstVisibleIndex + 1) + ((PagesAhead + PagesBehind) * m_maximumVisibleItems)));
 
     // Add visible items.
     // Resolve files first, their previews are quicker.
@@ -1459,46 +1493,26 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
 
     result.append(visibleDirs);
 
-    // We need a reasonable upper limit for number of items to resolve after
-    // and before the visible range. m_maximumVisibleItems can be quite large
-    // when using Compact View.
-    const int readAheadItems = qMin(ReadAheadPages * m_maximumVisibleItems, ResolveAllItemsLimit / 2);
+    // A window that follows the view: the screens ahead of it first, then the ones behind. Every
+    // item beyond that is left alone until the view comes near it.
+    const int windowFirst = previewWindowFirst();
+    const int windowLast = previewWindowLast();
 
-    // Add items after the visible range.
-    const int endExtendedVisibleRange = qMin(m_lastVisibleIndex + readAheadItems, count - 1);
-    for (int i = m_lastVisibleIndex + 1; i <= endExtendedVisibleRange; ++i) {
-        result.append(i);
-    }
-
-    // Add items before the visible range in reverse order.
-    const int beginExtendedVisibleRange = qMax(0, m_firstVisibleIndex - readAheadItems);
-    for (int i = m_firstVisibleIndex - 1; i >= beginExtendedVisibleRange; --i) {
-        result.append(i);
-    }
-
-    // Add items on the last page.
-    const int beginLastPage = qMax(endExtendedVisibleRange + 1, count - m_maximumVisibleItems);
-    for (int i = beginLastPage; i < count; ++i) {
-        result.append(i);
-    }
-
-    // Add items on the first page.
-    const int endFirstPage = qMin(beginExtendedVisibleRange, m_maximumVisibleItems);
-    for (int i = 0; i < endFirstPage; ++i) {
-        result.append(i);
-    }
-
-    // Continue adding items until ResolveAllItemsLimit is reached.
-    int remainingItems = ResolveAllItemsLimit - result.count();
-
-    for (int i = endExtendedVisibleRange + 1; i < beginLastPage && remainingItems > 0; ++i) {
-        result.append(i);
-        --remainingItems;
-    }
-
-    for (int i = beginExtendedVisibleRange - 1; i >= endFirstPage && remainingItems > 0; --i) {
-        result.append(i);
-        --remainingItems;
+    // The side the view is travelling towards comes first, since that is what it reaches next.
+    if (m_viewIsMovingBackwards) {
+        for (int i = m_firstVisibleIndex - 1; i >= windowFirst; --i) {
+            result.append(i);
+        }
+        for (int i = m_lastVisibleIndex + 1; i <= windowLast; ++i) {
+            result.append(i);
+        }
+    } else {
+        for (int i = m_lastVisibleIndex + 1; i <= windowLast; ++i) {
+            result.append(i);
+        }
+        for (int i = m_firstVisibleIndex - 1; i >= windowFirst; --i) {
+            result.append(i);
+        }
     }
 
     return result;

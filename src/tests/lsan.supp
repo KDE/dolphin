@@ -1,0 +1,34 @@
+# LeakSanitizer suppressions for running the dolphin tests under ASAN.
+#
+# These match leaks reported inside external libraries at process exit. They
+# are not dolphin bugs, so silencing them keeps real dolphin leaks visible.
+#
+# Usage (path must be absolute or relative to the working directory):
+#   LSAN_OPTIONS=suppressions=$PWD/src/tests/lsan.supp \
+#   ASAN_OPTIONS=detect_leaks=1 \
+#   ctest --output-on-failure
+
+# Qt Wayland platform plugin: per-window expose state, kept until exit.
+leak:libQt6WaylandClient
+
+# Wayland client library: proxy objects created for menu popups. When a
+# grabbing popup cannot be created in the test session the proxy is not
+# torn down, and the only frames captured for the leak are inside
+# libwayland-client itself, so the Qt plugin suppression above misses it.
+leak:libwayland-client
+
+# xkbcommon context, created while the Wayland platform integration is built.
+# QWaylandDisplay holds it in a ScopedXKBContext and QGuiApplicationPrivate
+# deletes the integration at exit, so it is owned, but the leak check runs while
+# it is still alive and reports it as an indirect leak. Named after the
+# allocating function rather than the library, so that a real leak of an
+# xkbcommon object stays visible.
+leak:xkb_context_new
+
+# Breeze style: per-widget animation data, registered on polish and freed when
+# the widget is destroyed (still reachable at exit).
+leak:Breeze::
+
+# KDE Plasma platform theme plugin: shared config and an OpenGL context set up
+# while building the platform integration at application start, kept until exit.
+leak:KDEPlasmaPlatformTheme6
