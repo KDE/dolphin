@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-24 00:48+0000\n"
-"PO-Revision-Date: 2026-07-29 14:19+0300\n"
+"PO-Revision-Date: 2026-08-24 12:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7015,12 +7015,10 @@ msgid "Restore to Defaults"
 msgstr "Відновити типове"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "Відновити типове значення для параметрів перегляду"
+msgstr "Відновити типові значення для параметрів перегляду"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format

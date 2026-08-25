@@ -6672,12 +6672,10 @@ msgid "Restore to Defaults"
 msgstr "恢复默认值"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "恢复视图设置为默认值"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format

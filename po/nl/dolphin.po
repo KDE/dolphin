@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-24 00:48+0000\n"
-"PO-Revision-Date: 2026-07-29 10:51+0200\n"
+"PO-Revision-Date: 2026-08-24 10:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6934,9 +6934,7 @@ msgid "Restore to Defaults"
 msgstr "Standaardinstellingen herstellen"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Weergave-instellingen herstellen naar standaardwaarden"

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-24 00:48+0000\n"
-"PO-Revision-Date: 2026-07-29 11:00+0200\n"
+"PO-Revision-Date: 2026-08-24 19:49+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6908,9 +6908,7 @@ msgid "Restore to Defaults"
 msgstr "Obnovit na výchozí"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Obnovit nastavení zobrazení na výchozí hodnoty"
