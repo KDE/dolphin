@@ -15,7 +15,6 @@
 #include "config-dolphin.h"
 #include <KFileItem>
 
-#include <QImage>
 #include <QObject>
 #include <QSet>
 #include <QSize>
@@ -109,16 +108,6 @@ public:
      */
     void setPreviewsShown(bool show);
     bool previewsShown() const;
-
-    /**
-     * Returns the already-cached thumbnail for the item as a ready-to-show pixmap
-     * (scaled and framed), or a null pixmap when none is cached. Synchronous, so the
-     * view can show cached thumbnails on the first paint; the model is written later by
-     * this updater on its own turn. The caller passes the target icon size, because the
-     * internal one may not be set yet that early. Falls back to a smaller cache bucket
-     * so a too-small thumbnail is shown rather than a generic icon.
-     */
-    QPixmap cachedPreviewPixmap(const KFileItem &item, const QSize &iconSize);
 
     /**
      * If enabled a small preview gets upscaled to the icon size in case where
@@ -301,7 +290,7 @@ private:
      * @param image A raw preview image from a PreviewJob.
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewImage(const QImage &image, const QSize &iconSize);
+    QPixmap transformPreviewImage(const QImage &image);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.
@@ -357,36 +346,11 @@ private:
     void recountDirectoryItems(const QList<QUrl> &directories);
 
 private:
-    QSize cacheSize(const QSize &iconSize);
-
-    // Cached thumbnail for the item at requestSize, with a fallback to a smaller cache
-    // bucket on a miss. Sets fromRequestedBucket to whether the hit came from the
-    // requested bucket (a fallback hit is not final). Returns a null image on a full miss.
-    QImage cachedPreviewWithFallback(const KFileItem &item, const QSize &requestSize, bool &fromRequestedBucket);
-
-    // Writes the thumbnails that were read for the widgets of visible items into the model.
-    void applyPreviewsReadForWidgets();
+    QSize cacheSize();
     /**
      * enqueue directory size counting for KFileItem item at index
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
-
-    // A thumbnail read from the cache while the view was creating a widget, held until the
-    // model can be written on the next turn of the event loop. requestSize is the cache
-    // bucket it was asked for, and fromRequestedBucket says whether the hit came from that
-    // bucket rather than from a smaller one.
-    struct PreviewReadForWidget {
-        KFileItem item;
-        QImage image;
-        QSize requestSize;
-        QSize iconSize;
-        bool fromRequestedBucket = false;
-    };
-    // Held by the url of the item, so that the pass over the visible items can use the image
-    // instead of reading the same cache entry again. An icon size change keeps the same cache
-    // bucket in most cases, and requestSize is what says whether it still does.
-    QHash<QUrl, PreviewReadForWidget> m_previewsReadForWidgets;
-    bool m_previewsReadForWidgetsFlushScheduled = false;
 
     enum State {
         Idle,
@@ -473,8 +437,6 @@ private:
     Baloo::FileMonitor *m_balooFileMonitor;
     Baloo::IndexerConfig m_balooConfig;
 #endif
-
-    friend class KFileItemModelRolesUpdaterTest; // For unit testing
 };
 
 #endif
