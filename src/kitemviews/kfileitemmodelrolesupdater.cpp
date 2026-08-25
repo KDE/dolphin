@@ -63,6 +63,13 @@ const int PagesKeptBehind = 2;
 const int PagesAhead = 6;
 const int PagesBehind = 1;
 
+// How many items are taken to be on screen while the view has not said, measured against a screen of
+// this size: a large thumbnail leaves room for a couple of dozen, a small one for hundreds.
+const int GuessedScreenArea = 1920 * 1200;
+const int GuessedItemMargin = 40;
+const int FewestItemsGuessedOnScreen = 20;
+const int MostItemsGuessedOnScreen = 400;
+
 // However many screens that comes to, no more thumbnails are held than fit in this. One costs its
 // icon size squared in device pixels, four bytes a pixel, so the same figure is thousands of items
 // at a small zoom and a couple of screens at a large one, which is where the cost actually is.
@@ -472,6 +479,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         m_recentlyChangedItemsTimer->stop();
         m_changedItems.clear();
         m_hoverSequenceLoadedItems.clear();
+        m_cachedPreviewPassPending = false;
 
         // The next folder is shown from its top, travelling forwards.
         m_viewIsMovingBackwards = false;
@@ -928,6 +936,10 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
 
 void KFileItemModelRolesUpdater::startUpdating()
 {
+    // Reading the cache happens on threads of the job's own and touches neither the view nor its
+    // layout, so it goes ahead while the view is busy. It is what the first paint has to show.
+    readCachedPreviewsForVisibleItems();
+
     if (m_state == Paused) {
         return;
     }
@@ -1479,6 +1491,99 @@ void KFileItemModelRolesUpdater::killPreviewJob()
         m_previewJob->kill();
         m_previewJob = nullptr;
         m_pendingPreviewItems.clear();
+    }
+}
+
+int KFileItemModelRolesUpdater::itemsGuessedOnScreen() const
+{
+    // From the icon size alone, since the view has not said how large it is. Scaling and framing
+    // each thumbnail costs the drawing thread, so the guess has to shrink as the thumbnails grow.
+    const int side = qMax(16, m_iconSize.height()) + GuessedItemMargin;
+    return qBound(FewestItemsGuessedOnScreen, GuessedScreenArea / (side * side), MostItemsGuessedOnScreen);
+}
+
+void KFileItemModelRolesUpdater::readCachedPreviewsForVisibleItems()
+{
+    if (!m_previewShown || m_model->count() == 0) {
+        return;
+    }
+
+    if (m_cachedPreviewJob) {
+        // One at a time. The view may have moved on by the time this one ends, and the next is
+        // asked for from what is on screen then.
+        m_cachedPreviewPassPending = true;
+        return;
+    }
+
+    // A screen of items, guessed while the view has not said what it shows yet, so that the reading
+    // is under way before the first layout rather than after it. The guess is generous, because a
+    // screen of the compact view at a small icon size holds a couple of hundred, and a lookup that
+    // turns out not to be wanted costs a fraction of a millisecond on a thread of the job's own.
+    int lastIndex = m_lastVisibleIndex;
+    if (lastIndex < m_firstVisibleIndex) {
+        lastIndex = qMin(m_firstVisibleIndex + qMax(m_maximumVisibleItems, itemsGuessedOnScreen()), m_model->count() - 1);
+    }
+
+    KFileItemList items;
+    for (int index = m_firstVisibleIndex; index <= lastIndex; ++index) {
+        const KFileItem item = m_model->fileItem(index);
+        if (!item.isNull() && !m_finishedItems.contains(item)) {
+            items.append(item);
+        }
+    }
+    if (items.isEmpty()) {
+        return;
+    }
+
+    m_cachedPreviewRequestSize = cacheSize();
+    auto *job = new KIO::PreviewJob(items, m_cachedPreviewRequestSize, &m_enabledPlugins);
+    job->setCachedThumbnailsOnly(true);
+    job->setDevicePixelRatio(m_devicePixelRatio);
+    job->setUiDelegate(nullptr);
+
+    connect(job, &KIO::PreviewJob::generated, this, &KFileItemModelRolesUpdater::slotGotCachedPreview);
+    connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotCachedPreviewsRead);
+
+    m_cachedPreviewJob = job;
+}
+
+void KFileItemModelRolesUpdater::slotCachedPreviewsRead()
+{
+    m_cachedPreviewJob = nullptr;
+    if (m_cachedPreviewPassPending) {
+        m_cachedPreviewPassPending = false;
+        readCachedPreviewsForVisibleItems();
+    }
+}
+
+void KFileItemModelRolesUpdater::slotGotCachedPreview(const KFileItem &item, const QImage &image)
+{
+    if (image.isNull() || m_finishedItems.contains(item)) {
+        return;
+    }
+    const int index = m_model->index(item);
+    if (index < 0) {
+        return;
+    }
+
+    // Only what the view shows, and only a screen of it while the view has not said what that is.
+    // Scaling and framing a thumbnail happens here, on the thread that draws, and the guess made
+    // before the view reported its range reaches further than a screen. What is dropped is read
+    // again by the job that makes the previews.
+    const int last = m_lastVisibleIndex >= m_firstVisibleIndex ? m_lastVisibleIndex : m_firstVisibleIndex + qMax(m_maximumVisibleItems, itemsGuessedOnScreen());
+    if (index < m_firstVisibleIndex || index > last) {
+        return;
+    }
+
+    SmallHash data = rolesData(item, index);
+    data.insert("iconPixmap", transformPreviewImage(image));
+    setModelData(index, data);
+
+    // A thumbnail out of a smaller bucket of the cache comes back smaller than the size that was
+    // asked for. It is shown as it is for the moment, and the job makes the size that is wanted.
+    const int askedFor = qRound(m_devicePixelRatio * qMax(m_cachedPreviewRequestSize.width(), m_cachedPreviewRequestSize.height()));
+    if (qMax(image.width(), image.height()) >= askedFor && m_cachedPreviewRequestSize == cacheSize()) {
+        m_finishedItems.insert(item);
     }
 }
 

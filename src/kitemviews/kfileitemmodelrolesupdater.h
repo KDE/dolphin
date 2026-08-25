@@ -16,6 +16,7 @@
 #include <KFileItem>
 
 #include <QObject>
+#include <QPointer>
 #include <QSet>
 #include <QSize>
 #include <QStringList>
@@ -352,6 +353,17 @@ private:
      */
     void startDirectorySizeCounting(const KFileItem &item, int index);
 
+    // How many items a screen might hold at the icon size in use, for as long as the view has not
+    // said what it shows.
+    int itemsGuessedOnScreen() const;
+
+    // Asks for the thumbnails the items on screen already have in the cache, and writes each one
+    // into the model as it arrives. The job that answers makes nothing and reads on threads of its
+    // own, so it can be asked while the view is busy.
+    void readCachedPreviewsForVisibleItems();
+    void slotGotCachedPreview(const KFileItem &item, const QImage &image);
+    void slotCachedPreviewsRead();
+
     // Gives back the thumbnail of anything further behind the view than a screen, on the side the
     // view is moving away from, so that a walk through a large directory does not end up holding
     // one per file. Such an item is read from the cache again if the view turns round.
@@ -408,6 +420,15 @@ private:
     KFileItemModel *m_model;
     QSize m_iconSize;
     qreal m_devicePixelRatio;
+
+    QPointer<KIO::PreviewJob> m_cachedPreviewJob;
+
+    // The cache bucket the pass in flight asked for. A thumbnail from another bucket is not final,
+    // since the icon size may have changed while the pass was running.
+    QSize m_cachedPreviewRequestSize;
+
+    // The view moved while a pass was running, so another one is wanted for what is on screen now.
+    bool m_cachedPreviewPassPending = false;
     // Which way the visible range last moved, so the window can reach ahead of it.
     bool m_viewIsMovingBackwards = false;
     int m_firstVisibleIndex;

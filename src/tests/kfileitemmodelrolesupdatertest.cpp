@@ -8,6 +8,7 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
+#include <QCryptographicHash>
 #include <QDir>
 #include <QFileInfo>
 #include <QImage>
@@ -30,8 +31,22 @@ private Q_SLOTS:
     void testTheWindowLeansTheWayTheViewIsMoving();
     void testASmallMovementDoesNotTurnTheWindowRound();
     void testWhatIsFarBehindTheViewIsGivenBack();
+    void testRequestedBucketHitIsShownAndFinished();
+    void testSmallerBucketFallbackIsShownButNotFinished();
 
 private:
+    // Writes a valid freedesktop thumbnail of the given pixel size for url into the given cache
+    // tier ("normal", "large", ...). The cache is redirected to a temporary location by the test
+    // mode enabled in initTestCase().
+    static void writeCachedThumbnail(const QUrl &url, const QString &tier, int sizePx, qint64 mtimeSecs, qint64 fileSize);
+
+    // Creates a single file, loads its directory into the model, and returns its item.
+    KFileItem loadSingleFile();
+
+    // Sets the updater up for a pass over a single visible item, with previews shown at a 256 px
+    // request and device pixel ratio 1.
+    void primeUpdater();
+
     TestDir *m_testDir = nullptr;
     KFileItemModel *m_model = nullptr;
     KFileItemModelRolesUpdater *m_updater = nullptr;
@@ -203,6 +218,86 @@ void KFileItemModelRolesUpdaterTest::testWhatIsFarBehindTheViewIsGivenBack()
     QVERIFY(m_updater->m_finishedItems.contains(m_model->fileItem(300)));
     QVERIFY(!m_model->data(285).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
     QVERIFY(!m_model->data(300).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+}
+
+void KFileItemModelRolesUpdaterTest::writeCachedThumbnail(const QUrl &url, const QString &tier, int sizePx, qint64 mtimeSecs, qint64 fileSize)
+{
+    const QByteArray encoded = url.toEncoded(QUrl::RemovePassword | QUrl::FullyEncoded);
+    const QString name = QString::fromLatin1(QCryptographicHash::hash(encoded, QCryptographicHash::Md5).toHex()) + QStringLiteral(".png");
+    const QString dir = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/thumbnails/") + tier + QLatin1Char('/');
+    QDir().mkpath(dir);
+
+    QImage thumb(sizePx, sizePx, QImage::Format_ARGB32);
+    thumb.fill(Qt::blue);
+    thumb.setText(QStringLiteral("Thumb::URI"), QString::fromUtf8(encoded));
+    thumb.setText(QStringLiteral("Thumb::MTime"), QString::number(mtimeSecs));
+    thumb.setText(QStringLiteral("Thumb::Size"), QString::number(fileSize));
+    thumb.save(dir + name, "png");
+}
+
+KFileItem KFileItemModelRolesUpdaterTest::loadSingleFile()
+{
+    m_testDir->createFile("image.png");
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
+    m_model->loadDirectory(m_testDir->url());
+    loadingCompletedSpy.wait();
+    return m_model->fileItem(0);
+}
+
+void KFileItemModelRolesUpdaterTest::primeUpdater()
+{
+    m_updater = new KFileItemModelRolesUpdater(m_model, this);
+    m_updater->setDevicePixelRatio(1.0);
+    // An icon size above 128 selects the 256 px ("large") cache bucket.
+    m_updater->setIconSize(QSize(256, 256));
+    // Set the members directly so the asynchronous update flow is not started.
+    m_updater->m_previewShown = true;
+    m_updater->m_firstVisibleIndex = 0;
+    m_updater->m_lastVisibleIndex = 0;
+}
+
+void KFileItemModelRolesUpdaterTest::testRequestedBucketHitIsShownAndFinished()
+{
+    const KFileItem item = loadSingleFile();
+    QCOMPARE(m_model->count(), 1);
+    const int index = m_model->index(item);
+
+    // A current thumbnail cached in the requested (large) bucket.
+    writeCachedThumbnail(item.targetUrl(), QStringLiteral("large"), 256, item.time(KFileItem::ModificationTime).toSecsSinceEpoch(), item.size());
+
+    primeUpdater();
+    // The pass the updater makes over the items on screen, which asks the cache through a job that
+    // makes nothing and writes what it finds into the model.
+    m_updater->readCachedPreviewsForVisibleItems();
+    QTRY_VERIFY(!m_model->data(0).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+
+    // Shown on the first paint, and final: the item is finished, so the asynchronous
+    // preview job will not read the cache entry again.
+    SmallHash data = m_model->data(index);
+    QVERIFY(!data["iconPixmap"].value<QPixmap>().isNull());
+    QVERIFY(m_updater->m_finishedItems.contains(item));
+}
+
+void KFileItemModelRolesUpdaterTest::testSmallerBucketFallbackIsShownButNotFinished()
+{
+    const KFileItem item = loadSingleFile();
+    QCOMPARE(m_model->count(), 1);
+    const int index = m_model->index(item);
+
+    // Nothing is cached in the requested (large) bucket, only in the smaller (normal) one.
+    writeCachedThumbnail(item.targetUrl(), QStringLiteral("normal"), 128, item.time(KFileItem::ModificationTime).toSecsSinceEpoch(), item.size());
+
+    primeUpdater();
+    // The pass the updater makes over the items on screen, which asks the cache through a job that
+    // makes nothing and writes what it finds into the model.
+    m_updater->readCachedPreviewsForVisibleItems();
+    QTRY_VERIFY(!m_model->data(0).value(QByteArrayLiteral("iconPixmap")).value<QPixmap>().isNull());
+
+    // The smaller thumbnail is shown at once (upscaled) rather than a generic icon, but the
+    // item is left unfinished so the asynchronous job still generates the proper size.
+    SmallHash data = m_model->data(index);
+    QVERIFY(!data["iconPixmap"].value<QPixmap>().isNull());
+    QVERIFY(!m_updater->m_finishedItems.contains(item));
 }
 
 QTEST_MAIN(KFileItemModelRolesUpdaterTest)
