@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-23 02:41+0000\n"
-"PO-Revision-Date: 2026-08-23 15:49+0300\n"
+"PO-Revision-Date: 2026-08-24 16:07+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -1611,6 +1611,9 @@ msgid ""
 "even set secondary languages which will be used if texts are not available "
 "in your preferred language."
 msgstr ""
+"Tai naudodami galite pakeisti kalbą, kurią naudoja ši programa.<nl/>Galite "
+"netgi nustatyti antrines kalbas, kurios bus naudojamos tuo atveju, jei "
+"tekstai nebus prieinami jūsų pageidaujama kalba."
 
 #: dolphinmainwindow.cpp:3075
 #, kde-kuit-format
@@ -3048,6 +3051,9 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"<application>Dolphin</application> paleidimas naudojant <command>sudo</"
+"command> yra primygtinai nerekomenduojamas. Vietoj to, paleiskite <icode>%1</"
+"icode>."
 
 #: main.cpp:96
 #, kde-format
@@ -3704,6 +3710,10 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Šiuo metu paieška failų turinyje naudojant <application>%1</"
+"application> yra neįmanoma, nes <application>%1</application> yra "
+"sukonfigūruota taip, kad niekada nekurtų failų turiniui skirto paieškos "
+"indekso.</para>"
 
 #: search/popup.cpp:292
 #, kde-format
@@ -3932,6 +3942,11 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Pažymėti failai ir aplankai buvo pridėti į iškarpinę. Dabar gali būti "
+"naudojamas veiksmas <emphasis>Įdėti</emphasis>, kad jie būtų perduoti iš "
+"iškarpinės į bet kurią kitą vietą. Jie netgi gali būti perduoti į kitas "
+"programas naudojant atitinkamus tų programų <emphasis>Įdėti</emphasis> "
+"veiksmus.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:435
 #, kde-format
