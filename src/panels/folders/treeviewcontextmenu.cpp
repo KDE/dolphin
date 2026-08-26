@@ -7,6 +7,7 @@
 
 #include "treeviewcontextmenu.h"
 
+#include "copy/foldermerge.h"
 #include "folderspanel.h"
 #include "global.h"
 
@@ -178,6 +179,7 @@ void TreeViewContextMenu::paste()
 {
     KIO::PasteJob *job = KIO::paste(QApplication::clipboard()->mimeData(), m_fileItem.url());
     KJobWidgets::setWindow(job, m_parent);
+    FolderMerge::enableForCopiesOf(job);
 }
 
 void TreeViewContextMenu::rename()

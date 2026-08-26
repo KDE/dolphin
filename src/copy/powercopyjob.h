@@ -29,9 +29,13 @@
  * copy_file_range, extended attributes, ACLs, timestamps and the .part file
  * that makes an interrupted copy safe all behave exactly as before.
  *
+ * A folder that meets a folder of the same name at the destination is merged
+ * into it, the way Windows Explorer does; see FolderMerge for the same rule on
+ * KIO's own path.
+ *
  * The job hands the whole operation back to KIO::copy() before touching
- * anything when it cannot do better: a destination that already exists, too few
- * files to be worth it, or sources that are not local.
+ * anything when it cannot do better: a file already in the way, too few files
+ * to be worth it, or sources that are not local.
  */
 class DOLPHIN_EXPORT PowerCopyJob : public KIO::Job
 {

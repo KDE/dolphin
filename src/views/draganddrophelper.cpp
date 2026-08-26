@@ -7,6 +7,8 @@
 
 #include "draganddrophelper.h"
 
+#include "copy/foldermerge.h"
+
 #include <KIO/DropJob>
 #include <KJobWidgets>
 
@@ -55,6 +57,9 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
         // Drop into a directory or a desktop-file
         KIO::DropJob *job = KIO::drop(event, destUrl, dropjobFlags);
         KJobWidgets::setWindow(job, window);
+        // Folders dropped onto folders of the same name are merged, not asked
+        // about; the copy job only exists once the drop menu has been answered.
+        FolderMerge::enableForCopiesOf(job);
         return job;
     }
 

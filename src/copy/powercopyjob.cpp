@@ -7,6 +7,7 @@
 #include "powercopyjob.h"
 
 #include "dolphin_powercopysettings.h"
+#include "foldermerge.h"
 
 #include <KIO/CopyJob>
 #include <KIO/FileCopyJob>
@@ -26,6 +27,16 @@ bool allLocal(const QList<QUrl> &urls)
     return std::all_of(urls.cbegin(), urls.cend(), [](const QUrl &url) {
         return url.isLocalFile();
     });
+}
+
+/*!
+ * Whether @p source can simply be written into the @p target already there.
+ * Only a real folder over a real folder: a symlink is left to KIO, which
+ * knows what it points at.
+ */
+bool isMergeableFolder(const QFileInfo &source, const QFileInfo &target)
+{
+    return source.isDir() && target.isDir() && !target.isSymLink();
 }
 }
 
@@ -83,19 +94,26 @@ bool PowerCopyJob::buildPlan()
         }
 
         const QString target = destinationDir.filePath(name);
-        // Anything already in the way goes to KIO, which owns the overwrite,
-        // rename and skip dialogs. Nothing has been touched at this point.
-        if (QFileInfo::exists(target)) {
-            return false;
-        }
+        const QFileInfo targetInfo(target);
 
         if (sourceInfo.isSymLink() || (!sourceInfo.isDir() && !sourceInfo.isFile())) {
             // Symlinks and anything exotic keep KIO's careful handling.
             return false;
         }
 
+        // A folder meeting a folder of the same name is merged: the one at the
+        // destination stays and gains what the other one holds. Anything else
+        // in the way - a file over a file, a folder over a file - goes to KIO,
+        // which owns the overwrite, rename and skip dialogs. Nothing has been
+        // touched at this point.
+        if (targetInfo.exists() && !isMergeableFolder(sourceInfo, targetInfo)) {
+            return false;
+        }
+
         if (sourceInfo.isDir()) {
-            m_directories.append(QUrl::fromLocalFile(target));
+            if (!targetInfo.exists()) {
+                m_directories.append(QUrl::fromLocalFile(target));
+            }
             m_sourceDirectories.append(sourcePath);
 
             QDirIterator iterator(sourcePath, QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
@@ -104,12 +122,20 @@ bool PowerCopyJob::buildPlan()
                 const QFileInfo entryInfo = iterator.fileInfo();
                 const QString relative = QDir(sourcePath).relativeFilePath(entry);
                 const QString entryTarget = QDir(target).filePath(relative);
+                const QFileInfo entryTargetInfo(entryTarget);
 
                 if (entryInfo.isSymLink() || (!entryInfo.isDir() && !entryInfo.isFile())) {
                     return false;
                 }
+                // The same rule one level down: folders merge, everything else
+                // in the way hands the operation over.
+                if (entryTargetInfo.exists() && !isMergeableFolder(entryInfo, entryTargetInfo)) {
+                    return false;
+                }
                 if (entryInfo.isDir()) {
-                    m_directories.append(QUrl::fromLocalFile(entryTarget));
+                    if (!entryTargetInfo.exists()) {
+                        m_directories.append(QUrl::fromLocalFile(entryTarget));
+                    }
                     m_sourceDirectories.append(entry);
                 } else {
                     m_tasks.append({QUrl::fromLocalFile(entry), QUrl::fromLocalFile(entryTarget)});
@@ -142,6 +168,10 @@ void PowerCopyJob::runThroughKio()
     // operation would appear twice in the notification area.
     KJobWidgets::setWindow(job, KJobWidgets::window(this));
     setUiDelegate(nullptr);
+
+    // A folder that meets one of the same name is written into rather than
+    // asked about, the same as on the concurrent path above.
+    FolderMerge::enableFor(job);
 
     // Pass everything through, so a caller cannot tell which path was taken.
     connect(job, &KIO::CopyJob::copying, this, [this](KIO::Job *, const QUrl &from, const QUrl &to) {

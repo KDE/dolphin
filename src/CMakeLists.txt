@@ -113,6 +113,7 @@ target_sources(dolphinprivate PRIVATE
     views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
     views/dolphinremoteencoding.cpp
+    copy/foldermerge.cpp
     copy/powercopyjob.cpp
     views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp
