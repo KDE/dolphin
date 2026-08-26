@@ -1,0 +1,6 @@
+File=dolphin_powercopysettings.kcfg
+ClassName=PowerCopySettings
+Singleton=true
+Mutators=true
+IncludeFiles=dolphin_export.h
+Visibility=DOLPHIN_EXPORT

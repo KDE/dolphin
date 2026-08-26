@@ -113,6 +113,7 @@ target_sources(dolphinprivate PRIVATE
     views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
     views/dolphinremoteencoding.cpp
+    copy/powercopyjob.cpp
     views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
@@ -209,6 +210,7 @@ kconfig_add_kcfg_files(dolphinprivate
     settings/dolphin_generalsettings.kcfgc
     settings/dolphin_contextmenusettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
+    settings/dolphin_powercopysettings.kcfgc
     GENERATE_MOC
 )
 
@@ -335,6 +337,7 @@ target_sources(dolphinstatic PRIVATE
     settings/interface/previewssettingspage.cpp
     settings/dolphinsettingsdialog.cpp
     settings/contextmenu/contextmenusettingspage.cpp
+    settings/powercopy/powercopysettingspage.cpp
     settings/settingspagebase.cpp
     settings/servicemodel.cpp
     settings/trash/trashsettingspage.cpp

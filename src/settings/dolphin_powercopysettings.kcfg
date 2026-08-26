@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name="dolphinrc"/>
+  <group name="PowerCopy">
+    <entry name="Enabled" type="Bool">
+      <label>Copy several files at a time instead of one after another</label>
+      <default>true</default>
+    </entry>
+    <entry name="FilesInFlight" type="Int">
+      <label>How many file operations may be in flight at once</label>
+      <!-- Measured on ext4 and on an encrypted volume: nearly all of the gain
+           is already there at 2, and 4, 8 and 16 land within noise of each
+           other. 4 sits comfortably past the knee without queueing more than
+           a slow or rotational device would like. -->
+      <default>4</default>
+      <min>1</min>
+      <max>64</max>
+    </entry>
+    <entry name="MinimumFiles" type="Int">
+      <label>Below this many files the ordinary copy is used</label>
+      <default>8</default>
+      <min>2</min>
+      <max>10000</max>
+    </entry>
+  </group>
+</kcfg>

@@ -11,6 +11,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "interface/interfacesettingspage.h"
+#include "powercopy/powercopysettingspage.h"
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
 #if HAVE_KUSERFEEDBACK
@@ -70,6 +71,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     KPageWidgetItem *contextMenuSettingsFrame = addPage(contextMenuSettingsPage, i18nc("@title:group", "Context Menu"));
     contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-menu-edit")));
     connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+
+    // Copying
+    auto powerCopySettingsPage = new PowerCopySettingsPage(this);
+    KPageWidgetItem *powerCopyFrame = addPage(powerCopySettingsPage, i18nc("@title:group", "Copying"));
+    powerCopyFrame->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_pages.append(powerCopySettingsPage);
+    connect(powerCopySettingsPage, &PowerCopySettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
     SettingsPageBase *trashSettingsPage = nullptr;
