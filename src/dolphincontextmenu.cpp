@@ -85,6 +85,11 @@ void DolphinContextMenu::addAllActions()
         m_context |= TimelineContext;
     } else if (scheme == QStringLiteral("recentlyused")) {
         m_context |= RecentlyUsedContext;
+    } else if (scheme == QStringLiteral("snapshot")) {
+        const auto snapshotMode = m_baseUrl.path().section(QChar('/'), 0, 0, QString::SectionSkipEmpty);
+        if (snapshotMode == QLatin1String("file")) {
+            m_context = FileSnapshotsContext;
+        }
     }
 
     if (!m_fileInfo.isNull() && !m_selectedItems.isEmpty()) {
@@ -282,7 +287,7 @@ void DolphinContextMenu::addItemContextMenu()
         // single files
         if (m_fileInfo.isDir()) {
             addDirectoryItemContextMenu();
-        } else if (m_context & TimelineContext || m_context & SearchContext || m_context & RecentlyUsedContext) {
+        } else if (m_context & TimelineContext || m_context & SearchContext || m_context & RecentlyUsedContext || m_context & FileSnapshotsContext) {
             addOpenWithActions();
 
             addOpenParentFolderActions();

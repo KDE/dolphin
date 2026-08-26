@@ -10,6 +10,7 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
+#include "views/dolphinview.h"
 
 #include <QBuffer>
 #include <QCryptographicHash>
@@ -160,6 +161,8 @@ ViewProperties::ViewProperties(const QUrl &url)
     bool useTrashView = false;
     bool useRecentDocumentsView = false;
     bool useDownloadsView = false;
+    bool useSnapshotsView = false;
+    bool useFileSnapshotsView = false;
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
@@ -176,6 +179,20 @@ ViewProperties::ViewProperties(const QUrl &url)
     } else if (url.scheme() == QLatin1String("timeline")) {
         m_filePath = destinationDir(QStringLiteral("timeline"));
         useRecentDocumentsView = true;
+    } else if (url.scheme() == QLatin1String("snapshot")) {
+        const auto mode = url.path().section(QChar('/'), 0, 0, QString::SectionSkipEmpty);
+        if (mode == QLatin1String("file")) {
+            useFileSnapshotsView = true;
+            m_filePath = destinationDir(QStringLiteral("snapshot_file"));
+        } else {
+            const auto numComponents = url.adjusted(QUrl::StripTrailingSlash).path().count(QChar('/'));
+            qDebug() << numComponents;
+            if (numComponents == 2) {
+                // snapshot:// /subvolume/{subvolumeId}
+                useSnapshotsView = true;
+                m_filePath = destinationDir(QStringLiteral("snapshot_subvolume"));
+            }
+        }
     } else if (useGlobalViewProps) {
         m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.isLocalFile()) {
@@ -241,12 +258,13 @@ ViewProperties::ViewProperties(const QUrl &url)
     bool useDefaultSettings =
         // If the props timestamp is too old,
         // use default values instead.
-        (propsOpt && (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
+        (propsOpt
+         && (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView || useSnapshotsView || useFileSnapshotsView)
          && propsOpt->timestamp() < settings->viewPropsTimestamp())
         // When global view props is on and this is a special folder (search, trash,
         // recents/timeline, downloads), only apply defaults on the first visit.
         // On subsequent visits the user's saved properties should be preserved.
-        || (useGlobalViewProps && !(useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView));
+        || (useGlobalViewProps && !(useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView || useSnapshotsView || useFileSnapshotsView));
 
     if (propsOpt) {
         m_node = propsOpt;
@@ -279,6 +297,20 @@ ViewProperties::ViewProperties(const QUrl &url)
         } else if (useTrashView) {
             setViewMode(DolphinView::DetailsView);
             setVisibleRoles({"text", "path", "deletiontime"});
+        } else if (useSnapshotsView) {
+            setViewMode(DolphinView::DetailsView);
+            setSortRole(QByteArrayLiteral("creationtime"));
+            setSortOrder(Qt::DescendingOrder);
+            setGroupedSorting(true);
+            setVisibleRoles({"text", "creationtime", "size"});
+        } else if (useFileSnapshotsView) {
+            setViewMode(DolphinView::DetailsView);
+            setSortRole(QByteArrayLiteral("creationtime"));
+            setSortOrder(Qt::DescendingOrder);
+            setGroupedSorting(true);
+            setVisibleRoles({"text", "modificationtime", "size"});
+            setPreviewsShown(true);
+            setHiddenFilesShown(true);
         } else if (useRecentDocumentsView || useDownloadsView) {
             setSortOrder(Qt::DescendingOrder);
             setSortFoldersFirst(false);
