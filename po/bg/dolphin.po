@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-23 02:41+0000\n"
-"PO-Revision-Date: 2026-08-12 23:02+0200\n"
-"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
+"PO-Revision-Date: 2026-08-19 19:15+0300\n"
+"Last-Translator: Kiril Vladimirov <kiril@vld.bg>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
@@ -361,8 +361,8 @@ msgstr ""
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Неуспешно създаване на поддиректория: Изберете една директория, в която "
-"имате право за запис."
+"Не може да се създаде нова подпапка: Изберете една папка, в която имате "
+"право за запис."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -2686,7 +2686,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "'Вчера' (ММММ, гггг)"
+msgstr "'Вчера' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
@@ -2702,7 +2702,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "дддд (ММММ, гггг)"
+msgstr "dddd (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2858
 #, kde-format
@@ -2720,7 +2720,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr "'Преди седмица' (ММММ, гггг)"
+msgstr "'Преди седмица' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
@@ -2756,7 +2756,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "'Преди три седмици' (ММММ, гггг)"
+msgstr "'Преди три седмици' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2915
 #, kde-format
@@ -2774,7 +2774,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "'По-рано през' ММММ, гггг"
+msgstr "'По-рано през' MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2936
 #, kde-format
@@ -2790,7 +2790,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr "ММММ, гггг"
+msgstr "MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2954
 #, kde-format
@@ -6598,7 +6598,7 @@ msgstr "Създаване на папка…"
 #, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Създаване на подкаталог…"
+msgstr "Създаване на подпапка…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -7106,3 +7106,7 @@ msgstr "Мащабиране"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Мащабиране"
+
+#~ msgctxt "@action:button"
+#~ msgid "Open with %1"
+#~ msgstr "Отваряне с %1"
