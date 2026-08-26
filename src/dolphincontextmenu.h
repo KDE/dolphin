@@ -69,6 +69,12 @@ private:
     void addTrashContextMenu();
     void addTrashItemContextMenu();
     void addItemContextMenu();
+    /**
+     * Adds the user's own entries for the current selection, if any are
+     * configured for its kind.
+     */
+    void addCustomActions();
+
     void addViewportContextMenu();
 
     void insertDefaultItemActions(const KFileItemListProperties &);

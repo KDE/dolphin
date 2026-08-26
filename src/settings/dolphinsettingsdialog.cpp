@@ -8,6 +8,7 @@
 
 #include "config-dolphin.h"
 #include "contextmenu/contextmenusettingspage.h"
+#include "customactions/customactionssettingspage.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "interface/interfacesettingspage.h"
@@ -70,6 +71,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     KPageWidgetItem *contextMenuSettingsFrame = addPage(contextMenuSettingsPage, i18nc("@title:group", "Context Menu"));
     contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-menu-edit")));
     connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+
+    // Custom Actions
+    auto customActionsSettingsPage = new CustomActionsSettingsPage(this);
+    KPageWidgetItem *customActionsFrame = addPage(customActionsSettingsPage, i18nc("@title:group", "Custom Actions"));
+    customActionsFrame->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    m_pages.append(customActionsSettingsPage);
+    connect(customActionsSettingsPage, &CustomActionsSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
     SettingsPageBase *trashSettingsPage = nullptr;

@@ -6,6 +6,8 @@
 
 #include "dolphincontextmenu.h"
 
+#include "customactions.h"
+
 #include "dolphin_contextmenusettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
@@ -324,6 +326,8 @@ void DolphinContextMenu::addItemContextMenu()
 
     addAdditionalActions(selectedItemsProps);
 
+    addCustomActions();
+
     // insert 'Copy To' and 'Move To' sub menus
     if (ContextMenuSettings::showCopyMoveMenu()) {
         m_copyToMenu.setUrls(m_selectedItems.urlList());
@@ -346,6 +350,40 @@ void DolphinContextMenu::addItemContextMenu()
     addSeparator();
     QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
+}
+
+void DolphinContextMenu::addCustomActions()
+{
+    // Entries are kept apart for directories and files; a mixed selection gets
+    // neither, since an entry written for one rarely fits the other.
+    bool onlyDirectories = true;
+    bool onlyFiles = true;
+    for (const KFileItem &item : std::as_const(m_selectedItems)) {
+        if (item.isDir()) {
+            onlyFiles = false;
+        } else {
+            onlyDirectories = false;
+        }
+    }
+    if (!onlyDirectories && !onlyFiles) {
+        return;
+    }
+
+    const auto target = onlyDirectories ? CustomActions::Target::Directories : CustomActions::Target::Files;
+    const QList<CustomActions::Entry> entries = CustomActions::load(target);
+    if (entries.isEmpty()) {
+        return;
+    }
+
+    const QList<QUrl> urls = m_selectedItems.urlList();
+
+    addSeparator();
+    for (const CustomActions::Entry &entry : entries) {
+        QAction *action = addAction(QIcon::fromTheme(entry.icon), entry.name);
+        connect(action, &QAction::triggered, this, [this, entry, urls]() {
+            CustomActions::run(entry, urls, m_mainWindow);
+        });
+    }
 }
 
 void DolphinContextMenu::addViewportContextMenu()

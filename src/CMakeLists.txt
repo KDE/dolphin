@@ -335,6 +335,9 @@ target_sources(dolphinstatic PRIVATE
     settings/interface/previewssettingspage.cpp
     settings/dolphinsettingsdialog.cpp
     settings/contextmenu/contextmenusettingspage.cpp
+    settings/customactions/customactionssettingspage.cpp
+    settings/customactions/customactiondialog.cpp
+    customactions.cpp
     settings/settingspagebase.cpp
     settings/servicemodel.cpp
     settings/trash/trashsettingspage.cpp
@@ -487,6 +490,7 @@ target_link_libraries(dolphinstatic
     dolphinprivate
     KF6::CoreAddons
     KF6::GuiAddons
+    KF6::IconWidgets    # KIconButton, for picking a custom action's icon
     KF6::KCMUtils
     KF6::DBusAddons
     KF6::Notifications
