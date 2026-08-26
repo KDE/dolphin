@@ -17,15 +17,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-24 00:48+0000\n"
-"PO-Revision-Date: 2026-06-03 07:55+0200\n"
-"Last-Translator: Andreas Pietzowski <pietz@gmx.de>\n"
+"PO-Revision-Date: 2026-08-22 19:36+0200\n"
+"Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 26.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -369,16 +369,12 @@ msgstr ""
 "Elemente in diesem Ordner zu erstellen."
 
 #: dolphinmainwindow.cpp:1518
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Erstellen des neuen Ordners fehlgeschlagen: Sie haben keine Berechtigung, "
-"Elemente in diesem Ordner zu erstellen."
+"Erstellen des neuen Unterordners fehlgeschlagen: Wählen Sie genau einen "
+"Ordner, in dem Sie schreiben können."
 
 #: dolphinmainwindow.cpp:1629
 #, kde-format
@@ -600,20 +596,16 @@ msgid "Move to Other View"
 msgstr "In die andere Ansicht verschieben"
 
 #: dolphinmainwindow.cpp:1918
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "In die andere Ansicht kopieren"
+msgstr "Andere Ansicht aktivieren"
 
 #: dolphinmainwindow.cpp:1919
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "Tastaturfokus in und aus der Seitenleiste „Orte“ bewegen."
+msgstr "Tastaturfokus in die inaktive Ansicht bewegen."
 
 #: dolphinmainwindow.cpp:1925
 #, kde-format
@@ -1580,7 +1572,7 @@ msgstr ""
 "großem Umfang angepasst werden. Alle Einträge, die Sie im <interface>Menü</"
 "interface> oder in der <interface>Menüleiste</interface> sehen, können auch "
 "in der Werkzeugleiste platziert werden. Klicken Sie mit der rechten "
-"Maustaste darauf und wählen Sie <interface>Werkzeugleisten einrichten …</"
+"Maustaste darauf und wählen Sie <interface>Werkzeugleisten einrichten …</"
 "interface> oder wählen Sie die Aktion aus dem <interface>Menü</interface>.</"
 "para><para>Der Ort der Leiste und der Stil ihrer Knöpfe kann ebenfalls über "
 "das Kontextmenü angepasst werden. Klicken Sie mit rechts auf einen der "
@@ -2014,14 +2006,13 @@ msgstr "&Andere Unterfenster schließen"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Unterfenster links schließen"
 
 #: dolphintabbar.cpp:191
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Die rechte Ansicht schließen"
+msgstr "Unterfenster rechts schließen"
 
 #: dolphintabbar.cpp:193
 #, kde-format
@@ -2205,12 +2196,10 @@ msgid "You do not have permission to create the folder"
 msgstr "Sie haben keine Berechtigung, den Ordner zu erstellen"
 
 #: dolphinviewcontainer.cpp:1124
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "%1 öffnen"
+msgstr "Öffnen mit %1"
 
 #: dolphinviewcontainer.cpp:1170 dolphinviewcontainer.cpp:1173
 #, kde-kuit-format
@@ -4645,12 +4634,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "Dateien sortieren nach"
+msgstr "Dateien gruppieren nach"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4661,6 +4648,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"Diese Option legt fest, nach welchen Attributen gruppiert wird, wenn „In "
+"Gruppen sortieren“ aktiviert ist. Ein leerer Wert bedeutet, dass das "
+"Gruppierungskriterium dem Sortierkriterium folgt."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6655,12 +6645,10 @@ msgid "Create Folder…"
 msgstr "Ordner erstellen …"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Ordner erstellen …"
+msgstr "Unterordner erstellen …"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6913,12 +6901,10 @@ msgid "Show Additional Information"
 msgstr "Zusätzliche Informationen anzeigen"
 
 #: views/dolphinviewactionhandler.cpp:343
-#, fuzzy, kde-format
-#| msgctxt "@item:intable"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "Gruppe"
+msgstr "Gruppieren nach"
 
 #: views/dolphinviewactionhandler.cpp:345
 #, kde-format
@@ -6927,20 +6913,21 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Dies gruppiert Dateien und Ordner nach einem gewählten Attribut. „Kein“ "
+"deaktiviert das Gruppieren. „Gleich wie sortieren“ gruppiert nach dem "
+"aktiven Sortierungskriterium."
 
 #: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "Keine"
+msgstr "Kein"
 
 #: views/dolphinviewactionhandler.cpp:363
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Gleich wie sortieren"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
@@ -6988,11 +6975,10 @@ msgstr ""
 "angepasst werden können."
 
 #: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Vergrößerung auf Voreinstellung zurücksetzen"
+msgstr "Voreinstellungen wiederherstellen"
 
 #: views/dolphinviewactionhandler.cpp:404
 #, fuzzy, kde-format
@@ -7024,12 +7010,10 @@ msgid "Sort by Field"
 msgstr "Nach Feld sortieren"
 
 #: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Nach Feld sortieren"
+msgstr "Nach Feld gruppieren"
 
 #: views/dolphinviewactionhandler.cpp:449
 #, kde-format
