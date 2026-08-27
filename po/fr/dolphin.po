@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
-"PO-Revision-Date: 2026-07-30 08:59+0200\n"
+"POT-Creation-Date: 2026-08-27 00:48+0000\n"
+"PO-Revision-Date: 2026-08-25 15:26+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -193,20 +193,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Ne plus m'avertir de ces risques"
 
-#: dolphincontextmenu.cpp:144
+#: dolphincontextmenu.cpp:149
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Vider la corbeille"
 
-#: dolphincontextmenu.cpp:155 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:160 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Configurer la corbeille…"
 
-#: dolphincontextmenu.cpp:176
+#: dolphincontextmenu.cpp:181
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -217,38 +217,38 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Restaurer avec le dernier emplacement"
 msgstr[1] "Restaurer avec les derniers emplacements"
 
-#: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1804
+#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Créer un nouveau"
 
-#: dolphincontextmenu.cpp:251
+#: dolphincontextmenu.cpp:256
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Ouvrir l'emplacement"
 
-#: dolphincontextmenu.cpp:259
+#: dolphincontextmenu.cpp:264
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Ouvrir l'emplacement dans un nouvel onglet"
 
-#: dolphincontextmenu.cpp:267
+#: dolphincontextmenu.cpp:272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
 
-#: dolphincontextmenu.cpp:519
+#: dolphincontextmenu.cpp:524
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Cliquer avec le bouton central"
 
-#: dolphincontextmenu.cpp:530
+#: dolphincontextmenu.cpp:535
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
@@ -7054,12 +7054,10 @@ msgid "Restore to Defaults"
 msgstr "Restaurer la configuration par défaut"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "Restaurer la configuration d'affichage par défaut"
+msgstr "Restaurer la configuration d'affichage vers la version par défaut"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-08-27 00:48+0000\n"
 "PO-Revision-Date: 2025-12-12 17:27+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -163,20 +163,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "ບໍ່ຕ້ອງເຕືອນຂ້ອຍກ່ຽວກັບຄວາມສ່ຽງເຫຼົ່ານີ້ອີກ"
 
-#: dolphincontextmenu.cpp:144
+#: dolphincontextmenu.cpp:149
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "ເທຖັງຂີ້ເຫຍື້ອ"
 
-#: dolphincontextmenu.cpp:155 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:160 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "ຕັ້ງຄ່າຖັງຂີ້ເຫຍື້ອ…"
 
-#: dolphincontextmenu.cpp:176
+#: dolphincontextmenu.cpp:181
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -186,38 +186,38 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "ກູ້ຄືນໄປຍັງບ່ອນເດີມ"
 
-#: dolphincontextmenu.cpp:242 dolphinmainwindow.cpp:1804
+#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "ສ້າງໃຫມ່"
 
-#: dolphincontextmenu.cpp:251
+#: dolphincontextmenu.cpp:256
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "ເປີດທີ່ຢູ່"
 
-#: dolphincontextmenu.cpp:259
+#: dolphincontextmenu.cpp:264
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "ເປີດທີ່ຢູ່ໃນແຖບໃຫມ່"
 
-#: dolphincontextmenu.cpp:267
+#: dolphincontextmenu.cpp:272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "ເປີດທີ່ຢູ່ໃນປ່ອງຢ້ຽມໃຫມ່"
 
-#: dolphincontextmenu.cpp:519
+#: dolphincontextmenu.cpp:524
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "ຄລິກກາງ"
 
-#: dolphincontextmenu.cpp:530
+#: dolphincontextmenu.cpp:535
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
