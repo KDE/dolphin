@@ -2651,7 +2651,7 @@ msgstr "Вчера"
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
-msgstr "дддд"
+msgstr "dddd"
 
 #: kitemviews/kfileitemmodel.cpp:2828
 #, kde-format
