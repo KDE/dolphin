@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-27 00:48+0000\n"
-"PO-Revision-Date: 2026-08-24 16:07+0300\n"
+"PO-Revision-Date: 2026-08-28 14:27+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -5294,6 +5294,11 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para><emphasis>Peržiūrų</emphasis>, skirtų nuotoliniams aplankams, kūrimas "
+"yra labai intensyvus tinklo išteklių naudojimo atžvilgiu.</"
+"para><para>Išjunkite tai, jei nuotolinių aplankų naršymas Dolphin programoje "
+"yra lėtas arba jei gaunate prieigą prie saugyklos per ribotų duomenų tinklo "
+"ryšį.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5611,7 +5616,7 @@ msgstr "Pervadinti pavienius elementus tiesiogiai"
 #: settings/viewmodes/generalviewsettingspage.cpp:88
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "Kelių elementų pervadinimas visada atliekamas naudojant dialogo langą."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
@@ -5727,6 +5732,8 @@ msgstr "Etikečių šriftas:"
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
+"Programa Dolphin yra užrezervavusi kai kuriuos šrifto stilius ir gali juos "
+"nustelbti."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
@@ -6513,6 +6520,9 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage location where items can be "
 "deleted later if disk space is needed."
 msgstr ""
+"Tai perkelia šiuo metu pažymėtus elementus į <filename>Šiukšlinę</filename>."
+"<nl/>Šiukšlinė – tai laikina saugyklos vieta, kurioje elementai vėliau gali "
+"būti ištrinti tuo atveju, jei prireiks vietos diske."
 
 #: views/dolphinviewactionhandler.cpp:137
 #, kde-kuit-format
@@ -6631,7 +6641,7 @@ msgstr "Keisti rodinio veikseną"
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Tai perjunginėja visas rodinio veiksenas."
 
 #: views/dolphinviewactionhandler.cpp:256
 #, kde-format
@@ -6809,6 +6819,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Tai perjunginėja visas rodinio veiksenas. Išskleidžiamajame meniu yra "
+"įvairūs su rodiniu susiję veiksmai."
 
 #: views/dolphinviewactionhandler.cpp:443
 #, kde-format
