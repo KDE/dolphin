@@ -41,6 +41,7 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 private Q_SLOTS:
+    void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int> &roles = QList<int>());
 
 private:
     void loadPreviewPlugins();

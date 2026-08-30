@@ -129,7 +129,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
 
     loadSettings();
 
-    connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
+    connect(m_listView->model(), &QAbstractItemModel::dataChanged, this, &PreviewsSettingsPage::dataChanged);
     connect(m_localFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
     connect(m_remoteFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
     connect(m_enableRemoteFolderThumbnail, &QCheckBox::toggled, this, &PreviewsSettingsPage::changed);
@@ -185,6 +185,21 @@ void PreviewsSettingsPage::showEvent(QShowEvent *event)
         m_initialized = true;
     }
     SettingsPageBase::showEvent(event);
+}
+
+void PreviewsSettingsPage::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int> &roles)
+{
+    Q_UNUSED(topLeft)
+    Q_UNUSED(bottomRight)
+
+    if (!m_initialized) {
+        // Not initialized yet; ignore this.
+        return;
+    }
+
+    if (roles.isEmpty() || roles.contains(Qt::CheckStateRole)) {
+        Q_EMIT changed();
+    }
 }
 
 void PreviewsSettingsPage::loadPreviewPlugins()
