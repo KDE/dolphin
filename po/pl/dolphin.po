@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-23 02:41+0000\n"
-"PO-Revision-Date: 2026-06-27 12:36+0200\n"
+"PO-Revision-Date: 2026-08-29 21:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -364,16 +364,12 @@ msgstr ""
 "tym katalogu."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Nie można utworzyć nowego katalogu: Nie masz uprawnień do tworzenia rzeczy w "
-"tym katalogu."
+"Nie można utworzyć nowego podkatalogu: Wybierz jeden katalog, do którego "
+"masz uprawnienia zapisu."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -6607,12 +6603,10 @@ msgid "Create Folder…"
 msgstr "Utwórz katalog…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Utwórz katalog…"
+msgstr "utwórz podkatalog…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
