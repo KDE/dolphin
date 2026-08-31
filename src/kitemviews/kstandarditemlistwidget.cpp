@@ -819,7 +819,6 @@ void KStandardItemListWidget::selectedChanged(bool selected)
 {
     Q_UNUSED(selected)
     updateAdditionalInfoTextColor();
-    m_dirtyContent = true;
 }
 
 void KStandardItemListWidget::pressedChanged(bool pressed)
