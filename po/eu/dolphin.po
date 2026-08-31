@@ -1,7 +1,7 @@
 # Translation for dolphin.po to Euskara/Basque (eu).
 # Copyright (C) 2007-2026 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# SPDX-FileCopyrightText: 2023-2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023-2026 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2008, 2010.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-27 00:48+0000\n"
-"PO-Revision-Date: 2026-08-01 09:38+0200\n"
+"PO-Revision-Date: 2026-08-30 11:49+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6916,12 +6916,10 @@ msgid "Restore to Defaults"
 msgstr "Lehenespenetara lehengoratu"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "Ikuspegi-ezarpenak balio lehenetsietara lehengoratu"
+msgstr "Ikuspegi-ezarpenak balio lehenetsietara leheneratu"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format
