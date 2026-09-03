@@ -69,11 +69,11 @@ void DolphinFileItemListWidget::refreshCache()
                        (tintColor.blue() + textColor.blue()) / 2,
                        (tintColor.alpha() + textColor.alpha()) / 2);
 
-        overlays.insert(Qt::Corner::BottomLeftCorner, overlayForState(version));
+        overlays.insert(Qt::Corner::TopLeftCorner, overlayForState(version));
     }
 
     if (values.contains("iconOverlays")) {
-        const auto corners = {Qt::Corner::BottomRightCorner, Qt::Corner::TopLeftCorner, Qt::Corner::TopRightCorner};
+        const auto corners = {Qt::Corner::BottomLeftCorner, Qt::Corner::TopRightCorner, Qt::Corner::BottomRightCorner};
         const auto iconOverlays = values.value("iconOverlays").toStringList();
         auto overlaysIt = iconOverlays.constBegin();
         for (const auto &corner : corners) {
