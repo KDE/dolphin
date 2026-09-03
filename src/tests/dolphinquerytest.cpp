@@ -72,10 +72,10 @@ void DolphinQueryTest::testBalooSearchParsing_data()
     const QString textQ = QStringLiteral("\"abc xyz\"");
     const QString textM = QStringLiteral("\"abc xyz\" tuv");
 
-    const QString filename = QStringLiteral("filename:\"%1\"").arg(text);
-    const QString filenameS = QStringLiteral("filename:\"%1\"").arg(textS);
-    const QString filenameQ = QStringLiteral("filename:\"%1\"").arg(textQ);
-    const QString filenameM = QStringLiteral("filename:\"%1\"").arg(textM);
+    const QString filename = QStringLiteral("filename:%1").arg(text);
+    const QString filenameS = QStringLiteral("filename:abc filename:xyz");
+    const QString filenameQ = QStringLiteral("filename:%1").arg(textQ);
+    const QString filenameM = QStringLiteral("filename:\"abc xyz\" filename:tuv");
 
     const QString rating = QStringLiteral("rating>=2");
     const QString modified = QStringLiteral("modified>=2019-08-07");
@@ -92,10 +92,10 @@ void DolphinQueryTest::testBalooSearchParsing_data()
     // Test for "Content"
     QTest::newRow("content") << balooQueryUrl(text) << text << QDate{} << 0 << QStringList() << true << true;
     QTest::newRow("content/space") << balooQueryUrl(textS) << textS << QDate{} << 0 << QStringList() << true << true;
-    QTest::newRow("content/quoted") << balooQueryUrl(textQ) << textS << QDate{} << 0 << QStringList() << true << true;
+    QTest::newRow("content/quoted") << balooQueryUrl(textQ) << textQ << QDate{} << 0 << QStringList() << true << true;
     QTest::newRow("content/empty") << balooQueryUrl("") << "" << QDate{} << 0 << QStringList() << false << false;
     QTest::newRow("content/single_quote") << balooQueryUrl("\"") << "\"" << QDate{} << 0 << QStringList() << true << true;
-    QTest::newRow("content/double_quote") << balooQueryUrl("\"\"") << "" << QDate{} << 0 << QStringList() << false << false;
+    QTest::newRow("content/double_quote") << balooQueryUrl("\"\"") << "\"\"" << QDate{} << 0 << QStringList() << true << true;
 
     // Test for "FileName"
     QTest::newRow("filename") << balooQueryUrl(filename) << text << QDate{} << 0 << QStringList() << false << true;
@@ -104,12 +104,13 @@ void DolphinQueryTest::testBalooSearchParsing_data()
     QTest::newRow("filename/mixed") << balooQueryUrl(filenameM) << textM << QDate{} << 0 << QStringList() << false << true;
     QTest::newRow("filename/empty") << balooQueryUrl("filename:") << "" << QDate{} << 0 << QStringList() << false << false;
     QTest::newRow("filename/single_quote") << balooQueryUrl("filename:\"") << "\"" << QDate{} << 0 << QStringList() << false << true;
-    QTest::newRow("filename/double_quote") << balooQueryUrl("filename:\"\"") << "" << QDate{} << 0 << QStringList() << false << false;
+    QTest::newRow("filename/double_quote") << balooQueryUrl("filename:\"\"") << "\"\"" << QDate{} << 0 << QStringList() << false << true;
 
-    // Combined content and filename search
-    QTest::newRow("content+filename") << balooQueryUrl(text + " " + filename) << text << QDate{} << 0 << QStringList() << true << true;
+    // Combined content and filename search - Such searches cannot be created from the Dolphin UI. Dolphin will display both search terms in the search field.
+    QTest::newRow("content+filename") << balooQueryUrl(text + " " + filename) << QStringLiteral("abc abc") << QDate{} << 0 << QStringList() << true << true;
 
-    QTest::newRow("content+filename/quoted") << balooQueryUrl(textQ + " " + filenameQ) << textS << QDate{} << 0 << QStringList() << true << true;
+    QTest::newRow("content+filename/quoted") << balooQueryUrl(textQ + " " + filenameQ) << QStringLiteral("\"abc xyz\" \"abc xyz\"") << QDate{} << 0
+                                             << QStringList() << true << true;
 
     // Test for rating
     QTest::newRow("rating") << balooQueryUrl(rating) << "" << QDate{} << 2 << QStringList() << false << false;
@@ -138,11 +139,11 @@ void DolphinQueryTest::testBalooSearchParsing_data()
     QTest::newRow("searchTerms+filename") << balooQueryUrl(rating + " AND " + modified + " " + filename + " " + tag + " AND " + tagS) << text << modifiedDate
                                           << 2 << QStringList{tagA, tagBWithSpaces} << false << true;
 
-    QTest::newRow("allTerms") << balooQueryUrl(text + " " + filename + " " + rating + " AND " + modified + " AND " + tag) << text << modifiedDate << 2
-                              << QStringList{tagA} << true << true;
+    QTest::newRow("allTerms") << balooQueryUrl(text + " " + filename + " " + rating + " AND " + modified + " AND " + tag) << QStringLiteral("abc abc")
+                              << modifiedDate << 2 << QStringList{tagA} << true << true;
 
-    QTest::newRow("allTerms/space") << balooQueryUrl(textS + " " + filenameS + " " + rating + " AND " + modified + " AND " + tagS) << textS << modifiedDate << 2
-                                    << QStringList{tagBWithSpaces} << true << true;
+    QTest::newRow("allTerms/space") << balooQueryUrl(textS + " " + filenameS + " " + rating + " AND " + modified + " AND " + tagS)
+                                    << QStringLiteral("abc xyz abc xyz") << modifiedDate << 2 << QStringList{tagBWithSpaces} << true << true;
 
     // Test tags:/ URL scheme
     const auto tagUrl = [](const QString &tag) {
@@ -232,12 +233,6 @@ void DolphinQueryTest::testExportImport()
     QVERIFY(query.searchLocations() == Search::SearchLocations::Everywhere);
     QVERIFY(query == Search::DolphinQuery(query.toUrl(), searchPath2)); // Export then import. searchPath2 is required to match as the fallback.
 
-    QVERIFY(query.searchTerm() == searchTerm1);
-    constexpr QLatin1String searchTerm2{"xyz"};
-    query.setSearchTerm(searchTerm2);
-    QVERIFY(query.searchTerm() == searchTerm2);
-    QVERIFY(query == Search::DolphinQuery(query.toUrl(), searchPath2)); // Export then import
-
     QVERIFY(query.searchLocations() == Search::SearchLocations::Everywhere);
     query.setSearchLocations(Search::SearchLocations::FromHere);
     QVERIFY(query.searchLocations() == Search::SearchLocations::FromHere);
@@ -247,6 +242,8 @@ void DolphinQueryTest::testExportImport()
 #if HAVE_BALOO
     /// Test Baloo search queries
     query.setSearchTool(Search::SearchTool::Baloo);
+    constexpr QLatin1String searchTerm2{"xyz"};
+    query.setSearchTerm(searchTerm2);
     QVERIFY(query.searchTool() == Search::SearchTool::Baloo);
     QVERIFY(query.searchTerm() == searchTerm2);
     QVERIFY(query.searchLocations() == Search::SearchLocations::FromHere);
@@ -305,9 +302,11 @@ void DolphinQueryTest::testExportImport()
     QVERIFY(query == Search::DolphinQuery(query.toUrl(), QUrl{})); // Export then import. The QUrl{} fallback does not matter because searchPath1 is imported.
 
     QVERIFY(query.requiredTags().isEmpty());
-    query.setRequiredTags({searchTerm1, searchTerm2});
+    constexpr QLatin1String tagWithSpace{"two words"};
+    query.setRequiredTags({searchTerm1, searchTerm2, tagWithSpace});
     QVERIFY(query.requiredTags().contains(searchTerm1));
     QVERIFY(query.requiredTags().contains(searchTerm2));
+    QVERIFY(query.requiredTags().contains(tagWithSpace));
     QVERIFY(query == Search::DolphinQuery(query.toUrl(), QUrl{})); // Export then import. The QUrl{} fallback does not matter because searchPath1 is imported.
 
     QVERIFY(query.searchTool() == Search::SearchTool::Baloo);

@@ -12,6 +12,7 @@
 #include <Baloo/Query>
 #endif
 #include "dolphinplacesmodelsingleton.h"
+#include "parsingutil.h"
 
 #include <KFileMetaData/TypeInfo>
 #include <KLocalizedString>
@@ -90,39 +91,7 @@ QString searchTermToken(const QString &term)
     }
     return QString();
 }
-
-QString stripQuotes(const QString &text)
-{
-    if (text.length() >= 2 && text.at(0) == QLatin1Char('"') && text.back() == QLatin1Char('"')) {
-        return text.mid(1, text.size() - 2);
-    }
-    return text;
-}
-
-QStringList splitOutsideQuotes(const QString &text)
-{
-    // Match groups on 3 possible conditions:
-    //   - Groups with two leading quotes must close both on them (filename:""abc xyz" tuv")
-    //   - Groups enclosed in quotes
-    //   - Words separated by spaces
-    static const QRegularExpression subTermsRegExp("(\\S*?\"\"[^\"]+\"[^\"]+\"+|\\S*?\"[^\"]+\"+|(?<=\\s|^)\\S+(?=\\s|$))");
-    auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
-
-    QStringList textParts;
-    while (subTermsMatchIterator.hasNext()) {
-        textParts << subTermsMatchIterator.next().captured(0);
-    }
-    return textParts;
-}
 #endif
-
-QString trimChar(const QString &text, const QLatin1Char aChar)
-{
-    const int start = text.startsWith(aChar) ? 1 : 0;
-    const int end = (text.length() > 1 && text.endsWith(aChar)) ? 1 : 0;
-
-    return text.mid(start, text.length() - start - end);
-}
 }
 
 Search::DolphinQuery::DolphinQuery(const QUrl &url, const QUrl &backupSearchPath)
@@ -197,10 +166,15 @@ QUrl DolphinQuery::toUrl() const
 
         QStringList balooQueryStrings = m_unrecognizedBalooQueryStrings;
 
+        //  TODO:
+        //  The search term may be metadata rather than text, modified>=... or author=...,
+        //  these should not be prefixed with filename: in a SearchThrough::Filename search.
         if (m_searchThrough == SearchThrough::FileContents) {
             balooQueryStrings << m_searchTerm;
         } else if (!m_searchTerm.isEmpty()) {
-            balooQueryStrings << QStringLiteral("filename:\"%1\"").arg(m_searchTerm);
+            for (const auto &string : splitOutsideQuotes(m_searchTerm)) {
+                balooQueryStrings << QStringLiteral("filename:%1").arg(string);
+            }
         }
 
         if (m_searchLocations == SearchLocations::FromHere) {
@@ -307,15 +281,19 @@ void DolphinQuery::initializeFromBalooQuery(const Baloo::Query &balooQuery, cons
     const QStringList subTerms = splitOutsideQuotes(balooQuery.searchString());
     for (const QString &subTerm : subTerms) {
         const QString token = searchTermToken(subTerm);
-        const QString value = stripQuotes(subTerm.mid(token.length()));
+        const QString value = subTerm.mid(token.length());
 
         if (token == QLatin1String("filename:")) {
             // This query is meant to not search in file contents.
             if (!value.isEmpty()) {
-                if (m_searchTerm.isEmpty()) { // Seems like we already received a search term for the content search. We don't overwrite it because the Dolphin
-                                              // UI does not support searching for differing strings in content and file name.
-                    m_searchTerm = value;
+                // We might already have received a search term for the content search, but Dolphin's UI does not support searching for differing
+                // strings in content and file name, so we simply show all the strings in the search field and let the user pick and choose for the
+                // next search.
+                if (!m_searchTerm.isEmpty()) {
+                    // Multiple search terms are separated by spaces.
+                    m_searchTerm.append(QLatin1Char(' '));
                 }
+                m_searchTerm.append(value);
                 if (!requestedToSearchThrough.has_value()) { // If requested to search through contents, searching file names is already implied.
                     requestedToSearchThrough = SearchThrough::FileNames;
                 }
@@ -331,7 +309,7 @@ void DolphinQuery::initializeFromBalooQuery(const Baloo::Query &balooQuery, cons
             m_minimumRating = value.toInt();
             continue;
         } else if (token.startsWith(QLatin1String("tag"))) {
-            m_requiredTags.append(value);
+            m_requiredTags.append(stripQuotes(value));
             continue;
         } else if (!token.isEmpty()) {
             m_unrecognizedBalooQueryStrings << token + value;
@@ -339,9 +317,11 @@ void DolphinQuery::initializeFromBalooQuery(const Baloo::Query &balooQuery, cons
         } else if (subTerm == QLatin1String("AND") && subTerm != subTerms.at(0) && subTerm != subTerms.back()) {
             continue;
         } else if (!value.isEmpty()) {
-            // An empty token means this is just blank text, which is where the generic search term is located.
+            //  An empty token means this is just blank text, which is where the generic search term is located.
+            //  TODO:
+            //  Search prefixes not caught by searchTermToken will also end up here, bad syntax may cause the
+            //  baloo search engine to crash.
             if (!m_searchTerm.isEmpty()) {
-                // Multiple search terms are separated by spaces.
                 m_searchTerm.append(QLatin1Char{' '});
             }
             m_searchTerm.append(value);
