@@ -291,6 +291,42 @@ void DolphinTabWidget::openDirectories(const QList<QUrl> &dirs, bool splitView)
             }
         }
     }
+
+    // Now select any files based on the #select= URL hash.
+    QList<QUrl> urlsToSelect;
+    constexpr QLatin1String selectPrefix{"select="};
+    for (const QUrl &dir : dirs) {
+        const QString fragment = dir.fragment();
+        if (!fragment.startsWith(selectPrefix)) {
+            continue;
+        }
+
+        const auto filesToSelect = QStringView(fragment).mid(selectPrefix.size()).split(QLatin1Char(','));
+        for (const auto &fileName : filesToSelect) {
+            const auto decodedFileName = QUrl::fromPercentEncoding(fileName.toUtf8());
+            // No paths, please.
+            if (decodedFileName.contains(QLatin1Char('/'))) {
+                continue;
+            }
+
+            QUrl urlToSelect = dir;
+            urlToSelect.setPath(urlToSelect.path() + QLatin1Char('/') + decodedFileName);
+            urlsToSelect.append(urlToSelect);
+        }
+    }
+
+    if (!urlsToSelect.isEmpty()) {
+        // Select the files. Although the files can be split between several
+        // tabs, there is no need to split 'files' accordingly, as
+        // the DolphinView will just ignore invalid selections.
+        for (int i = 0; i < count(); ++i) {
+            DolphinTabPage *tabPage = tabPageAt(i);
+            tabPage->markUrlsAsSelected(urlsToSelect);
+            tabPage->markUrlAsCurrent(urlsToSelect.first());
+            // Force selection of file if directory was already open, BUG: 417230
+            tabPage->activeViewContainer()->view()->updateViewState();
+        }
+    }
 }
 
 void DolphinTabWidget::openFiles(const QList<QUrl> &files, bool splitView)
