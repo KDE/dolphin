@@ -146,10 +146,6 @@ public:
         auto layout = new QHBoxLayout(widget);
 
         for (const auto action : std::as_const(m_actions)) {
-            if (!action->parent()) {
-                action->setParent(widget);
-            }
-
             auto p = new QPushButton(widget);
 
             p->setIcon(action->icon());
@@ -242,7 +238,12 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
             continue;
         }
 
-        QAction *folderIconAction = new QAction(KLocalizedString(name).toString(), parentWidget);
+        // Parented to `action` rather than to parentWidget (which callers such as Plasma's desktop
+        // containment may pass as nullptr): QWidgetAction::createWidget() can legitimately be called
+        // more than once per menu, and each call hands out a separate, short-lived QWidget. Parenting
+        // to one of those transient widgets meant that once it got destroyed, the QActions died with
+        // it, leaving the buttons in the still-visible widget connected to dangling QActions.
+        QAction *folderIconAction = new QAction(KLocalizedString(name).toString(), action);
         folderIconAction->setIcon(icon);
         folderIconAction->setCheckable(true);
         folderIconAction->setChecked(fileIconName == iconName);
