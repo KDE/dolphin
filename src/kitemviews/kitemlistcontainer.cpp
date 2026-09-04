@@ -70,6 +70,22 @@ KItemListContainer::KItemListContainer(KItemListController *controller, QWidget 
 
     m_horizontalSmoothScroller = new KItemListSmoothScroller(horizontalScrollBar(), this);
     m_verticalSmoothScroller = new KItemListSmoothScroller(verticalScrollBar(), this);
+    // Queued: a scroller stops its animation in the middle of setting up the next one, and says so
+    // from inside that. Answering there would touch the scroll bars in the one moment the guards
+    // below exist to keep away from, and would put the offset the view is passing through on a
+    // scroll bar which has already been told where it is going. By the time a queued call arrives
+    // the scroller has either started again, in which case the update is deferred once more, or
+    // really has stopped.
+    connect(m_horizontalSmoothScroller,
+            &KItemListSmoothScroller::scrollingStopped,
+            this,
+            &KItemListContainer::applyPendingScrollBarUpdates,
+            Qt::QueuedConnection);
+    connect(m_verticalSmoothScroller,
+            &KItemListSmoothScroller::scrollingStopped,
+            this,
+            &KItemListContainer::applyPendingScrollBarUpdates,
+            Qt::QueuedConnection);
 
     if (controller->model()) {
         slotModelChanged(controller->model(), nullptr);
@@ -296,6 +312,7 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
         if (smoothScroller->isAnimating()) {
+            m_scrollOffsetScrollBarUpdatePending = true;
             return;
         }
         scrollOffsetScrollBar = verticalScrollBar();
@@ -312,6 +329,7 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     } else {
         smoothScroller = m_horizontalSmoothScroller;
         if (smoothScroller->isAnimating()) {
+            m_scrollOffsetScrollBarUpdatePending = true;
             return;
         }
         scrollOffsetScrollBar = horizontalScrollBar();
@@ -337,6 +355,18 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     }
 }
 
+void KItemListContainer::applyPendingScrollBarUpdates()
+{
+    if (m_scrollOffsetScrollBarUpdatePending) {
+        m_scrollOffsetScrollBarUpdatePending = false;
+        updateScrollOffsetScrollBar();
+    }
+    if (m_itemOffsetScrollBarUpdatePending) {
+        m_itemOffsetScrollBarUpdatePending = false;
+        updateItemOffsetScrollBar();
+    }
+}
+
 void KItemListContainer::updateItemOffsetScrollBar()
 {
     const KItemListView *view = m_controller->view();
@@ -351,6 +381,7 @@ void KItemListContainer::updateItemOffsetScrollBar()
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_horizontalSmoothScroller;
         if (smoothScroller->isAnimating()) {
+            m_itemOffsetScrollBarUpdatePending = true;
             return;
         }
         itemOffsetScrollBar = horizontalScrollBar();
@@ -359,6 +390,7 @@ void KItemListContainer::updateItemOffsetScrollBar()
     } else {
         smoothScroller = m_verticalSmoothScroller;
         if (smoothScroller->isAnimating()) {
+            m_itemOffsetScrollBarUpdatePending = true;
             return;
         }
         itemOffsetScrollBar = verticalScrollBar();

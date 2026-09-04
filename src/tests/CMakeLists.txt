@@ -19,6 +19,11 @@ ecm_add_test(kitemrangetest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 ecm_add_test(kitemlistsmoothscrollertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
 
+# KItemListContainerTest
+ecm_add_test(kitemlistcontainertest.cpp testdir.cpp
+TEST_NAME kitemlistcontainertest
+LINK_LIBRARIES dolphinprivate Qt6::Test)
+
 # KItemListSelectionManagerTest
 ecm_add_test(kitemlistselectionmanagertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 

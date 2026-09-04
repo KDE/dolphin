@@ -605,6 +605,7 @@ private:
     friend class KFileItemModelTest; // For unit testing
     friend class KFileItemModelBenchmark; // For unit testing
     friend class KFileItemListViewTest; // For unit testing
+    friend class KItemListContainerTest; // For unit testing
     friend class DolphinPart; // Accesses m_dirLister
 };
 

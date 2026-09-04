@@ -61,6 +61,7 @@ private Q_SLOTS:
     void scrollTo(qreal offset);
     void updateScrollOffsetScrollBar();
     void updateItemOffsetScrollBar();
+    void applyPendingScrollBarUpdates();
     void stopScroller();
 
 private:
@@ -79,6 +80,12 @@ private:
 
     KItemListSmoothScroller *m_horizontalSmoothScroller;
     KItemListSmoothScroller *m_verticalSmoothScroller;
+
+    // An update which arrived while a scroller was animating and has still to be made. The
+    // scrollbars are left alone until the animation ends, so that a view which is on its way
+    // somewhere is not stopped, but what the view has become still has to reach them.
+    bool m_scrollOffsetScrollBarUpdatePending = false;
+    bool m_itemOffsetScrollBarUpdatePending = false;
     QScroller *m_scroller;
 };
 
