@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 00:48+0000\n"
+"POT-Creation-Date: 2026-09-04 00:48+0000\n"
 "PO-Revision-Date: 2026-05-01 22:58+0100\n"
 "Last-Translator: charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -285,7 +285,7 @@ msgstr ""
 "mian leat scor?"
 
 #: dolphinmainwindow.cpp:657 dolphinmainwindow.cpp:707
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ná fiafraigh díom arís"
@@ -2682,92 +2682,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2726
+#: kitemviews/kfileitemmodel.cpp:2746
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2748
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Cinn Eile"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2780
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Fillteáin"
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2788
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Beag"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2790
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Measartha"
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2792
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Mór"
 
-#: kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2838
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Inniu"
 
-#: kitemviews/kfileitemmodel.cpp:2821
+#: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Inné"
 
-#: kitemviews/kfileitemmodel.cpp:2824
+#: kitemviews/kfileitemmodel.cpp:2844
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2828
+#: kitemviews/kfileitemmodel.cpp:2848
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2833
+#: kitemviews/kfileitemmodel.cpp:2853
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Seachtain amháin ó shin"
 
-#: kitemviews/kfileitemmodel.cpp:2836
+#: kitemviews/kfileitemmodel.cpp:2856
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Dhá Sheachtain Ó Shin"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2859
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Trí Seachtaine Ó Shin"
 
-#: kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2863
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Níos luaithe an Mhí seo"
 
-#: kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2877
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2777,7 +2777,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Inné' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2884
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2785,7 +2785,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2877
+#: kitemviews/kfileitemmodel.cpp:2897
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2793,7 +2793,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2881
+#: kitemviews/kfileitemmodel.cpp:2901
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2801,7 +2801,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2909
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2811,7 +2811,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Seachtain ó shin' (MMMM, bbbb)"
 
-#: kitemviews/kfileitemmodel.cpp:2896
+#: kitemviews/kfileitemmodel.cpp:2916
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2819,7 +2819,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2910
+#: kitemviews/kfileitemmodel.cpp:2930
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2829,7 +2829,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Dhá sheachtain ó shin' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2917
+#: kitemviews/kfileitemmodel.cpp:2937
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2837,7 +2837,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2931
+#: kitemviews/kfileitemmodel.cpp:2951
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2847,7 +2847,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Trí Seachtaine Ó shin' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2938
+#: kitemviews/kfileitemmodel.cpp:2958
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2855,7 +2855,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2952
+#: kitemviews/kfileitemmodel.cpp:2972
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2865,7 +2865,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Níos luaithe ar' MMMM, bbbb"
 
-#: kitemviews/kfileitemmodel.cpp:2959
+#: kitemviews/kfileitemmodel.cpp:2979
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2873,7 +2873,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2973
+#: kitemviews/kfileitemmodel.cpp:2993
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2881,7 +2881,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2977
+#: kitemviews/kfileitemmodel.cpp:2997
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2889,288 +2889,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3017 kitemviews/kfileitemmodel.cpp:3030
-#: kitemviews/kfileitemmodel.cpp:3043
+#: kitemviews/kfileitemmodel.cpp:3037 kitemviews/kfileitemmodel.cpp:3050
+#: kitemviews/kfileitemmodel.cpp:3063
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Léamh, "
 
-#: kitemviews/kfileitemmodel.cpp:3020 kitemviews/kfileitemmodel.cpp:3033
-#: kitemviews/kfileitemmodel.cpp:3046
+#: kitemviews/kfileitemmodel.cpp:3040 kitemviews/kfileitemmodel.cpp:3053
+#: kitemviews/kfileitemmodel.cpp:3066
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Scríobh, "
 
-#: kitemviews/kfileitemmodel.cpp:3023 kitemviews/kfileitemmodel.cpp:3036
-#: kitemviews/kfileitemmodel.cpp:3049
+#: kitemviews/kfileitemmodel.cpp:3043 kitemviews/kfileitemmodel.cpp:3056
+#: kitemviews/kfileitemmodel.cpp:3069
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Rith, "
 
-#: kitemviews/kfileitemmodel.cpp:3025 kitemviews/kfileitemmodel.cpp:3038
-#: kitemviews/kfileitemmodel.cpp:3051
+#: kitemviews/kfileitemmodel.cpp:3045 kitemviews/kfileitemmodel.cpp:3058
+#: kitemviews/kfileitemmodel.cpp:3071
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Toirmiscthe"
 
-#: kitemviews/kfileitemmodel.cpp:3053
+#: kitemviews/kfileitemmodel.cpp:3073
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Úsáideoir: %1 | Grúpa: %2 | Eile: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3163
 msgctxt "@label"
 msgid "Name"
 msgstr "Ainm"
 
-#: kitemviews/kfileitemmodel.cpp:3144
+#: kitemviews/kfileitemmodel.cpp:3164
 msgctxt "@label"
 msgid "Size"
 msgstr "Méid"
 
-#: kitemviews/kfileitemmodel.cpp:3145
+#: kitemviews/kfileitemmodel.cpp:3165
 msgctxt "@label"
 msgid "Modified"
 msgstr "Modhnaithe"
 
-#: kitemviews/kfileitemmodel.cpp:3145 kitemviews/kfileitemmodel.cpp:3146
-#: kitemviews/kfileitemmodel.cpp:3147
+#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Is féidir an fhormáid dáta a roghnú sna socruithe."
 
-#: kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3166
 msgctxt "@label"
 msgid "Created"
 msgstr "Cruthaithe"
 
-#: kitemviews/kfileitemmodel.cpp:3147
+#: kitemviews/kfileitemmodel.cpp:3167
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Rochtain déanta air"
 
-#: kitemviews/kfileitemmodel.cpp:3148
+#: kitemviews/kfileitemmodel.cpp:3168
 msgctxt "@label"
 msgid "Type"
 msgstr "Cineál"
 
-#: kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3169
 msgctxt "@label"
 msgid "Rating"
 msgstr "Rátáil"
 
-#: kitemviews/kfileitemmodel.cpp:3150
+#: kitemviews/kfileitemmodel.cpp:3170
 msgctxt "@label"
 msgid "Tags"
 msgstr "Clibeanna"
 
-#: kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3171
 msgctxt "@label"
 msgid "Comment"
 msgstr "Nóta Tráchta"
 
-#: kitemviews/kfileitemmodel.cpp:3152
+#: kitemviews/kfileitemmodel.cpp:3172
 msgctxt "@label"
 msgid "Title"
 msgstr "Teideal"
 
-#: kitemviews/kfileitemmodel.cpp:3152 kitemviews/kfileitemmodel.cpp:3153
-#: kitemviews/kfileitemmodel.cpp:3154 kitemviews/kfileitemmodel.cpp:3155
-#: kitemviews/kfileitemmodel.cpp:3156 kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3172 kitemviews/kfileitemmodel.cpp:3173
+#: kitemviews/kfileitemmodel.cpp:3174 kitemviews/kfileitemmodel.cpp:3175
+#: kitemviews/kfileitemmodel.cpp:3176 kitemviews/kfileitemmodel.cpp:3177
 msgctxt "@label"
 msgid "Document"
 msgstr "Cáipéis"
 
-#: kitemviews/kfileitemmodel.cpp:3153
+#: kitemviews/kfileitemmodel.cpp:3173
 msgctxt "@label"
 msgid "Author"
 msgstr "Údar"
 
-#: kitemviews/kfileitemmodel.cpp:3154
+#: kitemviews/kfileitemmodel.cpp:3174
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Foilsitheoir"
 
-#: kitemviews/kfileitemmodel.cpp:3155
+#: kitemviews/kfileitemmodel.cpp:3175
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Líon na Leathanach"
 
-#: kitemviews/kfileitemmodel.cpp:3156
+#: kitemviews/kfileitemmodel.cpp:3176
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Líon na bhFocal"
 
-#: kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3177
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Líon na Línte"
 
-#: kitemviews/kfileitemmodel.cpp:3158
+#: kitemviews/kfileitemmodel.cpp:3178
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Dáta Grianghrafadóireachta"
 
-#: kitemviews/kfileitemmodel.cpp:3158 kitemviews/kfileitemmodel.cpp:3159
-#: kitemviews/kfileitemmodel.cpp:3160 kitemviews/kfileitemmodel.cpp:3161
-#: kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3178 kitemviews/kfileitemmodel.cpp:3179
+#: kitemviews/kfileitemmodel.cpp:3180 kitemviews/kfileitemmodel.cpp:3181
+#: kitemviews/kfileitemmodel.cpp:3182
 msgctxt "@label"
 msgid "Image"
 msgstr "Íomhá"
 
-#: kitemviews/kfileitemmodel.cpp:3159 kitemviews/kfileitemmodel.cpp:3175
+#: kitemviews/kfileitemmodel.cpp:3179 kitemviews/kfileitemmodel.cpp:3195
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Toisí"
 
-#: kitemviews/kfileitemmodel.cpp:3160 kitemviews/kfileitemmodel.cpp:3178
+#: kitemviews/kfileitemmodel.cpp:3180 kitemviews/kfileitemmodel.cpp:3198
 msgctxt "@label"
 msgid "Height"
 msgstr "Airde"
 
-#: kitemviews/kfileitemmodel.cpp:3161
+#: kitemviews/kfileitemmodel.cpp:3181
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Treoshuíomh"
 
-#: kitemviews/kfileitemmodel.cpp:3162 kitemviews/kfileitemmodel.cpp:3181
+#: kitemviews/kfileitemmodel.cpp:3182 kitemviews/kfileitemmodel.cpp:3201
 msgctxt "@label"
 msgid "Width"
 msgstr "Leithead"
 
-#: kitemviews/kfileitemmodel.cpp:3163
+#: kitemviews/kfileitemmodel.cpp:3183
 msgctxt "@label"
 msgid "Album"
 msgstr "Albam"
 
-#: kitemviews/kfileitemmodel.cpp:3163 kitemviews/kfileitemmodel.cpp:3164
-#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3166
-#: kitemviews/kfileitemmodel.cpp:3167 kitemviews/kfileitemmodel.cpp:3168
-#: kitemviews/kfileitemmodel.cpp:3169 kitemviews/kfileitemmodel.cpp:3170
+#: kitemviews/kfileitemmodel.cpp:3183 kitemviews/kfileitemmodel.cpp:3184
+#: kitemviews/kfileitemmodel.cpp:3185 kitemviews/kfileitemmodel.cpp:3186
+#: kitemviews/kfileitemmodel.cpp:3187 kitemviews/kfileitemmodel.cpp:3188
+#: kitemviews/kfileitemmodel.cpp:3189 kitemviews/kfileitemmodel.cpp:3190
 msgctxt "@label"
 msgid "Audio"
 msgstr "Fuaim"
 
-#: kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3184
 msgctxt "@label"
 msgid "Artist"
 msgstr "Ealaíontóir"
 
-#: kitemviews/kfileitemmodel.cpp:3165 kitemviews/kfileitemmodel.cpp:3172
+#: kitemviews/kfileitemmodel.cpp:3185 kitemviews/kfileitemmodel.cpp:3192
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Códac Fhuaime"
 
-#: kitemviews/kfileitemmodel.cpp:3166 kitemviews/kfileitemmodel.cpp:3173
+#: kitemviews/kfileitemmodel.cpp:3186 kitemviews/kfileitemmodel.cpp:3193
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Ráta Giotáin"
 
-#: kitemviews/kfileitemmodel.cpp:3167 kitemviews/kfileitemmodel.cpp:3176
+#: kitemviews/kfileitemmodel.cpp:3187 kitemviews/kfileitemmodel.cpp:3196
 msgctxt "@label"
 msgid "Duration"
 msgstr "Fad"
 
-#: kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3188
 msgctxt "@label"
 msgid "Genre"
 msgstr "Seánra"
 
-#: kitemviews/kfileitemmodel.cpp:3169
+#: kitemviews/kfileitemmodel.cpp:3189
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Bliain Scaoilte"
 
-#: kitemviews/kfileitemmodel.cpp:3170
+#: kitemviews/kfileitemmodel.cpp:3190
 msgctxt "@label"
 msgid "Track"
 msgstr "Amhrán"
 
-#: kitemviews/kfileitemmodel.cpp:3171
+#: kitemviews/kfileitemmodel.cpp:3191
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Cóimheas Gnéithe"
 
-#: kitemviews/kfileitemmodel.cpp:3171 kitemviews/kfileitemmodel.cpp:3172
-#: kitemviews/kfileitemmodel.cpp:3173 kitemviews/kfileitemmodel.cpp:3174
-#: kitemviews/kfileitemmodel.cpp:3175 kitemviews/kfileitemmodel.cpp:3176
-#: kitemviews/kfileitemmodel.cpp:3177 kitemviews/kfileitemmodel.cpp:3178
-#: kitemviews/kfileitemmodel.cpp:3179 kitemviews/kfileitemmodel.cpp:3180
-#: kitemviews/kfileitemmodel.cpp:3181
+#: kitemviews/kfileitemmodel.cpp:3191 kitemviews/kfileitemmodel.cpp:3192
+#: kitemviews/kfileitemmodel.cpp:3193 kitemviews/kfileitemmodel.cpp:3194
+#: kitemviews/kfileitemmodel.cpp:3195 kitemviews/kfileitemmodel.cpp:3196
+#: kitemviews/kfileitemmodel.cpp:3197 kitemviews/kfileitemmodel.cpp:3198
+#: kitemviews/kfileitemmodel.cpp:3199 kitemviews/kfileitemmodel.cpp:3200
+#: kitemviews/kfileitemmodel.cpp:3201
 msgctxt "@label"
 msgid "Video"
 msgstr "Físeán"
 
-#: kitemviews/kfileitemmodel.cpp:3174
+#: kitemviews/kfileitemmodel.cpp:3194
 msgctxt "@label"
 msgid "Color Space"
 msgstr "Spás Datha"
 
-#: kitemviews/kfileitemmodel.cpp:3177
+#: kitemviews/kfileitemmodel.cpp:3197
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Ráta Fráma"
 
-#: kitemviews/kfileitemmodel.cpp:3179
+#: kitemviews/kfileitemmodel.cpp:3199
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "Formáid Picteilín"
 
-#: kitemviews/kfileitemmodel.cpp:3180
+#: kitemviews/kfileitemmodel.cpp:3200
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "Códac Físeáin"
 
-#: kitemviews/kfileitemmodel.cpp:3182
+#: kitemviews/kfileitemmodel.cpp:3202
 msgctxt "@label"
 msgid "Path"
 msgstr "Conair"
 
-#: kitemviews/kfileitemmodel.cpp:3182 kitemviews/kfileitemmodel.cpp:3183
-#: kitemviews/kfileitemmodel.cpp:3184 kitemviews/kfileitemmodel.cpp:3185
-#: kitemviews/kfileitemmodel.cpp:3186 kitemviews/kfileitemmodel.cpp:3187
-#: kitemviews/kfileitemmodel.cpp:3188 kitemviews/kfileitemmodel.cpp:3189
-#: kitemviews/kfileitemmodel.cpp:3190
+#: kitemviews/kfileitemmodel.cpp:3202 kitemviews/kfileitemmodel.cpp:3203
+#: kitemviews/kfileitemmodel.cpp:3204 kitemviews/kfileitemmodel.cpp:3205
+#: kitemviews/kfileitemmodel.cpp:3206 kitemviews/kfileitemmodel.cpp:3207
+#: kitemviews/kfileitemmodel.cpp:3208 kitemviews/kfileitemmodel.cpp:3209
+#: kitemviews/kfileitemmodel.cpp:3210
 msgctxt "@label"
 msgid "Other"
 msgstr "Eile"
 
-#: kitemviews/kfileitemmodel.cpp:3183
+#: kitemviews/kfileitemmodel.cpp:3203
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "Ainm an Fhillteáin"
 
-#: kitemviews/kfileitemmodel.cpp:3184
+#: kitemviews/kfileitemmodel.cpp:3204
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Síneadh Comhaid"
 
-#: kitemviews/kfileitemmodel.cpp:3185
+#: kitemviews/kfileitemmodel.cpp:3205
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Am Scriosta"
 
-#: kitemviews/kfileitemmodel.cpp:3186
+#: kitemviews/kfileitemmodel.cpp:3206
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Ceann Scríbe an Naisc"
 
-#: kitemviews/kfileitemmodel.cpp:3187
+#: kitemviews/kfileitemmodel.cpp:3207
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Íoslódáilte Ó"
 
-#: kitemviews/kfileitemmodel.cpp:3188
+#: kitemviews/kfileitemmodel.cpp:3208
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Ceadanna"
 
-#: kitemviews/kfileitemmodel.cpp:3188
+#: kitemviews/kfileitemmodel.cpp:3208
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3179,17 +3179,17 @@ msgstr ""
 "Is féidir formáid an cheada a athrú sna socruithe. Is iad na roghanna ná "
 "formáidí Siombalacha, Uimhriúla (Octalach) nó Comhcheangailte"
 
-#: kitemviews/kfileitemmodel.cpp:3189
+#: kitemviews/kfileitemmodel.cpp:3209
 msgctxt "@label"
 msgid "Owner"
 msgstr "Úinéir"
 
-#: kitemviews/kfileitemmodel.cpp:3190
+#: kitemviews/kfileitemmodel.cpp:3210
 msgctxt "@label"
 msgid "User Group"
 msgstr "Grúpa Úsáideora"
 
-#: kitemviews/kfileitemmodel.cpp:3291
+#: kitemviews/kfileitemmodel.cpp:3311
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -3708,7 +3708,7 @@ msgstr "Céard"
 msgid "SearchTool"
 msgstr "Uirlis Chuardaigh"
 
-#: search/dolphinquery.cpp:382
+#: search/dolphinquery.cpp:362
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3716,7 +3716,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "Torthaí cuardaigh do “%1” i %2"
 
-#: search/dolphinquery.cpp:388
+#: search/dolphinquery.cpp:368
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3724,7 +3724,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr "Comhaid ina bhfuil “%1” i %2"
 
-#: search/dolphinquery.cpp:395
+#: search/dolphinquery.cpp:375
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
@@ -3732,7 +3732,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "Cuardaigh míreanna atá tagáilte “%1” i %2"
 
-#: search/dolphinquery.cpp:400
+#: search/dolphinquery.cpp:380
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3740,7 +3740,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr "Cuardaigh míreanna atá clibthe le “%1” agus “%2” i %3"
 
-#: search/dolphinquery.cpp:407
+#: search/dolphinquery.cpp:387
 #, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
@@ -3748,7 +3748,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "%1 toradh cuardaigh i %2"
 
-#: search/dolphinquery.cpp:413
+#: search/dolphinquery.cpp:393
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
@@ -3756,25 +3756,25 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "Torthaí cuardaigh i %1"
 
-#: search/dolphinquery.cpp:423
+#: search/dolphinquery.cpp:403
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "Torthaí cuardaigh do “%1”"
 
-#: search/dolphinquery.cpp:426
+#: search/dolphinquery.cpp:406
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr "Comhaid ina bhfuil “%1”"
 
-#: search/dolphinquery.cpp:430
+#: search/dolphinquery.cpp:410
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr "Cuardaigh míreanna atá tagáilte “%1”"
 
-#: search/dolphinquery.cpp:433
+#: search/dolphinquery.cpp:413
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3783,13 +3783,13 @@ msgstr "Cuardaigh míreanna le clib “%1” agus “%2”"
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:441
+#: search/dolphinquery.cpp:421
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr "%1 toradh cuardaigh"
 
-#: search/dolphinquery.cpp:444
+#: search/dolphinquery.cpp:424
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
@@ -6517,13 +6517,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 fillteán, 0 comhad"
 
-#: views/dolphinview.cpp:1029 views/dolphinview.cpp:1038
+#: views/dolphinview.cpp:1048 views/dolphinview.cpp:1057
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 cóip"
 
-#: views/dolphinview.cpp:1224
+#: views/dolphinview.cpp:1243
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6533,7 +6533,7 @@ msgstr[2] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[3] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 msgstr[4] "An bhfuil tú cinnte gur mian leat %1 mhír a oscailt?"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1248
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6544,43 +6544,43 @@ msgstr[2] "Oscail %1 Míreanna"
 msgstr[3] "Oscail %1 Míreanna"
 msgstr[4] "Oscail %1 Míreanna"
 
-#: views/dolphinview.cpp:1370
+#: views/dolphinview.cpp:1389
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Páipéar Taobh"
 
-#: views/dolphinview.cpp:1374
+#: views/dolphinview.cpp:1393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Leithid Uathoibríocha Colún"
 
-#: views/dolphinview.cpp:1379
+#: views/dolphinview.cpp:1398
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Leithid Saincheaptha Colún"
 
-#: views/dolphinview.cpp:2123
+#: views/dolphinview.cpp:2142
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Oibríocht bruscair críochnaithe."
 
-#: views/dolphinview.cpp:2133
+#: views/dolphinview.cpp:2152
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Oibríocht scriosta curtha i gcrích."
 
-#: views/dolphinview.cpp:2301
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Athainmnigh agus Folaigh"
 
-#: views/dolphinview.cpp:2305
+#: views/dolphinview.cpp:2324
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6589,7 +6589,7 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an chomhaid seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2307
+#: views/dolphinview.cpp:2326
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6598,23 +6598,23 @@ msgstr ""
 "Má chuireann tú ponc ag tús ainm an fhillteáin seo, folófar é ón radharc.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2309
+#: views/dolphinview.cpp:2328
 #, kde-format
 msgid "Hide this File?"
 msgstr "An comhad seo a cheilt?"
 
-#: views/dolphinview.cpp:2309
+#: views/dolphinview.cpp:2328
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "An bhfuil tú ag iarraidh an fillteán seo a cheilt?"
 
-#: views/dolphinview.cpp:2330
+#: views/dolphinview.cpp:2349
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Athainmnigh"
 
-#: views/dolphinview.cpp:2340
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6627,7 +6627,7 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2363
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6640,100 +6640,100 @@ msgstr ""
 "a thuilleadh.\n"
 "Ar mhaith leat é a athainmniú fós?"
 
-#: views/dolphinview.cpp:2350
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Athraigh Cineál Comhaid"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2416
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Tá an suíomh folamh."
 
-#: views/dolphinview.cpp:2396
+#: views/dolphinview.cpp:2418
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Tá suíomh '%1' neamhbhailí."
 
-#: views/dolphinview.cpp:2785
+#: views/dolphinview.cpp:2807
 #, kde-format
 msgid "Loading…"
 msgstr "Ag lódáil…"
 
-#: views/dolphinview.cpp:2814
+#: views/dolphinview.cpp:2836
 #, kde-format
 msgid "Loading canceled"
 msgstr "Cealaíodh an luchtú"
 
-#: views/dolphinview.cpp:2816
+#: views/dolphinview.cpp:2838
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Níl aon mhíreanna a mheaitseálann an scagaire"
 
-#: views/dolphinview.cpp:2818
+#: views/dolphinview.cpp:2840
 #, kde-format
 msgid "No items matching the search"
 msgstr "Níl aon mhíreanna a mheaitseálann an cuardach"
 
-#: views/dolphinview.cpp:2820
+#: views/dolphinview.cpp:2842
 #, kde-format
 msgid "Trash is empty"
 msgstr "Tá an bruscar folamh"
 
-#: views/dolphinview.cpp:2823
+#: views/dolphinview.cpp:2845
 #, kde-format
 msgid "No tags"
 msgstr "Gan clibeanna"
 
-#: views/dolphinview.cpp:2826
+#: views/dolphinview.cpp:2848
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Gan aon chomhaid atá clibthe le \"%1\""
 
-#: views/dolphinview.cpp:2830
+#: views/dolphinview.cpp:2852
 #, kde-format
 msgid "No recently used items"
 msgstr "Gan aon earraí a úsáideadh le déanaí"
 
-#: views/dolphinview.cpp:2832
+#: views/dolphinview.cpp:2854
 #, kde-format
 msgid "No shared folders found"
 msgstr "Níor aimsíodh aon fhillteáin chomhroinnte"
 
-#: views/dolphinview.cpp:2834
+#: views/dolphinview.cpp:2856
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Níor aimsíodh aon acmhainní líonra ábhartha"
 
-#: views/dolphinview.cpp:2836
+#: views/dolphinview.cpp:2858
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ní bhfuarthas aon ghléasanna atá comhoiriúnach le MTP"
 
-#: views/dolphinview.cpp:2838
+#: views/dolphinview.cpp:2860
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Apple"
 
-#: views/dolphinview.cpp:2841
+#: views/dolphinview.cpp:2863
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Ní bhfuarthas aon ghléasanna KDE Connect"
 
-#: views/dolphinview.cpp:2843
+#: views/dolphinview.cpp:2865
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2846
+#: views/dolphinview.cpp:2868
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ní bhfuarthas aon ghléasanna Bluetooth"
 
-#: views/dolphinview.cpp:2848
+#: views/dolphinview.cpp:2870
 #, kde-format
 msgid "Folder is empty"
 msgstr "Tá an fillteán folamh"
