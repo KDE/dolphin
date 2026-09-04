@@ -1101,7 +1101,7 @@ msgid ""
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
 "<para>Per a mostrar o ocultar els quadros com este aneu fins a "
-"<interface>Menú --> Quadros</interface> o <interface>Visualitza --> Quadros</"
+"<interface>Menú → Quadros</interface> o <interface>Visualitza → Quadros</"
 "interface>.</para>"
 
 #: dolphinmainwindow.cpp:2378
