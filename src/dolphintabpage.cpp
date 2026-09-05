@@ -60,13 +60,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
         m_secondaryViewContainer->show();
     }
 
-    // DolphinView::setActive(true) calls setFocus() then emits activated().
-    // activated() is connected to slotViewActivated() which toggles
-    // m_primaryViewActive — correct for user-initiated pane switches, but
-    // wrong here during construction. Disconnect to prevent the spurious toggle.
-    disconnectViewActivatedSignals();
     m_primaryViewContainer->setActive(true);
-    connectViewActivatedSignals();
 }
 
 bool DolphinTabPage::primaryViewActive() const
@@ -373,11 +367,6 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     }
 
     stream >> m_primaryViewActive;
-    // DolphinView::setActive(true) calls setFocus() then emits activated().
-    // activated() is connected to slotViewActivated() which toggles
-    // m_primaryViewActive — correct for user-initiated pane switches, but
-    // wrong here during session restore. Disconnect to prevent the spurious toggle.
-    disconnectViewActivatedSignals();
     if (m_primaryViewActive) {
         if (m_splitViewEnabled) {
             m_secondaryViewContainer->setActive(false);
@@ -388,7 +377,6 @@ void DolphinTabPage::restoreState(const QByteArray &state)
         m_primaryViewContainer->setActive(false);
         m_secondaryViewContainer->setActive(true);
     }
-    connectViewActivatedSignals();
 
     QByteArray splitterState;
     stream >> splitterState;
@@ -412,16 +400,10 @@ void DolphinTabPage::setActive(bool active)
         // we should bypass changing active view in split mode
         m_active = !m_splitViewEnabled;
     }
-    // DolphinView::setActive(true) calls setFocus() then emits activated().
-    // activated() is connected to slotViewActivated() which toggles
-    // m_primaryViewActive — correct for user-initiated pane switches, but
-    // wrong here during tab switch. Disconnect to prevent the spurious toggle.
-    disconnectViewActivatedSignals();
     if (active && m_splitViewEnabled) {
         inactiveViewContainer()->setActive(false);
     }
     activeViewContainer()->setActive(active);
-    connectViewActivatedSignals();
 }
 
 void DolphinTabPage::setCustomLabel(const QString &label)
@@ -548,22 +530,6 @@ void DolphinTabPage::switchActiveView()
         m_secondaryViewContainer->setActive(true);
     } else {
         m_primaryViewContainer->setActive(true);
-    }
-}
-
-void DolphinTabPage::connectViewActivatedSignals()
-{
-    connect(m_primaryViewContainer->view(), &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
-    if (m_secondaryViewContainer) {
-        connect(m_secondaryViewContainer->view(), &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
-    }
-}
-
-void DolphinTabPage::disconnectViewActivatedSignals()
-{
-    disconnect(m_primaryViewContainer->view(), &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
-    if (m_secondaryViewContainer) {
-        disconnect(m_secondaryViewContainer->view(), &DolphinView::activated, this, &DolphinTabPage::slotViewActivated);
     }
 }
 
