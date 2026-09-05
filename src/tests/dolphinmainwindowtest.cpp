@@ -92,6 +92,7 @@ private Q_SLOTS:
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
     void testActiveViewAfterTabSwitchWithSplitView();
+    void testActiveViewFollowsTheActivatedView();
     void testFileItemActionsOutliveContextMenu();
     void cleanupTestCase();
 
@@ -1975,6 +1976,36 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     const QString expectedNewTab1Title = QStringLiteral("(%1) | %2").arg(newChildDirName, parentDirName);
     QCOMPARE(tabWidget->tabText(0), expectedNewTab0Title);
     QCOMPARE(tabWidget->tabText(1), expectedNewTab1Title);
+}
+
+// slotViewActivated() must follow the view that emitted activated(). It used to toggle
+// m_primaryViewActive instead, so once that flag and a view's own active state disagreed, the
+// next activation set the other pane active and shortcuts went to the wrong one.
+void DolphinMainWindowTest::testActiveViewFollowsTheActivatedView()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    auto tabPage = tabWidget->currentTabPage();
+    QVERIFY(tabPage->splitViewEnabled());
+
+    // Make the left pane the active one, as a click in it would.
+    tabPage->primaryViewContainer()->setActive(true);
+    QVERIFY(tabPage->primaryViewActive());
+
+    // Make the two disagree: the view is no longer active, but m_primaryViewActive still names it.
+    tabPage->primaryViewContainer()->view()->setActive(false);
+    QVERIFY(tabPage->primaryViewActive());
+
+    // Activating the left pane again must leave it active, not switch to the right one.
+    tabPage->primaryViewContainer()->view()->setActive(true);
+    QVERIFY(tabPage->primaryViewActive());
+    QCOMPARE(tabPage->activeViewContainer(), tabPage->primaryViewContainer());
+    QCOMPARE(m_mainWindow->activeViewContainer(), tabPage->primaryViewContainer());
 }
 
 // Test that switching tabs does not spuriously toggle which split-view pane is active.

@@ -505,8 +505,14 @@ void DolphinTabPage::slotViewActivated()
     // and update the active view type, if tab is active
     if (m_active) {
         if (m_splitViewEnabled) {
-            activeViewContainer()->setActive(false);
-            m_primaryViewActive = !m_primaryViewActive;
+            // Switch to the view that emitted activated(). Toggling instead assumed the sender
+            // was whichever view m_primaryViewActive did not name, which sets the wrong pane
+            // active once m_primaryViewActive and the views' own active states have diverged.
+            const bool primaryActivated = sender() == m_primaryViewContainer->view();
+            if (primaryActivated != m_primaryViewActive) {
+                activeViewContainer()->setActive(false);
+                m_primaryViewActive = primaryActivated;
+            }
         } else {
             m_primaryViewActive = true;
             if (m_secondaryViewContainer) {
