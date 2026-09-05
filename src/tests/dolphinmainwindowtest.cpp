@@ -93,6 +93,7 @@ private Q_SLOTS:
     void testActivationAndTabTitleAfterRenameOpeningFolder();
     void testActiveViewAfterTabSwitchWithSplitView();
     void testActiveViewFollowsTheActivatedView();
+    void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
     void cleanupTestCase();
 
@@ -1976,6 +1977,46 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     const QString expectedNewTab1Title = QStringLiteral("(%1) | %2").arg(newChildDirName, parentDirName);
     QCOMPARE(tabWidget->tabText(0), expectedNewTab0Title);
     QCOMPARE(tabWidget->tabText(1), expectedNewTab1Title);
+}
+
+// Restoring a saved split tab brings back the split, the tab's label, and which of the two panes
+// the user had active.
+void DolphinMainWindowTest::testRestoreStateKeepsTheActiveSplitPane()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+
+    // A split tab whose left pane is the active one. Splitting activates the right pane, so the
+    // restore has to change which pane is active rather than leave it as it found it.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    auto savedTab = tabWidget->currentTabPage();
+    QVERIFY(savedTab->splitViewEnabled());
+    savedTab->primaryViewContainer()->setActive(true);
+    QVERIFY(savedTab->primaryViewActive());
+    savedTab->setCustomLabel(QStringLiteral("restored"));
+    const QByteArray state = savedTab->saveState();
+    QVERIFY(!state.isEmpty());
+
+    // Restore it onto a second, unsplit tab.
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
+    auto restoredTab = tabWidget->currentTabPage();
+    QVERIFY(restoredTab != savedTab);
+    QVERIFY(!restoredTab->splitViewEnabled());
+
+    restoredTab->restoreState(state);
+
+    QVERIFY(restoredTab->splitViewEnabled());
+    QCOMPARE(restoredTab->customLabel(), QStringLiteral("restored"));
+    QVERIFY(restoredTab->primaryViewActive());
+    QCOMPARE(restoredTab->activeViewContainer(), restoredTab->primaryViewContainer());
+    QVERIFY(restoredTab->primaryViewContainer()->isActive());
+    QVERIFY(!restoredTab->secondaryViewContainer()->isActive());
+
+    tabWidget->closeTab(1);
 }
 
 // slotViewActivated() must follow the view that emitted activated(). It used to toggle
