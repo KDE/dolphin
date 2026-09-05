@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-04 00:48+0000\n"
+"POT-Creation-Date: 2026-09-05 00:49+0000\n"
 "PO-Revision-Date: 2024-07-13 22:07+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
@@ -1889,37 +1889,37 @@ msgstr "Nyleg lukka faner"
 msgid "Empty Recently Closed Tabs"
 msgstr "Tøm nyleg lukka faner"
 
-#: dolphintabbar.cpp:183
+#: dolphintabbar.cpp:187
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Ny fane"
 
-#: dolphintabbar.cpp:184
+#: dolphintabbar.cpp:188
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Kopla frå fane"
 
-#: dolphintabbar.cpp:186
+#: dolphintabbar.cpp:190
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Endra namn på %2"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:192
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Lukk andre faner"
 
-#: dolphintabbar.cpp:189
+#: dolphintabbar.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:191
+#: dolphintabbar.cpp:195
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1927,27 +1927,35 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Lukk høgre rute"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:197
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Lukk fane"
 
-#: dolphintabbar.cpp:222
+#: dolphintabbar.cpp:226
 #, fuzzy, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Endra namn på %2"
 
-#: dolphintabbar.cpp:223
+#: dolphintabbar.cpp:227
 #, kde-format
 msgid "New tab name:"
 msgstr ""
 
+#: dolphintabbar.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Open new tabs: "
+msgctxt "@info:tooltip"
+msgid "Open a new tab"
+msgstr "Opna nye faner: "
+
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
-#: dolphintabwidget.cpp:54
+#: dolphintabwidget.cpp:55
 #, fuzzy, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
@@ -1955,7 +1963,7 @@ msgstr "Plassering"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:587
+#: dolphintabwidget.cpp:588
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1963,7 +1971,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:591
+#: dolphintabwidget.cpp:592
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -2193,7 +2201,7 @@ msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Ny mappe …"
 
-#: itemactions/setfoldericonitemaction.cpp:168
+#: itemactions/setfoldericonitemaction.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Other"
@@ -2201,7 +2209,7 @@ msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Anna"
 
-#: itemactions/setfoldericonitemaction.cpp:169
+#: itemactions/setfoldericonitemaction.cpp:165
 #, fuzzy, kde-format
 #| msgctxt "option:check"
 #| msgid "Open folders during drag operations"
@@ -2209,69 +2217,69 @@ msgctxt "@label"
 msgid "Other folder icon options"
 msgstr "Opna mapper under draging"
 
-#: itemactions/setfoldericonitemaction.cpp:204
+#: itemactions/setfoldericonitemaction.cpp:200
 #, fuzzy, kde-format
 #| msgid "Reload"
 msgctxt "@label as in default folder color"
 msgid "Red"
 msgstr "Last om att"
 
-#: itemactions/setfoldericonitemaction.cpp:205
+#: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:206
+#: itemactions/setfoldericonitemaction.cpp:202
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:207
+#: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:208
+#: itemactions/setfoldericonitemaction.cpp:204
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:210
+#: itemactions/setfoldericonitemaction.cpp:206
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Standard"
 
-#: itemactions/setfoldericonitemaction.cpp:212
+#: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:213
+#: itemactions/setfoldericonitemaction.cpp:209
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:214
+#: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:215
+#: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:218
+#: itemactions/setfoldericonitemaction.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "&Bookmarks"
@@ -2279,13 +2287,13 @@ msgctxt "@label as in default folder color"
 msgid "Bookmark"
 msgstr "&Bokmerke"
 
-#: itemactions/setfoldericonitemaction.cpp:219
+#: itemactions/setfoldericonitemaction.cpp:215
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:220
+#: itemactions/setfoldericonitemaction.cpp:216
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Developer"
@@ -2293,31 +2301,31 @@ msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "Utviklar"
 
-#: itemactions/setfoldericonitemaction.cpp:221
+#: itemactions/setfoldericonitemaction.cpp:217
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:222
+#: itemactions/setfoldericonitemaction.cpp:218
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:223
+#: itemactions/setfoldericonitemaction.cpp:219
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:224
+#: itemactions/setfoldericonitemaction.cpp:220
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:225
+#: itemactions/setfoldericonitemaction.cpp:221
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Compare Files"
@@ -2325,19 +2333,19 @@ msgctxt "@label as in default folder color"
 msgid "Compressed"
 msgstr "Samanlikna filer"
 
-#: itemactions/setfoldericonitemaction.cpp:226
+#: itemactions/setfoldericonitemaction.cpp:222
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:227
+#: itemactions/setfoldericonitemaction.cpp:223
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
 msgstr ""
 
-#: itemactions/setfoldericonitemaction.cpp:249
+#: itemactions/setfoldericonitemaction.cpp:250
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
