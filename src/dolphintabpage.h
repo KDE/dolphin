@@ -210,8 +210,6 @@ private:
      * activation (tab switch, construction, session restore) so that
      * slotViewActivated does not spuriously toggle m_primaryViewActive.
      */
-    void connectViewActivatedSignals();
-    void disconnectViewActivatedSignals();
 
 private:
     DolphinTabPageSplitter *m_splitter;
