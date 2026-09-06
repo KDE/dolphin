@@ -24,6 +24,8 @@
 #include <QSortFilterProxyModel>
 #include <QSpinBox>
 
+using namespace Qt::StringLiterals;
+
 // default settings
 namespace
 {
@@ -208,14 +210,42 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
     const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
     for (const KPluginMetaData &plugin : plugins) {
-        const bool show = m_enabledPreviewPlugins.contains(plugin.pluginId());
-
+        const auto pluginId = plugin.pluginId();
+        const auto fileName = plugin.fileName();
+        const auto disambiguatedName = [&, name = plugin.name()] {
+            auto it = std::ranges::find_if(plugins, [&](const KPluginMetaData &other) {
+                constexpr auto ci = Qt::CaseInsensitive;
+                const auto otherName = other.name();
+                return other != plugin && //
+                    (name.contains(otherName, ci) || otherName.contains(name, ci));
+            });
+            if (it == plugins.end()) {
+                return name;
+            }
+            // KDE projects using KIO::ThumbCreator put their thumbnailers in
+            // $QT_PLUGIN_PATH/kf6/thumbcreator/. Their plugin IDs tend to be
+            // uncreative (e.g., jpegthumbnail), so disambiguate thumbnailers in
+            // kf6/thumbcreator with " (KDE)". Thumbnailers in kf6/thumbcreator
+            // are not guaranteed to be made by KDE since a program can install
+            // its files anywhere if it is allowed to.
+            if (fileName.contains("/kf6/thumbcreator/"_L1)) {
+                return i18nc("%1 is a translated thumbnailer name", "%1 (KDE)", name);
+            }
+            // glycin is a GNOME project: https://gitlab.gnome.org/GNOME/glycin/
+            // We suffix its thumbnailers with " (GNOME)" since glycin probably
+            // isn't a very familiar name to most users.
+            if (pluginId.startsWith("glycin"_L1)) {
+                return i18nc("%1 is a translated thumbnailer name", "%1 (GNOME)", name);
+            }
+            return i18nc("%1 is a translated thumbnailer name, %2 is a plugin ID", "%1 (%2)", name, pluginId);
+        }();
+        const bool show = m_enabledPreviewPlugins.contains(pluginId);
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
         model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-        model->setData(index, plugin.name(), Qt::DisplayRole);
-        model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
-        model->setData(index, plugin.fileName(), Qt::ToolTipRole);
+        model->setData(index, disambiguatedName, Qt::DisplayRole);
+        model->setData(index, pluginId, ServiceModel::DesktopEntryNameRole);
+        model->setData(index, fileName, Qt::ToolTipRole);
     }
 
     model->sort(Qt::DisplayRole);
