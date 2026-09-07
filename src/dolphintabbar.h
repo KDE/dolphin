@@ -39,6 +39,7 @@ protected:
     void tabInserted(int index) override;
     void tabRemoved(int index) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 
@@ -59,11 +60,26 @@ private:
     void updateAutoActivationTimer(const int index);
     void updateNewTabButtonGeometry();
 
+    bool isOutsideUndetachableZone(const QPoint &pos) const;
+    void startTabDrag(QMouseEvent *event);
+    void cancelTabDrag();
+
 private:
+    struct DragState {
+        int tabIndex = -1;
+        QPoint startPosition;
+        int offsetInTabX = 0;
+        int offsetInTabY = 0;
+        int tabWidth = 0;
+        int tabHeight = 0;
+        bool isOngoing = false;
+    };
+
     QTimer *m_autoActivationTimer;
     int m_autoActivationIndex;
     int m_tabToBeClosedOnMiddleMouseButtonRelease = -1;
     QToolButton *m_newTabButton = nullptr;
+    DragState m_drag;
 };
 
 #endif // DOLPHIN_TAB_BAR_H

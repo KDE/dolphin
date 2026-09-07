@@ -9,11 +9,15 @@
 #include <KLocalizedString>
 
 #include <QApplication>
+#include <QDrag>
 #include <QDragEnterEvent>
 #include <QInputDialog>
 #include <QMenu>
 #include <QMimeData>
+#include <QPainter>
+#include <QPixmap>
 #include <QResizeEvent>
+#include <QStyleOptionTab>
 #include <QTimer>
 #include <QToolButton>
 
@@ -143,7 +147,110 @@ void DolphinTabBar::mousePressEvent(QMouseEvent *event)
         return;
     }
 
+    if (index >= 0 && event->button() == Qt::LeftButton) {
+        const QRect rect = tabRect(index);
+        m_drag.tabIndex = index;
+        m_drag.startPosition = event->pos();
+        m_drag.offsetInTabX = event->pos().x() - rect.x();
+        m_drag.offsetInTabY = event->pos().y() - rect.y();
+        m_drag.tabWidth = rect.width();
+        m_drag.tabHeight = rect.height() > 0 ? rect.height() : height();
+        m_drag.isOngoing = false;
+    }
+
     QTabBar::mousePressEvent(event);
+}
+
+void DolphinTabBar::mouseMoveEvent(QMouseEvent *event)
+{
+    QTabBar::mouseMoveEvent(event);
+
+    if (!((event->buttons() & Qt::LeftButton) && m_drag.tabIndex >= 0 && count() > 1)) {
+        return;
+    }
+
+    if (!m_drag.isOngoing) {
+        if ((event->pos() - m_drag.startPosition).manhattanLength() >= QApplication::startDragDistance()) {
+            m_drag.isOngoing = true;
+        }
+        return;
+    }
+
+    if (count() > 1 && isOutsideUndetachableZone(event->pos())) {
+        startTabDrag(event);
+    }
+}
+
+void DolphinTabBar::startTabDrag(QMouseEvent *event)
+{
+    const int detachIndex = currentIndex();
+    if (detachIndex < 0 || detachIndex >= count()) {
+        cancelTabDrag();
+        return;
+    }
+
+    // Preview tab rendering for drag
+    QStyleOptionTab tab;
+    initStyleOption(&tab, detachIndex);
+    tab.state &= ~QStyle::State_MouseOver;
+    tab.position = QStyleOptionTab::OnlyOneTab;
+    tab.leftButtonSize = QSize();
+    tab.rightButtonSize = QSize();
+
+    QWidget *closeButton = tabButton(detachIndex, QTabBar::RightSide);
+    if (!closeButton) {
+        closeButton = tabButton(detachIndex, QTabBar::LeftSide);
+    }
+    if (closeButton) {
+        const int width = tab.fontMetrics.horizontalAdvance(tab.text) + closeButton->width();
+        tab.text = tab.fontMetrics.elidedText(tabText(detachIndex), Qt::ElideRight, width);
+    }
+
+    const qreal dpr = qMax(qreal(1.0), devicePixelRatioF());
+    QPixmap tabPixmap(tab.rect.size() * dpr);
+    tabPixmap.setDevicePixelRatio(dpr);
+    tabPixmap.fill(Qt::transparent);
+    tab.rect = QRect(QPoint(0, 0), tab.rect.size());
+
+    QPainter tabPainter(&tabPixmap);
+    style()->drawControl(QStyle::CE_TabBarTab, &tab, &tabPainter, this);
+    tabPainter.end();
+
+    // Reset QTabBar internal move state before QDrag takes over
+    QMouseEvent releaseEvent(QEvent::MouseButtonRelease, event->position(), event->globalPosition(), Qt::LeftButton, Qt::NoButton, event->modifiers());
+    QTabBar::mouseReleaseEvent(&releaseEvent);
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(new QMimeData());
+
+    const int tabW = tabPixmap.width() / dpr;
+    const int tabH = tabPixmap.height() / dpr;
+
+    if (!tabPixmap.isNull()) {
+        QPixmap previewPixmap(tabPixmap.size());
+        previewPixmap.setDevicePixelRatio(dpr);
+        previewPixmap.fill(Qt::transparent);
+
+        QPainter painter(&previewPixmap);
+        painter.setOpacity(0.7);
+        painter.drawPixmap(0, 0, tabPixmap);
+        painter.end();
+
+        drag->setPixmap(previewPixmap);
+        const int hotX = std::clamp(m_drag.offsetInTabX, 0, tabW);
+        const int hotY = std::clamp(m_drag.offsetInTabY, 0, tabH);
+        drag->setHotSpot(QPoint(hotX, hotY));
+    }
+
+    drag->exec(Qt::MoveAction);
+
+    const QPoint releasePos = mapFromGlobal(QCursor::pos());
+    const bool shouldDetach = isOutsideUndetachableZone(releasePos);
+    cancelTabDrag();
+
+    if (shouldDetach) {
+        Q_EMIT tabDetachRequested(detachIndex);
+    }
 }
 
 void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
@@ -156,7 +263,27 @@ void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
+    if (event->button() == Qt::LeftButton) {
+        cancelTabDrag();
+    }
+
     QTabBar::mouseReleaseEvent(event);
+}
+
+bool DolphinTabBar::isOutsideUndetachableZone(const QPoint &pos) const
+{
+    const int tabWidth = m_drag.tabWidth > 0 ? m_drag.tabWidth : 100;
+    const int tabHeight = m_drag.tabHeight > 0 ? m_drag.tabHeight : height();
+
+    const QPoint draggedTabCenter(pos.x() - m_drag.offsetInTabX + tabWidth / 2, pos.y() - m_drag.offsetInTabY + tabHeight / 2);
+    const QRect safeZone = rect().adjusted(0, -2 * tabHeight, 0, 2 * tabHeight);
+
+    return !safeZone.contains(draggedTabCenter);
+}
+
+void DolphinTabBar::cancelTabDrag()
+{
+    m_drag = {};
 }
 
 void DolphinTabBar::mouseDoubleClickEvent(QMouseEvent *event)
