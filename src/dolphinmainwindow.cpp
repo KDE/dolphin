@@ -2859,7 +2859,8 @@ void DolphinMainWindow::updateSplitActions()
         switch (GeneralSettings::closeSplitViewChoice()) {
         case Choice::ActiveView:
             if (tabPage->primaryViewActive()) {
-                m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setIconText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View: Close Left Pane"));
                 m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Left View"));
                 m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
                 m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Left View"));
@@ -2867,7 +2868,8 @@ void DolphinMainWindow::updateSplitActions()
                 popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out Left View"));
                 popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move left split view to a new window"));
             } else {
-                m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setIconText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View: Close Right Pane"));
                 m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
                 m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
                 m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
@@ -2878,7 +2880,8 @@ void DolphinMainWindow::updateSplitActions()
             break;
         case Choice::InactiveView:
             if (!tabPage->primaryViewActive()) {
-                m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setIconText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View: Close Left Pane"));
                 m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Left View"));
                 m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
                 m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Left View"));
@@ -2886,7 +2889,8 @@ void DolphinMainWindow::updateSplitActions()
                 popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out Left View"));
                 popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move left split view to a new window"));
             } else {
-                m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setIconText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View: Close Right Pane"));
                 m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
                 m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
                 m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
@@ -2896,7 +2900,8 @@ void DolphinMainWindow::updateSplitActions()
             }
             break;
         case Choice::RightView:
-            m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+            m_splitViewAction->setIconText(i18nc("@action:intoolbar Close right view", "Close"));
+            m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View: Close Right Pane"));
             m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
             m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
@@ -2914,8 +2919,9 @@ void DolphinMainWindow::updateSplitActions()
             m_splitViewAction->addAction(popoutSplitAction);
         }
     } else {
-        m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
-        m_splitViewMenuAction->setText(m_splitViewAction->text());
+        m_splitViewAction->setIconText(i18nc("@action:intoolbar Split view", "Split"));
+        m_splitViewAction->setText(i18nc("@action Split view name in configuration dialogs", "Split View"));
+        m_splitViewMenuAction->setText(m_splitViewAction->iconText());
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
         m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
         popoutSplitAction->setText(i18nc("@action:intoolbar Move view in focus to a new window", "Pop out"));

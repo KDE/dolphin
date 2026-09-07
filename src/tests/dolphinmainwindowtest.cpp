@@ -92,6 +92,7 @@ private Q_SLOTS:
     void testViewModeAfterDynamicView();
     void testActivationAndTabTitleAfterRenameOpeningFolder();
     void testActiveViewAfterTabSwitchWithSplitView();
+    void testSplitActionKeepsItsNameWhenSplit();
     void testActiveViewFollowsTheActivatedView();
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
@@ -2047,6 +2048,40 @@ void DolphinMainWindowTest::testActiveViewFollowsTheActivatedView()
     QVERIFY(tabPage->primaryViewActive());
     QCOMPARE(tabPage->activeViewContainer(), tabPage->primaryViewContainer());
     QCOMPARE(m_mainWindow->activeViewContainer(), tabPage->primaryViewContainer());
+}
+
+// The shortcuts and toolbar configuration dialogs list an action under its text(), so the split
+// view action keeps its name there and adds the current state after it. The toolbar button shows
+// iconText(), which is the state on its own.
+void DolphinMainWindowTest::testSplitActionKeepsItsNameWhenSplit()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    QVERIFY(!tabWidget->currentTabPage()->splitViewEnabled());
+
+    QAction *splitAction = m_mainWindow->actionCollection()->action(QStringLiteral("split_view"));
+    QVERIFY(splitAction);
+    const QString name = splitAction->text();
+    QVERIFY(!name.isEmpty());
+    const QString unsplitLabel = splitAction->iconText();
+
+    splitAction->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+
+    QVERIFY(splitAction->text().startsWith(name));
+    QVERIFY(splitAction->text() != name);
+    QVERIFY(splitAction->iconText() != unsplitLabel);
+    QVERIFY(!splitAction->iconText().startsWith(name));
+
+    splitAction->trigger();
+    QVERIFY(!tabWidget->currentTabPage()->splitViewEnabled());
+
+    QCOMPARE(splitAction->text(), name);
+    QCOMPARE(splitAction->iconText(), unsplitLabel);
 }
 
 // Test that switching tabs does not spuriously toggle which split-view pane is active.
