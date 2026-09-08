@@ -101,6 +101,7 @@ private Q_SLOTS:
 private:
     bool createDirectory(QAction *action, const QString &name);
 
+    QTemporaryDir m_tmpHome;
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
 
@@ -115,6 +116,8 @@ QList<QUrl> tabUrls(const KConfigGroup &group, int index)
 
 void DolphinMainWindowTest::initTestCase()
 {
+    QVERIFY(m_tmpHome.isValid());
+    qputenv("HOME", m_tmpHome.path().toUtf8());
     QStandardPaths::setTestModeEnabled(true);
     TestHelpers::disableAnimations();
     // Use fullWidth statusbar during testing, to test out most of the features.
@@ -1502,6 +1505,11 @@ void DolphinMainWindowTest::testInlineRename()
     QScopedPointer<TestDir> testDir{new TestDir()};
     testDir->createFiles({"aaaa", "bbbb", "cccc", "dddd"});
     m_mainWindow->openDirectories({testDir->url()}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy itemsReorderedSpy(view->m_model, &KFileItemModel::itemsMoved);
+    QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
+
     m_mainWindow->show();
 #ifdef Q_OS_WIN
     if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
@@ -1514,12 +1522,7 @@ void DolphinMainWindowTest::testInlineRename()
 
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
-    DolphinView *view = m_mainWindow->activeViewContainer()->view();
-    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
-    QSignalSpy itemsReorderedSpy(view->m_model, &KFileItemModel::itemsMoved);
-    QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
-
-    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QVERIFY(viewDirectoryLoadingCompletedSpy.count() > 0 || viewDirectoryLoadingCompletedSpy.wait());
     QTest::qWait(500); // UNAVOIDABLE: view must be fully settled before inline rename sequence
     view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/aaaa")});
     view->updateViewState();
