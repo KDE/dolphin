@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-23 02:41+0000\n"
-"PO-Revision-Date: 2026-08-28 14:27+0300\n"
+"PO-Revision-Date: 2026-09-07 14:31+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -761,18 +761,12 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:2036
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the folder view has been split, this will pop the active folder view "
-#| "out into a new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
-msgstr ""
-"Jei aplanko rodinys padalytas, tai iškels aktyvaus aplanko rodinį į naują "
-"langą."
+msgstr "Jei rodinys padalytas, tai iškels fokusuotą rodinį į naują langą."
 
 #: dolphinmainwindow.cpp:2044
 #, kde-format
@@ -876,6 +870,11 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
+"Tai atšaukia paskutinį pakeitimą, kurį atlikote failams ar aplankams.<nl/>Į "
+"pakeitimus įeina failų ar aplankų <interface>kūrimas</interface>, "
+"<interface>pervadinimas</interface> ir jų <interface>perkėlimas</interface> "
+"į kitą vietą arba į <filename>Šiukšlinę</filename>. <nl/>Prieš atliekant "
+"pakeitimus, kurie negali būti atšaukti, bus paprašyta jūsų patvirtinimo."
 
 #: dolphinmainwindow.cpp:2134
 #, kde-kuit-format
@@ -887,6 +886,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
+"Tai grąžina paskutinį atšauktą pakeitimą.<nl/>Į pakeitimus įeina failų ar "
+"aplankų <interface>kūrimas</interface>, <interface>pervadinimas</interface> "
+"ir jų <interface>perkėlimas</interface> į kitą vietą arba į "
+"<filename>Šiukšlinę</filename>.<nl/>Prieš atliekant pakeitimus, kurie negali "
+"būti atšaukti, bus paprašyta jūsų patvirtinimo."
 
 #: dolphinmainwindow.cpp:2163
 #, kde-kuit-format
@@ -928,21 +932,16 @@ msgid "Open Terminal"
 msgstr "Atverti terminalą"
 
 #: dolphinmainwindow.cpp:2200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
-"<para>Tai atveria <emphasis>terminalo</emphasis> programą rodomoje vietoje.</"
-"para><para>Norėdami daugiau sužinoti apie terminalus, naudokite pagalbos "
-"meniu terminalo programoje.</para>"
+"<para>Tai atveria <emphasis>terminalo</emphasis> programą peržiūrimoje "
+"vietoje.</para><para>Norėdami daugiau sužinoti apie terminalų naudojimą, "
+"naudokite pagalbines ypatybes terminalo programoje.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2208
@@ -952,21 +951,16 @@ msgid "Open Terminal Here"
 msgstr "Atverti čia terminalą"
 
 #: dolphinmainwindow.cpp:2210
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
-"<para>Tai atveria <emphasis>terminalo</emphasis> programą rodomoje vietoje.</"
-"para><para>Norėdami daugiau sužinoti apie terminalus, naudokite pagalbos "
-"meniu terminalo programoje.</para>"
+"<para>Tai atveria <emphasis>terminalo</emphasis> programas pažymėtų elementų "
+"vietose.</para><para>Norėdami daugiau sužinoti apie terminalus, naudokite "
+"pagalbines ypatybes terminalo programoje.</para>"
 
 #: dolphinmainwindow.cpp:2218
 #, kde-format
@@ -1222,11 +1216,7 @@ msgid "Show Hidden Places"
 msgstr "Rodyti paslėptas vietas"
 
 #: dolphinmainwindow.cpp:2531
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1234,7 +1224,7 @@ msgid ""
 "property."
 msgstr ""
 "Tai vietų skydelyje rodo visas vietas, kurios yra paslėptos. Jos bus rodomos "
-"pusiau permatomai, nebent nuimsite žymėjimą nuo savybės jas slėpti."
+"pusiau permatomai ir leis jums nuimti žymėjimą nuo jų savybės „Slėpti“."
 
 #: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
