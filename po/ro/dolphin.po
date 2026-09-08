@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-05 00:49+0000\n"
+"POT-Creation-Date: 2026-09-08 00:48+0000\n"
 "PO-Revision-Date: 2026-06-15 15:10+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1223,7 +1223,7 @@ msgstr ""
 "terminale, folosiți ajutorul dintr-o aplicație de terminal separată, cum ar "
 "fi Konsolă.</para>"
 
-#: dolphinmainwindow.cpp:2485 dolphinmainwindow.cpp:3155
+#: dolphinmainwindow.cpp:2485 dolphinmainwindow.cpp:3161
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1316,7 +1316,7 @@ msgstr ""
 "ascunde. Faceți clic-dreapta pe spațiul gol de pe acest panou și alegeți "
 "<interface>Arată locurile ascunse</interface> pentru a o afișa iar.</para>"
 
-#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3173
+#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3179
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1443,90 +1443,112 @@ msgstr ""
 "e un dosar ce conține toate datele conectate la acest calculator – "
 "<emphasis>dosarul-rădăcină</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
+#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2883
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Închide"
 
-#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2882
+#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2884
+#, fuzzy, kde-format
+#| msgid "Split the view into two panes"
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View: Close Left Pane"
+msgstr "Desparte vizualizarea în două panouri"
+
+#: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Închide vizualizarea stângă"
 
-#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2866 dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Închide vizualizarea stângă"
 
-#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Scoate în prim-plan vizualizarea stângă"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
+#: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Mută vizualizarea despărțită stângă într-o nouă fereastră"
 
-#: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
-#: dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2892
+#: dolphinmainwindow.cpp:2903
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Închide"
 
-#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
-#: dolphinmainwindow.cpp:2900
+#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2893
+#: dolphinmainwindow.cpp:2904
+#, kde-format
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View: Close Right Pane"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2905
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Închide vizualizarea dreaptă"
 
-#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
-#: dolphinmainwindow.cpp:2902
+#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2896
+#: dolphinmainwindow.cpp:2907
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Închide vizualizarea dreaptă"
 
-#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2898
+#: dolphinmainwindow.cpp:2909
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Scoate în prim-plan vizualizarea dreaptă"
 
-#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
-#: dolphinmainwindow.cpp:2905
+#: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2910
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Mută vizualizarea despărțită dreaptă într-o nouă fereastră"
 
-#: dolphinmainwindow.cpp:2917
+#: dolphinmainwindow.cpp:2922
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Desparte"
 
-#: dolphinmainwindow.cpp:2919
+#: dolphinmainwindow.cpp:2923
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Split view"
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View"
+msgstr "Desparte vizualizarea"
+
+#: dolphinmainwindow.cpp:2925
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Desparte vizualizarea"
 
-#: dolphinmainwindow.cpp:2921
+#: dolphinmainwindow.cpp:2927
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Scoate în prim-plan"
 
-#: dolphinmainwindow.cpp:2981
+#: dolphinmainwindow.cpp:2987
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1545,7 +1567,7 @@ msgstr ""
 "printr-un buton <interface>Meniu</interface> pe <emphasis>bara de unelte</"
 "emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2988
+#: dolphinmainwindow.cpp:2994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1569,7 +1591,7 @@ msgstr ""
 "dreapta. Faceți clic-drept pe un buton dacă doriți să-i arătați sau "
 "ascundeți textul.</para>"
 
-#: dolphinmainwindow.cpp:3000
+#: dolphinmainwindow.cpp:3006
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1598,7 +1620,7 @@ msgstr ""
 "html'>apăsați aici</link>. Aceasta va deschide o pagină din "
 "<emphasis>Manual</emphasis> care acoperă caracteristicile de bază.</para>"
 
-#: dolphinmainwindow.cpp:3016
+#: dolphinmainwindow.cpp:3022
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1612,7 +1634,7 @@ msgstr ""
 "declanșarea unei acțiuni la apăsarea simultană a acestora. Astfel pot fi "
 "declanșate toate comenzile din această aplicație.</para>"
 
-#: dolphinmainwindow.cpp:3022
+#: dolphinmainwindow.cpp:3028
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1624,7 +1646,7 @@ msgstr ""
 "pe <emphasis>bara de unelte</emphasis>.</para><para>Toate elementele din "
 "<interface>meniu</interface> pot fi plasate pe bara de unelte.</para>"
 
-#: dolphinmainwindow.cpp:3026
+#: dolphinmainwindow.cpp:3032
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1643,7 +1665,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3046
+#: dolphinmainwindow.cpp:3052
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1660,7 +1682,7 @@ msgstr ""
 "File_Management'>apăsați aici</link>. Aceasta va deschide pagina dedicată "
 "din KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:3051
+#: dolphinmainwindow.cpp:3057
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1683,7 +1705,7 @@ msgstr ""
 "majoritatea celorlalte ferestre, așa că nu vă obișnuiți prea tare cu acesta."
 "</para>"
 
-#: dolphinmainwindow.cpp:3062
+#: dolphinmainwindow.cpp:3068
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1699,7 +1721,7 @@ msgstr ""
 "despre cum să faceți raportul de defect cât mai eficient, <link url='https://"
 "community.kde.org/Get_Involved/Bug_Reporting'>apăsați aici</link>.</para>"
 
-#: dolphinmainwindow.cpp:3071
+#: dolphinmainwindow.cpp:3077
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1722,7 +1744,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> e organizația non-profit din "
 "spatele comunității KDE.</para>"
 
-#: dolphinmainwindow.cpp:3084
+#: dolphinmainwindow.cpp:3090
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1734,7 +1756,7 @@ msgstr ""
 "să stabiliți limbi secundare ce vor fi folosite dacă textele nu sunt "
 "disponibile în limba preferată."
 
-#: dolphinmainwindow.cpp:3089
+#: dolphinmainwindow.cpp:3095
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1744,7 +1766,7 @@ msgstr ""
 "Aceasta deschide o fereastră ce vă informează despre versiune, licență, "
 "biblioteci folosite și responsabilii de această aplicație."
 
-#: dolphinmainwindow.cpp:3094
+#: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1758,19 +1780,19 @@ msgstr ""
 "place să folosiți acest program dar nu știți despre KDE sau vreți să vedeți "
 "un dragon drăguț, aruncați o privire!"
 
-#: dolphinmainwindow.cpp:3149 dolphinmainwindow.cpp:3160
+#: dolphinmainwindow.cpp:3155 dolphinmainwindow.cpp:3166
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Defocalizează panoul terminalului"
 
-#: dolphinmainwindow.cpp:3167
+#: dolphinmainwindow.cpp:3173
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Defocalizează panoul terminalului"
 
-#: dolphinmainwindow.cpp:3178
+#: dolphinmainwindow.cpp:3184
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -7446,9 +7468,6 @@ msgstr "Apropiere"
 #~ msgctxt "@action:inmenu"
 #~ msgid "Activate Previous Tab"
 #~ msgstr "Activează fila precedentă"
-
-#~ msgid "Split the view into two panes"
-#~ msgstr "Desparte vizualizarea în două panouri"
 
 #~ msgid "Show tooltips"
 #~ msgstr "Arată indicii"

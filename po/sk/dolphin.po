@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-05 00:49+0000\n"
+"POT-Creation-Date: 2026-09-08 00:48+0000\n"
 "PO-Revision-Date: 2023-12-07 18:49+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
@@ -1204,7 +1204,7 @@ msgstr ""
 "úlohy. Na zistenie viac informácií o termináloch použite nápovedu v "
 "samostatnej terminálovej aplikácií ako je Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2485 dolphinmainwindow.cpp:3155
+#: dolphinmainwindow.cpp:2485 dolphinmainwindow.cpp:3161
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1296,7 +1296,7 @@ msgstr ""
 "a vyberte <interface>Zobraziť skryté miesta</interface> na ich opätovné "
 "zobrazenie.</para>"
 
-#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3173
+#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3179
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1418,90 +1418,112 @@ msgstr ""
 "priečinok, ktorý obsahuje všetky údaje pripojené k tomuto počítaču - "
 "<emphasis>koreňový priečinok</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
+#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2883
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2882
+#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2884
+#, fuzzy, kde-format
+#| msgid "Split the view into two panes"
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View: Close Left Pane"
+msgstr "Rozdeliť zobrazenie na dva panely"
+
+#: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Zatvoriť ľavé zobrazenie"
 
-#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2866 dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Zatvoriť ľavé zobrazenie"
 
-#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Vysunutie ľavého zobrazenia"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
+#: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Move left split view to a new window"
 
-#: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
-#: dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2892
+#: dolphinmainwindow.cpp:2903
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
-#: dolphinmainwindow.cpp:2900
+#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2893
+#: dolphinmainwindow.cpp:2904
+#, kde-format
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View: Close Right Pane"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2905
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Zatvoriť pravé zobrazenie"
 
-#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
-#: dolphinmainwindow.cpp:2902
+#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2896
+#: dolphinmainwindow.cpp:2907
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Zatvoriť pravé zobrazenie"
 
-#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2898
+#: dolphinmainwindow.cpp:2909
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Vysunutie pravého zobrazenia"
 
-#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
-#: dolphinmainwindow.cpp:2905
+#: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2910
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Move right split view to a new window"
 
-#: dolphinmainwindow.cpp:2917
+#: dolphinmainwindow.cpp:2922
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Rozdeliť"
 
-#: dolphinmainwindow.cpp:2919
+#: dolphinmainwindow.cpp:2923
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Split view"
+msgctxt "@action Split view name in configuration dialogs"
+msgid "Split View"
+msgstr "Rozdelené zobrazenie"
+
+#: dolphinmainwindow.cpp:2925
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Rozdelené zobrazenie"
 
-#: dolphinmainwindow.cpp:2921
+#: dolphinmainwindow.cpp:2927
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Pop out"
 
-#: dolphinmainwindow.cpp:2981
+#: dolphinmainwindow.cpp:2987
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1519,7 +1541,7 @@ msgstr ""
 "obsahu stane dostupným cez tlačidlo <interface>Menu</interface> na "
 "<emphasis>Paneli nástrojov</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2988
+#: dolphinmainwindow.cpp:2994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1542,7 +1564,7 @@ msgstr ""
 "po kliknutí pravým tlačidlom. Stlačte pravé tlačidlo myši ak chcete zobraziť "
 "alebo skryť ich text.</para>"
 
-#: dolphinmainwindow.cpp:3000
+#: dolphinmainwindow.cpp:3006
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1570,7 +1592,7 @@ msgstr ""
 "dolphin-view.html'>kliknite sem </link>. Toto otvorí stránku z "
 "<emphasis>Príručky</emphasis>, ktorá pokrýva základy.</para>"
 
-#: dolphinmainwindow.cpp:3016
+#: dolphinmainwindow.cpp:3022
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1583,7 +1605,7 @@ msgstr ""
 "<nl/>Tam môžete nastaviť klávesové kombinácie na spustenie akcií, keď sa "
 "stlačia naraz. Všetky príkazy aplikácie môžu byť takto spustené.</para>"
 
-#: dolphinmainwindow.cpp:3022
+#: dolphinmainwindow.cpp:3028
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1596,7 +1618,7 @@ msgstr ""
 "vidíte v <interface>Menu</interface> môžu byť umiestnené aj na Paneli "
 "nástrojov.</para>"
 
-#: dolphinmainwindow.cpp:3026
+#: dolphinmainwindow.cpp:3032
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1614,7 +1636,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3046
+#: dolphinmainwindow.cpp:3052
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1630,7 +1652,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'>kliknite sem</link>. "
 "Toto otvorí vyhradenú stránku v KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:3051
+#: dolphinmainwindow.cpp:3057
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1652,7 +1674,7 @@ msgstr ""
 "File_Management'>KDE UserBase Wiki</link>.</para><para>Pomocník \"Čo je toto?"
 "\" chýba vo väčšine ostatných okien tak si na ňu moc nezvykajte.</para>"
 
-#: dolphinmainwindow.cpp:3062
+#: dolphinmainwindow.cpp:3068
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1668,7 +1690,7 @@ msgstr ""
 "hlásenia o chybách čo najlepšie <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>kliknite sem</link>.</para>"
 
-#: dolphinmainwindow.cpp:3071
+#: dolphinmainwindow.cpp:3077
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1690,7 +1712,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> je nezisková organizácia stojaca za "
 "KDE komunitou.</para>"
 
-#: dolphinmainwindow.cpp:3084
+#: dolphinmainwindow.cpp:3090
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1702,7 +1724,7 @@ msgstr ""
 "nastaviť jazyk, ktorý sa použije v prípade ak nie je dostupný váš "
 "preferovaný jazyk."
 
-#: dolphinmainwindow.cpp:3089
+#: dolphinmainwindow.cpp:3095
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1712,7 +1734,7 @@ msgstr ""
 "Toto otvorí okno, ktoré vás informuje o verzií, licencií a použitých "
 "knižniciach a správcoch tejto aplikácie."
 
-#: dolphinmainwindow.cpp:3094
+#: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1725,19 +1747,19 @@ msgstr ""
 "ľudia za týmto softvérom.<nl/>Ak radi používate túto aplikáciu ale neviete "
 "veľa o KDE alebo chcete vidieť chutného draka, pozrite sa!"
 
-#: dolphinmainwindow.cpp:3149 dolphinmainwindow.cpp:3160
+#: dolphinmainwindow.cpp:3155 dolphinmainwindow.cpp:3166
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Od-zamerať panel terminálu"
 
-#: dolphinmainwindow.cpp:3167
+#: dolphinmainwindow.cpp:3173
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Od-zamerať panel terminálu"
 
-#: dolphinmainwindow.cpp:3178
+#: dolphinmainwindow.cpp:3184
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -7364,9 +7386,6 @@ msgstr "Lupa"
 #~ msgctxt "@action:inmenu"
 #~ msgid "Activate Previous Tab"
 #~ msgstr "Aktivovať predchádzajúcu kartu"
-
-#~ msgid "Split the view into two panes"
-#~ msgstr "Rozdeliť zobrazenie na dva panely"
 
 #~ msgid "Use tab for switching between right and left split"
 #~ msgstr "Použite tabulátor na prepínanie medzi pravým a ľavým rozdelením"
