@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-23 02:41+0000\n"
-"PO-Revision-Date: 2026-07-30 08:59+0200\n"
+"PO-Revision-Date: 2026-09-05 13:01+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -559,13 +559,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copier vers l’autre vue"
+msgstr "Copier vers l'autre vue"
 
 #: dolphinmainwindow.cpp:1884
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copier vers l’autre vue…"
+msgstr "Copier vers l'autre vue…"
 
 #: dolphinmainwindow.cpp:1886
 #, kde-kuit-format
@@ -575,26 +575,26 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Ceci copie les éléments sélectionnés de la vue <emphasis>ayant le focus</"
-"emphasis> vers l’autre vue. (Uniquement disponible dans le mode « Vue "
+"emphasis> vers l'autre vue. (Uniquement disponible dans le mode « Vue "
 "fractionnée »)"
 
 #: dolphinmainwindow.cpp:1890
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
-msgstr "Copier vers l’autre vue"
+msgstr "Copier vers l'autre vue"
 
 #: dolphinmainwindow.cpp:1895
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Déplacer vers l’autre vue"
+msgstr "Déplacer vers l'autre vue"
 
 #: dolphinmainwindow.cpp:1896
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Déplacer vers l’autre vue…"
+msgstr "Déplacer vers l'autre vue…"
 
 #: dolphinmainwindow.cpp:1898
 #, kde-kuit-format
@@ -604,14 +604,14 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Ceci déplace les éléments sélectionnés de la vue <emphasis>ayant le focus</"
-"emphasis> vers l’autre vue. (Uniquement disponible dans le mode « Vue "
+"emphasis> vers l'autre vue. (Uniquement disponible dans le mode « Vue "
 "fractionnée »)"
 
 #: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
-msgstr "Déplacer vers l’autre vue"
+msgstr "Déplacer vers l'autre vue"
 
 #: dolphinmainwindow.cpp:1907
 #, kde-format
@@ -797,7 +797,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Rafraîchir l'affichage"
+msgstr "Rafraichir l'affichage"
 
 #: dolphinmainwindow.cpp:2056
 #, kde-kuit-format
@@ -1410,20 +1410,20 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr "Impossible de copier vers l’autre vue : aucun fichier sélectionné."
+msgstr "Impossible de copier vers l'autre vue : aucun fichier sélectionné."
 
 #: dolphinmainwindow.cpp:2691
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr "Impossible de déplacer vers l’autre vue : aucun fichier sélectionné."
+msgstr "Impossible de déplacer vers l'autre vue : aucun fichier sélectionné."
 
 #: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
-"Impossible de copier vers l’autre vue : l'autre vue contient déjà ces "
+"Impossible de copier vers l'autre vue : l'autre vue contient déjà ces "
 "éléments."
 
 #: dolphinmainwindow.cpp:2713
@@ -1431,7 +1431,7 @@ msgstr ""
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
-"Impossible de déplacer vers l’autre vue : l'autre vue contient déjà ces "
+"Impossible de déplacer vers l'autre vue : l'autre vue contient déjà ces "
 "éléments."
 
 #: dolphinmainwindow.cpp:2718
@@ -1441,7 +1441,7 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
-"Impossible de copier vers l’autre vue : vous n'êtes pas autorisé à écrire "
+"Impossible de copier vers l'autre vue : vous n'êtes pas autorisé à écrire "
 "dans le dossier de destination."
 
 #: dolphinmainwindow.cpp:2722
@@ -1451,7 +1451,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
-"Impossible de basculer vers l’autre vue : vous n'êtes pas autorisé à écrire "
+"Impossible de basculer vers l'autre vue : vous n'êtes pas autorisé à écrire "
 "dans le dossier de destination."
 
 #: dolphinmainwindow.cpp:2728
@@ -1461,7 +1461,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
-"Impossible de basculer vers l’autre vue : vous n'êtes pas autorisé à "
+"Impossible de basculer vers l'autre vue : vous n'êtes pas autorisé à "
 "déplacer des éléments à partir de ce dossier."
 
 #: dolphinmainwindow.cpp:2755
@@ -4523,14 +4523,14 @@ msgstr "Afficher « Ouvrir dans un terminal » dans le menu contextuel."
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Afficher « Copier vers l’autre vue scindée » dans le menu contextuel."
+msgstr "Afficher « Copier vers l'autre vue scindée » dans le menu contextuel."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
 msgstr ""
-"Afficher « Déplacer vers l’autre vue scindée » dans le menu contextuel."
+"Afficher « Déplacer vers l'autre vue scindée » dans le menu contextuel."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -5217,7 +5217,7 @@ msgstr "Saisissez l'emplacement du dossier personnel."
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
-msgstr "Sélectionner l’emplacement du dossier personnel"
+msgstr "Sélectionner l'emplacement du dossier personnel"
 
 #: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
@@ -5859,7 +5859,7 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr "Action à déclencher lors d’un double-clic sur l'arrière-plan de la vue"
+msgstr "Action à déclencher lors d'un double-clic sur l'arrière-plan de la vue"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:130
@@ -6076,7 +6076,7 @@ msgstr "Par un clic n'importe où sur la ligne"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Par un clic sur l’icône ou le nom"
+msgstr "Par un clic sur l'icône ou le nom"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:121
