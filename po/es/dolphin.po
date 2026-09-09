@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-08 00:48+0000\n"
-"PO-Revision-Date: 2026-09-05 16:23+0100\n"
+"PO-Revision-Date: 2026-09-08 11:27+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1445,7 +1445,7 @@ msgstr "Cerrar"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr ""
+msgstr "Vista dividida: Cerrar panel izquierdo"
 
 #: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
@@ -1483,7 +1483,7 @@ msgstr "Cerrar"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Vista dividida: Cerrar panel derecho"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2905
@@ -1520,9 +1520,7 @@ msgid "Split"
 msgstr "Dividir"
 
 #: dolphinmainwindow.cpp:2923
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "Vista dividida"

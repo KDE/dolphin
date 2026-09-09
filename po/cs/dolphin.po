@@ -6,6 +6,7 @@
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 # SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 # SPDX-FileCopyrightText: 2026 Libor Filípek <filipek.libor@protonmail.com>
+# SPDX-FileCopyrightText: 2026 Libor Filipek <libor.filipek@gmail.com>
 #
 # SPDX-FileCopyrightText: 2025 Jan Papez (honyczek)
 msgid ""
@@ -13,8 +14,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-08 00:48+0000\n"
-"PO-Revision-Date: 2026-08-24 19:49+0200\n"
-"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
+"PO-Revision-Date: 2026-09-08 20:27+0200\n"
+"Last-Translator: Libor Filipek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -1422,7 +1423,7 @@ msgstr "Zavřít"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr ""
+msgstr "Rozdělený pohled: Zavřít levý panel"
 
 #: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
@@ -1460,7 +1461,7 @@ msgstr "Zavřít"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Rozdělený pohled: Zavřít pravý panel"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2905
@@ -1497,9 +1498,7 @@ msgid "Split"
 msgstr "Rozdělit"
 
 #: dolphinmainwindow.cpp:2923
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "Rozdělit pohled"

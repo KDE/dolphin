@@ -3,7 +3,7 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# SPDX-FileCopyrightText: 2013-2022, 2024-2025 Antoni Bella Pérez <antonibella5@yahoo.com>
+# SPDX-FileCopyrightText: 2013-2022, 2024-2026 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2019 Empar Montoro Martín <montoro_mde@gva.es>
 # SPDX-FileCopyrightText: 2007-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-08 00:48+0000\n"
-"PO-Revision-Date: 2026-09-06 18:12+0200\n"
+"PO-Revision-Date: 2026-09-08 11:47+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1445,7 +1445,7 @@ msgstr "Tanca"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr ""
+msgstr "Vista dividida: tanca la subfinestra esquerra"
 
 #: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
@@ -1483,7 +1483,7 @@ msgstr "Tanca"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Vista dividida: tanca la subfinestra dreta"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2905
@@ -1520,12 +1520,10 @@ msgid "Split"
 msgstr "Divideix"
 
 #: dolphinmainwindow.cpp:2923
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "Vista dividida"
+msgstr "Divideix la vista"
 
 #: dolphinmainwindow.cpp:2925
 #, kde-format
@@ -6797,12 +6795,12 @@ msgid ""
 "location by clicking the region to the left of it. This way you can view the "
 "contents of multiple folders in the same list.</para>"
 msgstr ""
-"<para>Això commuta a un mode de vista que se centra en els detalls de les "
-"carpetes i els fitxers.</para><para>Feu clic a un detall de la capçalera de "
-"columna per a ordenar els elements per a aquesta. Feu clic una altra vegada "
-"per a ordenar en l'altre sentit. Per a seleccionar els detalls que s'haurien "
-"de mostrar feu clic a la capçalera amb el botó dret del ratolí.</"
-"para><para>Podeu veure el contingut d'una carpeta sense deixar la ubicació "
+"<para>Això commuta a un mode de vista de llista que se centra en els detalls "
+"de les carpetes i els fitxers.</para><para>Feu clic a un detall de la "
+"capçalera de columna per a ordenar els elements per a aquesta. Feu clic una "
+"altra vegada per a ordenar en l'altre sentit. Per a seleccionar els detalls "
+"que s'haurien de mostrar feu clic a la capçalera amb el botó dret del ratolí."
+"</para><para>Podeu veure el contingut d'una carpeta sense deixar la ubicació "
 "actual fent-hi clic a la regió de la seva esquerra. D'aquesta manera podeu "
 "veure el contingut de múltiples carpetes a la mateixa llista.</para>"
 

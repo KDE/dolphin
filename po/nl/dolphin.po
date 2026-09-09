@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-08 00:48+0000\n"
-"PO-Revision-Date: 2026-09-05 16:25+0200\n"
+"PO-Revision-Date: 2026-09-08 11:11+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1433,11 +1433,10 @@ msgid "Close"
 msgstr "Sluiten"
 
 #: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2884
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Weergave over twee panelen splitsen"
+msgstr "Gesplitste weergave: linker paneel sluiten"
 
 #: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
 #, kde-format
@@ -1475,7 +1474,7 @@ msgstr "Sluiten"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Gesplitste weergave: rechter paneel sluiten"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2905
@@ -1512,12 +1511,10 @@ msgid "Split"
 msgstr "Splitsen"
 
 #: dolphinmainwindow.cpp:2923
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "Weergave splitsen"
+msgstr "Gesplitste weergave"
 
 #: dolphinmainwindow.cpp:2925
 #, kde-format
