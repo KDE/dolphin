@@ -257,23 +257,24 @@ ViewProperties::ViewProperties(const QUrl &url)
     m_hasOwnDefaultStyle = useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView || useSnapshotsView || useFileSnapshotsView;
 
     auto propsOpt = loadProperties(m_filePath);
+    const bool hasStoredProps = propsOpt != nullptr;
 
-    bool useDefaultSettings =
-        // If the props timestamp is too old,
-        // use default values instead.
-        (propsOpt && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp() < settings->viewPropsTimestamp())
-        // When global view props is on and this is a special folder (search, trash,
-        // recents/timeline, downloads), only apply defaults on the first visit.
-        // On subsequent visits the user's saved properties should be preserved.
-        || (useGlobalViewProps && !m_hasOwnDefaultStyle);
+    // Properties older than the moment a display style was applied to all folders carry a style the
+    // user has since replaced, so the newer request is the one to follow. Properties that carry no
+    // timestamp at all were written by something that does not keep one and say nothing about when
+    // the user chose them.
+    const bool stalePropsTimestamp = hasStoredProps && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp().isValid()
+        && propsOpt->timestamp() < settings->viewPropsTimestamp();
 
-    if (propsOpt) {
+    if (hasStoredProps && !stalePropsTimestamp) {
         m_node = propsOpt;
     } else {
-        // no settings found for m_filepath, load defaults
+        // nothing usable stored for m_filepath, load defaults
+        delete propsOpt;
         m_node = defaultProperties();
-        useDefaultSettings = true;
     }
+
+    const bool useDefaultSettings = !hasStoredProps || stalePropsTimestamp || (useGlobalViewProps && !m_hasOwnDefaultStyle);
 
     // default values for special directories
     if (useDefaultSettings) {

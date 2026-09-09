@@ -10,6 +10,9 @@
 
 #include <KFileMetaData/UserMetaData>
 
+#include <QDateTime>
+#include <QDir>
+#include <QScopeGuard>
 #include <QStorageInfo>
 #include <QTest>
 
@@ -39,12 +42,68 @@ private Q_SLOTS:
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
     void testDownloadsKeepsTheOrdinaryStyleWhenChosen();
+    void testApplyToAllFoldersReachesACustomizedFolder();
+    void testApplyToAllFoldersLeavesASpecialFolderOnItsOwnDefault();
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
     void testSymlinkSharesProperties();
 
 private:
+    // Hands the moment every folder's properties are measured against back afterwards.
+    [[nodiscard]] static auto pinViewPropsTimestamp(const QDateTime &timestamp)
+    {
+        GeneralSettings *settings = GeneralSettings::self();
+        const QDateTime previous = settings->viewPropsTimestamp();
+        settings->setViewPropsTimestamp(timestamp);
+        return qScopeGuard([settings, previous] {
+            settings->setViewPropsTimestamp(previous);
+        });
+    }
+
+    static QString viewPropertiesPath(const QString &subDir)
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties/") + subDir;
+    }
+
+    // Properties of the special folders outlive a single test, so a test that looks at the style
+    // one comes with starts from none being stored.
+    static void forgetStoredProperties(const QString &subDir)
+    {
+        QDir(viewPropertiesPath(subDir)).removeRecursively();
+    }
+
+    // What ViewPropertiesDialog does for "Use as default view settings" together with "Apply to all
+    // folders": the style goes to the global properties, and the properties of every folder are
+    // made invalid by their timestamp.
+    static void applyToAllFolders(const QUrl &url, DolphinView::Mode mode)
+    {
+        GeneralSettings *settings = GeneralSettings::self();
+
+        settings->setGlobalViewProps(true);
+        {
+            ViewProperties defaultProps(url);
+            defaultProps.setViewMode(mode);
+            defaultProps.save();
+        }
+        settings->setGlobalViewProps(false);
+
+        settings->setViewPropsTimestamp(QDateTime::currentDateTime());
+        settings->save();
+    }
+
+    // The default style and the timestamp are read by every other test, so hand them back.
+    [[nodiscard]] static auto restoreDefaultsAfterwards()
+    {
+        const QDateTime timestamp = GeneralSettings::self()->viewPropsTimestamp();
+        return qScopeGuard([timestamp] {
+            GeneralSettings *settings = GeneralSettings::self();
+            settings->setViewPropsTimestamp(timestamp);
+            settings->save();
+            forgetStoredProperties(QStringLiteral("global"));
+        });
+    }
+
     bool m_globalViewProps;
     TestDir *m_testDir;
 };
@@ -167,6 +226,9 @@ void ViewPropertiesTest::testParamMigrationToFileAttr()
     QString dotDirectoryFilePath = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFilePath));
 
+    // The properties below are the ones under test, so they have to count as the newer ones.
+    auto restoreTimestamp = pinViewPropsTimestamp(QDateTime(QDate(2023, 1, 1), QTime(0, 0)));
+
     const char *settingsContent = R"SETTINGS("
 [Dolphin]
 Version=4
@@ -207,6 +269,9 @@ void ViewPropertiesTest::testParamMigrationToFileAttrKeepDirectory()
 {
     QString dotDirectoryFilePath = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    // The properties below are the ones under test, so they have to count as the newer ones.
+    auto restoreTimestamp = pinViewPropsTimestamp(QDateTime(QDate(2023, 1, 1), QTime(0, 0)));
 
     const char *settingsContent = R"SETTINGS("
 [Dolphin]
@@ -635,6 +700,59 @@ void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
     QCOMPARE(props.sortOrder(), Qt::AscendingOrder);
     QCOMPARE(props.sortFoldersFirst(), true);
     QCOMPARE(props.groupedSorting(), false);
+}
+
+void ViewPropertiesTest::testApplyToAllFoldersReachesACustomizedFolder()
+{
+    const QUrl folder = m_testDir->url();
+    auto cleanup = restoreDefaultsAfterwards();
+
+    {
+        // A style of its own, and not the one a folder has anyway.
+        ViewProperties props(folder);
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+    QCOMPARE(ViewProperties(folder).viewMode(), DolphinView::DetailsView);
+
+    applyToAllFolders(folder, DolphinView::CompactView);
+
+    QCOMPARE(ViewProperties(folder).viewMode(), DolphinView::CompactView);
+}
+
+/**
+ * A special folder carries a display style of its own, and that style is its default. A style
+ * applied to all folders is the default of the folders that have none, so the trash goes back to
+ * the style it comes with rather than to that one.
+ */
+void ViewPropertiesTest::testApplyToAllFoldersLeavesASpecialFolderOnItsOwnDefault()
+{
+    // With one display style for all folders, a special folder still has a style of its own, and a
+    // style applied to every folder hands it back to that rather than taking it over.
+    GeneralSettings *settings = GeneralSettings::self();
+    settings->setGlobalViewProps(true);
+    settings->save();
+
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+    forgetStoredProperties(QStringLiteral("trash"));
+    auto cleanupTrash = qScopeGuard([] {
+        forgetStoredProperties(QStringLiteral("trash"));
+    });
+    auto cleanup = restoreDefaultsAfterwards();
+
+    {
+        ViewProperties props(trashUrl);
+        props.setViewMode(DolphinView::IconsView);
+        props.save();
+    }
+    QCOMPARE(ViewProperties(trashUrl).viewMode(), DolphinView::IconsView);
+
+    applyToAllFolders(m_testDir->url(), DolphinView::CompactView);
+    // applyToAllFolders leaves a display style per folder behind it.
+    settings->setGlobalViewProps(true);
+    settings->save();
+
+    QCOMPARE(ViewProperties(trashUrl).viewMode(), DolphinView::DetailsView);
 }
 
 void ViewPropertiesTest::testRestoreViewProps()
