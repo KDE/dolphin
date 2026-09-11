@@ -1426,12 +1426,10 @@ msgid "Split"
 msgstr "拆分视图"
 
 #: dolphinmainwindow.cpp:2923
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "拆分视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2925
 #, kde-format
@@ -1916,12 +1914,10 @@ msgid "New tab name:"
 msgstr "新标签页名称："
 
 #: dolphintabbar.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "新标签页位置："
+msgstr "新建标签页"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
