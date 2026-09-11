@@ -11,6 +11,7 @@
 #include <KFileMetaData/UserMetaData>
 
 #include <QStorageInfo>
+#include <QTemporaryDir>
 #include <QTest>
 
 #ifdef Q_OS_UNIX
@@ -57,11 +58,27 @@ private Q_SLOTS:
 private:
     bool m_globalViewProps;
     TestDir *m_testDir;
+    // These tests write to the downloads folder, which is read from the home directory, so they are
+    // given a home directory of their own rather than the one of whoever runs them. It sits in that
+    // one, so that the tests keep the file system they would have run on.
+    QTemporaryDir m_home{QDir::homePath() + QStringLiteral("/.viewPropertiesHome-")};
+    QString m_downloadsPath;
 };
 
 void ViewPropertiesTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
+
+    QVERIFY(m_home.isValid());
+    qputenv("HOME", QFile::encodeName(m_home.path()));
+
+    // Where the downloads folder is read from differs by platform, so it is only used where moving
+    // the home directory moved it as well.
+    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    if (downloadsPath.startsWith(m_home.path() + QDir::separator())) {
+        QVERIFY(QDir().mkpath(downloadsPath));
+        m_downloadsPath = downloadsPath;
+    }
 
     GeneralSettings::self()->setViewPropsTimestamp(QDateTime::currentDateTime());
     QVERIFY(GeneralSettings::self()->save());
@@ -597,10 +614,10 @@ void ViewPropertiesTest::testSpecialFolderPropsPreservedWithGlobalViewProps()
 void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
 {
     // init() has already turned per-folder view properties on.
-    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
-        QSKIP("This system has no downloads folder");
+    if (m_downloadsPath.isEmpty()) {
+        QSKIP("The downloads folder is not inside the home directory these tests were given");
     }
+    const QString downloadsPath = m_downloadsPath;
     const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
 
     auto forgetStoredProperties = [downloadsPath]() {
@@ -610,7 +627,7 @@ void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
         }
         QFile::remove(downloadsPath + QDir::separator() + QStringLiteral(".directory"));
     };
-    // The folder belongs to whoever runs this, so it is left as it was found.
+    // Each test starts from a folder with nothing written down for it.
     forgetStoredProperties();
     auto cleanup = qScopeGuard(forgetStoredProperties);
 
@@ -653,10 +670,10 @@ void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
  */
 void ViewPropertiesTest::testDownloadsHasItsOwnStyleWithGlobalViewProps()
 {
-    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
-        QSKIP("This system has no downloads folder");
+    if (m_downloadsPath.isEmpty()) {
+        QSKIP("The downloads folder is not inside the home directory these tests were given");
     }
+    const QString downloadsPath = m_downloadsPath;
     const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
 
     auto forgetStoredProperties = [downloadsPath]() {
@@ -666,7 +683,7 @@ void ViewPropertiesTest::testDownloadsHasItsOwnStyleWithGlobalViewProps()
         }
         QFile::remove(downloadsPath + QDir::separator() + QStringLiteral(".directory"));
     };
-    // The folder belongs to whoever runs this, so it is left as it was found.
+    // Each test starts from a folder with nothing written down for it.
     forgetStoredProperties();
     auto cleanup = qScopeGuard(forgetStoredProperties);
 
@@ -725,12 +742,12 @@ void ViewPropertiesTest::testRestoringASpecialFolderGivesBackItsOwnStyle()
 
 void ViewPropertiesTest::testRestoringTheDownloadsFolderGivesBackItsOwnStyle()
 {
-    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
-        QSKIP("This system has no downloads folder");
+    if (m_downloadsPath.isEmpty()) {
+        QSKIP("The downloads folder is not inside the home directory these tests were given");
     }
+    const QString downloadsPath = m_downloadsPath;
     const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
-    // The folder belongs to whoever runs this, so it is left as it was found.
+    // Each test starts from a folder with nothing written down for it.
     ViewProperties(downloadsUrl).forgetStoredProperties();
     auto cleanup = qScopeGuard([downloadsUrl] {
         ViewProperties(downloadsUrl).forgetStoredProperties();
