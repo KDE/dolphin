@@ -33,6 +33,13 @@ public:
     QPixmap pixmap() const;
 
     /**
+     * Draws the pixmap dimmed to signal that it no longer
+     * matches the item it belongs to. Setting a new pixmap
+     * marks the view up to date again.
+     */
+    void markOutdated();
+
+    /**
      * Sets the size hint to \a size and triggers a relayout
      * of the parent widget. Per default no size hint is given.
      */
@@ -63,6 +70,7 @@ private:
     QMovie *m_animatedImage;
     QSize m_sizeHint;
     bool m_hasAnimatedImage;
+    bool m_outdated = false;
 };
 
 inline QPixmap PixmapViewer::pixmap() const

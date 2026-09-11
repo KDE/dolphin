@@ -6,6 +6,7 @@
 
 #include "pixmapviewer.h"
 
+#include <KIconEffect>
 #include <KIconLoader>
 
 #include <QImageReader>
@@ -34,6 +35,7 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
     }
 
     m_pixmap = pixmap;
+    m_outdated = false;
 
     // Avoid flicker with static pixmap if an animated image is running
     if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
@@ -49,6 +51,23 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
             m_animatedImage->start();
         }
     }
+}
+
+void PixmapViewer::markOutdated()
+{
+    if (m_outdated || m_pixmap.isNull()) {
+        return;
+    }
+
+    // Cannot safely dim animations this way
+    if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
+        return;
+    }
+
+    KIconEffect::toDisabled(m_pixmap);
+
+    m_outdated = true;
+    update();
 }
 
 void PixmapViewer::setSizeHint(const QSize &size)
@@ -120,6 +139,7 @@ void PixmapViewer::updateAnimatedImageFrame()
     Q_ASSERT(m_animatedImage);
 
     m_pixmap = m_animatedImage->currentPixmap();
+    m_outdated = false;
     const auto physicalSize = m_sizeHint * devicePixelRatio();
     if (m_pixmap.width() > physicalSize.width() || m_pixmap.height() > physicalSize.height()) {
         m_pixmap = m_pixmap.scaled(physicalSize, Qt::KeepAspectRatio);

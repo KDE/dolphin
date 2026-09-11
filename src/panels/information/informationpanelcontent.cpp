@@ -8,7 +8,6 @@
 
 #include <KConfigGroup>
 #include <KIO/PreviewJob>
-#include <KIconEffect>
 #include <KIconLoader>
 #include <KIconUtils>
 #include <KJobWidgets>
@@ -170,9 +169,6 @@ void InformationPanelContent::refreshPixmapView()
     if (m_previewJob) {
         m_previewJob->kill();
     }
-
-    // Reset disabled state when starting a new preview job
-    m_disabledPreviewUrl.clear();
 
     // try to get a preview pixmap from the item...
 
@@ -397,7 +393,6 @@ void InformationPanelContent::showIcon(const KFileItem &item)
     QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
     pixmap.setDevicePixelRatio(devicePixelRatioF());
     m_preview->setPixmap(pixmap);
-    m_disabledPreviewUrl.clear();
 }
 
 void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &pixmap)
@@ -433,17 +428,7 @@ void InformationPanelContent::markOutdatedPreview()
         // use it until the preview is done
         showIcon(m_item);
     } else {
-        // Only apply disabled effect once per URL to avoid repeated brightening
-        if (m_disabledPreviewUrl == m_item.url()) {
-            return;
-        }
-        m_disabledPreviewUrl = m_item.url();
-
-        QPixmap disabledPixmap = m_preview->pixmap();
-        if (!disabledPixmap.isNull()) {
-            KIconEffect::toDisabled(disabledPixmap);
-            m_preview->setPixmap(disabledPixmap);
-        }
+        m_preview->markOutdated();
     }
 }
 

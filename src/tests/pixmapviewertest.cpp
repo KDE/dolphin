@@ -39,6 +39,7 @@ class PixmapViewerTest : public QObject
 private Q_SLOTS:
     void testPixmapLargerThanTheViewerIsDrawnToFit();
     void testPixmapSmallerThanTheViewerKeepsItsSize();
+    void testAnOutdatedPixmapIsDimmedOnlyOnce();
 };
 
 // A preview made for a panel wider than the one it ends up in is drawn to fit, so all of it is seen.
@@ -74,6 +75,29 @@ void PixmapViewerTest::testPixmapSmallerThanTheViewerKeepsItsSize()
     QCOMPARE(image.pixelColor(left + pixmapSize - 3, top + pixmapSize - 3), QColor(Qt::blue));
     QVERIFY(image.pixelColor(2, 2) != QColor(Qt::red));
     QVERIFY(image.pixelColor(shown.width() - 3, shown.height() - 3) != QColor(Qt::blue));
+}
+
+// An already outdated pixmap should not be changed by calling markOutdated twice
+void PixmapViewerTest::testAnOutdatedPixmapIsDimmedOnlyOnce()
+{
+    PixmapViewer viewer(nullptr);
+    viewer.resize(400, 400);
+    const QPixmap pixmap = cornerMarkedPixmap(100);
+
+    viewer.setPixmap(pixmap);
+    const QImage fresh = renderOf(viewer);
+
+    viewer.markOutdated();
+    const QImage once = renderOf(viewer);
+    QVERIFY(once != fresh);
+
+    viewer.markOutdated();
+    QCOMPARE(renderOf(viewer), once);
+
+    viewer.setPixmap(pixmap);
+    QCOMPARE(renderOf(viewer), fresh);
+    viewer.markOutdated();
+    QCOMPARE(renderOf(viewer), once);
 }
 
 QTEST_MAIN(PixmapViewerTest)
