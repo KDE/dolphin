@@ -7106,7 +7106,3 @@ msgstr "Мащабиране"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Мащабиране"
-
-#~ msgctxt "@action:button"
-#~ msgid "Open with %1"
-#~ msgstr "Отваряне с %1"
