@@ -40,22 +40,33 @@ const char CustomizedDetailsString[] = "CustomizedDetails";
 const char ViewPropertiesFileName[] = ".directory";
 }
 
-ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) const
+ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath, bool *hasStoredProperties) const
 {
     const QString settingsFile = folderPath + QDir::separator() + ViewPropertiesFileName;
+
+    const KFileMetaData::UserMetaData metadata(folderPath);
+    const bool storedInAttribute = metadata.isSupported() && metadata.hasAttribute(MetaDataKey);
+    // Reading the storage answers both what is written down and whether anything is.
+    auto answer = [hasStoredProperties](bool stored, ViewPropertySettings *props) {
+        if (hasStoredProperties) {
+            *hasStoredProperties = stored;
+        }
+        return props;
+    };
 
     std::shared_ptr<QFile> file = std::make_shared<QFile>(settingsFile);
     if (file->exists()) {
         if (!file->open(QIODevice::ReadOnly)) {
             qCWarning(DolphinDebug) << "Could not open file" << file->fileName();
-            return nullptr;
+            return answer(storedInAttribute, nullptr);
         }
     }
 
-    KFileMetaData::UserMetaData metadata(folderPath);
     if (!metadata.isSupported()) {
         auto fileConfig = std::make_unique<KConfig>(file, KConfig::OpenFlag::SimpleConfig);
-        return new ViewPropertySettings(std::move(fileConfig));
+        // The file is the storage here, so it is what says whether a style was chosen.
+        const bool storedInFile = file->exists() && (fileConfig->hasGroup(QStringLiteral("Dolphin")) || fileConfig->hasGroup(QStringLiteral("Settings")));
+        return answer(storedInFile, new ViewPropertySettings(std::move(fileConfig)));
     }
 
     auto buffer = std::make_shared<QBuffer>();
@@ -79,14 +90,14 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
 
             auto bufferConfig = std::make_unique<KConfig>(buffer, KConfig::OpenFlag::SimpleConfig);
             bufferConfig->copyFrom(config);
-            return new ViewPropertySettings(std::move(bufferConfig));
+            return answer(true, new ViewPropertySettings(std::move(bufferConfig)));
         }
     }
 
     // load from metadata
     const QString viewPropertiesString = metadata.attribute(MetaDataKey);
     if (viewPropertiesString.isEmpty()) {
-        return nullptr;
+        return answer(storedInAttribute, nullptr);
     }
 
     buffer->setData(viewPropertiesString.toUtf8());
@@ -97,7 +108,7 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
 
     auto bufferConfig = std::make_unique<KConfig>(buffer, KConfig::OpenFlag::SimpleConfig);
 
-    return new ViewPropertySettings(std::move(bufferConfig));
+    return answer(true, new ViewPropertySettings(std::move(bufferConfig)));
 }
 
 ViewPropertySettings *ViewProperties::defaultProperties() const
@@ -189,6 +200,21 @@ void ViewProperties::restoreToDefaults()
 {
     delete m_node;
     m_node = defaultProperties();
+
+    if (m_hasOwnDefaultStyle) {
+        applyOwnDefaultStyle();
+        // Holding nothing written down is what asks for this style, so there is nothing to write.
+        m_changedProps = false;
+        m_hasStoredProperties = false;
+        if (m_autoSave) {
+            forgetStoredProperties();
+        } else {
+            // The caller writes when it is ready, and drops this object where it is not.
+            m_forgetOnSave = true;
+        }
+        return;
+    }
+
     update();
 }
 
@@ -197,8 +223,65 @@ bool ViewProperties::hasSpecialDefaultViewSettings() const
     return m_hasOwnDefaultStyle;
 }
 
+bool ViewProperties::forgetStoredProperties()
+{
+    // Whatever the storage does with this, the properties in hand are not to be written back.
+    m_changedProps = false;
+
+    bool removed = true;
+
+    KFileMetaData::UserMetaData metaData(m_filePath);
+    if (metaData.isSupported() && metaData.hasAttribute(MetaDataKey)) {
+        const auto result = metaData.setAttribute(MetaDataKey, QString());
+        if (result != KFileMetaData::UserMetaData::NoError) {
+            qCWarning(DolphinDebug) << "could not clear extended attributes for " << m_filePath << "error:" << result;
+            removed = false;
+        }
+    }
+
+    if (!cleanDotDirectoryFile()) {
+        removed = false;
+    }
+
+    if (removed) {
+        m_hasStoredProperties = false;
+    }
+    return removed;
+}
+
+bool ViewProperties::cleanDotDirectoryFile() const
+{
+    const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
+    if (!QFile::exists(settingsFile)) {
+        return true;
+    }
+
+    qCDebug(DolphinDebug) << "cleaning .directory" << settingsFile;
+    KConfig cfg(settingsFile, KConfig::OpenFlag::SimpleConfig);
+    const auto groupList = cfg.groupList();
+    for (const auto &group : groupList) {
+        if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings")) {
+            cfg.deleteGroup(group);
+        }
+    }
+    if (cfg.groupList().isEmpty()) {
+        return QFile::remove(settingsFile);
+    }
+    if (cfg.isDirty()) {
+        return cfg.sync();
+    }
+    return true;
+}
+
 bool ViewProperties::isDefaults() const
 {
+    if (m_hasOwnDefaultStyle) {
+        // Such a folder is read with the style it comes with while nothing is written down for it,
+        // so that is what being at its default means here. A change made since counts as well, since
+        // it is what will be written down.
+        return !m_hasStoredProperties && !m_changedProps;
+    }
+
     const auto defaultProps = defaultProperties();
     auto cleanup = qScopeGuard([&defaultProps]() {
         delete defaultProps;
@@ -223,6 +306,7 @@ ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
     , m_hasOwnDefaultStyle(false)
+    , m_hasStoredProperties(false)
     , m_ownDefaultStyle(OwnDefaultStyle::None)
     , m_url(url)
     , m_node(nullptr)
@@ -230,9 +314,6 @@ ViewProperties::ViewProperties(const QUrl &url)
     GeneralSettings *settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
 
-    // The downloads folder is named by the user's own configuration rather than by a url scheme, so
-    // it is recognised from the path, and before the branch that sends every folder to the one style
-    // for all of them. A trailing slash makes it a different path, as it always has.
     if (url.isLocalFile() && url.toLocalFile() == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
         m_ownDefaultStyle = OwnDefaultStyle::Downloads;
     }
@@ -325,28 +406,41 @@ ViewProperties::ViewProperties(const QUrl &url)
 
     m_hasOwnDefaultStyle = m_ownDefaultStyle != OwnDefaultStyle::None;
 
-    auto propsOpt = loadProperties(m_filePath);
+    // loadProperties() answers with a settings object whether or not anything is written down, so it
+    // says which of the two it is rather than the storage being read a second time.
+    auto propsOpt = loadProperties(m_filePath, &m_hasStoredProperties);
 
     bool useDefaultSettings =
         // If the props timestamp is too old,
         // use default values instead.
-        (propsOpt && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp() < settings->viewPropsTimestamp())
+        (propsOpt && m_hasStoredProperties && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp() < settings->viewPropsTimestamp())
         // When global view props is on and this is a special folder (search, trash,
         // recents/timeline, downloads), only apply defaults on the first visit.
         // On subsequent visits the user's saved properties should be preserved.
         || (useGlobalViewProps && !m_hasOwnDefaultStyle);
 
+    // What loadProperties() answered with is what save() writes through, so it is kept whenever
+    // there is one, even where nothing is written down yet.
     if (propsOpt) {
         m_node = propsOpt;
     } else {
-        // no settings found for m_filepath, load defaults
         m_node = defaultProperties();
+        useDefaultSettings = true;
+    }
+
+    if (!m_hasStoredProperties) {
+        // Nothing is written down for m_filePath, so the folder is read with the style it comes with.
         useDefaultSettings = true;
     }
 
     // default values for special directories
     if (useDefaultSettings) {
         applyOwnDefaultStyle();
+
+        if (m_hasOwnDefaultStyle && !m_hasStoredProperties) {
+            // Holding nothing written down is what asks for this style, so there is nothing to save.
+            m_changedProps = false;
+        }
     }
 
     if (m_node->version() < CurrentViewPropertiesVersion) {
@@ -658,6 +752,8 @@ bool ViewProperties::isAutoSaveEnabled() const
 void ViewProperties::update()
 {
     m_changedProps = true;
+    // A style chosen after a restore is what gets written, rather than the removal it asked for.
+    m_forgetOnSave = false;
     m_node->setTimestamp(QDateTime::currentDateTime());
 }
 
@@ -665,24 +761,11 @@ void ViewProperties::save()
 {
     qCDebug(DolphinDebug) << "Saving view-properties to" << m_filePath;
 
-    auto cleanDotDirectoryFile = [this]() {
-        const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
-        if (QFile::exists(settingsFile)) {
-            qCDebug(DolphinDebug) << "cleaning .directory" << settingsFile;
-            KConfig cfg(settingsFile, KConfig::OpenFlag::SimpleConfig);
-            const auto groupList = cfg.groupList();
-            for (const auto &group : groupList) {
-                if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings")) {
-                    cfg.deleteGroup(group);
-                }
-            }
-            if (cfg.groupList().isEmpty()) {
-                QFile::remove(settingsFile);
-            } else if (cfg.isDirty()) {
-                cfg.sync();
-            }
-        }
-    };
+    if (m_forgetOnSave) {
+        m_forgetOnSave = false;
+        forgetStoredProperties();
+        return;
+    }
 
     // ensures the destination dir exists, in case we don't write metadata directly on the folder
     QDir destinationDir(m_filePath);
@@ -699,6 +782,7 @@ void ViewProperties::save()
         m_node->save();
 
         m_changedProps = false;
+        m_hasStoredProperties = true;
         return;
     }
     const auto items = m_node->items();
@@ -728,14 +812,7 @@ void ViewProperties::save()
     delete defaultConfig;
 
     if (allDefault) {
-        if (metaData.hasAttribute(MetaDataKey)) {
-            qCDebug(DolphinDebug) << "clearing extended attributes for " << m_filePath;
-            const auto result = metaData.setAttribute(MetaDataKey, QString());
-            if (result != KFileMetaData::UserMetaData::NoError) {
-                qCWarning(DolphinDebug) << "could not clear extended attributes for " << m_filePath << "error:" << result;
-            }
-        }
-        cleanDotDirectoryFile();
+        forgetStoredProperties();
         return;
     }
 
@@ -793,6 +870,7 @@ void ViewProperties::save()
     cleanDotDirectoryFile();
 
     m_changedProps = false;
+    m_hasStoredProperties = true;
 }
 
 QString ViewProperties::destinationDir(const QString &subDir) const

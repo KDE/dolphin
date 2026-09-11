@@ -42,6 +42,13 @@ private Q_SLOTS:
     void testDownloadsHasItsOwnStyleWithGlobalViewProps();
     void testAnEmptyUrlHoldsTheStyleEveryFolderStartsFrom();
     void testWhichFoldersComeWithAStyleOfTheirOwn();
+    void testAStoreThatWillNotOpenReadsTheStyleTheFolderComesWith();
+    void testChangingAFolderWithItsOwnStyleOffersTheRestore();
+    void testRestoringWithoutAutoSaveWaitsForTheSave();
+    void testARemovalThatFailsLeavesTheStyleWrittenDown();
+    void testVisitingAFolderWithItsOwnStyleWritesNothingDown();
+    void testRestoringASpecialFolderGivesBackItsOwnStyle();
+    void testRestoringTheDownloadsFolderGivesBackItsOwnStyle();
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
@@ -673,6 +680,89 @@ void ViewPropertiesTest::testDownloadsHasItsOwnStyleWithGlobalViewProps()
     QCOMPARE(props.groupedSorting(), true);
 }
 
+/**
+ * Restoring a folder to its defaults means the style every other folder has, except for a folder
+ * that comes with one of its own: there it means that one. Checked on the trash and on the images
+ * search, which are two of the folders that have one.
+ */
+void ViewPropertiesTest::testRestoringASpecialFolderGivesBackItsOwnStyle()
+{
+    // init() has already turned per-folder view properties on.
+    const QList<QUrl> specialUrls{QUrl(QStringLiteral("trash:///")), QUrl(QStringLiteral("search:/images"))};
+
+    for (const QUrl &url : specialUrls) {
+        ViewProperties(url).forgetStoredProperties();
+        auto cleanup = qScopeGuard([url] {
+            ViewProperties(url).forgetStoredProperties();
+        });
+
+        DolphinView::Mode ownMode;
+        {
+            ViewProperties props(url);
+            ownMode = props.viewMode(); // the style this folder comes with
+            QVERIFY2(props.isDefaults(), qPrintable(url.toString()));
+
+            props.setViewMode(ownMode == DolphinView::IconsView ? DolphinView::CompactView : DolphinView::IconsView);
+            props.save();
+        }
+
+        {
+            ViewProperties props(url);
+            QVERIFY2(props.viewMode() != ownMode, qPrintable(url.toString()));
+            // A choice is written down, so restoring it is worth offering.
+            QVERIFY2(!props.isDefaults(), qPrintable(url.toString()));
+            props.restoreToDefaults();
+            // Restoring leaves the properties in hand showing that style, with no second read.
+            QCOMPARE(props.viewMode(), ownMode);
+            QVERIFY2(props.isDefaults(), qPrintable(url.toString()));
+        }
+
+        ViewProperties props(url);
+        QCOMPARE(props.viewMode(), ownMode);
+        QVERIFY2(props.isDefaults(), qPrintable(url.toString()));
+    }
+}
+
+void ViewPropertiesTest::testRestoringTheDownloadsFolderGivesBackItsOwnStyle()
+{
+    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
+        QSKIP("This system has no downloads folder");
+    }
+    const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
+    // The folder belongs to whoever runs this, so it is left as it was found.
+    ViewProperties(downloadsUrl).forgetStoredProperties();
+    auto cleanup = qScopeGuard([downloadsUrl] {
+        ViewProperties(downloadsUrl).forgetStoredProperties();
+    });
+
+    {
+        ViewProperties props(downloadsUrl);
+        QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+
+        // The style every other folder has, which is a choice like any other.
+        props.setSortRole(QByteArrayLiteral("text"));
+        props.setSortFoldersFirst(true);
+        props.setGroupedSorting(false);
+        props.save();
+    }
+
+    {
+        ViewProperties props(downloadsUrl);
+        QCOMPARE(props.sortRole(), QByteArrayLiteral("text"));
+        QVERIFY(!props.isDefaults());
+        props.restoreToDefaults();
+        QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+        QCOMPARE(props.groupedSorting(), true);
+        QVERIFY(props.isDefaults());
+    }
+
+    ViewProperties props(downloadsUrl);
+    QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+    QCOMPARE(props.groupedSorting(), true);
+    QVERIFY(props.isDefaults());
+}
+
 void ViewPropertiesTest::testRestoreViewProps()
 {
     const QUrl testDirUrl = m_testDir->url();
@@ -878,6 +968,170 @@ void ViewPropertiesTest::testWhichFoldersComeWithAStyleOfTheirOwn()
     if (!m_downloadsPath.isEmpty()) {
         QVERIFY(ViewProperties(QUrl::fromLocalFile(m_downloadsPath)).hasSpecialDefaultViewSettings());
     }
+}
+
+// Reading a folder that has a style of its own is not a choice, so it leaves nothing written down
+// and the entry to restore it stays unoffered.
+void ViewPropertiesTest::testVisitingAFolderWithItsOwnStyleWritesNothingDown()
+{
+    const QList<QUrl> ownStyleUrls{QUrl(QStringLiteral("trash:///")), QUrl(QStringLiteral("search:/images"))};
+
+    for (const QUrl &url : ownStyleUrls) {
+        ViewProperties(url).forgetStoredProperties();
+        auto cleanup = qScopeGuard([url] {
+            ViewProperties(url).forgetStoredProperties();
+        });
+
+        DolphinView::Mode ownMode;
+        {
+            ViewProperties props(url);
+            ownMode = props.viewMode();
+            QVERIFY2(props.isDefaults(), qPrintable(url.toString()));
+        }
+
+        // The visit above is over, and it has recorded nothing of its own.
+        ViewProperties props(url);
+        QVERIFY2(!props.m_hasStoredProperties, qPrintable(url.toString()));
+        QVERIFY2(props.isDefaults(), qPrintable(url.toString()));
+        QCOMPARE(props.viewMode(), ownMode);
+    }
+}
+
+// Whether a style is written down is asked of the storage, and reading it can still fail: a
+// .directory that will not open answers with nothing while the extended attribute beside it says
+// there is something. The folder is then read with the style it comes with.
+void ViewPropertiesTest::testAStoreThatWillNotOpenReadsTheStyleTheFolderComesWith()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("Only unix is supported, for this test");
+#else
+    if (getuid() == 0) {
+        QSKIP("Running as root - permission checks are not enforced");
+    }
+
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+    const QString storePath = ViewProperties(trashUrl).m_filePath;
+    QVERIFY(QDir().mkpath(storePath));
+
+    // A style written down in the extended attribute.
+    {
+        ViewProperties props(trashUrl);
+        props.setViewMode(DolphinView::CompactView);
+        props.save();
+    }
+    const KFileMetaData::UserMetaData metaData(storePath);
+    if (!metaData.isSupported() || !metaData.hasAttribute(QStringLiteral("kde.fm.viewproperties#1"))) {
+        QSKIP("need extended attribute/filesystem metadata to be useful");
+    }
+
+    // And a .directory beside it that cannot be read.
+    const QString dotDirectory = storePath + QDir::separator() + QStringLiteral(".directory");
+    QFile file(dotDirectory);
+    QVERIFY(file.open(QIODevice::WriteOnly));
+    file.write("[Dolphin]\nViewMode=1\n");
+    file.close();
+    QVERIFY(QFile::setPermissions(dotDirectory, QFileDevice::Permissions()));
+    auto cleanup = qScopeGuard([dotDirectory, trashUrl] {
+        QFile::setPermissions(dotDirectory, QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+        QFile::remove(dotDirectory);
+        ViewProperties(trashUrl).forgetStoredProperties();
+    });
+
+    ViewProperties props(trashUrl);
+    QCOMPARE(props.viewMode(), DolphinView::DetailsView);
+#endif
+}
+
+// Restoring is offered while the view differs from the style the folder comes with, so a change
+// made to the properties in hand counts, and not only one that is already written down.
+void ViewPropertiesTest::testChangingAFolderWithItsOwnStyleOffersTheRestore()
+{
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+    ViewProperties(trashUrl).forgetStoredProperties();
+    auto cleanup = qScopeGuard([trashUrl] {
+        ViewProperties(trashUrl).forgetStoredProperties();
+    });
+
+    ViewProperties props(trashUrl);
+    QVERIFY(props.isDefaults());
+
+    // DolphinView asks this of the properties it just changed, before anything is written down.
+    props.setSortRole(QByteArrayLiteral("size"));
+    QVERIFY(!props.isDefaults());
+
+    props.save();
+    QVERIFY(!props.isDefaults());
+}
+
+// A dialog turns auto saving off and writes when the user accepts it, so restoring a folder to the
+// style it comes with waits for that write rather than removing what is written down at once.
+void ViewPropertiesTest::testRestoringWithoutAutoSaveWaitsForTheSave()
+{
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+    ViewProperties(trashUrl).forgetStoredProperties();
+    auto cleanup = qScopeGuard([trashUrl] {
+        ViewProperties(trashUrl).forgetStoredProperties();
+    });
+
+    auto writeAStyle = [trashUrl] {
+        ViewProperties props(trashUrl);
+        props.setViewMode(DolphinView::CompactView);
+        props.save();
+    };
+
+    writeAStyle();
+    QVERIFY(ViewProperties(trashUrl).m_hasStoredProperties);
+
+    {
+        ViewProperties props(trashUrl);
+        props.setAutoSaveEnabled(false);
+        props.restoreToDefaults();
+    }
+    QVERIFY2(ViewProperties(trashUrl).m_hasStoredProperties, "a restore that was never written removed the style anyway");
+
+    {
+        ViewProperties props(trashUrl);
+        props.setAutoSaveEnabled(false);
+        props.restoreToDefaults();
+        props.save();
+    }
+    QVERIFY(!ViewProperties(trashUrl).m_hasStoredProperties);
+}
+
+// A storage that will not take the removal keeps what it holds, and the properties say so, rather
+// than the folder reading as though it holds nothing while its style is still on disk.
+void ViewPropertiesTest::testARemovalThatFailsLeavesTheStyleWrittenDown()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("Only unix is supported, for this test");
+#else
+    if (getuid() == 0) {
+        QSKIP("Running as root - permission checks are not enforced");
+    }
+
+    const QUrl trashUrl(QStringLiteral("trash:///"));
+    const QString storePath = ViewProperties(trashUrl).m_filePath;
+    QVERIFY(QDir().mkpath(storePath));
+    {
+        ViewProperties props(trashUrl);
+        props.setViewMode(DolphinView::CompactView);
+        props.save();
+    }
+    QVERIFY(ViewProperties(trashUrl).m_hasStoredProperties);
+
+    const QFileDevice::Permissions writable = QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner;
+    QVERIFY(QFile::setPermissions(storePath, QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+    auto cleanup = qScopeGuard([storePath, writable, trashUrl] {
+        QFile::setPermissions(storePath, writable);
+        ViewProperties(trashUrl).forgetStoredProperties();
+    });
+
+    ViewProperties props(trashUrl);
+    if (props.forgetStoredProperties()) {
+        QSKIP("this storage takes a removal from a folder it does not let us write");
+    }
+    QVERIFY(props.m_hasStoredProperties);
+#endif
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

@@ -177,10 +177,19 @@ private:
      */
     static bool isPartOfHome(const QString &filePath);
 
-    /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
-    ViewPropertySettings *loadProperties(const QString &folderPath) const;
+    /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller.
+     * @param hasStoredProperties, where given, is set to whether a display style is written down for that folder. */
+    ViewPropertySettings *loadProperties(const QString &folderPath, bool *hasStoredProperties = nullptr) const;
     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
     ViewPropertySettings *defaultProperties() const;
+
+    /** Removes what is stored for this folder, so that it is read with the style it comes with.
+     * @returns whether the storage is now empty. A read-only mount keeps what it holds. */
+    bool forgetStoredProperties();
+
+    /** Removes the groups this class writes from the .directory file, and the file itself if nothing else is left in it.
+     * @returns whether nothing of ours is left in it. */
+    bool cleanDotDirectoryFile() const;
 
     /*!
      * The display style this folder comes with, which is the one it is read with while nothing is
@@ -208,6 +217,10 @@ private:
     bool m_autoSave;
     // Whether this folder comes with a display style of its own (trash, download...)
     bool m_hasOwnDefaultStyle;
+    /** Whether this folder had a display style of its own written down when it was read. */
+    bool m_hasStoredProperties;
+    /** Set where a restore could not write yet, so that save() does the removal it asked for. */
+    bool m_forgetOnSave = false;
     OwnDefaultStyle m_ownDefaultStyle;
     /** The folder this is about, which the style it comes with is worked out from. */
     QUrl m_url;
