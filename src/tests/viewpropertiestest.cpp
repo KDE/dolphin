@@ -39,6 +39,9 @@ private Q_SLOTS:
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
     void testDownloadsKeepsTheOrdinaryStyleWhenChosen();
+    void testDownloadsHasItsOwnStyleWithGlobalViewProps();
+    void testAnEmptyUrlHoldsTheStyleEveryFolderStartsFrom();
+    void testWhichFoldersComeWithAStyleOfTheirOwn();
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
@@ -637,6 +640,39 @@ void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
     QCOMPARE(props.groupedSorting(), false);
 }
 
+/**
+ * A folder with a display style of its own has it whichever way the user keeps display styles, one
+ * for all folders or one per folder.
+ */
+void ViewPropertiesTest::testDownloadsHasItsOwnStyleWithGlobalViewProps()
+{
+    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
+        QSKIP("This system has no downloads folder");
+    }
+    const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
+
+    auto forgetStoredProperties = [downloadsPath]() {
+        KFileMetaData::UserMetaData metadata(downloadsPath);
+        if (metadata.isSupported() && metadata.hasAttribute(QStringLiteral("kde.fm.viewproperties#1"))) {
+            metadata.setAttribute(QStringLiteral("kde.fm.viewproperties#1"), QString());
+        }
+        QFile::remove(downloadsPath + QDir::separator() + QStringLiteral(".directory"));
+    };
+    // The folder belongs to whoever runs this, so it is left as it was found.
+    forgetStoredProperties();
+    auto cleanup = qScopeGuard(forgetStoredProperties);
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    GeneralSettings::self()->save();
+
+    ViewProperties props(downloadsUrl);
+    QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+    QCOMPARE(props.sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(props.sortFoldersFirst(), false);
+    QCOMPARE(props.groupedSorting(), true);
+}
+
 void ViewPropertiesTest::testRestoreViewProps()
 {
     const QUrl testDirUrl = m_testDir->url();
@@ -791,6 +827,56 @@ void ViewPropertiesTest::testSymlinkSharesProperties()
     {
         ViewProperties props(QUrl::fromLocalFile(linkPath));
         QCOMPARE(props.viewMode(), DolphinView::CompactView);
+    }
+}
+
+// The view properties dialog and the settings page write the style every folder starts from through
+// an empty url, so that they reach it wherever the view is, including a folder with a style of its
+// own.
+void ViewPropertiesTest::testAnEmptyUrlHoldsTheStyleEveryFolderStartsFrom()
+{
+    // init() has turned per-folder view properties on, and an empty url reaches that style anyway.
+    QVERIFY(!GeneralSettings::self()->globalViewProps());
+
+    DolphinView::Mode chosen;
+    DolphinView::Mode previous;
+    {
+        ViewProperties defaults{QUrl()};
+        QCOMPARE(defaults.m_filePath, defaults.destinationDir(QStringLiteral("global")));
+
+        previous = defaults.viewMode();
+        chosen = previous == DolphinView::CompactView ? DolphinView::IconsView : DolphinView::CompactView;
+        defaults.setViewMode(chosen);
+        defaults.save();
+    }
+    // The style every folder starts from is what the rest of the suite reads, so it is put back.
+    auto cleanup = qScopeGuard([previous] {
+        ViewProperties defaults{QUrl()};
+        defaults.setViewMode(previous);
+        defaults.save();
+    });
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    GeneralSettings::self()->save();
+    {
+        ViewProperties ordinary(QUrl::fromLocalFile(m_testDir->path()));
+        QCOMPARE(ordinary.viewMode(), chosen);
+    }
+    GeneralSettings::self()->setGlobalViewProps(false);
+    GeneralSettings::self()->save();
+}
+
+// The settings page asks a folder this before it lets its style become the one every folder starts
+// from, so that the trash does not hand every folder the column for the time a file was deleted.
+void ViewPropertiesTest::testWhichFoldersComeWithAStyleOfTheirOwn()
+{
+    QVERIFY(ViewProperties(QUrl(QStringLiteral("trash:///"))).hasSpecialDefaultViewSettings());
+    QVERIFY(ViewProperties(QUrl(QStringLiteral("search:/images"))).hasSpecialDefaultViewSettings());
+    QVERIFY(ViewProperties(QUrl(QStringLiteral("recentlyused:/files"))).hasSpecialDefaultViewSettings());
+    QVERIFY(!ViewProperties(QUrl::fromLocalFile(m_testDir->path())).hasSpecialDefaultViewSettings());
+
+    if (!m_downloadsPath.isEmpty()) {
+        QVERIFY(ViewProperties(QUrl::fromLocalFile(m_downloadsPath)).hasSpecialDefaultViewSettings());
     }
 }
 

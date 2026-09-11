@@ -229,12 +229,12 @@ void GeneralViewSettingsPage::applySettings()
     settings->setDoubleClickViewCustomAction(m_doubleClickViewCustomAction->text());
     settings->setDoubleClickViewAction(m_doubleClickViewComboBox->currentData().toString());
     settings->save();
-    if (useGlobalViewProps) {
-        // Remember the global view properties by applying the current view properties.
-        // It is important that GeneralSettings::globalViewProps() is set before
-        // the class ViewProperties is used, as ViewProperties uses this setting
-        // to find the destination folder for storing the view properties.
-        ViewProperties globalProps(m_url);
+    if (useGlobalViewProps && !props.hasSpecialDefaultViewSettings()) {
+        // Remember the global view properties by applying the current view properties. An empty url
+        // holds the properties every folder starts from, whichever folder this page was opened on.
+        // A folder that comes with a style of its own does not say what the others start from, so
+        // the trash does not hand every folder the column for the time a file was deleted.
+        ViewProperties globalProps{QUrl()};
         globalProps.setDirProperties(props);
     }
 }

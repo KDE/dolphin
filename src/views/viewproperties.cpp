@@ -121,11 +121,80 @@ ViewPropertySettings *ViewProperties::defaultProperties() const
     return props;
 }
 
+void ViewProperties::applyOwnDefaultStyle()
+{
+    switch (m_ownDefaultStyle) {
+    case OwnDefaultStyle::Search: {
+        const QString path = m_url.path();
+
+        if (path == QLatin1String("/images")) {
+            setViewMode(DolphinView::IconsView);
+            setPreviewsShown(true);
+            setVisibleRoles({"text", "dimensions", "imageDateTime"});
+        } else if (path == QLatin1String("/audio")) {
+            setViewMode(DolphinView::DetailsView);
+            setVisibleRoles({"text", "artist", "album", "duration"});
+        } else if (path == QLatin1String("/videos")) {
+            setViewMode(DolphinView::IconsView);
+            setPreviewsShown(true);
+            setVisibleRoles({"text"});
+        } else {
+            setViewMode(DolphinView::DetailsView);
+            setVisibleRoles({"text", "path", "modificationtime"});
+        }
+        break;
+    }
+    case OwnDefaultStyle::Trash:
+        setViewMode(DolphinView::DetailsView);
+        setVisibleRoles({"text", "path", "deletiontime"});
+        break;
+    case OwnDefaultStyle::Snapshots:
+        setViewMode(DolphinView::DetailsView);
+        setSortRole(QByteArrayLiteral("creationtime"));
+        setSortOrder(Qt::DescendingOrder);
+        setGroupedSorting(true);
+        setVisibleRoles({"text", "creationtime", "size"});
+        break;
+    case OwnDefaultStyle::FileSnapshots:
+        setViewMode(DolphinView::DetailsView);
+        setSortRole(QByteArrayLiteral("creationtime"));
+        setSortOrder(Qt::DescendingOrder);
+        setGroupedSorting(true);
+        setVisibleRoles({"text", "modificationtime", "size"});
+        setPreviewsShown(true);
+        setHiddenFilesShown(true);
+        break;
+    case OwnDefaultStyle::RecentDocuments:
+        setSortOrder(Qt::DescendingOrder);
+        setSortFoldersFirst(false);
+        setGroupedSorting(true);
+        setSortRole(QByteArrayLiteral("accesstime"));
+        setViewMode(DolphinView::DetailsView);
+        setVisibleRoles({"text", "path", "accesstime"});
+        break;
+    case OwnDefaultStyle::Downloads:
+        setSortOrder(Qt::DescendingOrder);
+        setSortFoldersFirst(false);
+        setGroupedSorting(true);
+        setSortRole(QByteArrayLiteral("modificationtime"));
+        break;
+    case OwnDefaultStyle::None:
+        m_changedProps = false;
+        break;
+    }
+    setZoomLevel(-1);
+}
+
 void ViewProperties::restoreToDefaults()
 {
     delete m_node;
     m_node = defaultProperties();
     update();
+}
+
+bool ViewProperties::hasSpecialDefaultViewSettings() const
+{
+    return m_hasOwnDefaultStyle;
 }
 
 bool ViewProperties::isDefaults() const
@@ -154,47 +223,50 @@ ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
     , m_hasOwnDefaultStyle(false)
+    , m_ownDefaultStyle(OwnDefaultStyle::None)
+    , m_url(url)
     , m_node(nullptr)
 {
     GeneralSettings *settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
-    bool useSearchView = false;
-    bool useTrashView = false;
-    bool useRecentDocumentsView = false;
-    bool useDownloadsView = false;
-    bool useSnapshotsView = false;
-    bool useFileSnapshotsView = false;
+
+    // The downloads folder is named by the user's own configuration rather than by a url scheme, so
+    // it is recognised from the path, and before the branch that sends every folder to the one style
+    // for all of them. A trailing slash makes it a different path, as it always has.
+    if (url.isLocalFile() && url.toLocalFile() == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
+        m_ownDefaultStyle = OwnDefaultStyle::Downloads;
+    }
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
     if (url.scheme().contains(QLatin1String("search"))) {
         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
-        useSearchView = true;
+        m_ownDefaultStyle = OwnDefaultStyle::Search;
     } else if (url.scheme() == QLatin1String("trash")) {
         m_filePath = destinationDir(QStringLiteral("trash"));
-        useTrashView = true;
+        m_ownDefaultStyle = OwnDefaultStyle::Trash;
     } else if (url.scheme() == QLatin1String("recentlyused")) {
         m_filePath = destinationDir(QStringLiteral("recentlyused"));
-        useRecentDocumentsView = true;
+        m_ownDefaultStyle = OwnDefaultStyle::RecentDocuments;
     } else if (url.scheme() == QLatin1String("timeline")) {
         m_filePath = destinationDir(QStringLiteral("timeline"));
-        useRecentDocumentsView = true;
+        m_ownDefaultStyle = OwnDefaultStyle::RecentDocuments;
     } else if (url.scheme() == QLatin1String("snapshot")) {
         const auto mode = url.path().section(QChar('/'), 0, 0, QString::SectionSkipEmpty);
         if (mode == QLatin1String("file")) {
-            useFileSnapshotsView = true;
+            m_ownDefaultStyle = OwnDefaultStyle::FileSnapshots;
             m_filePath = destinationDir(QStringLiteral("snapshot_file"));
         } else {
             const auto numComponents = url.adjusted(QUrl::StripTrailingSlash).path().count(QChar('/'));
             qDebug() << numComponents;
             if (numComponents == 2) {
                 // snapshot:// /subvolume/{subvolumeId}
-                useSnapshotsView = true;
+                m_ownDefaultStyle = OwnDefaultStyle::Snapshots;
                 m_filePath = destinationDir(QStringLiteral("snapshot_subvolume"));
             }
         }
-    } else if (useGlobalViewProps) {
+    } else if (useGlobalViewProps && m_ownDefaultStyle == OwnDefaultStyle::None) {
         m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
@@ -247,14 +319,11 @@ ViewProperties::ViewProperties(const QUrl &url)
             }
         }
 
-        if (localPath == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
-            useDownloadsView = true;
-        }
     } else {
         m_filePath = destinationDir(QStringLiteral("remote/")) + directoryHashForUrl(url);
     }
 
-    m_hasOwnDefaultStyle = useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView || useSnapshotsView || useFileSnapshotsView;
+    m_hasOwnDefaultStyle = m_ownDefaultStyle != OwnDefaultStyle::None;
 
     auto propsOpt = loadProperties(m_filePath);
 
@@ -277,57 +346,7 @@ ViewProperties::ViewProperties(const QUrl &url)
 
     // default values for special directories
     if (useDefaultSettings) {
-        if (useSearchView) {
-            const QString path = url.path();
-
-            if (path == QLatin1String("/images")) {
-                setViewMode(DolphinView::IconsView);
-                setPreviewsShown(true);
-                setVisibleRoles({"text", "dimensions", "imageDateTime"});
-            } else if (path == QLatin1String("/audio")) {
-                setViewMode(DolphinView::DetailsView);
-                setVisibleRoles({"text", "artist", "album", "duration"});
-            } else if (path == QLatin1String("/videos")) {
-                setViewMode(DolphinView::IconsView);
-                setPreviewsShown(true);
-                setVisibleRoles({"text"});
-            } else {
-                setViewMode(DolphinView::DetailsView);
-                setVisibleRoles({"text", "path", "modificationtime"});
-            }
-        } else if (useTrashView) {
-            setViewMode(DolphinView::DetailsView);
-            setVisibleRoles({"text", "path", "deletiontime"});
-        } else if (useSnapshotsView) {
-            setViewMode(DolphinView::DetailsView);
-            setSortRole(QByteArrayLiteral("creationtime"));
-            setSortOrder(Qt::DescendingOrder);
-            setGroupedSorting(true);
-            setVisibleRoles({"text", "creationtime", "size"});
-        } else if (useFileSnapshotsView) {
-            setViewMode(DolphinView::DetailsView);
-            setSortRole(QByteArrayLiteral("creationtime"));
-            setSortOrder(Qt::DescendingOrder);
-            setGroupedSorting(true);
-            setVisibleRoles({"text", "modificationtime", "size"});
-            setPreviewsShown(true);
-            setHiddenFilesShown(true);
-        } else if (useRecentDocumentsView || useDownloadsView) {
-            setSortOrder(Qt::DescendingOrder);
-            setSortFoldersFirst(false);
-            setGroupedSorting(true);
-
-            if (useRecentDocumentsView) {
-                setSortRole(QByteArrayLiteral("accesstime"));
-                setViewMode(DolphinView::DetailsView);
-                setVisibleRoles({"text", "path", "accesstime"});
-            } else {
-                setSortRole(QByteArrayLiteral("modificationtime"));
-            }
-        } else {
-            m_changedProps = false;
-        }
-        setZoomLevel(-1);
+        applyOwnDefaultStyle();
     }
 
     if (m_node->version() < CurrentViewPropertiesVersion) {

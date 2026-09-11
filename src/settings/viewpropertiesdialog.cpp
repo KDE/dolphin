@@ -345,16 +345,12 @@ void ViewPropertiesDialog::applyViewProperties()
     // are also used as default for new folders.
     const bool useAsDefault = applyToAllFolders || (m_useAsDefault && m_useAsDefault->isChecked());
     if (useAsDefault) {
-        // For directories where no .directory file is available, the .directory
-        // file stored for the global view properties is used as fallback. To update
-        // this file we temporary turn on the global view properties mode.
-        Q_ASSERT(!GeneralSettings::globalViewProps());
-
-        GeneralSettings::setGlobalViewProps(true);
-        ViewProperties defaultProps(m_dolphinView->url());
+        // For directories where no .directory file is available, the .directory file stored for the
+        // global view properties is used as fallback. An empty url holds that file, whichever folder
+        // the view is on, including one that has a style of its own.
+        ViewProperties defaultProps{QUrl()};
         defaultProps.setDirProperties(*m_viewProps);
         defaultProps.save();
-        GeneralSettings::setGlobalViewProps(false);
     }
 
     if (applyToAllFolders) {

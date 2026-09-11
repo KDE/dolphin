@@ -141,6 +141,10 @@ public:
     void restoreToDefaults();
     bool isDefaults() const;
 
+    /** @returns whether this folder comes with a display style of its own, as the trash and the
+     * searches do, rather than the one every other folder starts from. */
+    bool hasSpecialDefaultViewSettings() const;
+
 private:
     /**
      * Returns the view-mode prefix when storing additional properties for
@@ -178,13 +182,35 @@ private:
     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
     ViewPropertySettings *defaultProperties() const;
 
+    /*!
+     * The display style this folder comes with, which is the one it is read with while nothing is
+     * written down for it.
+     */
+    enum class OwnDefaultStyle {
+        None,
+        Search,
+        Trash,
+        RecentDocuments,
+        Downloads,
+        Snapshots,
+        FileSnapshots
+    };
+
+    /** Writes the style this folder comes with into the properties in hand. */
+    void applyOwnDefaultStyle();
+
     Q_DISABLE_COPY(ViewProperties)
+
+    friend class ViewPropertiesTest; // For unit testing
 
 private:
     bool m_changedProps;
     bool m_autoSave;
     // Whether this folder comes with a display style of its own (trash, download...)
     bool m_hasOwnDefaultStyle;
+    OwnDefaultStyle m_ownDefaultStyle;
+    /** The folder this is about, which the style it comes with is worked out from. */
+    QUrl m_url;
     QString m_filePath;
     ViewPropertySettings *m_node;
 };
