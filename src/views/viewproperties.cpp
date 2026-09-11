@@ -152,6 +152,7 @@ bool ViewProperties::isDefaults() const
 ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
+    , m_hasOwnDefaultStyle(false)
     , m_node(nullptr)
 {
     GeneralSettings *settings = GeneralSettings::self();
@@ -215,17 +216,18 @@ ViewProperties::ViewProperties(const QUrl &url)
         m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
     }
 
+    m_hasOwnDefaultStyle = useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView;
+
     auto propsOpt = loadProperties(m_filePath);
 
     bool useDefaultSettings =
         // If the props timestamp is too old,
         // use default values instead.
-        (propsOpt && (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
-         && propsOpt->timestamp() < settings->viewPropsTimestamp())
+        (propsOpt && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp() < settings->viewPropsTimestamp())
         // When global view props is on and this is a special folder (search, trash,
         // recents/timeline, downloads), only apply defaults on the first visit.
         // On subsequent visits the user's saved properties should be preserved.
-        || (useGlobalViewProps && !(useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView));
+        || (useGlobalViewProps && !m_hasOwnDefaultStyle);
 
     if (propsOpt) {
         m_node = propsOpt;
@@ -629,8 +631,10 @@ void ViewProperties::save()
         return;
     }
     const auto items = m_node->items();
-    // default settings must not be cleared
-    bool allDefault = ViewProperties::destinationDir(QStringLiteral("global")) != m_filePath;
+    // Default settings must not be cleared, and neither must those of a folder that has a style of
+    // its own to fall back on: there, holding nothing on disk is what asks for that style, so a
+    // style the user chose has to stay even where it matches the one other folders start from.
+    bool allDefault = !m_hasOwnDefaultStyle && ViewProperties::destinationDir(QStringLiteral("global")) != m_filePath;
     const auto defaultConfig = defaultProperties();
     for (const auto item : items) {
         if (item->name() == "Timestamp") {
