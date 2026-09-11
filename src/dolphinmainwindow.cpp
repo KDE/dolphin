@@ -1838,6 +1838,7 @@ void DolphinMainWindow::setupActions()
     connect(addToPlaces, &QAction::triggered, this, &DolphinMainWindow::addToPlaces);
 
     QAction *closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
+    closeTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-close")));
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
     closeTab->setToolTip(i18nc("@info", "Close Tab"));
     closeTab->setWhatsThis(i18nc("@info:whatsthis",
