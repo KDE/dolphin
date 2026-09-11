@@ -38,6 +38,7 @@ private Q_SLOTS:
     void testUseAsDefaultViewSettings();
     void testUseAsCustomDefaultViewSettings();
     void testSpecialFolderPropsPreservedWithGlobalViewProps();
+    void testDownloadsKeepsTheOrdinaryStyleWhenChosen();
     void testRestoreViewProps();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
@@ -581,6 +582,59 @@ void ViewPropertiesTest::testSpecialFolderPropsPreservedWithGlobalViewProps()
         ViewProperties props(trashUrl);
         QCOMPARE(props.viewMode(), DolphinView::IconsView);
     }
+}
+
+void ViewPropertiesTest::testDownloadsKeepsTheOrdinaryStyleWhenChosen()
+{
+    // init() has already turned per-folder view properties on.
+    const QString downloadsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    if (downloadsPath.isEmpty() || !QFileInfo::exists(downloadsPath)) {
+        QSKIP("This system has no downloads folder");
+    }
+    const QUrl downloadsUrl = QUrl::fromLocalFile(downloadsPath);
+
+    auto forgetStoredProperties = [downloadsPath]() {
+        KFileMetaData::UserMetaData metadata(downloadsPath);
+        if (metadata.isSupported() && metadata.hasAttribute(QStringLiteral("kde.fm.viewproperties#1"))) {
+            metadata.setAttribute(QStringLiteral("kde.fm.viewproperties#1"), QString());
+        }
+        QFile::remove(downloadsPath + QDir::separator() + QStringLiteral(".directory"));
+    };
+    // The folder belongs to whoever runs this, so it is left as it was found.
+    forgetStoredProperties();
+    auto cleanup = qScopeGuard(forgetStoredProperties);
+
+    // The style every other folder has, written down here so that what an earlier test left behind
+    // does not decide the answer.
+    {
+        ViewProperties globalProps{QUrl()};
+        globalProps.setSortRole(QByteArrayLiteral("text"));
+        globalProps.setSortOrder(Qt::AscendingOrder);
+        globalProps.setSortFoldersFirst(true);
+        globalProps.setGroupedSorting(false);
+        globalProps.save();
+    }
+
+    {
+        ViewProperties props(downloadsUrl);
+        // the style the downloads folder comes with
+        QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+        QCOMPARE(props.sortFoldersFirst(), false);
+        QCOMPARE(props.groupedSorting(), true);
+
+        // The user asks for the style every other folder has.
+        props.setSortRole(QByteArrayLiteral("text"));
+        props.setSortOrder(Qt::AscendingOrder);
+        props.setSortFoldersFirst(true);
+        props.setGroupedSorting(false);
+        props.save();
+    }
+
+    ViewProperties props(downloadsUrl);
+    QCOMPARE(props.sortRole(), QByteArrayLiteral("text"));
+    QCOMPARE(props.sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(props.sortFoldersFirst(), true);
+    QCOMPARE(props.groupedSorting(), false);
 }
 
 void ViewPropertiesTest::testRestoreViewProps()

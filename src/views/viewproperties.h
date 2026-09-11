@@ -183,6 +183,8 @@ private:
 private:
     bool m_changedProps;
     bool m_autoSave;
+    // Whether this folder comes with a display style of its own (trash, download...)
+    bool m_hasOwnDefaultStyle;
     QString m_filePath;
     ViewPropertySettings *m_node;
 };
