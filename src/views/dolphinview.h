@@ -276,7 +276,7 @@ public:
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void setNameFilter(const QString &nameFilter);
+    virtual void setNameFilter(const QString &nameFilter);
     QString nameFilter() const;
 
     /**
@@ -290,13 +290,13 @@ public:
     /**
      * Sets the filtering mode of the currently used nameFilter.
      */
-    void setFilterMode(KFileItemModelFilter::FilterMode mode);
+    virtual void setFilterMode(KFileItemModelFilter::FilterMode mode);
     KFileItemModelFilter::FilterMode filterMode() const;
 
     /**
      * Enables or disable the caseSensitive matching of the currently used nameFilter.
      */
-    void setFilterCaseSensitive(bool caseSensitive);
+    virtual void setFilterCaseSensitive(bool caseSensitive);
     bool isFilterCaseSensitive() const;
 
     /**
