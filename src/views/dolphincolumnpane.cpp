@@ -8,6 +8,7 @@
 #include "dolphincolumnpane.h"
 
 #include "dolphin_columnsmodesettings.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinitemlistview.h"
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
@@ -190,7 +191,15 @@ void DolphinColumnPane::slotItemActivated(int index)
 
     // itemActivated = double-click (or single-click if system configured so).
     // Directories: navigate.  Files: open with default application.
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
+    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    KFileItem resolved = item;
+    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
+    // determined for a folder or for a remote file, where the sniffing would go over the wire.
+    if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
+        resolved.determineMimeType();
+    }
+    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
     if (!folderUrl.isEmpty()) {
         Q_EMIT directoryActivated(folderUrl);
     } else if (item.isDir()) {
