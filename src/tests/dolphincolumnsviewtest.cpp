@@ -101,6 +101,8 @@ private Q_SLOTS:
     void testMouseClickOnNotCurrentDirectoryOpensChild();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
+    void testNameFilterAppliesToEveryColumn();
+    void testAColumnOpenedLaterInheritsTheFilter();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1043,6 +1045,46 @@ void DolphinColumnsViewTest::testSetUrlOpensTheColumnsDownToADescendant()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
     QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testNameFilterAppliesToEveryColumn()
+{
+    // The filter belongs to the view, so it reaches every column and not only the active one.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    const int unfilteredRootCount = m_view->columnAt(0)->model()->count();
+    const int unfilteredChildCount = m_view->columnAt(1)->model()->count();
+
+    // "al" matches alpha in the root and alpha-child in alpha. It has to keep alpha itself
+    // visible, because filtering the folder a column was opened from closes that column.
+    m_view->setNameFilter(QStringLiteral("al"));
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnCount(), 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+
+    m_view->setNameFilter(QString());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), unfilteredRootCount, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), unfilteredChildCount, 5000);
+}
+
+void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilter()
+{
+    // A column opened while a filter is set is filtered as well.
+    m_view->setNameFilter(QStringLiteral("a"));
+    // alpha, beta and gamma carry an "a", single-file.txt does not.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 3, 5000);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // alpha holds alpha-child, file1.txt and file2.txt, and only the first carries an "a".
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+
+    m_view->setNameFilter(QString());
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
