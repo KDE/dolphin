@@ -36,7 +36,10 @@
 #include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
-    : QDialog(dolphinView)
+    // Parented to the window rather than to the view: applying a switch to or from the
+    // columns view destroys the view, and a dialog parented to it would go with it while
+    // its own exec() is still running.
+    : QDialog(dolphinView->window())
     , m_isDirty(false)
     , m_dolphinView(dolphinView)
     , m_viewProps(nullptr)
@@ -327,6 +330,12 @@ void ViewPropertiesDialog::applyViewProperties()
         m_viewProps->setVisibleRoles(visibleRoles);
     }
 
+    // Applying a switch to or from the columns view replaces the view with another object, so a
+    // second apply after that has nothing to act on. Stop rather than follow a dangling pointer.
+    if (!m_dolphinView) {
+        return;
+    }
+
     const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
@@ -334,7 +343,7 @@ void ViewPropertiesDialog::applyViewProperties()
             return;
         }
 
-        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView, m_dolphinView->url(), *m_viewProps);
+        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView->window(), m_dolphinView->url(), *m_viewProps);
         info->setAttribute(Qt::WA_DeleteOnClose);
         info->setWindowModality(Qt::NonModal);
         info->show();
