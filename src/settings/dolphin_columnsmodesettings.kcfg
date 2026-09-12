@@ -30,6 +30,7 @@
         <entry name="MaxVisibleColumns" type="Int">
             <label>Maximum number of visible columns before scrolling</label>
             <default>4</default>
+            <min>1</min>
         </entry>
         <entry name="DynamicColumnWidth" type="Bool">
             <label>Adjust column width to its content</label>
