@@ -122,6 +122,9 @@ private Q_SLOTS:
     void testFilteringOutAFolderClosesItsColumn();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
+    void testSetUrlActivatesAnOpenColumn();
+    void testSetUrlOpensTheColumnsDownToADescendant();
+    void testTheColumnsStartAtTheRootTheResolverNames();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -345,13 +348,17 @@ void DolphinColumnsViewTest::testUrlUpdatesOnNavigation()
 
 void DolphinColumnsViewTest::testSetUrl_rebuildsColumns()
 {
-    QUrl betaUrl = QUrl::fromLocalFile(m_testDir->path() + "/beta");
+    // A url that sits under none of the open columns has no column to keep, so the view starts
+    // again from that url. A url under an open column extends the columns instead, which
+    // testSetUrlOpensTheColumnsDownToADescendant covers.
+    TestDir otherDir;
+    otherDir.createDir("other-child");
 
-    m_view->setUrl(betaUrl);
+    m_view->setUrl(otherDir.url());
     waitForStableState();
 
     QVERIFY(m_view->columnCount() >= 1);
-    QCOMPARE(m_view->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), betaUrl.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(m_view->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), otherDir.url().adjusted(QUrl::StripTrailingSlash));
 }
 
 void DolphinColumnsViewTest::testDefaultWidths()
@@ -1600,6 +1607,63 @@ void DolphinColumnsViewTest::testSpaceIsAShortcutWhenAColumnHasTheFocus()
     QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
 
     QCOMPARE(m_view->handleSpaceAsNormalKey(), false);
+}
+
+void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
+{
+    // Going back to a folder one of the columns already shows keeps the columns below it, which
+    // is what Back does. Rebuilding would leave that folder as the only column.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    m_view->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha")));
+    waitForStableState();
+
+    QCOMPARE(m_view->columnCount(), 3);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testSetUrlOpensTheColumnsDownToADescendant()
+{
+    // A url below the column that is open opens the folders in between rather than becoming the
+    // only column, so the breadcrumb and the Places panel land where the columns already are.
+    // The fixture auto-selects the first item, so a preview column may be open already.
+    QVERIFY(m_view->columnCount() >= 1);
+    QCOMPARE(m_view->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
+
+    m_view->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child")));
+    waitForStableState();
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
+    QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testTheColumnsStartAtTheRootTheResolverNames()
+{
+    // Restoring a session opens a url that is several folders deep. Without a root to start from
+    // that folder was the only column and everything above it was gone, so there was nothing to
+    // scroll left to.
+    const QUrl deepUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child"));
+    const QUrl rootUrl = m_testDir->url();
+
+    DolphinColumnsView view(deepUrl, nullptr, DolphinView::ColumnsView, [rootUrl](const QUrl &) {
+        return rootUrl;
+    });
+    view.resize(1200, 600);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+
+    QTRY_COMPARE_WITH_TIMEOUT(view.columnCount(), 3, 5000);
+    QCOMPARE(view.columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), rootUrl.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(view.columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
+    QCOMPARE(view.columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
+    // The folder that was asked for is the one the user lands on.
+    QCOMPARE(view.url().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
