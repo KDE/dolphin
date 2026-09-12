@@ -406,7 +406,15 @@ QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
     if (item.isNull()) {
         return QUrl();
     }
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, false);
+    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
+    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    KFileItem resolved = item;
+    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
+    // determined for a folder or for a remote file, where the sniffing would go over the wire.
+    if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
+        resolved.determineMimeType();
+    }
+    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
     if (!folderUrl.isEmpty()) {
         return folderUrl;
     }
