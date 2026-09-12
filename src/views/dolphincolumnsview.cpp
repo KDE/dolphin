@@ -71,6 +71,12 @@ void DolphinColumnsView::initColumnsUi()
 {
     m_baseModel = DolphinView::activeModel(); // save original base model
 
+    // Every column is filtered the same way, so hold what the base model was set up with and
+    // hand it to each pane as it is created.
+    m_nameFilter = m_baseModel->nameFilter();
+    m_filterMode = m_baseModel->filterMode();
+    m_filterCaseSensitive = m_baseModel->isFilterCaseSensitive();
+
     m_columnsSelectionTimer = new QTimer(this);
     m_columnsSelectionTimer->setSingleShot(true);
     connect(m_columnsSelectionTimer, &QTimer::timeout, this, [this] {
@@ -165,6 +171,33 @@ void DolphinColumnsView::stopLoading()
     for (auto *pane : std::as_const(m_columns)) {
         pane->model()->cancelDirectoryLoading();
     }
+}
+
+void DolphinColumnsView::setNameFilter(const QString &nameFilter)
+{
+    m_nameFilter = nameFilter;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setNameFilter(nameFilter);
+    }
+    DolphinView::setNameFilter(nameFilter);
+}
+
+void DolphinColumnsView::setFilterMode(KFileItemModelFilter::FilterMode mode)
+{
+    m_filterMode = mode;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setFilterMode(mode);
+    }
+    DolphinView::setFilterMode(mode);
+}
+
+void DolphinColumnsView::setFilterCaseSensitive(bool caseSensitive)
+{
+    m_filterCaseSensitive = caseSensitive;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->setFilterCaseSensitive(caseSensitive);
+    }
+    DolphinView::setFilterCaseSensitive(caseSensitive);
 }
 
 void DolphinColumnsView::readSettings()
@@ -574,6 +607,9 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     model->setShowHiddenFiles(hiddenFilesShown());
     model->setSortRole(sortRole());
     model->setSortOrder(sortOrder());
+    model->setFilterMode(m_filterMode);
+    model->setFilterCaseSensitive(m_filterCaseSensitive);
+    model->setNameFilter(m_nameFilter);
 
     auto *pane = new DolphinColumnPane(model, nullptr);
     pane->setPreviewsShown(previewsShown());
