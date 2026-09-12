@@ -43,6 +43,11 @@ public:
     void reload() override;
     void stopLoading() override;
     void readSettings() override;
+
+    /// The filter belongs to the whole view, so every column gets it, new ones included.
+    void setNameFilter(const QString &nameFilter) override;
+    void setFilterMode(KFileItemModelFilter::FilterMode mode) override;
+    void setFilterCaseSensitive(bool caseSensitive) override;
     KFileItem rootItem() const override;
 
     // --- Columns-specific API ---
@@ -121,6 +126,10 @@ private:
     QScrollArea *m_scrollArea = nullptr;
     QSplitter *m_splitter = nullptr;
     QWidget *m_filler = nullptr;
+
+    QString m_nameFilter;
+    KFileItemModelFilter::FilterMode m_filterMode;
+    bool m_filterCaseSensitive = false;
 
     QList<DolphinColumnPane *> m_columns;
     int m_activeColumn = -1;
