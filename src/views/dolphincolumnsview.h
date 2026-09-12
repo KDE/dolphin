@@ -107,6 +107,14 @@ private:
      */
     void autoAdjustColumns();
 
+    /**
+     * Shows @p url by moving within the columns that are already open: activating the
+     * column that shows it, or opening the folders between it and the deepest column
+     * that contains it. Returns false when @p url is unrelated to what is shown, which
+     * is when the caller has to rebuild from @p url as the root.
+     */
+    bool showUrlInOpenColumns(const QUrl &url);
+
     void syncColumnsFromViewProperties();
     void reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane);
 
