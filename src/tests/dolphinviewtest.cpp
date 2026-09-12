@@ -39,6 +39,8 @@ private Q_SLOTS:
     void switchingViewModeAdoptsTheNewModesConfiguredSize();
     void aFreshViewUsesTheConfiguredSizeOfItsOwnViewMode_data();
     void aFreshViewUsesTheConfiguredSizeOfItsOwnViewMode();
+    void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState_data();
+    void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState();
 
 private:
     void requestBackgroundContextMenu();
@@ -303,6 +305,72 @@ void DolphinViewTest::aFreshViewUsesTheConfiguredSizeOfItsOwnViewMode()
     QCOMPARE(m_view->zoomLevel(), iconsLevel);
     // Nothing was stored along the way, so this really was the fallback.
     QCOMPARE(ViewProperties(folder).zoomLevel(), -1);
+}
+
+void DolphinViewTest::navigatingToAFolderUsesTheSizeOfItsOwnPreviewState_data()
+{
+    QTest::addColumn<bool>("previews");
+    QTest::newRow("previews") << true;
+    QTest::newRow("no previews") << false;
+}
+
+/**
+ * The zoom level a folder without one of its own falls back to is cached per view and is read from
+ * the preview state, so a view carries the size of the state of the folder it opened on. The next
+ * folder it opens in the other state has to be shown at the size configured for that other state,
+ * and not at the one the view still held. See Bug 524842.
+ */
+void DolphinViewTest::navigatingToAFolderUsesTheSizeOfItsOwnPreviewState()
+{
+    QFETCH(bool, previews);
+
+    const bool globalBefore = GeneralSettings::globalViewProps();
+    const int iconBefore = IconsModeSettings::iconSize();
+    const int previewBefore = IconsModeSettings::previewSize();
+    auto restoreSettings = qScopeGuard([=] {
+        GeneralSettings::setGlobalViewProps(globalBefore);
+        IconsModeSettings::setIconSize(iconBefore);
+        IconsModeSettings::setPreviewSize(previewBefore);
+    });
+
+    // Only per-folder view properties have a folder without a zoom level to fall back for.
+    GeneralSettings::setGlobalViewProps(false);
+    IconsModeSettings::setIconSize(KIconLoader::SizeMedium);
+    IconsModeSettings::setPreviewSize(KIconLoader::SizeEnormous);
+
+    const auto levelFor = [](int size) {
+        return ZoomLevelInfo::zoomLevelForIconSize(QSize(size, size));
+    };
+    const int iconLevel = levelFor(KIconLoader::SizeMedium);
+    const int previewLevel = levelFor(KIconLoader::SizeEnormous);
+    QVERIFY(iconLevel != previewLevel);
+
+    // The view opens on a folder in the opposite state, which is what leaves the wrong size behind.
+    m_testDir->createDir(QStringLiteral("opened"));
+    m_testDir->createFile(QStringLiteral("opened/one.txt"));
+    m_testDir->createDir(QStringLiteral("entered"));
+    m_testDir->createFile(QStringLiteral("entered/one.txt"));
+    m_testDir->createFile(QStringLiteral("entered/two.txt"));
+    const QUrl opened = QUrl::fromLocalFile(QDir(m_testDir->path()).filePath(QStringLiteral("opened")));
+    const QUrl entered = QUrl::fromLocalFile(QDir(m_testDir->path()).filePath(QStringLiteral("entered")));
+    writeViewProperties(opened, DolphinView::IconsView, !previews);
+    writeViewProperties(entered, DolphinView::IconsView, previews);
+
+    delete m_view;
+    m_view = new DolphinView(opened, nullptr);
+    m_view->resize(600, 400);
+    m_view->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_view));
+    QTRY_COMPARE(m_view->itemsCount(), 1);
+    QCOMPARE(m_view->previewsShown(), !previews);
+    QCOMPARE(m_view->zoomLevel(), previews ? iconLevel : previewLevel);
+
+    m_view->setUrl(entered);
+    QTRY_COMPARE(m_view->itemsCount(), 2);
+    QCOMPARE(m_view->previewsShown(), previews);
+    QCOMPARE(m_view->zoomLevel(), previews ? previewLevel : iconLevel);
+    // Nothing was stored along the way, so this really was the fallback.
+    QCOMPARE(ViewProperties(entered).zoomLevel(), -1);
 }
 
 void DolphinViewTest::writeViewProperties(const QUrl &folder, DolphinView::Mode mode, bool previewsShown)

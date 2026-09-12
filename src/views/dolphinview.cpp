@@ -371,6 +371,7 @@ void DolphinView::setPreviewsShown(bool show)
 
     const int oldZoomLevel = m_view->zoomLevel();
     m_view->setPreviewsShown(show);
+    updateDefaultZoomLevel();
     Q_EMIT previewsShownChanged(show);
 
     const int newZoomLevel = m_view->zoomLevel();
@@ -2486,6 +2487,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
         const int oldZoomLevel = zoomLevel();
 
         m_view->setPreviewsShown(previewsShown);
+        updateDefaultZoomLevel();
         Q_EMIT previewsShownChanged(previewsShown);
 
         // Changing the preview-state might result in a changed zoom-level
