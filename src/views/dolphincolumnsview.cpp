@@ -153,7 +153,11 @@ void DolphinColumnsView::setActive(bool active)
 
 void DolphinColumnsView::reload()
 {
-    rebuildColumnsForUrl(url());
+    // Refresh each column where it is. Rebuilding would drop every column but one and
+    // leave the root showing the active column's folder instead of the original one.
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        pane->model()->refreshDirectory(pane->dirUrl());
+    }
 }
 
 void DolphinColumnsView::stopLoading()
