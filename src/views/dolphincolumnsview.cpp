@@ -133,7 +133,9 @@ void DolphinColumnsView::setUrl(const QUrl &url)
     }
 
     updateUrl(url);
-    rebuildColumnsForUrl(url);
+    if (!showUrlInOpenColumns(url)) {
+        rebuildColumnsForUrl(url);
+    }
     Q_EMIT urlChanged(url);
 }
 
@@ -401,6 +403,54 @@ QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
         return folderUrl;
     }
     return item.isDir() ? item.url() : QUrl();
+}
+
+bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
+{
+    // KIO::upUrl() ends a folder url with a slash and dirUrl() does not, so every comparison
+    // here is made on urls stripped of it.
+    const QUrl target = url.adjusted(QUrl::StripTrailingSlash);
+
+    // Already open, so going back to a folder keeps the columns that follow it instead of
+    // tearing them down and starting again from that folder.
+    for (int i = 0; i < m_columns.size(); ++i) {
+        if (m_columns.at(i)->dirUrl().adjusted(QUrl::StripTrailingSlash) == target) {
+            setActiveColumn(i);
+            return true;
+        }
+    }
+
+    // Below one of the open columns, so open the folders between the two.
+    int ancestor = -1;
+    for (int i = m_columns.size() - 1; i >= 0; --i) {
+        if (m_columns.at(i)->dirUrl().isParentOf(url)) {
+            ancestor = i;
+            break;
+        }
+    }
+    if (ancestor < 0) {
+        return false;
+    }
+
+    const QUrl ancestorUrl = m_columns.at(ancestor)->dirUrl().adjusted(QUrl::StripTrailingSlash);
+    QList<QUrl> chain;
+    for (QUrl step = target; step != ancestorUrl;) {
+        chain.prepend(step);
+        const QUrl parent = KIO::upUrl(step).adjusted(QUrl::StripTrailingSlash);
+        if (parent == step) {
+            // upUrl stopped making progress, so the two urls are not on one path after all.
+            return false;
+        }
+        step = parent;
+    }
+
+    int column = ancestor;
+    for (const QUrl &step : std::as_const(chain)) {
+        openChild(column, step);
+        ++column;
+    }
+    setActiveColumn(column);
+    return true;
 }
 
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
