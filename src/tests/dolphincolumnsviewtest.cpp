@@ -98,6 +98,7 @@ private Q_SLOTS:
     void testLeftKeyClearsChildSelection();
     void testDirectorySelectionOpensChildOnce();
     void testMouseClickOnDirectoryOpensChildOnce();
+    void testMouseClickOnNotCurrentDirectoryOpensChild();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -965,6 +966,42 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
     // Let any queued re-entrant open settle, then confirm still exactly one child.
     QTest::qWait(100); // UNAVOIDABLE: no signal for the absence of a re-entrant open
     QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+void DolphinColumnsViewTest::testMouseClickOnNotCurrentDirectoryOpensChild()
+{
+    // The first click on an item that is not the current one has to open its child column.
+    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
+    // so handleMouseButtonPressed() sees a clicked index that differs from the current one, and
+    // slotColumnsCurrentItemChanged() is suppressed while the button is held.
+    activateColumn(0);
+    auto *pane = m_view->columnAt(0);
+    auto *selectionManager = pane->controller()->selectionManager();
+
+    int betaIndex = -1;
+    int otherIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        const QString name = pane->model()->fileItem(i).name();
+        if (name == QStringLiteral("beta")) {
+            betaIndex = i;
+        } else if (otherIndex < 0) {
+            otherIndex = i;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+    QVERIFY(otherIndex >= 0);
+
+    // Current is some other item, which is what a first click on "beta" starts from.
+    selectionManager->blockSignals(true);
+    selectionManager->clearSelection();
+    selectionManager->setCurrentItem(otherIndex);
+    selectionManager->blockSignals(false);
+    QVERIFY(selectionManager->currentItem() != betaIndex);
+
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
 }
 
