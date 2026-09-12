@@ -1683,10 +1683,14 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
         if (auto secondaryUrlNavigator = navigators->secondaryUrlNavigator()) {
             secondaryUrlNavigator->disconnect(this);
         }
-        oldViewContainer->disconnect(m_diskSpaceUsageMenu);
+        // The two connections below have the menu as their sender, so they are removed
+        // this way round. Disconnecting the container as a sender left them in place.
+        m_diskSpaceUsageMenu->disconnect(oldViewContainer);
 
-        // except the requestItemInfo so that on hover the information panel can still be updated
-        connect(oldViewContainer->view(), &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
+        if (oldViewContainer != viewContainer) {
+            // except the requestItemInfo so that on hover the information panel can still be updated
+            connect(oldViewContainer->view(), &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
+        }
 
         // Disconnect other slots.
         disconnect(oldViewContainer,
