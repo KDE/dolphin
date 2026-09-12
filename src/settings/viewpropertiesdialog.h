@@ -13,6 +13,7 @@
 #include "views/dolphinview.h" // for DolphinView::Mode
 
 #include <QDialog>
+#include <QPointer>
 
 class QCheckBox;
 class QListWidget;
@@ -70,7 +71,8 @@ private:
 
 private:
     bool m_isDirty;
-    DolphinView *m_dolphinView;
+    /// Weak: applying a switch to or from the columns view destroys the view.
+    QPointer<DolphinView> m_dolphinView;
     ViewProperties *m_viewProps;
 
     QComboBox *m_viewMode;
