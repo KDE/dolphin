@@ -134,6 +134,9 @@ private:
     QSplitter *m_splitter = nullptr;
     QWidget *m_filler = nullptr;
 
+    /// A splitter handle does not reliably get a double click, so two releases count as one.
+    bool m_splitterReleaseSeen = false;
+
     int m_statusBarOffset = 0;
 
     QString m_nameFilter;
