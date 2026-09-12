@@ -268,6 +268,14 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     connectViewSignals();
 
+    // State the container owns rather than the view has to reach the replacement, or the filter
+    // bar and the search keep showing settings that the new view is not applying.
+    m_view->setViewPropertiesContext(oldView->viewPropertiesContext());
+    m_view->setFilterMode(m_filterBar->filterMode());
+    m_view->setFilterCaseSensitive(m_filterBar->isCaseSensitive());
+    m_view->setNameFilter(oldView->nameFilter());
+    m_view->setSelectionModeEnabled(oldView->selectionMode());
+
     if (connectedNavigator) {
         connectUrlNavigator(connectedNavigator);
     }
@@ -282,6 +290,8 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
 
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
+    // The offset is a property of the view, so the replacement needs it told again.
+    updateStatusBarGeometry();
 
     Q_EMIT viewReplaced();
 }
