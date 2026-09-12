@@ -50,6 +50,11 @@ public:
     void setFilterCaseSensitive(bool caseSensitive) override;
     KFileItem rootItem() const override;
 
+    /// The columns scroll horizontally in their own scroll area, not in the base container.
+    int horizontalScrollBarHeight() const override;
+    /// Each column has to leave room for the small status bar, not the hidden base view.
+    void setStatusBarOffset(int offset) override;
+
     // --- Columns-specific API ---
     int columnCount() const;
     DolphinColumnPane *columnAt(int index) const;
@@ -126,6 +131,8 @@ private:
     QScrollArea *m_scrollArea = nullptr;
     QSplitter *m_splitter = nullptr;
     QWidget *m_filler = nullptr;
+
+    int m_statusBarOffset = 0;
 
     QString m_nameFilter;
     KFileItemModelFilter::FilterMode m_filterMode;
