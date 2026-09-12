@@ -86,9 +86,10 @@
 #include <QToolTip>
 #include <QVBoxLayout>
 
-DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
+DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode, bool canDisplayColumns)
     : QWidget(parent)
     , m_active(true)
+    , m_canDisplayColumns(canDisplayColumns)
     , m_tabsForFiles(false)
     , m_assureVisibleCurrentIndex(false)
     , m_isFolderWritable(true)
@@ -2515,7 +2516,13 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     // Caches old zoom level change for signal emitting
     int zoomLevelChangeFrom = -1;
 
-    const Mode mode = props.viewMode();
+    Mode mode = props.viewMode();
+    if (!canDisplayMode(mode)) {
+        // A folder stored a mode this view cannot draw, e.g. the columns mode reached
+        // through DolphinPart. Keeping it would leave the reported mode and the shown
+        // layout disagreeing.
+        mode = IconsView;
+    }
     if (m_mode != mode) {
         const Mode previousMode = m_mode;
         m_mode = mode;
@@ -2666,6 +2673,11 @@ void DolphinView::applyModeToView()
         // Handled by DolphinColumnsView::applyModeToView() override.
         break;
     }
+}
+
+bool DolphinView::canDisplayMode(Mode mode) const
+{
+    return mode != ColumnsView || m_canDisplayColumns;
 }
 
 void DolphinView::applyDynamicView()
