@@ -381,11 +381,15 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 void DolphinColumnsView::slotSplitterMoved(int pos, int handleIndex)
 {
     Q_UNUSED(pos)
-    // handleIndex is 1-based (handle 1 = between widget 0 and widget 1)
-    const int colIndex = handleIndex - 1;
-    if (colIndex >= 0 && colIndex < m_columns.size()) {
-        const int width = m_splitter->sizes().at(colIndex);
-        m_customColumnWidths[colIndex] = width;
+    // handleIndex is 1-based (handle 1 = between widget 0 and widget 1). The drag resizes the
+    // column on either side of the handle, so both keep the width it gave them. Pinning only
+    // the left one let the right one snap back to its content width at the next relayout,
+    // which moved the handle away from where it was dropped.
+    const QList<int> sizes = m_splitter->sizes();
+    for (const int colIndex : {handleIndex - 1, handleIndex}) {
+        if (colIndex >= 0 && colIndex < m_columns.size() && colIndex < sizes.size()) {
+            m_customColumnWidths[colIndex] = sizes.at(colIndex);
+        }
     }
 }
 
