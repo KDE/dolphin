@@ -219,7 +219,6 @@ void DolphinViewContainer::connectViewSignals()
     connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
     connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
     connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
-    connect(m_view, &DolphinView::viewModeChangeRequested, this, &DolphinViewContainer::setViewMode);
 
     // Status bar connections (m_statusBar may be null during initial construction)
     if (m_statusBar) {
