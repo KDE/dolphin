@@ -101,6 +101,8 @@ private:
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
 
     void ensureActiveColumnVisible();
+    /// Scrolls the column at @p index into view, if any part of it is outside the viewport.
+    void ensureColumnVisible(int index);
     void autoSelectFirstItem(int columnIndex);
     void recalculateColumnWidths();
     /// Set the per-column widths on the splitter and update the horizontal-scroll overflow.
