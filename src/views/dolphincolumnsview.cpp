@@ -740,13 +740,35 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
-    // Double-clicking a splitter handle fits all columns to their content.
-    if (event->type() == QEvent::MouseButtonDblClick) {
+    // Double-clicking a splitter handle fits all columns to their content. A handle does not
+    // reliably receive MouseButtonDblClick, which is why DolphinTabPageSplitterHandle counts two
+    // releases in a row instead; do the same here, and leave press and release to the handle so
+    // that dragging still works.
+    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease || event->type() == QEvent::MouseButtonDblClick) {
         for (int i = 1; i < m_splitter->count(); ++i) {
-            if (m_splitter->handle(i) == watched) {
-                autoAdjustColumns();
-                return true;
+            if (m_splitter->handle(i) != watched) {
+                continue;
             }
+            switch (event->type()) {
+            case QEvent::MouseButtonPress:
+                m_splitterReleaseSeen = false;
+                break;
+            case QEvent::MouseButtonRelease:
+                if (m_splitterReleaseSeen) {
+                    // Resizing the splitter's widgets from inside their own mouse event, while
+                    // the implicit grab is still held, is asking for trouble. Do it after.
+                    QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                }
+                m_splitterReleaseSeen = !m_splitterReleaseSeen;
+                break;
+            case QEvent::MouseButtonDblClick:
+                m_splitterReleaseSeen = false;
+                QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                return true;
+            default:
+                break;
+            }
+            break;
         }
     }
 
