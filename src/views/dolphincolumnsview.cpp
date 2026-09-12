@@ -544,6 +544,10 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
     // the new one the width the old one had, so that the columns and the scroll position stay
     // where they are instead of shifting under the folder being looked through. The width goes
     // back to following the content once this column is entered.
+    // Moving between siblings replaces the column to the right, and the view must not jump then.
+    // A column opened where there was none is new on screen, so it is worth scrolling to.
+    const bool replacesExistingColumn = columnIndex + 1 < m_columns.size();
+
     int carriedWidth = -1;
     if (columnIndex + 1 < m_columns.size()) {
         const QList<int> sizes = m_splitter->sizes();
@@ -575,7 +579,16 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 
     recalculateColumnWidths();
 
-    QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
+    // Scroll to the column that was just opened. Selecting a folder leaves the parent column
+    // active, so waiting for the active one would leave a new column off the right edge.
+    if (!replacesExistingColumn) {
+        const int childIndex = columnIndex + 1;
+        QTimer::singleShot(0, this, [this, childIndex]() {
+            ensureColumnVisible(childIndex);
+        });
+    } else {
+        QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
+    }
 }
 
 void DolphinColumnsView::popAfter(int columnIndex)
@@ -969,13 +982,15 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
 
 void DolphinColumnsView::ensureActiveColumnVisible()
 {
-    if (m_columns.isEmpty()) {
+    ensureColumnVisible(m_activeColumn);
+}
+
+void DolphinColumnsView::ensureColumnVisible(int index)
+{
+    if (index < 0 || index >= m_columns.size() || !m_scrollArea) {
         return;
     }
-    QWidget *activeWidget = activePane();
-    if (!activeWidget) {
-        return;
-    }
+    QWidget *activeWidget = m_columns.at(index);
 
     // Where the active column sits comes from the sizes given to the splitter rather than from
     // the geometry of the panes. A column that was just added has its size already and its
@@ -985,10 +1000,10 @@ void DolphinColumnsView::ensureActiveColumnVisible()
     const QList<int> sizes = m_splitter->sizes();
     const int handleWidth = m_splitter->handleWidth();
     int activeLeft = 0;
-    for (int i = 0; i < m_activeColumn && i < sizes.size(); ++i) {
+    for (int i = 0; i < index && i < sizes.size(); ++i) {
         activeLeft += sizes.at(i) + handleWidth;
     }
-    const int activeWidth = m_activeColumn < sizes.size() ? sizes.at(m_activeColumn) : activeWidget->width();
+    const int activeWidth = index < sizes.size() ? sizes.at(index) : activeWidget->width();
     const int activeRight = activeLeft + activeWidth;
     const int viewportWidth = m_scrollArea->viewport()->width();
 
