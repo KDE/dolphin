@@ -861,11 +861,23 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    // If clicking an already-current item, currentChanged won't fire.
-    // Handle directory navigation manually for this case.
-    if (itemIndex != pane->controller()->selectionManager()->currentItem()) {
+    // Ctrl and Shift make the click a selection command. onPress() applies that after this
+    // signal, and openChild() would have cleared the selection and moved the anchor by then,
+    // so a Ctrl+click would end up selecting nothing and a Shift+click range would collapse.
+    if (QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
         return;
     }
+
+    // Pressing an item that is part of a multi-selection starts a drag of the whole selection.
+    auto *selectionManager = pane->controller()->selectionManager();
+    if (selectionManager->selectedItems().count() > 1 && selectionManager->isSelected(itemIndex)) {
+        return;
+    }
+
+    // Every other left click opens the child of the item it landed on.
+    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
+    // so the clicked item is not the current one yet, and slotColumnsCurrentItemChanged() will
+    // not navigate either while a button is held. Without this the first click only selected.
     if (itemIndex >= pane->model()->count()) {
         return;
     }
