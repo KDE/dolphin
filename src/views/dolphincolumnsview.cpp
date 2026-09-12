@@ -30,7 +30,7 @@
 #include <QVBoxLayout>
 
 DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
-    : DolphinView(url, parent, initialMode)
+    : DolphinView(url, parent, initialMode, true)
 {
     initColumnsUi();
 
@@ -974,7 +974,7 @@ void DolphinColumnsView::recalculateColumnWidths()
         return;
     }
 
-    const int divisor = qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns);
+    const int divisor = qMax(1, qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns));
     const int handleWidth = m_splitter->handleWidth();
     // Reserve room for the handles between visible columns so a full set of
     // default-width columns fits the viewport exactly, instead of overflowing it

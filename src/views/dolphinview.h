@@ -94,7 +94,12 @@ public:
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
+    /**
+     * @p canDisplayColumns must be true for a subclass that draws the columns mode. It is a
+     * constructor argument rather than a virtual, because the base constructor already needs
+     * the answer while it applies the view properties.
+     */
+    explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt, bool canDisplayColumns = false);
 
     ~DolphinView() override;
 
@@ -820,6 +825,9 @@ protected:
      */
     virtual void applyModeToView();
 
+    /// Whether this view is able to draw @p mode. See the constructor.
+    bool canDisplayMode(Mode mode) const;
+
     /**
      * Returns the MIME data for all selected items.
      */
@@ -1094,6 +1102,7 @@ private:
     void showLoadingPlaceholder();
 
     bool m_active;
+    const bool m_canDisplayColumns;
     bool m_tabsForFiles;
     bool m_assureVisibleCurrentIndex;
     bool m_isFolderWritable;
