@@ -889,6 +889,15 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
 
     const QUrl targetUrl = folderUrlForItem(item);
     if (targetUrl.isEmpty()) {
+        // A file. The columns to the right belong to a folder that is no longer the one
+        // selected, so drop them, which is what the keyboard path does in
+        // slotColumnsCurrentItemChanged().
+        if (colIndex + 1 < m_columns.size()) {
+            popAfter(colIndex);
+            recalculateColumnWidths();
+            updateUrl(m_columns.at(colIndex)->dirUrl());
+            Q_EMIT urlChanged(url());
+        }
         return;
     }
 
