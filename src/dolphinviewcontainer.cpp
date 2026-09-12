@@ -1355,8 +1355,12 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar or filterbar is visible, we need to add 1 due to how QRect coordinates work.
-    const int yPos = m_view->geometry().bottom() - m_view->horizontalScrollBarHeight() - m_statusBar->minimumHeight() + 1;
-    QRect statusBarRect = rect().adjusted(0, yPos, 0, 0);
+    const int scrollBarHeight = m_view->horizontalScrollBarHeight();
+    const int yPos = m_view->geometry().bottom() - scrollBarHeight - m_statusBar->minimumHeight() + 1;
+    // The bottom rises with the top, so the bar keeps its own height. Leaving the bottom at the
+    // edge instead makes the bar as tall as the scrollbar as well, and it paints its frame over
+    // the whole of that.
+    QRect statusBarRect = rect().adjusted(0, yPos, 0, -scrollBarHeight);
     return statusBarRect;
 }
 
