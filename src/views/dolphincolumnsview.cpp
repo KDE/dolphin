@@ -157,6 +157,24 @@ void DolphinColumnsView::setActive(bool active)
     }
 }
 
+int DolphinColumnsView::horizontalScrollBarHeight() const
+{
+    if (m_scrollArea && m_scrollArea->horizontalScrollBar() && m_scrollArea->horizontalScrollBar()->isVisible()) {
+        return m_scrollArea->horizontalScrollBar()->height();
+    }
+    return DolphinView::horizontalScrollBarHeight();
+}
+
+void DolphinColumnsView::setStatusBarOffset(int offset)
+{
+    m_statusBarOffset = offset;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        if (KItemListView *view = pane->controller()->view()) {
+            view->setStatusBarOffset(offset);
+        }
+    }
+}
+
 void DolphinColumnsView::reload()
 {
     // Refresh each column where it is. Rebuilding would drop every column but one and
@@ -612,6 +630,11 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     model->setNameFilter(m_nameFilter);
 
     auto *pane = new DolphinColumnPane(model, nullptr);
+    if (KItemListView *paneView = pane->controller()->view()) {
+        // Leave the same room at the bottom that the columns already open leave, so the small
+        // status bar does not cover the last item of a freshly opened column either.
+        paneView->setStatusBarOffset(m_statusBarOffset);
+    }
     pane->setPreviewsShown(previewsShown());
     pane->setZoomLevel(zoomLevel());
     model->loadDirectory(dirUrl);
