@@ -1,6 +1,7 @@
 # Darafei Praliaskouski <komzpa@licei2.com>, 2007.
 # Siarhei Liantsevich <serzh.by@gmail.com>, 2008.
 # Zmicier <zmicerturok@gmail.com>, 2022.
+# Dzianis <gcompris@miesta.by>, 2026
 msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
@@ -2156,7 +2157,7 @@ msgstr "Сартаванне…"
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Пршук…"
+msgstr "Пошук…"
 
 #: dolphinviewcontainer.cpp:699
 #, kde-format
@@ -3881,7 +3882,7 @@ msgstr "Кіраўнік файлаў"
 #| msgid "Searching…"
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Пршук…"
+msgstr "Пошук…"
 
 #: search/popup.cpp:131
 #, kde-kuit-format
