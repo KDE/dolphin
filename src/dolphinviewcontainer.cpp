@@ -250,10 +250,6 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     const QUrl savedUrl = m_urlNavigator->locationUrl();
     const bool wasActive = oldView->isActive();
 
-    // The incoming view carries the user's chosen mode; stop the outgoing view
-    // from persisting its (now stale) mode and clobbering it on disk.
-    oldView->setPersistViewModeOnDestruction(false);
-
     // The connected url navigator binds several connections to the current
     // view (e.g. urlChanged -> setLocationUrl); reconnect it to the new view,
     // otherwise the breadcrumb stops following the view after the swap.
@@ -298,6 +294,13 @@ void DolphinViewContainer::setViewMode(DolphinView::Mode mode)
 
     if (needsColumns != isColumns) {
         swapView(mode);
+
+        // The new view is built with the mode already applied and does not store it, so store
+        // it here, the way DolphinView::setViewMode does for the other case. It has to happen
+        // after the swap: a swap caused by navigating still has the outgoing view on the folder
+        // being left, whose properties must not be given the new mode.
+        ViewProperties props(m_view->viewPropertiesUrl());
+        props.setViewMode(mode);
     } else {
         m_view->setViewMode(mode);
     }
