@@ -2543,15 +2543,23 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
     }
 }
 
+bool DolphinView::reportInvalidUrl(const QUrl &url)
+{
+    if (url.isValid()) {
+        return true;
+    }
+    const QString location(url.toDisplayString(QUrl::PreferLocalFile));
+    if (location.isEmpty()) {
+        Q_EMIT errorMessage(i18nc("@info:status", "The location is empty."), KIO::ERR_UNKNOWN);
+    } else {
+        Q_EMIT errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location), KIO::ERR_UNKNOWN);
+    }
+    return false;
+}
+
 void DolphinView::loadDirectory(const QUrl &url, bool reload)
 {
-    if (!url.isValid()) {
-        const QString location(url.toDisplayString(QUrl::PreferLocalFile));
-        if (location.isEmpty()) {
-            Q_EMIT errorMessage(i18nc("@info:status", "The location is empty."), KIO::ERR_UNKNOWN);
-        } else {
-            Q_EMIT errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location), KIO::ERR_UNKNOWN);
-        }
+    if (!reportInvalidUrl(url)) {
         return;
     }
 
