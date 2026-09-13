@@ -98,6 +98,11 @@ endif()
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
+# ServiceMenuShortcutManagerTest (depends on the KIO service-menu shortcut API)
+if(KF6KIO_VERSION VERSION_GREATER_EQUAL "6.24.0")
+    ecm_add_test(servicemenushortcutmanagertest.cpp LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+endif()
+
 # Lint: forbid bare QTest::qWait() in test sources without an // UNAVOIDABLE: justification.
 # Every unavoidable delay must carry a comment explaining why no signal-based wait is possible.
 # Requires bash; not run on Windows.

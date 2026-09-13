@@ -17,8 +17,30 @@
 #include <QAction>
 #include <QDomDocument>
 #include <QFileInfo>
+#include <QHash>
+#include <QKeySequence>
 
 static constexpr QLatin1String serviceMenuNamePrefix("servicemenu_");
+
+namespace
+{
+// Snapshots user-assigned shortcuts so they survive the takeAction/addAction
+// cycle below: KActionCollection does not transfer shortcuts to replacement
+// actions (see addAction() docs), so without this every refresh (e.g. after
+// applying the context menu settings) would silently drop them from memory.
+QHash<QString, QList<QKeySequence>> takeActionShortcuts(KActionCollection *collection, const QStringList &names)
+{
+    QHash<QString, QList<QKeySequence>> shortcuts;
+    for (const QString &name : names) {
+        if (QAction *action = collection->action(name)) {
+            if (!action->shortcuts().isEmpty()) {
+                shortcuts.insert(name, action->shortcuts());
+            }
+        }
+    }
+    return shortcuts;
+}
+}
 
 ServiceMenuShortcutManager::ServiceMenuShortcutManager(KActionCollection *actionCollection, QObject *parent)
     : QObject(parent)
@@ -29,8 +51,12 @@ ServiceMenuShortcutManager::ServiceMenuShortcutManager(KActionCollection *action
 
 void ServiceMenuShortcutManager::refresh(KFileItemActions *fileItemActions)
 {
+    if (!fileItemActions) {
+        return;
+    }
     // Uses takeAction() to remove without deleting. Actions are owned by KFileItemActions
     // and are deleted when called createServiceMenuActions() or destroyed
+    const auto keptShortcuts = takeActionShortcuts(m_actionCollection, m_actionNames);
     for (const QString &name : std::as_const(m_actionNames)) {
         m_actionCollection->takeAction(m_actionCollection->action(name));
     }
@@ -44,6 +70,9 @@ void ServiceMenuShortcutManager::refresh(KFileItemActions *fileItemActions)
         const QString fileName = QFileInfo(desktopAction.desktopFilePath()).fileName();
         const QString name = serviceMenuNamePrefix + fileName + QLatin1String("::") + desktopAction.actionsKey();
         m_category->addAction(name, action);
+        if (keptShortcuts.contains(name)) {
+            action->setShortcuts(keptShortcuts.value(name));
+        }
         m_actionNames.append(name);
     }
 }
