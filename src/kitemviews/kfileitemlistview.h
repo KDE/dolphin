@@ -89,6 +89,7 @@ protected:
     void resizeEvent(QGraphicsSceneResizeEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 protected Q_SLOTS:
     void slotItemsRemoved(const KItemRangeList &itemRanges) override;
