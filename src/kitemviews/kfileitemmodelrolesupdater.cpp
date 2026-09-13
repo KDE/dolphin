@@ -281,6 +281,24 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
     }
 }
 
+void KFileItemModelRolesUpdater::resetFolderPreviews()
+{
+    SmallHash resetData;
+    resetData.insert("iconPixmap", QPixmap());
+    resetData.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
+
+    for (int index = 0; index <= m_model->count(); ++index) {
+        if (m_model->fileItem(index).isDir()) {
+            const auto data = m_model->data(index);
+            if (data.contains("iconPixmap") || data.contains("hoverSequencePixmaps")) {
+                setModelData(index, resetData);
+            }
+        }
+    }
+
+    updateAllPreviews();
+}
+
 void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray> &roles)
 {
     if (m_roles != roles) {

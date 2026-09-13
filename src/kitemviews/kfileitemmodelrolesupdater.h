@@ -168,6 +168,8 @@ public:
      */
     void setHoverSequenceState(const QUrl &itemUrl, int seqIdx);
 
+    void resetFolderPreviews();
+
 Q_SIGNALS:
     void previewJobFinished(); // For unit testing
 
