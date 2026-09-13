@@ -96,6 +96,8 @@ protected:
 
     bool event(QEvent *event) override;
 
+    void changeEvent(QEvent *event) override;
+
 private Q_SLOTS:
     /**
      * Is invoked if no preview is available for the item. In this

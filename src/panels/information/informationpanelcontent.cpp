@@ -368,6 +368,19 @@ bool InformationPanelContent::event(QEvent *event)
     return QWidget::event(event);
 }
 
+void InformationPanelContent::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange) {
+        // Folder thumbnails & icons might need to be reset here,
+        // given the icon used as background can be rendered based on the app color palette.
+        if (m_item.isDir() && m_preview->isVisible()) {
+            refreshPixmapView();
+        }
+    }
+
+    QWidget::changeEvent(event);
+}
+
 bool InformationPanelContent::gestureEvent(QGestureEvent *event)
 {
     if (!underMouse()) {

@@ -326,6 +326,17 @@ void KFileItemListView::focusOutEvent(QFocusEvent *event)
     updateSelectedWidgets();
 }
 
+void KFileItemListView::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange) {
+        // Folder thumbnails might need to be reset here,
+        // given the icon used as background can be rendered based on the app color palette.
+        m_modelRolesUpdater->resetFolderPreviews();
+    }
+
+    KStandardItemListView::changeEvent(event);
+}
+
 void KFileItemListView::updateSelectedWidgets()
 {
     const auto visibleWidgets = visibleItemListWidgets();
