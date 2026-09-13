@@ -2209,7 +2209,7 @@ void DolphinMainWindowTest::testFileItemActionsOutliveContextMenu()
 
     QVERIFY(!m_mainWindow->m_contextMenuOpen);
     QVERIFY(!m_mainWindow->m_fileItemActionsSetupPending);
-    QVERIFY(fileItemActions.isNull());
+    QTRY_VERIFY(fileItemActions.isNull());
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

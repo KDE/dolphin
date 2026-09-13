@@ -262,9 +262,11 @@ DolphinMainWindow::DolphinMainWindow()
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
-    m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc")));
-    connect(m_serviceMenuConfigWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup & /*group*/, const QByteArrayList & /*names*/) {
-        setupFileItemActions();
+    m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc"), KConfig::NoGlobals));
+    connect(m_serviceMenuConfigWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup &group, const QByteArrayList & /*names*/) {
+        if (group.name() == QLatin1String("Show")) {
+            setupFileItemActions();
+        }
     });
     connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged, this, &DolphinMainWindow::slotSplitViewChanged);
     connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinMainWindow::slotTabBarChanged);
@@ -2611,7 +2613,9 @@ void DolphinMainWindow::setupFileItemActions()
     }
     m_fileItemActionsSetupPending = false;
 
-    delete m_fileItemActions;
+    if (m_fileItemActions) {
+        m_fileItemActions->deleteLater();
+    }
     m_fileItemActions = new KFileItemActions(this);
     m_fileItemActions->setParentWidget(this);
     connect(m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
