@@ -83,6 +83,31 @@
 #include <QToolTip>
 #include <QVBoxLayout>
 
+namespace
+{
+// The state of a tab is one entry of the session file, and KConfig reads back at most 1.5 MB of one
+// entry. A selection, and a set of expanded folders, hold as many urls as the folder holds items,
+// so each of them is written only while it stays under this size in the session file. A split tab
+// has four such lists, which then take at most 1 MB, and the rest of the limit is left for the
+// other parts of the state.
+constexpr qsizetype maxUrlListStateSize = 256 * 1024;
+
+template<typename UrlContainer>
+bool fitsInASession(const UrlContainer &urls)
+{
+    qsizetype size = 0;
+    for (const QUrl &url : urls) {
+        // A url is written as its encoded form after 4 bytes of length. KConfig writes each of these
+        // bytes as an escape sequence of 4 characters, so the length takes 16.
+        size += url.toEncoded().size() + 16;
+        if (size > maxUrlListStateSize) {
+            return false;
+        }
+    }
+    return true;
+}
+}
+
 DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     : QWidget(parent)
     , m_active(true)
@@ -1814,19 +1839,27 @@ void DolphinView::restoreState(QDataStream &stream)
         return;
     }
 
+    QUrl currentItemUrl;
+    QList<QUrl> selectedUrls;
+    QPoint contentsPosition;
+    QSet<QUrl> expandedDirectories;
+    stream >> currentItemUrl >> selectedUrls >> contentsPosition >> expandedDirectories;
+    if (stream.status() != QDataStream::Ok) {
+        // A state that was cut short says nothing about where the view stood.
+        return;
+    }
+
     // Restore the current item that had the keyboard focus
-    stream >> m_currentItemUrl;
+    m_currentItemUrl = currentItemUrl;
 
     // Restore the previously selected items
-    stream >> m_selectedUrls;
+    m_selectedUrls = selectedUrls;
 
     // Restore the view position
-    stream >> m_restoredContentsPosition;
+    m_restoredContentsPosition = contentsPosition;
 
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
-    QSet<QUrl> urls;
-    stream >> urls;
-    m_model->restoreExpandedDirectories(urls);
+    m_model->restoreExpandedDirectories(expandedDirectories);
 }
 
 void DolphinView::saveState(QDataStream &stream)
@@ -1845,7 +1878,8 @@ void DolphinView::saveState(QDataStream &stream)
     }
 
     // Save the selected urls
-    stream << selectedItems().urlList();
+    const QList<QUrl> selectedUrls = selectedItems().urlList();
+    stream << (fitsInASession(selectedUrls) ? selectedUrls : QList<QUrl>());
 
     // Save view position
     const qreal x = m_container->horizontalScrollBar()->value();
@@ -1853,7 +1887,8 @@ void DolphinView::saveState(QDataStream &stream)
     stream << QPoint(x, y);
 
     // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
-    stream << m_model->expandedDirectories();
+    const QSet<QUrl> expandedDirectories = m_model->expandedDirectories();
+    stream << (fitsInASession(expandedDirectories) ? expandedDirectories : QSet<QUrl>());
 }
 
 KFileItem DolphinView::rootItem() const
