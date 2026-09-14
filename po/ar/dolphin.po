@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 00:48+0000\n"
+"POT-Creation-Date: 2026-09-14 00:46+0000\n"
 "PO-Revision-Date: 2026-09-09 18:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -199,7 +199,7 @@ msgstr[3] "استعد إلى الأماكن السابقة"
 msgstr[4] "استعد إلى الأماكن السابقة"
 msgstr[5] "استعد إلى الأماكن السابقة"
 
-#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1804
+#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -238,65 +238,65 @@ msgctxt ""
 msgid "Shift+Middle Click"
 msgstr "النقرة الوسطى+Shift"
 
-#: dolphinmainwindow.cpp:436
+#: dolphinmainwindow.cpp:438
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "ارجع للخلف"
 
-#: dolphinmainwindow.cpp:437
+#: dolphinmainwindow.cpp:439
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "يرجع إلى الملف المعروض سابقا"
 
-#: dolphinmainwindow.cpp:443
+#: dolphinmainwindow.cpp:445
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "اذهب للأمام"
 
-#: dolphinmainwindow.cpp:444
+#: dolphinmainwindow.cpp:446
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "هذا يلغي إجراء <interface> ارجع | للخلف </interface>."
 
-#: dolphinmainwindow.cpp:640 dolphinmainwindow.cpp:686
+#: dolphinmainwindow.cpp:642 dolphinmainwindow.cpp:688
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "أكّد"
 
-#: dolphinmainwindow.cpp:644
+#: dolphinmainwindow.cpp:646
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "أ&نهِ %1"
 
-#: dolphinmainwindow.cpp:646
+#: dolphinmainwindow.cpp:648
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "أ&غلق اللسان الحالي"
 
-#: dolphinmainwindow.cpp:655
+#: dolphinmainwindow.cpp:657
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "لديك عدّة ألسنة في هذه النافذة، أتريد حقًّا الإنهاء؟"
 
-#: dolphinmainwindow.cpp:657 dolphinmainwindow.cpp:707
+#: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
 #: views/dolphinview.cpp:2420
 #, kde-format
 msgid "Do not ask again"
 msgstr "لا تسأل مجدّدًا"
 
-#: dolphinmainwindow.cpp:695
+#: dolphinmainwindow.cpp:697
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "اعرض &لوحة الطرفيّة"
 
-#: dolphinmainwindow.cpp:705
+#: dolphinmainwindow.cpp:707
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -304,31 +304,31 @@ msgid ""
 msgstr ""
 "لا يزال البرنامج '%1' قيد التشغيل في لوحة الطرفية. أمتأكد مِن أنك تريد الخروج؟"
 
-#: dolphinmainwindow.cpp:951
+#: dolphinmainwindow.cpp:953
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "لا يمكن اللصق: الحافظة فارغة."
 
-#: dolphinmainwindow.cpp:952
+#: dolphinmainwindow.cpp:954
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "لا يمكن اللصق: ليست لديك أذون للكتابة في هذا المجلد."
 
-#: dolphinmainwindow.cpp:1363
+#: dolphinmainwindow.cpp:1365
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "افتح %1"
 
-#: dolphinmainwindow.cpp:1372 dolphinmainwindow.cpp:2194
+#: dolphinmainwindow.cpp:1374 dolphinmainwindow.cpp:2196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "افتح أداة البحث المفضلة"
 
-#: dolphinmainwindow.cpp:1412
+#: dolphinmainwindow.cpp:1414
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
@@ -339,7 +339,7 @@ msgstr[3] "أتريد حقًا فتح %1 طرفيات؟"
 msgstr[4] "أتريد حقًا فتح %1 طرفية؟"
 msgstr[5] "أتريد حقًا فتح %1 طرفية؟"
 
-#: dolphinmainwindow.cpp:1417
+#: dolphinmainwindow.cpp:1419
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -351,7 +351,7 @@ msgstr[3] "افتح %1 طرفيات"
 msgstr[4] "افتح %1 طرفية"
 msgstr[5] "افتح %1 طرفية"
 
-#: dolphinmainwindow.cpp:1514
+#: dolphinmainwindow.cpp:1516
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -359,7 +359,7 @@ msgid ""
 "folder."
 msgstr "لا يمكن إنشاء ملفًا جديدًا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:1516
+#: dolphinmainwindow.cpp:1518
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -367,31 +367,31 @@ msgid ""
 "folder."
 msgstr "لا يمكن إنشاء مجلدًا جديدًا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:1518
+#: dolphinmainwindow.cpp:1520
 #, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr "يتعذر إنشاء مجلد فرعي جديد: حدد مجلدًا واحدًا يمكنك الكتابة فيه."
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1631
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "اضبط"
 
-#: dolphinmainwindow.cpp:1813
+#: dolphinmainwindow.cpp:1815
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "نا&فذة جديدة"
 
-#: dolphinmainwindow.cpp:1814
+#: dolphinmainwindow.cpp:1816
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "افتح نافذة دولفين جديدة"
 
-#: dolphinmainwindow.cpp:1816
+#: dolphinmainwindow.cpp:1818
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -401,13 +401,13 @@ msgstr ""
 "هذا يفتح نافذة جديدة تمامًا مثل هذه النافذة مع الموقع الحالي.<nl/>يمكنك سحب "
 "العناصر وإفلاتها بين النوافذ."
 
-#: dolphinmainwindow.cpp:1823
+#: dolphinmainwindow.cpp:1825
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "لسان جديد"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1827
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -419,31 +419,31 @@ msgstr ""
 "لك الألسنة التبديل بسرعة بين مواقع وطرق عرض متعددة داخل هذه النافذة. يمكنك "
 "سحب العناصر وإفلاتها بين ألسنة."
 
-#: dolphinmainwindow.cpp:1834
+#: dolphinmainwindow.cpp:1836
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "أضف إلى الأماكن"
 
-#: dolphinmainwindow.cpp:1836
+#: dolphinmainwindow.cpp:1838
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "يؤدي هذا إلى إضافة المجلد المحدد إلى لوحة الأماكن."
 
-#: dolphinmainwindow.cpp:1842
+#: dolphinmainwindow.cpp:1844
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "أغلق اللسان"
 
-#: dolphinmainwindow.cpp:1843
+#: dolphinmainwindow.cpp:1845
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "أغلق اللسان"
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1847
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -453,13 +453,13 @@ msgstr ""
 "هذا يغلق اللسان المعروض حاليا. إذا لم يبق أي ألسنة؛ فستغلق هذه النافذة بدلًا "
 "من ذلك."
 
-#: dolphinmainwindow.cpp:1850
+#: dolphinmainwindow.cpp:1852
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "هذا يغلق هذه النافذة."
 
-#: dolphinmainwindow.cpp:1859
+#: dolphinmainwindow.cpp:1861
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -475,13 +475,13 @@ msgstr ""
 "<shortcut>Ctrl+X</shortcut>و <shortcut>Ctrl+C</shortcut> و <shortcut>Ctrl+V</"
 "shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1866
+#: dolphinmainwindow.cpp:1868
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "قصّ…"
 
-#: dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1870
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -494,13 +494,13 @@ msgstr ""
 "emphasis>. <nl/> استخدم إجراء <emphasis> ألصق </emphasis> بعد ذلك لنسخها من "
 "الحافظة إلى مكان جديد. ستتم إزالة العناصر من موقعها الأولي."
 
-#: dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "انسخ…"
 
-#: dolphinmainwindow.cpp:1877
+#: dolphinmainwindow.cpp:1879
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -512,13 +512,13 @@ msgstr ""
 "emphasis> <nl/> استخدم إجراء <emphasis> انسخ </emphasis> بعد ذلك لنسخها من "
 "الحافظة إلى مكان جديد."
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1888
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "ألصق"
 
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1890
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -530,19 +530,19 @@ msgstr ""
 "<nl/>إذا كانت العناصر أضيفت إلى الحافظة بواسطة أمر <emphasis> قص </emphasis> "
 "فإنها قد أزيلت من موقعها القديم."
 
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1897
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "انسخ إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1898
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "انسخ إلى العرض الآخر…"
 
-#: dolphinmainwindow.cpp:1898
+#: dolphinmainwindow.cpp:1900
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -552,25 +552,25 @@ msgstr ""
 "هذا ينسخ العناصر المحددة من العرض النشط إلى العرض المنقسم غير النشط. (متوفر "
 "فقط أثناء وجوده في وضع العرض المنقسم.)"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1904
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "انسخ إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:1907
+#: dolphinmainwindow.cpp:1909
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "انقل إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:1908
+#: dolphinmainwindow.cpp:1910
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "انقل إلى العرض الآخر…"
 
-#: dolphinmainwindow.cpp:1910
+#: dolphinmainwindow.cpp:1912
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -580,37 +580,37 @@ msgstr ""
 "هذا ينقل العناصر المحددة من العرض النشط إلى العرض المنقسم غير النشط. (متوفر "
 "فقط أثناء وجوده في وضع العرض المنقسم.)"
 
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1916
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "انقل إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:1919
+#: dolphinmainwindow.cpp:1921
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
 msgstr "ركّز على العرض الآخر"
 
-#: dolphinmainwindow.cpp:1920
+#: dolphinmainwindow.cpp:1922
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
 msgstr "انقل تركيز لوحة المفاتيح إلى العرض الخامل."
 
-#: dolphinmainwindow.cpp:1926
+#: dolphinmainwindow.cpp:1928
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "المرشّح…"
 
-#: dolphinmainwindow.cpp:1927
+#: dolphinmainwindow.cpp:1929
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "أظهر شريط المرشّح"
 
-#: dolphinmainwindow.cpp:1929
+#: dolphinmainwindow.cpp:1931
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -623,30 +623,30 @@ msgstr ""
 ">هناك يمكنك إدخال نص لترشيح الملفات والمجلدات المعروضة حاليًا. لن يعرض سوى "
 "تلك التي تحتوي على النص في أسمائها."
 
-#: dolphinmainwindow.cpp:1941
+#: dolphinmainwindow.cpp:1943
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "بدل شريط المرشح"
 
-#: dolphinmainwindow.cpp:1942
+#: dolphinmainwindow.cpp:1944
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "المرشّح"
 
-#: dolphinmainwindow.cpp:1950 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1952 search/bar.cpp:216
 #, kde-format
 msgid "Search…"
 msgstr "ابحث…"
 
-#: dolphinmainwindow.cpp:1951
+#: dolphinmainwindow.cpp:1953
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "ابحث عن الملفات والمجلدات"
 
-#: dolphinmainwindow.cpp:1953
+#: dolphinmainwindow.cpp:1955
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -658,20 +658,20 @@ msgstr ""
 "شريط البحث </emphasis>. هناك يمكنك إدخال مصطلحات البحث وتحديد الإعدادات "
 "للعثور على الكائنات التي تبحث عنها. </para>"
 
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1964
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "بدل شريط البحث"
 
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1965
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "ابحث"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -679,13 +679,13 @@ msgstr "حدد الملفات والمجلدات"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1981
+#: dolphinmainwindow.cpp:1983
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "حدّد"
 
-#: dolphinmainwindow.cpp:1984
+#: dolphinmainwindow.cpp:1986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -702,19 +702,19 @@ msgstr ""
 "واحدة. </para> <para> أثناء وجودك في هذا الوضع، يعرض شريط الوصول السريع في "
 "الجزء السفلي الإجراءات المتاحة لـ العناصر المحددة حاليًا. </para>"
 
-#: dolphinmainwindow.cpp:2007
+#: dolphinmainwindow.cpp:2009
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "يؤدي هذا إلى تحديد كافة الملفات والمجلدات الموجودة في الموقع الحالي."
 
-#: dolphinmainwindow.cpp:2011 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:2013 dolphinpart.cpp:169
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "اعكس التحديد"
 
-#: dolphinmainwindow.cpp:2013
+#: dolphinmainwindow.cpp:2015
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -724,7 +724,7 @@ msgstr ""
 "يؤدي هذا إلى تحديد جميع الكائنات التي <emphasis>لم تقم</emphasis> بتحديدها "
 "بدلًا من ذلك."
 
-#: dolphinmainwindow.cpp:2033
+#: dolphinmainwindow.cpp:2035
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -738,7 +738,7 @@ msgstr ""
 "para><para>سيُعتم العرض الذي ليس \"في التركيز\". </para> انقر فوق هذا الزر "
 "مرة أخرى لإغلاق إحدى طرق العرض."
 
-#: dolphinmainwindow.cpp:2048
+#: dolphinmainwindow.cpp:2050
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -747,25 +747,25 @@ msgid ""
 msgstr ""
 "إذا كان عرض المجلدات مقسوما، فسيؤدي ذلك إلى فصل العرض النشط إلى نافذة جديدة."
 
-#: dolphinmainwindow.cpp:2056
+#: dolphinmainwindow.cpp:2058
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "تخزين مؤقتا"
 
-#: dolphinmainwindow.cpp:2057
+#: dolphinmainwindow.cpp:2059
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "يفتح مجلد تخزين افترضي مؤقت في نافذة منقسمة"
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2068
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "حدّث العرض"
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2070
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -779,31 +779,31 @@ msgstr ""
 "هنا. </para><para> في حالة تقسيم العرض، يؤدي ذلك إلى تحديث العرض قيد التركيز "
 "حاليًا. </para>"
 
-#: dolphinmainwindow.cpp:2075
+#: dolphinmainwindow.cpp:2077
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "توقّف"
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2078
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "أوقف التحميل"
 
-#: dolphinmainwindow.cpp:2077
+#: dolphinmainwindow.cpp:2079
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "هذا يوقف تحميل محتويات المجلد الحالي."
 
-#: dolphinmainwindow.cpp:2082
+#: dolphinmainwindow.cpp:2084
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "موقع قابل للتحرير"
 
-#: dolphinmainwindow.cpp:2084
+#: dolphinmainwindow.cpp:2086
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -817,13 +817,13 @@ msgstr ""
 "التبديل إلى التحرير عن طريق النقر على يمين الموقع والرجوع مرة أخرى عن طريق "
 "تأكيد الموقع المعدل."
 
-#: dolphinmainwindow.cpp:2092
+#: dolphinmainwindow.cpp:2094
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "استبدل الموقع"
 
-#: dolphinmainwindow.cpp:2097
+#: dolphinmainwindow.cpp:2099
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -832,19 +832,19 @@ msgid ""
 msgstr ""
 "يتحول هذا إلى تحرير الموقع وتحديده حتى تتمكن من الدخول بسرعة إلى موقع مختلف."
 
-#: dolphinmainwindow.cpp:2127
+#: dolphinmainwindow.cpp:2129
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "تراجع عن إغلاق اللسان"
 
-#: dolphinmainwindow.cpp:2128
+#: dolphinmainwindow.cpp:2130
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "هذا يرجعك إلى اللسان المغلق سابقا"
 
-#: dolphinmainwindow.cpp:2136
+#: dolphinmainwindow.cpp:2138
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -859,7 +859,7 @@ msgstr ""
 "interface>إلى موقع مختلف  أو إلى<filename>المهملات </filename>. <nl/"
 ">التغييرات التي لا يمكن التراجع عنها ستطلب منك التأكيد."
 
-#: dolphinmainwindow.cpp:2146
+#: dolphinmainwindow.cpp:2148
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -875,7 +875,7 @@ msgstr ""
 "<filename>سلة المهملات</filename>.<nl/>التغييرات التي لا يمكن التراجع عنها "
 "ستطلب منك التأكيد."
 
-#: dolphinmainwindow.cpp:2175
+#: dolphinmainwindow.cpp:2177
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -887,19 +887,19 @@ msgstr ""
 "منزل </filename> الذي يحتوي على بياناته بما في ذلك المجلدات التي تحتوي على "
 "بيانات التطبيق الشخصية. "
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2184
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "قارن الملفات"
 
-#: dolphinmainwindow.cpp:2188
+#: dolphinmainwindow.cpp:2190
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "أدر استخدام مساحة القرص"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -910,13 +910,13 @@ msgstr ""
 "<para> هذا يفتح أداة بحث مفضلة للموقع المعروض. </para> <para> استخدم قائمة "
 "<emphasis> المزيد من أدوات البحث </emphasis> لضبطها. </para> "
 
-#: dolphinmainwindow.cpp:2210
+#: dolphinmainwindow.cpp:2212
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "افتح الطرفية"
 
-#: dolphinmainwindow.cpp:2212
+#: dolphinmainwindow.cpp:2214
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -929,13 +929,13 @@ msgstr ""
 "para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2220
+#: dolphinmainwindow.cpp:2222
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "افتح الطرفية هنا"
 
-#: dolphinmainwindow.cpp:2222
+#: dolphinmainwindow.cpp:2224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -947,13 +947,13 @@ msgstr ""
 "المختارة. </para><para> لمعرفة المزيد حول الطرفية، استخدم المساعدة في تطبيق "
 "الطرفية. </para>"
 
-#: dolphinmainwindow.cpp:2230
+#: dolphinmainwindow.cpp:2232
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "ال&علامات"
 
-#: dolphinmainwindow.cpp:2240
+#: dolphinmainwindow.cpp:2242
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -970,73 +970,73 @@ msgstr ""
 "والمنظم إلى جميع الإجراءات التي يجب أن يقدمها التطبيق. </para> <para> زر %1 "
 "أبسط وصغير مما يجعل تشغيل الإجراءات المتقدمة يستغرق وقتًا أطول. </para>"
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "انتقل إلى اللسان %1"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "آخر لسان"
 
-#: dolphinmainwindow.cpp:2279
+#: dolphinmainwindow.cpp:2281
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "انتقل إلى  آخر لسان"
 
-#: dolphinmainwindow.cpp:2285
+#: dolphinmainwindow.cpp:2287
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "اللسان التالي"
 
-#: dolphinmainwindow.cpp:2286
+#: dolphinmainwindow.cpp:2288
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "انتقل إلى اللسان التالي"
 
-#: dolphinmainwindow.cpp:2292
+#: dolphinmainwindow.cpp:2294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "اللسان السابق"
 
-#: dolphinmainwindow.cpp:2293
+#: dolphinmainwindow.cpp:2295
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "انتقل إلى اللسان السابق"
 
-#: dolphinmainwindow.cpp:2300
+#: dolphinmainwindow.cpp:2302
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "اظهر المقصد"
 
-#: dolphinmainwindow.cpp:2306
+#: dolphinmainwindow.cpp:2308
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "افتح في لسان جديد"
 
-#: dolphinmainwindow.cpp:2311
+#: dolphinmainwindow.cpp:2313
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "افتح في ألسنة جديدة"
 
-#: dolphinmainwindow.cpp:2316
+#: dolphinmainwindow.cpp:2318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "افتح في نافذة جديدة"
 
-#: dolphinmainwindow.cpp:2321 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2323 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
 #: tests/placespaneltest.cpp:169
 #, kde-format
@@ -1044,24 +1044,24 @@ msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "افتح في عرض منقسم"
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2335
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "&مخطّط ألوان النافذة"
 
-#: dolphinmainwindow.cpp:2346
+#: dolphinmainwindow.cpp:2348
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "فكّ قُفْل اللوحات"
 
-#: dolphinmainwindow.cpp:2348
+#: dolphinmainwindow.cpp:2350
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "اقفل اللوحات"
 
-#: dolphinmainwindow.cpp:2351
+#: dolphinmainwindow.cpp:2353
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1074,13 +1074,13 @@ msgstr ""
 "المقفلة </emphasis>. <nl /> يمكن سحب اللوحات غير المقفلة إلى الجانب الآخر من "
 "النافذة وسيكون لها زر إغلاق. <nl/> الألواح المقفلة تكون مضمنة وأكثر ترتيبا."
 
-#: dolphinmainwindow.cpp:2360
+#: dolphinmainwindow.cpp:2362
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "المعلومات"
 
-#: dolphinmainwindow.cpp:2383
+#: dolphinmainwindow.cpp:2385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1090,7 +1090,7 @@ msgstr ""
 "<para>لتعرض أو تخفي لوحات مثل هذه، اذهب إلى <interface>القائمة|اللوحات</"
 "interface> أو <interface>العرض|اللوحات</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2390
+#: dolphinmainwindow.cpp:2392
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1105,7 +1105,7 @@ msgstr ""
 "الفأرة فوقها أو حول العناصر المحددة . وإلا فإنه يعلمك بالمجلد المعروض حاليًا. "
 "<nl/> بالنسبة للعناصر الفردية،ستُوفر معاينة لمحتوياتها. </para> "
 
-#: dolphinmainwindow.cpp:2398
+#: dolphinmainwindow.cpp:2400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1120,13 +1120,13 @@ msgstr ""
 "للعناصر الفردية ستوفر معاينة لمحتوياتها. </para> <para> يمكنك ضبط أي "
 "التفاصيل وكيفية عرضها هنا بالنقر بزر الفأرة الأيمن. </para>"
 
-#: dolphinmainwindow.cpp:2407
+#: dolphinmainwindow.cpp:2409
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "المجلّدات"
 
-#: dolphinmainwindow.cpp:2427
+#: dolphinmainwindow.cpp:2429
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1138,7 +1138,7 @@ msgstr ""
 "النافذة. <nl/><nl/> وهي تعرض مجلدات <emphasis> نظام الملفات </emphasis> في "
 "<emphasis> عرض شجرة </emphasis>."
 
-#: dolphinmainwindow.cpp:2432
+#: dolphinmainwindow.cpp:2434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1152,13 +1152,13 @@ msgstr ""
 "هناك. انقر فوق السهم الموجود على يسار المجلد لرؤية مجلداته الفرعية. يسمح هذا "
 "بالتبديل السريع بين أي مجلدات. </para>"
 
-#: dolphinmainwindow.cpp:2442
+#: dolphinmainwindow.cpp:2444
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "الطرفية"
 
-#: dolphinmainwindow.cpp:2468
+#: dolphinmainwindow.cpp:2470
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1175,7 +1175,7 @@ msgstr ""
 "ولكنها يمكن أن تكون مفيدة للمهام المتقدمة. لمعرفة المزيد حول المحطات "
 "الطرفية، استخدم المساعدة في تطبيق طرفي مستقل مثل كونسول. </para>"
 
-#: dolphinmainwindow.cpp:2476
+#: dolphinmainwindow.cpp:2478
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1192,25 +1192,25 @@ msgstr ""
 "الأساسي للحاسوب ولكنها يمكن أن تكون مفيدة للمهام المتقدمة. لمعرفة المزيد حول "
 "المحطات الطرفية، استخدم المساعدة في تطبيق طرفي مستقل مثل كونسول. </para>"
 
-#: dolphinmainwindow.cpp:2486 dolphinmainwindow.cpp:3162
+#: dolphinmainwindow.cpp:2488 dolphinmainwindow.cpp:3166
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "ركز على لوحة الطرفية"
 
-#: dolphinmainwindow.cpp:2487
+#: dolphinmainwindow.cpp:2489
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "ينقل تركيز لوحة المفاتيح من وإلى لوحة الطرفية."
 
-#: dolphinmainwindow.cpp:2493
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr "اتبع تغيير الدليل"
 
-#: dolphinmainwindow.cpp:2495
+#: dolphinmainwindow.cpp:2497
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1220,19 +1220,19 @@ msgstr ""
 "يحدد ما إذا كان يجب الحفاظ على مزامنة دليل العمل الحالي مع الطرفية عند تغيير "
 "الدليل."
 
-#: dolphinmainwindow.cpp:2511
+#: dolphinmainwindow.cpp:2513
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "الأماكن"
 
-#: dolphinmainwindow.cpp:2539
+#: dolphinmainwindow.cpp:2541
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "أظهر الملفات المخفية"
 
-#: dolphinmainwindow.cpp:2543
+#: dolphinmainwindow.cpp:2545
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1243,7 +1243,7 @@ msgstr ""
 "يعرض هذا جميع الأماكن التي أُخفيت في لوحة الأماكن. ستظهر شبه شفافة وتسمح لك "
 "بإلغاء تحديد خاصية \"إخفاء\". الخاصة بهم."
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2557
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1259,7 +1259,7 @@ msgstr ""
 "أيضًا على أقسام للعثور على الملفات أو الملفات المحفوظة مؤخرًا من نوع معين. </"
 "para>"
 
-#: dolphinmainwindow.cpp:2562
+#: dolphinmainwindow.cpp:2564
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1283,25 +1283,25 @@ msgstr ""
 "الأيمن فوق مساحة فارغة في هذه اللوحة وحدد <interface> أظهر الملفات المخفية </"
 "interface> لعرضها مرة أخرى. </para>"
 
-#: dolphinmainwindow.cpp:2576 dolphinmainwindow.cpp:3180
+#: dolphinmainwindow.cpp:2578 dolphinmainwindow.cpp:3184
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "ركز على لوحة الأماكن"
 
-#: dolphinmainwindow.cpp:2577
+#: dolphinmainwindow.cpp:2579
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "ينقل تركيز لوحة المفاتيح من وإلى لوحة الأماكن."
 
-#: dolphinmainwindow.cpp:2583
+#: dolphinmainwindow.cpp:2585
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "أظهر اللوحات"
 
-#: dolphinmainwindow.cpp:2672
+#: dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1309,20 +1309,20 @@ msgid ""
 msgstr ""
 "لا يمكن إعادة التسمية: ليست لديك الأذن لإعادة تسمية العناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:2675 dolphinmainwindow.cpp:2692
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "لا يمكن الحذف: ليست لديك الأذن لحذف العناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:2677
+#: dolphinmainwindow.cpp:2681
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "لا يمكن القص: ليست لديك الأذن لنقل العناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:2682
+#: dolphinmainwindow.cpp:2686
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1330,31 +1330,31 @@ msgid ""
 "folder."
 msgstr "لا يمكن التكرار هنا: ليست لديك الأذن لإنشاء عناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2708
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "تعذر النسخ للعرض الآخر: لم يُحدّد أي ملف."
 
-#: dolphinmainwindow.cpp:2706
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "تعذر النقل للعرض الآخر: لم يُحدّد أي ملف."
 
-#: dolphinmainwindow.cpp:2725
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "تعذر النسخ للعرض الآخر: يحوي العرض الآخر على هذه العناصر فعلًا."
 
-#: dolphinmainwindow.cpp:2728
+#: dolphinmainwindow.cpp:2732
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "تعذر النقل للعرض الآخر: يحوي العرض الآخر على هذه العناصر فعلًا."
 
-#: dolphinmainwindow.cpp:2733
+#: dolphinmainwindow.cpp:2737
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1362,7 +1362,7 @@ msgid ""
 "destination folder."
 msgstr "تعذر النسخ للعرض الآخر: ليست لديك الأذن للكتابة في المجلد المستهدف."
 
-#: dolphinmainwindow.cpp:2737
+#: dolphinmainwindow.cpp:2741
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1370,7 +1370,7 @@ msgid ""
 "destination folder."
 msgstr "تعذر النقل للعرض الآخر: ليست لديك الأذن للكتابة في المجلد المستهدف."
 
-#: dolphinmainwindow.cpp:2743
+#: dolphinmainwindow.cpp:2747
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1378,7 +1378,7 @@ msgid ""
 "this folder."
 msgstr "لا يمكن النقل للعرض الآخر: ليست لديك الأذن لنقل العناصر في هذا المجلد."
 
-#: dolphinmainwindow.cpp:2770
+#: dolphinmainwindow.cpp:2774
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1393,109 +1393,109 @@ msgstr ""
 "في الجزء العلوي من هذا التسلسل الهرمي دليل يحتوي على جميع البيانات المتصلة "
 "بهذا الحاسوب — <emphasis> الدليل الجذر </emphasis>. </para>"
 
-#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2888
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "أغلق"
 
-#: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2885
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
 msgstr "وضع العرض المقسّم: أغلق الجزء الأيسر"
 
-#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2886
+#: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "أغلق العرض الأيسر"
 
-#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2892
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "أغلق العرض الأيسر"
 
-#: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "انسخ إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2895
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "انقل العرض المقسوم الأيسر إلى نافذة جديدة"
 
-#: dolphinmainwindow.cpp:2872 dolphinmainwindow.cpp:2893
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2897
+#: dolphinmainwindow.cpp:2908
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "أغلق"
 
-#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2894
-#: dolphinmainwindow.cpp:2905
+#: dolphinmainwindow.cpp:2877 dolphinmainwindow.cpp:2898
+#: dolphinmainwindow.cpp:2909
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
 msgstr "وضع العرض المقسّم: أغلق الجزء الأيمن"
 
-#: dolphinmainwindow.cpp:2874 dolphinmainwindow.cpp:2895
-#: dolphinmainwindow.cpp:2906
+#: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2910
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "أغلق العرض الأيمن"
 
-#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2897
-#: dolphinmainwindow.cpp:2908
+#: dolphinmainwindow.cpp:2880 dolphinmainwindow.cpp:2901
+#: dolphinmainwindow.cpp:2912
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "أغلق العرض الأيمن"
 
-#: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
-#: dolphinmainwindow.cpp:2910
+#: dolphinmainwindow.cpp:2882 dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2914
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "انسخ إلى العرض الآخر"
 
-#: dolphinmainwindow.cpp:2879 dolphinmainwindow.cpp:2900
-#: dolphinmainwindow.cpp:2911
+#: dolphinmainwindow.cpp:2883 dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2915
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "انقل العرض المقسوم الأيمن إلى نافذة جديدة"
 
-#: dolphinmainwindow.cpp:2923
+#: dolphinmainwindow.cpp:2927
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "اقسم"
 
-#: dolphinmainwindow.cpp:2924
+#: dolphinmainwindow.cpp:2928
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "اقسم العرض"
 
-#: dolphinmainwindow.cpp:2926
+#: dolphinmainwindow.cpp:2930
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "اقسم العرض"
 
-#: dolphinmainwindow.cpp:2928
+#: dolphinmainwindow.cpp:2932
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "افصل"
 
-#: dolphinmainwindow.cpp:2988
+#: dolphinmainwindow.cpp:2992
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1513,7 +1513,7 @@ msgstr ""
 "محتوياته متاحة من خلال زر <interface> القائمة </interface> على شريط الأدوات "
 "<emphasis> </emphasis>. </para>"
 
-#: dolphinmainwindow.cpp:2995
+#: dolphinmainwindow.cpp:2999
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1535,7 +1535,7 @@ msgstr ""
 "أيضًا تغيير موقع الشريط ونمط أزراره في قائمة بواسطة النقر بزر الفأرة الأيمن. "
 "انقر بزر الفأرة الأيمن فوق الزر إذا كنت تريد إظهار أو إخفاء نصه.</para>"
 
-#: dolphinmainwindow.cpp:3007
+#: dolphinmainwindow.cpp:3011
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1563,7 +1563,7 @@ msgstr ""
 "سيؤدي هذا إلى فتح صفحة من <emphasis> كتيب دولفين </emphasis> تغطي الأساسيات. "
 "</para>"
 
-#: dolphinmainwindow.cpp:3023
+#: dolphinmainwindow.cpp:3027
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1576,7 +1576,7 @@ msgstr ""
 "<nl/> هناك يمكنك إعداد مجموعات المفاتيح لبدء إجراء عند الضغط عليها في نفس "
 "الوقت. يمكن تشغيل جميع الأوامر في هذا التطبيق بهذه الطريقة. </para>"
 
-#: dolphinmainwindow.cpp:3029
+#: dolphinmainwindow.cpp:3033
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1588,7 +1588,7 @@ msgstr ""
 "شريط الأدوات </emphasis>. </para> <para> جميع العناصر التي تراها في "
 "<interface>القائمة</interface> يمكن أن تضعها على شريط الأدوات أيضًا. </para>"
 
-#: dolphinmainwindow.cpp:3033
+#: dolphinmainwindow.cpp:3037
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1606,7 +1606,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3053
+#: dolphinmainwindow.cpp:3057
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1622,7 +1622,7 @@ msgstr ""
 "userbase.kde.org/Dolphin/File_Management'> انقر هنا </link>. سيفتح الصفحة "
 "المخصصة في ويكي قاعدة مستخدمي كِيدِي. </para>"
 
-#: dolphinmainwindow.cpp:3058
+#: dolphinmainwindow.cpp:3062
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1643,7 +1643,7 @@ msgstr ""
 "File_Management'> ويكي قاعدة مستخدمي كِيدِي </link>. </para> <para> مساعدة "
 "\"ما هذا؟\" مفقودة في معظم النوافذ الأخرى، لذا لا تعتاد على ذلك. </para>"
 
-#: dolphinmainwindow.cpp:3069
+#: dolphinmainwindow.cpp:3073
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1659,7 +1659,7 @@ msgstr ""
 "<link url = 'https: //community.kde.org/Get_Involved/Bug_Reporting'> انقر "
 "هنا </link>. </para> "
 
-#: dolphinmainwindow.cpp:3078
+#: dolphinmainwindow.cpp:3082
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1680,7 +1680,7 @@ msgstr ""
 "المجتمع. </para><para><emphasis>KDE e.V.</emphasis> هي منظمة غير ربحية تقف "
 "خلف مجتمع كِيدِي.</para>"
 
-#: dolphinmainwindow.cpp:3091
+#: dolphinmainwindow.cpp:3095
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1691,7 +1691,7 @@ msgstr ""
 "باستخدام هذا يمكنك تغيير اللغة التي يستخدمها هذا التطبيق. <nl/>يمكنك حتى "
 "تعيين اللغات الثانوية التي ستُستخدم إذا كانت النصوص غير متوفرة بلغتك المفضلة."
 
-#: dolphinmainwindow.cpp:3096
+#: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1701,7 +1701,7 @@ msgstr ""
 "هذا يفتح نافذة تخبرك بالإصدار والترخيص والمكتبات المستخدمة والقائمين على "
 "صيانة هذا التطبيق."
 
-#: dolphinmainwindow.cpp:3101
+#: dolphinmainwindow.cpp:3105
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1714,19 +1714,19 @@ msgstr ""
 "هم الأشخاص الذين يقفون وراء هذا البرنامج المجاني. <nl/> إذا كنت تحب استخدام "
 "هذا التطبيق ولكنك لا تعرف عن كِيدِي أو تريد أن ترى تنينًا لطيفًا، ألق نظرة!"
 
-#: dolphinmainwindow.cpp:3156 dolphinmainwindow.cpp:3167
+#: dolphinmainwindow.cpp:3160 dolphinmainwindow.cpp:3171
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "ألغ تركيز لوحة الطرفية"
 
-#: dolphinmainwindow.cpp:3174
+#: dolphinmainwindow.cpp:3178
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "ألغ تركيز لوحة الطرفية"
 
-#: dolphinmainwindow.cpp:3185
+#: dolphinmainwindow.cpp:3189
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
