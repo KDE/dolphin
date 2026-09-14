@@ -266,6 +266,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     }
 
     m_topLayout->addWidget(m_view, positionFor.view, 0);
+
+    // A floating small status bar draws above the view only by being the later sibling.
+    m_statusBar->raise();
+
     connectViewSignals();
 
     // State the container owns rather than the view has to reach the replacement, or the filter
