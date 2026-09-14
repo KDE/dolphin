@@ -746,7 +746,7 @@ void DolphinView::requestStatusBarText()
         m_statJobForStatusBarText->kill();
     }
 
-    if (m_container->controller()->selectionManager()->hasSelection()) {
+    if (activeSelectionManager()->hasSelection()) {
         int folderCount = 0;
         int fileCount = 0;
         KIO::filesize_t totalFileSize = 0;
@@ -770,11 +770,12 @@ void DolphinView::requestStatusBarText()
             emitStatusBarText(folderCount, fileCount, totalFileSize, HasSelection);
         }
     } else { // has no selection
-        if (!m_model->rootItem().url().isValid()) {
+        const KFileItem root = rootItem();
+        if (!root.url().isValid()) {
             return;
         }
 
-        m_statJobForStatusBarText = KIO::stat(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
+        m_statJobForStatusBarText = KIO::stat(root.url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
         connect(m_statJobForStatusBarText, &KJob::result, this, &DolphinView::slotStatJobResult);
         m_statJobForStatusBarText->start();
     }
