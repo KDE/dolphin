@@ -340,6 +340,11 @@ void DolphinTabPage::restoreState(const QByteArray &state)
 
     bool isSplitViewEnabled = false;
     stream >> isSplitViewEnabled;
+    if (stream.status() != QDataStream::Ok) {
+        // The state is shorter than it was written, which is what a session file that could not
+        // hold it all gives back.
+        return;
+    }
     setSplitViewEnabled(isSplitViewEnabled, WithoutAnimation);
 
     // Up to version 3 the urls were part of this state. From version 4 on they belong to the
@@ -347,6 +352,9 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     if (version <= 3) {
         QUrl primaryUrl;
         stream >> primaryUrl;
+        if (stream.status() != QDataStream::Ok) {
+            return;
+        }
         m_primaryViewContainer->setUrl(primaryUrl);
     }
     bool primaryUrlEditable;
@@ -356,8 +364,13 @@ void DolphinTabPage::restoreState(const QByteArray &state)
 
     if (isSplitViewEnabled) {
         if (version <= 3) {
+            // A session from before version 4 that was cut short within the primary view state
+            // has no secondary url left.
             QUrl secondaryUrl;
             stream >> secondaryUrl;
+            if (stream.status() != QDataStream::Ok) {
+                return;
+            }
             m_secondaryViewContainer->setUrl(secondaryUrl);
         }
         bool secondaryUrlEditable;
@@ -366,20 +379,29 @@ void DolphinTabPage::restoreState(const QByteArray &state)
         m_secondaryViewContainer->view()->restoreState(stream);
     }
 
-    stream >> m_primaryViewActive;
+    bool primaryViewActive = true;
+    stream >> primaryViewActive;
+    if (stream.status() != QDataStream::Ok) {
+        return;
+    }
+    // The secondary view exists in a split view only, so a state that names it as the active one
+    // while the split view is off leaves the primary view active.
+    m_primaryViewActive = primaryViewActive || !m_splitViewEnabled;
     if (m_primaryViewActive) {
         if (m_splitViewEnabled) {
             m_secondaryViewContainer->setActive(false);
         }
         m_primaryViewContainer->setActive(true);
     } else {
-        Q_ASSERT(m_splitViewEnabled);
         m_primaryViewContainer->setActive(false);
         m_secondaryViewContainer->setActive(true);
     }
 
     QByteArray splitterState;
     stream >> splitterState;
+    if (stream.status() != QDataStream::Ok) {
+        return;
+    }
     m_splitter->restoreState(splitterState);
     if (version >= 3) {
         stream >> m_splitterLastPosition;
@@ -388,7 +410,9 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     if (!stream.atEnd()) {
         QString tabTitle;
         stream >> tabTitle;
-        setCustomLabel(tabTitle);
+        if (stream.status() == QDataStream::Ok) {
+            setCustomLabel(tabTitle);
+        }
     }
 }
 

@@ -57,6 +57,11 @@ ecm_add_test(dolphinviewtest.cpp testdir.cpp
 TEST_NAME dolphinviewtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 
+# DolphinTabPageTest
+ecm_add_test(dolphintabpagetest.cpp testdir.cpp
+TEST_NAME dolphintabpagetest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
 # KItemListRoleEditorTest
 ecm_add_test(kitemlistroleeditortest.cpp
 TEST_NAME kitemlistroleeditortest
