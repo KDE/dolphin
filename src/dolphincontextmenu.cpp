@@ -94,6 +94,12 @@ void DolphinContextMenu::addAllActions()
 
     if (!m_fileInfo.isNull() && !m_selectedItems.isEmpty()) {
         m_context |= ItemContext;
+        const bool allItemsInTrash = std::all_of(m_selectedItems.cbegin(), m_selectedItems.cend(), [](const KFileItem &item) {
+            return item.url().scheme() == QLatin1String("trash");
+        });
+        if (allItemsInTrash) {
+            m_context |= TrashContext;
+        }
         // TODO: handle other use cases like devices + desktop files
     }
 
