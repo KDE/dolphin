@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -1736,19 +1736,19 @@ msgstr "Recentmen cludet cartes"
 msgid "Empty Recently Closed Tabs"
 msgstr "Vacuar li Paper-corb"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nov carte"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Separar li carte"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -1757,19 +1757,19 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Renominar %2"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Cluder altri cartes"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1777,13 +1777,13 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Cluder li dextri vise"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Cluder li carte"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -1792,12 +1792,12 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Renominar %2"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr ""
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open new tabs: "

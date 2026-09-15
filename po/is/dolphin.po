@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2026-06-24 19:02+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -1977,60 +1977,60 @@ msgstr "Nýlega lokaðir flipar"
 msgid "Empty Recently Closed Tabs"
 msgstr "Tæma nýlega lokaða flipa"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nýr flipi"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Aftengja flipa"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Endurnefna flipa"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Loka öðrum flipum"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "Loka flipum til vinstri"
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Loka flipum til hægri"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Loka flipa"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Endurnefna flipa"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "Heiti á nýjum flipa:"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open new tabs: "

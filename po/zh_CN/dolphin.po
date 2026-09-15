@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1860,60 +1860,60 @@ msgstr "最近关闭的标签页"
 msgid "Empty Recently Closed Tabs"
 msgstr "清空最近关闭的标签页"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "新建标签页"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "分离标签页"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "重命名标签页"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "关闭其他标签页"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "关闭左边的标签页"
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "关闭右边的标签页"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "关闭标签页"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "重命名标签页"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "新标签页名称："
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"

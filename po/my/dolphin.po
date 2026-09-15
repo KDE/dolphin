@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -1743,19 +1743,19 @@ msgstr "မကြာမီကပိတ်ခဲ့သောတပ်ဘ်မျ
 msgid "Empty Recently Closed Tabs"
 msgstr "မကြာမီကပိတ်ခဲ့သောတပ်ဘ်များ ရှင်းပစ်မည်"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "တပ်ဘ်အသစ်"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "တပ်ဘ် ဖြုတ်ပစ်မည်"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -1764,19 +1764,19 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "%2 အမည်ပြောင်းမည်"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "အခြားတပ်ဘ်များပိတ်မည်"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1784,13 +1784,13 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "ညာမြင်ကွင်းပိတ်မည်"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "တပ်ဘ်ပိတ်မည်"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Rename %2"
@@ -1799,12 +1799,12 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "%2 အမည်ပြောင်းမည်"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr ""
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open new tabs: "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -1801,19 +1801,19 @@ msgstr "हालमे बन्न टैब (&R)"
 msgid "Empty Recently Closed Tabs"
 msgstr "हालमे बन्न टैब (&R)"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "नवीन टैब"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr ""
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1821,19 +1821,19 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "नाम बदलू (&R)"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "आन टैब बन्न करू"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Other Tabs"
@@ -1841,13 +1841,13 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "आन टैब बन्न करू"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "टैब बन्न करू"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1855,14 +1855,14 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "नाम बदलू (&R)"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "New name #"
 msgid "New tab name:"
 msgstr "नवीन नाम #"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"

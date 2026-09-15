@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2026-04-26 23:08+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1892,61 +1892,61 @@ msgstr "최근에 닫은 탭"
 msgid "Empty Recently Closed Tabs"
 msgstr "최근에 닫은 탭 비우기"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "새 탭"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "탭 떼내기"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "탭 이름 바꾸기"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "다른 탭 닫기"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgid "Close the right pane"
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "오른쪽 패널 닫기"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "탭 닫기"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "탭 이름 바꾸기"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "새 탭 이름:"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open new tabs: "

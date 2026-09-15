@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1797,19 +1797,19 @@ msgstr "แท็บที่ถูกปิดไปล่าสุด"
 msgid "Empty Recently Closed Tabs"
 msgstr "แท็บที่ถูกปิดไปล่าสุด"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "เปิดแท็บใหม่"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "แยกแท็บ"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1817,19 +1817,19 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "เ&ปลี่ยนชื่อ"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "ปิดแท็บอื่น ๆ"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1837,13 +1837,13 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "ปิดมุมมองด้านขวา"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "ปิดแท็บ"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1851,14 +1851,14 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "เ&ปลี่ยนชื่อ"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "New name #"
 msgid "New tab name:"
 msgstr "ชื่อใหม่ #"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"

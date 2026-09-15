@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -1793,13 +1793,13 @@ msgstr "මැතකදි පිවිසි ටැබය වසන්න"
 msgid "Empty Recently Closed Tabs"
 msgstr "මැතකදි වැසූ ටැබය මකන්න"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "නව ටැබය"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1807,7 +1807,7 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "සෙවුම් තීරුව"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1815,19 +1815,19 @@ msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "නම වෙනස් කරන්න (&R)"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "අනෙකුත් ටැබ වසන්න"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr ""
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1835,13 +1835,13 @@ msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "දකුණු දසුන වසන්න"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "ටැබය වසන්න"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "&Rename"
@@ -1849,14 +1849,14 @@ msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "නම වෙනස් කරන්න (&R)"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "New name #"
 msgid "New tab name:"
 msgstr "# නව නාමය"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"

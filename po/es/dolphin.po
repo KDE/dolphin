@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
 "PO-Revision-Date: 2026-09-13 00:12+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1981,60 +1981,60 @@ msgstr "Pestañas cerradas recientemente"
 msgid "Empty Recently Closed Tabs"
 msgstr "Vaciar pestañas cerradas recientemente"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nueva pestaña"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Desprender pestaña"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Cambiar nombre de pestaña"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Cerrar otras pestañas"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "Cerrar pestañas a la izquierda"
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Cerrar pestañas a la derecha"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Cerrar pestaña"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Cambiar nombre de pestaña"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "Nuevo nombre de pestaña:"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"

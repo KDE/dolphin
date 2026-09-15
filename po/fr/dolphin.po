@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
-"PO-Revision-Date: 2026-09-08 17:55+0200\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"PO-Revision-Date: 2026-09-13 08:57+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -2032,60 +2032,60 @@ msgstr "Onglets récemment fermés"
 msgid "Empty Recently Closed Tabs"
 msgstr "Vider les onglets récemment fermés"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nouvel onglet"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Détacher l'onglet"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Renommer l'onglet"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Fermer les autres onglets"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "Fermer les onglets à gauche"
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Fermer les onglets à droite"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Fermer l'onglet"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Renommer l'onglet"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "Nouveau nom de l'onglet :"
 
-#: dolphintabbar.cpp:290
+#: dolphintabbar.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
@@ -5160,20 +5160,16 @@ msgid "Deleting files or folders"
 msgstr "La suppression de fichiers ou de dossiers"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "Le renommage du fichier modifiera son type."
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "Le renommage du fichier modifiera son type."
+msgstr "Le renommage du fichier le masquera."
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format

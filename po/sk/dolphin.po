@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 00:46+0000\n"
-"PO-Revision-Date: 2023-12-07 18:49+0100\n"
-"Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
+"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"PO-Revision-Date: 2026-09-14 20:10+0200\n"
+"Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -1425,11 +1425,10 @@ msgid "Close"
 msgstr "Zavrieť"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Rozdeliť zobrazenie na dva panely"
+msgstr "Rozdelené zobrazenie: Zavrieť ľavý panel"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
@@ -1467,7 +1466,7 @@ msgstr "Zavrieť"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Rozdelené zobrazenie: Zavrieť pravý panel"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2910
@@ -1504,9 +1503,7 @@ msgid "Split"
 msgstr "Rozdeliť"
 
 #: dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "Rozdelené zobrazenie"
@@ -1957,66 +1954,64 @@ msgstr "Nedávno zatvorené karty"
 msgid "Empty Recently Closed Tabs"
 msgstr "Žiadne nedávno zatvorené karty"
 
-#: dolphintabbar.cpp:187
+#: dolphintabbar.cpp:314
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nová karta"
 
-#: dolphintabbar.cpp:188
+#: dolphintabbar.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Odpojiť kartu"
 
-#: dolphintabbar.cpp:190
+#: dolphintabbar.cpp:317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Rename Tab"
 
-#: dolphintabbar.cpp:192
+#: dolphintabbar.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Zavrieť ostatné karty"
 
-#: dolphintabbar.cpp:193
+#: dolphintabbar.cpp:320
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
 msgstr "Zavrieť karty naľavo"
 
-#: dolphintabbar.cpp:195
+#: dolphintabbar.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
 msgstr "Zavrieť karty napravo"
 
-#: dolphintabbar.cpp:197
+#: dolphintabbar.cpp:324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Zavrieť kartu"
 
-#: dolphintabbar.cpp:226
+#: dolphintabbar.cpp:353
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Rename Tab"
 
-#: dolphintabbar.cpp:227
+#: dolphintabbar.cpp:354
 #, kde-format
 msgid "New tab name:"
 msgstr "Nový názov #"
 
-#: dolphintabbar.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#: dolphintabbar.cpp:417
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "Otvoriť nové karty: "
+msgstr "Otvoriť novú kartu"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5040,20 +5035,16 @@ msgid "Deleting files or folders"
 msgstr "Odstránení súborov alebo priečinkov"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "Renaming a file will change its type"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "Renaming a file will change its type"
+msgstr "Premenovanie súboru alebo priečinka ho skryje"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6941,12 +6932,10 @@ msgid "Restore to Defaults"
 msgstr "Obnoviť na predvolené"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "Obnoviť predvolené nastavenia pohľadu"
+msgstr "Obnoviť predvolené hodnoty nastavení pohľadu"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format
