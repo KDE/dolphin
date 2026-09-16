@@ -168,6 +168,8 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         int lineCount = 0;
         bool isElided = false;
         while ((line = layout.createLine()).isValid()) {
+            // QStaticText paints the lines with leading included
+            line.setLeadingIncluded(true);
             line.setLineWidth(maxWidth);
             line.naturalTextWidth();
             textHeight += line.height();
@@ -1349,6 +1351,8 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     layout.beginLayout();
     int nameLineIndex = 0;
     while ((line = layout.createLine()).isValid()) {
+        // QStaticText paints the lines with leading included
+        line.setLeadingIncluded(true);
         line.setLineWidth(maxWidth);
         nameWidth = qMax(nameWidth, line.naturalTextWidth());
         nameHeight += line.height();
