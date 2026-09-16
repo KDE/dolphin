@@ -47,14 +47,14 @@
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/RenameFileDialog>
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 30, 0)
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 31, 0)
 #include <KIO/RenameFileWarningDialog>
 #endif
 #include <KJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#if KIO_VERSION < QT_VERSION_CHECK(6, 30, 0)
+#if KIO_VERSION < QT_VERSION_CHECK(6, 31, 0)
 #include <KIconUtils>
 #include <KMessageDialog>
 #endif
@@ -71,7 +71,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDropEvent>
-#if KIO_VERSION < QT_VERSION_CHECK(6, 30, 0)
+#if KIO_VERSION < QT_VERSION_CHECK(6, 31, 0)
 #include <QFile>
 #endif
 #include <QGraphicsOpacityEffect>
@@ -2325,7 +2325,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
-#if KIO_VERSION >= QT_VERSION_CHECK(6, 30, 0)
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 31, 0)
 #ifdef Q_OS_WIN
             const bool hiddenFilesVisible = true;
 #else
