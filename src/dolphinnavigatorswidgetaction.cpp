@@ -258,6 +258,10 @@ QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrl
     emptyTrashButton->setToolTip(i18n("Empties Trash to create free space"));
 
     emptyTrashButton->setFlat(true);
+    // A flat QPushButton is taller than the url navigator next to it, so let the navigator
+    // decide the height of that row. Otherwise showing this button moves the whole window
+    // contents down. See bug 522650
+    emptyTrashButton->setSizePolicy(emptyTrashButton->sizePolicy().horizontalPolicy(), QSizePolicy::Ignored);
     connect(emptyTrashButton, &QPushButton::clicked, this, [parent, emptyTrashButton]() {
         emptyTrashButton->setDisabled(true);
         auto *job = Trash::empty(parent);
