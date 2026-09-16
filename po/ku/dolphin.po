@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -4321,7 +4321,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Hilbijartinê Serûbin Bike"
 
-#: servicemenushortcutmanager.cpp:26
+#: servicemenushortcutmanager.cpp:48
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Context Menu"

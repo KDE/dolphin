@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2017-12-17 18:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -4357,7 +4357,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Izbor"
 
-#: servicemenushortcutmanager.cpp:26
+#: servicemenushortcutmanager.cpp:48
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Content"

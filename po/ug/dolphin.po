@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2026-05-29 17:26-0400\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -4219,7 +4219,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "تاللاش ھالىتىدىن چېكىن"
 
-#: servicemenushortcutmanager.cpp:26
+#: servicemenushortcutmanager.cpp:48
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"

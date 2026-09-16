@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:47+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2007-11-05 13:38+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -4316,7 +4316,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Invert Selection"
 
-#: servicemenushortcutmanager.cpp:26
+#: servicemenushortcutmanager.cpp:48
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Click to add comment..."

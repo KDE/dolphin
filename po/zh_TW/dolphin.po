@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:47+0000\n"
-"PO-Revision-Date: 2026-08-04 06:54+0900\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
+"PO-Revision-Date: 2026-09-15 17:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1353,11 +1353,10 @@ msgid "Close"
 msgstr "關閉"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "將檢視分割成兩個面板"
+msgstr "分割檢視：關閉左側檢視"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
@@ -1395,7 +1394,7 @@ msgstr "關閉"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "分割檢視：關閉右側檢視"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2910
@@ -1432,9 +1431,7 @@ msgid "Split"
 msgstr "分割"
 
 #: dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "分割檢視"
@@ -1923,12 +1920,10 @@ msgid "New tab name:"
 msgstr "新的分頁名稱："
 
 #: dolphintabbar.cpp:417
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "新分頁開啟位置："
+msgstr "開啟新分頁"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -4102,7 +4097,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "離開選取模式"
 
-#: servicemenushortcutmanager.cpp:26
+#: servicemenushortcutmanager.cpp:48
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
@@ -4862,20 +4857,16 @@ msgid "Deleting files or folders"
 msgstr "刪除檔案或資料夾時"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "重新命名檔案會改變其型態時"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "重新命名檔案會改變其型態時"
+msgstr "重新命名檔案或資料夾會使其隱藏時"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6270,7 +6261,7 @@ msgstr "隱藏此檔案？"
 #: views/dolphinview.cpp:2376
 #, kde-format
 msgid "Hide this Folder?"
-msgstr "隱藏這資料夾？"
+msgstr "隱藏此資料夾？"
 
 #: views/dolphinview.cpp:2397
 #, kde-format
@@ -6721,9 +6712,7 @@ msgid "Restore to Defaults"
 msgstr "回復至預設值"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "將檢視設定回復為預設值"
