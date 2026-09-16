@@ -76,7 +76,10 @@ void DolphinContextMenu::addAllActions()
         m_context |= TrashContext;
     } else if (scheme.contains(QLatin1String("search"))) {
         const auto query = Search::DolphinQuery(m_baseUrl, QUrl());
-        if (query.searchPath().scheme() == QLatin1String("trash")) {
+        const bool allItemsInTrash = std::all_of(m_selectedItems.cbegin(), m_selectedItems.cend(), [](const KFileItem &item) {
+            return item.url().scheme() == QLatin1String("trash");
+        });
+        if (query.searchPath().scheme() == QLatin1String("trash") || allItemsInTrash) {
             m_context |= TrashContext;
         } else {
             m_context |= SearchContext;
@@ -94,12 +97,6 @@ void DolphinContextMenu::addAllActions()
 
     if (!m_fileInfo.isNull() && !m_selectedItems.isEmpty()) {
         m_context |= ItemContext;
-        const bool allItemsInTrash = std::all_of(m_selectedItems.cbegin(), m_selectedItems.cend(), [](const KFileItem &item) {
-            return item.url().scheme() == QLatin1String("trash");
-        });
-        if (allItemsInTrash) {
-            m_context |= TrashContext;
-        }
         // TODO: handle other use cases like devices + desktop files
     }
 
