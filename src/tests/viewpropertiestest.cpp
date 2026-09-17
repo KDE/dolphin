@@ -51,6 +51,8 @@ private Q_SLOTS:
     void testRestoringASpecialFolderGivesBackItsOwnStyle();
     void testRestoringTheDownloadsFolderGivesBackItsOwnStyle();
     void testRestoreViewProps();
+    void testColumnsModeIsStoredAndReadBack();
+    void testColumnsModeKeepsItsOwnVisibleRoles();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
     void testSymlinkSharesProperties();
@@ -801,6 +803,42 @@ void ViewPropertiesTest::testRestoreViewProps()
         QVERIFY(props.isDefaults());
         QCOMPARE(props.viewMode(), DolphinView::IconsView);
     }
+}
+
+void ViewPropertiesTest::testColumnsModeIsStoredAndReadBack()
+{
+    // viewMode() bounds what it reads to the modes DolphinView knows. A bound that has not
+    // followed the enum turns a stored Columns mode into another mode without saying so.
+    const QUrl testDirUrl = m_testDir->url();
+
+    {
+        ViewProperties props(testDirUrl);
+        props.setViewMode(DolphinView::ColumnsView);
+    }
+    {
+        ViewProperties props(testDirUrl);
+        QCOMPARE(props.viewMode(), DolphinView::ColumnsView);
+        QVERIFY(!props.isDefaults());
+    }
+}
+
+void ViewPropertiesTest::testColumnsModeKeepsItsOwnVisibleRoles()
+{
+    // The visible roles are stored under a prefix per view mode. Without a prefix of its own the
+    // Columns mode would read and write the roles of whichever mode came before it.
+    const QUrl testDirUrl = m_testDir->url();
+
+    ViewProperties props(testDirUrl);
+    props.setViewMode(DolphinView::ColumnsView);
+    props.setVisibleRoles({QByteArrayLiteral("text"), QByteArrayLiteral("size")});
+
+    props.setViewMode(DolphinView::DetailsView);
+    props.setVisibleRoles({QByteArrayLiteral("text")});
+    QCOMPARE(props.visibleRoles().count(), 1);
+
+    props.setViewMode(DolphinView::ColumnsView);
+    QCOMPARE(props.visibleRoles().count(), 2);
+    QVERIFY(props.visibleRoles().contains(QByteArrayLiteral("size")));
 }
 
 /**
