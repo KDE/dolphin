@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-16 00:48+0000\n"
+"POT-Creation-Date: 2026-09-17 00:47+0000\n"
 "PO-Revision-Date: 2026-09-14 18:23+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -166,20 +166,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Non avisa me re iste riscos novemente"
 
-#: dolphincontextmenu.cpp:149
+#: dolphincontextmenu.cpp:152
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Vacua corbe"
 
-#: dolphincontextmenu.cpp:160 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:163 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Configura corbe..."
 
-#: dolphincontextmenu.cpp:181
+#: dolphincontextmenu.cpp:184
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -190,38 +190,38 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Restabili  al location previe"
 msgstr[1] "Restabili al locationes previe"
 
-#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1806
+#: dolphincontextmenu.cpp:250 dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crea nove"
 
-#: dolphincontextmenu.cpp:256
+#: dolphincontextmenu.cpp:259
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Aperi percurso"
 
-#: dolphincontextmenu.cpp:264
+#: dolphincontextmenu.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Aperi percurso in nove scheda"
 
-#: dolphincontextmenu.cpp:272
+#: dolphincontextmenu.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Aperi percurso in nove fenestra"
 
-#: dolphincontextmenu.cpp:524
+#: dolphincontextmenu.cpp:527
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Click in medio"
 
-#: dolphincontextmenu.cpp:535
+#: dolphincontextmenu.cpp:538
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
@@ -1790,19 +1790,19 @@ msgstr "Vacua corbe"
 msgid "Empties Trash to create free space"
 msgstr "Vacua Corbe pro crear spatio libere"
 
-#: dolphinnavigatorswidgetaction.cpp:288
+#: dolphinnavigatorswidgetaction.cpp:292
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Adde dossier de rete"
 
-#: dolphinnavigatorswidgetaction.cpp:319
+#: dolphinnavigatorswidgetaction.cpp:323
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr "Aperi KDE Connect"
 
-#: dolphinnavigatorswidgetaction.cpp:356
+#: dolphinnavigatorswidgetaction.cpp:360
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

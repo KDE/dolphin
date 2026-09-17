@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-16 00:48+0000\n"
+"POT-Creation-Date: 2026-09-17 00:47+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -148,20 +148,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:149
+#: dolphincontextmenu.cpp:152
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Ačyscić smietnicu"
 
-#: dolphincontextmenu.cpp:160 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:163 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Naladžvannie smietnicy…"
 
-#: dolphincontextmenu.cpp:181
+#: dolphincontextmenu.cpp:184
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -176,38 +176,38 @@ msgstr[1] "Abrać chatniaje razmiaščennie"
 msgstr[2] "Abrać chatniaje razmiaščennie"
 msgstr[3] "Abrać chatniaje razmiaščennie"
 
-#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1806
+#: dolphincontextmenu.cpp:250 dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Stvaryć"
 
-#: dolphincontextmenu.cpp:256
+#: dolphincontextmenu.cpp:259
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Adkryć šliach"
 
-#: dolphincontextmenu.cpp:264
+#: dolphincontextmenu.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Adkryć šliach u novaj ukladcy"
 
-#: dolphincontextmenu.cpp:272
+#: dolphincontextmenu.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Adkryć šliach u novym aknie"
 
-#: dolphincontextmenu.cpp:524
+#: dolphincontextmenu.cpp:527
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr ""
 
-#: dolphincontextmenu.cpp:535
+#: dolphincontextmenu.cpp:538
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
@@ -1958,19 +1958,19 @@ msgstr "Ačyscić smietnicu"
 msgid "Empties Trash to create free space"
 msgstr "Ačyščaje smietnicu, kab vyzvalić miesca"
 
-#: dolphinnavigatorswidgetaction.cpp:288
+#: dolphinnavigatorswidgetaction.cpp:292
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Dadać sietkavy kataloh"
 
-#: dolphinnavigatorswidgetaction.cpp:319
+#: dolphinnavigatorswidgetaction.cpp:323
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:356
+#: dolphinnavigatorswidgetaction.cpp:360
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

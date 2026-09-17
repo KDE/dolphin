@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-16 00:48+0000\n"
+"POT-Creation-Date: 2026-09-17 00:47+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -152,20 +152,20 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:149
+#: dolphincontextmenu.cpp:152
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "A Kuka ürítése"
 
-#: dolphincontextmenu.cpp:160 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:163 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "A Kuka beállítása…"
 
-#: dolphincontextmenu.cpp:181
+#: dolphincontextmenu.cpp:184
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -178,38 +178,38 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Válasszon saját helyet"
 msgstr[1] "Válasszon saját helyet"
 
-#: dolphincontextmenu.cpp:247 dolphinmainwindow.cpp:1806
+#: dolphincontextmenu.cpp:250 dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Új"
 
-#: dolphincontextmenu.cpp:256
+#: dolphincontextmenu.cpp:259
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Útvonal megnyitása"
 
-#: dolphincontextmenu.cpp:264
+#: dolphincontextmenu.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Útvonal megnyitása új lapon"
 
-#: dolphincontextmenu.cpp:272
+#: dolphincontextmenu.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Útvonal megnyitása új ablakban"
 
-#: dolphincontextmenu.cpp:524
+#: dolphincontextmenu.cpp:527
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Középső gomb"
 
-#: dolphincontextmenu.cpp:535
+#: dolphincontextmenu.cpp:538
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1825,19 +1825,19 @@ msgstr "Kiürítés"
 msgid "Empties Trash to create free space"
 msgstr "Kuka kiürítése szabad hely nyeréséhez"
 
-#: dolphinnavigatorswidgetaction.cpp:288
+#: dolphinnavigatorswidgetaction.cpp:292
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Hálózati mappa hozzáadása"
 
-#: dolphinnavigatorswidgetaction.cpp:319
+#: dolphinnavigatorswidgetaction.cpp:323
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:356
+#: dolphinnavigatorswidgetaction.cpp:360
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
