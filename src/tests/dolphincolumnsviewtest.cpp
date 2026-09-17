@@ -99,6 +99,8 @@ private Q_SLOTS:
     void testDirectorySelectionOpensChildOnce();
     void testMouseClickOnDirectoryOpensChildOnce();
     void testMouseClickOnNotCurrentDirectoryOpensChild();
+    void testRightClickKeepsTheChildColumns();
+    void testMouseClickOnAFileDropsTheColumnsAfterIt();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -1015,6 +1017,58 @@ void DolphinColumnsViewTest::testMouseClickOnNotCurrentDirectoryOpensChild()
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+void DolphinColumnsViewTest::testRightClickKeepsTheChildColumns()
+{
+    // A right click opens the context menu, whose actions act on the folder of the column that
+    // was clicked. Opening the child of the item under the cursor would take that folder away
+    // before the menu is even shown.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+
+    auto *pane = m_view->columnAt(0);
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    m_view->handleMouseButtonPressed(pane, betaIndex, Qt::RightButton);
+
+    // The column that was clicked becomes the active one, so the menu acts on the right folder.
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
+}
+
+void DolphinColumnsViewTest::testMouseClickOnAFileDropsTheColumnsAfterIt()
+{
+    // The columns to the right of a click belong to a folder that is no longer the selected item,
+    // so clicking a file closes them and the url goes back to the folder holding the file.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    int fileIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("single-file.txt")) {
+            fileIndex = i;
+            break;
+        }
+    }
+    QVERIFY(fileIndex >= 0);
+
+    QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
+    m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(urlSpy.count(), 1);
 }
 
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
