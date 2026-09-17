@@ -60,6 +60,8 @@ private Q_SLOTS:
     void testSwapCarriesTheViewPropertiesContext();
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
+    void testNavigatingIntoAColumnsFolderSwapsTheView();
+    void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
 
 private:
     void waitForViewReady();
@@ -518,6 +520,54 @@ void DolphinViewContainerTest::testTheSmallStatusBarDrawsAboveAReplacementView()
 
     const QObjectList siblings = m_container->children();
     QVERIFY(siblings.indexOf(statusBar) > siblings.indexOf(m_container->view()));
+}
+
+void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()
+{
+    // The columns view is a DolphinView subclass, and only the container can build one. Applying
+    // the mode to the plain view that is already there leaves it reporting ColumnsView while it
+    // still draws a list.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    m_testDir->createDir("columnsfolder");
+    m_testDir->createFile("columnsfolder/a-file.txt");
+    const QUrl columnsFolderUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/columnsfolder"));
+    {
+        ViewProperties props(columnsFolderUrl);
+        props.setViewMode(DolphinView::ColumnsView);
+        props.save();
+    }
+    QCOMPARE(ViewProperties(columnsFolderUrl).viewMode(), DolphinView::ColumnsView);
+
+    m_container->setUrl(columnsFolderUrl);
+    waitForViewReady();
+
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+    QCOMPARE(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), columnsFolderUrl.adjusted(QUrl::StripTrailingSlash));
+}
+
+void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsView()
+{
+    // The columns view is left through a view-mode change and not by browsing, so a folder that
+    // is configured for another mode does not swap it away.
+    m_testDir->createDir("iconsfolder");
+    m_testDir->createFile("iconsfolder/a-file.txt");
+    const QUrl iconsFolderUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/iconsfolder"));
+    {
+        ViewProperties props(iconsFolderUrl);
+        props.setViewMode(DolphinView::IconsView);
+        props.save();
+    }
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+
+    m_container->setUrl(iconsFolderUrl);
+    waitForViewReady();
+
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
