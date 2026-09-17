@@ -65,6 +65,8 @@ class DolphinViewContainer : public QWidget
 {
     Q_OBJECT
 
+    friend class DolphinViewContainerTest;
+
 public:
     DolphinViewContainer(const QUrl &url, QWidget *parent);
     ~DolphinViewContainer() override;
