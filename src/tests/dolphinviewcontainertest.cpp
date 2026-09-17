@@ -16,6 +16,7 @@
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
 #include "kitemviews/private/kfileitemmodelfilter.h"
+#include "statusbar/dolphinstatusbar.h"
 
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
@@ -57,6 +58,8 @@ private Q_SLOTS:
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
     void testSwapCarriesTheViewPropertiesContext();
+    void testTheSmallStatusBarStaysOffTheScrollbars();
+    void testTheSmallStatusBarDrawsAboveAReplacementView();
 
 private:
     void waitForViewReady();
@@ -471,6 +474,50 @@ void DolphinViewContainerTest::testSwapCarriesTheViewPropertiesContext()
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
 
     QCOMPARE(m_container->view()->viewPropertiesContext(), QStringLiteral("search"));
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarStaysOffTheScrollbars()
+{
+    // The small status bar floats over the bottom of the view. Its rect has to end where the
+    // horizontal scrollbar of the view begins, and to be as tall as the bar and no taller: a rect
+    // that reaches the bottom edge covers the scrollbar, and the bar paints its frame over all of
+    // it. The bar corrects its own height soon after, so the rect is what this asserts on.
+    QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    // Two columns of the minimum width do not fit in a viewport this narrow, so the view really
+    // has a horizontal scrollbar. Without one the two rects cannot be told apart.
+    m_container->resize(400, 600);
+    m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->horizontalScrollBarHeight() > 0, 5000);
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+
+    const int scrollBarHeight = m_container->view()->horizontalScrollBarHeight();
+    const QRect barRect = m_container->preferredSmallStatusBarGeometry();
+    QCOMPARE(barRect.height(), statusBar->minimumHeight());
+    QCOMPARE(barRect.bottom(), m_container->view()->geometry().bottom() - scrollBarHeight);
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarDrawsAboveAReplacementView()
+{
+    // Siblings are painted in the order they are children of their parent, so a view added to the
+    // layout after the status bar draws over it. Only the parts of the bar that the view leaves
+    // unpainted stay visible, such as the strip beside a column's scrollbar.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    const QObjectList siblings = m_container->children();
+    QVERIFY(siblings.indexOf(statusBar) > siblings.indexOf(m_container->view()));
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
