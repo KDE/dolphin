@@ -103,6 +103,10 @@ private Q_SLOTS:
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
     void testAColumnOpenedLaterInheritsTheFilter();
+    void testFilterCaseSensitivityAppliesToEveryColumn();
+    void testFilterModeAppliesToEveryColumn();
+    void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
+    void testFilteringOutAFolderClosesItsColumn();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1085,6 +1089,79 @@ void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilter()
     QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
 
     m_view->setNameFilter(QString());
+}
+
+void DolphinColumnsViewTest::testFilterCaseSensitivityAppliesToEveryColumn()
+{
+    // Case sensitivity belongs to the view, so it reaches the columns that are already open.
+    m_testDir->createFile("alpha/ALPHA-UPPER.txt");
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 4, 5000);
+
+    m_view->setFilterCaseSensitive(false);
+    m_view->setNameFilter(QStringLiteral("alpha"));
+
+    // alpha in the root, and alpha-child plus ALPHA-UPPER.txt in alpha.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 2, 5000);
+
+    m_view->setFilterCaseSensitive(true);
+
+    QCOMPARE(m_view->columnAt(0)->model()->isFilterCaseSensitive(), true);
+    QCOMPARE(m_view->columnAt(1)->model()->isFilterCaseSensitive(), true);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testFilterModeAppliesToEveryColumn()
+{
+    // The filter mode reaches the columns that are already open. "^alpha" matches as a regular
+    // expression and matches nothing as a glob, where both characters are literal.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    m_view->setFilterMode(KFileItemModelFilter::Regex);
+    m_view->setNameFilter(QStringLiteral("^alpha"));
+
+    QCOMPARE(m_view->columnAt(0)->model()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(m_view->columnAt(1)->model()->filterMode(), KFileItemModelFilter::Regex);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(0).name(), QStringLiteral("alpha-child"));
+}
+
+void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilterModeAndCase()
+{
+    // createPane() gives a new column the whole filter, and not only the name.
+    m_view->setFilterMode(KFileItemModelFilter::Regex);
+    m_view->setFilterCaseSensitive(true);
+    m_view->setNameFilter(QStringLiteral("^alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->model()->count(), 1, 5000);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    QCOMPARE(m_view->columnAt(1)->model()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(m_view->columnAt(1)->model()->isFilterCaseSensitive(), true);
+    QCOMPARE(m_view->columnAt(1)->model()->nameFilter(), QStringLiteral("^alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->model()->count(), 1, 5000);
+}
+
+void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
+{
+    // A column stands for an item of the column to its left. Filtering that item away leaves the
+    // column with nothing to stand for, so it closes.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // "file" matches single-file.txt in the root and leaves out alpha.
+    m_view->setNameFilter(QStringLiteral("file"));
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->columnAt(0)->model()->count(), 1);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
