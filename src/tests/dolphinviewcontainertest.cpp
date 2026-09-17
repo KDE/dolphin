@@ -15,12 +15,16 @@
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
+#include "kitemviews/private/kfileitemmodelfilter.h"
+
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
 #include "views/dolphincolumnsview.h"
 #include "views/dolphinview.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
+#include <KConfigGroup>
+#include <KSharedConfig>
 
 #include <QCoreApplication>
 #include <QScopeGuard>
@@ -49,6 +53,10 @@ private Q_SLOTS:
     void testNavigatorFollowsViewAfterModeSwap();
     void testSwapAdoptsContainerActiveState();
     void testEachViewModeKeepsItsOwnZoomLevel();
+    void testSwapCarriesTheNameFilter();
+    void testSwapCarriesTheFilterModeAndCaseSensitivity();
+    void testSwapCarriesTheSelectionMode();
+    void testSwapCarriesTheViewPropertiesContext();
 
 private:
     void waitForViewReady();
@@ -377,6 +385,92 @@ void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();
     QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
+}
+
+void DolphinViewContainerTest::testSwapCarriesTheNameFilter()
+{
+    // The filter bar is not touched by a swap, so the replacement view has to apply the filter
+    // the bar still shows.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    m_container->view()->setNameFilter(QStringLiteral("file"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->itemsCount(), 2, 5000);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+
+    QCOMPARE(m_container->view()->nameFilter(), QStringLiteral("file"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->itemsCount(), 2, 5000);
+}
+
+void DolphinViewContainerTest::testSwapCarriesTheFilterModeAndCaseSensitivity()
+{
+    // The filter bar holds both, and the container tells the view about them when it builds one.
+    // A swap builds one, so a view that keeps the name filter but loses the mode would apply
+    // "^file" as a glob and show nothing.
+    KConfigGroup filterBarConfig(KSharedConfig::openStateConfig(), QStringLiteral("FilterBar"));
+    const QString savedMode = filterBarConfig.readEntry("filterMode", QString());
+    const QString savedCase = filterBarConfig.readEntry("caseSensitive", QString());
+    auto restore = qScopeGuard([&]() {
+        filterBarConfig.writeEntry("filterMode", savedMode);
+        filterBarConfig.writeEntry("caseSensitive", savedCase);
+    });
+    // FilterBar stores the index of its mode combo box, whose items are added in enum order.
+    filterBarConfig.writeEntry("filterMode", static_cast<int>(KFileItemModelFilter::Regex));
+    filterBarConfig.writeEntry("caseSensitive", true);
+
+    DolphinViewContainer container(m_testDir->url(), nullptr);
+    container.resize(800, 600);
+    container.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&container));
+
+    container.setViewMode(DolphinView::IconsView);
+    QTRY_VERIFY_WITH_TIMEOUT(container.view()->itemsCount() > 0, 5000);
+    QCOMPARE(container.view()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(container.view()->isFilterCaseSensitive(), true);
+
+    container.view()->setNameFilter(QStringLiteral("^file"));
+    QTRY_COMPARE_WITH_TIMEOUT(container.view()->itemsCount(), 2, 5000);
+
+    container.setViewMode(DolphinView::ColumnsView);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(container.view()) != nullptr);
+
+    QCOMPARE(container.view()->filterMode(), KFileItemModelFilter::Regex);
+    QCOMPARE(container.view()->isFilterCaseSensitive(), true);
+    QTRY_COMPARE_WITH_TIMEOUT(container.view()->itemsCount(), 2, 5000);
+}
+
+void DolphinViewContainerTest::testSwapCarriesTheSelectionMode()
+{
+    // Selection mode is entered on the container, so a swap done while it is on has to leave the
+    // replacement view in it as well.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    m_container->view()->setSelectionModeEnabled(true);
+    QCOMPARE(m_container->view()->selectionMode(), true);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+
+    QCOMPARE(m_container->view()->selectionMode(), true);
+}
+
+void DolphinViewContainerTest::testSwapCarriesTheViewPropertiesContext()
+{
+    // The context names the store the view properties are read from and written to. A view
+    // swapped in without it would read the properties of the folder instead.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    m_container->view()->setViewPropertiesContext(QStringLiteral("search"));
+    QCOMPARE(m_container->view()->viewPropertiesContext(), QStringLiteral("search"));
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+
+    QCOMPARE(m_container->view()->viewPropertiesContext(), QStringLiteral("search"));
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
