@@ -92,12 +92,13 @@ int main(int argc, char **argv)
 
     KLocalizedString::setApplicationDomain(dolphinTranslationDomain);
 
-    KAboutData aboutData(QStringLiteral("dolphin"),
-                         i18n("Dolphin"),
-                         QStringLiteral(DOLPHIN_VERSION_STRING),
-                         i18nc("@title", "File Manager"),
-                         KAboutLicense::GPL,
-                         i18nc("@info:credit", "© 2006–2026 The Dolphin Developers"));
+    KAboutData aboutData(
+        QStringLiteral("dolphin"),
+        i18n("Dolphin"),
+        QStringLiteral(DOLPHIN_VERSION_STRING),
+        i18nc("@title", "File Manager"),
+        KAboutLicense::GPL,
+        i18nc("@info:credit", "© 2006–%1 The Dolphin Developers", QStringLiteral("2026"))); // years term not localized, pass as string, not int
     aboutData.setHomepage(QStringLiteral("https://apps.kde.org/dolphin"));
     aboutData.addAuthor(i18nc("@info:credit", "Felix Ernst"),
                         i18nc("@info:credit", "Maintainer (since 2021) and developer"),
