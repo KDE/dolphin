@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-17 00:47+0000\n"
-"PO-Revision-Date: 2026-08-25 11:46+0200\n"
+"PO-Revision-Date: 2026-09-14 18:30+0200\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1459,11 +1459,10 @@ msgid "Close"
 msgstr "Schließen"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Die Ansicht in zwei Teile unterteilen"
+msgstr "Geteilte Ansicht: Linke Seite schließen"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
@@ -1501,7 +1500,7 @@ msgstr "Schließen"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Geteilte Ansicht: Rechte Seite schließen"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2910
@@ -1538,9 +1537,7 @@ msgid "Split"
 msgstr "Teilen"
 
 #: dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "Ansicht teilen"
@@ -2054,12 +2051,10 @@ msgid "New tab name:"
 msgstr "Neuer Unterfenstername:"
 
 #: dolphintabbar.cpp:417
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "Neue Unterfenster öffnen:"
+msgstr "Ein neues Unterfenster öffnen"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5104,20 +5099,18 @@ msgid "Deleting files or folders"
 msgstr "Löschen von Dateien und Ordnern"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "Umbenennen einer Datei, wenn dies deren Typ ändert"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "Umbenennen einer Datei, wenn dies deren Typ ändert"
+msgstr ""
+"Umbenennen einer Datei oder eines Ordners, wenn sie/er dadurch ausgeblendet "
+"wird"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6534,9 +6527,9 @@ msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
-"Mit einem Punkt am Anfang des Ordnernamens wird die Datei in der Ansicht "
+"Mit einem Punkt am Anfang des Ordnernamens wird der Ordner in der Ansicht "
 "ausgeblendet.\n"
-"Möchten Sie die Datei wirklich umbenennen?"
+"Möchten Sie den Ordner wirklich umbenennen?"
 
 #: views/dolphinview.cpp:2376
 #, kde-format
