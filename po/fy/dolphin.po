@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-17 00:47+0000\n"
+"POT-Creation-Date: 2026-09-19 00:48+0000\n"
 "PO-Revision-Date: 2010-07-19 10:30+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -3141,7 +3141,7 @@ msgstr "Triembehearder"
 #: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
-msgid "© 2006–2025 The Dolphin Developers"
+msgid "© 2006–2026 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:102

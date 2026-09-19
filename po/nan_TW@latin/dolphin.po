@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-17 00:47+0000\n"
+"POT-Creation-Date: 2026-09-19 00:48+0000\n"
 "PO-Revision-Date: 2026-08-18 02:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Min Nan Chinese Latin <zh-l10n@lists.slat.org>\n"
@@ -2863,9 +2863,11 @@ msgid "File Manager"
 msgstr "Tóng-àn Kuán-lí-khì"
 
 #: main.cpp:100
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "© 2006–2025 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "© 2006–2025 The Dolphin Developers"
+msgid "© 2006–2026 The Dolphin Developers"
 msgstr "© 2006–2025 Dolphin Khai-huat-tsiá"
 
 #: main.cpp:102
