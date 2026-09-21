@@ -18,6 +18,7 @@ class KToggleAction;
 class QAction;
 class QActionGroup;
 class DolphinView;
+class KActionCategory;
 class KActionCollection;
 class KFileItemList;
 namespace SelectionMode
@@ -257,7 +258,8 @@ private:
     void updateCreateSubdirectoryAction();
 
     /**
-     * Creates an action-group out of all roles from KFileItemModel.
+     * Creates an action-group out of all roles from KFileItemModel,
+     * registering the actions in the given shortcut category.
      * Dependent on the group-prefix either a radiobutton-group is
      * created for sorting (prefix is "sort_by_"), a radiobutton-group
      * is created for group-by (prefix is "group_"), or a checkbox-group
@@ -265,7 +267,7 @@ private:
      * The changes of actions are reported to slotSortTriggered(),
      * slotGroupByTriggered(), or toggleAdditionalInfo() respectively.
      */
-    QActionGroup *createFileItemRolesActionGroup(const QString &groupPrefix);
+    QActionGroup *createFileItemRolesActionGroup(const QString &groupPrefix, KActionCategory *category);
 
     /**
      * Returns the "switch to icons mode" action.

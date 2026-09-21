@@ -281,18 +281,20 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     m_actionCollection->setDefaultShortcut(showPreview, QKeySequence(Qt::Key_F12));
     connect(showPreview, &KToggleAction::triggered, this, &DolphinViewActionHandler::togglePreview);
 
-    KToggleAction *sortFoldersFirst = m_actionCollection->add<KToggleAction>(QStringLiteral("folders_first"));
+    auto *sortingCategory = new KActionCategory(i18nc("@item:intable, Heading of a list of fields and sorting options", "Sorting"), m_actionCollection);
+
+    KToggleAction *sortFoldersFirst = sortingCategory->add<KToggleAction>(QStringLiteral("folders_first"));
     sortFoldersFirst->setText(i18nc("@action:inmenu Sort", "Folders First"));
     connect(sortFoldersFirst, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortFoldersFirst);
 
-    KToggleAction *sortHiddenLast = m_actionCollection->add<KToggleAction>(QStringLiteral("hidden_last"));
+    KToggleAction *sortHiddenLast = sortingCategory->add<KToggleAction>(QStringLiteral("hidden_last"));
     sortHiddenLast->setText(i18nc("@action:inmenu Sort", "Hidden Files Last"));
     connect(sortHiddenLast, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortHiddenLast);
 
     // View -> Sort By
-    QActionGroup *sortByActionGroup = createFileItemRolesActionGroup(QStringLiteral("sort_by_"));
+    QActionGroup *sortByActionGroup = createFileItemRolesActionGroup(QStringLiteral("sort_by_"), sortingCategory);
 
-    KActionMenu *sortByActionMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("sort"));
+    KActionMenu *sortByActionMenu = sortingCategory->add<KActionMenu>(QStringLiteral("sort"));
     sortByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sort")));
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
     sortByActionMenu->setPopupMode(QToolButton::InstantPopup);
@@ -307,13 +309,13 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     QActionGroup *group = new QActionGroup(sortByActionMenu);
     group->setExclusive(true);
 
-    KToggleAction *ascendingAction = m_actionCollection->add<KToggleAction>(QStringLiteral("ascending"));
+    KToggleAction *ascendingAction = sortingCategory->add<KToggleAction>(QStringLiteral("ascending"));
     ascendingAction->setActionGroup(group);
     connect(ascendingAction, &QAction::triggered, this, [this] {
         m_currentView->setSortOrder(Qt::AscendingOrder);
     });
 
-    KToggleAction *descendingAction = m_actionCollection->add<KToggleAction>(QStringLiteral("descending"));
+    KToggleAction *descendingAction = sortingCategory->add<KToggleAction>(QStringLiteral("descending"));
     descendingAction->setActionGroup(group);
     connect(descendingAction, &QAction::triggered, this, [this] {
         m_currentView->setSortOrder(Qt::DescendingOrder);
@@ -326,7 +328,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     sortByActionMenu->addAction(sortHiddenLast);
 
     // View -> Additional Information
-    QActionGroup *visibleRolesGroup = createFileItemRolesActionGroup(QStringLiteral("show_"));
+    auto *visibleRolesCategory = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Show Field"), m_actionCollection);
+    QActionGroup *visibleRolesGroup = createFileItemRolesActionGroup(QStringLiteral("show_"), visibleRolesCategory);
 
     KActionMenu *visibleRolesMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("additional_info"));
     visibleRolesMenu->setText(i18nc("@action:inmenu View", "Show Additional Information"));
@@ -338,7 +341,9 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
         visibleRolesMenu->addAction(action);
     }
 
-    KActionMenu *groupByActionMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("group_by"));
+    auto *groupingCategory = new KActionCategory(i18nc("@item:intable, Heading of a list of fields and grouping options", "Grouping"), m_actionCollection);
+
+    KActionMenu *groupByActionMenu = groupingCategory->add<KActionMenu>(QStringLiteral("group_by"));
     groupByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-group")));
     groupByActionMenu->setText(i18nc("@action:inmenu View", "Group By"));
     groupByActionMenu->setWhatsThis(i18nc("@info:whatsthis",
@@ -351,14 +356,14 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     groupByActionGroup->setExclusive(true);
     connect(groupByActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotGroupByTriggered);
 
-    KToggleAction *groupByNone = m_actionCollection->add<KToggleAction>(QStringLiteral("group_by_none"));
+    KToggleAction *groupByNone = groupingCategory->add<KToggleAction>(QStringLiteral("group_by_none"));
     groupByNone->setActionGroup(groupByActionGroup);
     groupByNone->setText(i18nc("@action:inmenu Group By", "None"));
     groupByNone->setData(QByteArray());
     m_groupByActions.insert(QByteArray(), groupByNone);
     groupByActionMenu->addAction(groupByNone);
 
-    KToggleAction *groupBySameAsSort = m_actionCollection->add<KToggleAction>(QStringLiteral("group_by_same_as_sort"));
+    KToggleAction *groupBySameAsSort = groupingCategory->add<KToggleAction>(QStringLiteral("group_by_same_as_sort"));
     groupBySameAsSort->setActionGroup(groupByActionGroup);
     groupBySameAsSort->setText(i18nc("@action:inmenu Group By", "Same as Sort"));
     groupBySameAsSort->setData(QByteArray("same_as_sort"));
@@ -367,7 +372,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
 
     groupByActionMenu->addSeparator();
 
-    QActionGroup *groupRolesGroup = createFileItemRolesActionGroup(QStringLiteral("group_"));
+    QActionGroup *groupRolesGroup = createFileItemRolesActionGroup(QStringLiteral("group_"), groupingCategory);
     const auto groupRolesGroupActions = groupRolesGroup->actions();
     for (QAction *action : groupRolesGroupActions) {
         groupByActionMenu->addAction(action);
@@ -429,7 +434,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->menu()->setParent(QApplication::activeWindow());
 }
 
-QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix)
+QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix, KActionCategory *category)
 {
     const bool isSortGroup = (groupPrefix == QLatin1String("sort_by_"));
     const bool isGroupGroup = (groupPrefix == QLatin1String("group_"));
@@ -437,16 +442,12 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 
     QActionGroup *rolesActionGroup = new QActionGroup(m_actionCollection);
     rolesActionGroup->setExclusive(isSortGroup || isGroupGroup);
-    KActionCategory *category;
     if (isSortGroup) {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotSortTriggered);
-        category = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Sort by Field"), m_actionCollection);
     } else if (isGroupGroup) {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotGroupByTriggered);
-        category = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Group by Field"), m_actionCollection);
     } else {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::toggleVisibleRole);
-        category = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Show Field"), m_actionCollection);
     }
 
     QString groupName;
