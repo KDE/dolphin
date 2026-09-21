@@ -100,7 +100,8 @@ void KItemListViewAnimation::start(QGraphicsWidget *widget, AnimationType type, 
     stop(widget, type);
 
     QPropertyAnimation *propertyAnim = nullptr;
-    const int animationDuration = widget->style()->styleHint(QStyle::SH_Widget_Animate) ? 200 : 1;
+    const int styleDuration = widget->style()->styleHint(QStyle::SH_Widget_Animation_Duration);
+    const int animationDuration = (widget->style()->styleHint(QStyle::SH_Widget_Animate) && styleDuration > 0) ? styleDuration : 1;
 
     switch (type) {
     case MovingAnimation: {

@@ -6,11 +6,14 @@
 
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/private/kitemlistviewanimation.h"
 #include "testdir.h"
 
 #include <KDirLister>
 
 #include <QGraphicsView>
+#include <QGraphicsWidget>
+#include <QProxyStyle>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -24,6 +27,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testGroupedItemChanges();
+    void testInstantAnimationDuration();
 
 private:
     KFileItemListView *m_listView;
@@ -109,6 +113,39 @@ void KFileItemListViewTest::testGroupedItemChanges()
     m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(itemsRemovedSpy.wait());
     QCOMPARE(m_model->count(), 2);
+}
+
+namespace
+{
+class InstantAnimationStyle : public QProxyStyle
+{
+public:
+    using QProxyStyle::QProxyStyle;
+    int styleHint(StyleHint hint, const QStyleOption *option = nullptr, const QWidget *widget = nullptr, QStyleHintReturn *returnData = nullptr) const override
+    {
+        if (hint == SH_Widget_Animation_Duration) {
+            return 0; // Simulate Plasma "Instant" animation setting
+        }
+        return QProxyStyle::styleHint(hint, option, widget, returnData);
+    }
+};
+}
+
+void KFileItemListViewTest::testInstantAnimationDuration()
+{
+    KItemListViewAnimation anim;
+    QGraphicsWidget widget;
+    InstantAnimationStyle instantStyle;
+    widget.setStyle(&instantStyle);
+
+    QSignalSpy finishedSpy(&anim, &KItemListViewAnimation::finished);
+    anim.start(&widget, KItemListViewAnimation::DeleteAnimation);
+
+    // With instant animation (SH_Widget_Animation_Duration == 0), the animation duration is 1ms
+    // and completes in the next event loop tick. On the original buggy code (hardcoded 200ms),
+    // this wait(100) fails because the animation takes 200ms.
+    QVERIFY(finishedSpy.wait(100));
+    QVERIFY(!anim.isStarted(&widget, KItemListViewAnimation::DeleteAnimation));
 }
 
 QTEST_MAIN(KFileItemListViewTest)
