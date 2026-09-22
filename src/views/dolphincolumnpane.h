@@ -59,6 +59,8 @@ public:
 
     void setZoomLevel(int level);
 
+    void reloadSettings();
+
 Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
     void fileActivated(const KFileItem &item);
