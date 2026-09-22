@@ -143,7 +143,6 @@ void KFileItemListViewTest::testInstantAnimationDuration()
 
     // With instant animation (SH_Widget_Animation_Duration == 0), the animation duration is 1ms
     // and completes in the next event loop tick.
-    // this wait(100) fails because the animation takes 200ms.
     QVERIFY(finishedSpy.wait(100));
     QVERIFY(!anim.isStarted(&widget, KItemListViewAnimation::DeleteAnimation));
 }
