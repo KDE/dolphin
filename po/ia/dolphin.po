@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-09-01 16:53+0200\n"
+"PO-Revision-Date: 2026-09-21 12:40+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -6458,7 +6458,7 @@ msgstr ""
 "Isto marcara le typo de file  incognoscite.\n"
 "Le contento del file non cambiara ma le application non plus lo "
 "recognoscera.\n"
-"Tu ancore vole renominar lo?"
+"Tu ancora vole renominar lo?"
 
 #: views/dolphinview.cpp:2338
 #, kde-format
@@ -6471,7 +6471,7 @@ msgstr ""
 "Isto cambiara le typo de file  ab \"%1\" a \"%2\".\n"
 "Le contento del file non cambiara ma le application non plus lo "
 "recognoscera.\n"
-"Tu ancore vole renominar lo?"
+"Tu ancora vole renominar lo?"
 
 #: views/dolphinview.cpp:2344
 #, kde-format

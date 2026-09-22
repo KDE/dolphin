@@ -1,6 +1,6 @@
 # Translation of dolphin.po to Korean
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Shinjo Park <kde@peremen.name>
 # This file is distributed under the same license as the kdebase package.
+# SPDX-FileCopyrightText: 2007-2026 Shinjo Park <kde@peremen.name>
 # Minori Hiraoka <minori@mnetwork.co.kr>, 2018.
 # JungHee Lee <daemul72@gmail.com>, 2019, 2020, 2021.
 msgid ""
@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-04-26 23:08+0200\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
-"Language-Team: Korean <kde-kr@kde.org>\n"
+"PO-Revision-Date: 2026-09-21 15:35+0200\n"
+"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
+"Language-Team: Korean\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -344,14 +344,11 @@ msgid ""
 msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
+msgstr ""
+"새 하위 폴더를 만들 수 없음: 쓰기 권한이 있는 폴더 한 개를 선택하십시오."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -564,20 +561,16 @@ msgid "Move to Other View"
 msgstr "다른 보기로 이동"
 
 #: dolphinmainwindow.cpp:1907
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "다른 보기로 복사"
+msgstr "다른 보기에 포커스"
 
 #: dolphinmainwindow.cpp:1908
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "키보드 포커스를 위치 패널과 전환합니다."
+msgstr "키보드 포커스를 비활성 보기로 전환합니다."
 
 #: dolphinmainwindow.cpp:1914
 #, kde-format
@@ -1898,14 +1891,13 @@ msgstr "다른 탭 닫기"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "왼쪽에 있는 모든 탭 닫기"
 
 #: dolphintabbar.cpp:191
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "오른쪽 패널 닫기"
+msgstr "오른쪽에 있는 모든 탭 닫기"
 
 #: dolphintabbar.cpp:193
 #, kde-format
@@ -4454,12 +4446,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "파일 정렬 순서"
+msgstr "파일 그룹화 기준"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4470,6 +4460,8 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"이 옵션은 정렬에서 그룹화가 활성화되었을 때 항목을 그룹화할 속성을 결정합니"
+"다. 빈 값은 정렬 기준과 같은 그룹화 기준을 사용함을 의미합니다."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6415,12 +6407,10 @@ msgid "Create Folder…"
 msgstr "폴더 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "폴더 만들기…"
+msgstr "하위 폴더 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6665,7 +6655,7 @@ msgstr "추가 정보 표시"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "그룹화 기준"
 
 #: views/dolphinviewactionhandler.cpp:345
 #, kde-format
@@ -6674,20 +6664,21 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"파일과 폴더를 선택한 속성을 기준으로 그룹화합니다. \"사용 안 함\"을 선택하면 "
+"그룹화하지 않습니다. \"정렬과 동일\"을 선택하면 현재 활성 정렬 기준으로 그룹"
+"화합니다."
 
 #: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "없음"
+msgstr "사용 안 함"
 
 #: views/dolphinviewactionhandler.cpp:363
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "정렬과 동일"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
@@ -6730,17 +6721,16 @@ msgid ""
 msgstr "모든 보기 속성을 조정할 수 있는 새 창을 엽니다."
 
 #: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "기본값으로 확대/축소"
+msgstr "기본값 복원"
 
 #: views/dolphinviewactionhandler.cpp:404
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
-msgstr ""
+msgstr "보기 설정을 기본값으로 복원"
 
 #: views/dolphinviewactionhandler.cpp:409
 #, kde-format
@@ -6765,12 +6755,10 @@ msgid "Sort by Field"
 msgstr "필드로 정렬"
 
 #: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "필드로 정렬"
+msgstr "필드로 그룹화 "
 
 #: views/dolphinviewactionhandler.cpp:449
 #, kde-format
