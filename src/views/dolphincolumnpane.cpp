@@ -222,3 +222,12 @@ void DolphinColumnPane::slotCurrentChanged(int current, int previous)
         Q_EMIT currentItemChanged(item);
     }
 }
+
+void DolphinColumnPane::reloadSettings()
+{
+    auto view = itemListView();
+    view->readSettings();
+    // need to reset this as we use Details View in the internal pane view
+    // and readSettings will apply the expanding setting to it
+    view->setSupportsItemExpanding(false);
+}

@@ -224,7 +224,7 @@ void DolphinColumnsView::readSettings()
 
     // Every column shows the font and the icon size that the columns view is configured with.
     for (DolphinColumnPane *pane : m_columns) {
-        pane->itemListView()->readSettings();
+        pane->reloadSettings();
     }
 
     // Pick up changes to the width behaviour, minimum width, and visible-column
