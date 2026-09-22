@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
-"PO-Revision-Date: 2026-09-15 17:42+0900\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
+"PO-Revision-Date: 2026-09-22 00:11+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -3041,12 +3041,10 @@ msgid "File Manager"
 msgstr "檔案管理員"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 Dolphin 開發團隊"
+msgstr "© 2006–%1 Dolphin 開發團隊"
 
 #: main.cpp:103
 #, kde-format
@@ -6616,37 +6614,59 @@ msgstr ""
 "當此選項啟用時圖示會從實際的檔案或資料夾內容產生。<nl/>距離來說，影像的圖示會"
 "變成該影像的縮小版。"
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "排序："
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "資料夾優先"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "隱藏檔案在最後"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "排序依據"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, kde-format
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "顯示欄位"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "顯示額外資訊"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Grouped Sorting"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "將排序結果分組"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "分組依據"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6656,25 +6676,25 @@ msgstr ""
 "這會將檔案與資料夾依指定屬性分組。「無」會停用分組。「與排序方式相同」會用目"
 "前使用的排序依據來分組。"
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "無"
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr "與排序方式相同"
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "顯示隱藏檔案"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6694,38 +6714,38 @@ msgstr ""
 "藏。另外在「設定 Dolphin」→「檢視」→「一般」啟用對應設定時，MIME 類型為 "
 "\"application/x-trash\" 的檔案（例如備份檔）也會被隱藏。</para>"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "調整檢視顯示方式…"
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr "這會開啟一個可以調整所有資料夾檢視屬性的視窗。"
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:408
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "回復至預設值"
 
-#: views/dolphinviewactionhandler.cpp:404
+#: views/dolphinviewactionhandler.cpp:409
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "將檢視設定回復為預設值"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:414
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "檢視模式設定"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6733,121 +6753,103 @@ msgid ""
 "related actions."
 msgstr "這會循環切換所有檢視模式。它的下拉式選單包含一些檢視模式相關的動作。"
 
-#: views/dolphinviewactionhandler.cpp:443
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "排序依據欄位"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "分組依據欄位"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "顯示欄位"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "圖示"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "圖示檢視模式"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "簡潔模式"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "簡潔檢視模式"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "詳細模式"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "詳細檢視模式"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "從大到小"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "從小到大"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "從新到舊"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "從舊到新"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "從高到低"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "從低到高"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "遞減"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "遞增"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6860,12 +6862,12 @@ msgstr "目前頁面的動作"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "%1 的動作"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -6891,6 +6893,14 @@ msgstr "縮放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "縮放"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "排序依據欄位"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "分組依據欄位"
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr "使用分頁在右邊與左邊的檢視中切換"

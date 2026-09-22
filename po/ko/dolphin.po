@@ -1,22 +1,22 @@
 # Translation of dolphin.po to Korean
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Shinjo Park <kde@peremen.name>
 # This file is distributed under the same license as the kdebase package.
+# SPDX-FileCopyrightText: 2007-2026 Shinjo Park <kde@peremen.name>
 # Minori Hiraoka <minori@mnetwork.co.kr>, 2018.
 # JungHee Lee <daemul72@gmail.com>, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
-"PO-Revision-Date: 2026-04-26 23:08+0200\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
-"Language-Team: Korean <kde-kr@kde.org>\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
+"PO-Revision-Date: 2026-09-21 15:35+0200\n"
+"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
+"Language-Team: Korean\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -344,14 +344,11 @@ msgid ""
 msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
 #: dolphinmainwindow.cpp:1520
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
-msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
+msgstr ""
+"새 하위 폴더를 만들 수 없음: 쓰기 권한이 있는 폴더 한 개를 선택하십시오."
 
 #: dolphinmainwindow.cpp:1631
 #, kde-format
@@ -564,20 +561,16 @@ msgid "Move to Other View"
 msgstr "다른 보기로 이동"
 
 #: dolphinmainwindow.cpp:1921
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "다른 보기로 복사"
+msgstr "다른 보기에 포커스"
 
 #: dolphinmainwindow.cpp:1922
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr "키보드 포커스를 위치 패널과 전환합니다."
+msgstr "키보드 포커스를 비활성 보기로 전환합니다."
 
 #: dolphinmainwindow.cpp:1928
 #, kde-format
@@ -1373,11 +1366,10 @@ msgid "Close"
 msgstr "닫기"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "보기를 두 부분으로 나누기"
+msgstr "분할 보기: 왼쪽 패널 닫기"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
@@ -1415,7 +1407,7 @@ msgstr "닫기"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "분할 보기: 오른쪽 패널 닫기"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2910
@@ -1452,12 +1444,10 @@ msgid "Split"
 msgstr "나누기"
 
 #: dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "탐색 창 나누어 보기"
+msgstr "보기 나누기"
 
 #: dolphinmainwindow.cpp:2930
 #, kde-format
@@ -1920,14 +1910,13 @@ msgstr "다른 탭 닫기"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "왼쪽에 있는 모든 탭 닫기"
 
 #: dolphintabbar.cpp:322
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "오른쪽 패널 닫기"
+msgstr "오른쪽에 있는 모든 탭 닫기"
 
 #: dolphintabbar.cpp:324
 #, kde-format
@@ -1947,12 +1936,10 @@ msgid "New tab name:"
 msgstr "새 탭 이름:"
 
 #: dolphintabbar.cpp:417
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "새 탭 열기: "
+msgstr "새 탭 열기"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2113,12 +2100,10 @@ msgid "You do not have permission to create the folder"
 msgstr "폴더를 만들 수 있는 권한이 없음"
 
 #: dolphinviewcontainer.cpp:1124
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "%1 열기"
+msgstr "%1(으)로 열기|/|%1$[으 %1]로 열기"
 
 #: dolphinviewcontainer.cpp:1170 dolphinviewcontainer.cpp:1173
 #, kde-kuit-format
@@ -3076,12 +3061,10 @@ msgid "File Manager"
 msgstr "파일 관리자"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 The Dolphin Developers"
+msgstr "© 2006–%1 The Dolphin Developers"
 
 #: main.cpp:103
 #, kde-format
@@ -4494,12 +4477,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "파일 정렬 순서"
+msgstr "파일 그룹화 기준"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4510,6 +4491,8 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"이 옵션은 정렬에서 그룹화가 활성화되었을 때 항목을 그룹화할 속성을 결정합니"
+"다. 빈 값은 정렬 기준과 같은 그룹화 기준을 사용함을 의미합니다."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -4916,20 +4899,16 @@ msgid "Deleting files or folders"
 msgstr "파일이나 폴더를 삭제할 때"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "파일 이름을 바꾸면 형식도 같이 변경됨"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "파일 이름을 바꾸면 형식도 같이 변경됨"
+msgstr "파일이나 폴더의 이름을 바꾸면 숨김으로 전환됨"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6465,12 +6444,10 @@ msgid "Create Folder…"
 msgstr "폴더 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "폴더 만들기…"
+msgstr "하위 폴더 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6687,65 +6664,88 @@ msgstr ""
 "이 옵션을 사용하면 파일이나 폴더 내용을 기반으로 한 아이콘을 사용합니다.<nl/>"
 "예를 들어 그림 파일 아이콘은 해당 그림의 작은 버전입니다."
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "정렬:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "폴더 우선"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "숨김 파일 마지막에"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "정렬 순서"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, kde-format
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "필드 표시"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "추가 정보 표시"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Grouped Sorting"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "그룹 순 정렬"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "그룹화 기준"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"파일과 폴더를 선택한 속성을 기준으로 그룹화합니다. \"사용 안 함\"을 선택하면 "
+"그룹화하지 않습니다. \"정렬과 동일\"을 선택하면 현재 활성 정렬 기준으로 그룹"
+"화합니다."
 
-#: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#: views/dolphinviewactionhandler.cpp:361
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr "없음"
+msgstr "사용 안 함"
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "정렬과 동일"
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "숨겨진 파일 표시"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6766,40 +6766,38 @@ msgstr ""
 "\"application/x-trash\" MIME 형식을 갖는 파일 역시 Dolphin 설정 > 보기 > 일반"
 "에서 숨길 수 있습니다.</para>"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "보기 표시 스타일 조정…"
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr "모든 보기 속성을 조정할 수 있는 새 창을 엽니다."
 
-#: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#: views/dolphinviewactionhandler.cpp:408
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "기본값으로 확대/축소"
-
-#: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
-msgctxt "info:tooltip"
-msgid "Restore View Settings to Default Values"
-msgstr "기본값으로 확대/축소"
+msgstr "기본값 복원"
 
 #: views/dolphinviewactionhandler.cpp:409
+#, kde-format
+msgctxt "info:tooltip"
+msgid "Restore View Settings to Default Values"
+msgstr "보기 설정을 기본값으로 복원"
+
+#: views/dolphinviewactionhandler.cpp:414
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "보기 설정"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6809,123 +6807,103 @@ msgstr ""
 "모든 보기 모드를 전환합니다. 드롭다운 메뉴에서 여러 보기 관련 동작에 접근할 "
 "수 있습니다."
 
-#: views/dolphinviewactionhandler.cpp:443
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "필드로 정렬"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@item:intable, Heading of a list of fields"
-#| msgid "Sort by Field"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "필드로 정렬"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "필드 표시"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "아이콘"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "아이콘 보기 모드"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "축소됨"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "축소된 보기 모드"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "자세히"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "자세히 보기 모드"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "힣-가"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "가-힣"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "큰 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "작은 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "새 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "오래된 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "높은 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "낮은 항목 먼저"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "내림차순"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "오름차순"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6938,12 +6916,12 @@ msgstr "현재 보기의 동작"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "%1의 동작"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -6969,6 +6947,14 @@ msgstr "확대/축소"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "확대/축소"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "필드로 정렬"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "필드로 그룹화 "
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr "왼쪽과 오른쪽 보기를 전환할 때 탭 사용"

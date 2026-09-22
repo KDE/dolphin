@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -7426,31 +7426,55 @@ msgstr ""
 "fajla abo kataloha.<nl/>Napryklad, značkami maliunkaŭ buduć pamienšanyja "
 "viersii maliunkaŭ."
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "Sartavannie:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Spačatku katalohi"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Schavanyja fajly ŭ kancy"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sartavannie"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Show Filter Bar"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "Pakazvać paneĺ fiĺtra"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Pakazvać dadatkovyja zviestki"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@option:check Additional Information"
+#| msgid "Group"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "Hrupa"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, fuzzy, kde-format
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -7458,7 +7482,7 @@ msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "Hrupa"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7466,25 +7490,25 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Pakazvać schavanyja fajly"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -7510,7 +7534,7 @@ msgstr ""
 "nazva pačynajecca z \".\". Uvohulie, karystaĺnikam niama patreby mieć da ich "
 "dostup, tamu jany schavanyja.</para>"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Display Style..."
@@ -7518,7 +7542,7 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Padladžvannie styliu adliustravannia..."
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7527,21 +7551,21 @@ msgstr ""
 "Adkryvaje akno, u jakim možna padladzić usie ŭlascivasci adliustravannia "
 "katalohaŭ."
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:408
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Skinuć maštab da pradvyznačanaha"
 
-#: views/dolphinviewactionhandler.cpp:404
+#: views/dolphinviewactionhandler.cpp:409
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Skinuć maštab da pradvyznačanaha"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:414
 #, fuzzy, kde-format
 #| msgctxt "name of kuserfeedback data source provided by dolphin"
 #| msgid "Settings"
@@ -7549,7 +7573,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Nalady"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7557,127 +7581,103 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "Sartavannie"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "Sartavannie"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "Pakazvać paneĺ fiĺtra"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Znački"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Režym značkoŭ"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Scisly vyhliad"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Režym scislaha vyhliadu"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Padrabiazy vyhliad"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Režym padrabiaznaha vyhliadu"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Ja-A"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Ja"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Spačatku boĺšyja"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Spačatku mienšyja"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Spačatku naviejšyja"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Spačatku starejšyja"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Spačatku boĺšyja"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Spačatku mienšyja"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Pa pamianšenni"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Pa pavieličenni"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@action:inmenu menu with actions like copy, paste, rename. The users "
@@ -7694,12 +7694,12 @@ msgstr "Dziejanni dlia biahučaha režymu"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "Dziejanni dlia %1"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7732,6 +7732,20 @@ msgstr "Maštab"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Maštab"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu View"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "Sartavannie"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu View"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "Sartavannie"
 
 #, fuzzy
 #~| msgid "Use tab for switching between right and left split"
@@ -9116,10 +9130,6 @@ msgstr "Maštab"
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Owner"
 #~ msgstr "Ulasnik"
-
-#~ msgctxt "@option:check Additional Information"
-#~ msgid "Group"
-#~ msgstr "Hrupa"
 
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Type"

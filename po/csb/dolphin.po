@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -7142,20 +7142,28 @@ msgid ""
 "the images."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "Zortowanié:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Wprzód katalodżi"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, fuzzy, kde-format
 #| msgid "Show hidden files"
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Pòkażë zataconé lopczi"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Sort By"
@@ -7163,7 +7171,15 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Zortëjë wedle"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "Wëskrzëni listew filtra"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Additional Information"
@@ -7171,7 +7187,15 @@ msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Dodôwnô wedowiédzô"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@option:check Additional Information"
+#| msgid "Group"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "Grëpë"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, fuzzy, kde-format
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -7179,7 +7203,7 @@ msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "Grëpë"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7187,7 +7211,7 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Grid spacing"
 #| msgid "None"
@@ -7195,13 +7219,13 @@ msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Felënk"
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
@@ -7209,7 +7233,7 @@ msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Pòkażë zataconé lopczi"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7223,7 +7247,7 @@ msgid ""
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
@@ -7231,28 +7255,28 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Dopasëjë swòjiznë wëzdrzatkù..."
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:408
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Domëszlnô"
 
-#: views/dolphinviewactionhandler.cpp:404
+#: views/dolphinviewactionhandler.cpp:409
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Domëszlnô"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:414
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "Sett&ings"
@@ -7260,7 +7284,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Nastôwë"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7268,49 +7292,25 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "Zortëjë wedle"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "Zortëjë wedle"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "Wëskrzëni listew filtra"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Ikònë"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Ikònë tribù wëzdrzatkù"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Columns view mode"
@@ -7318,31 +7318,31 @@ msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Kòlumnë tribù wëzdrzatkù"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detale"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Detale tribù wëzdrzatkù"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -7350,7 +7350,7 @@ msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Wëskrzëni wprzód katalodżi "
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -7358,7 +7358,7 @@ msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Wëskrzëni wprzód katalodżi "
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -7366,7 +7366,7 @@ msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Wëskrzëni wprzód katalodżi "
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -7374,7 +7374,7 @@ msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Wprzód katalodżi"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -7382,7 +7382,7 @@ msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Wprzód katalodżi"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -7390,7 +7390,7 @@ msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Wëskrzëni wprzód katalodżi "
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Descending"
@@ -7398,7 +7398,7 @@ msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Malejąco"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Ascending"
@@ -7406,7 +7406,7 @@ msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Roscąco"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7419,12 +7419,12 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7454,6 +7454,20 @@ msgstr ""
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "Zortëjë wedle"
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "Zortëjë wedle"
 
 #~ msgctxt "@action:inmenu View"
 #~ msgid "Show in Groups"
@@ -8839,10 +8853,6 @@ msgstr ""
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Owner"
 #~ msgstr "Miéwcë"
-
-#~ msgctxt "@option:check Additional Information"
-#~ msgid "Group"
-#~ msgstr "Grëpë"
 
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Type"

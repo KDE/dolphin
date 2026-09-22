@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
 "PO-Revision-Date: 2026-09-20 17:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -6860,37 +6860,59 @@ msgstr ""
 "inhoud van bestand en map.<nl/>De pictogrammen van afbeeldingen worden "
 "omlaag geschaalde versies van de afbeeldingen."
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "Sortering:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Mappen eerst"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Verborgen bestanden als laatste"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sorteren op"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, kde-format
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "Toon veld"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Aanvullende informatie tonen"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@option:check Additional Information"
+#| msgid "Group"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "Groep"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "Groeperen op"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6901,25 +6923,25 @@ msgstr ""
 "kenmerk. \"Geen\" schakelt groepering uit. \"Hetzelfde als sorteren\" "
 "groepeert op basis van het actieve sorteercriterium."
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Geen"
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr "Zelfde als sorteren"
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Verborgen bestanden tonen"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6943,13 +6965,13 @@ msgstr ""
 "zijn door die instelling in te schakelen in Dolphin configureren > Beeld > "
 "Algemeen.</para>"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Weergavestijl van scherm aanpassen…"
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6958,25 +6980,25 @@ msgstr ""
 "Dit opent een venster waarin alle mapweergave-eigenschappen aangepast kunnen "
 "worden."
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:408
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Standaardinstellingen herstellen"
 
-#: views/dolphinviewactionhandler.cpp:404
+#: views/dolphinviewactionhandler.cpp:409
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Weergave-instellingen herstellen naar standaardwaarden"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:414
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Weergave-instellingen"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6986,121 +7008,103 @@ msgstr ""
 "Dit draait door alle weergavemodi. Het afrolmenu bevat verschillende "
 "weergavegerelateerde acties."
 
-#: views/dolphinviewactionhandler.cpp:443
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "Sorteren op veld"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "Op veld sorteren"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "Toon veld"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Pictogrammen"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Pictogramweergavemodus"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compact"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Compacte weergave"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Details"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Detailweergavemodus"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Grootste eerst"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Kleinste eerst"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Nieuwste eerst"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Oudste eerst"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Hoogste eerst"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Laagste eerst"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Aflopend"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Oplopend"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7113,12 +7117,12 @@ msgstr "Acties voor huidige weergave"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "Acties voor %1"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7145,6 +7149,14 @@ msgstr "Zoomen"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoomen"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "Sorteren op veld"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "Op veld sorteren"
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr ""
@@ -8724,10 +8736,6 @@ msgstr "Zoomen"
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Owner"
 #~ msgstr "Eigenaar"
-
-#~ msgctxt "@option:check Additional Information"
-#~ msgid "Group"
-#~ msgstr "Groep"
 
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Type"

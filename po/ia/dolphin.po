@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
-"PO-Revision-Date: 2026-09-14 18:23+0200\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
+"PO-Revision-Date: 2026-09-21 12:19+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -3167,12 +3167,10 @@ msgid "File Manager"
 msgstr "Gerente de file"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "(c)2006 -2025, Le disveloppatores de Dolphin"
+msgstr "(c)2006 -%1, Le disveloppatores de Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -6497,7 +6495,7 @@ msgstr ""
 "Isto marcara le typo de file  incognoscite.\n"
 "Le contento del file non cambiara ma le application non plus lo "
 "recognoscera.\n"
-"Tu ancore vole renominar lo?"
+"Tu ancora vole renominar lo?"
 
 #: views/dolphinview.cpp:2411
 #, kde-format
@@ -6510,7 +6508,7 @@ msgstr ""
 "Isto cambiara le typo de file  ab \"%1\" a \"%2\".\n"
 "Le contento del file non cambiara ma le application non plus lo "
 "recognoscera.\n"
-"Tu ancore vole renominar lo?"
+"Tu ancora vole renominar lo?"
 
 #: views/dolphinview.cpp:2417
 #, kde-format
@@ -6845,37 +6843,59 @@ msgstr ""
 "o dossier.<nl/>Pro exemplo le icones de image deveni un version scalate "
 "reducite del images."
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "Ordine:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Prime le dossieres"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Files celate per ultime"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Ordinar per"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:331
+#, kde-format
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Show Field"
+msgstr "Monstra Campo"
+
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Monstra Information additional"
 
-#: views/dolphinviewactionhandler.cpp:343
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@option:check Additional Information"
+#| msgid "Group"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "Gruppo"
+
+#: views/dolphinviewactionhandler.cpp:348
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "Gruppa Per"
 
-#: views/dolphinviewactionhandler.cpp:345
+#: views/dolphinviewactionhandler.cpp:350
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6886,25 +6906,25 @@ msgstr ""
 "dishabilita le gruppamento. \"Mesme que Ordinar\" gruppa per le criterio de "
 "ordination active."
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Nulle"
 
-#: views/dolphinviewactionhandler.cpp:363
+#: views/dolphinviewactionhandler.cpp:368
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr "Mesme que ordinar"
 
-#: views/dolphinviewactionhandler.cpp:378
+#: views/dolphinviewactionhandler.cpp:383
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Monstra files celate"
 
-#: views/dolphinviewactionhandler.cpp:380
+#: views/dolphinviewactionhandler.cpp:385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6926,13 +6946,13 @@ msgstr ""
 "pote esser celate per habilitar ille preferentia in Configura Dolphin> Vista "
 "> General. </para>"
 
-#: views/dolphinviewactionhandler.cpp:394
+#: views/dolphinviewactionhandler.cpp:399
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Adjusta stylo de monstrar de vista..."
 
-#: views/dolphinviewactionhandler.cpp:397
+#: views/dolphinviewactionhandler.cpp:402
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6941,25 +6961,25 @@ msgstr ""
 "Isto aperi un fenestra ubi omne proprietate de vista de dossier pote esser "
 "adaptate."
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:408
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Restabili a valores predefinite"
 
-#: views/dolphinviewactionhandler.cpp:404
+#: views/dolphinviewactionhandler.cpp:409
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Restabili Preferentias de Vista a valores predefinite"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:414
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Preferentias de vista"
 
-#: views/dolphinviewactionhandler.cpp:411
+#: views/dolphinviewactionhandler.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6969,121 +6989,103 @@ msgstr ""
 "Isto cycla trans omne modos de vista. Le menu disrloante contine varie "
 "actiones connexe a vista."
 
-#: views/dolphinviewactionhandler.cpp:443
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "Ordinar per campo"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "Gruppar per campo"
-
-#: views/dolphinviewactionhandler.cpp:449
-#, kde-format
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Show Field"
-msgstr "Monstra Campo"
-
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Icones"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Modo de vista a icones"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compacte"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Modo de vista a compacte"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detalios"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Modo de vista a detalios"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Le plus grande prime"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Le plus parve prime"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Le plus nove prime"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Le plus vetule prime"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Le  plus alte prime"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Le plus basse prime"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Descendente"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ascendente"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7096,12 +7098,12 @@ msgstr "Actiones per vista currente"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "Actiones pro %1"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7128,6 +7130,14 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "Ordinar per campo"
+
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "Gruppar per campo"
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr "Usa tab per commutar inter vista  dextere e sinistre"
@@ -8619,10 +8629,6 @@ msgstr "Zoom"
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Owner"
 #~ msgstr "Proprietario"
-
-#~ msgctxt "@option:check Additional Information"
-#~ msgid "Group"
-#~ msgstr "Gruppo"
 
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Type"

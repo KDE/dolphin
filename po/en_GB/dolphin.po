@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 00:48+0000\n"
+"POT-Creation-Date: 2026-09-22 00:48+0000\n"
 "PO-Revision-Date: 2024-11-01 13:55+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -6998,149 +6998,33 @@ msgstr ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
+msgctxt "@item:intable, Heading of a list of fields and sorting options"
+msgid "Sorting"
+msgstr "Sorting:"
+
+#: views/dolphinviewactionhandler.cpp:287
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Folders First"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:291
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Hidden Files Last"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sort By"
 
-#: views/dolphinviewactionhandler.cpp:332
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show Additional Information"
-msgstr "Show Additional Information"
-
-#: views/dolphinviewactionhandler.cpp:343
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Group"
-msgctxt "@action:inmenu View"
-msgid "Group By"
-msgstr "Group"
-
-#: views/dolphinviewactionhandler.cpp:345
-#, kde-format
-msgctxt "@info:whatsthis"
-msgid ""
-"This groups files and folders by a chosen attribute. \"None\" disables "
-"grouping. \"Same as Sort\" groups by the active sort criterion."
-msgstr ""
-
-#: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
-msgctxt "@action:inmenu Group By"
-msgid "None"
-msgstr "None"
-
-#: views/dolphinviewactionhandler.cpp:363
-#, kde-format
-msgctxt "@action:inmenu Group By"
-msgid "Same as Sort"
-msgstr ""
-
-#: views/dolphinviewactionhandler.cpp:378
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show Hidden Files"
-msgstr "Show Hidden Files"
-
-#: views/dolphinviewactionhandler.cpp:380
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
-"are visible. They will be displayed semi-transparent.</para><para>Hidden "
-"items only differ from normal ones in that their name starts with a dot (\"."
-"\"). Typically, there is no need for users to access them, which is why they "
-"are hidden.</para><para>Items can also be hidden if their names are listed "
-"in a text file named \".hidden\". Files with the \"application/x-trash\" "
-"MIME type, such as backup files, can also be hidden by enabling that setting "
-"in Configure Dolphin > View > General.</para>"
-msgstr ""
-"<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
-"are visible. They will be displayed semi-transparent.</para><para>Hidden "
-"items only differ from normal ones in that their name starts with a dot (\"."
-"\"). Typically, there is no need for users to access them, which is why they "
-"are hidden.</para><para>Items can also be hidden if their names are listed "
-"in a text file named \".hidden\". Files with the \"application/x-trash\" "
-"MIME type, such as backup files, can also be hidden by enabling that setting "
-"in Configure Dolphin > View > General.</para>"
-
-#: views/dolphinviewactionhandler.cpp:394
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style…"
-msgstr "Adjust View Display Style…"
-
-#: views/dolphinviewactionhandler.cpp:397
-#, kde-format
-msgctxt "@info:whatsthis"
-msgid ""
-"This opens a window in which all folder view properties can be adjusted."
-msgstr ""
-"This opens a window in which all folder view properties can be adjusted."
-
-#: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
-msgctxt "@action:inmenu"
-msgid "Restore to Defaults"
-msgstr "Zoom To Default"
-
-#: views/dolphinviewactionhandler.cpp:404
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
-msgctxt "info:tooltip"
-msgid "Restore View Settings to Default Values"
-msgstr "Zoom To Default"
-
-#: views/dolphinviewactionhandler.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
-msgctxt "@action:intoolbar"
-msgid "View Settings"
-msgstr "Settings"
-
-#: views/dolphinviewactionhandler.cpp:411
-#, kde-kuit-format
-msgctxt "@info:whatsthis View Settings Toolbutton"
-msgid ""
-"This cycles through all view modes. The dropdown menu contains various view-"
-"related actions."
-msgstr ""
-
-#: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Sort by Field"
-msgstr "Sort By"
-
-#: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
-msgctxt "@item:intable, Heading of a list of fields"
-msgid "Group by Field"
-msgstr "Sort By"
-
-#: views/dolphinviewactionhandler.cpp:449
+#: views/dolphinviewactionhandler.cpp:331
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -7148,103 +7032,219 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Show Filter Bar"
 
-#: views/dolphinviewactionhandler.cpp:781
+#: views/dolphinviewactionhandler.cpp:335
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show Additional Information"
+msgstr "Show Additional Information"
+
+#: views/dolphinviewactionhandler.cpp:344
+#, fuzzy, kde-format
+#| msgctxt "@option:check Additional Information"
+#| msgid "Group"
+msgctxt "@item:intable, Heading of a list of fields and grouping options"
+msgid "Grouping"
+msgstr "Group"
+
+#: views/dolphinviewactionhandler.cpp:348
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Group"
+msgctxt "@action:inmenu View"
+msgid "Group By"
+msgstr "Group"
+
+#: views/dolphinviewactionhandler.cpp:350
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This groups files and folders by a chosen attribute. \"None\" disables "
+"grouping. \"Same as Sort\" groups by the active sort criterion."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:361
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Grid spacing"
+#| msgid "None"
+msgctxt "@action:inmenu Group By"
+msgid "None"
+msgstr "None"
+
+#: views/dolphinviewactionhandler.cpp:368
+#, kde-format
+msgctxt "@action:inmenu Group By"
+msgid "Same as Sort"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:383
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show Hidden Files"
+msgstr "Show Hidden Files"
+
+#: views/dolphinviewactionhandler.cpp:385
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
+"are visible. They will be displayed semi-transparent.</para><para>Hidden "
+"items only differ from normal ones in that their name starts with a dot (\"."
+"\"). Typically, there is no need for users to access them, which is why they "
+"are hidden.</para><para>Items can also be hidden if their names are listed "
+"in a text file named \".hidden\". Files with the \"application/x-trash\" "
+"MIME type, such as backup files, can also be hidden by enabling that setting "
+"in Configure Dolphin > View > General.</para>"
+msgstr ""
+"<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
+"are visible. They will be displayed semi-transparent.</para><para>Hidden "
+"items only differ from normal ones in that their name starts with a dot (\"."
+"\"). Typically, there is no need for users to access them, which is why they "
+"are hidden.</para><para>Items can also be hidden if their names are listed "
+"in a text file named \".hidden\". Files with the \"application/x-trash\" "
+"MIME type, such as backup files, can also be hidden by enabling that setting "
+"in Configure Dolphin > View > General.</para>"
+
+#: views/dolphinviewactionhandler.cpp:399
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Adjust View Display Style…"
+msgstr "Adjust View Display Style…"
+
+#: views/dolphinviewactionhandler.cpp:402
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window in which all folder view properties can be adjusted."
+msgstr ""
+"This opens a window in which all folder view properties can be adjusted."
+
+#: views/dolphinviewactionhandler.cpp:408
+#, fuzzy, kde-format
+#| msgid "Zoom To Default"
+msgctxt "@action:inmenu"
+msgid "Restore to Defaults"
+msgstr "Zoom To Default"
+
+#: views/dolphinviewactionhandler.cpp:409
+#, fuzzy, kde-format
+#| msgid "Zoom To Default"
+msgctxt "info:tooltip"
+msgid "Restore View Settings to Default Values"
+msgstr "Zoom To Default"
+
+#: views/dolphinviewactionhandler.cpp:414
+#, fuzzy, kde-format
+#| msgctxt "name of kuserfeedback data source provided by dolphin"
+#| msgid "Settings"
+msgctxt "@action:intoolbar"
+msgid "View Settings"
+msgstr "Settings"
+
+#: views/dolphinviewactionhandler.cpp:416
+#, kde-kuit-format
+msgctxt "@info:whatsthis View Settings Toolbutton"
+msgid ""
+"This cycles through all view modes. The dropdown menu contains various view-"
+"related actions."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:782
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Icons"
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:783
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Icons view mode"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compact"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:794
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Compact view mode"
 
-#: views/dolphinviewactionhandler.cpp:803
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Details"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Details view mode"
 
-#: views/dolphinviewactionhandler.cpp:827
+#: views/dolphinviewactionhandler.cpp:828
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:830
+#: views/dolphinviewactionhandler.cpp:831
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Largest First"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:832
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Smallest First"
 
-#: views/dolphinviewactionhandler.cpp:833
+#: views/dolphinviewactionhandler.cpp:834
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Newest First"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:835
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Oldest First"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Highest First"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:838
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Lowest First"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Descending"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ascending"
 
-#: views/dolphinviewactionhandler.cpp:938
+#: views/dolphinviewactionhandler.cpp:939
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7257,12 +7257,12 @@ msgstr "Actions for Current View"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:948
 #, kde-format
 msgid "Actions for %1"
 msgstr "Actions for %1"
 
-#: views/dolphinviewactionhandler.cpp:954
+#: views/dolphinviewactionhandler.cpp:955
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -7291,6 +7291,20 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu View"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Sort by Field"
+#~ msgstr "Sort By"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu View"
+#~| msgid "Sort By"
+#~ msgctxt "@item:intable, Heading of a list of fields"
+#~ msgid "Group by Field"
+#~ msgstr "Sort By"
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr "Use tab for switching between right and left view"
@@ -8812,10 +8826,6 @@ msgstr "Zoom"
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Owner"
 #~ msgstr "Owner"
-
-#~ msgctxt "@option:check Additional Information"
-#~ msgid "Group"
-#~ msgstr "Group"
 
 #~ msgctxt "@option:check Additional Information"
 #~ msgid "Type"
