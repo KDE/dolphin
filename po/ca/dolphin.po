@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 10:02+0200\n"
+"PO-Revision-Date: 2026-09-22 09:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6876,12 +6876,10 @@ msgstr ""
 "versió a escala reduïda de les imatges."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Ordenació:"
+msgstr "Ordenació"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6914,12 +6912,10 @@ msgid "Show Additional Information"
 msgstr "Mostra la informació addicional"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Ordenació per grups"
+msgstr "Agrupament"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

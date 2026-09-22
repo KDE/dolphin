@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-13 08:57+0200\n"
+"PO-Revision-Date: 2026-09-21 09:12+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -3244,12 +3244,10 @@ msgid "File Manager"
 msgstr "Gestionnaire de fichiers"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006 - 2025, L'équipe de développement de Dolphin"
+msgstr "© 2006 - %1, L'équipe de développement de Dolphin"
 
 #: main.cpp:103
 #, kde-format

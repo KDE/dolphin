@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 13:20+0100\n"
+"PO-Revision-Date: 2026-09-22 12:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6880,12 +6880,10 @@ msgstr ""
 "serán versiones escaladas de las mismas."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Ordenación:"
+msgstr "Orden"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6918,12 +6916,10 @@ msgid "Show Additional Information"
 msgstr "Mostrar información adicional"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Ordenar por grupos"
+msgstr "Agrupación"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
@@ -7167,11 +7163,3 @@ msgstr "Ampliar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Ampliar"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Ordenar por campo"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Agrupar por campo"

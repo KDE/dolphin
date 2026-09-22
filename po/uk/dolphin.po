@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 14:37+0300\n"
+"PO-Revision-Date: 2026-09-22 16:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6945,12 +6945,10 @@ msgstr ""
 "зображень."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Впорядкування:"
+msgstr "Впорядкування"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6983,12 +6981,10 @@ msgid "Show Additional Information"
 msgstr "Показувати додаткову інформацію"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Впорядкування за групами"
+msgstr "Групування"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

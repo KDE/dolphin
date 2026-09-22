@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 15:10+0200\n"
+"PO-Revision-Date: 2026-09-22 07:14+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6877,12 +6877,10 @@ msgstr ""
 ">Na primer: ikone slik prikazujejo pomanjšane vsebine slik."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Razvrščanje:"
+msgstr "Razvrščanje"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6915,12 +6913,10 @@ msgid "Show Additional Information"
 msgstr "Prikaži dodatne informacije"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Razvrščanje po skupinah"
+msgstr "Grupiranje"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

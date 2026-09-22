@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 03:50+0200\n"
+"PO-Revision-Date: 2026-09-22 06:19+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6817,12 +6817,10 @@ msgstr ""
 "დაპატარავებული ვერსია იქნება."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "დახარისხება:"
+msgstr "დალაგება"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6855,12 +6853,10 @@ msgid "Show Additional Information"
 msgstr "დამატებითი ინფორმაციის ჩვენება"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "დაჯგუფებული დალაგება"
+msgstr "დაჯგუფება"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

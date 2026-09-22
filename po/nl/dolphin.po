@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 17:45+0200\n"
+"PO-Revision-Date: 2026-09-22 11:01+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6861,12 +6861,10 @@ msgstr ""
 "omlaag geschaalde versies van de afbeeldingen."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Sortering:"
+msgstr "Sorteren"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6899,12 +6897,10 @@ msgid "Show Additional Information"
 msgstr "Aanvullende informatie tonen"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@option:check Additional Information"
-#| msgid "Group"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Groep"
+msgstr "Groeperen"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-20 12:21+0200\n"
+"PO-Revision-Date: 2026-09-22 12:56+0200\n"
 "Last-Translator: Libor Filipek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -6837,12 +6837,10 @@ msgstr ""
 "verzemi těchto obrázků."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Třídění:"
+msgstr "Řazení"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6875,12 +6873,10 @@ msgid "Show Additional Information"
 msgstr "Zobrazit dodatečné informace"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Třídění podle skupin"
+msgstr "Seskupování"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
