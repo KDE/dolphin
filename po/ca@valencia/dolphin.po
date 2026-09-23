@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-12 10:33+0200\n"
+"PO-Revision-Date: 2026-09-22 09:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3183,12 +3183,10 @@ msgid "File Manager"
 msgstr "Gestor de fitxers"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 Els desenvolupadors de Dolphin"
+msgstr "© 2006–%1 Els desenvolupadors de Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -6873,12 +6871,10 @@ msgstr ""
 "a escala reduïda de les imatges."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Ordenació:"
+msgstr "Ordenació"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6911,12 +6907,10 @@ msgid "Show Additional Information"
 msgstr "Mostra la informació addicional"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Ordenació per grups"
+msgstr "Agrupament"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
@@ -7160,11 +7154,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Camp d'ordenació"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Camp d'agrupació"

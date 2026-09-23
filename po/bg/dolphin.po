@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-13 18:27+0200\n"
+"PO-Revision-Date: 2026-09-22 22:43+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -3175,12 +3175,10 @@ msgid "File Manager"
 msgstr "Файлов мениджър"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 Разработчиците на Dolphin"
+msgstr "© 2006–%1 Разработчиците на Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -6861,12 +6859,10 @@ msgstr ""
 "версии на изображенията."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Сортиране:"
+msgstr "Сортиране"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6899,12 +6895,10 @@ msgid "Show Additional Information"
 msgstr "Показване на допълнителна информация"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Категоризирано подреждане"
+msgstr "Групиране"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
@@ -7148,11 +7142,3 @@ msgstr "Мащабиране"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Мащабиране"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Сортиране по поле"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Групиране по поле"

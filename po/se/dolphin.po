@@ -6682,17 +6682,3 @@ msgstr ""
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr ""
-
-#, fuzzy
-#~| msgctxt "@label"
-#~| msgid "Sort files by"
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Sortere fiillaid dán bokte"
-
-#, fuzzy
-#~| msgctxt "@label"
-#~| msgid "Sort files by"
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Sortere fiillaid dán bokte"

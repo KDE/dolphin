@@ -7129,14 +7129,3 @@ msgstr "Forstørre/-minske"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørrelse"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Sorter på felt"
-
-#, fuzzy
-#~| msgctxt "@item:intable, Heading of a list of fields"
-#~| msgid "Sort by Field"
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Sorter på felt"

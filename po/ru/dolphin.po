@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-19 20:18+0300\n"
+"PO-Revision-Date: 2026-09-22 22:00+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -1466,11 +1466,10 @@ msgid "Close"
 msgstr "Закрыть панель"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2889
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Разделять окно на две части"
+msgstr "Разделение области просмотра: закрыть левую панель"
 
 #: dolphinmainwindow.cpp:2869 dolphinmainwindow.cpp:2890
 #, kde-format
@@ -1508,7 +1507,7 @@ msgstr "Закрыть панель"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Разделение области просмотра: закрыть правую панель"
 
 #: dolphinmainwindow.cpp:2878 dolphinmainwindow.cpp:2899
 #: dolphinmainwindow.cpp:2910
@@ -1545,12 +1544,10 @@ msgid "Split"
 msgstr "Две панели"
 
 #: dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "Разделить область просмотра на две панели"
+msgstr "Разделение области просмотра"
 
 #: dolphinmainwindow.cpp:2930
 #, kde-format
@@ -3275,12 +3272,10 @@ msgid "File Manager"
 msgstr "Диспетчер файлов"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© Разработчики Dolphin, 2006–2025"
+msgstr "© Разработчики Dolphin, 2006–%1"
 
 #: main.cpp:103
 #, kde-format
@@ -5170,20 +5165,16 @@ msgid "Deleting files or folders"
 msgstr "При полном удалении файлов и папок"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "При переименовании, изменяющем тип файла"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "При переименовании, изменяющем тип файла"
+msgstr "При переименовании, скрывающем файл или папку"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6999,12 +6990,10 @@ msgstr ""
 "значка будет показана уменьшенная копия этого изображения."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Сортировка:"
+msgstr "Сортировка"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -7037,12 +7026,10 @@ msgid "Show Additional Information"
 msgstr "Показывать дополнительные сведения"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@option:check Additional Information"
-#| msgid "Group"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Группа"
+msgstr "Группировка"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

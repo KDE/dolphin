@@ -7089,17 +7089,3 @@ msgstr "Forstørr"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørr"
-
-#, fuzzy
-#~| msgctxt "@action:inmenu View"
-#~| msgid "Sort By"
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "Sorter etter"
-
-#, fuzzy
-#~| msgctxt "@action:inmenu View"
-#~| msgid "Sort By"
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "Sorter etter"
