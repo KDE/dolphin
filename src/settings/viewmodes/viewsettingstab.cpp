@@ -130,6 +130,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         m_columnWidthBox->addItem(i18nc("@item:inlistbox Column width", "Fixed"));
         m_columnWidthBox->addItem(i18nc("@item:inlistbox Column width", "Adjust to content"));
         topLayout->addRow(i18nc("@label:listbox", "Column width:"), m_columnWidthBox);
+
+        m_alternateBackground = new QCheckBox(i18nc("@option:check", "Alternate background color"));
+        topLayout->addRow(i18nc("@label:listbox", "Items background:"), m_alternateBackground);
         break;
     }
     }
@@ -155,6 +158,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         break;
     case ColumnsViewMode:
         connect(m_columnWidthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
+        connect(m_alternateBackground, &QCheckBox::checkStateChanged, this, &ViewSettingsPage::changed);
         break;
     }
 }
@@ -218,6 +222,7 @@ void ViewSettingsTab::applySettings()
     }
     case ColumnsViewMode:
         ColumnsModeSettings::setDynamicColumnWidth(m_columnWidthBox->currentIndex() == 1);
+        ColumnsModeSettings::setAlternateBackground(m_alternateBackground->isChecked());
         ColumnsModeSettings::self()->save();
         break;
     }
@@ -262,6 +267,7 @@ void ViewSettingsTab::loadSettings()
         break;
     case ColumnsViewMode:
         m_columnWidthBox->setCurrentIndex(ColumnsModeSettings::dynamicColumnWidth() ? 1 : 0);
+        m_alternateBackground->setChecked(ColumnsModeSettings::alternateBackground());
         break;
     }
 

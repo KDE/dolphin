@@ -54,6 +54,7 @@ public:
     DolphinItemListView *itemListView() const;
 
     void setPreviewsShown(bool show);
+    void setAlternateBackgrounds(bool alternating);
 
     int calculateOptimalWidth() const;
 

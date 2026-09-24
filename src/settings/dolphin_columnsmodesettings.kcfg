@@ -36,5 +36,9 @@
             <label>Adjust column width to its content</label>
             <default>true</default>
         </entry>
+        <entry name="AlternateBackground" type="Bool">
+            <label>Alternate background color</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>
