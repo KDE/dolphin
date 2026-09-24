@@ -42,6 +42,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_view->setAlternateBackgrounds(false);
     m_view->setEnabledSelectionToggles(DolphinItemListView::False);
     m_view->setHighlightEntireRow(true);
+    m_view->setAlternateBackgrounds(ColumnsModeSettings::self()->alternateBackground());
 
     // The full-row selection highlight is drawn styleOption().padding wider than
     // the row on each side. Give the list matching side padding so the highlight
@@ -132,6 +133,11 @@ DolphinItemListView *DolphinColumnPane::itemListView() const
 void DolphinColumnPane::setPreviewsShown(bool show)
 {
     m_view->setPreviewsShown(show);
+}
+
+void DolphinColumnPane::setAlternateBackgrounds(bool alternating)
+{
+    m_view->setAlternateBackgrounds(alternating);
 }
 
 int DolphinColumnPane::calculateOptimalWidth() const
@@ -230,4 +236,5 @@ void DolphinColumnPane::reloadSettings()
     // need to reset this as we use Details View in the internal pane view
     // and readSettings will apply the expanding setting to it
     view->setSupportsItemExpanding(false);
+    view->setAlternateBackgrounds(ColumnsModeSettings::self()->alternateBackground());
 }

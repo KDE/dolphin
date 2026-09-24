@@ -61,6 +61,7 @@ private:
     QRadioButton *m_iconAndNameOnly;
     QCheckBox *m_expandableFolders;
     QLabel *m_fontWarningLabel;
+    QCheckBox *m_alternateBackground;
 };
 
 #endif
