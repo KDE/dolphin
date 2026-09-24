@@ -692,9 +692,14 @@ QFont KStandardItemListWidget::customizedFont(const QFont &baseFont) const
     return baseFont;
 }
 
+bool KStandardItemListWidget::usesTranslucentSelection() const
+{
+    return style()->name() == QStringLiteral("breeze");
+}
+
 QPalette::ColorRole KStandardItemListWidget::normalTextColorRole() const
 {
-    if (isPressed()) {
+    if (isPressed() || (isSelected() && !usesTranslucentSelection())) {
         return QPalette::HighlightedText;
     } else {
         return QPalette::Text;

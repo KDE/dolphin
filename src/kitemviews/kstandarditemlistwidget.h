@@ -232,6 +232,14 @@ private:
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
+    /**
+     * @return True if the selection background is drawn as a translucent tint
+     *         over the base color, in which case the normal text color remains
+     *         legible on a selected item. False if the style paints an opaque
+     *         highlight, which requires HighlightedText instead.
+     */
+    bool usesTranslucentSelection() const;
+
     QString elideText(QString text, qreal elidingWidth) const;
 
     /**
