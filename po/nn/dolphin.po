@@ -1,6 +1,6 @@
 # Translation of dolphin to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2026.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2011.
 # Øystein Steffensen-Alværvik <oysteins.omsetting@protonmail.com>, 2021, 2022.
 msgid ""
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2024-07-13 22:07+0200\n"
+"PO-Revision-Date: 2026-09-22 22:41+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 26.08.1\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -929,7 +929,7 @@ msgid "Open Terminal Here"
 msgstr "Opna terminal her"
 
 #: dolphinmainwindow.cpp:2210
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -1041,7 +1041,7 @@ msgstr "Opna i delt vising"
 #: dolphinmainwindow.cpp:2321
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "Fargetema for &vindauge"
 
 #: dolphinmainwindow.cpp:2334
 #, kde-format
@@ -1902,10 +1902,10 @@ msgid "Detach Tab"
 msgstr "Kopla frå fane"
 
 #: dolphintabbar.cpp:186
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Endra namn på %2"
+msgstr "Endra namn på fane"
 
 #: dolphintabbar.cpp:188
 #, kde-format
@@ -1917,15 +1917,13 @@ msgstr "Lukk andre faner"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "Lukk faner til venstre"
 
 #: dolphintabbar.cpp:191
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "Lukk høgre rute"
+msgstr "Lukk faner til høgre"
 
 #: dolphintabbar.cpp:193
 #, kde-format
@@ -1934,15 +1932,15 @@ msgid "Close Tab"
 msgstr "Lukk fane"
 
 #: dolphintabbar.cpp:221
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Endra namn på %2"
+msgstr "Endra namn på fane"
 
 #: dolphintabbar.cpp:221
 #, kde-format
 msgid "New tab name:"
-msgstr ""
+msgstr "Nytt fanenamn:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2563,23 +2561,26 @@ msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Mapper"
 
+# Overskrift når ein sorterer etter filstorleik. Vert overskrift for gruppa med «små filer» (liten filstorleik), så «Små» passar betre enn «Liten».
 #: kitemviews/kfileitemmodel.cpp:2745
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
-msgstr "Liten"
+msgstr "Små"
 
+# Overskrift når ein sorterer etter filstorleik. Vert overskrift for gruppa med «middels store filer» (middels stor filstorleik). (Det er stor nok plass til såpass lang overskrift.)
 #: kitemviews/kfileitemmodel.cpp:2747
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
-msgstr "Middels"
+msgstr "Middels store"
 
+# Overskrift når ein sorterer etter filstorleik. Vert overskrift for gruppa med «store filer» (stor filstorleik), så me må ha fleirtalsforma.
 #: kitemviews/kfileitemmodel.cpp:2749
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
-msgstr "Stor"
+msgstr "Store"
 
 #: kitemviews/kfileitemmodel.cpp:2795
 #, kde-format
@@ -4946,12 +4947,10 @@ msgid "Warning"
 msgstr "Åtvaring"
 
 #: settings/interface/confirmationssettingspage.cpp:50
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Ask for confirmation in all KDE applications when:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in KDE applications when:"
-msgstr "Spør om stadfesting i alle KDE-program ved:"
+msgstr "Spør om stadfesting i KDE-program ved:"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -6785,7 +6784,7 @@ msgstr "Vis meir informasjon"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr ""
+msgstr "Grupper etter"
 
 #: views/dolphinviewactionhandler.cpp:345
 #, kde-format
@@ -6794,18 +6793,21 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"Grupperer filene og mappene etter vald eigenskap. Vel «Ingenting» for å slå "
+"av gruppering eller «Sorteringseigenskapen» for å gruppera etter det same "
+"som det vert sortert etter."
 
 #: views/dolphinviewactionhandler.cpp:356
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
-msgstr ""
+msgstr "Ingenting"
 
 #: views/dolphinviewactionhandler.cpp:363
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "Sorteringseigenskapen"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
@@ -6876,28 +6878,22 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "Sorter etter"
+msgstr "Sorter etter felt"
 
 #: views/dolphinviewactionhandler.cpp:446
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Group by Field"
-msgstr "Sorter etter"
+msgstr "Grupper etter felt"
 
 #: views/dolphinviewactionhandler.cpp:449
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
-msgstr "Vis filterlinje"
+msgstr "Vis felt"
 
 #: views/dolphinviewactionhandler.cpp:781
 #, kde-format
