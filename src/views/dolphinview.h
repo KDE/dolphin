@@ -396,6 +396,10 @@ public:
      */
     virtual bool handleSpaceAsNormalKey() const;
 
+    /// Whether a change of url takes the view away from what the user was working on. Leaving
+    /// selection mode follows from that.
+    virtual bool urlChangeLeavesTheSelectionBehind() const;
+
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
