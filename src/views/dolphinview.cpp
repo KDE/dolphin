@@ -2519,10 +2519,11 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 
     Mode mode = props.viewMode();
     if (!canDisplayMode(mode)) {
-        // A folder stored a mode this view cannot draw, e.g. the columns mode reached
-        // through DolphinPart. Keeping it would leave the reported mode and the shown
-        // layout disagreeing.
-        mode = IconsView;
+        // The folder stored a mode this view cannot draw, e.g. the columns mode reached through
+        // DolphinPart, or any other mode once the container has built the columns view. Which
+        // view is in use is the container's decision, so keep drawing what this one is for.
+        // Adopting the stored mode would leave the reported mode and the drawn layout disagreeing.
+        mode = m_canDisplayColumns ? ColumnsView : IconsView;
     }
     if (m_mode != mode) {
         const Mode previousMode = m_mode;
@@ -2678,7 +2679,9 @@ void DolphinView::applyModeToView()
 
 bool DolphinView::canDisplayMode(Mode mode) const
 {
-    return mode != ColumnsView || m_canDisplayColumns;
+    // The columns view draws the columns mode and nothing else. Every other view draws every
+    // other mode.
+    return m_canDisplayColumns ? mode == ColumnsView : mode != ColumnsView;
 }
 
 void DolphinView::applyDynamicView()
