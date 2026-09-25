@@ -29,8 +29,9 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
+DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode, std::function<QUrl(const QUrl &)> rootUrlResolver)
     : DolphinView(url, parent, initialMode, true)
+    , m_rootUrlResolver(std::move(rootUrlResolver))
 {
     initColumnsUi();
 
@@ -546,11 +547,26 @@ bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
     return true;
 }
 
+QUrl DolphinColumnsView::rootUrlFor(const QUrl &url) const
+{
+    if (!m_rootUrlResolver) {
+        return url;
+    }
+    const QUrl root = m_rootUrlResolver(url);
+    // A root that is not above the url would leave the columns showing something else entirely.
+    if (!root.isValid() || !(root.matches(url, QUrl::StripTrailingSlash) || root.isParentOf(url))) {
+        return url;
+    }
+    return root;
+}
+
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 {
     popAfter(-1);
 
-    DolphinColumnPane *pane = createPane(url);
+    const QUrl root = rootUrlFor(url);
+
+    DolphinColumnPane *pane = createPane(root);
     m_columns.append(pane);
 
     // Insert before the filler (filler is always last)
@@ -559,6 +575,10 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
     recalculateColumnWidths();
     setActiveColumn(0);
+
+    if (root.adjusted(QUrl::StripTrailingSlash) != url.adjusted(QUrl::StripTrailingSlash)) {
+        showUrlInOpenColumns(url);
+    }
 }
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
