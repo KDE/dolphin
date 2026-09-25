@@ -421,6 +421,13 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 {
     auto *pane = qobject_cast<DolphinColumnPane *>(sender());
 
+    if (pane) {
+        // Marking the child is not the user picking an item, so it must not drive navigation:
+        // the handlers that follow a selection would drop every column to the right of this one.
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        pane->reapplyActiveChildMark();
+    }
+
     // If this pane was flagged for auto-selection (Right arrow opened a
     // new child column whose model was still loading), select the first
     // item and open its child/preview now that items are available.

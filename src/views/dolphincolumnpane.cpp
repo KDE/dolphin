@@ -90,9 +90,14 @@ QUrl DolphinColumnPane::dirUrl() const
 void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
 {
     if (childUrl.isEmpty()) {
+        m_activeChildUrl.clear();
         clearActiveChild();
         return;
     }
+
+    // Kept, because a column built for a url that is already several folders deep is asked for
+    // its child before it has listed, and the item to mark does not exist yet.
+    m_activeChildUrl = childUrl;
 
     const KFileItem item = m_model->fileItem(childUrl);
     if (!item.isNull()) {
@@ -102,6 +107,13 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
             m_controller->selectionManager()->setCurrentItem(index);
             m_controller->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Select);
         }
+    }
+}
+
+void DolphinColumnPane::reapplyActiveChildMark()
+{
+    if (!m_activeChildUrl.isEmpty()) {
+        setActiveChildUrl(m_activeChildUrl);
     }
 }
 

@@ -46,6 +46,9 @@ public:
      * (i.e. mark the sub-folder that the next column represents).
      */
     void setActiveChildUrl(const QUrl &childUrl);
+    /// Puts the mark back on the child once the folder has listed, for when it had not when the
+    /// pane was told which child to mark.
+    void reapplyActiveChildMark();
     void clearActiveChild();
 
     KFileItemModel *model() const;
@@ -82,6 +85,8 @@ private:
     KItemListController *m_controller = nullptr;
     KItemListContainer *m_container = nullptr;
     VersionControlObserver *m_versionControlObserver = nullptr;
+    /// The child to mark once the directory has listed, for when it has not when asked.
+    QUrl m_activeChildUrl;
 };
 
 #endif // DOLPHINCOLUMNPANE_H
