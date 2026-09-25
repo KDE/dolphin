@@ -175,6 +175,17 @@ void DolphinColumnsView::setStatusBarOffset(int offset)
     }
 }
 
+bool DolphinColumnsView::handleSpaceAsNormalKey() const
+{
+    // The base view asks its own container, which never holds the focus here: every column has a
+    // container of its own. Without this Space always reached the view as a normal key and never
+    // reached the shortcut that turns selection mode on.
+    if (auto *pane = activePane()) {
+        return !pane->container()->hasFocus() || pane->controller()->isSearchAsYouTypeActive();
+    }
+    return DolphinView::handleSpaceAsNormalKey();
+}
+
 void DolphinColumnsView::reload()
 {
     // Refresh each column where it is. Rebuilding would drop every column but one and
@@ -245,17 +256,6 @@ void DolphinColumnsView::paste()
     if (auto *pane = activePane()) {
         pasteToUrl(pane->dirUrl());
     }
-}
-
-bool DolphinColumnsView::handleSpaceAsNormalKey() const
-{
-    // The base view asks its own container, which never holds the focus here: every column has a
-    // container of its own. Without this Space always reached the view as a normal key and never
-    // reached the shortcut that turns selection mode on.
-    if (auto *pane = activePane()) {
-        return !pane->container()->hasFocus() || pane->controller()->isSearchAsYouTypeActive();
-    }
-    return DolphinView::handleSpaceAsNormalKey();
 }
 
 KItemListSelectionManager *DolphinColumnsView::activeSelectionManager() const
