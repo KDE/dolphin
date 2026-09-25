@@ -527,9 +527,13 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
     }
 
     if (!m_selectionModeTopBar) {
-        // Changing the location will disable selection mode.
+        // Changing the location will disable selection mode, unless the view stays on what the
+        // user was working on, the way the columns view does when another of its columns is
+        // activated.
         connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged, this, [this]() {
-            setSelectionModeEnabled(false);
+            if (m_view->urlChangeLeavesTheSelectionBehind()) {
+                setSelectionModeEnabled(false);
+            }
         });
 
         m_selectionModeTopBar = new SelectionMode::TopBar(this); // will be created hidden

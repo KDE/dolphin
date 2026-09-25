@@ -56,6 +56,9 @@ public:
     void setStatusBarOffset(int offset) override;
     /// Answers for the column that holds the focus, which the base container never does.
     bool handleSpaceAsNormalKey() const override;
+    /// Moving to another column stays on what the user was working on, so the selection mode
+    /// they turned on stays with them.
+    bool urlChangeLeavesTheSelectionBehind() const override;
 
     // --- Columns-specific API ---
     int columnCount() const;
@@ -141,6 +144,7 @@ private:
 
     int m_statusBarOffset = 0;
 
+    bool m_switchingColumns = false;
     QString m_nameFilter;
     KFileItemModelFilter::FilterMode m_filterMode;
     bool m_filterCaseSensitive = false;
