@@ -109,6 +109,7 @@ private Q_SLOTS:
     void testFilterModeAppliesToEveryColumn();
     void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
     void testFilteringOutAFolderClosesItsColumn();
+    void testOpeningAFolderDoesNotOpenAFurtherColumn();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1216,6 +1217,25 @@ void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
     QCOMPARE(m_view->columnAt(0)->model()->count(), 1);
+}
+
+void DolphinColumnsViewTest::testOpeningAFolderDoesNotOpenAFurtherColumn()
+{
+    // alpha holds alpha-child, which is a folder. Opening alpha selects alpha-child in the new
+    // column, and must stop there. Opening it as well puts a column on screen that nobody asked
+    // for, and browsing then adds and drops one at every step.
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    navigateRight();
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    // Entering a column selects its first item, and that is what used to open the column after
+    // it. Once the selection is on alpha-child, that code has had its turn.
+    auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
+    QTRY_VERIFY_WITH_TIMEOUT(selectionManager->selectedItems().count() == 1, 5000);
+    QCOMPARE(m_view->columnAt(1)->model()->fileItem(selectionManager->currentItem()).name(), QStringLiteral("alpha-child"));
+
+    QCOMPARE(m_view->columnCount(), 2);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
