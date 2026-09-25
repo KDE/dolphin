@@ -175,6 +175,11 @@ void DolphinColumnsView::setStatusBarOffset(int offset)
     }
 }
 
+bool DolphinColumnsView::urlChangeLeavesTheSelectionBehind() const
+{
+    return !m_switchingColumns;
+}
+
 bool DolphinColumnsView::handleSpaceAsNormalKey() const
 {
     // The base view asks its own container, which never holds the focus here: every column has a
@@ -325,7 +330,10 @@ void DolphinColumnsView::setActiveColumn(int index)
     ensureActiveColumnVisible();
 
     updateUrl(newPane->dirUrl());
-    Q_EMIT urlChanged(newPane->dirUrl());
+    {
+        QScopedValueRollback<bool> switching(m_switchingColumns, true);
+        Q_EMIT urlChanged(newPane->dirUrl());
+    }
 
     // Track the writable state of the newly active pane's folder so the
     // write-dependent actions (Create New, paste, ...) reflect it.
