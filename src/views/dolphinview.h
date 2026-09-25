@@ -394,7 +394,7 @@ public:
      *
      * See BUG 465489
      */
-    bool handleSpaceAsNormalKey() const;
+    virtual bool handleSpaceAsNormalKey() const;
 
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
