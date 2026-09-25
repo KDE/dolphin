@@ -115,6 +115,7 @@ private Q_SLOTS:
     void testOpeningAFolderDoesNotOpenAFurtherColumn();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
+    void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1328,6 +1329,34 @@ void DolphinColumnsViewTest::testTheDetailsSettingsDoNotReachTheColumns()
     // A column is one row wide, and it never expands a folder in place.
     QCOMPARE(paneView->highlightEntireRow(), true);
     QCOMPARE(paneView->supportsItemExpanding(), false);
+}
+
+void DolphinColumnsViewTest::testActivatingAnotherColumnKeepsWhatTheUserWasDoing()
+{
+    // DolphinViewContainer leaves selection mode when the url changes, because what the user had
+    // selected is gone. Activating another column changes the url too, and closing selection mode
+    // then took it away from under them. The view answers for the url change it is emitting.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+
+    bool leavesBehindOnColumnSwitch = true;
+    auto columnSwitch = connect(m_view, &DolphinView::urlChanged, this, [this, &leavesBehindOnColumnSwitch]() {
+        leavesBehindOnColumnSwitch = m_view->urlChangeLeavesTheSelectionBehind();
+    });
+    m_view->setActiveColumn(0);
+    disconnect(columnSwitch);
+    QCOMPARE(leavesBehindOnColumnSwitch, false);
+
+    // A url that none of the columns shows is somewhere else, and there selection mode goes.
+    TestDir otherDir;
+    bool leavesBehindOnNavigation = false;
+    auto navigation = connect(m_view, &DolphinView::urlChanged, this, [this, &leavesBehindOnNavigation]() {
+        leavesBehindOnNavigation = m_view->urlChangeLeavesTheSelectionBehind();
+    });
+    m_view->setUrl(otherDir.url());
+    disconnect(navigation);
+    QCOMPARE(leavesBehindOnNavigation, true);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
