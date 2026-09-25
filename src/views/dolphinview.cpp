@@ -2152,6 +2152,11 @@ void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
     }
 }
 
+bool DolphinView::urlChangeLeavesTheSelectionBehind() const
+{
+    return true;
+}
+
 bool DolphinView::handleSpaceAsNormalKey() const
 {
     return !m_container->hasFocus() || m_container->controller()->isSearchAsYouTypeActive();
