@@ -110,6 +110,7 @@ private Q_SLOTS:
     void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
     void testFilteringOutAFolderClosesItsColumn();
     void testOpeningAFolderDoesNotOpenAFurtherColumn();
+    void testEveryFolderOnThePathIsMarkedInItsParent();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1236,6 +1237,28 @@ void DolphinColumnsViewTest::testOpeningAFolderDoesNotOpenAFurtherColumn()
     QCOMPARE(m_view->columnAt(1)->model()->fileItem(selectionManager->currentItem()).name(), QStringLiteral("alpha-child"));
 
     QCOMPARE(m_view->columnCount(), 2);
+}
+
+void DolphinColumnsViewTest::testEveryFolderOnThePathIsMarkedInItsParent()
+{
+    // Restoring a session opens the columns for a url that is already several folders deep, so
+    // each of them is asked to mark its child before it has listed and the item does not exist
+    // yet. The mark has to be put on once the listing arrives.
+    m_view->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child")));
+    waitForStableState();
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    auto markedNameIn = [this](int column) {
+        auto *selectionManager = m_view->columnAt(column)->controller()->selectionManager();
+        const int current = selectionManager->currentItem();
+        if (current < 0 || !selectionManager->isSelected(current)) {
+            return QString();
+        }
+        return m_view->columnAt(column)->model()->fileItem(current).name();
+    };
+
+    QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(0), QStringLiteral("alpha"), 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(1), QStringLiteral("alpha-child"), 5000);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
