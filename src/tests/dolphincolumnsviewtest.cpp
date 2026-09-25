@@ -111,6 +111,7 @@ private Q_SLOTS:
     void testFilteringOutAFolderClosesItsColumn();
     void testOpeningAFolderDoesNotOpenAFurtherColumn();
     void testEveryFolderOnThePathIsMarkedInItsParent();
+    void testSpaceIsAShortcutWhenAColumnHasTheFocus();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1259,6 +1260,18 @@ void DolphinColumnsViewTest::testEveryFolderOnThePathIsMarkedInItsParent()
 
     QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(0), QStringLiteral("alpha"), 5000);
     QTRY_COMPARE_WITH_TIMEOUT(markedNameIn(1), QStringLiteral("alpha-child"), 5000);
+}
+
+void DolphinColumnsViewTest::testSpaceIsAShortcutWhenAColumnHasTheFocus()
+{
+    // DolphinMainWindow asks this before letting Space through as a shortcut, and the answer has
+    // to be about the column that holds the focus. The base view asks its own container, which
+    // no column ever is, so Space always arrived as a normal key and selection mode never came on.
+    activateColumn(0);
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+
+    QCOMPARE(m_view->handleSpaceAsNormalKey(), false);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
