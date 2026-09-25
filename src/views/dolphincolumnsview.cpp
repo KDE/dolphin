@@ -1068,23 +1068,16 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
     }
 
-    // Trigger navigation for the selected item directly, since
-    // m_blockNavigation suppressed signal-driven navigation above.
+    // The item is only selected, never opened. Opening it here would put a column on screen that
+    // the user did not ask for, and browsing would then add and drop one at every step.
     const int current = selectionManager->currentItem();
     if (current < 0 || current >= pane->model()->count()) {
         return;
     }
 
     const KFileItem item = pane->model()->fileItem(current);
-    if (item.isNull()) {
-        return;
-    }
-
-    Q_EMIT requestItemInfo(item);
-
-    const QUrl folderUrl = folderUrlForItem(item);
-    if (!folderUrl.isEmpty()) {
-        openChild(columnIndex, folderUrl);
+    if (!item.isNull()) {
+        Q_EMIT requestItemInfo(item);
     }
 }
 
