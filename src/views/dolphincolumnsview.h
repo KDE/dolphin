@@ -11,6 +11,7 @@
 #include "dolphin_export.h"
 #include "dolphinview.h"
 
+#include <functional>
 #include <optional>
 #include <utility>
 
@@ -34,7 +35,13 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
     friend class DolphinColumnsViewTest;
 
 public:
-    explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
+    /// @p rootUrlResolver names the folder the columns start at for a url reached from outside
+    /// the open ones, so that the folders above it stay reachable by scrolling left. Only the
+    /// application knows the places, so it hands this in. Without one they start at the url.
+    explicit DolphinColumnsView(const QUrl &url,
+                                QWidget *parent,
+                                std::optional<Mode> initialMode = std::nullopt,
+                                std::function<QUrl(const QUrl &)> rootUrlResolver = {});
     ~DolphinColumnsView() override;
 
     // --- DolphinView overrides ---
@@ -64,6 +71,7 @@ public:
     int columnCount() const;
     DolphinColumnPane *columnAt(int index) const;
     int activeColumnIndex() const;
+
     void setActiveColumn(int index);
 
 public Q_SLOTS:
@@ -88,6 +96,8 @@ private Q_SLOTS:
 private:
     void initColumnsUi();
     void rebuildColumnsForUrl(const QUrl &url);
+    /// The folder the columns start at, from the resolver. Without one they start at the url.
+    QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
     DolphinColumnPane *createPane(const QUrl &dirUrl);
@@ -146,6 +156,7 @@ private:
 
     bool m_switchingColumns = false;
     QString m_nameFilter;
+    std::function<QUrl(const QUrl &)> m_rootUrlResolver;
     KFileItemModelFilter::FilterMode m_filterMode;
     bool m_filterCaseSensitive = false;
 

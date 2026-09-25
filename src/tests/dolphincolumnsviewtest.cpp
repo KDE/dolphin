@@ -117,6 +117,7 @@ private Q_SLOTS:
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testClosingColumnsLeavesTheScrollPositionAlone();
+    void testTheColumnsStartAtTheRootTheResolverNames();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1420,6 +1421,29 @@ void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
     QVERIFY2(
         m_view->m_splitter->minimumWidth() >= neededWidth,
         qPrintable(QStringLiteral("splitter keeps %1, which is below the %2 the position needs").arg(m_view->m_splitter->minimumWidth()).arg(neededWidth)));
+}
+
+void DolphinColumnsViewTest::testTheColumnsStartAtTheRootTheResolverNames()
+{
+    // Restoring a session opens a url that is several folders deep. Without a root to start from
+    // that folder was the only column and everything above it was gone, so there was nothing to
+    // scroll left to.
+    const QUrl deepUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child"));
+    const QUrl rootUrl = m_testDir->url();
+
+    DolphinColumnsView view(deepUrl, nullptr, DolphinView::ColumnsView, [rootUrl](const QUrl &) {
+        return rootUrl;
+    });
+    view.resize(1200, 600);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+
+    QTRY_COMPARE_WITH_TIMEOUT(view.columnCount(), 3, 5000);
+    QCOMPARE(view.columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), rootUrl.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(view.columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
+    QCOMPARE(view.columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
+    // The folder that was asked for is the one the user lands on.
+    QCOMPARE(view.url().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
