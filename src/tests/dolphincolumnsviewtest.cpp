@@ -116,6 +116,7 @@ private Q_SLOTS:
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
+    void testClosingColumnsLeavesTheScrollPositionAlone();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1357,6 +1358,68 @@ void DolphinColumnsViewTest::testActivatingAnotherColumnKeepsWhatTheUserWasDoing
     m_view->setUrl(otherDir.url());
     disconnect(navigation);
     QCOMPARE(leavesBehindOnNavigation, true);
+}
+
+void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
+{
+    // Clicking a file closes the columns that stood for a folder, and the content is then
+    // narrower than where the view is scrolled to. Pulling the scroll position back slides
+    // everything sideways under the user, so the filler takes up what the position needs.
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    // A name far wider than the window, so the columns do not fit and the view has somewhere to
+    // scroll to.
+    m_testDir->createFile(QStringLiteral("alpha/alpha-child/") + QString(200, QLatin1Char('w')) + QStringLiteral(".txt"));
+    m_testDir->createDir(QStringLiteral("alpha/alpha-child2"));
+
+    m_view->resize(350, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1, 5000);
+    navigateRight();
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 2, 5000);
+    navigateRight();
+
+    auto *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->maximum() > 0, 5000);
+
+    // Put alpha at the left edge: the user is looking at it, which is why they can click in it.
+    auto *viewport = m_view->m_scrollArea->viewport();
+    scrollBar->setValue(scrollBar->value() + m_view->columnAt(1)->mapTo(viewport, QPoint(0, 0)).x());
+    QVERIFY(scrollBar->value() > 0);
+    const int scrollBefore = scrollBar->value();
+
+    // A file in alpha, the column the user is looking at, closes the one to its right.
+    auto *pane = m_view->columnAt(1);
+    int fileIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("file1.txt")) {
+            fileIndex = i;
+            break;
+        }
+    }
+    QVERIFY(fileIndex >= 0);
+    m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    QCOMPARE(scrollBar->value(), scrollBefore);
+    // The filler holds the width open, so the position is not merely set back and then clamped
+    // away once the layout settles.
+    const int neededWidth = scrollBefore + viewport->width();
+    QVERIFY2(
+        m_view->m_splitter->minimumWidth() >= neededWidth,
+        qPrintable(QStringLiteral("splitter keeps %1, which is below the %2 the position needs").arg(m_view->m_splitter->minimumWidth()).arg(neededWidth)));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()

@@ -1165,14 +1165,23 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     const int numColumns = m_columns.size();
     const int handleWidth = m_splitter->handleWidth();
 
-    columnSizes.append(0); // filler
-    m_splitter->setSizes(columnSizes);
-
     int totalWidth = 0;
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += columnSizes.at(i);
     }
     totalWidth += (numColumns - 1) * handleWidth;
+
+    // Closing a column leaves the content narrower than where the view is scrolled to, and the
+    // scroll position is then pulled back, sliding everything sideways under the user. The filler
+    // takes up exactly what the current position needs, so nothing moves. It shrinks again on its
+    // own as the user scrolls back towards the left.
+    const int viewportWidthForFiller = m_scrollArea ? m_scrollArea->viewport()->width() : width();
+    const int scrollValue = m_scrollArea ? m_scrollArea->horizontalScrollBar()->value() : 0;
+    const int filler = qMax(0, scrollValue + viewportWidthForFiller - totalWidth);
+    totalWidth += filler;
+
+    columnSizes.append(filler);
+    m_splitter->setSizes(columnSizes);
 
     // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
     // width under fractional scaling does not flip the scrollbar on and off
