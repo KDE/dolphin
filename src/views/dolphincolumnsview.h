@@ -54,6 +54,8 @@ public:
     int horizontalScrollBarHeight() const override;
     /// Each column has to leave room for the small status bar, not the hidden base view.
     void setStatusBarOffset(int offset) override;
+    /// Answers for the column that holds the focus, which the base container never does.
+    bool handleSpaceAsNormalKey() const override;
 
     // --- Columns-specific API ---
     int columnCount() const;
