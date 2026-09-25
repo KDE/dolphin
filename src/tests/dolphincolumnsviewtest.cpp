@@ -16,6 +16,7 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
+#include "views/dolphinitemlistview.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
 
@@ -115,6 +116,7 @@ private Q_SLOTS:
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testReadingSettingsKeepsTheColumnsMode();
+    void testTheDetailsSettingsDoNotReachTheColumns();
 
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
@@ -1301,6 +1303,31 @@ void DolphinColumnsViewTest::testReadingSettingsKeepsTheColumnsMode()
 
     QCOMPARE(m_view->viewMode(), DolphinView::ColumnsView);
     QVERIFY(m_view->columnCount() >= 1);
+}
+
+void DolphinColumnsViewTest::testTheDetailsSettingsDoNotReachTheColumns()
+{
+    // Each column draws with the details layout, and DolphinItemListView::readSettings() reads
+    // the settings that go with the layout it finds. The details view's own settings would then
+    // decide how a column looks, so a change made for the details view showed up here.
+    const bool savedHighlight = DetailsModeSettings::highlightEntireRow();
+    const bool savedExpandable = DetailsModeSettings::expandableFolders();
+    auto restore = qScopeGuard([savedHighlight, savedExpandable]() {
+        DetailsModeSettings::setHighlightEntireRow(savedHighlight);
+        DetailsModeSettings::setExpandableFolders(savedExpandable);
+        DetailsModeSettings::self()->save();
+    });
+    DetailsModeSettings::setHighlightEntireRow(false);
+    DetailsModeSettings::setExpandableFolders(true);
+    QVERIFY(DetailsModeSettings::self()->save());
+
+    m_view->readSettings();
+
+    auto *paneView = m_view->columnAt(0)->itemListView();
+    QVERIFY(paneView);
+    // A column is one row wide, and it never expands a folder in place.
+    QCOMPARE(paneView->highlightEntireRow(), true);
+    QCOMPARE(paneView->supportsItemExpanding(), false);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()

@@ -245,8 +245,10 @@ void DolphinColumnPane::reloadSettings()
 {
     auto view = itemListView();
     view->readSettings();
-    // need to reset this as we use Details View in the internal pane view
-    // and readSettings will apply the expanding setting to it
+    // readSettings() derives both of these from the item layout, which is the details one here,
+    // so they come back carrying the details view's settings. A column never expands a folder,
+    // and its rows are as wide as the column.
     view->setSupportsItemExpanding(false);
+    view->setHighlightEntireRow(true);
     view->setAlternateBackgrounds(ColumnsModeSettings::self()->alternateBackground());
 }
