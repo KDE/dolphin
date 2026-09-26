@@ -119,6 +119,7 @@ private Q_SLOTS:
     void testClosingColumnsLeavesTheScrollPositionAlone();
     void testTheColumnsStartAtTheRootTheResolverNames();
     void testAColumnWithNoWidthYetTakesUpNothing();
+    void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1482,6 +1483,55 @@ void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
     m_view->recalculateColumnWidths();
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
     QVERIFY(m_view->m_splitter->handle(1)->isVisible());
+}
+
+void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
+{
+    // The width the splitter is held at has to cover every column, the filler and every handle
+    // that is drawn. One pixel short and the splitter takes that pixel out of one of the columns,
+    // which moves every column after it as the new one opens.
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(200);
+
+    m_testDir->createDir("alpha/alpha-child/deep");
+    m_testDir->createFile("alpha/alpha-child/deep/deep-file.txt");
+
+    // Narrow enough that the columns overflow it, so the filler is gone and every pixel of the
+    // splitter is spoken for.
+    m_view->resize(420, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->openChild(0, QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    m_view->openChild(1, QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().constLast(), 0, 5000);
+
+    const QList<int> before = m_view->m_splitter->sizes().mid(0, 3);
+
+    m_view->openChild(2, QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha/alpha-child/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+
+    QCOMPARE(m_view->m_splitter->sizes().mid(0, 3), before);
+
+    // What the splitter is held at has to cover every column, the filler and every handle it
+    // draws. A pixel short and it takes that pixel back out of a column, so no column ends up
+    // with less than the width it asked for.
+    auto *splitter = m_view->m_splitter;
+    QVERIFY(splitter->minimumWidth() > 0); // The columns overflow, so it is held open.
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const QList<int> applied = splitter->sizes();
+    for (int i = 0; i < m_view->columnCount(); ++i) {
+        const int asked = qMin(viewportWidth, qMax(settings->minColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
+        QVERIFY2(applied.at(i) == asked, qPrintable(QStringLiteral("column %1 asked for %2 and was given %3").arg(i).arg(asked).arg(applied.at(i))));
+    }
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()

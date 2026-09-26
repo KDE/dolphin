@@ -1250,6 +1250,12 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
             --visibleHandles;
         }
     }
+    // The handle between the last column and the filler is drawn too. Leaving it out makes the
+    // splitter one handle narrower than what it has to lay out, and it takes that back by
+    // shaving a pixel off one of the columns, which moves every column after it.
+    if (numColumns > 0) {
+        ++visibleHandles;
+    }
     totalWidth += visibleHandles * handleWidth;
 
     // Closing a column leaves the content narrower than where the view is scrolled to, and the
