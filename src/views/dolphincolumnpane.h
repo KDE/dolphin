@@ -49,6 +49,11 @@ public:
     /// Puts the mark back on the child once the folder has listed, for when it had not when the
     /// pane was told which child to mark.
     void reapplyActiveChildMark();
+
+    /// While true the column has no width of its own yet, because the width it will keep is the
+    /// one its content asks for and the folder has not listed.
+    void setWidthPending(bool pending);
+    bool isWidthPending() const;
     void clearActiveChild();
 
     KFileItemModel *model() const;
@@ -87,6 +92,8 @@ private:
     VersionControlObserver *m_versionControlObserver = nullptr;
     /// The child to mark once the directory has listed, for when it has not when asked.
     QUrl m_activeChildUrl;
+    bool m_widthPending = false;
+    int m_naturalMinimumWidth = 0;
 };
 
 #endif // DOLPHINCOLUMNPANE_H

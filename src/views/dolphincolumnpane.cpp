@@ -58,6 +58,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_view->setAccessibleParentsObject(m_container);
+    m_naturalMinimumWidth = minimumWidth();
 
     layout->addWidget(m_container);
 
@@ -108,6 +109,21 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
             m_controller->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Select);
         }
     }
+}
+
+void DolphinColumnPane::setWidthPending(bool pending)
+{
+    m_widthPending = pending;
+    // A splitter never makes a widget narrower than qSmartMinSize() allows, and that follows
+    // minimumSizeHint() whatever the minimum width says. Only the maximum brings it to nothing,
+    // which is what a column with no width of its own has to be.
+    setMinimumWidth(pending ? 0 : m_naturalMinimumWidth);
+    setMaximumWidth(pending ? 0 : QWIDGETSIZE_MAX);
+}
+
+bool DolphinColumnPane::isWidthPending() const
+{
+    return m_widthPending;
 }
 
 void DolphinColumnPane::reapplyActiveChildMark()
