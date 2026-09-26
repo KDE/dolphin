@@ -118,6 +118,7 @@ private Q_SLOTS:
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testClosingColumnsLeavesTheScrollPositionAlone();
     void testTheColumnsStartAtTheRootTheResolverNames();
+    void testAColumnWithNoWidthYetTakesUpNothing();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1444,6 +1445,43 @@ void DolphinColumnsViewTest::testTheColumnsStartAtTheRootTheResolverNames()
     QCOMPARE(view.columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
     // The folder that was asked for is the one the user lands on.
     QCOMPARE(view.url().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
+}
+
+void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
+{
+    // A column sized before its folder has listed takes the width of an empty model and then
+    // resizes to the width of its content, which the user sees as the column jumping as it
+    // opens. A column whose width is still pending takes up nothing at all, handle included.
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    m_view->resize(900, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    const int rootWidth = m_view->m_splitter->sizes().at(0);
+
+    m_view->columnAt(1)->setWidthPending(true);
+    m_view->recalculateColumnWidths();
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), 0, 5000);
+    QVERIFY(!m_view->m_splitter->handle(1)->isVisible());
+    // The column it was opened from keeps its place.
+    QCOMPARE(m_view->m_splitter->sizes().at(0), rootWidth);
+
+    m_view->columnAt(1)->setWidthPending(false);
+    m_view->recalculateColumnWidths();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    QVERIFY(m_view->m_splitter->handle(1)->isVisible());
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
