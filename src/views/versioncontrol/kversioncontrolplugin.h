@@ -13,6 +13,8 @@
 #include <QAction>
 #include <QObject>
 
+#include <memory>
+
 class KFileItemList;
 class KFileItem;
 /**
@@ -68,6 +70,8 @@ class KFileItem;
  *
  * @since 4.8
  */
+class KVersionControlPluginVersions;
+
 class DOLPHINVCS_EXPORT KVersionControlPlugin : public QObject
 {
     Q_OBJECT
@@ -184,6 +188,21 @@ public:
      */
     virtual QList<QAction *> outOfVersionControlActions(const KFileItemList &items) const = 0;
 
+    /**
+     * Reads the versions of everything in @p directory and returns them, rather than keeping them
+     * in the plugin. It is assured that the directory contains a trailing slash.
+     *
+     * A plugin that answers this can serve every view at once from one instance, which is what
+     * Dolphin does with it. The default returns nothing, and such a plugin is given an instance
+     * of its own per view and asked through beginRetrieval(), itemVersion(), endRetrieval() and
+     * the action methods instead.
+     *
+     * @return What was read, or nothing if this plugin does not answer this way or the directory
+     *         is not under version control.
+     * @since 26.12
+     */
+    virtual std::unique_ptr<KVersionControlPluginVersions> readVersions(const QString &directory);
+
 Q_SIGNALS:
     /**
      * Should be emitted when the version state of items might have been changed
@@ -213,6 +232,34 @@ Q_SIGNALS:
      * should be shown.
      */
     void operationCompletedMessage(const QString &msg);
+};
+
+/**
+ * The versions of everything in one directory, as one plugin read them.
+ *
+ * A plugin that answers KVersionControlPlugin::readVersions() keeps nothing about the directory
+ * in itself, so one instance of it can serve every view at once. A plugin that does not is given
+ * an instance of its own for each view.
+ *
+ * Dolphin reads the versions on a thread of its own and asks for the actions on the main one, so
+ * both have to be safe to call at the same time. Holding what was read and never changing it
+ * afterwards is enough.
+ *
+ * @since 26.12
+ */
+class DOLPHINVCS_EXPORT KVersionControlPluginVersions
+{
+public:
+    virtual ~KVersionControlPluginVersions();
+
+    /// @return The version of @p item, which is one of the items of the directory that was read.
+    virtual KVersionControlPlugin::ItemVersion itemVersion(const KFileItem &item) const = 0;
+
+    /// @return The actions available for @p items, which are under version control.
+    virtual QList<QAction *> versionControlActions(const KFileItemList &items) const = 0;
+
+    /// @return The actions available for @p items, which are not under version control.
+    virtual QList<QAction *> outOfVersionControlActions(const KFileItemList &items) const = 0;
 };
 
 #endif // KVERSIONCONTROLPLUGIN_H

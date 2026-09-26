@@ -20,3 +20,11 @@ QString KVersionControlPlugin::localRepositoryRoot(const QString & /*directory*/
 }
 
 #include "moc_kversioncontrolplugin.cpp"
+
+std::unique_ptr<KVersionControlPluginVersions> KVersionControlPlugin::readVersions(const QString &directory)
+{
+    Q_UNUSED(directory)
+    return {};
+}
+
+KVersionControlPluginVersions::~KVersionControlPluginVersions() = default;
