@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-22 22:41+0200\n"
+"PO-Revision-Date: 2026-09-25 18:03+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
@@ -936,8 +936,8 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
-"<para>Opnar <emphasis>terminalprogram</emphasis> for gjeldande mappe.</"
-"para><para>Bruk hjelpefunksjonen i terminal­programmet for å læra meir om "
+"<para>Opnar <emphasis>terminalprogram</emphasis> for dei merkte mappene.</"
+"para><para>Bruk hjelpefunksjonen i terminal­programma for å læra meir om "
 "slike program.</para>"
 
 #: dolphinmainwindow.cpp:2232
@@ -5364,7 +5364,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr "filer mindre enn"
+msgstr "filer mindre enn "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -5414,16 +5414,16 @@ msgid "Remote storage:"
 msgstr "Fjernlagring:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "Liten"
+msgstr "Lita"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Skriftbreidd:"
+msgstr "Full breidd"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:45
 #, kde-format
@@ -5431,14 +5431,15 @@ msgctxt "@option:check"
 msgid "Show zoom slider"
 msgstr "Vis glidebrytarar for storleik"
 
+# Tyder at statuslinja ikkje vert vist.
 #: settings/interface/statusandlocationbarssettingspage.cpp:46
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Gøymd"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Statuslinje: "
@@ -5830,7 +5831,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
-msgstr "Lita"
+msgstr "Smal"
 
 #: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
@@ -5842,19 +5843,19 @@ msgstr "Middels"
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
-msgstr "Stor"
+msgstr "Brei"
 
 #: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
-msgstr "Enorm"
+msgstr "Kjempebrei"
 
 #: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
-msgstr "Skriftbreidd:"
+msgstr "Tekstbreidd:"
 
 #: settings/viewmodes/viewsettingstab.cpp:89
 #, kde-format
@@ -5908,7 +5909,7 @@ msgstr "Inga grense"
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
-msgstr "Lita"
+msgstr "Smal"
 
 #: settings/viewmodes/viewsettingstab.cpp:102
 #, kde-format
@@ -5920,7 +5921,7 @@ msgstr "Middels"
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
-msgstr "Stor"
+msgstr "Brei"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format

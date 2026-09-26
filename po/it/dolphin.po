@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 00:48+0000\n"
-"PO-Revision-Date: 2026-09-08 11:19+0200\n"
+"PO-Revision-Date: 2026-09-22 11:21+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3183,12 +3183,10 @@ msgid "File Manager"
 msgstr "Gestore file"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006-2025, gli sviluppatori di Dolphin"
+msgstr "© 2006-%1 gli sviluppatori di Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -5070,20 +5068,16 @@ msgid "Deleting files or folders"
 msgstr "Eliminazione di file o cartelle"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "La rinomina di un file ne cambierà il tipo"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "La rinomina di un file ne cambierà il tipo"
+msgstr "La rinomina di un file o di una cartella li nasconderà."
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6891,12 +6885,10 @@ msgstr ""
 "diventano versioni ridimensionate delle immagini."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Ordinamento:"
+msgstr "Ordinamento"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6929,12 +6921,10 @@ msgid "Show Additional Information"
 msgstr "Mostra informazioni aggiuntive"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Additional information"
-#| msgid "Group"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Gruppo"
+msgstr "Raggruppamento"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
