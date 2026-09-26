@@ -96,6 +96,8 @@ private Q_SLOTS:
 private:
     void initColumnsUi();
     void rebuildColumnsForUrl(const QUrl &url);
+    /// Scrolls to a column once the splitter has laid out the sizes it was given.
+    void scrollToColumnWhenLaidOut(int index);
     /// The folder the columns start at, from the resolver. Without one they start at the url.
     QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
