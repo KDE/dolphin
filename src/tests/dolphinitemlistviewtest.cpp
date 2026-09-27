@@ -66,6 +66,9 @@ private Q_SLOTS:
     void testTheViewKeepsUpWithChangesBetweenResizes_data();
     void testTheViewKeepsUpWithChangesBetweenResizes();
 
+    void testTheCurrentItemDecidesWhichSelectedItemIsKept_data();
+    void testTheCurrentItemDecidesWhichSelectedItemIsKept();
+
 private:
     /** The configured icon or preview size of @p layout, i.e. the size a view falls back to. */
     static int configuredSize(KStandardItemListView::ItemLayout layout, bool previewsShown);
@@ -616,6 +619,72 @@ void DolphinItemListViewTest::testASelectionOffScreenOrACurrentItemAloneDoesNotM
     QVERIFY(resizeContainer(QSize(800, 300)));
 
     QCOMPARE(itemSpan(topItem, layout).first, topDistance);
+}
+
+void DolphinItemListViewTest::testTheCurrentItemDecidesWhichSelectedItemIsKept_data()
+{
+    QTest::addColumn<bool>("currentIsSelected");
+
+    QTest::newRow("the current item among the selected ones") << true;
+    QTest::newRow("a current item outside the selection") << false;
+}
+
+/**
+ * With more than one item to choose from, the view keeps the current one, and only if it is part
+ * of the selection. Both cases are told apart by keeping the later of two items: whichever way the
+ * choice is made wrong, the earlier one is kept instead.
+ */
+void DolphinItemListViewTest::testTheCurrentItemDecidesWhichSelectedItemIsKept()
+{
+    QFETCH(bool, currentIsSelected);
+
+    const auto layout = KStandardItemListView::IconsLayout;
+    KItemListSelectionManager *selectionManager = m_controller->selectionManager();
+    QVERIFY(showViewWithFiles(layout, QSize(800, 600)));
+
+    // At offset 0 the first item marks where the visible area begins, below any header.
+    const qreal areaStart = itemSpan(0, layout).first;
+    m_view->setScrollOffset(m_view->maximumScrollOffset() / 2);
+
+    const auto isFullyVisible = [this, layout, areaStart](int index) {
+        const auto [start, end] = itemSpan(index, layout);
+        return start >= areaStart - 1 && end <= m_view->size().height() + 1;
+    };
+
+    int firstItem = -1;
+    int lastItem = -1;
+    for (int index = m_view->firstVisibleIndex(); index <= m_view->lastVisibleIndex(); ++index) {
+        if (isFullyVisible(index)) {
+            if (firstItem < 0) {
+                firstItem = index;
+            }
+            lastItem = index;
+        }
+    }
+    QVERIFY(firstItem >= 0);
+    QVERIFY(lastItem > firstItem);
+
+    selectionManager->setSelected(lastItem);
+    if (currentIsSelected) {
+        selectionManager->setSelected(firstItem);
+        selectionManager->setCurrentItem(lastItem);
+    } else {
+        // Not part of the selection, so the view has no business keeping it.
+        selectionManager->setCurrentItem(firstItem);
+        QVERIFY(!selectionManager->isSelected(firstItem));
+    }
+
+    // Too short for both of them, so the view has to choose.
+    QVERIFY(resizeContainer(QSize(800, 300)));
+
+    const auto [start, end] = itemSpan(lastItem, layout);
+    QVERIFY2(isFullyVisible(lastItem),
+             qPrintable(QStringLiteral("item %1 spans %2 to %3 in a view %4 high, and item %5 was kept instead")
+                            .arg(lastItem)
+                            .arg(start)
+                            .arg(end)
+                            .arg(m_view->size().height())
+                            .arg(firstItem)));
 }
 
 void DolphinItemListViewTest::testTheViewKeepsUpWithChangesBetweenResizes_data()
