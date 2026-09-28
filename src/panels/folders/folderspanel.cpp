@@ -48,6 +48,7 @@ FoldersPanel::~FoldersPanel()
 
     if (m_controller) {
         KItemListView *view = m_controller->view();
+        view->setHighlightEntireRow(true);
         m_controller->setView(nullptr);
         delete view;
     }
