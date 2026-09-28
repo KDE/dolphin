@@ -693,6 +693,14 @@ bool KItemListView::isElided(int index) const
 
 void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
 {
+    if (supportsItemExpanding() && !m_headerWidget->isVisible()) {
+        // A tree gives every item the width of the widest one, and without a header that width
+        // follows what the items hold, so the name of a deeply nested item can be the part left
+        // out of the view. What this moves is the item offset, which the delta below does not
+        // read.
+        scrollHorizontallyToShowItemAt(index);
+    }
+
     const qreal offset = scrollDeltaToShowItem(index, viewItemPosition, scrollOffset());
     if (!qFuzzyIsNull(offset)) {
         Q_EMIT scrollTo(scrollOffset() + offset);
@@ -806,6 +814,34 @@ qreal KItemListView::scrollDeltaToShowItem(int index, ViewItemPosition viewItemP
     }
 
     return offset;
+}
+
+void KItemListView::scrollHorizontallyToShowItemAt(int index)
+{
+    if (scrollOrientation() != Qt::Vertical || m_visibleRoles.isEmpty() || index < 0 || index >= m_model->count()) {
+        return;
+    }
+
+    const qreal viewWidth = size().width();
+    if (maximumItemOffset() <= viewWidth) {
+        // Every item fits, so no part of one is out of view.
+        return;
+    }
+
+    // The first visible role holds the name, and in a tree it holds the indentation before it too.
+    const QByteArray &nameRole = m_visibleRoles.first();
+    const qreal nameEnd = widgetCreator()->preferredRoleColumnWidth(nameRole, index, this);
+    const qreal nameWidth = m_styleOption.fontMetrics.horizontalAdvance(m_model->data(index).value(nameRole).toString());
+
+    qreal offset = itemOffset();
+    if (nameEnd > offset + viewWidth) {
+        offset = nameEnd - viewWidth;
+    }
+    // A name wider than the view is shown from its beginning rather than from its end.
+    offset = qMin(offset, nameEnd - nameWidth);
+    offset = qBound(qreal(0), offset, maximumItemOffset() - viewWidth);
+
+    setItemOffset(offset);
 }
 
 void KItemListView::beginTransaction()

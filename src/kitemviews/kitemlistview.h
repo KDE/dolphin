@@ -691,6 +691,15 @@ private:
     bool animateChangedItemCount(int changedItemCount) const;
 
     /**
+     * Scrolls sideways until the name of the item with the index \a index is visible. Every item
+     * of a tree is as wide as the widest one, so the name of a deeply nested item can sit outside
+     * the view while its rect is inside it. Only a vertically scrolling view moves this way: the
+     * item offset is what the layouter takes off the x of an item rect, and it reads it nowhere
+     * else.
+     */
+    void scrollHorizontallyToShowItemAt(int index);
+
+    /**
      * @return True if a scrollbar for the given scroll-orientation is required
      *         when using a size of \p size for the view. Calling the method is rather
      *         expansive as a temporary relayout needs to be done.
