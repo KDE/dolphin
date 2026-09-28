@@ -296,6 +296,11 @@ void FoldersPanel::slotLoadingCompleted()
     }
 
     const int index = m_model->index(url());
+    if (index < 0) {
+        // The tree is still expanding towards the url, and a later loading will complete with it.
+        return;
+    }
+
     updateCurrentItem(index);
     m_updateCurrentItem = false;
 }
