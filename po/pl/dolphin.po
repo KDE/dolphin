@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-08-29 21:10+0200\n"
+"PO-Revision-Date: 2026-09-27 20:29+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -5411,13 +5411,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Lokalna przechowalnia:"
+msgstr "Lokalne przestrzenie:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Zdalna przechowalnia:"
+msgstr "Zdalne przestrzenie:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
 #, kde-format
