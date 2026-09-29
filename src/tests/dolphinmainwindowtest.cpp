@@ -19,6 +19,7 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemlistwidget.h"
 #include "kitemviews/private/kitemlistroleeditor.h"
+#include "search/bar.h"
 #include "settings/viewmodes/viewmodesettings.h"
 #include "testdir.h"
 #include "views/dolphinitemlistview.h"
@@ -29,6 +30,8 @@
 #include <KConfig>
 #include <KConfigGui>
 #include <KFileItem>
+#include <KProtocolManager>
+#include <KStandardAction>
 
 #include <QAccessible>
 #include <QApplication>
@@ -42,6 +45,7 @@
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QTest>
+#include <QUrlQuery>
 
 #include "testhelpers.h"
 
@@ -57,6 +61,8 @@ private Q_SLOTS:
     void init();
     void testSyncDesktopAndPhoneUi();
     void testClosingTabsWithSearchBoxVisible();
+    void testLeavingASearchRestoresTheFolderViewProperties();
+    void testOpeningOnASearchUrlUsesTheSearchViewProperties();
     void testActiveViewAfterClosingSplitView_data();
     void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
@@ -273,6 +279,72 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     // Triggers the crash in bug #379135.
     tabWidget->closeTab();
     QCOMPARE(tabWidget->count(), 1);
+}
+
+// A search reads and writes its own view properties, under "search". Only the search bar put the
+// view back on the folder's, so leaving a search by navigating left every later folder displayed
+// and saved with the properties of the search. See bug 526398.
+void DolphinMainWindowTest::testLeavingASearchRestoresTheFolderViewProperties()
+{
+    TestDir dir;
+    dir.createDir("folder");
+    const QUrl folderUrl = dir.url();
+
+    m_mainWindow->openDirectories({folderUrl}, false);
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    auto *container = tabWidget->currentTabPage()->activeViewContainer();
+    QVERIFY(container);
+    QCOMPARE(container->view()->viewPropertiesContext(), QString());
+
+    QUrl searchUrl;
+    searchUrl.setScheme(QStringLiteral("filenamesearch"));
+    QUrlQuery query;
+    query.addQueryItem(QStringLiteral("search"), QStringLiteral("folder"));
+    query.addQueryItem(QStringLiteral("url"), folderUrl.toString());
+    searchUrl.setQuery(query);
+    if (!KProtocolManager::supportsListing(searchUrl)) {
+        QSKIP("The filenamesearch worker is not installed, so the view never opens the search url.");
+    }
+
+    // Run a search the way the search bar does.
+    container->setSearchBarVisible(true);
+    auto *searchBar = container->findChild<Search::Bar *>();
+    QVERIFY(searchBar);
+    QVERIFY(QMetaObject::invokeMethod(searchBar, "urlChangeRequested", Qt::DirectConnection, Q_ARG(QUrl, searchUrl)));
+    QTRY_COMPARE(container->view()->viewPropertiesContext(), QStringLiteral("search"));
+
+    // Leave it the way the reporter did, with the shortcut rather than the search bar.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+
+    QTRY_COMPARE(container->url(), folderUrl);
+    QCOMPARE(container->view()->viewPropertiesContext(), QString());
+}
+
+// A tab opened straight onto a search url, as session restore does, shows a search before any
+// navigation has happened.
+void DolphinMainWindowTest::testOpeningOnASearchUrlUsesTheSearchViewProperties()
+{
+    TestDir dir;
+    dir.createDir("folder");
+
+    QUrl searchUrl;
+    searchUrl.setScheme(QStringLiteral("filenamesearch"));
+    QUrlQuery query;
+    query.addQueryItem(QStringLiteral("search"), QStringLiteral("folder"));
+    query.addQueryItem(QStringLiteral("url"), dir.url().toString());
+    searchUrl.setQuery(query);
+    if (!KProtocolManager::supportsListing(searchUrl)) {
+        QSKIP("The filenamesearch worker is not installed, so the view never opens the search url.");
+    }
+
+    m_mainWindow->openDirectories({searchUrl}, false);
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    auto *container = tabWidget->currentTabPage()->activeViewContainer();
+    QVERIFY(container);
+
+    QCOMPARE(container->view()->viewPropertiesContext(), QStringLiteral("search"));
 }
 
 void DolphinMainWindowTest::testActiveViewAfterClosingSplitView_data()

@@ -151,6 +151,13 @@ public:
      */
     void setSearchBarVisible(bool visible);
 
+    /**
+     * Points the view at the view properties the @p url is displayed with. A search has its own,
+     * under "search" rather than under the folder, and is left by navigating and by a redirection
+     * as well as through the search bar.
+     */
+    void updateViewPropertiesContext(const QUrl &url);
+
     /** @returns true if the search bar is visible while not being in the process to hide itself. */
     bool isSearchBarVisible() const;
 
