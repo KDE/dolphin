@@ -753,15 +753,10 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         if (colIndex < 0) {
             return;
         }
-        openChild(colIndex, childUrl);
-        if (colIndex < m_columns.size() - 1) {
-            const int childCol = colIndex + 1;
-            if (m_columns.at(childCol)->model()->count() > 0) {
-                autoSelectFirstItem(childCol);
-            } else {
-                m_pendingAutoSelect = m_columns.at(childCol);
-            }
-            setActiveColumn(childCol);
+        // Selecting the folder has opened the column already, so only open it when it is not there.
+        const int childCol = colIndex + 1;
+        if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != childUrl) {
+            openChild(colIndex, childUrl);
         }
     });
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);

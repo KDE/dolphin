@@ -101,6 +101,7 @@ private Q_SLOTS:
     void testLeftKeyClearsChildSelection();
     void testDirectorySelectionOpensChildOnce();
     void testMouseClickOnDirectoryOpensChildOnce();
+    void testActivatingADirectoryStaysInItsColumn();
     void testMouseClickOnNotCurrentDirectoryOpensChild();
     void testRightClickKeepsTheChildColumns();
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
@@ -992,6 +993,41 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
 
     // Let any queued re-entrant open settle, then confirm still exactly one child.
     QTest::qWait(100); // UNAVOIDABLE: no signal for the absence of a re-entrant open
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+}
+
+// Activating a folder shows it in the next column but leaves the selection on the folder itself,
+// the way the Finder column view does. Moving into that column is the Right arrow's job, see
+// testKeyRight_opensChild().
+void DolphinColumnsViewTest::testActivatingADirectoryStaysInItsColumn()
+{
+    activateColumn(0);
+    selectItemInColumn(0, "beta");
+
+    // Selecting the folder already opens the column that previews it.
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
+    QTRY_VERIFY(m_view->columnAt(1)->model()->count() > 0);
+
+    auto *pane = m_view->columnAt(0);
+    int betaIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("beta")) {
+            betaIndex = i;
+            break;
+        }
+    }
+    QVERIFY(betaIndex >= 0);
+
+    // What a click or a double click reaches, depending on the single click setting.
+    QVERIFY(QMetaObject::invokeMethod(pane, "slotItemActivated", Qt::DirectConnection, Q_ARG(int, betaIndex)));
+    QCoreApplication::processEvents();
+
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QVERIFY(!m_view->columnAt(1)->controller()->selectionManager()->hasSelection());
+
+    // The column the selection opened is reused rather than torn down and built again.
     QCOMPARE(m_view->columnCount(), 2);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
 }
