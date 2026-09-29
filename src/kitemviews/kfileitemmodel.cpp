@@ -33,6 +33,7 @@
 #include <QtCore/qcompare.h>
 #include <algorithm>
 #include <klazylocalizedstring.h>
+#include <memory>
 
 Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
 
@@ -1006,7 +1007,8 @@ void KFileItemModel::expandParentDirectories(const QUrl &url)
 
     auto expandUrlAfterInserted = [this](const QUrl &url) {
         // need to wait for the item to be added to the model
-        QMetaObject::Connection *connection = new QMetaObject::Connection;
+        // but the owning object might get deleted first
+        auto connection = std::make_shared<QMetaObject::Connection>();
         *connection = connect(this, &KFileItemModel::itemsInserted, this, [this, url, connection](const KItemRangeList &ranges) {
             int idx = -1;
             for (const KItemRange &it : ranges) {
@@ -1024,7 +1026,6 @@ void KFileItemModel::expandParentDirectories(const QUrl &url)
             if (idx != -1) {
                 setExpanded(idx, true);
                 disconnect(*connection);
-                delete connection;
             }
         });
     };
