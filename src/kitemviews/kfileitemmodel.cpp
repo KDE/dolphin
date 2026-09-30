@@ -27,7 +27,6 @@
 #include <QElapsedTimer>
 #include <QMimeData>
 #include <QMimeDatabase>
-#include <QRecursiveMutex>
 #include <QTimer>
 #include <QWidget>
 #include <QtCore/qcompare.h>
@@ -35,7 +34,29 @@
 #include <klazylocalizedstring.h>
 #include <memory>
 
-Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
+namespace
+{
+/**
+ * A collator of this thread's own, set up like @p prototype.
+ *
+ * QCollator is not reentrant, and copying one shares what is inside it.
+ */
+const QCollator &collatorForThisThread(const QCollator &prototype)
+{
+    thread_local QCollator collator;
+    thread_local bool matchesPrototype = false;
+
+    if (!matchesPrototype || collator.locale() != prototype.locale() || collator.caseSensitivity() != prototype.caseSensitivity()
+        || collator.numericMode() != prototype.numericMode()) {
+        collator = QCollator(prototype.locale()); // a new one, rather than a copy that shares
+        collator.setNumericMode(prototype.numericMode());
+        collator.setCaseSensitivity(prototype.caseSensitivity());
+        matchesPrototype = true;
+    }
+
+    return collator;
+}
+}
 
 // #define KFILEITEMMODEL_DEBUG
 
@@ -2657,9 +2678,9 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
     return QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
 }
 
-int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCollator &collator) const
+int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCollator &prototype) const
 {
-    QMutexLocker collatorLock(s_collatorMutex());
+    const QCollator &collator = collatorForThisThread(prototype);
 
     if (m_naturalSorting) {
         const int aExtensionSeparator = findExtensionSeparator(a);
