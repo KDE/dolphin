@@ -93,7 +93,7 @@ int orderingToInt(Qt::strong_ordering ordering)
     return 0;
 }
 
-Qt::strong_ordering compareDigitStrings(const QString &a, const QString &b)
+Qt::strong_ordering compareDigitStrings(QStringView a, QStringView b)
 {
     int firstSignificantA = 0;
     while (firstSignificantA < a.length() && a.at(firstSignificantA) == QLatin1Char('0')) {
@@ -122,7 +122,7 @@ Qt::strong_ordering compareDigitStrings(const QString &a, const QString &b)
     return Qt::strong_ordering::equivalent;
 }
 
-Qt::strong_ordering compareFractionalDigitStrings(const QString &a, const QString &b)
+Qt::strong_ordering compareFractionalDigitStrings(QStringView a, QStringView b)
 {
     const int length = std::max(a.length(), b.length());
     for (int i = 0; i < length; ++i) {
@@ -136,7 +136,7 @@ Qt::strong_ordering compareFractionalDigitStrings(const QString &a, const QStrin
     return Qt::strong_ordering::equivalent;
 }
 
-int findDigitRunEnd(const QString &text, int start)
+int findDigitRunEnd(QStringView text, int start)
 {
     int end = start;
     while (end < text.length() && isAsciiDigit(text.at(end))) {
@@ -146,7 +146,7 @@ int findDigitRunEnd(const QString &text, int start)
     return end;
 }
 
-int countNumericChainSegments(const QString &text, int start, int *chainEnd)
+int countNumericChainSegments(QStringView text, int start, int *chainEnd)
 {
     int end = findDigitRunEnd(text, start);
     int segmentCount = 1;
@@ -163,7 +163,7 @@ int countNumericChainSegments(const QString &text, int start, int *chainEnd)
     return segmentCount;
 }
 
-Qt::strong_ordering compareNumericChains(const QString &a, int startA, int endA, int segmentCountA, const QString &b, int startB, int endB, int segmentCountB)
+Qt::strong_ordering compareNumericChains(QStringView a, int startA, int endA, int segmentCountA, QStringView b, int startB, int endB, int segmentCountB)
 {
     if (segmentCountA == 2 && segmentCountB == 2) {
         const int dotA = findDigitRunEnd(a, startA);
@@ -205,7 +205,7 @@ Qt::strong_ordering compareNumericChains(const QString &a, int startA, int endA,
     }
 }
 
-int findExtensionSeparator(const QString &text)
+int findExtensionSeparator(QStringView text)
 {
     for (int i = text.length() - 1; i > 0; --i) {
         if (text.at(i) != QLatin1Char('.')) {
@@ -222,7 +222,7 @@ int findExtensionSeparator(const QString &text)
     return -1;
 }
 
-Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &b, const QCollator &collator)
+Qt::strong_ordering decimalAwareNaturalCompare(QStringView a, QStringView b, const QCollator &collator)
 {
     bool comparedNumericTokens = false;
     int indexA = 0;
@@ -274,12 +274,12 @@ Qt::strong_ordering decimalAwareNaturalCompare(const QString &a, const QString &
         return Qt::strong_ordering::equivalent;
     }
 
-    const Qt::strong_ordering result = orderingFromInt(QString::compare(a, b, collator.caseSensitivity()));
+    const Qt::strong_ordering result = orderingFromInt(a.compare(b, collator.caseSensitivity()));
     if (is_neq(result) || collator.caseSensitivity() == Qt::CaseSensitive) {
         return result;
     }
 
-    return orderingFromInt(QString::compare(a, b, Qt::CaseSensitive));
+    return orderingFromInt(a.compare(b, Qt::CaseSensitive));
 }
 }
 
@@ -2683,18 +2683,20 @@ int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCol
     const QCollator &collator = collatorForThisThread(prototype);
 
     if (m_naturalSorting) {
-        const int aExtensionSeparator = findExtensionSeparator(a);
-        const int bExtensionSeparator = findExtensionSeparator(b);
-        const int aBaseNameLength = aExtensionSeparator < 0 ? a.length() : aExtensionSeparator;
-        const int bBaseNameLength = bExtensionSeparator < 0 ? b.length() : bExtensionSeparator;
+        const QStringView viewA(a);
+        const QStringView viewB(b);
+        const int aExtensionSeparator = findExtensionSeparator(viewA);
+        const int bExtensionSeparator = findExtensionSeparator(viewB);
+        const int aBaseNameLength = aExtensionSeparator < 0 ? viewA.length() : aExtensionSeparator;
+        const int bBaseNameLength = bExtensionSeparator < 0 ? viewB.length() : bExtensionSeparator;
 
-        const int res = orderingToInt(decimalAwareNaturalCompare(a.left(aBaseNameLength), b.left(bBaseNameLength), collator));
+        const int res = orderingToInt(decimalAwareNaturalCompare(viewA.left(aBaseNameLength), viewB.left(bBaseNameLength), collator));
         if (res != 0 || (aExtensionSeparator < 0 && bExtensionSeparator < 0)) {
             return res;
         }
 
         // baseNames were equal, sort by extension
-        return orderingToInt(decimalAwareNaturalCompare(a.mid(aBaseNameLength), b.mid(bBaseNameLength), collator));
+        return orderingToInt(decimalAwareNaturalCompare(viewA.mid(aBaseNameLength), viewB.mid(bBaseNameLength), collator));
     }
 
     const int result = QString::compare(a, b, collator.caseSensitivity());
