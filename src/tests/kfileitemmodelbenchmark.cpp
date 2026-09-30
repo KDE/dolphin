@@ -48,6 +48,8 @@ private Q_SLOTS:
     void initTestCase();
     void insertAndRemoveManyItems_data();
     void insertAndRemoveManyItems();
+    void sortManyItemsNaturally_data();
+    void sortManyItemsNaturally();
 
 private:
     static KFileItemList createFileItemList(const QStringList &fileNames, const QString &urlPrefix = QLatin1String("file:///"));
@@ -195,6 +197,40 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
         QVERIFY(!spyItemsRemoved.empty());
         const KItemRangeList actualItemsRemoved = spyItemsRemoved.last().first().value<KItemRangeList>();
         QCOMPARE(actualItemsRemoved, expectedItemsRemoved);
+    }
+}
+
+void KFileItemModelBenchmark::sortManyItemsNaturally_data()
+{
+    QTest::addColumn<KFileItemList>("items");
+
+    // Natural sorting is what a user gets unless they ask for something else, and it is the only
+    // sorting that looks at the digits in a name, so the names here carry some. The smaller sizes
+    // are what a folder holds, and the largest says where the cost goes when one is enormous.
+    for (const int n : {1000, 5000, 50000}) {
+        QStringList names;
+        names.reserve(n);
+        for (int i = 0; i < n; ++i) {
+            names << QStringLiteral("Report %1.%2 of %3.txt").arg(i % 977).arg(i % 31).arg(n - i);
+        }
+
+        QTest::newRow(qPrintable(QStringLiteral("natural--n=%1").arg(n))) << createFileItemList(names);
+    }
+}
+
+void KFileItemModelBenchmark::sortManyItemsNaturally()
+{
+    QFETCH(KFileItemList, items);
+
+    KFileItemModel model;
+    model.m_naturalSorting = true;
+    model.setRoles({"text"});
+
+    QBENCHMARK {
+        model.slotClear();
+        model.slotItemsAdded(model.directory(), items);
+        model.slotCompleted();
+        QCOMPARE(model.count(), items.count());
     }
 }
 
