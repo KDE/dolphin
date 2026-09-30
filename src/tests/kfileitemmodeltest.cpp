@@ -50,6 +50,7 @@ private Q_SLOTS:
     void cleanup();
 
     void testDefaultRoles();
+    void testBackupFilesAreHidden();
     void testDefaultSortRole();
     void testDefaultGroupedSorting();
     void testNewItems();
@@ -150,6 +151,27 @@ void KFileItemModelTest::testDefaultRoles()
     QVERIFY(roles.contains("isDir"));
     QVERIFY(roles.contains("isLink"));
     QVERIFY(roles.contains("isHidden"));
+}
+
+void KFileItemModelTest::testBackupFilesAreHidden()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QVERIFY(itemsInsertedSpy.isValid());
+
+    m_model->setRoles({"text", "isHidden"});
+    m_model->setShowHiddenFiles(true);
+    m_testDir->createFiles({"a.txt", "b.txt~", "c.bak"});
+    m_testDir->createDir("d~");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QCOMPARE(m_model->count(), 4);
+    // A folder is not a backup file, whatever its name ends with.
+    QCOMPARE(m_model->data(m_model->index(QUrl(m_testDir->url().url() + "/d~"))).value("isHidden").toBool(), false);
+    QCOMPARE(m_model->data(m_model->index(QUrl(m_testDir->url().url() + "/a.txt"))).value("isHidden").toBool(), false);
+    QCOMPARE(m_model->data(m_model->index(QUrl(m_testDir->url().url() + "/b.txt~"))).value("isHidden").toBool(), true);
+    QCOMPARE(m_model->data(m_model->index(QUrl(m_testDir->url().url() + "/c.bak"))).value("isHidden").toBool(), true);
 }
 
 void KFileItemModelTest::testDefaultSortRole()

@@ -56,6 +56,31 @@ const QCollator &collatorForThisThread(const QCollator &prototype)
 
     return collator;
 }
+
+/**
+ * Whether @p name is the name of a backup/trash file, matching application/x-trash mime-type.
+ *
+ * Every pattern that mime type carries ends the name, so the patterns are read once and cached.
+ */
+bool hasBackupName(const QString &name)
+{
+    static const QStringList endings = [] {
+        QStringList found;
+        const QStringList patterns = QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-trash")).globPatterns();
+        for (const QString &pattern : patterns) {
+            const QStringView ending = QStringView(pattern).mid(1);
+            if (pattern.startsWith(QLatin1Char('*')) && !ending.contains(QLatin1Char('*')) && !ending.contains(QLatin1Char('?'))
+                && !ending.contains(QLatin1Char('['))) {
+                found.append(ending.toString());
+            }
+        }
+        return found;
+    }();
+
+    return std::any_of(endings.cbegin(), endings.cend(), [&name](const QString &ending) {
+        return name.endsWith(ending, Qt::CaseInsensitive);
+    });
+}
 }
 
 // #define KFILEITEMMODEL_DEBUG
@@ -2268,8 +2293,9 @@ SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *pa
     }
 
     if (m_requestRole[IsHiddenRole]) {
-        // all "temporary" file types are identified by glob, currentMimeType is therefore enough.
-        data.insert(sharedValue("isHidden"), item.isHidden() || item.currentMimeType().name() == QStringLiteral("application/x-trash"));
+        const bool isBackup =
+            item.isMimeTypeKnown() ? item.currentMimeType().name() == QLatin1String("application/x-trash") : !isDir && hasBackupName(item.name());
+        data.insert(sharedValue("isHidden"), item.isHidden() || isBackup);
     }
 
     if (m_requestRole[NameRole]) {
