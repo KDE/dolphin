@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-09-14 18:30+0200\n"
-"Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
+"PO-Revision-Date: 2026-09-23 22:16+0200\n"
+"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -6470,7 +6470,7 @@ msgstr "Löschen abgeschlossen"
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
-msgstr "Umbenennen und Ausblenden"
+msgstr "Umbenennen und verstecken"
 
 #: views/dolphinview.cpp:2299
 #, kde-format
@@ -6495,12 +6495,12 @@ msgstr ""
 #: views/dolphinview.cpp:2303
 #, kde-format
 msgid "Hide this File?"
-msgstr "Diese Datei ausblenden?"
+msgstr "Diese Datei verstecken?"
 
 #: views/dolphinview.cpp:2303
 #, kde-format
 msgid "Hide this Folder?"
-msgstr "Diesen Ordner ausblenden?"
+msgstr "Diesen Ordner verstecken?"
 
 #: views/dolphinview.cpp:2324
 #, kde-format
