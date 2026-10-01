@@ -164,6 +164,16 @@ bool DolphinColumnsView::urlChangeLeavesTheSelectionBehind() const
     return !m_switchingColumns;
 }
 
+KItemListController *DolphinColumnsView::draggingController() const
+{
+    for (const DolphinColumnPane *pane : m_columns) {
+        if (pane->controller()->isDragging()) {
+            return pane->controller();
+        }
+    }
+    return nullptr;
+}
+
 bool DolphinColumnsView::handleSpaceAsNormalKey() const
 {
     // The base view asks its own container, which never has the focus here.
@@ -585,7 +595,9 @@ void DolphinColumnsView::popAfter(int columnIndex)
             m_pendingAutoSelect = nullptr;
         }
         pane->setParent(nullptr);
-        pane->deleteLater();
+        disconnect(pane, nullptr, this, nullptr);
+        disconnect(pane->controller(), nullptr, this, nullptr);
+        KItemListController::deleteLaterAfterDrag(pane, pane->controller());
     }
 
     auto it = m_customColumnWidths.begin();
