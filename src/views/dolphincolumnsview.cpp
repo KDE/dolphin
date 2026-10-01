@@ -30,9 +30,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-/// How long a column opened from a folder keeps out of the layout while its folder lists, so
-/// that it is only ever drawn at the width its content asks for. After this it takes a width
-/// anyway, rather than leaving the click looking ignored on a slow folder.
+/// How long a new column waits for its folder to list before it takes a width anyway.
 static constexpr int s_pendingWidthTimeoutMs = 200;
 
 DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode, std::function<QUrl(const QUrl &)> rootUrlResolver)
@@ -41,23 +39,16 @@ DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::op
 {
     initColumnsUi();
 
-    // Virtual dispatch does not work during the base-class constructor, so
-    // DolphinColumnsView::applyModeToView() was never called if ViewProperties
-    // already had ColumnsView.  Initialise the columns now that the subclass
-    // is fully constructed.
+    // The base constructor cannot reach the applyModeToView() override.
     if (viewMode() == ColumnsView) {
         m_columnsInitialized = true;
         m_scrollArea->show();
         itemListContainer()->hide();
 
-        // The base class sets setFocusProxy(m_container), which redirects
-        // all setFocus() calls to the hidden base container.  In columns
-        // mode we manage focus ourselves (active column pane).
+        // The focus goes to the active column, not to the hidden base container.
         setFocusProxy(nullptr);
 
-        // The base constructor called loadDirectory() on its own model.
-        // In columns mode we use per-column models, so cancel the base
-        // load to avoid signal interference (e.g. applyDynamicView).
+        // Every column has its own model, so the listing of the base one is not wanted.
         auto *baseModel = static_cast<KFileItemModel *>(itemListContainer()->controller()->model());
         baseModel->cancelDirectoryLoading();
         baseModel->clear();
@@ -69,17 +60,15 @@ DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::op
 
 DolphinColumnsView::~DolphinColumnsView()
 {
-    // Restore base model so the base destructor doesn't use a pane model
-    // that will be deleted when columns are destroyed.
+    // The models of the columns are deleted with them.
     setBaseModel(m_baseModel);
 }
 
 void DolphinColumnsView::initColumnsUi()
 {
-    m_baseModel = DolphinView::activeModel(); // save original base model
+    m_baseModel = DolphinView::activeModel();
 
-    // Every column is filtered the same way, so hold what the base model was set up with and
-    // hand it to each pane as it is created.
+    // Every column is filtered the same way, starting from the filter of the base model.
     m_nameFilter = m_baseModel->nameFilter();
     m_filterMode = m_baseModel->filterMode();
     m_filterCaseSensitive = m_baseModel->isFilterCaseSensitive();
@@ -94,7 +83,7 @@ void DolphinColumnsView::initColumnsUi()
     m_splitter->setChildrenCollapsible(false);
     m_splitter->setHandleWidth(1);
 
-    // Filler widget absorbs extra space so columns keep their sizes
+    // Takes the room that the columns leave, so they keep their sizes.
     m_filler = new QWidget();
     m_filler->setMinimumWidth(0);
     m_splitter->addWidget(m_filler);
@@ -105,11 +94,8 @@ void DolphinColumnsView::initColumnsUi()
 
     connect(m_splitter, &QSplitter::splitterMoved, this, &DolphinColumnsView::slotSplitterMoved);
 
-    // Start hidden; applyModeToView() controls visibility based on mode
     m_scrollArea->hide();
 
-    // Propagate property changes from DolphinView to all column panes
-    // via the standard DolphinView signals (no duplicate implementation)
     connect(this, &DolphinView::previewsShownChanged, this, [this] {
         syncColumnsFromViewProperties();
     });
@@ -126,9 +112,7 @@ void DolphinColumnsView::initColumnsUi()
         for (auto c : std::as_const(m_columns)) {
             c->setZoomLevel(zoomLevel());
         }
-        // Larger icons need wider columns; recompute so the rows (and their
-        // full-row selection highlight) still fit instead of spilling under the
-        // scrollbar.
+        // Larger icons need wider columns.
         recalculateColumnWidths();
     });
 }
@@ -150,7 +134,6 @@ void DolphinColumnsView::setActive(bool active)
 {
     DolphinView::setActive(active);
 
-    // Override focus target: give focus to the active column pane
     if (active) {
         if (auto *pane = activePane()) {
             pane->container()->setFocus();
@@ -183,9 +166,7 @@ bool DolphinColumnsView::urlChangeLeavesTheSelectionBehind() const
 
 bool DolphinColumnsView::handleSpaceAsNormalKey() const
 {
-    // The base view asks its own container, which never holds the focus here: every column has a
-    // container of its own. Without this Space always reached the view as a normal key and never
-    // reached the shortcut that turns selection mode on.
+    // The base view asks its own container, which never has the focus here.
     if (auto *pane = activePane()) {
         return !pane->container()->hasFocus() || pane->controller()->isSearchAsYouTypeActive();
     }
@@ -194,8 +175,7 @@ bool DolphinColumnsView::handleSpaceAsNormalKey() const
 
 void DolphinColumnsView::reload()
 {
-    // Refresh each column where it is. Rebuilding would drop every column but one and
-    // leave the root showing the active column's folder instead of the original one.
+    // Rebuilding would keep only the active column.
     for (DolphinColumnPane *pane : std::as_const(m_columns)) {
         pane->model()->refreshDirectory(pane->dirUrl());
     }
@@ -239,13 +219,10 @@ void DolphinColumnsView::readSettings()
 {
     DolphinView::readSettings();
 
-    // Every column shows the font and the icon size that the columns view is configured with.
     for (DolphinColumnPane *pane : std::as_const(m_columns)) {
         pane->reloadSettings();
     }
 
-    // Pick up changes to the width behaviour, minimum width, and visible-column
-    // count that the settings dialog just applied.
     recalculateColumnWidths(WidthPolicy::Refit);
 }
 
@@ -317,8 +294,7 @@ void DolphinColumnsView::setActiveColumn(int index)
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
     connectActivePane(newPane);
 
-    // Keep focus proxy in sync so external setFocus() calls (e.g. from
-    // DolphinViewContainer::requestFocus) land on the correct pane.
+    // For setFocus() calls from outside, such as DolphinViewContainer::requestFocus().
     setFocusProxy(newPane->container());
     newPane->container()->setFocus();
     ensureActiveColumnVisible();
@@ -329,14 +305,11 @@ void DolphinColumnsView::setActiveColumn(int index)
         Q_EMIT urlChanged(newPane->dirUrl());
     }
 
-    // Track the writable state of the newly active pane's folder so the
-    // write-dependent actions (Create New, paste, ...) reflect it.
     updateWritableState();
 }
 
 void DolphinColumnsView::applyModeToView()
 {
-    // Show columns UI, hide standard container
     if (m_scrollArea) {
         m_scrollArea->show();
     }
@@ -352,7 +325,6 @@ void DolphinColumnsView::applyModeToView()
 
 void DolphinColumnsView::syncColumnsFromViewProperties()
 {
-    // Apply current view properties to all column panes
     for (auto *pane : std::as_const(m_columns)) {
         pane->setPreviewsShown(previewsShown());
         applyViewProperties(pane->model());
@@ -382,14 +354,11 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
         return;
     }
 
-    // Only react to the column the user is interacting with
     if (!senderPane->container()->hasFocus()) {
         return;
     }
 
-    // The current item also changes during mouse selection and on a
-    // context-menu right-click; do not navigate then, only select. Mouse
-    // navigation is handled by mouseButtonPressed.
+    // A click navigates on the release, see handleMouseButtonReleased().
     if (QGuiApplication::mouseButtons() != Qt::NoButton) {
         return;
     }
@@ -412,8 +381,7 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
     auto *pane = qobject_cast<DolphinColumnPane *>(sender());
 
     if (pane) {
-        // Marking the child is not the user picking an item, so it must not drive navigation:
-        // the handlers that follow a selection would drop every column to the right of this one.
+        // Marking the child is not a selection by the user, so it must not navigate.
         QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
         pane->reapplyActiveChildMark();
     }
@@ -422,9 +390,6 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
         finishPendingWidth(pane);
     }
 
-    // If this pane was flagged for auto-selection (Right arrow opened a
-    // new child column whose model was still loading), select the first
-    // item and open its child/preview now that items are available.
     if (pane && pane == m_pendingAutoSelect) {
         m_pendingAutoSelect = nullptr;
         const int colIndex = m_columns.indexOf(pane);
@@ -433,9 +398,7 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
         }
     }
 
-    // The base write-state tracking is driven by the (unused) base model, so
-    // recompute it from the active pane now that a folder has finished loading.
-    // Otherwise "Create New"/paste stay disabled as if the folder were read-only.
+    // The base view follows the writable state of the base model, which lists nothing here.
     updateWritableState();
 
     Q_EMIT directoryLoadingCompleted();
@@ -444,10 +407,7 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 void DolphinColumnsView::slotSplitterMoved(int pos, int handleIndex)
 {
     Q_UNUSED(pos)
-    // handleIndex is 1-based (handle 1 = between widget 0 and widget 1). The drag resizes the
-    // column on either side of the handle, so both keep the width it gave them. Pinning only
-    // the left one let the right one snap back to its content width at the next relayout,
-    // which moved the handle away from where it was dropped.
+    // A drag resizes the columns on both sides of the handle, so both keep their new width.
     const QList<int> sizes = m_splitter->sizes();
     for (const int colIndex : {handleIndex - 1, handleIndex}) {
         if (colIndex >= 0 && colIndex < m_columns.size() && colIndex < sizes.size()) {
@@ -469,11 +429,9 @@ QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
     if (item.isNull()) {
         return QUrl();
     }
-    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
-    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    // openItemAsFolderUrl() needs the mime type of an archive, which the model determines lazily.
+    // Only for a local file, as in openItemAsFolderUrl().
     KFileItem resolved = item;
-    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
-    // determined for a folder or for a remote file, where the sniffing would go over the wire.
     if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
         resolved.determineMimeType();
     }
@@ -486,12 +444,10 @@ QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
 
 bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
 {
-    // KIO::upUrl() ends a folder url with a slash and dirUrl() does not, so every comparison
-    // here is made on urls stripped of it.
+    // KIO::upUrl() ends a folder url with a slash and dirUrl() does not.
     const QUrl target = url.adjusted(QUrl::StripTrailingSlash);
 
-    // Already open, so going back to a folder keeps the columns that follow it instead of
-    // tearing them down and starting again from that folder.
+    // Going back to an open folder keeps the columns after it.
     for (int i = 0; i < m_columns.size(); ++i) {
         if (m_columns.at(i)->dirUrl().adjusted(QUrl::StripTrailingSlash) == target) {
             setActiveColumn(i);
@@ -517,7 +473,7 @@ bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
         chain.prepend(step);
         const QUrl parent = KIO::upUrl(step).adjusted(QUrl::StripTrailingSlash);
         if (parent == step) {
-            // upUrl stopped making progress, so the two urls are not on one path after all.
+            // Not on one path after all.
             return false;
         }
         step = parent;
@@ -538,7 +494,6 @@ QUrl DolphinColumnsView::rootUrlFor(const QUrl &url) const
         return url;
     }
     const QUrl root = m_rootUrlResolver(url);
-    // A root that is not above the url would leave the columns showing something else entirely.
     if (!root.isValid() || !(root.matches(url, QUrl::StripTrailingSlash) || root.isParentOf(url))) {
         return url;
     }
@@ -562,20 +517,12 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 {
-    // If the child column already shows this folder, keep it. A single
-    // interaction can request opening the same sub-folder from more than one
-    // handler (currentItemChanged and selectionChanged), which would otherwise
-    // tear down and rebuild the child pane, making it flicker/appear twice.
+    // One interaction can reach this from both the current item and the selection.
     if (columnIndex + 1 < m_columns.size() && m_columns.at(columnIndex + 1)->dirUrl() == childUrl) {
         return;
     }
 
-    // Moving between folders in this column swaps what the column to its right shows. Give
-    // the new one the width the old one had, so that the columns and the scroll position stay
-    // where they are instead of shifting under the folder being looked through. The column
-    // grows from there if the folder that arrives needs more room.
-    // Moving between siblings replaces the column to the right, and the view must not jump then.
-    // A column opened where there was none is new on screen, so it is worth scrolling to.
+    // A column that replaces another starts at its width, so the view does not move.
     const bool replacesExistingColumn = columnIndex + 1 < m_columns.size();
 
     int carriedWidth = -1;
@@ -588,8 +535,6 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 
     popAfter(columnIndex);
 
-    // Mark the parent's selected item; guard against cascading navigation
-    // since setActiveChildUrl triggers slotCurrentChanged in the pane.
     auto *parentPane = m_columns.at(columnIndex);
     {
         QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
@@ -602,9 +547,7 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
         m_carriedColumnWidth = {columnIndex + 1, carriedWidth};
     }
 
-    // A column sized before its folder has listed takes the width of an empty model and then
-    // resizes to the width of its content, which is the column visibly jumping. Only a width
-    // that follows the content has that problem.
+    // Sized before its folder lists, a column would jump to the width of its content.
     if (ColumnsModeSettings::self()->dynamicColumnWidth() && carriedWidth <= 0) {
         pane->setWidthPending(true);
         QTimer::singleShot(s_pendingWidthTimeoutMs, pane, [this, pane]() {
@@ -614,13 +557,9 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 
     recalculateColumnWidths();
 
-    // Scroll to the column that was just opened. Selecting a folder leaves the parent column
-    // active, so waiting for the active one would leave a new column off the right edge. A
-    // column that has no width yet has nowhere to be scrolled to, and working the position out
-    // from a column of no width moves the view by the width of a handle. It is scrolled to when
-    // it takes its width instead.
+    // A new column is scrolled to, once it has a width. The parent column stays active.
     if (pane->isWidthPending()) {
-        // Nothing to do here.
+        // finishPendingWidth() scrolls to it.
     } else if (!replacesExistingColumn) {
         scrollToColumnWhenLaidOut(columnIndex + 1);
     } else {
@@ -639,12 +578,10 @@ void DolphinColumnsView::finishPendingWidth(DolphinColumnPane *pane)
 
 void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
 {
-    // The splitter takes its new sizes on the next layout, so the position can only be worked out
-    // after that.
+    // The splitter takes its new sizes on the next layout.
     const int activeWhenScheduled = m_activeColumn;
     QTimer::singleShot(0, this, [this, index, activeWhenScheduled]() {
-        // The user can move to another column before the layout happens. Scrolling to the column
-        // this was scheduled for would then pull the view away from the one they moved to.
+        // The user may have moved to another column in the meantime.
         if (m_activeColumn != activeWhenScheduled && m_activeColumn != index) {
             ensureColumnVisible(m_activeColumn);
             return;
@@ -655,8 +592,7 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
 
 void DolphinColumnsView::popAfter(int columnIndex)
 {
-    // If the active pane is about to be destroyed, disconnect it first
-    // to prevent queued signals from dereferencing a dangling pointer.
+    // Disconnected first, so that no queued signal reaches a deleted column.
     if (activePane() && m_activeColumn > columnIndex) {
         connectActivePane(nullptr);
     }
@@ -670,7 +606,6 @@ void DolphinColumnsView::popAfter(int columnIndex)
         pane->deleteLater();
     }
 
-    // Remove custom widths for columns that no longer exist
     auto it = m_customColumnWidths.begin();
     while (it != m_customColumnWidths.end()) {
         if (it.key() > columnIndex) {
@@ -684,7 +619,6 @@ void DolphinColumnsView::popAfter(int columnIndex)
         m_activeColumn = m_columns.size() - 1;
     }
 
-    // Keep focus proxy in sync after columns were removed
     if (auto *pane = activePane()) {
         setFocusProxy(pane->container());
     }
@@ -692,9 +626,7 @@ void DolphinColumnsView::popAfter(int columnIndex)
 
 DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 {
-    // Create model externally and configure BEFORE loading.
-    // Changing properties (e.g. hidden files) during an active load
-    // causes KDirLister::emitChanges() to insert items twice.
+    // Configured before it loads: changing a property during a load inserts items twice.
     auto *model = new KFileItemModel();
     applyViewProperties(model);
     model->setFilterMode(m_filterMode);
@@ -703,8 +635,6 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 
     auto *pane = new DolphinColumnPane(model, nullptr);
     if (KItemListView *paneView = pane->controller()->view()) {
-        // Leave the same room at the bottom that the columns already open leave, so the small
-        // status bar does not cover the last item of a freshly opened column either.
         paneView->setStatusBarOffset(m_statusBarOffset);
     }
     pane->setPreviewsShown(previewsShown());
@@ -720,10 +650,7 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
     connect(pane, &DolphinColumnPane::directoryLoadingCompleted, this, &DolphinColumnsView::slotPaneLoadingCompleted);
 
-    // In "adjust to content" mode a rename or an added/removed item changes how wide
-    // the column needs to be. A KIO rename refreshes the item in place (itemsChanged
-    // with the "text" role); a rename seen on disk arrives as a remove plus insert.
-    // Handle both so the column re-fits either way.
+    // A rename arrives as a "text" change from KIO, or as a remove and an insert from disk.
     connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::refitColumnsToContent);
     connect(model, &KFileItemModel::itemsRemoved, this, &DolphinColumnsView::refitColumnsToContent);
     connect(model, &KFileItemModel::itemsChanged, this, [this](const KItemRangeList &, const QSet<QByteArray> &changedRoles) {
@@ -732,7 +659,6 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
         }
     });
 
-    // Forward VCS observer messages
     connect(pane, &DolphinColumnPane::infoMessage, this, &DolphinView::infoMessage);
     connect(pane, &DolphinColumnPane::errorMessage, this, [this](const QString &msg) {
         Q_EMIT errorMessage(msg, KIO::ERR_UNKNOWN);
@@ -740,30 +666,25 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
     connect(pane, &DolphinColumnPane::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
     pane->container()->installEventFilter(this);
-    // Also filter the viewport for mouse events
     pane->container()->viewport()->installEventFilter(this);
 
     m_columns.append(pane);
-    // Before the filler, which is always last.
     m_splitter->insertWidget(m_splitter->count() - 1, pane);
     m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
-    // The handle before the column, for the double-click that fits the columns.
     if (const int handleIndex = m_splitter->indexOf(pane); handleIndex > 0) {
         m_splitter->handle(handleIndex)->installEventFilter(this);
     }
 
-    // Drop handling: reuse base class helper
     auto controller = pane->controller();
     connect(controller, &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
         handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
     });
 
     connect(controller, &KItemListController::mouseButtonReleased, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
-        Q_UNUSED(buttons) // a release reports what is still held, which is nothing after a click
+        Q_UNUSED(buttons) // what is still held, which is nothing after a click
         handleMouseButtonReleased(pane, itemIndex);
     });
     connect(controller, &KItemListController::draggingStarted, this, [this]() {
-        // The press became a drag, so it is not a click on the item any more.
         m_pressedPane = nullptr;
         m_pressedItemIndex = -1;
     });
@@ -771,7 +692,6 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
         handleMouseButtonPressed(pane, itemIndex, buttons);
     });
 
-    // Every column shows the tooltip of what is under the mouse, not only the active one.
     connect(controller, &KItemListController::itemHovered, this, [this, pane](int index) {
         showHoveredItem(pane->container(), pane->model()->fileItem(index), index);
     });
@@ -782,10 +702,7 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
-    // Double-clicking a splitter handle fits all columns to their content. A handle does not
-    // reliably receive MouseButtonDblClick, which is why DolphinTabPageSplitterHandle counts two
-    // releases in a row instead; do the same here, and leave press and release to the handle so
-    // that dragging still works.
+    // A double click on a handle fits the columns. Press and release still reach the handle.
     if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease || event->type() == QEvent::MouseButtonDblClick) {
         for (int i = 1; i < m_splitter->count(); ++i) {
             if (m_splitter->handle(i) != watched) {
@@ -797,8 +714,7 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
                 break;
             case QEvent::MouseButtonRelease:
                 if (m_splitterReleaseSeen) {
-                    // Resizing the splitter's widgets from inside their own mouse event, while
-                    // the implicit grab is still held, is asking for trouble. Do it after.
+                    // Not while the handle still holds the mouse grab.
                     QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
                 }
                 m_splitterReleaseSeen = !m_splitterReleaseSeen;
@@ -814,7 +730,6 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
         }
     }
 
-    // Find which column this event belongs to (match container or its viewport)
     int sourceColumn = -1;
     for (int i = 0; i < m_columns.size(); ++i) {
         if (m_columns.at(i)->container() == watched || m_columns.at(i)->container()->viewport() == watched) {
@@ -828,15 +743,8 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
         return DolphinView::eventFilter(watched, event);
     }
 
-    // A pane gaining focus makes both the view and that column active, mirroring
-    // how the base DolphinView activates on FocusIn of its container. Focus is
-    // how the window learns which view is active and wires the active-view
-    // signals (context menu, selection info, ...) to it, and the active-pane
-    // context-menu handler follows the active column. Activating the column here
-    // also covers a right-click on an inactive pane's background (which selects
-    // no item, so handleMouseButtonPressed() does not run). Doing this on FocusIn
-    // covers mouse, keyboard and programmatic focus, and it is reinstalled per
-    // pane in appendPane(), so it is unaffected by swapView().
+    // As the base view does for its container. This also covers a right-click on the background
+    // of an inactive column, where handleMouseButtonPressed() has no item.
     if (event->type() == QEvent::FocusIn) {
         if (sourceColumn != m_activeColumn) {
             setActiveColumn(sourceColumn);
@@ -880,7 +788,7 @@ void DolphinColumnsView::handleKeyLeft(int sourceColumn)
     if (sourceColumn > 0) {
         setActiveColumn(sourceColumn - 1);
     }
-    // Always consumed to prevent leaking to the Places panel
+    // Consumed even in the first column, or the Places panel takes it.
 }
 
 void DolphinColumnsView::handleKeyRight(int sourceColumn)
@@ -916,7 +824,6 @@ void DolphinColumnsView::enterChildColumn(int column)
     }
     DolphinColumnPane *child = m_columns.at(childColumn);
     if (child->model()->count() == 0) {
-        // Still listing, so the first item is selected once it arrives.
         m_pendingAutoSelect = child;
     } else if (!child->controller()->selectionManager()->hasSelection()) {
         autoSelectFirstItem(childColumn);
@@ -963,8 +870,7 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    // Activate clicked column on any mouse button so that right-click
-    // on an inactive column activates it before the context menu.
+    // Any button, so that a context menu belongs to the column.
     if (colIndex != m_activeColumn) {
         setActiveColumn(colIndex);
     }
@@ -973,9 +879,7 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    // Ctrl and Shift make the click a selection command. onPress() applies that after this
-    // signal, and openChild() would have cleared the selection and moved the anchor by then,
-    // so a Ctrl+click would end up selecting nothing and a Shift+click range would collapse.
+    // onPress() applies a Ctrl or Shift selection after this, which openChild() would clear.
     if (QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
         return;
     }
@@ -990,9 +894,7 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    // The columns follow the click when the button comes back up, so that a press that turns
-    // into a drag leaves them alone. A file dragged to a folder several columns to the right
-    // needs that column to still be open when it gets there.
+    // Followed on the release, so that a drag finds the columns still open.
     m_pressedPane = pane;
     m_pressedItemIndex = itemIndex;
 }
@@ -1005,9 +907,6 @@ void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int 
     m_pressedPane = nullptr;
     m_pressedItemIndex = -1;
 
-    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
-    // so slotColumnsCurrentItemChanged() does not navigate for a click. Without this the first
-    // click only selected.
     const KFileItem item = pane->model()->fileItem(itemIndex);
     const int colIndex = m_columns.indexOf(pane);
     if (colIndex >= 0 && !item.isNull()) {
@@ -1027,11 +926,7 @@ void DolphinColumnsView::ensureColumnVisible(int index)
     }
     QWidget *activeWidget = m_columns.at(index);
 
-    // Where the active column sits comes from the sizes given to the splitter rather than from
-    // the geometry of the panes. A column that was just added has its size already and its
-    // geometry only after the next layout pass, and asking the panes that early answers as if
-    // every column were at the very left, which leaves the view where it was until some later
-    // navigation scrolls it again.
+    // From the splitter sizes: a column just added has no geometry until the next layout.
     const QList<int> sizes = m_splitter->sizes();
     int activeLeft = visibleHandlesBefore(index) * m_splitter->handleWidth();
     for (int i = 0; i < index && i < sizes.size(); ++i) {
@@ -1047,7 +942,7 @@ void DolphinColumnsView::ensureColumnVisible(int index)
         scrollValue = activeRight - viewportWidth;
     }
 
-    // The active column's left edge takes priority so its start stays visible.
+    // The left edge wins.
     if (activeLeft < scrollValue) {
         scrollValue = activeLeft;
     }
@@ -1064,19 +959,16 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
     auto *pane = m_columns.at(columnIndex);
     auto *selectionManager = pane->controller()->selectionManager();
 
-    // Ensure the current item is set and selected.  Guard against cascading
-    // navigation from the programmatic selection change.
     if (pane->model()->count() > 0) {
         QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
         if (selectionManager->currentItem() < 0) {
             selectionManager->setCurrentItem(0);
         }
-        // Always re-apply selection; it may have been cleared by Left arrow
+        // Left may have cleared it.
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
     }
 
-    // The item is only selected, never opened. Opening it here would put a column on screen that
-    // the user did not ask for, and browsing would then add and drop one at every step.
+    // Selected, not opened, or browsing would add and drop a column at every step.
     const KFileItem item = pane->currentFileItem();
     if (!item.isNull()) {
         Q_EMIT requestItemInfo(item);
@@ -1099,15 +991,12 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
 
     const int viewportWidth = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     if (viewportWidth <= 0) {
-        // Constructor time, viewport not yet laid out
         return;
     }
 
     const int divisor = qMax(1, qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns));
     const int handleWidth = m_splitter->handleWidth();
-    // Reserve room for the handles between visible columns so a full set of
-    // default-width columns fits the viewport exactly, instead of overflowing it
-    // by a few pixels and tripping the horizontal scrollbar.
+    // Room for the handles, so a full set of columns fits without a scrollbar.
     const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
@@ -1119,28 +1008,21 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     for (int i = 0; i < numColumns; ++i) {
         int columnWidth;
         if (m_columns.at(i)->isWidthPending()) {
-            // No width until its content says what it should be. The filler takes up the room.
             sizes.append(0);
             continue;
         }
         if (m_customColumnWidths.contains(i)) {
-            // A width the user set by dragging the handle always wins.
             columnWidth = m_customColumnWidths.value(i);
         } else if (dynamicWidth) {
-            // Size the column to its content, never below the configured minimum.
             columnWidth = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
             if (policy == WidthPolicy::GrowOnly) {
-                // A column only ever grows on its own. Narrowing one is the user's to do, by
-                // dragging the handle, fitting the column or making the window smaller, so a
-                // folder with shorter names in it leaves the width alone.
+                // Only the user narrows a column.
                 columnWidth = qMax(columnWidth, widthFloorFor(i, currentSizes));
             }
         } else {
             columnWidth = defaultWidth;
         }
-        // A column fits in the viewport, so scrolling to it brings all of it into view, its vertical
-        // scrollbar included. A width that came from the content of a long name, from the configured
-        // minimum or from the handle the user dragged can be larger than that.
+        // Never wider than the viewport, so scrolling to a column shows its scrollbar.
         sizes.append(qMin(viewportWidth, columnWidth));
     }
     applyColumnSizes(sizes);
@@ -1152,8 +1034,6 @@ int DolphinColumnsView::widthFloorFor(int index, const QList<int> &currentSizes)
     if (index < currentSizes.size()) {
         floor = currentSizes.at(index);
     }
-    // A column that replaced another one has no width of its own yet, so the width of the one
-    // it replaced stands in until its folder has listed.
     if (m_carriedColumnWidth && m_carriedColumnWidth->first == index) {
         floor = qMax(floor, m_carriedColumnWidth->second);
     }
@@ -1181,26 +1061,16 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += columnSizes.at(i);
     }
-    // The handle between the last column and the filler is drawn too. Leaving it out makes the
-    // splitter one handle narrower than what it has to lay out, and it takes that back by
-    // shaving a pixel off one of the columns, which moves every column after it.
+    // Including the handle before the filler, or the splitter takes a pixel from a column.
     totalWidth += visibleHandlesBefore(numColumns) * handleWidth;
 
-    // Closing a column leaves the content narrower than where the view is scrolled to, and the
-    // scroll position is then pulled back, sliding everything sideways under the user. The filler
-    // takes up exactly what the current position needs, so nothing moves. It shrinks again on its
-    // own as the user scrolls back towards the left.
+    // The filler holds the scroll position when a column closes.
     const int viewportWidthForFiller = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     const int scrollValue = m_scrollArea ? m_scrollArea->horizontalScrollBar()->value() : 0;
     const int filler = qMax(0, scrollValue + viewportWidthForFiller - totalWidth);
     totalWidth += filler;
 
-    // A column with no width still has a handle of its own, so opening one puts a second
-    // separator next to the column it came from and moves everything after it by a handle. Take
-    // the handle away for as long as the column has no width, before the sizes are applied so
-    // that the layout is worked out with the handles it will actually draw.
-    // From 1: the handle before the first column is not a separator and stays as the splitter
-    // keeps it.
+    // Before setSizes(), so the layout counts the handles it draws. Handle 0 is not a separator.
     for (int i = 1; i < numColumns; ++i) {
         if (QSplitterHandle *handle = m_splitter->handle(i)) {
             handle->setVisible(!m_columns.at(i)->isWidthPending());
@@ -1210,9 +1080,7 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     columnSizes.append(filler);
     m_splitter->setSizes(columnSizes);
 
-    // Tolerate one handle of overshoot so a one-pixel wobble of the viewport
-    // width under fractional scaling does not flip the scrollbar on and off
-    // while resizing.
+    // One handle of slack, for the viewport width that wobbles under fractional scaling.
     const int viewportWidth = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     if (totalWidth > viewportWidth + handleWidth) {
         m_splitter->setMinimumWidth(totalWidth);
@@ -1220,10 +1088,7 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
         m_splitter->setMinimumWidth(0);
     }
 
-    // A column is as wide as the longest name it holds, which is only known once its folder
-    // has been listed, and that happens after the column was added. Look at the scroll
-    // position again here, so that the view follows the active column as it takes its final
-    // width instead of being pulled there by whatever the user does next.
+    // The active column may have just taken its final width.
     ensureActiveColumnVisible();
 }
 
@@ -1233,8 +1098,6 @@ void DolphinColumnsView::autoAdjustColumns()
         return;
     }
 
-    // Fit every column to its content and drop any width the user dragged, so the
-    // whole set is tidy again.
     m_customColumnWidths.clear();
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const bool fixedWidth = !ColumnsModeSettings::self()->dynamicColumnWidth();
@@ -1245,10 +1108,7 @@ void DolphinColumnsView::autoAdjustColumns()
         const int width = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
         sizes.append(width);
         if (fixedWidth) {
-            // In fixed-width mode the fit is a one-off, so pin it as a custom width.
-            // Otherwise the next relayout (e.g. a resize) would snap the column
-            // back to the fixed width. In adjust-to-content mode the layout already
-            // tracks the content, so no pinning is needed.
+            // Or the next relayout would go back to the fixed width.
             m_customColumnWidths[i] = width;
         }
     }
@@ -1267,8 +1127,7 @@ void DolphinColumnsView::connectActivePane(DolphinColumnPane *newPane)
         return;
     }
 
-    // Point base-class m_model at the active pane's model so that
-    // selectedItems(), fileItem(), etc. work correctly.
+    // For selectedItems(), fileItem() and the base slots.
     setBaseModel(newPane->model());
 
     m_activePaneConnections = connectItemController(newPane->controller());
@@ -1281,8 +1140,7 @@ void DolphinColumnsView::connectActivePane(DolphinColumnPane *newPane)
 
 void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
 {
-    // A selection made by the view itself, such as openChild() marking the folder in its parent,
-    // must not open a column again.
+    // Not for a selection made by the view, such as openChild() marking the folder in its parent.
     if (m_blockNavigation || current.count() != 1) {
         return;
     }
