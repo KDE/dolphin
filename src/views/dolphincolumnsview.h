@@ -93,6 +93,9 @@ private:
     void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
+    /// Stops painting the columns until none of them waits for its width any more.
+    void holdPaintingUntilEveryColumnHasAWidth();
+    void resumePaintingOnceEveryColumnHasAWidth();
     /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
     QUrl rootUrlFor(const QUrl &url) const;
@@ -117,6 +120,8 @@ private:
 
     void ensureActiveColumnVisible();
     void ensureColumnVisible(int index);
+    /// Scrolls left over the room after the last column, which a wider window leaves.
+    void showEarlierColumnsInTheRoomAfterTheLast();
     void autoSelectFirstItem(int columnIndex);
     /// Refit may narrow a column, which only a request by the user does.
     enum class WidthPolicy {
@@ -128,11 +133,15 @@ private:
     int widthFloorFor(int index, const QList<int> &currentSizes) const;
     /// The number of splitter handles drawn before column @p index.
     int visibleHandlesBefore(int index) const;
-    void applyColumnSizes(QList<int> columnSizes);
+    void applyColumnSizes(QList<int> columnSizes, bool showActiveColumn = true);
     /// Refits the columns to their content, in the adjust-to-content mode only.
     void refitColumnsToContent();
-    /// Fits every column to its content and drops the widths set by hand.
-    void autoAdjustColumns();
+    /// Fits every column to its content and drops the widths set by hand. Column @p anchorColumn
+    /// stays where it is in the viewport; without one, the active column is scrolled into view.
+    void autoAdjustColumns(int anchorColumn = -1);
+    /// Scrolls so that column @p index starts at @p viewportX, or further left when that leaves
+    /// empty space after the last column.
+    void keepColumnAt(int index, int viewportX);
 
     /// Shows @p url within the open columns, activating it or opening the folders down to it.
     /// Returns false when @p url is not under an open column.
