@@ -121,8 +121,17 @@ private:
     /// Scrolls the column at @p index into view, if any part of it is outside the viewport.
     void ensureColumnVisible(int index);
     void autoSelectFirstItem(int columnIndex);
-    void recalculateColumnWidths();
+    // Whether a column may end up narrower than it is now. Only the user asking for it does
+    // that: the width mode, the handle, the fit, or the size of the window.
+    enum class WidthPolicy {
+        GrowOnly,
+        Refit,
+    };
+    void recalculateColumnWidths(WidthPolicy policy = WidthPolicy::GrowOnly);
     /// Set the per-column widths on the splitter and update the horizontal-scroll overflow.
+    // The width a column keeps whatever its content asks for: what it has now, or the width of
+    // the column it replaced.
+    int widthFloorFor(int index, const QList<int> &currentSizes) const;
     void applyColumnSizes(QList<int> columnSizes);
     /**
      * In "adjust to content" mode, re-fit the columns to their content so a rename
