@@ -84,12 +84,6 @@ void DolphinColumnsView::initColumnsUi()
     m_filterMode = m_baseModel->filterMode();
     m_filterCaseSensitive = m_baseModel->isFilterCaseSensitive();
 
-    m_columnsSelectionTimer = new QTimer(this);
-    m_columnsSelectionTimer->setSingleShot(true);
-    connect(m_columnsSelectionTimer, &QTimer::timeout, this, [this] {
-        Q_EMIT selectionChanged(selectedItems());
-    });
-
     m_scrollArea = new QScrollArea(this);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -318,12 +312,10 @@ void DolphinColumnsView::setActiveColumn(int index)
         return;
     }
 
-    DolphinColumnPane *oldPane = activePane();
-
     m_activeColumn = index;
 
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
-    reconnectActivePane(oldPane, newPane);
+    connectActivePane(newPane);
 
     // Keep focus proxy in sync so external setFocus() calls (e.g. from
     // DolphinViewContainer::requestFocus) land on the correct pane.
@@ -685,9 +677,8 @@ void DolphinColumnsView::popAfter(int columnIndex)
 {
     // If the active pane is about to be destroyed, disconnect it first
     // to prevent queued signals from dereferencing a dangling pointer.
-    DolphinColumnPane *currentActive = activePane();
-    if (currentActive && m_activeColumn > columnIndex) {
-        reconnectActivePane(currentActive, nullptr);
+    if (activePane() && m_activeColumn > columnIndex) {
+        connectActivePane(nullptr);
     }
 
     while (m_columns.size() > columnIndex + 1) {
@@ -808,26 +799,11 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         handleMouseButtonPressed(pane, itemIndex, buttons);
     });
 
-    connect(controller, &KItemListController::itemHovered, this, [this, pane, controller](int index) {
-        const KFileItem item = pane->model()->fileItem(index);
-        if (GeneralSettings::showToolTips() && !isDragging()) {
-            QRectF itemRect = controller->view()->itemContextRect(index);
-            const QPoint pos = pane->container()->mapToGlobal(itemRect.topLeft().toPoint());
-            itemRect.moveTo(pos);
-#if HAVE_BALOO
-            auto nativeParent = nativeParentWidget();
-            if (nativeParent && toolTipManager()) {
-                toolTipManager()->showToolTip(item, itemRect, nativeParent->windowHandle());
-            }
-#endif
-        }
-        Q_EMIT requestItemInfo(item);
+    // Every column shows the tooltip of what is under the mouse, not only the active one.
+    connect(controller, &KItemListController::itemHovered, this, [this, pane](int index) {
+        showHoveredItem(pane->container(), pane->model()->fileItem(index), index);
     });
-
-    connect(controller, &KItemListController::itemUnhovered, this, [this](int) {
-        hideToolTip();
-        Q_EMIT requestItemInfo(KFileItem());
-    });
+    connect(controller, &KItemListController::itemUnhovered, this, &DolphinColumnsView::slotItemUnhovered);
 
     return pane;
 }
@@ -1366,23 +1342,12 @@ void DolphinColumnsView::autoAdjustColumns()
     applyColumnSizes(sizes);
 }
 
-void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane)
+void DolphinColumnsView::connectActivePane(DolphinColumnPane *newPane)
 {
-    // Disconnect old pane's controller/selectionManager signals from this
-    if (oldPane) {
-        auto *controller = oldPane->controller();
-        auto *selectionManager = controller->selectionManager();
-        disconnect(selectionManager, &KItemListSelectionManager::selectionChanged, this, nullptr);
-        disconnect(controller, &KItemListController::itemContextMenuRequested, this, nullptr);
-        disconnect(controller, &KItemListController::viewContextMenuRequested, this, nullptr);
-        disconnect(controller, &KItemListController::itemMiddleClicked, this, nullptr);
-        disconnect(controller, &KItemListController::escapePressed, this, nullptr);
-        disconnect(controller, &KItemListController::increaseZoom, this, nullptr);
-        disconnect(controller, &KItemListController::decreaseZoom, this, nullptr);
-        disconnect(controller, &KItemListController::swipeUp, this, nullptr);
-        disconnect(controller, &KItemListController::doubleClickViewBackground, this, nullptr);
-        disconnect(controller, &KItemListController::selectionModeChangeRequested, this, nullptr);
+    for (const QMetaObject::Connection &connection : std::as_const(m_activePaneConnections)) {
+        disconnect(connection);
     }
+    m_activePaneConnections.clear();
 
     if (!newPane) {
         setBaseModel(m_baseModel);
@@ -1393,103 +1358,50 @@ void DolphinColumnsView::reconnectActivePane(DolphinColumnPane *oldPane, Dolphin
     // selectedItems(), fileItem(), etc. work correctly.
     setBaseModel(newPane->model());
 
-    auto *controller = newPane->controller();
-    auto *selectionManager = controller->selectionManager();
+    m_activePaneConnections = connectItemController(newPane->controller());
 
-    // Selection changed with timer batching (like base view)
-    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, [this, newPane](const KItemSet &current, const KItemSet &previous) {
-        // Programmatic selection changes (e.g. openChild() marking the parent's
-        // active child) must not drive navigation, or they re-enter openChild()
-        // and build the child column twice. slotColumnsCurrentItemChanged()
-        // guards the same way.
-        if (m_blockNavigation) {
-            return;
-        }
-        const bool stateChanged = (current.isEmpty() != previous.isEmpty());
-        m_columnsSelectionTimer->setInterval(stateChanged ? 0 : 300);
-        m_columnsSelectionTimer->start();
+    m_activePaneConnections.append(connect(newPane->controller()->selectionManager(),
+                                           &KItemListSelectionManager::selectionChanged,
+                                           this,
+                                           &DolphinColumnsView::slotActiveSelectionChanged));
+}
 
-        if (current.count() != 1) {
-            return;
-        }
+void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
+{
+    // Programmatic selection changes (e.g. openChild() marking the parent's
+    // active child) must not drive navigation, or they re-enter openChild()
+    // and build the child column twice. slotColumnsCurrentItemChanged()
+    // guards the same way.
+    if (m_blockNavigation || current.count() != 1) {
+        return;
+    }
 
-        auto currentColumnIndex = m_columns.indexOf(newPane);
-        auto currentUrl = newPane->dirUrl();
-        auto item = newPane->model()->fileItem(current.first());
-        if (item.isDir() && currentColumnIndex != -1) {
-            const int childCol = currentColumnIndex + 1;
-            // The child column may already show this folder because
-            // slotColumnsCurrentItemChanged() opened it for the same change.
-            // Only pop the stale descendant columns and (re)open it otherwise,
-            // so the child pane is not rebuilt twice for one interaction.
-            if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != item.url()) {
-                for (int i = m_columns.size() - 1; i > 0; --i) {
-                    if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
-                        popAfter(i - 1);
-                    } else {
-                        break;
-                    }
+    DolphinColumnPane *pane = activePane();
+    auto currentColumnIndex = m_columns.indexOf(pane);
+    auto currentUrl = pane->dirUrl();
+    auto item = pane->model()->fileItem(current.first());
+    if (item.isDir() && currentColumnIndex != -1) {
+        const int childCol = currentColumnIndex + 1;
+        // The child column may already show this folder because
+        // slotColumnsCurrentItemChanged() opened it for the same change.
+        // Only pop the stale descendant columns and (re)open it otherwise,
+        // so the child pane is not rebuilt twice for one interaction.
+        if (childCol >= m_columns.size() || m_columns.at(childCol)->dirUrl() != item.url()) {
+            for (int i = m_columns.size() - 1; i > 0; --i) {
+                if (currentUrl.isParentOf(m_columns.at(i)->dirUrl())) {
+                    popAfter(i - 1);
+                } else {
+                    break;
                 }
-
-                newPane->controller()->selectionManager()->blockSignals(true);
-                openChild(currentColumnIndex, item.url());
-
-                updateUrl(m_columns.at(m_activeColumn)->dirUrl());
-                Q_EMIT urlChanged(url());
-
-                newPane->controller()->selectionManager()->blockSignals(false);
             }
+
+            pane->controller()->selectionManager()->blockSignals(true);
+            openChild(currentColumnIndex, item.url());
+
+            updateUrl(m_columns.at(m_activeColumn)->dirUrl());
+            Q_EMIT urlChanged(url());
+
+            pane->controller()->selectionManager()->blockSignals(false);
         }
-    });
-
-    connect(controller, &KItemListController::itemContextMenuRequested, this, [this, newPane](int index, const QPointF &pos) {
-        if (m_columnsSelectionTimer->isActive()) {
-            m_columnsSelectionTimer->stop();
-            Q_EMIT selectionChanged(selectedItems());
-        }
-        const KFileItem item = newPane->model()->fileItem(index);
-        Q_EMIT requestContextMenu(pos.toPoint(), item, selectedItems(), newPane->dirUrl());
-    });
-
-    connect(controller, &KItemListController::viewContextMenuRequested, this, [this, newPane](const QPointF &pos) {
-        Q_EMIT requestContextMenu(pos.toPoint(), KFileItem(), selectedItems(), newPane->dirUrl());
-    });
-
-    connect(controller, &KItemListController::itemMiddleClicked, this, [this, newPane](int index) {
-        const KFileItem item = newPane->model()->fileItem(index);
-        const QUrl folderUrl = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
-        const auto modifiers = QGuiApplication::keyboardModifiers();
-        if (!folderUrl.isEmpty()) {
-            if (modifiers & Qt::ShiftModifier) {
-                Q_EMIT activeTabRequested(folderUrl);
-            } else {
-                Q_EMIT tabRequested(folderUrl);
-            }
-        } else if (isTabsForFilesEnabled()) {
-            if (modifiers & Qt::ShiftModifier) {
-                Q_EMIT activeTabRequested(item.url());
-            } else {
-                Q_EMIT tabRequested(item.url());
-            }
-        } else {
-            Q_EMIT fileMiddleClickActivated(item);
-        }
-    });
-
-    connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
-
-    connect(controller, &KItemListController::increaseZoom, this, [this] {
-        setZoomLevel(zoomLevel() + 1);
-    });
-    connect(controller, &KItemListController::decreaseZoom, this, [this] {
-        setZoomLevel(zoomLevel() - 1);
-    });
-
-    connect(controller, &KItemListController::swipeUp, this, [this] {
-        Q_EMIT goUpRequested();
-    });
-
-    connect(controller, &KItemListController::doubleClickViewBackground, this, &DolphinView::doubleClickViewBackground);
-
-    connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested);
+    }
 }
