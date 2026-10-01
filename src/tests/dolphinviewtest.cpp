@@ -10,6 +10,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
 #include "testdir.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
@@ -34,6 +35,7 @@ private Q_SLOTS:
     void cleanup();
 
     void selectionIsAnnouncedBeforeTheBackgroundContextMenu();
+    void hoveringAnItemShowsItsInformation();
     void defaultZoomLevelComesFromThePreviewSizeWhenPreviewsAreShown();
     void switchingViewModeAdoptsTheNewModesConfiguredSize_data();
     void switchingViewModeAdoptsTheNewModesConfiguredSize();
@@ -101,6 +103,24 @@ void DolphinViewTest::selectionIsAnnouncedBeforeTheBackgroundContextMenu()
 
     QCOMPARE(signalsInOrder, QStringList({QStringLiteral("selectionChanged"), QStringLiteral("requestContextMenu")}));
     QCOMPARE(selectionChanged.last().first().value<KFileItemList>().count(), 0);
+}
+
+/**
+ * The Information panel follows the item under the mouse, and goes back to the folder once the
+ * mouse leaves it.
+ */
+void DolphinViewTest::hoveringAnItemShowsItsInformation()
+{
+    QSignalSpy requestItemInfo(m_view, &DolphinView::requestItemInfo);
+    auto *controller = m_view->itemListContainer()->controller();
+
+    Q_EMIT controller->itemHovered(0);
+    QCOMPARE(requestItemInfo.count(), 1);
+    QCOMPARE(requestItemInfo.last().first().value<KFileItem>().url(), m_view->items().constFirst().url());
+
+    Q_EMIT controller->itemUnhovered(0);
+    QCOMPARE(requestItemInfo.count(), 2);
+    QVERIFY(requestItemInfo.last().first().value<KFileItem>().isNull());
 }
 
 /**
