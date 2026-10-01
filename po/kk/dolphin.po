@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-30 00:49+0000\n"
+"POT-Creation-Date: 2026-10-01 00:48+0000\n"
 "PO-Revision-Date: 2013-07-07 01:53+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -1952,7 +1952,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Реттеу:"
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1960,13 +1960,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Іздеу..."
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ештеңе табылған жоқ."
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste One File"
@@ -1974,7 +1974,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "Бір файлды орналастыру"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:status"
 #| msgid ""
@@ -1984,13 +1984,13 @@ msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr ""
 "Орналастырам деген нысандар <filename>%1</filename> қапшығында бар екен"
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:967
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin өзі веб парақтарды ашпайды, оган веб шолғыш жегілді"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:970
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1999,7 +1999,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin танымайтын протокол, Konqueror жегілді"
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2007,19 +2007,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Жарамсыз протокол"
 
-#: dolphinviewcontainer.cpp:972
+#: dolphinviewcontainer.cpp:979
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Жарамсыз протокол"
 
-#: dolphinviewcontainer.cpp:1075
+#: dolphinviewcontainer.cpp:1083
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1080
+#: dolphinviewcontainer.cpp:1088
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2027,19 +2027,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Құрылған қапшық."
 
-#: dolphinviewcontainer.cpp:1097
+#: dolphinviewcontainer.cpp:1105
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1100
+#: dolphinviewcontainer.cpp:1108
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1124
+#: dolphinviewcontainer.cpp:1132
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "By Path"
@@ -2047,7 +2047,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Жолы бойынша"
 
-#: dolphinviewcontainer.cpp:1170 dolphinviewcontainer.cpp:1173
+#: dolphinviewcontainer.cpp:1178 dolphinviewcontainer.cpp:1181
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2502,61 +2502,61 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2796
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2798
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Басқалар"
 
-#: kitemviews/kfileitemmodel.cpp:2781
+#: kitemviews/kfileitemmodel.cpp:2830
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Қапшықтар"
 
-#: kitemviews/kfileitemmodel.cpp:2789
+#: kitemviews/kfileitemmodel.cpp:2838
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Шағын"
 
-#: kitemviews/kfileitemmodel.cpp:2791
+#: kitemviews/kfileitemmodel.cpp:2840
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Орташа"
 
-#: kitemviews/kfileitemmodel.cpp:2793
+#: kitemviews/kfileitemmodel.cpp:2842
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Үлкен"
 
-#: kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2888
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Бүгін"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2891
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Кеше"
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2894
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2849
+#: kitemviews/kfileitemmodel.cpp:2898
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2565,31 +2565,31 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2854
+#: kitemviews/kfileitemmodel.cpp:2903
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Бір апта бұрын"
 
-#: kitemviews/kfileitemmodel.cpp:2857
+#: kitemviews/kfileitemmodel.cpp:2906
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Екі апта бұрын"
 
-#: kitemviews/kfileitemmodel.cpp:2860
+#: kitemviews/kfileitemmodel.cpp:2909
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Ұш апта бұрын"
 
-#: kitemviews/kfileitemmodel.cpp:2864
+#: kitemviews/kfileitemmodel.cpp:2913
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Осы айдан бұрын"
 
-#: kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2927
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2603,7 +2603,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "Кеше (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2885
+#: kitemviews/kfileitemmodel.cpp:2934
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2613,7 +2613,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2947
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2625,7 +2625,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "Кеше (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2902
+#: kitemviews/kfileitemmodel.cpp:2951
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2635,7 +2635,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2910
+#: kitemviews/kfileitemmodel.cpp:2959
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2649,7 +2649,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "Бір апта бұрын (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2917
+#: kitemviews/kfileitemmodel.cpp:2966
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2659,7 +2659,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2931
+#: kitemviews/kfileitemmodel.cpp:2980
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2673,7 +2673,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "Екі апта бұрын (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2938
+#: kitemviews/kfileitemmodel.cpp:2987
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2683,7 +2683,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2952
+#: kitemviews/kfileitemmodel.cpp:3001
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2697,7 +2697,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "Ұш апта бұрын (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2959
+#: kitemviews/kfileitemmodel.cpp:3008
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2707,7 +2707,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2973
+#: kitemviews/kfileitemmodel.cpp:3022
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2721,7 +2721,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "Бұрын (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2980
+#: kitemviews/kfileitemmodel.cpp:3029
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2731,7 +2731,7 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:2994
+#: kitemviews/kfileitemmodel.cpp:3043
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2739,7 +2739,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2998
+#: kitemviews/kfileitemmodel.cpp:3047
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Maximum lines"
 #| msgid "1"
@@ -2749,117 +2749,117 @@ msgctxt ""
 msgid "%1"
 msgstr "1"
 
-#: kitemviews/kfileitemmodel.cpp:3038 kitemviews/kfileitemmodel.cpp:3051
-#: kitemviews/kfileitemmodel.cpp:3064
+#: kitemviews/kfileitemmodel.cpp:3087 kitemviews/kfileitemmodel.cpp:3100
+#: kitemviews/kfileitemmodel.cpp:3113
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Оқу, "
 
-#: kitemviews/kfileitemmodel.cpp:3041 kitemviews/kfileitemmodel.cpp:3054
-#: kitemviews/kfileitemmodel.cpp:3067
+#: kitemviews/kfileitemmodel.cpp:3090 kitemviews/kfileitemmodel.cpp:3103
+#: kitemviews/kfileitemmodel.cpp:3116
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Жазу, "
 
-#: kitemviews/kfileitemmodel.cpp:3044 kitemviews/kfileitemmodel.cpp:3057
-#: kitemviews/kfileitemmodel.cpp:3070
+#: kitemviews/kfileitemmodel.cpp:3093 kitemviews/kfileitemmodel.cpp:3106
+#: kitemviews/kfileitemmodel.cpp:3119
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Орындау, "
 
-#: kitemviews/kfileitemmodel.cpp:3046 kitemviews/kfileitemmodel.cpp:3059
-#: kitemviews/kfileitemmodel.cpp:3072
+#: kitemviews/kfileitemmodel.cpp:3095 kitemviews/kfileitemmodel.cpp:3108
+#: kitemviews/kfileitemmodel.cpp:3121
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Тыйымды"
 
-#: kitemviews/kfileitemmodel.cpp:3074
+#: kitemviews/kfileitemmodel.cpp:3123
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Иесі %1 | Тобы: %2 | Басқалар: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3164
+#: kitemviews/kfileitemmodel.cpp:3213
 msgctxt "@label"
 msgid "Name"
 msgstr "Атауы"
 
-#: kitemviews/kfileitemmodel.cpp:3165
+#: kitemviews/kfileitemmodel.cpp:3214
 msgctxt "@label"
 msgid "Size"
 msgstr "Өлшемі"
 
-#: kitemviews/kfileitemmodel.cpp:3166
+#: kitemviews/kfileitemmodel.cpp:3215
 #, fuzzy
 msgctxt "@label"
 msgid "Modified"
 msgstr "Өзгертілген кезі:"
 
-#: kitemviews/kfileitemmodel.cpp:3166 kitemviews/kfileitemmodel.cpp:3167
-#: kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3215 kitemviews/kfileitemmodel.cpp:3216
+#: kitemviews/kfileitemmodel.cpp:3217
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3167
+#: kitemviews/kfileitemmodel.cpp:3216
 #, fuzzy
 msgctxt "@label"
 msgid "Created"
 msgstr "Жаңасын құру"
 
-#: kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3217
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3169
+#: kitemviews/kfileitemmodel.cpp:3218
 msgctxt "@label"
 msgid "Type"
 msgstr "Түрі"
 
-#: kitemviews/kfileitemmodel.cpp:3170
+#: kitemviews/kfileitemmodel.cpp:3219
 msgctxt "@label"
 msgid "Rating"
 msgstr "Ұпайы"
 
-#: kitemviews/kfileitemmodel.cpp:3171
+#: kitemviews/kfileitemmodel.cpp:3220
 msgctxt "@label"
 msgid "Tags"
 msgstr "Тегтері"
 
-#: kitemviews/kfileitemmodel.cpp:3172
+#: kitemviews/kfileitemmodel.cpp:3221
 msgctxt "@label"
 msgid "Comment"
 msgstr "Түсініктемесі"
 
-#: kitemviews/kfileitemmodel.cpp:3173
+#: kitemviews/kfileitemmodel.cpp:3222
 #, fuzzy
 msgctxt "@label"
 msgid "Title"
 msgstr "Атауы:"
 
-#: kitemviews/kfileitemmodel.cpp:3173 kitemviews/kfileitemmodel.cpp:3174
-#: kitemviews/kfileitemmodel.cpp:3175 kitemviews/kfileitemmodel.cpp:3176
-#: kitemviews/kfileitemmodel.cpp:3177 kitemviews/kfileitemmodel.cpp:3178
+#: kitemviews/kfileitemmodel.cpp:3222 kitemviews/kfileitemmodel.cpp:3223
+#: kitemviews/kfileitemmodel.cpp:3224 kitemviews/kfileitemmodel.cpp:3225
+#: kitemviews/kfileitemmodel.cpp:3226 kitemviews/kfileitemmodel.cpp:3227
 msgctxt "@label"
 msgid "Document"
 msgstr "Құжаты"
 
-#: kitemviews/kfileitemmodel.cpp:3174
+#: kitemviews/kfileitemmodel.cpp:3223
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3175
+#: kitemviews/kfileitemmodel.cpp:3224
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3176
+#: kitemviews/kfileitemmodel.cpp:3225
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Line Count"
@@ -2867,44 +2867,44 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Жолдар саны"
 
-#: kitemviews/kfileitemmodel.cpp:3177
+#: kitemviews/kfileitemmodel.cpp:3226
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Сөздер есебі"
 
-#: kitemviews/kfileitemmodel.cpp:3178
+#: kitemviews/kfileitemmodel.cpp:3227
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Жолдар саны"
 
-#: kitemviews/kfileitemmodel.cpp:3179
+#: kitemviews/kfileitemmodel.cpp:3228
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3179 kitemviews/kfileitemmodel.cpp:3180
-#: kitemviews/kfileitemmodel.cpp:3181 kitemviews/kfileitemmodel.cpp:3182
-#: kitemviews/kfileitemmodel.cpp:3183
+#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
+#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3232
 msgctxt "@label"
 msgid "Image"
 msgstr "Кескін"
 
-#: kitemviews/kfileitemmodel.cpp:3180 kitemviews/kfileitemmodel.cpp:3196
+#: kitemviews/kfileitemmodel.cpp:3229 kitemviews/kfileitemmodel.cpp:3245
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3181 kitemviews/kfileitemmodel.cpp:3199
+#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3248
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3182
+#: kitemviews/kfileitemmodel.cpp:3231
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Бағдары"
 
-#: kitemviews/kfileitemmodel.cpp:3183 kitemviews/kfileitemmodel.cpp:3202
+#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3251
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Width:"
@@ -2912,25 +2912,25 @@ msgctxt "@label"
 msgid "Width"
 msgstr "Ені:"
 
-#: kitemviews/kfileitemmodel.cpp:3184
+#: kitemviews/kfileitemmodel.cpp:3233
 msgctxt "@label"
 msgid "Album"
 msgstr "Альбомы:"
 
-#: kitemviews/kfileitemmodel.cpp:3184 kitemviews/kfileitemmodel.cpp:3185
-#: kitemviews/kfileitemmodel.cpp:3186 kitemviews/kfileitemmodel.cpp:3187
-#: kitemviews/kfileitemmodel.cpp:3188 kitemviews/kfileitemmodel.cpp:3189
-#: kitemviews/kfileitemmodel.cpp:3190 kitemviews/kfileitemmodel.cpp:3191
+#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3234
+#: kitemviews/kfileitemmodel.cpp:3235 kitemviews/kfileitemmodel.cpp:3236
+#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3238
+#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
 msgctxt "@label"
 msgid "Audio"
 msgstr "Аудио"
 
-#: kitemviews/kfileitemmodel.cpp:3185
+#: kitemviews/kfileitemmodel.cpp:3234
 msgctxt "@label"
 msgid "Artist"
 msgstr "Орындаушысы"
 
-#: kitemviews/kfileitemmodel.cpp:3186 kitemviews/kfileitemmodel.cpp:3193
+#: kitemviews/kfileitemmodel.cpp:3235 kitemviews/kfileitemmodel.cpp:3242
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Audio Files"
@@ -2938,23 +2938,23 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Аудио файлдар"
 
-#: kitemviews/kfileitemmodel.cpp:3187 kitemviews/kfileitemmodel.cpp:3194
+#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3243
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3188 kitemviews/kfileitemmodel.cpp:3197
+#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3246
 msgctxt "@label"
 msgid "Duration"
 msgstr "Ұзақтығы"
 
-#: kitemviews/kfileitemmodel.cpp:3189
+#: kitemviews/kfileitemmodel.cpp:3238
 #, fuzzy
 msgctxt "@label"
 msgid "Genre"
 msgstr "Жанры"
 
-#: kitemviews/kfileitemmodel.cpp:3190
+#: kitemviews/kfileitemmodel.cpp:3239
 #, fuzzy
 #| msgctxt "@item"
 #| msgid "Release '%1'"
@@ -2962,22 +2962,22 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "'%1' дегенді шығару"
 
-#: kitemviews/kfileitemmodel.cpp:3191
+#: kitemviews/kfileitemmodel.cpp:3240
 msgctxt "@label"
 msgid "Track"
 msgstr "Жолсызығы"
 
-#: kitemviews/kfileitemmodel.cpp:3192
+#: kitemviews/kfileitemmodel.cpp:3241
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3192 kitemviews/kfileitemmodel.cpp:3193
-#: kitemviews/kfileitemmodel.cpp:3194 kitemviews/kfileitemmodel.cpp:3195
-#: kitemviews/kfileitemmodel.cpp:3196 kitemviews/kfileitemmodel.cpp:3197
-#: kitemviews/kfileitemmodel.cpp:3198 kitemviews/kfileitemmodel.cpp:3199
-#: kitemviews/kfileitemmodel.cpp:3200 kitemviews/kfileitemmodel.cpp:3201
-#: kitemviews/kfileitemmodel.cpp:3202
+#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3245 kitemviews/kfileitemmodel.cpp:3246
+#: kitemviews/kfileitemmodel.cpp:3247 kitemviews/kfileitemmodel.cpp:3248
+#: kitemviews/kfileitemmodel.cpp:3249 kitemviews/kfileitemmodel.cpp:3250
+#: kitemviews/kfileitemmodel.cpp:3251
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2985,22 +2985,22 @@ msgctxt "@label"
 msgid "Video"
 msgstr "Видео"
 
-#: kitemviews/kfileitemmodel.cpp:3195
+#: kitemviews/kfileitemmodel.cpp:3244
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3198
+#: kitemviews/kfileitemmodel.cpp:3247
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3200
+#: kitemviews/kfileitemmodel.cpp:3249
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3201
+#: kitemviews/kfileitemmodel.cpp:3250
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -3008,32 +3008,32 @@ msgctxt "@label"
 msgid "Video Codec"
 msgstr "Видео"
 
-#: kitemviews/kfileitemmodel.cpp:3203
+#: kitemviews/kfileitemmodel.cpp:3252
 msgctxt "@label"
 msgid "Path"
 msgstr "Жолы"
 
-#: kitemviews/kfileitemmodel.cpp:3203 kitemviews/kfileitemmodel.cpp:3204
-#: kitemviews/kfileitemmodel.cpp:3205 kitemviews/kfileitemmodel.cpp:3206
-#: kitemviews/kfileitemmodel.cpp:3207 kitemviews/kfileitemmodel.cpp:3208
-#: kitemviews/kfileitemmodel.cpp:3209 kitemviews/kfileitemmodel.cpp:3210
-#: kitemviews/kfileitemmodel.cpp:3211
+#: kitemviews/kfileitemmodel.cpp:3252 kitemviews/kfileitemmodel.cpp:3253
+#: kitemviews/kfileitemmodel.cpp:3254 kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3256 kitemviews/kfileitemmodel.cpp:3257
+#: kitemviews/kfileitemmodel.cpp:3258 kitemviews/kfileitemmodel.cpp:3259
+#: kitemviews/kfileitemmodel.cpp:3260
 msgctxt "@label"
 msgid "Other"
 msgstr "Басқа"
 
-#: kitemviews/kfileitemmodel.cpp:3204
+#: kitemviews/kfileitemmodel.cpp:3253
 #, fuzzy
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "Файлдар атауы"
 
-#: kitemviews/kfileitemmodel.cpp:3205
+#: kitemviews/kfileitemmodel.cpp:3254
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3206
+#: kitemviews/kfileitemmodel.cpp:3255
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3041,12 +3041,12 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Таңдау"
 
-#: kitemviews/kfileitemmodel.cpp:3207
+#: kitemviews/kfileitemmodel.cpp:3256
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Қайда"
 
-#: kitemviews/kfileitemmodel.cpp:3208
+#: kitemviews/kfileitemmodel.cpp:3257
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Copied From"
@@ -3054,29 +3054,29 @@ msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Мынаның көшірмесі:"
 
-#: kitemviews/kfileitemmodel.cpp:3209
+#: kitemviews/kfileitemmodel.cpp:3258
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Рұқсаттары"
 
-#: kitemviews/kfileitemmodel.cpp:3209
+#: kitemviews/kfileitemmodel.cpp:3258
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3210
+#: kitemviews/kfileitemmodel.cpp:3259
 msgctxt "@label"
 msgid "Owner"
 msgstr "Иесі"
 
-#: kitemviews/kfileitemmodel.cpp:3211
+#: kitemviews/kfileitemmodel.cpp:3260
 msgctxt "@label"
 msgid "User Group"
 msgstr "Пайдаланушы тобы"
 
-#: kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3361
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
