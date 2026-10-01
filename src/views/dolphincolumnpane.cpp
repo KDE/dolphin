@@ -194,27 +194,32 @@ void DolphinColumnPane::setZoomLevel(int level)
     m_view->setZoomLevel(level);
 }
 
-void DolphinColumnPane::slotItemActivated(int index)
+QUrl DolphinColumnPane::folderUrlFor(const KFileItem &item)
 {
-    if (index < 0 || index >= m_model->count()) {
-        return;
-    }
-
-    const KFileItem item = m_model->fileItem(index);
     if (item.isNull()) {
-        return;
+        return QUrl();
     }
-
     // openItemAsFolderUrl() needs the mime type of an archive, which the model determines lazily.
+    // Only for a local file, as in openItemAsFolderUrl().
     KFileItem resolved = item;
     if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
         resolved.determineMimeType();
     }
     const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
     if (!folderUrl.isEmpty()) {
+        return folderUrl;
+    }
+    return item.isDir() ? item.url() : QUrl();
+}
+
+void DolphinColumnPane::slotItemActivated(int index)
+{
+    const KFileItem item = m_model->fileItem(index);
+    if (item.isNull()) {
+        return;
+    }
+    if (const QUrl folderUrl = folderUrlFor(item); !folderUrl.isEmpty()) {
         Q_EMIT directoryActivated(folderUrl);
-    } else if (item.isDir()) {
-        Q_EMIT directoryActivated(item.url());
     } else {
         Q_EMIT fileActivated(item);
     }
