@@ -118,6 +118,10 @@ private:
     void handleKeyLeft(int sourceColumn);
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);
+    /** Opens the column of @p item when it is a folder, or closes the columns after @p column. Returns whether it was a folder. */
+    bool followItem(int column, const KFileItem &item);
+    /** Makes the column after @p column active, selecting its first item if nothing is selected in it. */
+    void enterChildColumn(int column);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
     void handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex);
 
