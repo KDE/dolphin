@@ -18,6 +18,7 @@
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
 #include "search/bar.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -311,7 +312,12 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
         m_view->setFocus();
     }
 
-    oldView->deleteLater();
+    // The old view lives on until its drag ends; blocking its signals cuts the connections
+    // made by this container, the main window, the tab page and the admin bar.
+    oldView->blockSignals(true);
+    ContentDisplaySettings::self()->disconnect(oldView);
+    oldView->hide();
+    KItemListController::deleteLaterAfterDrag(oldView, oldView->draggingController());
 
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
