@@ -20,9 +20,11 @@
 #include "versioncontrol/versioncontrolobserver.h"
 #include "views/dolphinview.h"
 
+#include <QGuiApplication>
 #include <QScrollBar>
 #include <QStyle>
 #include <QStyleOption>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <cmath>
 
@@ -71,6 +73,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     connect(m_controller, &KItemListController::itemActivated, this, &DolphinColumnPane::slotItemActivated);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
+    connect(m_controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinColumnPane::slotSelectionChanged);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
 }
 
@@ -123,9 +126,15 @@ bool DolphinColumnPane::isWidthPending() const
 
 void DolphinColumnPane::reapplyActiveChildMark()
 {
-    if (!m_activeChildUrl.isEmpty()) {
-        setActiveChildUrl(m_activeChildUrl);
+    if (m_activeChildUrl.isEmpty()) {
+        return;
     }
+    const int index = m_model->index(m_model->fileItem(m_activeChildUrl));
+    const KItemListSelectionManager *selectionManager = m_controller->selectionManager();
+    if (index >= 0 && selectionManager->isSelected(index) && selectionManager->currentItem() == index) {
+        return;
+    }
+    setActiveChildUrl(m_activeChildUrl);
 }
 
 void DolphinColumnPane::clearActiveChild()
@@ -218,7 +227,9 @@ void DolphinColumnPane::slotItemActivated(int index)
     if (item.isNull()) {
         return;
     }
-    if (const QUrl folderUrl = folderUrlFor(item); !folderUrl.isEmpty()) {
+    // Ctrl and Shift open a folder in a new tab or window, as for a file.
+    const bool opensElsewhere = QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+    if (const QUrl folderUrl = folderUrlFor(item); !folderUrl.isEmpty() && !opensElsewhere) {
         Q_EMIT directoryActivated(folderUrl);
     } else {
         Q_EMIT fileActivated(item);
@@ -227,9 +238,19 @@ void DolphinColumnPane::slotItemActivated(int index)
 
 void DolphinColumnPane::slotCurrentChanged(int current, int previous)
 {
-    Q_UNUSED(previous)
+    if (current < 0) {
+        // The current item left a list that still has items, as filtering or deleting it does. A
+        // reload empties the list instead, and the columns after this one stay.
+        if (previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
+            m_activeChildUrl.clear();
+            Q_EMIT activeChildRemoved();
+        }
+        return;
+    }
 
-    if (current < 0 || current >= m_model->count()) {
+    // From no current item, the selection manager made the first item current after the listing.
+    // Nobody moved there, so the view must not follow it.
+    if (previous < 0 || current >= m_model->count()) {
         return;
     }
 
@@ -237,6 +258,30 @@ void DolphinColumnPane::slotCurrentChanged(int current, int previous)
     if (!item.isNull()) {
         Q_EMIT currentItemChanged(item);
     }
+}
+
+void DolphinColumnPane::slotSelectionChanged()
+{
+    // Selecting another item clears the selection first, so look once it has settled.
+    if (!m_selectionCheckPending) {
+        m_selectionCheckPending = true;
+        QTimer::singleShot(0, this, &DolphinColumnPane::checkActiveChildSelected);
+    }
+}
+
+void DolphinColumnPane::checkActiveChildSelected()
+{
+    m_selectionCheckPending = false;
+    if (m_activeChildUrl.isEmpty()) {
+        return;
+    }
+    // Only an empty selection. A press on another item selects it, and the next column stays for a drag to it.
+    // A removed item is handled by slotCurrentChanged().
+    if (m_controller->selectionManager()->hasSelection() || m_model->fileItem(m_activeChildUrl).isNull()) {
+        return;
+    }
+    m_activeChildUrl.clear();
+    Q_EMIT activeChildRemoved();
 }
 
 void DolphinColumnPane::reloadSettings()
