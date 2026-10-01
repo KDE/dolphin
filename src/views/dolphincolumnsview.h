@@ -101,11 +101,14 @@ private:
     void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
+    /** Gives @p pane its width if it is still waiting for its folder to list. */
+    void finishPendingWidth(DolphinColumnPane *pane);
     /// The folder the columns start at, from the resolver. Without one they start at the url.
     QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
-    DolphinColumnPane *createPane(const QUrl &dirUrl);
+    /** Creates the column for @p dirUrl and adds it after the last one. */
+    DolphinColumnPane *appendPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
     /**
@@ -140,6 +143,8 @@ private:
     // The width a column keeps whatever its content asks for: what it has now, or the width of
     // the column it replaced.
     int widthFloorFor(int index, const QList<int> &currentSizes) const;
+    /** The number of splitter handles drawn before column @p index. */
+    int visibleHandlesBefore(int index) const;
     void applyColumnSizes(QList<int> columnSizes);
     /**
      * In "adjust to content" mode, re-fit the columns to their content so a rename
@@ -162,6 +167,7 @@ private:
     bool showUrlInOpenColumns(const QUrl &url);
 
     void syncColumnsFromViewProperties();
+    void applyViewProperties(KFileItemModel *model) const;
     void connectActivePane(DolphinColumnPane *newPane);
 
     QScrollArea *m_scrollArea = nullptr;
