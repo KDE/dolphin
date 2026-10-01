@@ -20,6 +20,8 @@
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
 
+#include <KProtocolManager>
+
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
@@ -126,6 +128,7 @@ private Q_SLOTS:
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
+    void testAnArchiveOpensAsAFolder();
     void testEscape_clearsSelection();
     void testHomeEnd_withinColumn();
 
@@ -900,6 +903,30 @@ void DolphinColumnsViewTest::testLeftKeyClearsChildSelection()
     navigateLeft();
     QCOMPARE(m_view->activeColumnIndex(), 0);
     QVERIFY(childSelectionManager->hasSelection());
+}
+
+void DolphinColumnsViewTest::testAnArchiveOpensAsAFolder()
+{
+    // The mime type of a listed item is determined lazily, and an archive whose type is not known
+    // yet reads as a plain file.
+    if (KProtocolManager::protocolForArchiveMimetype(QStringLiteral("application/zip")).isEmpty()) {
+        QSKIP("No KIO worker opens zip archives here");
+    }
+    GeneralSettings::setBrowseThroughArchives(true);
+
+    // An empty zip archive: the end of central directory record alone.
+    QByteArray emptyZip("PK\x05\x06", 4);
+    emptyZip.append(18, '\0');
+    m_testDir->createFile(QStringLiteral("archive.zip"), emptyZip);
+
+    const KFileItem archive(urlOf(QStringLiteral("archive.zip")));
+    QVERIFY(archive.isFile());
+    QVERIFY(!archive.isMimeTypeKnown());
+
+    QCOMPARE(DolphinColumnPane::folderUrlFor(archive).scheme(), QStringLiteral("zip"));
+
+    GeneralSettings::setBrowseThroughArchives(false);
+    QVERIFY(DolphinColumnPane::folderUrlFor(archive).isEmpty());
 }
 
 void DolphinColumnsViewTest::testEscape_clearsSelection()
