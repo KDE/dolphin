@@ -96,6 +96,7 @@ private Q_SLOTS:
 
     void testKeyReturn_fileEmitsItemActivated();
     void testKeyReturn_directoryOpensChild();
+    void testKeyReturn_opensEverySelectedItem();
     void testKeyReturn_doesNotReloadAlreadyOpenChild();
 
     void testShiftRight_navigatesBetweenColumns();
@@ -817,6 +818,33 @@ void DolphinColumnsViewTest::testKeyReturn_directoryOpensChild()
 
     QCOMPARE(spy.count(), 0);
     QVERIFY(m_view->activeColumnIndex() >= 1);
+}
+
+void DolphinColumnsViewTest::testKeyReturn_opensEverySelectedItem()
+{
+    // As in the other view modes, Return opens the whole selection, not only the current item.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    selectItemInColumn(1, QStringLiteral("file1.txt"));
+    // Added to the selection without moving the current item, as a Ctrl+click does.
+    auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
+    selectionManager->setSelected(indexOfName(m_view->columnAt(1), QStringLiteral("file2.txt")), 1, KItemListSelectionManager::Select);
+    QCOMPARE(selectionManager->selectedItems().count(), 2);
+
+    QSignalSpy itemActivated(m_view, &DolphinView::itemActivated);
+    QSignalSpy itemsActivated(m_view, &DolphinView::itemsActivated);
+    sendKeyToActivePane(Qt::Key_Return);
+
+    QCOMPARE(itemActivated.count(), 0);
+    QCOMPARE(itemsActivated.count(), 1);
+    QStringList names;
+    const auto activatedItems = itemsActivated.first().first().value<KFileItemList>();
+    for (const KFileItem &item : activatedItems) {
+        names << item.name();
+    }
+    names.sort();
+    QCOMPARE(names, QStringList({QStringLiteral("file1.txt"), QStringLiteral("file2.txt")}));
 }
 
 void DolphinColumnsViewTest::testKeyReturn_doesNotReloadAlreadyOpenChild()
