@@ -12,26 +12,39 @@
 #include "dolphin_iconsmodesettings.h"
 #include "dolphintabpage.h"
 #include "dolphinurlnavigator.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
 #include "kitemviews/private/kfileitemmodelfilter.h"
 #include "statusbar/dolphinstatusbar.h"
 
+#include "settings/viewpropertiesdialog.h"
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
 #include "views/dolphincolumnsview.h"
+#include "views/dolphinitemlistview.h"
 #include "views/dolphinview.h"
+#include "views/dolphinviewactionhandler.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
+#include <KActionCollection>
 #include <KConfigGroup>
 #include <KSharedConfig>
 
+#include <QApplication>
+#include <QComboBox>
 #include <QCoreApplication>
+#include <QDialogButtonBox>
+#include <QGraphicsView>
+#include <QPointer>
+#include <QPushButton>
 #include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
+#include <QTimer>
 
 class DolphinViewContainerTest : public QObject
 {
@@ -54,6 +67,7 @@ private Q_SLOTS:
     void testNavigatorFollowsViewAfterModeSwap();
     void testSwapAdoptsContainerActiveState();
     void testSwapCarriesTheNameFilter();
+    void testTheViewPropertiesDialogFollowsASwappedView();
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
     void testSwapCarriesTheViewPropertiesContext();
@@ -62,6 +76,8 @@ private Q_SLOTS:
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
     void testEachViewModeKeepsItsOwnZoomLevel();
+    void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
+    void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
 
 private:
     void waitForViewReady();
@@ -568,6 +584,154 @@ void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();
     QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
+}
+
+/**
+ * Applying a switch to the columns view in the view properties dialog replaces the view. What the
+ * dialog applies after that has to reach the new view and be stored.
+ */
+void DolphinViewContainerTest::testTheViewPropertiesDialogFollowsASwappedView()
+{
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    KActionCollection actions(this);
+    DolphinViewActionHandler handler(&actions, nullptr, this);
+    handler.setCurrentView(m_container->view());
+    // What DolphinMainWindow does for its active container.
+    connect(&handler, &DolphinViewActionHandler::viewModeChangeRequested, m_container, &DolphinViewContainer::setViewMode);
+    connect(m_container, &DolphinViewContainer::viewReplaced, &handler, [this, &handler] {
+        handler.setCurrentView(m_container->view());
+    });
+
+    QPointer<DolphinView> oldView = m_container->view();
+    bool dialogDriven = false;
+    QTimer::singleShot(0, this, [this, &dialogDriven, &oldView] {
+        auto *dialog = qobject_cast<ViewPropertiesDialog *>(QApplication::activeModalWidget());
+        QVERIFY(dialog);
+        QComboBox *viewMode = nullptr;
+        QComboBox *sortOrder = nullptr;
+        const auto combos = dialog->findChildren<QComboBox *>();
+        for (QComboBox *combo : combos) {
+            if (combo->findText(QStringLiteral("Columns")) >= 0) {
+                viewMode = combo;
+            } else if (combo->findText(QStringLiteral("Descending")) >= 0) {
+                sortOrder = combo;
+            }
+        }
+        QVERIFY(viewMode && sortOrder);
+        auto *buttons = dialog->findChild<QDialogButtonBox *>();
+        QVERIFY(buttons);
+
+        viewMode->setCurrentIndex(viewMode->findText(QStringLiteral("Columns")));
+        QVERIFY(buttons->button(QDialogButtonBox::Apply)->isEnabled());
+        buttons->button(QDialogButtonBox::Apply)->click();
+        QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+
+        // The dialog's event loop deletes the replaced view before the next click, as for a user.
+        QTimer::singleShot(0, this, [&dialogDriven, &oldView, sortOrder, buttons] {
+            QVERIFY(!oldView);
+            sortOrder->setCurrentIndex(sortOrder->findText(QStringLiteral("Descending")));
+            buttons->button(QDialogButtonBox::Ok)->click();
+            dialogDriven = true;
+        });
+    });
+    actions.action(QStringLiteral("view_properties"))->trigger();
+    QVERIFY(dialogDriven);
+
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+    QCOMPARE(m_container->view()->sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(ViewProperties(m_testDir->url()).sortOrder(), Qt::DescendingOrder);
+}
+
+void DolphinViewContainerTest::testAViewReplacedDuringItsDragStaysUntilTheDragEnds()
+{
+    // A drag runs an event loop until it ends, and a folder opened under the drag can replace the view
+    // that started it.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    // A preview job deletes itself in an event loop, and the test ends before one runs.
+    m_container->view()->setPreviewsShown(false);
+    QPointer<DolphinView> oldView = m_container->view();
+    QVERIFY(!qobject_cast<DolphinColumnsView *>(oldView.data()));
+    auto *itemContainer = oldView->findChild<KItemListContainer *>();
+    QVERIFY(itemContainer);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(itemContainer->viewport());
+    QVERIFY(graphicsView);
+    const QPoint itemPos = graphicsView->mapFromScene(itemContainer->controller()->view()->itemRect(0).center());
+
+    bool draggingWhenReplaced = false;
+    bool keptDuringTheDrag = false;
+    QTimer duringTheDrag;
+    duringTheDrag.setSingleShot(true);
+    connect(&duringTheDrag, &QTimer::timeout, this, [&] {
+        draggingWhenReplaced = oldView->draggingController() != nullptr;
+        m_container->setViewMode(DolphinView::ColumnsView);
+        // The drag's event loop handles what the replacement posted before this timer fires.
+        QTimer::singleShot(0, this, [&] {
+            keptDuringTheDrag = oldView && oldView->isHidden();
+            QTest::keyClick(m_container->view(), Qt::Key_Escape);
+        });
+    });
+    duringTheDrag.start(0);
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, itemPos);
+    QTest::mouseMove(graphicsView->viewport(), itemPos + QPoint(QApplication::startDragDistance() * 2, 0));
+    QTest::mouseRelease(m_container->view(), Qt::LeftButton);
+    if (duringTheDrag.isActive()) {
+        QSKIP("This platform ends a drag at once, without the event loop of a real drag. Use QT_QPA_PLATFORM=minimal.");
+    }
+
+    QVERIFY(draggingWhenReplaced);
+    QVERIFY(keptDuringTheDrag);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+    QTRY_VERIFY_WITH_TIMEOUT(!oldView, 5000);
+}
+
+void DolphinViewContainerTest::testAColumnClosedDuringItsDragStaysUntilTheDragEnds()
+{
+    // A place opened under a drag from a column can close the columns after its folder, among them
+    // the column that started the drag.
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columns = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columns);
+    // A preview job deletes itself in an event loop, and the test ends before one runs.
+    columns->setPreviewsShown(false);
+    QPointer<DolphinColumnPane> pane = columns->columnAt(columns->activeColumnIndex());
+    QCOMPARE(pane->dirUrl(), m_testDir->url());
+    QTRY_VERIFY_WITH_TIMEOUT(pane->model()->index(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/file1.txt"))) >= 0, 5000);
+    const int fileIndex = pane->model()->index(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/file1.txt")));
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint itemPos = graphicsView->mapFromScene(pane->itemListView()->itemRect(fileIndex).center());
+
+    // A sibling of the test folder opens next to the column before it.
+    TestDir sibling;
+    bool draggingWhenClosed = false;
+    bool keptDuringTheDrag = false;
+    QTimer duringTheDrag;
+    duringTheDrag.setSingleShot(true);
+    connect(&duringTheDrag, &QTimer::timeout, this, [&] {
+        draggingWhenClosed = pane->controller()->isDragging();
+        m_container->setUrl(sibling.url());
+        // The drag's event loop handles what closing the column posted before this timer fires.
+        QTimer::singleShot(0, this, [&] {
+            keptDuringTheDrag = pane && pane->isHidden() && columns->columnAt(columns->activeColumnIndex()) != pane;
+            QTest::keyClick(m_container->view(), Qt::Key_Escape);
+        });
+    });
+    duringTheDrag.start(0);
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, itemPos);
+    QTest::mouseMove(graphicsView->viewport(), itemPos + QPoint(QApplication::startDragDistance() * 2, 0));
+    QTest::mouseRelease(m_container->view(), Qt::LeftButton);
+    if (duringTheDrag.isActive()) {
+        QSKIP("This platform ends a drag at once, without the event loop of a real drag. Use QT_QPA_PLATFORM=minimal.");
+    }
+
+    QVERIFY(draggingWhenClosed);
+    QVERIFY(keptDuringTheDrag);
+    QCOMPARE(columns->url(), sibling.url());
+    QTRY_VERIFY_WITH_TIMEOUT(!pane, 5000);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
