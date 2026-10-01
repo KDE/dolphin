@@ -386,6 +386,18 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
     senderPane->controller()->selectionManager()->blockSignals(false);
 }
 
+void DolphinColumnsView::slotPaneItemsInserted()
+{
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        if (pane->model() == sender()) {
+            // Not a selection by the user, so it must not navigate.
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            pane->reapplyActiveChildMark();
+            return;
+        }
+    }
+}
+
 void DolphinColumnsView::slotPaneLoadingCompleted()
 {
     auto *pane = qobject_cast<DolphinColumnPane *>(sender());
@@ -642,7 +654,11 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
         }
     });
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
+    connect(pane, &DolphinColumnPane::activeChildRemoved, this, [this, pane]() {
+        closeColumnsAfter(m_columns.indexOf(pane));
+    });
     connect(pane, &DolphinColumnPane::directoryLoadingCompleted, this, &DolphinColumnsView::slotPaneLoadingCompleted);
+    connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::slotPaneItemsInserted);
 
     // A rename arrives as a "text" change from KIO, or as a remove and an insert from disk.
     connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::refitColumnsToContent);
@@ -741,6 +757,9 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     // of an inactive column, where handleMouseButtonPressed() has no item.
     if (event->type() == QEvent::FocusIn) {
         if (sourceColumn != m_activeColumn) {
+            if (static_cast<QFocusEvent *>(event)->reason() == Qt::MouseFocusReason) {
+                m_paneActiveBeforeFocus = activePane();
+            }
             setActiveColumn(sourceColumn);
         }
         setActive(true);
@@ -798,6 +817,12 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
 
 bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
 {
+    // Several selected items are opened together by the controller, as in the other view modes.
+    // With Ctrl or Shift, the controller activates the item to open it in a new tab or window.
+    if (m_columns.at(sourceColumn)->controller()->selectionManager()->selectedItems().count() >= 2
+        || (QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier))) {
+        return false;
+    }
     const KFileItem item = m_columns.at(sourceColumn)->currentFileItem();
     if (item.isNull()) {
         return false;
@@ -833,13 +858,19 @@ bool DolphinColumnsView::followItem(int column, const KFileItem &item)
         return true;
     }
     // The columns to the right belong to a folder that is no longer the selected one.
-    if (column + 1 < m_columns.size()) {
-        popAfter(column);
-        recalculateColumnWidths();
-        updateUrl(m_columns.at(column)->dirUrl());
-        Q_EMIT urlChanged(url());
-    }
+    closeColumnsAfter(column);
     return false;
+}
+
+void DolphinColumnsView::closeColumnsAfter(int column)
+{
+    if (column < 0 || column + 1 >= m_columns.size()) {
+        return;
+    }
+    popAfter(column);
+    recalculateColumnWidths();
+    updateUrl(m_columns.at(column)->dirUrl());
+    Q_EMIT urlChanged(url());
 }
 
 void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons)
@@ -847,6 +878,8 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
     hideToolTip();
     m_pressedPane = nullptr;
     m_pressedItemIndex = -1;
+    m_paneActiveBeforePress = m_paneActiveBeforeFocus ? m_paneActiveBeforeFocus.data() : activePane();
+    m_paneActiveBeforeFocus = nullptr;
 
     if (buttons & Qt::BackButton) {
         Q_EMIT goBackRequested();
@@ -906,6 +939,12 @@ void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int 
     if (colIndex >= 0 && !item.isNull()) {
         followItem(colIndex, item);
     }
+
+    // The item that was active stays highlighted only as an ancestor of the clicked one.
+    const int previousColumn = m_columns.indexOf(m_paneActiveBeforePress);
+    if (colIndex >= 0 && previousColumn > colIndex) {
+        m_paneActiveBeforePress->controller()->selectionManager()->clearSelection();
+    }
 }
 
 void DolphinColumnsView::ensureActiveColumnVisible()
@@ -962,9 +1001,10 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
     }
 
-    // Selected, not opened, or browsing would add and drop a column at every step.
+    // Like any selected folder, the first one shows its content in the next column.
     const KFileItem item = pane->currentFileItem();
     if (!item.isNull()) {
+        followItem(columnIndex, item);
         Q_EMIT requestItemInfo(item);
     }
 }
@@ -1138,11 +1178,15 @@ void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
     if (m_blockNavigation || current.count() != 1) {
         return;
     }
+    // A press selects the item, and a click navigates on the release, see handleMouseButtonReleased().
+    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
+        return;
+    }
     DolphinColumnPane *pane = activePane();
     const KFileItem item = pane->model()->fileItem(current.first());
     if (item.isDir()) {
         pane->controller()->selectionManager()->blockSignals(true);
-        openChild(m_activeColumn, item.url());
+        openChild(m_activeColumn, DolphinColumnPane::folderUrlFor(item));
         pane->controller()->selectionManager()->blockSignals(false);
     }
 }

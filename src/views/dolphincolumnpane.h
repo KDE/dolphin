@@ -63,8 +63,11 @@ public:
 
 Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
+    /// A file, or a folder activated with Ctrl or Shift.
     void fileActivated(const KFileItem &item);
     void currentItemChanged(const KFileItem &item);
+    /// The item that the next column shows the folder of is no longer listed here, or nothing is selected here.
+    void activeChildRemoved();
     void directoryLoadingCompleted();
 
     void infoMessage(const QString &msg);
@@ -74,8 +77,11 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotItemActivated(int index);
     void slotCurrentChanged(int current, int previous);
+    void slotSelectionChanged();
 
 private:
+    void checkActiveChildSelected();
+
     KFileItemModel *m_model = nullptr;
     DolphinItemListView *m_view = nullptr;
     KItemListController *m_controller = nullptr;
@@ -84,6 +90,7 @@ private:
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
     int m_naturalMinimumWidth = 0;
+    bool m_selectionCheckPending = false;
 };
 
 #endif // DOLPHINCOLUMNPANE_H

@@ -82,6 +82,8 @@ protected:
 private Q_SLOTS:
     void slotFileActivated(const KFileItem &item);
     void slotColumnsCurrentItemChanged(const KFileItem &item);
+    /// Marks the folder that the next column shows as soon as it is listed.
+    void slotPaneItemsInserted();
     void slotPaneLoadingCompleted();
     void slotSplitterMoved(int pos, int handleIndex);
     void slotActiveSelectionChanged(const KItemSet &current);
@@ -106,6 +108,8 @@ private:
     /// Opens the column of @p item when it is a folder, or closes the columns after @p column.
     /// Returns whether it was a folder.
     bool followItem(int column, const KFileItem &item);
+    /// Closes the columns to the right of \a column, which becomes the url of the view.
+    void closeColumnsAfter(int column);
     /// Makes the column after @p column active, selecting its first item if nothing is selected.
     void enterChildColumn(int column);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
@@ -168,6 +172,10 @@ private:
     // What a left press landed on, until the release or a drag.
     QPointer<DolphinColumnPane> m_pressedPane;
     int m_pressedItemIndex = -1;
+    /// The column that was active before a press moved the focus, which happens before the press arrives.
+    QPointer<DolphinColumnPane> m_paneActiveBeforeFocus;
+    /// The column that was active before the press, whose item a click to its left deselects.
+    QPointer<DolphinColumnPane> m_paneActiveBeforePress;
 
     // Widths the user dragged, by column index. Not saved.
     QHash<int, int> m_customColumnWidths;
