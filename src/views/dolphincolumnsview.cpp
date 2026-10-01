@@ -424,24 +424,6 @@ DolphinColumnPane *DolphinColumnsView::activePane() const
     return nullptr;
 }
 
-QUrl DolphinColumnsView::folderUrlForItem(const KFileItem &item) const
-{
-    if (item.isNull()) {
-        return QUrl();
-    }
-    // openItemAsFolderUrl() needs the mime type of an archive, which the model determines lazily.
-    // Only for a local file, as in openItemAsFolderUrl().
-    KFileItem resolved = item;
-    if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
-        resolved.determineMimeType();
-    }
-    const QUrl folderUrl = DolphinView::openItemAsFolderUrl(resolved, GeneralSettings::browseThroughArchives());
-    if (!folderUrl.isEmpty()) {
-        return folderUrl;
-    }
-    return item.isDir() ? item.url() : QUrl();
-}
-
 bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
 {
     // KIO::upUrl() ends a folder url with a slash and dirUrl() does not.
@@ -794,7 +776,7 @@ void DolphinColumnsView::handleKeyLeft(int sourceColumn)
 void DolphinColumnsView::handleKeyRight(int sourceColumn)
 {
     if (sourceColumn + 1 >= m_columns.size()) {
-        const QUrl folderUrl = folderUrlForItem(m_columns.at(sourceColumn)->currentFileItem());
+        const QUrl folderUrl = DolphinColumnPane::folderUrlFor(m_columns.at(sourceColumn)->currentFileItem());
         if (!folderUrl.isEmpty()) {
             openChild(sourceColumn, folderUrl);
         }
@@ -833,7 +815,7 @@ void DolphinColumnsView::enterChildColumn(int column)
 
 bool DolphinColumnsView::followItem(int column, const KFileItem &item)
 {
-    const QUrl folderUrl = folderUrlForItem(item);
+    const QUrl folderUrl = DolphinColumnPane::folderUrlFor(item);
     if (!folderUrl.isEmpty()) {
         openChild(column, folderUrl);
         return true;
