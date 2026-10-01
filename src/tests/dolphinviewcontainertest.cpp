@@ -18,20 +18,29 @@
 #include "kitemviews/private/kfileitemmodelfilter.h"
 #include "statusbar/dolphinstatusbar.h"
 
+#include "settings/viewpropertiesdialog.h"
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
 #include "views/dolphincolumnsview.h"
 #include "views/dolphinview.h"
+#include "views/dolphinviewactionhandler.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
+#include <KActionCollection>
 #include <KConfigGroup>
 #include <KSharedConfig>
 
+#include <QApplication>
+#include <QComboBox>
 #include <QCoreApplication>
+#include <QDialogButtonBox>
+#include <QPointer>
+#include <QPushButton>
 #include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
+#include <QTimer>
 
 class DolphinViewContainerTest : public QObject
 {
@@ -55,6 +64,7 @@ private Q_SLOTS:
     void testSwapAdoptsContainerActiveState();
     void testEachViewModeKeepsItsOwnZoomLevel();
     void testSwapCarriesTheNameFilter();
+    void testTheViewPropertiesDialogFollowsASwappedView();
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
     void testSwapCarriesTheViewPropertiesContext();
@@ -568,6 +578,64 @@ void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsVie
     waitForViewReady();
 
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+}
+
+/**
+ * Applying a switch to the columns view in the view properties dialog replaces the view. What the
+ * dialog applies after that has to reach the new view and be stored.
+ */
+void DolphinViewContainerTest::testTheViewPropertiesDialogFollowsASwappedView()
+{
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+
+    KActionCollection actions(this);
+    DolphinViewActionHandler handler(&actions, nullptr, this);
+    handler.setCurrentView(m_container->view());
+    // What DolphinMainWindow does for its active container.
+    connect(&handler, &DolphinViewActionHandler::viewModeChangeRequested, m_container, &DolphinViewContainer::setViewMode);
+    connect(m_container, &DolphinViewContainer::viewReplaced, &handler, [this, &handler] {
+        handler.setCurrentView(m_container->view());
+    });
+
+    QPointer<DolphinView> oldView = m_container->view();
+    bool dialogDriven = false;
+    QTimer::singleShot(0, this, [this, &dialogDriven, &oldView] {
+        auto *dialog = qobject_cast<ViewPropertiesDialog *>(QApplication::activeModalWidget());
+        QVERIFY(dialog);
+        QComboBox *viewMode = nullptr;
+        QComboBox *sortOrder = nullptr;
+        const auto combos = dialog->findChildren<QComboBox *>();
+        for (QComboBox *combo : combos) {
+            if (combo->findText(QStringLiteral("Columns")) >= 0) {
+                viewMode = combo;
+            } else if (combo->findText(QStringLiteral("Descending")) >= 0) {
+                sortOrder = combo;
+            }
+        }
+        QVERIFY(viewMode && sortOrder);
+        auto *buttons = dialog->findChild<QDialogButtonBox *>();
+        QVERIFY(buttons);
+
+        viewMode->setCurrentIndex(viewMode->findText(QStringLiteral("Columns")));
+        QVERIFY(buttons->button(QDialogButtonBox::Apply)->isEnabled());
+        buttons->button(QDialogButtonBox::Apply)->click();
+        QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+
+        // The dialog's event loop deletes the replaced view before the next click, as for a user.
+        QTimer::singleShot(0, this, [&dialogDriven, &oldView, sortOrder, buttons] {
+            QVERIFY(!oldView);
+            sortOrder->setCurrentIndex(sortOrder->findText(QStringLiteral("Descending")));
+            buttons->button(QDialogButtonBox::Ok)->click();
+            dialogDriven = true;
+        });
+    });
+    actions.action(QStringLiteral("view_properties"))->trigger();
+    QVERIFY(dialogDriven);
+
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+    QCOMPARE(m_container->view()->sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(ViewProperties(m_testDir->url()).sortOrder(), Qt::DescendingOrder);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
