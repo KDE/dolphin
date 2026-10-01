@@ -786,6 +786,10 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
 
 bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
 {
+    // Several selected items are opened together by the controller, as in the other view modes.
+    if (m_columns.at(sourceColumn)->controller()->selectionManager()->selectedItems().count() >= 2) {
+        return false;
+    }
     const KFileItem item = m_columns.at(sourceColumn)->currentFileItem();
     if (item.isNull()) {
         return false;
