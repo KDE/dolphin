@@ -94,6 +94,7 @@ private Q_SLOTS:
     void slotColumnsCurrentItemChanged(const KFileItem &item);
     void slotPaneLoadingCompleted();
     void slotSplitterMoved(int pos, int handleIndex);
+    void slotActiveSelectionChanged(const KItemSet &current);
 
 private:
     void initColumnsUi();
@@ -157,7 +158,7 @@ private:
     bool showUrlInOpenColumns(const QUrl &url);
 
     void syncColumnsFromViewProperties();
-    void reconnectActivePane(DolphinColumnPane *oldPane, DolphinColumnPane *newPane);
+    void connectActivePane(DolphinColumnPane *newPane);
 
     QScrollArea *m_scrollArea = nullptr;
     QSplitter *m_splitter = nullptr;
@@ -199,7 +200,7 @@ private:
     QHash<int, int> m_customColumnWidths;
 
     KFileItemModel *m_baseModel = nullptr;
-    QTimer *m_columnsSelectionTimer = nullptr;
+    QList<QMetaObject::Connection> m_activePaneConnections;
 };
 
 #endif // DOLPHINCOLUMNSVIEW_H

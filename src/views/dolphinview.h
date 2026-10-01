@@ -32,6 +32,7 @@ class QVBoxLayout;
 class DolphinItemListView;
 class KFileItemModel;
 class KItemListContainer;
+class KItemListController;
 class KItemModelBase;
 class KItemSet;
 class ToolTipManager;
@@ -780,14 +781,13 @@ protected:
     /** @internal Accessors for subclasses (e.g. DolphinColumnsView). */
     QVBoxLayout *topLayout() const;
     KItemListContainer *itemListContainer() const;
-    ToolTipManager *toolTipManager() const
-    {
-        return m_toolTipManager;
-    }
-    bool isDragging() const
-    {
-        return m_dragging;
-    }
+    /**
+     * Connects the signals of @p controller that every item view of this view forwards the same
+     * way: selection, context menus, middle click, zoom and the background gestures.
+     */
+    QList<QMetaObject::Connection> connectItemController(KItemListController *controller);
+    /** Shows the tooltip and the information for @p item, hovered at @p index in @p container. */
+    void showHoveredItem(KItemListContainer *container, const KFileItem &item, int index);
     void setBaseModel(KFileItemModel *model)
     {
         m_model = model;
@@ -863,6 +863,9 @@ protected:
      */
     void updateWritableState();
 
+protected Q_SLOTS:
+    void slotItemUnhovered(int index);
+
 private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
@@ -879,7 +882,6 @@ private Q_SLOTS:
     void slotHeaderColumnWidthChangeFinished(const QByteArray &role, qreal current);
     void slotSidePaddingWidthChanged(qreal leftPaddingWidth, qreal rightPaddingWidth);
     void slotItemHovered(int index);
-    void slotItemUnhovered(int index);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
     void slotModelChanged(KItemModelBase *current, KItemModelBase *previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
