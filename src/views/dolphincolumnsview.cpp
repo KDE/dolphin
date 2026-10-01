@@ -1126,11 +1126,15 @@ void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
     if (m_blockNavigation || current.count() != 1) {
         return;
     }
+    // A press selects the item, and a click navigates on the release, see handleMouseButtonReleased().
+    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
+        return;
+    }
     DolphinColumnPane *pane = activePane();
     const KFileItem item = pane->model()->fileItem(current.first());
     if (item.isDir()) {
         pane->controller()->selectionManager()->blockSignals(true);
-        openChild(m_activeColumn, item.url());
+        openChild(m_activeColumn, DolphinColumnPane::folderUrlFor(item));
         pane->controller()->selectionManager()->blockSignals(false);
     }
 }
