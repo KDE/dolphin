@@ -472,12 +472,11 @@ msgid ""
 "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr ""
-"<para><emphasis>Isijecanje, kopiranje</emphasis> i "
-"<emphasis>nalijepljivanje</emphasis> rade između mnogih programa i spadaju u "
-"najkorišćenije naredbe. Zato su njihove <emphasis>prečice na tastaturi</"
-"emphasis> istaknuto postavljene jedna do druge na tastaturi: <shortcut>Ctrl"
-"+X</shortcut>, <shortcut>Ctrl+C</shortcut> i <shortcut>Ctrl+V</shortcut>.</"
-"para>"
+"<para><emphasis>Isijecanje, kopiranje</emphasis> i <emphasis>naljepljivanje</"
+"emphasis> rade između mnogih programa i spadaju u najkorišćenije naredbe. "
+"Zato su njihove <emphasis>prečice na tastaturi</emphasis> istaknuto "
+"postavljene jedna do druge na tastaturi: <shortcut>Ctrl+X</shortcut>, "
+"<shortcut>Ctrl+C</shortcut> i <shortcut>Ctrl+V</shortcut>.</para>"
 
 #: dolphinmainwindow.cpp:1854
 #, kde-format
@@ -4982,7 +4981,7 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
-"Prikaži traku za lakše nalijepljivanje nakon što je isijecanje ili kopiranje "
+"Prikaži traku za lakše naljepljivanje nakon što je isijecanje ili kopiranje "
 "izvršeno pomoću donje trake režima izbora."
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
