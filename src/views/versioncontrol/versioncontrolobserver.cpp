@@ -295,9 +295,7 @@ void VersionControlObserver::initPlugins()
         // plugins and remember them in 'plugins'.
         const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
-        // Which plugins are installed does not change while Dolphin runs, and looking for them
-        // means reading their metadata off disk. Every view that watches a folder has an observer
-        // of its own, and the columns view has one per column, so the answer is kept.
+        // The installed plugins do not change while Dolphin runs, and each column has an observer.
         static const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
 
         for (const auto &p : plugins) {
