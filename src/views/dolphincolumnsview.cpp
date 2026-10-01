@@ -355,10 +355,15 @@ void DolphinColumnsView::syncColumnsFromViewProperties()
     // Apply current view properties to all column panes
     for (auto *pane : std::as_const(m_columns)) {
         pane->setPreviewsShown(previewsShown());
-        pane->model()->setShowHiddenFiles(hiddenFilesShown());
-        pane->model()->setSortRole(sortRole());
-        pane->model()->setSortOrder(sortOrder());
+        applyViewProperties(pane->model());
     }
+}
+
+void DolphinColumnsView::applyViewProperties(KFileItemModel *model) const
+{
+    model->setShowHiddenFiles(hiddenFilesShown());
+    model->setSortRole(sortRole());
+    model->setSortOrder(sortOrder());
 }
 
 void DolphinColumnsView::slotFileActivated(const KFileItem &item)
@@ -413,10 +418,8 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
         pane->reapplyActiveChildMark();
     }
 
-    if (pane && pane->isWidthPending()) {
-        pane->setWidthPending(false);
-        recalculateColumnWidths();
-        scrollToColumnWhenLaidOut(m_columns.indexOf(pane));
+    if (pane) {
+        finishPendingWidth(pane);
     }
 
     // If this pane was flagged for auto-selection (Right arrow opened a
@@ -548,13 +551,7 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
     const QUrl root = rootUrlFor(url);
 
-    DolphinColumnPane *pane = createPane(root);
-    m_columns.append(pane);
-
-    // Insert before the filler (filler is always last)
-    m_splitter->insertWidget(m_splitter->count() - 1, pane);
-    m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
-
+    appendPane(root);
     recalculateColumnWidths();
     setActiveColumn(0);
 
@@ -599,12 +596,7 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
         parentPane->setActiveChildUrl(childUrl);
     }
 
-    DolphinColumnPane *pane = createPane(childUrl);
-    m_columns.append(pane);
-
-    // Insert before the filler
-    m_splitter->insertWidget(m_splitter->count() - 1, pane);
-    m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
+    DolphinColumnPane *pane = appendPane(childUrl);
 
     if (carriedWidth > 0) {
         m_carriedColumnWidth = {columnIndex + 1, carriedWidth};
@@ -616,11 +608,7 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
     if (ColumnsModeSettings::self()->dynamicColumnWidth() && carriedWidth <= 0) {
         pane->setWidthPending(true);
         QTimer::singleShot(s_pendingWidthTimeoutMs, pane, [this, pane]() {
-            if (pane->isWidthPending()) {
-                pane->setWidthPending(false);
-                recalculateColumnWidths();
-                scrollToColumnWhenLaidOut(m_columns.indexOf(pane));
-            }
+            finishPendingWidth(pane);
         });
     }
 
@@ -637,6 +625,15 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
         scrollToColumnWhenLaidOut(columnIndex + 1);
     } else {
         QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
+    }
+}
+
+void DolphinColumnsView::finishPendingWidth(DolphinColumnPane *pane)
+{
+    if (pane->isWidthPending()) {
+        pane->setWidthPending(false);
+        recalculateColumnWidths();
+        scrollToColumnWhenLaidOut(m_columns.indexOf(pane));
     }
 }
 
@@ -693,15 +690,13 @@ void DolphinColumnsView::popAfter(int columnIndex)
     }
 }
 
-DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
+DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 {
     // Create model externally and configure BEFORE loading.
     // Changing properties (e.g. hidden files) during an active load
     // causes KDirLister::emitChanges() to insert items twice.
     auto *model = new KFileItemModel();
-    model->setShowHiddenFiles(hiddenFilesShown());
-    model->setSortRole(sortRole());
-    model->setSortOrder(sortOrder());
+    applyViewProperties(model);
     model->setFilterMode(m_filterMode);
     model->setFilterCaseSensitive(m_filterCaseSensitive);
     model->setNameFilter(m_nameFilter);
@@ -748,14 +743,14 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
     // Also filter the viewport for mouse events
     pane->container()->viewport()->installEventFilter(this);
 
-    // Install event filter on the splitter handle for double-click cycling.
-    // Must be called after the pane is inserted into the splitter (done by caller).
-    QTimer::singleShot(0, this, [this, pane] {
-        const int handleIdx = m_splitter->indexOf(pane);
-        if (handleIdx > 0) {
-            m_splitter->handle(handleIdx)->installEventFilter(this);
-        }
-    });
+    m_columns.append(pane);
+    // Before the filler, which is always last.
+    m_splitter->insertWidget(m_splitter->count() - 1, pane);
+    m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
+    // The handle before the column, for the double-click that fits the columns.
+    if (const int handleIndex = m_splitter->indexOf(pane); handleIndex > 0) {
+        m_splitter->handle(handleIndex)->installEventFilter(this);
+    }
 
     // Drop handling: reuse base class helper
     auto controller = pane->controller();
@@ -841,7 +836,7 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     // also covers a right-click on an inactive pane's background (which selects
     // no item, so handleMouseButtonPressed() does not run). Doing this on FocusIn
     // covers mouse, keyboard and programmatic focus, and it is reinstalled per
-    // pane in createPane(), so it is unaffected by swapView().
+    // pane in appendPane(), so it is unaffected by swapView().
     if (event->type() == QEvent::FocusIn) {
         if (sourceColumn != m_activeColumn) {
             setActiveColumn(sourceColumn);
@@ -1038,16 +1033,9 @@ void DolphinColumnsView::ensureColumnVisible(int index)
     // every column were at the very left, which leaves the view where it was until some later
     // navigation scrolls it again.
     const QList<int> sizes = m_splitter->sizes();
-    const int handleWidth = m_splitter->handleWidth();
-    int activeLeft = 0;
+    int activeLeft = visibleHandlesBefore(index) * m_splitter->handleWidth();
     for (int i = 0; i < index && i < sizes.size(); ++i) {
         activeLeft += sizes.at(i);
-        // The handle counted here is the one before the next column. A column with no width yet
-        // has no handle either, so it takes up nothing at all.
-        const int nextColumn = i + 1;
-        if (nextColumn >= m_columns.size() || !m_columns.at(nextColumn)->isWidthPending()) {
-            activeLeft += handleWidth;
-        }
     }
     const int activeWidth = index < sizes.size() ? sizes.at(index) : activeWidget->width();
     const int activeRight = activeLeft + activeWidth;
@@ -1172,6 +1160,18 @@ int DolphinColumnsView::widthFloorFor(int index, const QList<int> &currentSizes)
     return floor;
 }
 
+int DolphinColumnsView::visibleHandlesBefore(int index) const
+{
+    int handles = 0;
+    for (int i = 1; i <= index && i <= m_columns.size(); ++i) {
+        // A column with no width yet has no handle either. Index m_columns.size() is the filler.
+        if (i == m_columns.size() || !m_columns.at(i)->isWidthPending()) {
+            ++handles;
+        }
+    }
+    return handles;
+}
+
 void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
 {
     const int numColumns = m_columns.size();
@@ -1181,19 +1181,10 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     for (int i = 0; i < numColumns; ++i) {
         totalWidth += columnSizes.at(i);
     }
-    int visibleHandles = qMax(0, numColumns - 1);
-    for (int i = 1; i < numColumns; ++i) {
-        if (m_columns.at(i)->isWidthPending()) {
-            --visibleHandles;
-        }
-    }
     // The handle between the last column and the filler is drawn too. Leaving it out makes the
     // splitter one handle narrower than what it has to lay out, and it takes that back by
     // shaving a pixel off one of the columns, which moves every column after it.
-    if (numColumns > 0) {
-        ++visibleHandles;
-    }
-    totalWidth += visibleHandles * handleWidth;
+    totalWidth += visibleHandlesBefore(numColumns) * handleWidth;
 
     // Closing a column leaves the content narrower than where the view is scrolled to, and the
     // scroll position is then pulled back, sliding everything sideways under the user. The filler
