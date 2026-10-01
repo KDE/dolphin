@@ -795,6 +795,15 @@ DolphinColumnPane *DolphinColumnsView::createPane(const QUrl &dirUrl)
         handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
     });
 
+    connect(controller, &KItemListController::mouseButtonReleased, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
+        Q_UNUSED(buttons) // a release reports what is still held, which is nothing after a click
+        handleMouseButtonReleased(pane, itemIndex);
+    });
+    connect(controller, &KItemListController::draggingStarted, this, [this]() {
+        // The press became a drag, so it is not a click on the item any more.
+        m_pressedPane = nullptr;
+        m_pressedItemIndex = -1;
+    });
     connect(controller, &KItemListController::mouseButtonPressed, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {
         handleMouseButtonPressed(pane, itemIndex, buttons);
     });
@@ -1013,6 +1022,8 @@ bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
 void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons)
 {
     hideToolTip();
+    m_pressedPane = nullptr;
+    m_pressedItemIndex = -1;
 
     if (buttons & Qt::BackButton) {
         Q_EMIT goBackRequested();
@@ -1053,14 +1064,33 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
         return;
     }
 
-    // Every other left click opens the child of the item it landed on.
-    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
-    // so the clicked item is not the current one yet, and slotColumnsCurrentItemChanged() will
-    // not navigate either while a button is held. Without this the first click only selected.
     if (itemIndex >= pane->model()->count()) {
         return;
     }
 
+    // The columns follow the click when the button comes back up, so that a press that turns
+    // into a drag leaves them alone. A file dragged to a folder several columns to the right
+    // needs that column to still be open when it gets there.
+    m_pressedPane = pane;
+    m_pressedItemIndex = itemIndex;
+}
+
+void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex)
+{
+    if (!m_pressedPane || m_pressedPane != pane || m_pressedItemIndex != itemIndex) {
+        return;
+    }
+    m_pressedPane = nullptr;
+    m_pressedItemIndex = -1;
+
+    const int colIndex = m_columns.indexOf(pane);
+    if (colIndex < 0 || itemIndex < 0 || itemIndex >= pane->model()->count()) {
+        return;
+    }
+
+    // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
+    // so the clicked item is not the current one yet, and slotColumnsCurrentItemChanged() will
+    // not navigate either while a button is held. Without this the first click only selected.
     const KFileItem item = pane->model()->fileItem(itemIndex);
     if (item.isNull()) {
         return;
