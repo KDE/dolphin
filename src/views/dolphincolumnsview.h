@@ -11,6 +11,8 @@
 #include "dolphin_export.h"
 #include "dolphinview.h"
 
+#include <QPointer>
+
 #include <functional>
 #include <optional>
 #include <utility>
@@ -116,6 +118,7 @@ private:
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
+    void handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex);
 
     void ensureActiveColumnVisible();
     /// Scrolls the column at @p index into view, if any part of it is outside the viewport.
@@ -185,6 +188,11 @@ private:
     // Width handed from the column that was shown to the right of the active one to the one
     // that replaced it, as the index and the width. Empty when nothing is being carried.
     std::optional<std::pair<int, int>> m_carriedColumnWidth;
+
+    // What a left press landed on, until the button comes back up on the same item or the press
+    // turns into a drag.
+    QPointer<DolphinColumnPane> m_pressedPane;
+    int m_pressedItemIndex = -1;
 
     // Per-column custom width set by user dragging splitter handles.
     // Key = column index, value = width in pixels. Session-only, not persisted.
