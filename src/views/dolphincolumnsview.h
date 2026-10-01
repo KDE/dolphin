@@ -23,12 +23,7 @@ class QSplitter;
 class QTimer;
 
 /**
- * @short Miller Columns view for Dolphin.
- *
- * Inherits DolphinView and adds a column-based directory browsing mode.
- * When the view mode is set to ColumnsView, a horizontal cascade of
- * directory columns is shown (like macOS Finder's column view).
- * For all other view modes, the standard DolphinView behavior is used.
+ * @short Miller columns: one column per folder, from the root to the current folder.
  */
 class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
 {
@@ -37,39 +32,32 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
     friend class DolphinColumnsViewTest;
 
 public:
-    /// @p rootUrlResolver names the folder the columns start at for a url reached from outside
-    /// the open ones, so that the folders above it stay reachable by scrolling left. Only the
-    /// application knows the places, so it hands this in. Without one they start at the url.
+    /// @p rootUrlResolver names the folder the columns start at, such as the place that holds
+    /// the url. Without one they start at the url.
     explicit DolphinColumnsView(const QUrl &url,
                                 QWidget *parent,
                                 std::optional<Mode> initialMode = std::nullopt,
                                 std::function<QUrl(const QUrl &)> rootUrlResolver = {});
     ~DolphinColumnsView() override;
 
-    // --- DolphinView overrides ---
     void setUrl(const QUrl &url) override;
     void setActive(bool active) override;
     void reload() override;
     void stopLoading() override;
     void readSettings() override;
 
-    /// The filter belongs to the whole view, so every column gets it, new ones included.
+    /// Every column gets the filter, new ones included.
     void setNameFilter(const QString &nameFilter) override;
     void setFilterMode(KFileItemModelFilter::FilterMode mode) override;
     void setFilterCaseSensitive(bool caseSensitive) override;
     KFileItem rootItem() const override;
 
-    /// The columns scroll horizontally in their own scroll area, not in the base container.
     int horizontalScrollBarHeight() const override;
-    /// Each column has to leave room for the small status bar, not the hidden base view.
     void setStatusBarOffset(int offset) override;
-    /// Answers for the column that holds the focus, which the base container never does.
     bool handleSpaceAsNormalKey() const override;
-    /// Moving to another column stays on what the user was working on, so the selection mode
-    /// they turned on stays with them.
+    /// Moving to another column keeps the selection mode.
     bool urlChangeLeavesTheSelectionBehind() const override;
 
-    // --- Columns-specific API ---
     int columnCount() const;
     DolphinColumnPane *columnAt(int index) const;
     int activeColumnIndex() const;
@@ -101,69 +89,50 @@ private:
     void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
-    /** Gives @p pane its width if it is still waiting for its folder to list. */
+    /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
-    /// The folder the columns start at, from the resolver. Without one they start at the url.
     QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
-    /** Creates the column for @p dirUrl and adds it after the last one. */
+    /// Creates the column for @p dirUrl and adds it after the last one.
     DolphinColumnPane *appendPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
-    /**
-     * Returns the URL of the folder that @p item navigates into (a directory,
-     * or e.g. an archive when browsing those is supported), or an empty URL if
-     * @p item is not a navigable folder.
-     */
+    /// The folder that @p item opens, a directory or an archive, or an empty url.
     QUrl folderUrlForItem(const KFileItem &item) const;
 
     void handleKeyLeft(int sourceColumn);
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);
-    /** Opens the column of @p item when it is a folder, or closes the columns after @p column. Returns whether it was a folder. */
+    /// Opens the column of @p item when it is a folder, or closes the columns after @p column.
+    /// Returns whether it was a folder.
     bool followItem(int column, const KFileItem &item);
-    /** Makes the column after @p column active, selecting its first item if nothing is selected in it. */
+    /// Makes the column after @p column active, selecting its first item if nothing is selected.
     void enterChildColumn(int column);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
     void handleMouseButtonReleased(DolphinColumnPane *pane, int itemIndex);
 
     void ensureActiveColumnVisible();
-    /// Scrolls the column at @p index into view, if any part of it is outside the viewport.
     void ensureColumnVisible(int index);
     void autoSelectFirstItem(int columnIndex);
-    // Whether a column may end up narrower than it is now. Only the user asking for it does
-    // that: the width mode, the handle, the fit, or the size of the window.
+    /// Refit may narrow a column, which only a request by the user does.
     enum class WidthPolicy {
         GrowOnly,
         Refit,
     };
     void recalculateColumnWidths(WidthPolicy policy = WidthPolicy::GrowOnly);
-    /// Set the per-column widths on the splitter and update the horizontal-scroll overflow.
-    // The width a column keeps whatever its content asks for: what it has now, or the width of
-    // the column it replaced.
+    /// The width that column @p index keeps: what it has now, or the width of the one it replaced.
     int widthFloorFor(int index, const QList<int> &currentSizes) const;
-    /** The number of splitter handles drawn before column @p index. */
+    /// The number of splitter handles drawn before column @p index.
     int visibleHandlesBefore(int index) const;
     void applyColumnSizes(QList<int> columnSizes);
-    /**
-     * In "adjust to content" mode, re-fit the columns to their content so a rename
-     * or an added/removed item resizes the column. A no-op in fixed-width mode.
-     * Columns the user sized by hand keep their width.
-     */
+    /// Refits the columns to their content, in the adjust-to-content mode only.
     void refitColumnsToContent();
-    /**
-     * Fit every column to its content, dropping any width the user set by hand.
-     * Triggered by a double-click on a splitter handle.
-     */
+    /// Fits every column to its content and drops the widths set by hand.
     void autoAdjustColumns();
 
-    /**
-     * Shows @p url by moving within the columns that are already open: activating the
-     * column that shows it, or opening the folders between it and the deepest column
-     * that contains it. Returns false when @p url is unrelated to what is shown, which
-     * is when the caller has to rebuild from @p url as the root.
-     */
+    /// Shows @p url within the open columns, activating it or opening the folders down to it.
+    /// Returns false when @p url is not under an open column.
     bool showUrlInOpenColumns(const QUrl &url);
 
     void syncColumnsFromViewProperties();
@@ -191,22 +160,17 @@ private:
     bool m_columnsInitialized = false;
     bool m_blockNavigation = false;
 
-    // Set when Right-arrow opens a new child column whose model is still
-    // loading.  slotPaneLoadingCompleted() uses this to auto-select the
-    // first item once the model is ready.
+    // A column entered while it still lists, whose first item is selected once it has listed.
     DolphinColumnPane *m_pendingAutoSelect = nullptr;
 
-    // Width handed from the column that was shown to the right of the active one to the one
-    // that replaced it, as the index and the width. Empty when nothing is being carried.
+    // The index and the width of a column that replaced another.
     std::optional<std::pair<int, int>> m_carriedColumnWidth;
 
-    // What a left press landed on, until the button comes back up on the same item or the press
-    // turns into a drag.
+    // What a left press landed on, until the release or a drag.
     QPointer<DolphinColumnPane> m_pressedPane;
     int m_pressedItemIndex = -1;
 
-    // Per-column custom width set by user dragging splitter handles.
-    // Key = column index, value = width in pixels. Session-only, not persisted.
+    // Widths the user dragged, by column index. Not saved.
     QHash<int, int> m_customColumnWidths;
 
     KFileItemModel *m_baseModel = nullptr;
