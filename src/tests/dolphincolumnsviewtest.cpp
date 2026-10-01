@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
+#include <QGraphicsView>
 #include <QKeyEvent>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -109,6 +110,7 @@ private Q_SLOTS:
     void testRightClickKeepsTheChildColumns();
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
     void testDraggingAFileLeavesTheColumnsOpen();
+    void testPressingAFolderLeavesTheColumnsOpen();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -1184,6 +1186,33 @@ void DolphinColumnsViewTest::testDraggingAFileLeavesTheColumnsOpen()
     QTest::qWait(100); // UNAVOIDABLE: see above
     QCOMPARE(m_view->columnCount(), 2);
     QCOMPARE(urlSpy.count(), 0);
+}
+
+void DolphinColumnsViewTest::testPressingAFolderLeavesTheColumnsOpen()
+{
+    // A folder dragged to a folder in the next column needs that column to still be there, so a
+    // press on a folder opens nothing until its release. The press goes through the controller,
+    // which selects the pressed item.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    auto *pane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(pane, QStringLiteral("beta"));
+    QVERIFY(betaIndex >= 0);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint betaPos = graphicsView->mapFromScene(pane->itemListView()->itemRect(betaIndex).center());
+
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QVERIFY(pane->controller()->selectionManager()->isSelected(betaIndex));
+    QTest::qWait(100); // UNAVOIDABLE: proving that nothing opens needs time for it to happen
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
+
+    QTest::mouseRelease(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("beta")), 5000);
+    QCOMPARE(m_view->columnCount(), 2);
 }
 
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
