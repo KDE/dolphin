@@ -98,9 +98,6 @@ private:
     DolphinColumnPane *appendPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
-    /// The folder that @p item opens, a directory or an archive, or an empty url.
-    QUrl folderUrlForItem(const KFileItem &item) const;
-
     void handleKeyLeft(int sourceColumn);
     void handleKeyRight(int sourceColumn);
     bool handleKeyReturn(int sourceColumn);

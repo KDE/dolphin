@@ -50,6 +50,8 @@ public:
     DolphinItemListView *itemListView() const;
     /// The item under the keyboard focus of this column, or a null item.
     KFileItem currentFileItem() const;
+    /// The folder that @p item opens, a directory or an archive, or an empty url.
+    static QUrl folderUrlFor(const KFileItem &item);
 
     void setPreviewsShown(bool show);
     void setAlternateBackgrounds(bool alternating);
