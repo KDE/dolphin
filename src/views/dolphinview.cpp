@@ -210,7 +210,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
-    connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
     connect(controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
     connect(controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
     connect(controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
@@ -1514,6 +1513,7 @@ QList<QMetaObject::Connection> DolphinView::connectItemController(KItemListContr
 {
     return {
         connect(controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinView::slotSelectionChanged),
+        connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated),
         connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked),
         connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested),
         connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested),
