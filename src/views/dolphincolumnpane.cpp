@@ -26,6 +26,9 @@
 #include <QVBoxLayout>
 #include <cmath>
 
+/// The narrowest a column can be dragged.
+static constexpr int s_minimumWidth = 100;
+
 DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
@@ -55,7 +58,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_view->setAccessibleParentsObject(m_container);
-    m_naturalMinimumWidth = minimumWidth();
 
     layout->addWidget(m_container);
 
@@ -68,7 +70,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     });
     connect(m_versionControlObserver, &VersionControlObserver::operationCompletedMessage, this, &DolphinColumnPane::operationCompletedMessage);
 
-    setMinimumWidth(100);
+    setMinimumWidth(s_minimumWidth);
 
     connect(m_controller, &KItemListController::itemActivated, this, &DolphinColumnPane::slotItemActivated);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
@@ -113,7 +115,7 @@ void DolphinColumnPane::setWidthPending(bool pending)
 {
     m_widthPending = pending;
     // qSmartMinSize() follows minimumSizeHint(), so only the maximum width brings it to zero.
-    setMinimumWidth(pending ? 0 : m_naturalMinimumWidth);
+    setMinimumWidth(pending ? 0 : s_minimumWidth);
     setMaximumWidth(pending ? 0 : QWIDGETSIZE_MAX);
 }
 
