@@ -911,7 +911,11 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 {
     Q_EMIT actionBeingHandled();
     QPointer<ViewPropertiesDialog> dialog = new ViewPropertiesDialog(m_currentView);
-    connect(dialog, &ViewPropertiesDialog::viewModeChangeRequested, this, &DolphinViewActionHandler::viewModeChangeRequested);
+    connect(dialog, &ViewPropertiesDialog::viewModeChangeRequested, this, [this, dialog](DolphinView::Mode mode) {
+        Q_EMIT viewModeChangeRequested(mode);
+        // The receiver may have replaced the view, and setCurrentView() has been called for it.
+        dialog->setView(m_currentView);
+    });
     dialog->exec();
     delete dialog;
 }
