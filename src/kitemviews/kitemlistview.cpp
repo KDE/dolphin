@@ -2815,9 +2815,7 @@ void KItemListView::applyAutomaticColumnWidths()
                 shrinkedFirstColumnWidth = minWidth;
             }
         } else {
-            // A single column that cannot be reached by horizontal scrolling:
-            // clamp it fully to the view so the row (and its full-row highlight)
-            // never overflows, e.g. under the vertical scrollbar. Content elides.
+            // Without horizontal scrolling, nothing past the view could be reached.
             shrinkedFirstColumnWidth = qMax(qreal(0), shrinkedFirstColumnWidth);
         }
 

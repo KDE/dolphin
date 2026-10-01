@@ -1571,8 +1571,7 @@ void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbac
         destUrl = destItem.mostLocalUrl();
     }
 
-    // Map from screen coordinates to this widget's local coordinates
-    // so KIO::drop() positions the popup menu correctly.
+    // KIO::drop() places its menu in the coordinates of this widget.
     QDropEvent dropEvent(mapFromGlobal(event->screenPos()), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
     dropUrls(destUrl, &dropEvent, this);
 
@@ -2532,10 +2531,8 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 
     Mode mode = props.viewMode();
     if (!canDisplayMode(mode)) {
-        // The folder stored a mode this view cannot draw, e.g. the columns mode reached through
-        // DolphinPart, or any other mode once the container has built the columns view. Which
-        // view is in use is the container's decision, so keep drawing what this one is for.
-        // Adopting the stored mode would leave the reported mode and the drawn layout disagreeing.
+        // Which view draws the folder is the container's decision, so a mode this view cannot
+        // draw is not taken.
         mode = m_canDisplayColumns ? ColumnsView : IconsView;
     }
     if (m_mode != mode) {
