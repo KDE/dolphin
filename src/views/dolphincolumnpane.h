@@ -60,6 +60,8 @@ public:
     KItemListController *controller() const;
     KItemListContainer *container() const;
     DolphinItemListView *itemListView() const;
+    /** The item under the keyboard focus of this column, or a null item. */
+    KFileItem currentFileItem() const;
 
     void setPreviewsShown(bool show);
     void setAlternateBackgrounds(bool alternating);

@@ -88,6 +88,11 @@ QUrl DolphinColumnPane::dirUrl() const
     return m_model->directory();
 }
 
+KFileItem DolphinColumnPane::currentFileItem() const
+{
+    return m_model->fileItem(m_controller->selectionManager()->currentItem());
+}
+
 void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
 {
     if (childUrl.isEmpty()) {
