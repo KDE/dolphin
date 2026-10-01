@@ -2813,8 +2813,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
 
-    // When the view inside a container is swapped (e.g. switching to/from ColumnsView),
-    // re-wire all view-level signals by re-running activeViewChanged().
+    // A container that replaces its view needs the view signals connected again.
     connect(container, &DolphinViewContainer::viewReplaced, this, [this, container]() {
         if (container == m_activeViewContainer) {
             activeViewChanged(container);

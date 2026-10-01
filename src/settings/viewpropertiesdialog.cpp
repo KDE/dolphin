@@ -36,9 +36,7 @@
 #include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
-    // Parented to the window rather than to the view: applying a switch to or from the
-    // columns view destroys the view, and a dialog parented to it would go with it while
-    // its own exec() is still running.
+    // Not to the view, which a switch to or from the columns view destroys during exec().
     : QDialog(dolphinView->window())
     , m_isDirty(false)
     , m_dolphinView(dolphinView)
@@ -330,8 +328,7 @@ void ViewPropertiesDialog::applyViewProperties()
         m_viewProps->setVisibleRoles(visibleRoles);
     }
 
-    // Applying a switch to or from the columns view replaces the view with another object, so a
-    // second apply after that has nothing to act on. Stop rather than follow a dangling pointer.
+    // A switch to or from the columns view has destroyed the view.
     if (!m_dolphinView) {
         return;
     }
@@ -389,11 +386,7 @@ void ViewPropertiesDialog::applyViewProperties()
 
     markAsDirty(false);
 
-    // Apply the view mode last, through the container: switching to or from the
-    // columns view swaps the DolphinView for a different subclass, so the mode
-    // must not be set on m_dolphinView directly (it would be a stale pointer
-    // afterwards). The container recreates the view from the properties saved
-    // above.
+    // Last, and through the container, which may replace m_dolphinView.
     Q_EMIT viewModeChangeRequested(m_viewProps->viewMode());
 }
 
