@@ -60,6 +60,8 @@
 
 #include <kwidgetsaddons_version.h>
 
+#include <memory>
+
 #include <QAbstractItemView>
 #ifndef QT_NO_ACCESSIBILITY
 #include <QAccessible>
@@ -164,7 +166,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     KItemListController *controller = new KItemListController(m_model, m_view, this);
     controller->setAutoActivationEnabled(GeneralSettings::autoExpandFolders());
     connect(controller, &KItemListController::clickViewBackground, this, &DolphinView::clickViewBackground);
-    connect(controller, &KItemListController::doubleClickViewBackground, this, &DolphinView::doubleClickViewBackground);
     connect(controller, &KItemListController::typeAheadUsed, this, [this](const QString &typedString, std::optional<int> foundIndex) {
         if (foundIndex.has_value()) {
             const KFileItem item = m_model->fileItem(foundIndex.value());
@@ -234,21 +235,14 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
     connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
-    connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked);
-    connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested);
-    connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested);
     connect(controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
     connect(controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
     connect(controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
     connect(controller, &KItemListController::itemUnhovered, this, &DolphinView::slotItemUnhovered);
     connect(controller, &KItemListController::itemDropEvent, this, &DolphinView::slotItemDropEvent);
-    connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
     connect(controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
     connect(controller, &KItemListController::selectedItemTextPressed, this, &DolphinView::slotSelectedItemTextPressed);
-    connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
-    connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
-    connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
-    connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested);
+    connectItemController(controller);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted, this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -282,9 +276,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished, this, &DolphinView::slotHeaderColumnWidthChangeFinished);
     connect(m_view->header(), &KItemListHeader::sidePaddingChanged, this, &DolphinView::slotSidePaddingWidthChanged);
 
-    KItemListSelectionManager *selectionManager = controller->selectionManager();
-    connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, &DolphinView::slotSelectionChanged);
-
 #if HAVE_BALOO
     m_toolTipManager = new ToolTipManager(this);
     connect(m_toolTipManager, &ToolTipManager::urlActivated, this, &DolphinView::urlActivated);
@@ -314,7 +305,10 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     m_topLayout->addWidget(m_container);
     updateContainerFrame();
 
-    loadDirectory(url);
+    // The columns view lists each folder in the model of its column.
+    if (!(m_canDisplayColumns && m_mode == ColumnsView)) {
+        loadDirectory(url);
+    }
 }
 
 DolphinView::~DolphinView()
@@ -1568,13 +1562,32 @@ void DolphinView::slotSidePaddingWidthChanged(qreal leftPaddingWidth, qreal righ
     m_view->writeSettings();
 }
 
+QList<QMetaObject::Connection> DolphinView::connectItemController(KItemListController *controller)
+{
+    return {
+        connect(controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinView::slotSelectionChanged),
+        connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked),
+        connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested),
+        connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested),
+        connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading),
+        connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom),
+        connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom),
+        connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp),
+        connect(controller, &KItemListController::doubleClickViewBackground, this, &DolphinView::doubleClickViewBackground),
+        connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested),
+    };
+}
+
 void DolphinView::slotItemHovered(int index)
 {
-    const KFileItem item = m_model->fileItem(index);
+    showHoveredItem(m_container, m_model->fileItem(index), index);
+}
 
+void DolphinView::showHoveredItem(KItemListContainer *container, const KFileItem &item, int index)
+{
     if (GeneralSettings::showToolTips() && !m_dragging) {
-        QRectF itemRect = m_container->controller()->view()->itemContextRect(index);
-        const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
+        QRectF itemRect = container->controller()->view()->itemContextRect(index);
+        const QPoint pos = container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 
 #if HAVE_BALOO
@@ -1610,8 +1623,7 @@ void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbac
         destUrl = destItem.mostLocalUrl();
     }
 
-    // Map from screen coordinates to this widget's local coordinates
-    // so KIO::drop() positions the popup menu correctly.
+    // KIO::drop() places its menu in the coordinates of this widget.
     QDropEvent dropEvent(mapFromGlobal(event->screenPos()), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
     dropUrls(destUrl, &dropEvent, this);
 
@@ -2011,13 +2023,15 @@ void DolphinView::resetZoomLevel()
 
 void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition)
 {
-    // need to wait for the item to be added to the model
-    QMetaObject::Connection *connection = new QMetaObject::Connection;
-    *connection = connect(m_model, &KFileItemModel::itemsInserted, this, [this, url, connection, condition](const KItemRangeList &ranges) {
+    // need to wait for the item to be added to the model.
+    // The columns view moves m_model to another column when the user clicks it, so the model is captured.
+    KFileItemModel *model = m_model;
+    auto connection = std::make_shared<QMetaObject::Connection>();
+    *connection = connect(model, &KFileItemModel::itemsInserted, this, [this, model, url, connection, condition](const KItemRangeList &ranges) {
         bool found = false;
         for (const KItemRange &it : ranges) {
             for (int i = 0; i < it.count; ++i) {
-                if (m_model->fileItem(it.index + i).url() == url) {
+                if (model->fileItem(it.index + i).url() == url) {
                     found = true;
                     break;
                 }
@@ -2026,15 +2040,15 @@ void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<b
                 break;
             }
         }
+        if (!found) {
+            return;
+        }
         // check whether the selection should be changed, but only once the item really is there:
         // forceUrlsSelection() clears the current selection, so calling it early would drop it
-        if (found && condition()) {
+        if (model == m_model && condition()) {
             forceUrlsSelection(url, {url});
         }
-        if (found) {
-            disconnect(*connection);
-            delete connection;
-        }
+        disconnect(*connection);
     });
 }
 
@@ -2585,10 +2599,8 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
 
     Mode mode = props.viewMode();
     if (!canDisplayMode(mode)) {
-        // The folder stored a mode this view cannot draw, e.g. the columns mode reached through
-        // DolphinPart, or any other mode once the container has built the columns view. Which
-        // view is in use is the container's decision, so keep drawing what this one is for.
-        // Adopting the stored mode would leave the reported mode and the drawn layout disagreeing.
+        // Which view draws the folder is the container's decision, so a mode this view cannot
+        // draw is not taken.
         mode = m_canDisplayColumns ? ColumnsView : IconsView;
     }
     if (m_mode != mode) {
