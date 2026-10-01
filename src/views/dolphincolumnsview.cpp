@@ -252,7 +252,7 @@ void DolphinColumnsView::readSettings()
 
     // Pick up changes to the width behaviour, minimum width, and visible-column
     // count that the settings dialog just applied.
-    recalculateColumnWidths();
+    recalculateColumnWidths(WidthPolicy::Refit);
 }
 
 KFileItem DolphinColumnsView::rootItem() const
@@ -321,11 +321,6 @@ void DolphinColumnsView::setActiveColumn(int index)
     DolphinColumnPane *oldPane = activePane();
 
     m_activeColumn = index;
-
-    if (m_carriedColumnWidth && m_carriedColumnWidth->first <= index) {
-        m_carriedColumnWidth.reset();
-        recalculateColumnWidths();
-    }
 
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
     reconnectActivePane(oldPane, newPane);
@@ -605,8 +600,8 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 
     // Moving between folders in this column swaps what the column to its right shows. Give
     // the new one the width the old one had, so that the columns and the scroll position stay
-    // where they are instead of shifting under the folder being looked through. The width goes
-    // back to following the content once this column is entered.
+    // where they are instead of shifting under the folder being looked through. The column
+    // grows from there if the folder that arrives needs more room.
     // Moving between siblings replaces the column to the right, and the view must not jump then.
     // A column opened where there was none is new on screen, so it is worth scrolling to.
     const bool replacesExistingColumn = columnIndex + 1 < m_columns.size();
@@ -914,7 +909,7 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 void DolphinColumnsView::resizeEvent(QResizeEvent *event)
 {
     DolphinView::resizeEvent(event);
-    recalculateColumnWidths();
+    recalculateColumnWidths(WidthPolicy::Refit);
 }
 
 void DolphinColumnsView::showEvent(QShowEvent *event)
@@ -1179,7 +1174,7 @@ void DolphinColumnsView::refitColumnsToContent()
     }
 }
 
-void DolphinColumnsView::recalculateColumnWidths()
+void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
 {
     const int numColumns = m_columns.size();
     if (numColumns == 0) {
@@ -1201,6 +1196,7 @@ void DolphinColumnsView::recalculateColumnWidths()
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
+    const QList<int> currentSizes = m_splitter->sizes();
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
@@ -1214,11 +1210,15 @@ void DolphinColumnsView::recalculateColumnWidths()
         if (m_customColumnWidths.contains(i)) {
             // A width the user set by dragging the handle always wins.
             columnWidth = m_customColumnWidths.value(i);
-        } else if (m_carriedColumnWidth && m_carriedColumnWidth->first == i) {
-            columnWidth = m_carriedColumnWidth->second;
         } else if (dynamicWidth) {
             // Size the column to its content, never below the configured minimum.
             columnWidth = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
+            if (policy == WidthPolicy::GrowOnly) {
+                // A column only ever grows on its own. Narrowing one is the user's to do, by
+                // dragging the handle, fitting the column or making the window smaller, so a
+                // folder with shorter names in it leaves the width alone.
+                columnWidth = qMax(columnWidth, widthFloorFor(i, currentSizes));
+            }
         } else {
             columnWidth = defaultWidth;
         }
@@ -1228,6 +1228,20 @@ void DolphinColumnsView::recalculateColumnWidths()
         sizes.append(qMin(viewportWidth, columnWidth));
     }
     applyColumnSizes(sizes);
+}
+
+int DolphinColumnsView::widthFloorFor(int index, const QList<int> &currentSizes) const
+{
+    int floor = 0;
+    if (index < currentSizes.size()) {
+        floor = currentSizes.at(index);
+    }
+    // A column that replaced another one has no width of its own yet, so the width of the one
+    // it replaced stands in until its folder has listed.
+    if (m_carriedColumnWidth && m_carriedColumnWidth->first == index) {
+        floor = qMax(floor, m_carriedColumnWidth->second);
+    }
+    return floor;
 }
 
 void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
