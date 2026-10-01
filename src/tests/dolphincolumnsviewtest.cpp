@@ -77,6 +77,7 @@ private Q_SLOTS:
     void testCustomWidthCleanupOnPop();
     void testColumnWidthMode();
     void testAutoAdjustColumns();
+    void testDoubleClickOnAHandleFitsTheColumns();
     void testIconSizeFollowsSettings();
     void testZoomingLeavesTheOtherViewModesAlone();
     void testRenameRefitsColumnWhenAdjustingToContent();
@@ -495,6 +496,32 @@ void DolphinColumnsViewTest::testAutoAdjustColumns()
     // A later relayout keeps the fitted width instead of restoring the fixed one.
     m_view->recalculateColumnWidths();
     QCOMPARE(splitter->sizes().at(0), fittedFixed);
+}
+
+void DolphinColumnsViewTest::testDoubleClickOnAHandleFitsTheColumns()
+{
+    // The handle before a column only reacts once the view filters its events.
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+    });
+    settings->setDynamicColumnWidth(true);
+
+    m_view->openChild(0, QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha")));
+    waitForStableState();
+    QCOMPARE(m_view->columnCount(), 2);
+
+    auto *splitter = m_view->findChild<QSplitter *>();
+    QVERIFY(splitter);
+    Q_EMIT splitter->splitterMoved(600, 1);
+    QVERIFY(!m_view->m_customColumnWidths.isEmpty());
+
+    QTest::mouseDClick(splitter->handle(1), Qt::LeftButton);
+    // mouseDClick() leaves the button held, and every later test would navigate with it down.
+    QTest::mouseRelease(splitter->handle(1), Qt::LeftButton);
+    QCOMPARE(QGuiApplication::mouseButtons(), Qt::NoButton);
+    QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
 }
 
 void DolphinColumnsViewTest::testIconSizeFollowsSettings()
@@ -1332,7 +1359,7 @@ void DolphinColumnsViewTest::testFilterModeAppliesToEveryColumn()
 
 void DolphinColumnsViewTest::testAColumnOpenedLaterInheritsTheFilterModeAndCase()
 {
-    // createPane() gives a new column the whole filter, and not only the name.
+    // appendPane() gives a new column the whole filter, and not only the name.
     m_view->setFilterMode(KFileItemModelFilter::Regex);
     m_view->setFilterCaseSensitive(true);
     m_view->setNameFilter(QStringLiteral("^alpha"));
