@@ -81,6 +81,7 @@ private Q_SLOTS:
     void testZoomingLeavesTheOtherViewModesAlone();
     void testRenameRefitsColumnWhenAdjustingToContent();
     void testNoJumpWhenSiblingSelectionReplacesWideColumn();
+    void testAColumnKeepsItsWidthWhenItIsEntered();
     void testShownHiddenFileWidensColumn();
     void testColumnIsNeverWiderThanTheViewport();
 
@@ -427,12 +428,14 @@ void DolphinColumnsViewTest::testColumnWidthMode()
     auto *splitter = m_view->findChild<QSplitter *>();
     QVERIFY(splitter);
 
+    // Changing the width mode is one of the few things that may leave a column narrower than
+    // it was, so it refits. readSettings() passes the same policy when the dialog applies.
     settings->setDynamicColumnWidth(false);
-    m_view->recalculateColumnWidths();
+    m_view->recalculateColumnWidths(DolphinColumnsView::WidthPolicy::Refit);
     const int fixedWidth = splitter->sizes().at(0);
 
     settings->setDynamicColumnWidth(true);
-    m_view->recalculateColumnWidths();
+    m_view->recalculateColumnWidths(DolphinColumnsView::WidthPolicy::Refit);
     const int contentWidth = splitter->sizes().at(0);
 
     QVERIFY(fixedWidth > 0);
@@ -687,6 +690,58 @@ void DolphinColumnsViewTest::testNoJumpWhenSiblingSelectionReplacesWideColumn()
     QCOMPARE(m_view->m_splitter->sizes().at(2), childWidthBefore);
     QCOMPARE(activeScreenX(), screenXBefore);
     QCOMPARE(m_view->m_scrollArea->horizontalScrollBar()->value(), scrollBefore);
+}
+
+void DolphinColumnsViewTest::testAColumnKeepsItsWidthWhenItIsEntered()
+{
+    auto *settings = ColumnsModeSettings::self();
+    const bool savedDynamic = settings->dynamicColumnWidth();
+    const int savedMin = settings->minColumnWidth();
+    auto restore = qScopeGuard([&]() {
+        settings->setDynamicColumnWidth(savedDynamic);
+        settings->setMinColumnWidth(savedMin);
+    });
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    // One folder holds a name far wider than the other, so the width of the column to the right
+    // differs a great deal between the two.
+    m_testDir->createFile(QStringLiteral("wide-names/") + QString(120, QLatin1Char('w')) + QStringLiteral(".txt"));
+    m_testDir->createFile(QStringLiteral("short-names/s.txt"));
+
+    activateColumn(0);
+
+    // The root was listed before this test created the two folders, so wait for the watcher.
+    auto *rootModel = m_view->columnAt(0)->model();
+    auto rootHolds = [rootModel](const QString &name) {
+        for (int i = 0; i < rootModel->count(); ++i) {
+            if (rootModel->fileItem(i).name() == name) {
+                return true;
+            }
+        }
+        return false;
+    };
+    QTRY_VERIFY_WITH_TIMEOUT(rootHolds(QStringLiteral("wide-names")) && rootHolds(QStringLiteral("short-names")), 10000);
+
+    selectItemInColumn(0, QStringLiteral("wide-names"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1 && m_view->columnAt(1)->model()->count() > 0, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 200, 5000);
+    const int wideWidth = m_view->m_splitter->sizes().at(1);
+
+    // The folder with the shorter name needs less room, and the column keeps the width it has.
+    selectItemInColumn(0, QStringLiteral("short-names"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1
+                                 && m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName() == QStringLiteral("short-names"),
+                             5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(1)->model()->count() > 0, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
+    QCOMPARE(m_view->m_splitter->sizes().at(1), wideWidth);
+
+    // Entering the column is not the user asking for a narrower one either.
+    navigateRight();
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QTest::qWait(200); // UNAVOIDABLE: see above
+    QCOMPARE(m_view->m_splitter->sizes().at(1), wideWidth);
 }
 
 void DolphinColumnsViewTest::testSelectionMatchesActiveColumn()
