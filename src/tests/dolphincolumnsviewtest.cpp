@@ -127,6 +127,7 @@ private Q_SLOTS:
     void testTheColumnsStartAtTheRootTheResolverNames();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
+    void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -1584,6 +1585,21 @@ void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
     m_view->recalculateColumnWidths();
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
     QVERIFY(m_view->m_splitter->handle(1)->isVisible());
+}
+
+void DolphinColumnsViewTest::testAColumnThatWaitedForItsWidthKeepsItsMinimum()
+{
+    // A column has no width while its folder lists, and takes back the minimum of every column
+    // after that, so a drag cannot make it narrower than the others.
+    ColumnsModeSettings::self()->setDynamicColumnWidth(true);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *child = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(!child->isWidthPending(), 5000);
+
+    QCOMPARE(child->minimumWidth(), m_view->columnAt(0)->minimumWidth());
+    QVERIFY(child->minimumWidth() > 0);
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
