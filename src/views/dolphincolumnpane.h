@@ -89,7 +89,6 @@ private:
     VersionControlObserver *m_versionControlObserver = nullptr;
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
-    int m_naturalMinimumWidth = 0;
     bool m_selectionCheckPending = false;
 };
 
