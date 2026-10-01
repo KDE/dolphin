@@ -223,6 +223,11 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     m_viewProps = nullptr;
 }
 
+void ViewPropertiesDialog::setView(DolphinView *dolphinView)
+{
+    m_dolphinView = dolphinView;
+}
+
 void ViewPropertiesDialog::accept()
 {
     applyViewProperties();

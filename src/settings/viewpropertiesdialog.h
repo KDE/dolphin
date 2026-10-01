@@ -41,6 +41,8 @@ public:
 
 public Q_SLOTS:
     void accept() override;
+    /** Sets the view to apply to, after a switch to or from the columns view replaced it. */
+    void setView(DolphinView *dolphinView);
 
 private Q_SLOTS:
     void slotApply();
