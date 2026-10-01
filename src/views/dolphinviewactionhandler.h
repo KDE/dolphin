@@ -99,9 +99,7 @@ Q_SIGNALS:
     void selectionModeChangeTriggered(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
 
     /**
-     * Emitted when the user requested a view mode change via the toolbar/menu.
-     * The receiver (DolphinMainWindow or DolphinPart) is responsible for
-     * applying the mode to the correct view or container.
+     * Emitted when the user chose a view mode. The receiver applies it to the container.
      */
     void viewModeChangeRequested(DolphinView::Mode mode);
 

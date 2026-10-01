@@ -85,8 +85,7 @@ public:
         CompactView,
 
         /**
-         * Miller Columns: each directory level is shown in its own
-         * vertical column, cascading horizontally from left to right.
+         * Miller columns: one column per folder, drawn by DolphinColumnsView.
          */
         ColumnsView
     };
@@ -96,9 +95,8 @@ public:
      * @param parent           Parent widget of the view.
      */
     /**
-     * @p canDisplayColumns must be true for a subclass that draws the columns mode. It is a
-     * constructor argument rather than a virtual, because the base constructor already needs
-     * the answer while it applies the view properties.
+     * @p canDisplayColumns is true for a subclass that draws the columns mode. The base
+     * constructor needs it, so it cannot be a virtual.
      */
     explicit DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt, bool canDisplayColumns = false);
 
@@ -397,8 +395,7 @@ public:
      */
     virtual bool handleSpaceAsNormalKey() const;
 
-    /// Whether a change of url takes the view away from what the user was working on. Leaving
-    /// selection mode follows from that.
+    /// Whether a change of url leaves the selection behind, which ends selection mode.
     virtual bool urlChangeLeavesTheSelectionBehind() const;
 
     /** Activates the view if the item list container gets focus. */
@@ -781,10 +778,7 @@ protected:
     /** @internal Accessors for subclasses (e.g. DolphinColumnsView). */
     QVBoxLayout *topLayout() const;
     KItemListContainer *itemListContainer() const;
-    /**
-     * Connects the signals of @p controller that every item view of this view forwards the same
-     * way: selection, context menus, middle click, zoom and the background gestures.
-     */
+    /** Connects the signals of @p controller that every item view of this view forwards. */
     QList<QMetaObject::Connection> connectItemController(KItemListController *controller);
     /** Shows the tooltip and the information for @p item, hovered at @p index in @p container. */
     void showHoveredItem(KItemListContainer *container, const KFileItem &item, int index);
@@ -799,10 +793,7 @@ protected:
      */
     void pasteToUrl(const QUrl &url);
 
-    /**
-     * Update the tracked URL without triggering a directory load.
-     * Used by subclasses that manage their own directory loading.
-     */
+    /** Updates the url without loading it, for a subclass that loads its own folders. */
     void updateUrl(const QUrl &url);
 
     /**
@@ -820,7 +811,6 @@ protected:
     /**
      * Applies the m_mode property to the corresponding
      * itemlayout-property of the KItemListView.
-     * Subclasses can override to add custom view modes.
      */
     virtual void applyModeToView();
 
@@ -832,10 +822,7 @@ protected:
      */
     QMimeData *selectionMimeData() const;
 
-    /**
-     * Handles a drop event on item @p index using the given @p model.
-     * Falls back to @p fallbackUrl when the drop target is not a directory.
-     */
+    /** Drops on item @p index of @p model, or on @p fallbackUrl when that is not a folder. */
     void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event);
 
     /**
@@ -849,18 +836,11 @@ protected:
     virtual KFileItemModel *activeModel() const;
 
     /**
-     * Returns the item list view of the currently active view. Subclasses that
-     * manage several item list views (e.g. ColumnsView) return the active one,
-     * so shared operations such as inline renaming act on the right widget.
+     * Returns the item list view of the currently active view, such as the active column.
      */
     virtual DolphinItemListView *activeItemListView() const;
 
-    /**
-     * Updates m_isFolderWritable dependent on whether the folder of the active
-     * view is writable, emitting writeStateChanged() if it changed. Subclasses
-     * that manage several views (e.g. ColumnsView) call this when the active
-     * folder changes so the state tracks the active view.
-     */
+    /** Updates m_isFolderWritable from the folder of the active view, emitting writeStateChanged(). */
     void updateWritableState();
 
 protected Q_SLOTS:
