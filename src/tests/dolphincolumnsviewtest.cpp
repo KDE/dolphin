@@ -106,6 +106,7 @@ private Q_SLOTS:
     void testMouseClickOnNotCurrentDirectoryOpensChild();
     void testRightClickKeepsTheChildColumns();
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
+    void testDraggingAFileLeavesTheColumnsOpen();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -1042,6 +1043,8 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
     // Simulate a left-click on the already-current "beta". This opens exactly one
     // child column showing "beta"; the re-entrancy bug would open a second.
     m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, betaIndex);
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
@@ -1118,6 +1121,8 @@ void DolphinColumnsViewTest::testMouseClickOnNotCurrentDirectoryOpensChild()
     QVERIFY(selectionManager->currentItem() != betaIndex);
 
     m_view->handleMouseButtonPressed(pane, betaIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, betaIndex);
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
@@ -1169,10 +1174,44 @@ void DolphinColumnsViewTest::testMouseClickOnAFileDropsTheColumnsAfterIt()
 
     QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
     m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, fileIndex);
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
     QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
     QCOMPARE(urlSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testDraggingAFileLeavesTheColumnsOpen()
+{
+    // Dragging a file to a folder shown further right needs that column to still be there when
+    // the drag arrives, so a press that becomes a drag closes nothing.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    int fileIndex = -1;
+    for (int i = 0; i < pane->model()->count(); ++i) {
+        if (pane->model()->fileItem(i).name() == QStringLiteral("single-file.txt")) {
+            fileIndex = i;
+            break;
+        }
+    }
+    QVERIFY(fileIndex >= 0);
+
+    QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
+    m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    QCOMPARE(m_view->columnCount(), 2);
+
+    Q_EMIT pane->controller()->draggingStarted();
+    QTest::qWait(100); // UNAVOIDABLE: proving that nothing closes needs time for it to happen
+    QCOMPARE(m_view->columnCount(), 2);
+
+    // The release that ends the drag is not a click on the file either.
+    m_view->handleMouseButtonReleased(pane, fileIndex);
+    QTest::qWait(100); // UNAVOIDABLE: see above
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(urlSpy.count(), 0);
 }
 
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
@@ -1505,6 +1544,8 @@ void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
     }
     QVERIFY(fileIndex >= 0);
     m_view->handleMouseButtonPressed(pane, fileIndex, Qt::LeftButton);
+    // The columns follow the click when the button comes back up.
+    m_view->handleMouseButtonReleased(pane, fileIndex);
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
 
     QCOMPARE(scrollBar->value(), scrollBefore);
