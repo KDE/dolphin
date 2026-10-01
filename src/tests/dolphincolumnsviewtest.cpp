@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
+#include <QGraphicsView>
 #include <QKeyEvent>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -95,6 +96,9 @@ private Q_SLOTS:
 
     void testKeyReturn_fileEmitsItemActivated();
     void testKeyReturn_directoryOpensChild();
+    void testKeyReturn_opensEverySelectedItem();
+    void testCtrlOrShiftOpensAFolderElsewhere_data();
+    void testCtrlOrShiftOpensAFolderElsewhere();
     void testKeyReturn_doesNotReloadAlreadyOpenChild();
 
     void testShiftRight_navigatesBetweenColumns();
@@ -109,6 +113,7 @@ private Q_SLOTS:
     void testRightClickKeepsTheChildColumns();
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
     void testDraggingAFileLeavesTheColumnsOpen();
+    void testPressingAFolderLeavesTheColumnsOpen();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -117,7 +122,9 @@ private Q_SLOTS:
     void testFilterModeAppliesToEveryColumn();
     void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
     void testFilteringOutAFolderClosesItsColumn();
-    void testOpeningAFolderDoesNotOpenAFurtherColumn();
+    void testAListedColumnOpensNothing();
+    void testDeletingAnOpenFolderOpensNoOther();
+    void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
@@ -125,6 +132,8 @@ private Q_SLOTS:
     void testTheColumnsStartAtTheRootTheResolverNames();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
+    void testAClickedItemTakesTheHighlightFromTheActiveOne();
+    void testClickingEmptySpaceClosesTheColumnsAfterIt();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -264,11 +273,16 @@ void DolphinColumnsViewTest::selectItemInColumn(int columnIndex, const QString &
     auto *pane = m_view->columnAt(columnIndex);
     QVERIFY2(pane, qPrintable(QStringLiteral("Column %1 does not exist").arg(columnIndex)));
 
+    QTRY_VERIFY2_WITH_TIMEOUT(indexOfName(pane, name) >= 0, qPrintable(QStringLiteral("Item '%1' not found in column %2").arg(name).arg(columnIndex)), 5000);
     const int index = indexOfName(pane, name);
-    QVERIFY2(index >= 0, qPrintable(QStringLiteral("Item '%1' not found in column %2").arg(name).arg(columnIndex)));
     auto *selectionManager = pane->controller()->selectionManager();
+    // The listing made the first item current without opening it, so picking that one opens it here.
+    const bool alreadyCurrent = selectionManager->currentItem() == index;
     selectionManager->setCurrentItem(index);
     selectionManager->setSelected(index, 1, KItemListSelectionManager::Select);
+    if (alreadyCurrent) {
+        m_view->followItem(columnIndex, pane->model()->fileItem(index));
+    }
     QTRY_VERIFY_WITH_TIMEOUT(selectionManager->isSelected(index), 5000);
 }
 
@@ -816,6 +830,66 @@ void DolphinColumnsViewTest::testKeyReturn_directoryOpensChild()
     QVERIFY(m_view->activeColumnIndex() >= 1);
 }
 
+void DolphinColumnsViewTest::testCtrlOrShiftOpensAFolderElsewhere_data()
+{
+    QTest::addColumn<Qt::KeyboardModifier>("modifier");
+    QTest::newRow("Ctrl, a new tab") << Qt::ControlModifier;
+    QTest::newRow("Shift, a new window") << Qt::ShiftModifier;
+}
+
+void DolphinColumnsViewTest::testCtrlOrShiftOpensAFolderElsewhere()
+{
+    // As in the other view modes, a folder activated with Ctrl or Shift is handed to the view
+    // container, which opens it in a new tab or window. The columns stay as they are.
+    QFETCH(Qt::KeyboardModifier, modifier);
+    selectItemInColumn(0, QStringLiteral("beta"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *pane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(pane, QStringLiteral("beta"));
+
+    QSignalSpy spy(m_view, &DolphinView::itemActivated);
+    QTest::keyClick(pane->container()->viewport(), Qt::Key_Return, modifier);
+    QTRY_COMPARE_WITH_TIMEOUT(spy.count(), 1, 5000);
+    QCOMPARE(spy.at(0).at(0).value<KFileItem>().name(), QStringLiteral("beta"));
+
+    // A double click activates the item with the modifier still held.
+    QTest::keyPress(pane->container()->viewport(), modifier == Qt::ControlModifier ? Qt::Key_Control : Qt::Key_Shift, modifier);
+    QVERIFY(QGuiApplication::keyboardModifiers() & modifier);
+    Q_EMIT pane->controller()->itemActivated(betaIndex);
+    QTest::keyRelease(pane->container()->viewport(), modifier == Qt::ControlModifier ? Qt::Key_Control : Qt::Key_Shift);
+    QCOMPARE(spy.count(), 2);
+
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QCOMPARE(m_view->columnCount(), 2);
+}
+
+void DolphinColumnsViewTest::testKeyReturn_opensEverySelectedItem()
+{
+    // As in the other view modes, Return opens the whole selection, not only the current item.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    selectItemInColumn(1, QStringLiteral("file1.txt"));
+    // Added to the selection without moving the current item, as a Ctrl+click does.
+    auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
+    selectionManager->setSelected(indexOfName(m_view->columnAt(1), QStringLiteral("file2.txt")), 1, KItemListSelectionManager::Select);
+    QCOMPARE(selectionManager->selectedItems().count(), 2);
+
+    QSignalSpy itemActivated(m_view, &DolphinView::itemActivated);
+    QSignalSpy itemsActivated(m_view, &DolphinView::itemsActivated);
+    sendKeyToActivePane(Qt::Key_Return);
+
+    QCOMPARE(itemActivated.count(), 0);
+    QCOMPARE(itemsActivated.count(), 1);
+    QStringList names;
+    const auto activatedItems = itemsActivated.first().first().value<KFileItemList>();
+    for (const KFileItem &item : activatedItems) {
+        names << item.name();
+    }
+    names.sort();
+    QCOMPARE(names, QStringList({QStringLiteral("file1.txt"), QStringLiteral("file2.txt")}));
+}
+
 void DolphinColumnsViewTest::testKeyReturn_doesNotReloadAlreadyOpenChild()
 {
     activateColumn(0);
@@ -1186,6 +1260,33 @@ void DolphinColumnsViewTest::testDraggingAFileLeavesTheColumnsOpen()
     QCOMPARE(urlSpy.count(), 0);
 }
 
+void DolphinColumnsViewTest::testPressingAFolderLeavesTheColumnsOpen()
+{
+    // A folder dragged to a folder in the next column needs that column to still be there, so a
+    // press on a folder opens nothing until its release. The press goes through the controller,
+    // which selects the pressed item.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    auto *pane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(pane, QStringLiteral("beta"));
+    QVERIFY(betaIndex >= 0);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint betaPos = graphicsView->mapFromScene(pane->itemListView()->itemRect(betaIndex).center());
+
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QVERIFY(pane->controller()->selectionManager()->isSelected(betaIndex));
+    QTest::qWait(100); // UNAVOIDABLE: proving that nothing opens needs time for it to happen
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
+
+    QTest::mouseRelease(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("beta")), 5000);
+    QCOMPARE(m_view->columnCount(), 2);
+}
+
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
 {
     // Going back to a folder one of the columns already shows keeps the columns below it, which
@@ -1225,6 +1326,7 @@ void DolphinColumnsViewTest::testNameFilterAppliesToEveryColumn()
     // The filter belongs to the view, so it reaches every column and not only the active one.
     selectItemInColumn(0, QStringLiteral("alpha"));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(1)->model()->count() > 0, 5000);
 
     const int unfilteredRootCount = m_view->columnAt(0)->model()->count();
     const int unfilteredChildCount = m_view->columnAt(1)->model()->count();
@@ -1325,6 +1427,7 @@ void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
     // column with nothing to stand for, so it closes.
     selectItemInColumn(0, QStringLiteral("alpha"));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    waitForStableState();
 
     // "file" matches single-file.txt in the root and leaves out alpha.
     m_view->setNameFilter(QStringLiteral("file"));
@@ -1333,23 +1436,23 @@ void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
     QCOMPARE(m_view->columnAt(0)->model()->count(), 1);
 }
 
-void DolphinColumnsViewTest::testOpeningAFolderDoesNotOpenAFurtherColumn()
+void DolphinColumnsViewTest::testEnteringAColumnShowsTheFirstFolder()
 {
-    // alpha holds alpha-child, which is a folder. Opening alpha selects alpha-child in the new
-    // column, and must stop there. Opening it as well puts a column on screen that nobody asked
-    // for, and browsing then adds and drops one at every step.
+    // alpha holds alpha-child, a folder, as its first item. Entering alpha selects alpha-child,
+    // which shows its content in the next column, as Down to another folder does.
     activateColumn(0);
     selectItemInColumn(0, QStringLiteral("alpha"));
     navigateRight();
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 1, 5000);
 
-    // Entering a column selects its first item, and that is what used to open the column after
-    // it. Once the selection is on alpha-child, that code has had its turn.
     auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
     QTRY_VERIFY_WITH_TIMEOUT(selectionManager->selectedItems().count() == 1, 5000);
     QCOMPARE(m_view->columnAt(1)->model()->fileItem(selectionManager->currentItem()).name(), QStringLiteral("alpha-child"));
 
-    QCOMPARE(m_view->columnCount(), 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha/alpha-child")));
+    // The column entered stays the active one.
+    QCOMPARE(m_view->activeColumnIndex(), 1);
 }
 
 void DolphinColumnsViewTest::testEveryFolderOnThePathIsMarkedInItsParent()
@@ -1557,6 +1660,41 @@ void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
     QVERIFY(m_view->m_splitter->handle(1)->isVisible());
 }
 
+void DolphinColumnsViewTest::testAListedColumnOpensNothing()
+{
+    // A column that lists its folder makes its first item current. Nobody chose that item, so
+    // nothing opens and nothing is selected, even with the focus in that column. A reload lists
+    // the folder again.
+    activateColumn(0);
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+    QCOMPARE(m_view->columnCount(), 1);
+
+    m_view->reload();
+    waitForStableState();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->model()->count() > 0, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: the check below is that nothing opens afterwards
+
+    QCOMPARE(m_view->columnCount(), 1);
+    QVERIFY(!m_view->columnAt(0)->controller()->selectionManager()->hasSelection());
+}
+
+void DolphinColumnsViewTest::testDeletingAnOpenFolderOpensNoOther()
+{
+    // The folder after the deleted one becomes the current item of the column. Nobody chose it,
+    // so the column of the deleted folder closes and no other column opens.
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/alpha")).removeRecursively());
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
+    QTest::qWait(200); // UNAVOIDABLE: the check below is that no other column opens afterwards
+    QCOMPARE(m_view->columnCount(), 1);
+}
+
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
 {
     // The width the splitter is held at has to cover every column, the filler and every handle
@@ -1598,6 +1736,61 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
         const int asked = qMin(viewportWidth, qMax(settings->minColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
         QVERIFY2(applied.at(i) == asked, qPrintable(QStringLiteral("column %1 asked for %2 and was given %3").arg(i).arg(asked).arg(applied.at(i))));
     }
+}
+
+void DolphinColumnsViewTest::testClickingEmptySpaceClosesTheColumnsAfterIt()
+{
+    // A column shows the folder selected in the column before it. A click on empty space clears
+    // that selection, and the column closes.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint emptyPos(graphicsView->viewport()->width() / 2, graphicsView->viewport()->height() - 10);
+    QVERIFY(!pane->itemListView()->itemAt(graphicsView->mapToScene(emptyPos)).has_value());
+
+    QTest::mouseClick(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, emptyPos);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QVERIFY(!pane->controller()->selectionManager()->hasSelection());
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
+}
+
+void DolphinColumnsViewTest::testAClickedItemTakesTheHighlightFromTheActiveOne()
+{
+    // A clicked item becomes the active one. The item that was active before stays selected, in
+    // the colour of an inactive column, only as an ancestor of the clicked item.
+    // Narrow columns, so all three are in view to be clicked.
+    ColumnsModeSettings::self()->setMinColumnWidth(150);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    auto *rootPane = m_view->columnAt(0);
+    auto *alphaPane = m_view->columnAt(1);
+    auto *childPane = m_view->columnAt(2);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("deep-file.txt")) >= 0, 5000);
+    auto mouseClick = [](DolphinColumnPane *pane, const QString &name) {
+        auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+        const QPoint pos = graphicsView->mapFromScene(pane->itemListView()->itemRect(indexOfName(pane, name)).center());
+        QTest::mouseClick(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, pos);
+    };
+
+    // Further right: the items that lead to it stay selected.
+    m_view->setActiveColumn(0);
+    mouseClick(childPane, QStringLiteral("deep-file.txt"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 2, 5000);
+    QVERIFY(childPane->controller()->selectionManager()->isSelected(indexOfName(childPane, QStringLiteral("deep-file.txt"))));
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+    QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
+
+    // Further left: the item that was active is not an ancestor, so it loses its selection.
+    mouseClick(rootPane, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 0, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(!childPane->controller()->selectionManager()->hasSelection(), 5000);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+    QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
+    QCOMPARE(m_view->columnCount(), 3);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
