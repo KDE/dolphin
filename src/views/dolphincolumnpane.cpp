@@ -44,13 +44,10 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     m_view->setHighlightEntireRow(true);
     m_view->setAlternateBackgrounds(ColumnsModeSettings::self()->alternateBackground());
 
-    // The full-row selection highlight is drawn styleOption().padding wider than
-    // the row on each side. Give the list matching side padding so the highlight
-    // stays inside the pane instead of spilling past the right edge.
+    // The full-row highlight is drawn one padding wider than the row on each side.
     const int sidePadding = 2 * m_view->styleOption().padding;
     m_view->header()->setSidePadding(sidePadding, sidePadding);
 
-    // Controller takes ownership of the model.
     m_controller = new KItemListController(m_model, m_view, this);
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
 
@@ -62,9 +59,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     layout->addWidget(m_container);
 
-    // VCS plugin support: model signals (itemsInserted, directoryLoadingCompleted)
-    // drive automatic version detection; setView() is skipped because it
-    // requires a DolphinView* but is only used for re-verification on activation.
+    // No setView(): it needs a DolphinView and only matters on activation.
     m_versionControlObserver = new VersionControlObserver(this);
     m_versionControlObserver->setModel(m_model);
     connect(m_versionControlObserver, &VersionControlObserver::infoMessage, this, &DolphinColumnPane::infoMessage);
@@ -75,7 +70,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     setMinimumWidth(100);
 
-    // Connect signals
     connect(m_controller, &KItemListController::itemActivated, this, &DolphinColumnPane::slotItemActivated);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
@@ -101,8 +95,7 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
         return;
     }
 
-    // Kept, because a column built for a url that is already several folders deep is asked for
-    // its child before it has listed, and the item to mark does not exist yet.
+    // Kept for reapplyActiveChildMark(), the item may not be listed yet.
     m_activeChildUrl = childUrl;
 
     const KFileItem item = m_model->fileItem(childUrl);
@@ -119,9 +112,7 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
 void DolphinColumnPane::setWidthPending(bool pending)
 {
     m_widthPending = pending;
-    // A splitter never makes a widget narrower than qSmartMinSize() allows, and that follows
-    // minimumSizeHint() whatever the minimum width says. Only the maximum brings it to nothing,
-    // which is what a column with no width of its own has to be.
+    // qSmartMinSize() follows minimumSizeHint(), so only the maximum width brings it to zero.
     setMinimumWidth(pending ? 0 : m_naturalMinimumWidth);
     setMaximumWidth(pending ? 0 : QWIDGETSIZE_MAX);
 }
@@ -179,8 +170,6 @@ int DolphinColumnPane::calculateOptimalWidth() const
     const QFontMetrics &fm = option.fontMetrics;
     qreal maxWidth = 0;
 
-    // A hidden name takes part in the width exactly while the model shows hidden
-    // files, so the column has room for every name on display.
     const bool hiddenFilesShown = m_model->showHiddenFiles();
 
     for (int i = 0; i < m_model->count(); ++i) {
@@ -194,11 +183,7 @@ int DolphinColumnPane::calculateOptimalWidth() const
         maxWidth = qMax(maxWidth, width);
     }
 
-    // Reserve the horizontal chrome the container subtracts from the content area
-    // (frame + scrollbar spacing + scrollbar extent), always including the scrollbar
-    // even while it is hidden. This keeps the column width stable as the bar toggles
-    // and guarantees the row - and thus its full-row selection highlight - never ends
-    // up wider than the viewport (which would draw it under the scrollbar).
+    // The frame and the scrollbar, even while it is hidden, so the width holds when it appears.
     QStyleOption styleOpt;
     styleOpt.initFrom(m_container);
     int scrollBarSpacing = 0;
@@ -206,8 +191,6 @@ int DolphinColumnPane::calculateOptimalWidth() const
         scrollBarSpacing = m_container->style()->pixelMetric(QStyle::PM_ScrollView_ScrollBarSpacing, &styleOpt, m_container);
     }
     const int chrome = m_container->frameWidth() * 2 + scrollBarSpacing + m_container->style()->pixelMetric(QStyle::PM_ScrollBarExtent, &styleOpt, m_container);
-    // Side padding (set in the constructor) reserved on both sides so the widest
-    // entry is not truncated by it.
     const int sidePadding = 2 * (2 * option.padding);
     return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + sidePadding + chrome);
 }
@@ -228,13 +211,8 @@ void DolphinColumnPane::slotItemActivated(int index)
         return;
     }
 
-    // itemActivated = double-click (or single-click if system configured so).
-    // Directories: navigate.  Files: open with default application.
-    // openItemAsFolderUrl() only recognises an archive when its mime type is known, and the
-    // model determines those lazily, so a freshly listed archive would read as a plain file.
+    // openItemAsFolderUrl() needs the mime type of an archive, which the model determines lazily.
     KFileItem resolved = item;
-    // Match the conditions of the archive branch in openItemAsFolderUrl(), so that nothing is
-    // determined for a folder or for a remote file, where the sniffing would go over the wire.
     if (GeneralSettings::browseThroughArchives() && resolved.isFile() && resolved.targetUrl().isLocalFile() && !resolved.isMimeTypeKnown()) {
         resolved.determineMimeType();
     }
@@ -266,9 +244,7 @@ void DolphinColumnPane::reloadSettings()
 {
     auto view = itemListView();
     view->readSettings();
-    // readSettings() derives both of these from the item layout, which is the details one here,
-    // so they come back carrying the details view's settings. A column never expands a folder,
-    // and its rows are as wide as the column.
+    // readSettings() takes both from the details layout. A column never expands a folder.
     view->setSupportsItemExpanding(false);
     view->setHighlightEntireRow(true);
     view->setAlternateBackgrounds(ColumnsModeSettings::self()->alternateBackground());

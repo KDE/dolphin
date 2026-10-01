@@ -21,37 +21,25 @@ class KItemListController;
 class VersionControlObserver;
 
 /**
- * @short A single column in the Miller Columns view.
- *
- * Each DolphinColumnPane displays the contents of one directory,
- * using the same kitemviews stack that Dolphin uses for its other
- * view modes (KFileItemModel + DolphinItemListView + KItemListContainer).
+ * @short One column of DolphinColumnsView, listing one folder.
  */
 class DOLPHIN_EXPORT DolphinColumnPane : public QWidget
 {
     Q_OBJECT
 
 public:
-    /**
-     * @param model Externally created model. Ownership is transferred to
-     *              the internal KItemListController.
-     */
+    /// The controller of the pane takes the ownership of @p model.
     explicit DolphinColumnPane(KFileItemModel *model, QWidget *parent = nullptr);
     ~DolphinColumnPane() override;
 
     QUrl dirUrl() const;
 
-    /**
-     * Highlight the item that corresponds to @p childUrl
-     * (i.e. mark the sub-folder that the next column represents).
-     */
+    /// Marks the folder that the next column shows.
     void setActiveChildUrl(const QUrl &childUrl);
-    /// Puts the mark back on the child once the folder has listed, for when it had not when the
-    /// pane was told which child to mark.
+    /// Marks the child again, for a folder that had not listed when it was told.
     void reapplyActiveChildMark();
 
-    /// While true the column has no width of its own yet, because the width it will keep is the
-    /// one its content asks for and the folder has not listed.
+    /// A pending column has no width until its folder has listed.
     void setWidthPending(bool pending);
     bool isWidthPending() const;
     void clearActiveChild();
@@ -60,7 +48,7 @@ public:
     KItemListController *controller() const;
     KItemListContainer *container() const;
     DolphinItemListView *itemListView() const;
-    /** The item under the keyboard focus of this column, or a null item. */
+    /// The item under the keyboard focus of this column, or a null item.
     KFileItem currentFileItem() const;
 
     void setPreviewsShown(bool show);
@@ -92,7 +80,6 @@ private:
     KItemListController *m_controller = nullptr;
     KItemListContainer *m_container = nullptr;
     VersionControlObserver *m_versionControlObserver = nullptr;
-    /// The child to mark once the directory has listed, for when it has not when asked.
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
     int m_naturalMinimumWidth = 0;
