@@ -124,6 +124,11 @@ public:
     bool selectionMode() const;
 
     /**
+     * The controller that runs a drag of items from this view, or nullptr when no drag runs.
+     */
+    virtual KItemListController *draggingController() const;
+
+    /**
      * Turns on the file preview for the all files of the current directory,
      * if \a show is true.
      * If the view properties should be remembered for each directory
