@@ -12,6 +12,7 @@
 #include "dolphin_iconsmodesettings.h"
 #include "dolphintabpage.h"
 #include "dolphinurlnavigator.h"
+#include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
@@ -23,6 +24,7 @@
 #include "testdir.h"
 #include "views/dolphincolumnpane.h"
 #include "views/dolphincolumnsview.h"
+#include "views/dolphinitemlistview.h"
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/viewproperties.h"
@@ -75,6 +77,7 @@ private Q_SLOTS:
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
+    void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
 
 private:
     void waitForViewReady();
@@ -682,6 +685,53 @@ void DolphinViewContainerTest::testAViewReplacedDuringItsDragStaysUntilTheDragEn
     QVERIFY(keptDuringTheDrag);
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
     QTRY_VERIFY_WITH_TIMEOUT(!oldView, 5000);
+}
+
+void DolphinViewContainerTest::testAColumnClosedDuringItsDragStaysUntilTheDragEnds()
+{
+    // A place opened under a drag from a column can close the columns after its folder, among them
+    // the column that started the drag.
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columns = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columns);
+    // A preview job deletes itself in an event loop, and the test ends before one runs.
+    columns->setPreviewsShown(false);
+    QPointer<DolphinColumnPane> pane = columns->columnAt(columns->activeColumnIndex());
+    QCOMPARE(pane->dirUrl(), m_testDir->url());
+    QTRY_VERIFY_WITH_TIMEOUT(pane->model()->index(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/file1.txt"))) >= 0, 5000);
+    const int fileIndex = pane->model()->index(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/file1.txt")));
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint itemPos = graphicsView->mapFromScene(pane->itemListView()->itemRect(fileIndex).center());
+
+    // A sibling of the test folder opens next to the column before it.
+    TestDir sibling;
+    bool draggingWhenClosed = false;
+    bool keptDuringTheDrag = false;
+    QTimer duringTheDrag;
+    duringTheDrag.setSingleShot(true);
+    connect(&duringTheDrag, &QTimer::timeout, this, [&] {
+        draggingWhenClosed = pane->controller()->isDragging();
+        m_container->setUrl(sibling.url());
+        // The drag's event loop handles what closing the column posted before this timer fires.
+        QTimer::singleShot(0, this, [&] {
+            keptDuringTheDrag = pane && pane->isHidden() && columns->columnAt(columns->activeColumnIndex()) != pane;
+            QTest::keyClick(m_container->view(), Qt::Key_Escape);
+        });
+    });
+    duringTheDrag.start(0);
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, itemPos);
+    QTest::mouseMove(graphicsView->viewport(), itemPos + QPoint(QApplication::startDragDistance() * 2, 0));
+    QTest::mouseRelease(m_container->view(), Qt::LeftButton);
+    if (duringTheDrag.isActive()) {
+        QSKIP("This platform ends a drag at once, without the event loop of a real drag. Use QT_QPA_PLATFORM=minimal.");
+    }
+
+    QVERIFY(draggingWhenClosed);
+    QVERIFY(keptDuringTheDrag);
+    QCOMPARE(columns->url(), sibling.url());
+    QTRY_VERIFY_WITH_TIMEOUT(!pane, 5000);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)

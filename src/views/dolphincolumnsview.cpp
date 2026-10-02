@@ -595,7 +595,9 @@ void DolphinColumnsView::popAfter(int columnIndex)
             m_pendingAutoSelect = nullptr;
         }
         pane->setParent(nullptr);
-        pane->deleteLater();
+        disconnect(pane, nullptr, this, nullptr);
+        disconnect(pane->controller(), nullptr, this, nullptr);
+        KItemListController::deleteLaterAfterDrag(pane, pane->controller());
     }
 
     auto it = m_customColumnWidths.begin();
