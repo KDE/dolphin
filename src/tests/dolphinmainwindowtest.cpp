@@ -109,6 +109,8 @@ private:
 
     QTemporaryDir m_tmpHome;
     QScopedPointer<DolphinMainWindow> m_mainWindow;
+    decltype(GeneralSettings::showStatusBar()) m_previousShowStatusBar = {};
+    bool m_previousShowZoomSlider = false;
 };
 
 namespace
@@ -128,6 +130,8 @@ void DolphinMainWindowTest::initTestCase()
     TestHelpers::disableAnimations();
     // Use fullWidth statusbar during testing, to test out most of the features.
     GeneralSettings *settings = GeneralSettings::self();
+    m_previousShowStatusBar = settings->showStatusBar();
+    m_previousShowZoomSlider = settings->showZoomSlider();
     settings->setShowStatusBar(GeneralSettings::EnumShowStatusBar::FullWidth);
     settings->setShowZoomSlider(true);
     settings->save();
@@ -2299,6 +2303,12 @@ void DolphinMainWindowTest::cleanupTestCase()
 
     // Quit Dolphin to save the hiding of panels and make sure that normal Quit doesn't crash.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Quit))->trigger();
+
+    // The status bar settings go back to what they were before initTestCase().
+    GeneralSettings *settings = GeneralSettings::self();
+    settings->setShowStatusBar(m_previousShowStatusBar);
+    settings->setShowZoomSlider(m_previousShowZoomSlider);
+    settings->save();
 }
 
 int main(int argc, char *argv[])
