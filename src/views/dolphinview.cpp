@@ -366,6 +366,12 @@ bool DolphinView::selectionMode() const
     return m_container->controller()->selectionMode();
 }
 
+KItemListController *DolphinView::draggingController() const
+{
+    KItemListController *controller = m_container->controller();
+    return controller->isDragging() ? controller : nullptr;
+}
+
 void DolphinView::setPreviewsShown(bool show)
 {
     if (previewsShown() == show) {
