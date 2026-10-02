@@ -55,6 +55,8 @@ public:
     int horizontalScrollBarHeight() const override;
     void setStatusBarOffset(int offset) override;
     bool handleSpaceAsNormalKey() const override;
+    /// A drag starts from the controller of one of the columns.
+    KItemListController *draggingController() const override;
     /// Moving to another column keeps the selection mode.
     bool urlChangeLeavesTheSelectionBehind() const override;
 

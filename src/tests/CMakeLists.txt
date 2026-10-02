@@ -104,6 +104,8 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 ecm_add_test(dolphinviewcontainertest.cpp testdir.cpp
 TEST_NAME dolphinviewcontainertest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+# A drag runs its own event loop on the minimal platform. The offscreen platform ends it at once.
+set_tests_properties(dolphinviewcontainertest PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
 
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)

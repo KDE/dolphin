@@ -230,6 +230,20 @@ bool KItemListController::selectionMode() const
     return m_selectionMode;
 }
 
+bool KItemListController::isDragging() const
+{
+    return m_dragging;
+}
+
+void KItemListController::deleteLaterAfterDrag(QObject *object, const KItemListController *controller)
+{
+    if (controller && controller->isDragging()) {
+        connect(controller, &KItemListController::draggingFinished, object, &QObject::deleteLater);
+    } else {
+        object->deleteLater();
+    }
+}
+
 bool KItemListController::isSearchAsYouTypeActive() const
 {
     return m_keyboardManager->isSearchAsYouTypeActive();
@@ -1478,10 +1492,14 @@ void KItemListController::startDragging()
 
     Q_EMIT draggingStarted();
 
+    m_dragging = true;
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
+    m_dragging = false;
 
     QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropStart);
     QAccessible::updateAccessibility(&accessibilityEvent);
+
+    Q_EMIT draggingFinished();
 }
 
 KItemListWidget *KItemListController::hoveredWidget() const
