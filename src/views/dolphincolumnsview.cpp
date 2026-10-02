@@ -164,6 +164,16 @@ bool DolphinColumnsView::urlChangeLeavesTheSelectionBehind() const
     return !m_switchingColumns;
 }
 
+KItemListController *DolphinColumnsView::draggingController() const
+{
+    for (const DolphinColumnPane *pane : m_columns) {
+        if (pane->controller()->isDragging()) {
+            return pane->controller();
+        }
+    }
+    return nullptr;
+}
+
 bool DolphinColumnsView::handleSpaceAsNormalKey() const
 {
     // The base view asks its own container, which never has the focus here.
