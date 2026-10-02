@@ -12,6 +12,7 @@
 #include "dolphin_iconsmodesettings.h"
 #include "dolphintabpage.h"
 #include "dolphinurlnavigator.h"
+#include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
@@ -34,6 +35,7 @@
 #include <QComboBox>
 #include <QCoreApplication>
 #include <QDialogButtonBox>
+#include <QGraphicsView>
 #include <QPointer>
 #include <QPushButton>
 #include <QScopeGuard>
@@ -72,6 +74,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
+    void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
 
 private:
     void waitForViewReady();
@@ -636,6 +639,49 @@ void DolphinViewContainerTest::testTheViewPropertiesDialogFollowsASwappedView()
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
     QCOMPARE(m_container->view()->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(ViewProperties(m_testDir->url()).sortOrder(), Qt::DescendingOrder);
+}
+
+void DolphinViewContainerTest::testAViewReplacedDuringItsDragStaysUntilTheDragEnds()
+{
+    // A drag runs an event loop until it ends, and a folder opened under the drag can replace the view
+    // that started it.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    // A preview job deletes itself in an event loop, and the test ends before one runs.
+    m_container->view()->setPreviewsShown(false);
+    QPointer<DolphinView> oldView = m_container->view();
+    QVERIFY(!qobject_cast<DolphinColumnsView *>(oldView.data()));
+    auto *itemContainer = oldView->findChild<KItemListContainer *>();
+    QVERIFY(itemContainer);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(itemContainer->viewport());
+    QVERIFY(graphicsView);
+    const QPoint itemPos = graphicsView->mapFromScene(itemContainer->controller()->view()->itemRect(0).center());
+
+    bool draggingWhenReplaced = false;
+    bool keptDuringTheDrag = false;
+    QTimer duringTheDrag;
+    duringTheDrag.setSingleShot(true);
+    connect(&duringTheDrag, &QTimer::timeout, this, [&] {
+        draggingWhenReplaced = oldView->draggingController() != nullptr;
+        m_container->setViewMode(DolphinView::ColumnsView);
+        // The drag's event loop handles what the replacement posted before this timer fires.
+        QTimer::singleShot(0, this, [&] {
+            keptDuringTheDrag = oldView && oldView->isHidden();
+            QTest::keyClick(m_container->view(), Qt::Key_Escape);
+        });
+    });
+    duringTheDrag.start(0);
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, itemPos);
+    QTest::mouseMove(graphicsView->viewport(), itemPos + QPoint(QApplication::startDragDistance() * 2, 0));
+    QTest::mouseRelease(m_container->view(), Qt::LeftButton);
+    if (duringTheDrag.isActive()) {
+        QSKIP("This platform ends a drag at once, without the event loop of a real drag. Use QT_QPA_PLATFORM=minimal.");
+    }
+
+    QVERIFY(draggingWhenReplaced);
+    QVERIFY(keptDuringTheDrag);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
+    QTRY_VERIFY_WITH_TIMEOUT(!oldView, 5000);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)

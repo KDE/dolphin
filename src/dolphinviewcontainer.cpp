@@ -18,6 +18,7 @@
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
 #include "search/bar.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -301,7 +302,9 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     // A new view starts active, which is wrong in an inactive split pane.
     m_view->setActive(wasActive);
 
-    oldView->deleteLater();
+    oldView->disconnect(this);
+    oldView->hide();
+    KItemListController::deleteLaterAfterDrag(oldView, oldView->draggingController());
 
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
