@@ -642,6 +642,9 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
         }
     });
     connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
+    connect(pane, &DolphinColumnPane::activeChildRemoved, this, [this, pane]() {
+        closeColumnsAfter(m_columns.indexOf(pane));
+    });
     connect(pane, &DolphinColumnPane::directoryLoadingCompleted, this, &DolphinColumnsView::slotPaneLoadingCompleted);
 
     // A rename arrives as a "text" change from KIO, or as a remove and an insert from disk.
@@ -837,13 +840,19 @@ bool DolphinColumnsView::followItem(int column, const KFileItem &item)
         return true;
     }
     // The columns to the right belong to a folder that is no longer the selected one.
-    if (column + 1 < m_columns.size()) {
-        popAfter(column);
-        recalculateColumnWidths();
-        updateUrl(m_columns.at(column)->dirUrl());
-        Q_EMIT urlChanged(url());
-    }
+    closeColumnsAfter(column);
     return false;
+}
+
+void DolphinColumnsView::closeColumnsAfter(int column)
+{
+    if (column < 0 || column + 1 >= m_columns.size()) {
+        return;
+    }
+    popAfter(column);
+    recalculateColumnWidths();
+    updateUrl(m_columns.at(column)->dirUrl());
+    Q_EMIT urlChanged(url());
 }
 
 void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons)

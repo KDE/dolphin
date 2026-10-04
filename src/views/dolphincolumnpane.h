@@ -65,6 +65,8 @@ Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
     void fileActivated(const KFileItem &item);
     void currentItemChanged(const KFileItem &item);
+    /// The item that the next column shows the folder of is no longer listed here.
+    void activeChildRemoved();
     void directoryLoadingCompleted();
 
     void infoMessage(const QString &msg);

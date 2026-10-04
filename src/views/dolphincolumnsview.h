@@ -106,6 +106,8 @@ private:
     /// Opens the column of @p item when it is a folder, or closes the columns after @p column.
     /// Returns whether it was a folder.
     bool followItem(int column, const KFileItem &item);
+    /// Closes the columns to the right of \a column, which becomes the url of the view.
+    void closeColumnsAfter(int column);
     /// Makes the column after @p column active, selecting its first item if nothing is selected.
     void enterChildColumn(int column);
     void handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons);
