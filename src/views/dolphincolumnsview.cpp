@@ -934,8 +934,9 @@ void DolphinColumnsView::ensureColumnVisible(int index)
     QWidget *activeWidget = m_columns.at(index);
 
     // From the splitter sizes: a column just added has no geometry until the next layout.
-    const QList<int> sizes = m_splitter->sizes();
-    int activeLeft = visibleHandlesBefore(index) * m_splitter->handleWidth();
+    QList<int> sizes = m_splitter->sizes();
+    const int handleWidth = m_splitter->handleWidth();
+    int activeLeft = visibleHandlesBefore(index) * handleWidth;
     for (int i = 0; i < index && i < sizes.size(); ++i) {
         activeLeft += sizes.at(i);
     }
@@ -943,10 +944,23 @@ void DolphinColumnsView::ensureColumnVisible(int index)
     const int activeRight = activeLeft + activeWidth;
     const int viewportWidth = m_scrollArea->viewport()->width();
 
-    int scrollValue = m_scrollArea->horizontalScrollBar()->value();
+    QScrollBar *scrollBar = m_scrollArea->horizontalScrollBar();
+    int scrollValue = scrollBar->value();
 
     if (activeRight > scrollValue + viewportWidth) {
         scrollValue = activeRight - viewportWidth;
+    }
+
+    // The first visible column starts at its left edge. Cut, it shows its selection without the name.
+    // Also after the columns before it changed width, which leaves the scroll position inside one.
+    int columnsWidth = 0;
+    for (int column = 0; column <= index && column < sizes.size(); ++column) {
+        const int left = columnsWidth + visibleHandlesBefore(column) * handleWidth;
+        if (left >= scrollValue) {
+            scrollValue = left;
+            break;
+        }
+        columnsWidth += sizes.at(column);
     }
 
     // The left edge wins.
@@ -954,7 +968,19 @@ void DolphinColumnsView::ensureColumnVisible(int index)
         scrollValue = activeLeft;
     }
 
-    m_scrollArea->horizontalScrollBar()->setValue(scrollValue);
+    // Starting at a column edge can need room past the last column, which the filler gives.
+    if (scrollValue > scrollBar->maximum() && !sizes.isEmpty()) {
+        sizes.last() += scrollValue - scrollBar->maximum();
+        int totalWidth = visibleHandlesBefore(m_columns.size()) * handleWidth;
+        for (int size : std::as_const(sizes)) {
+            totalWidth += size;
+        }
+        m_splitter->setSizes(sizes);
+        m_splitter->setMinimumWidth(totalWidth);
+        m_splitter->resize(totalWidth, m_splitter->height());
+    }
+
+    scrollBar->setValue(scrollValue);
 }
 
 void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
