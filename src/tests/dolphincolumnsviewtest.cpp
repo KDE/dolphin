@@ -130,6 +130,7 @@ private Q_SLOTS:
     void testTheColumnsStartAtTheRootTheResolverNames();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
+    void testTheFirstVisibleColumnIsShownWhole();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
@@ -1686,8 +1687,7 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
     m_testDir->createDir("alpha/alpha-child/deep");
     m_testDir->createFile("alpha/alpha-child/deep/deep-file.txt");
 
-    // Narrow enough that the columns overflow it, so the filler is gone and every pixel of the
-    // splitter is spoken for.
+    // Narrow enough that the columns overflow it, so the splitter is held at the width they take.
     m_view->resize(420, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
 
@@ -1695,7 +1695,7 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
     m_view->openChild(1, urlOf(QStringLiteral("alpha/alpha-child")));
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().constLast(), 0, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->minimumWidth() > 0, 5000);
 
     const QList<int> before = m_view->m_splitter->sizes().mid(0, 3);
 
@@ -1715,6 +1715,40 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
         const int asked = qMin(viewportWidth, qMax(settings->minColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
         QVERIFY2(applied.at(i) == asked, qPrintable(QStringLiteral("column %1 asked for %2 and was given %3").arg(i).arg(asked).arg(applied.at(i))));
     }
+}
+
+void DolphinColumnsViewTest::testTheFirstVisibleColumnIsShownWhole()
+{
+    // When the columns do not fit, the view scrolls to the left edge of a column. A column cut on
+    // its left shows its selection without the name of the folder it leads to.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(200);
+    m_testDir->createDir("alpha/alpha-child/deep");
+
+    m_view->resize(500, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    auto noColumnIsCut = [this]() {
+        for (int i = 0; i < m_view->columnCount(); ++i) {
+            const int left = m_view->columnAt(i)->mapTo(m_view->m_scrollArea->viewport(), QPoint(0, 0)).x();
+            if (left < 0 && left + m_view->columnAt(i)->width() > 0) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    m_view->openChild(1, urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("alpha/alpha-child/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    m_view->setActiveColumn(3);
+
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->horizontalScrollBar()->value() > 0, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(noColumnIsCut(), 5000);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
