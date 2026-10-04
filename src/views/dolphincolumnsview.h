@@ -115,6 +115,8 @@ private:
 
     void ensureActiveColumnVisible();
     void ensureColumnVisible(int index);
+    /// Scrolls left over the room after the last column, which a wider window leaves.
+    void showEarlierColumnsInTheRoomAfterTheLast();
     void autoSelectFirstItem(int columnIndex);
     /// Refit may narrow a column, which only a request by the user does.
     enum class WidthPolicy {
