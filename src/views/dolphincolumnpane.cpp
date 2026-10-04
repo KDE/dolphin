@@ -229,9 +229,19 @@ void DolphinColumnPane::slotItemActivated(int index)
 
 void DolphinColumnPane::slotCurrentChanged(int current, int previous)
 {
-    Q_UNUSED(previous)
+    if (current < 0) {
+        // The current item left a list that still has items, as filtering or deleting it does. A
+        // reload empties the list instead, and the columns after this one stay.
+        if (previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
+            m_activeChildUrl.clear();
+            Q_EMIT activeChildRemoved();
+        }
+        return;
+    }
 
-    if (current < 0 || current >= m_model->count()) {
+    // From no current item, the selection manager made the first item current after the listing.
+    // Nobody moved there, so the view must not follow it.
+    if (previous < 0 || current >= m_model->count()) {
         return;
     }
 
