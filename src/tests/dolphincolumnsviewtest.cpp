@@ -120,6 +120,8 @@ private Q_SLOTS:
     void testFilterModeAppliesToEveryColumn();
     void testAColumnOpenedLaterInheritsTheFilterModeAndCase();
     void testFilteringOutAFolderClosesItsColumn();
+    void testAListedColumnOpensNothing();
+    void testDeletingAnOpenFolderOpensNoOther();
     void testOpeningAFolderDoesNotOpenAFurtherColumn();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -268,11 +270,16 @@ void DolphinColumnsViewTest::selectItemInColumn(int columnIndex, const QString &
     auto *pane = m_view->columnAt(columnIndex);
     QVERIFY2(pane, qPrintable(QStringLiteral("Column %1 does not exist").arg(columnIndex)));
 
+    QTRY_VERIFY2_WITH_TIMEOUT(indexOfName(pane, name) >= 0, qPrintable(QStringLiteral("Item '%1' not found in column %2").arg(name).arg(columnIndex)), 5000);
     const int index = indexOfName(pane, name);
-    QVERIFY2(index >= 0, qPrintable(QStringLiteral("Item '%1' not found in column %2").arg(name).arg(columnIndex)));
     auto *selectionManager = pane->controller()->selectionManager();
+    // The listing made the first item current without opening it, so picking that one opens it here.
+    const bool alreadyCurrent = selectionManager->currentItem() == index;
     selectionManager->setCurrentItem(index);
     selectionManager->setSelected(index, 1, KItemListSelectionManager::Select);
+    if (alreadyCurrent) {
+        m_view->followItem(columnIndex, pane->model()->fileItem(index));
+    }
     QTRY_VERIFY_WITH_TIMEOUT(selectionManager->isSelected(index), 5000);
 }
 
@@ -1283,6 +1290,7 @@ void DolphinColumnsViewTest::testNameFilterAppliesToEveryColumn()
     // The filter belongs to the view, so it reaches every column and not only the active one.
     selectItemInColumn(0, QStringLiteral("alpha"));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(1)->model()->count() > 0, 5000);
 
     const int unfilteredRootCount = m_view->columnAt(0)->model()->count();
     const int unfilteredChildCount = m_view->columnAt(1)->model()->count();
@@ -1383,6 +1391,7 @@ void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
     // column with nothing to stand for, so it closes.
     selectItemInColumn(0, QStringLiteral("alpha"));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    waitForStableState();
 
     // "file" matches single-file.txt in the root and leaves out alpha.
     m_view->setNameFilter(QStringLiteral("file"));
@@ -1628,6 +1637,41 @@ void DolphinColumnsViewTest::testAColumnThatWaitedForItsWidthKeepsItsMinimum()
 
     QCOMPARE(child->minimumWidth(), m_view->columnAt(0)->minimumWidth());
     QVERIFY(child->minimumWidth() > 0);
+}
+
+void DolphinColumnsViewTest::testAListedColumnOpensNothing()
+{
+    // A column that lists its folder makes its first item current. Nobody chose that item, so
+    // nothing opens and nothing is selected, even with the focus in that column. A reload lists
+    // the folder again.
+    activateColumn(0);
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+    QCOMPARE(m_view->columnCount(), 1);
+
+    m_view->reload();
+    waitForStableState();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->model()->count() > 0, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: the check below is that nothing opens afterwards
+
+    QCOMPARE(m_view->columnCount(), 1);
+    QVERIFY(!m_view->columnAt(0)->controller()->selectionManager()->hasSelection());
+}
+
+void DolphinColumnsViewTest::testDeletingAnOpenFolderOpensNoOther()
+{
+    // The folder after the deleted one becomes the current item of the column. Nobody chose it,
+    // so the column of the deleted folder closes and no other column opens.
+    m_view->columnAt(0)->container()->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnAt(0)->container()->hasFocus(), 5000);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/alpha")).removeRecursively());
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
+    QTest::qWait(200); // UNAVOIDABLE: the check below is that no other column opens afterwards
+    QCOMPARE(m_view->columnCount(), 1);
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
