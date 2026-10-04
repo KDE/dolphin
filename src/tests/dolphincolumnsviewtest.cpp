@@ -131,6 +131,7 @@ private Q_SLOTS:
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testTheFirstVisibleColumnIsShownWhole();
+    void testWideningTheWindowShowsTheParentColumns();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
@@ -1749,6 +1750,50 @@ void DolphinColumnsViewTest::testTheFirstVisibleColumnIsShownWhole()
 
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->horizontalScrollBar()->value() > 0, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(noColumnIsCut(), 5000);
+}
+
+void DolphinColumnsViewTest::testWideningTheWindowShowsTheParentColumns()
+{
+    // A wider window shows the parent columns again instead of empty room after the last column.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(200);
+    m_testDir->createDir("alpha/alpha-child/deep");
+
+    m_view->resize(500, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    m_view->openChild(1, urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("alpha/alpha-child/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    m_view->setActiveColumn(3);
+
+    QScrollBar *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() > 0, 5000);
+    const int narrowScrollValue = scrollBar->value();
+
+    // Dragging the window edge widens it a few pixels at a time.
+    for (int width = 510; width <= 750; width += 10) {
+        m_view->resize(width, 400);
+        QCoreApplication::processEvents();
+    }
+
+    QWidget *viewport = m_view->m_scrollArea->viewport();
+    auto lastRight = [this, viewport]() {
+        QWidget *last = m_view->columnAt(m_view->columnCount() - 1);
+        return last->mapTo(viewport, QPoint(last->width(), 0)).x();
+    };
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() < narrowScrollValue, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(lastRight() <= viewport->width(), 5000);
+    // No whole column fits in the room left after the last one.
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() == 0 || viewport->width() - lastRight() < m_view->columnAt(0)->width(), 5000);
+    for (int i = 0; i < m_view->columnCount(); ++i) {
+        const int left = m_view->columnAt(i)->mapTo(viewport, QPoint(0, 0)).x();
+        QVERIFY(left >= 0 || left + m_view->columnAt(i)->width() <= 0);
+    }
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()

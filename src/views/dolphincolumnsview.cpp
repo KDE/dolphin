@@ -771,7 +771,29 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 void DolphinColumnsView::resizeEvent(QResizeEvent *event)
 {
     DolphinView::resizeEvent(event);
+    if (event->size().width() > event->oldSize().width()) {
+        showEarlierColumnsInTheRoomAfterTheLast();
+    }
     recalculateColumnWidths(WidthPolicy::Refit);
+}
+
+void DolphinColumnsView::showEarlierColumnsInTheRoomAfterTheLast()
+{
+    if (!m_scrollArea || m_columns.isEmpty()) {
+        return;
+    }
+    const QList<int> sizes = m_splitter->sizes();
+    const int lastColumn = m_columns.size() - 1;
+    int lastRight = visibleHandlesBefore(lastColumn) * m_splitter->handleWidth();
+    for (int i = 0; i <= lastColumn && i < sizes.size(); ++i) {
+        lastRight += sizes.at(i);
+    }
+    // ensureColumnVisible() then moves on to the left edge of a column.
+    QScrollBar *scrollBar = m_scrollArea->horizontalScrollBar();
+    const int scrollValue = qMax(0, lastRight - m_scrollArea->viewport()->width());
+    if (scrollBar->value() > scrollValue) {
+        scrollBar->setValue(scrollValue);
+    }
 }
 
 void DolphinColumnsView::showEvent(QShowEvent *event)
