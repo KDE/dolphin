@@ -117,7 +117,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 
     for (QLabel *label : {confirmLabelKde, confirmLabelDolphin, executableScriptLabel}) {
         label->setMinimumWidth(minimumWidth);
-        label->setAlignment(topLayout->labelAlignment());
+        label->setAlignment(topLayout->labelAlignment() | Qt::AlignVCenter);
     }
 
     connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
