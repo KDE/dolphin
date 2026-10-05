@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-01 00:48+0000\n"
-"PO-Revision-Date: 2026-09-29 00:46+0200\n"
+"PO-Revision-Date: 2026-10-05 00:20+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -5378,7 +5378,7 @@ msgstr "자연스럽게"
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr "가나다순, 대소문자 구분 안함"
+msgstr "가나다순, 대소문자 구분 안 함"
 
 #: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format

@@ -134,7 +134,7 @@ msgstr ""
 "numbereditem><numbereditem>Активируйте действие «%1» (<interface>Открыть "
 "меню|Дополнительно|Вид</interface> или <interface>Строка меню|Вид</"
 "interface>).<nl/>Комбинация клавиш по умолчанию: <shortcut>%2</shortcut></"
-"numbereditem><numbereditem>После авторизации будет можно работать с файлами "
+"numbereditem><numbereditem>После авторизации можно будет работать с файлами "
 "от имени администратора.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
@@ -165,10 +165,10 @@ msgstr ""
 "emphasis> компьютера или даже <emphasis>сделать систему неработоспособной.</"
 "emphasis> Добавление всего одного символа к имени папки или файла или в его "
 "содержимое может привести к <emphasis>невозможности загрузки системы.</"
-"emphasis></para> <para>Это последнее предупреждение, более не будет показано "
-"ни одного предупреждения, даже при выполнении действий, которые могут "
-"повредить систему.</para> <para>Рекомендуем задуматься о создании "
-"<emphasis>резервной копии</emphasis> перед тем, как продолжить.</para>"
+"emphasis></para> <para>Скорее всего, других предупреждений больше не будет, "
+"даже при выполнении действий, которые могут повредить систему.</para> "
+"<para>Рекомендуем задуматься о создании <emphasis>резервной копии</emphasis> "
+"перед тем, как продолжить.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
@@ -388,7 +388,7 @@ msgstr ""
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Не удалось создать вложенную папку: выберите одну папку, в которую возможно "
+"Не удалось создать вложенную папку: выберите одну папку, в которую можно "
 "выполнить запись."
 
 #: dolphinmainwindow.cpp:1631
@@ -417,7 +417,7 @@ msgid ""
 ">You can drag and drop items between windows."
 msgstr ""
 "Это действие создаёт точную копию текущего окна, включая расположение.<nl/"
-">Между окнами возможно перетаскивать объекты."
+">Между окнами можно перетаскивать объекты."
 
 #: dolphinmainwindow.cpp:1825
 #, kde-format
@@ -436,7 +436,7 @@ msgstr ""
 "Это действие создаёт новую <emphasis>вкладку</emphasis> с текущим "
 "расположением и режимом просмотра. <nl/>Вкладки позволяют быстро "
 "переключаться между различными расположениями внутри одного окна. Между "
-"вкладками возможно перетаскивать объекты."
+"вкладками можно перетаскивать объекты."
 
 #: dolphinmainwindow.cpp:1836
 #, kde-format
@@ -470,7 +470,7 @@ msgid ""
 "the whole window instead."
 msgstr ""
 "Это действие закрывает активную вкладку. Если других вкладок нет, будет "
-"закрыто окно программы."
+"закрыто окно приложения."
 
 #: dolphinmainwindow.cpp:1852
 #, kde-format
@@ -572,7 +572,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Это действие копирует выделенные элементы из <emphasis>активной</emphasis> "
-"панели в неактивную. (Функция доступна только в двухпанельном режиме)."
+"панели в неактивную. (Функция доступна только в двухпанельном режиме.)"
 
 #: dolphinmainwindow.cpp:1904
 #, kde-format
@@ -600,7 +600,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Это действие перемещает выделенные элементы из <emphasis>активной</emphasis> "
-"панели в неактивную. (Функция доступна только в двухпанельном режиме)."
+"панели в неактивную. (Функция доступна только в двухпанельном режиме.)"
 
 #: dolphinmainwindow.cpp:1916
 #, kde-format
@@ -677,8 +677,8 @@ msgid ""
 "find the items you are looking for.</para>"
 msgstr ""
 "<para>Этот инструмент служит для поиска файлов и папок с помощью "
-"<emphasis>панели поиска</emphasis>. В панели поиска возможно задавать "
-"условия и параметры поиска нужных объектов.</para>"
+"<emphasis>панели поиска</emphasis>. В панели поиска можно задавать условия и "
+"параметры поиска нужных объектов.</para>"
 
 #: dolphinmainwindow.cpp:1964
 #, kde-format
@@ -723,7 +723,7 @@ msgstr ""
 "этим элементом управления для перехода в <emphasis>Режим выделения</"
 "emphasis> — для выбора будет достаточно один раз щёлкнуть по объекту.</"
 "para><para>Когда используется режим выделения, в нижней части окна "
-"отображается панель быстрого доступа с перечнем доступных действий над "
+"показывается панель быстрого доступа с перечнем доступных действий над "
 "текущими выбранными объектами.</para>"
 
 #: dolphinmainwindow.cpp:2009
@@ -758,11 +758,11 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
-"<para>Двухпанельный режим просмотра разделяет текущее окно на две створки. "
+"<para>Двухпанельный режим просмотра разделяет текущее окно на две панели. "
 "Этот режим позволяет одновременно просматривать содержимое двух папок и "
 "перемещать объекты между ними.</para> <para>Расположение, которое не "
 "является текущим, будет слегка затемнено.</para> При повторном нажатии на "
-"эту кнопку, одна из створок разделённого окна будет закрыта."
+"эту кнопку одна из панелей будет закрыта."
 
 #: dolphinmainwindow.cpp:2050
 #, kde-kuit-format
@@ -803,7 +803,7 @@ msgid ""
 msgstr ""
 "<para>Это действие обновляет содержимое панели.</para> <para>Если содержимое "
 "папки было изменено, после обновления будет показано её актуальное состояние."
-"</para> <para>При использовании двух-панельного режима просмотра будет "
+"</para> <para>При использовании двухпанельного режима просмотра будет "
 "обновлена только активная панель.</para>"
 
 #: dolphinmainwindow.cpp:2077
@@ -842,9 +842,9 @@ msgid ""
 msgstr ""
 "Это действие переключает <emphasis>строку адреса</emphasis> в режим "
 "редактирования, что позволяет ввести желаемый путь.<nl/>В режим "
-"редактирования также возможно переключиться щелчком в области правее от "
-"строки, в которой показан текущий путь. Чтобы переключиться обратно в "
-"текстовый вид, следует подтвердить введённый путь клавишей Enter."
+"редактирования также можно переключиться щелчком в области правее от строки, "
+"в которой показан текущий путь. Чтобы переключиться обратно в текстовый вид, "
+"следует подтвердить введённый путь клавишей Enter."
 
 #: dolphinmainwindow.cpp:2094
 #, kde-format
@@ -901,8 +901,8 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"Это действие повторно выполняет последнее отменённое действие .<nl/>Могут "
-"быть отменены следующие изменения: <interface>создание</interface>, "
+"Это действие повторно выполняет последнее отменённое действие.<nl/>Могут "
+"быть повторены следующие изменения: <interface>создание</interface>, "
 "<interface>переименование</interface> и <interface>перемещение</interface> "
 "файлов или папок в другое расположение или в <filename>корзину</filename>."
 "<nl/>Для изменений, которые не могут быть отменены, запрашиваются "
@@ -942,7 +942,7 @@ msgid ""
 "para>"
 msgstr ""
 "<para>Это действие открывает предпочитаемый инструмент поиска в текущей "
-"папке .</para><para>Для настройки этого меню служит кнопка <emphasis>Другие "
+"папке.</para><para>Для его настройки служит меню <emphasis>Другие "
 "инструменты поиска</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2212
@@ -978,8 +978,8 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
-"<para>Это действие открывает <emphasis>терминалы</emphasis> папках выбранных "
-"объектов.</para><para>Чтобы получить дополнительную информацию об "
+"<para>Это действие открывает <emphasis>терминалы</emphasis> в папках "
+"выбранных объектов.</para><para>Чтобы получить дополнительную информацию об "
 "использовании терминалов, обратитесь к справке приложения терминала.</para>"
 
 #: dolphinmainwindow.cpp:2232
@@ -1143,7 +1143,7 @@ msgid ""
 msgstr ""
 "<para>Это действие показывает и скрывает панель <emphasis>сведений</"
 "emphasis> в правой части окна.</para><para>Если курсор мыши находится над "
-"объектом или несколько объектов выделены, то в этой панели отображается "
+"объектом или несколько объектов выделены, то в этой панели показываются "
 "расширенные сведения о таких объектах, в противном случае выводится "
 "информация о текущей папке.<nl/>Если выделен один объект, то в панели "
 "показывается его миниатюра.</para>"
@@ -1159,7 +1159,7 @@ msgid ""
 "are given here by right-clicking.</para>"
 msgstr ""
 "<para>Если курсор мыши находится над объектом или несколько объектов "
-"выделены, то в этой панели отображаются расширенные сведения о таких "
+"выделены, то в этой панели показываются расширенные сведения о таких "
 "объектах, в противном случае выводится информация о текущей папке.<nl/>Если "
 "выделен один объект, то в панели показывается его миниатюра.</para><para>Для "
 "настройки сведений, которые представлены в этой панели, служит "
@@ -1258,7 +1258,7 @@ msgstr "Перенос фокуса клавиатуры на панель те�
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr "Отслеживать изменение каталога"
+msgstr "Отслеживать смену папки"
 
 #: dolphinmainwindow.cpp:2497
 #, kde-format
@@ -1268,7 +1268,7 @@ msgid ""
 "whenever directory is changed."
 msgstr ""
 "Должна ли текущая рабочая папка оставаться синхронизированной с терминалом "
-"при каждой смене каталога."
+"при каждой смене папки."
 
 #: dolphinmainwindow.cpp:2513
 #, kde-format
@@ -1291,8 +1291,8 @@ msgid ""
 "property."
 msgstr ""
 "Это действие показывает в соответствующей панели все точки входа, которые "
-"были скрыты. Скрытые точки входа будут показаны полупрозрачными, если не "
-"снять с них отметку «скрыть»."
+"были скрыты. Скрытые точки входа будут показаны полупрозрачными, с них можно "
+"будет снять отметку «Скрыть»."
 
 #: dolphinmainwindow.cpp:2557
 #, kde-kuit-format
@@ -1336,7 +1336,7 @@ msgstr ""
 "доступном после щелчка правой кнопкой мыши. Для повторного показа элементов, "
 "скрытых таким образом, предназначен пункт контекстного меню "
 "<interface>Показать скрытые точки входа</interface>, доступный после щелчка "
-"правой кнопкой мыши по свободному месту панели</para>."
+"правой кнопкой мыши по свободному месту панели.</para>"
 
 #: dolphinmainwindow.cpp:2578 dolphinmainwindow.cpp:3184
 #, kde-format
@@ -1378,7 +1378,7 @@ msgstr ""
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
-"Не удалось вырезать: отсутствуют права на перемещение объектов в этой папке."
+"Не удалось вырезать: отсутствуют права на перемещение объектов из этой папки."
 
 #: dolphinmainwindow.cpp:2686
 #, kde-format
@@ -1528,7 +1528,7 @@ msgstr "Закрыть правую панель"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
-msgstr "Открыть правую панель в новое окно"
+msgstr "Открыть правую панель в новом окне"
 
 #: dolphinmainwindow.cpp:2883 dolphinmainwindow.cpp:2904
 #: dolphinmainwindow.cpp:2915
@@ -1574,7 +1574,7 @@ msgid ""
 msgstr ""
 "<para>Это <emphasis>Строка меню</emphasis>. Строка меню содержит команды и "
 "параметры конфигурации. Для доступа к пунктам меню щёлкните левой кнопкой "
-"мыши по его заголовку.</para><para>Чтобы скрыть строку меню снимите отметку "
+"мыши по его заголовку.</para><para>Чтобы скрыть строку меню, снимите отметку "
 "с флажка <interface>Настройка|Показать меню</interface>. Большая часть "
 "пунктов меню доступна после нажатия кнопки <interface>Меню</interface>, "
 "расположенной на <emphasis>панели инструментов</emphasis>.</para>"
@@ -1597,7 +1597,7 @@ msgstr ""
 "быть настроена: на панели могут быть размещены любые элементы, доступные в "
 "<interface>Меню</interface> и в <interface>Строке меню</interface>. Для "
 "добавления элементов предназначен диалог, вызываемый выбором пункта "
-"<interface>Панели инструментов…</interface>. Этот пункт доступен в "
+"<interface>Настроить панели инструментов…</interface>. Этот пункт доступен в "
 "контекстном меню, а также в <interface>Меню</interface>.</"
 "para><para>Расположение панели и внешний вид элементов могут быть настроены "
 "в контекстном меню.</para>"
@@ -1622,12 +1622,12 @@ msgstr ""
 "emphasis>, находящихся в расположении, показанном выше в <interface>строке "
 "адреса</interface>. Это основная область приложения, которая предназначена "
 "для выбора и использования файлов.</para> <para>Чтобы ознакомиться с "
-"расширенным руководством по приложению Dolphin, расположенном в "
+"расширенным руководством по приложению Dolphin, расположенным в "
 "<emphasis>Базе знаний пользователей KDE</emphasis>, <link url='https://"
-"userbase.kde.org/Dolphin/File_Management/ru'> перейдите по этой ссылке</"
-"link>.</para><para>Чтобы просмотреть краткое описание всех возможностей "
-"области просмотра в <emphasis>Руководстве пользователя</emphasis>, <link "
-"url='help:/dolphin/dolphin-view.html'>нажмите здесь</link>.</para>"
+"userbase.kde.org/Dolphin/File_Management/ru'>перейдите по этой ссылке</link>."
+"</para><para>Чтобы просмотреть краткое описание всех возможностей области "
+"просмотра в <emphasis>Руководстве пользователя</emphasis>, <link url='help:/"
+"dolphin/dolphin-view.html'>нажмите здесь</link>.</para>"
 
 #: dolphinmainwindow.cpp:3027
 #, kde-kuit-format
@@ -1639,8 +1639,8 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 "<para>В этом окне приведён список <emphasis>комбинаций клавиш</emphasis>.<nl/"
-">Тут возможно задать комбинации клавиш, которые при одновременном нажатии "
-"приведут к выполнению определённого действия. В этом приложении возможно "
+">Здесь можно задать комбинации клавиш, которые при одновременном нажатии "
+"приведут к выполнению определённого действия. В этом приложении можно "
 "настроить комбинации клавиш для всех возможных действий.</para>"
 
 #: dolphinmainwindow.cpp:3033
@@ -1667,7 +1667,7 @@ msgid ""
 msgstr ""
 "Этот пункт меню открывает окно настройки, которое позволяет настроить "
 "поведение этого приложения. Значение параметров описано в главе «Настройка "
-"диспетчера файлов Dolphin», которое может быть открыто из пункта меню "
+"диспетчера файлов Dolphin», которая открывается из пункта меню "
 "<emphasis>Справка|Руководство пользователя Dolphin</emphasis>."
 
 #. i18n: If the external link isn't available in your language it might make
@@ -1690,7 +1690,7 @@ msgstr ""
 "para><para>Чтобы ознакомиться с дополнительными возможностями диспетчера "
 "файлов <emphasis>Dolphin</emphasis>, обратитесь к <link url='https://"
 "userbase.kde.org/Dolphin/File_Management'>базе знаний пользователей KDE</"
-"link>.</para>."
+"link>.</para>"
 
 #: dolphinmainwindow.cpp:3062
 #, kde-kuit-format
@@ -1746,14 +1746,13 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 "<para>Этот пункт меню служит для перехода на <emphasis>веб-страницу</"
-"emphasis>, на которой возможно поддержать сообщество <emphasis>KDE</"
-"emphasis> для продолжения разработки этого приложения и множества других "
-"проектов.</para><para>Пожертвование — самый простой и быстрый способ "
-"поддержки сообщества KDE и разрабатываемых им проектов. Проекты KDE "
-"распространяются бесплатно, но серверы, организация встреч участников и "
-"многое другое моменты требуют финансовых затрат.</para><para>Для управления "
-"финансами сообщества KDE служит некоммерческая организация <emphasis>KDE e.V."
-"</emphasis>.</para>"
+"emphasis>, на которой можно поддержать сообщество <emphasis>KDE</emphasis> "
+"для продолжения разработки этого приложения и множества других проектов.</"
+"para><para>Пожертвование — самый простой и быстрый способ поддержки "
+"сообщества KDE и разрабатываемых им проектов. Проекты KDE распространяются "
+"бесплатно, но серверы, организация встреч участников и многое другое требуют "
+"финансовых затрат.</para><para>Для управления финансами сообщества KDE "
+"служит некоммерческая организация <emphasis>KDE e.V.</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:3095
 #, kde-kuit-format
@@ -1764,8 +1763,8 @@ msgid ""
 "in your preferred language."
 msgstr ""
 "Этот пункт меню служит для изменения языка интерфейса приложения.<nl/>В меню "
-"возможно назначить резервные языки, которые будут использованы при "
-"отсутствии перевода элементов интерфейса на основной язык."
+"можно назначить резервные языки, которые будут использованы при отсутствии "
+"перевода элементов интерфейса на основной язык."
 
 #: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
@@ -1795,7 +1794,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Деактивировать панель терминала"
+msgstr "Перенести фокус ввода с панели терминала"
 
 #: dolphinmainwindow.cpp:3178
 #, kde-format
@@ -2121,7 +2120,7 @@ msgstr ""
 "левее имени текущей папки последовательно перечислены папки, содержащие "
 "текущую. Вся эта строка называется <emphasis>путём к текущей папке</"
 "emphasis>.</para> <para>Этот интерактивный путь более мощный, чем можно было "
-"бы ожидать. Информация об основных и расширенных функциях адресной строки "
+"бы ожидать. Информация об основных и расширенных функциях строки адреса "
 "приведена в <link url='help:/dolphin/location-bar.html'>документации</link>."
 "</para>"
 
@@ -2187,7 +2186,7 @@ msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
-"Dolphin не поддерживает этот протокол, поэтому будет запущен приложение, "
+"Dolphin не поддерживает этот протокол, поэтому будет запущено приложение, "
 "назначенное по умолчанию"
 
 #: dolphinviewcontainer.cpp:977
@@ -2975,7 +2974,7 @@ msgstr "Дата изменения"
 #: kitemviews/kfileitemmodel.cpp:3217
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr "Формат даты можно выбрать в настройках"
+msgstr "Формат даты можно выбрать в параметрах."
 
 #: kitemviews/kfileitemmodel.cpp:3216
 msgctxt "@label"
@@ -3069,7 +3068,7 @@ msgstr "Высота"
 #: kitemviews/kfileitemmodel.cpp:3231
 msgctxt "@label"
 msgid "Orientation"
-msgstr "Расположение"
+msgstr "Ориентация"
 
 #: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3251
 msgctxt "@label"
@@ -3087,7 +3086,7 @@ msgstr "Альбом"
 #: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
 msgctxt "@label"
 msgid "Audio"
-msgstr "Звуковые файлы"
+msgstr "Аудио"
 
 #: kitemviews/kfileitemmodel.cpp:3234
 msgctxt "@label"
@@ -3234,10 +3233,10 @@ msgstr "Неизвестная ошибка."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] "%1 с половиной звезда"
+msgstr[0] "%1 с половиной звезды"
 msgstr[1] "%1 с половиной звезды"
-msgstr[2] "%1 с половиной звёзд"
-msgstr[3] "%1 с половиной звезда"
+msgstr[2] "%1 с половиной звезды"
+msgstr[3] "%1 с половиной звезды"
 
 #: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
@@ -3299,7 +3298,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Сопровождающий (с 2021 года) и разработчик (с 2019)"
+msgstr "Сопровождающий (с 2021 года) и разработчик (с 2019 года)"
 
 #: main.cpp:109
 #, kde-format
@@ -3311,7 +3310,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Сопровождающий (в 2012-2021 годах) и разработчик"
+msgstr "Сопровождающий (в 2018–2021 годах) и разработчик"
 
 #: main.cpp:112
 #, kde-format
@@ -3323,7 +3322,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Сопровождающий (в 2012-2018 годах) и разработчик"
+msgstr "Сопровождающий (в 2014–2018 годах) и разработчик"
 
 #: main.cpp:115
 #, kde-format
@@ -3335,7 +3334,7 @@ msgstr "Frank Reininghaus"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Сопровождающий (в 2012-2014 годах) и разработчик"
+msgstr "Сопровождающий (в 2012–2014 годах) и разработчик"
 
 #: main.cpp:118
 #, kde-format
@@ -3347,7 +3346,7 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Сопровождающий и разработчик (2006-2012)"
+msgstr "Сопровождающий и разработчик (2006–2012)"
 
 #: main.cpp:121
 #, kde-format
@@ -3529,7 +3528,7 @@ msgstr "Показывать миниатюры"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Проигрывать медиафайлы"
+msgstr "Автоматически воспроизводить медиафайлы"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -3553,7 +3552,7 @@ msgstr "Миниатюра"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Проигрывать медиафайлы"
+msgstr "Автоматически воспроизводить медиафайлы"
 
 #: panels/information/informationpanel.cpp:165
 #, kde-format
@@ -3666,12 +3665,12 @@ msgid ""
 msgstr ""
 "<para>Поиск папок и файлов.<list> <item>Введите <emphasis>поисковый запрос</"
 "emphasis> в поле ввода.</item> <item>Выберите, где искать, нажав на кнопки "
-"местоположений под полем поиска. «Здесь» означает папку, открывавшуюся до "
-"начала поиска, так что переход к нужному каталогу заранее может сузить "
-"область поиска.</item> <item>Нажмите кнопку «%1», чтобы дополнительно "
+"местоположений под полем поиска. «В этой папке» означает папку, "
+"открывавшуюся до начала поиска, так что переход к нужной папке заранее может "
+"сузить область поиска.</item> <item>Нажмите кнопку «%1», чтобы дополнительно "
 "уточнить способ поиска или его результаты.</item> <item>Нажмите значок "
-"«Сохранить», чтобы добавить текущую конфигурацию поиска в <emphasis>панель "
-"мест</emphasis>.</item> </list></para>"
+"«Сохранить», чтобы добавить текущую конфигурацию поиска в панель "
+"<emphasis>«Точки входа»</emphasis>.</item> </list></para>"
 
 #: search/bar.cpp:215
 #, kde-format
@@ -3683,7 +3682,9 @@ msgstr "Поиск по содержимому файлов…"
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Ограничить область поиска папкой «%1» и её вложенными папками"
+msgstr ""
+"Ограничить область поиска папкой <filename>%1</filename> и её вложенными "
+"папками."
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3694,7 +3695,7 @@ msgstr "Ограничить область поиска папкой «%1» и 
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr "Поиска по всем папкам начиная с корневой."
+msgstr "Поиск по всем папкам, начиная с корневой."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3708,7 +3709,7 @@ msgid ""
 msgstr ""
 "Поиск по всем проиндексированным местоположениям.<nl/><nl/>\n"
 "Для управления списком индексируемых папок используйте <interface>Параметры "
-"системы|Рабочая среда/Поиск</interface>"
+"системы|Рабочая среда|Поиск</interface>."
 
 #: search/chip.cpp:21
 #, kde-format
@@ -3876,7 +3877,7 @@ msgstr ""
 "application> позволяет искать в большем количестве типов файлов (например, "
 "pdf, docx, sqlite, jpg, субтитрах фильмов — mkv, mp4).</para><para>Параметры "
 "вызова этих инструментов можно настроить, изменив сценарий. Перед "
-"редактированием скопируй его из <filename>%2</filename> в <filename>%3</"
+"редактированием скопируйте его из <filename>%2</filename> в <filename>%3</"
 "filename>. При возникновении проблем удалите свою копию <filename>%3</"
 "filename>, чтобы вернуть исходное состояние.</para>"
 
@@ -3968,12 +3969,12 @@ msgstr ""
 "данных создаётся путём индексирования файлов в фоновом режиме в соответствии "
 "с настройками <application>%1</application>. <list> <item><application>%1</"
 "application> обеспечивает очень быструю выдачу результатов.</item> "
-"<item>Позволяет искать по типам файлов, датам, тегам и т. д.</item> "
+"<item>Позволяет искать по типам файлов, датам, меткам и т. д.</item> "
 "<item>Производит поиск только в проиндексированных папках. Настройка списка "
-"папка для индексации выполняется в <application>Системных настройках</"
-"application>.</item> <item>Если в указанных для поиска местах есть ссылки на "
-"другие файлы или папки, они не будут просматриваться и не появятся в "
-"результатах поиска.</item> <item>Скрытые файлы и папки, а также их "
+"папок для индексации выполняется в приложении <application>Параметры "
+"системы</application>.</item> <item>Если в указанных для поиска местах есть "
+"ссылки на другие файлы или папки, они не будут просматриваться и не появятся "
+"в результатах поиска.</item> <item>Скрытые файлы и папки, а также их "
 "содержимое также могут не учитываться при поиске — это зависит от "
 "конфигурации <application>%1</application>.</item> </list></para>"
 
@@ -3981,13 +3982,13 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr "Имена файлов и их содержимое"
+msgstr "Именам и содержимому файлов"
 
 #: search/popup.cpp:314
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Содержимое файла"
+msgstr "Содержимому файлов"
 
 #: search/popup.cpp:329
 #, kde-format
@@ -4204,7 +4205,7 @@ msgstr "Скрыть напоминание"
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr "Больше не спрашивать"
+msgstr "Больше не напоминать"
 
 #: selectionmode/bottombarcontentscontainer.cpp:459
 #, kde-format
@@ -4213,8 +4214,8 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
-"Выберите файл или папку, которую следует переименовать. Выберите несколько "
-"объектов, чтобы выполнить пакетное переименование."
+"Выберите файл или папку, которую следует переименовать.\n"
+"Выберите несколько объектов, чтобы выполнить пакетное переименование."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:467
@@ -4381,7 +4382,7 @@ msgstr "Выйти из режима выделения"
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu Actions"
-msgstr "Контекстное меню действий"
+msgstr "Действия контекстного меню"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:60
 #, kde-format
@@ -4467,7 +4468,7 @@ msgstr "Код максимальной ширины текста (0 означ�
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr "Отображение размера каталогов"
+msgstr "Способ показа размера папок"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
@@ -4485,7 +4486,7 @@ msgstr "Показывать размер содержимого"
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr "Не показывать размер каталога"
+msgstr "Не показывать размер папок"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4498,8 +4499,8 @@ msgstr "Ограничение вложенности для размера па
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
 msgstr ""
-"Если значение \"true\", то используется короткий относительный формат дат, "
-"если \"false\" - короткий формат"
+"Если значение «true», то используется короткий относительный формат дат, "
+"если «false» — короткий формат"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:33
@@ -4632,7 +4633,7 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Если этот параметр включён, скрытые файлы (начинающиеся с «.»), будут "
+"Если этот параметр включён, скрытые файлы (начинающиеся с «.») будут "
 "показываться в списке файлов."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
@@ -4696,7 +4697,7 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Если этот параметр включён, содержимое файла показывается в виде миниатюры"
+"Если этот параметр включён, содержимое файла показывается в виде миниатюры."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -4798,7 +4799,7 @@ msgstr "Последнее изменение свойств"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
-msgstr "Время последнего изменения свойств"
+msgstr "Время последнего изменения свойств."
 
 #. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:93
@@ -4857,8 +4858,7 @@ msgid ""
 "Should an externally called folder open in a new tab in an existing Dolphin "
 "instance"
 msgstr ""
-"Использовать или нет новую вкладку для для открытия папок при внешнем вызове "
-"Dolphin"
+"Открывать папки при внешнем вызове в новой вкладке уже запущенного Dolphin"
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
@@ -4952,7 +4952,7 @@ msgid ""
 "Ask for confirmation when closing windows with a program that is still "
 "running in the Terminal panel."
 msgstr ""
-"Запрашивать подтверждение при закрытии окна если в панели терминала "
+"Запрашивать подтверждение при закрытии окна, если в панели терминала "
 "выполняется программа."
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
@@ -4987,7 +4987,7 @@ msgstr "Перейти в однопанельный режим"
 #: settings/dolphin_generalsettings.kcfg:128
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr "Новая вклада будет размещена за последней"
+msgstr "Новая вкладка будет размещена за последней"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:132
@@ -5039,7 +5039,7 @@ msgid ""
 "items"
 msgstr ""
 "Выберите режим сортировки: естественная алфавитно-числовая либо по алфавиту "
-"с или без учёта регистра"
+"с учётом или без учёта регистра"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
 #: settings/dolphin_generalsettings.kcfg:175
@@ -5071,8 +5071,8 @@ msgstr ""
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
-"Запрашивать подтверждение, если при переименование файла ведёт к изменению "
-"его типа."
+"Запрашивать подтверждение, если переименование файла ведёт к изменению его "
+"типа."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -5192,7 +5192,7 @@ msgstr "При закрытии окон с несколькими вкладк�
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
-msgstr "При закрытии, если в панели терминала выполняется приложение"
+msgstr "При закрытии, если в панели терминала выполняется программа"
 
 #: settings/interface/confirmationssettingspage.cpp:74
 #, kde-format
@@ -5210,7 +5210,7 @@ msgstr "При одновременном открытии множества т
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr "При начале или завершении выполнения действий с правами администратора"
+msgstr "При переходе к действиям с правами администратора"
 
 #: settings/interface/confirmationssettingspage.cpp:78
 #, kde-format
@@ -5340,7 +5340,7 @@ msgstr "Все вкладки имеют одинаковую фиксирова
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr "Вкладки шириной во всё свободное пространство"
+msgstr "Вкладки занимают всю доступную ширину"
 
 #: settings/interface/folderstabssettingspage.cpp:136
 #, kde-format
@@ -5391,7 +5391,7 @@ msgstr "Закрывать правую панель"
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Разделяемая область просмотра: "
+msgstr "Двухпанельный режим: "
 
 #: settings/interface/folderstabssettingspage.cpp:163
 #, kde-format
@@ -5411,7 +5411,7 @@ msgstr "Путь к домашней папке неверен и не може�
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Папки &и вкладки"
+msgstr "Папки и вкладки"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -5449,7 +5449,7 @@ msgstr "Показывать миниатюры"
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Проигрывать медиафайлы"
+msgstr "Автоматически воспроизводить медиафайлы"
 
 #: settings/interface/panelsettingspage.cpp:43
 #, kde-format
@@ -5467,7 +5467,7 @@ msgstr "Использовать &полный формат даты, приме
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr "Использовать краткий формат даты, пример: «%1»"
+msgstr "Использовать &краткий формат даты, пример: «%1»"
 
 #: settings/interface/panelsettingspage.cpp:51
 #, kde-format
@@ -5482,8 +5482,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
-"Параметры панелей также возможно настроить в контекстном меню, которое "
-"доступно по щелчку правой кнопкой мыши внутри панели."
+"Параметры панелей также можно настроить в контекстном меню, которое доступно "
+"по щелчку правой кнопкой мыши внутри панели."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -5584,7 +5584,7 @@ msgstr "Показывать ползунок масштаба"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr "Отключить"
+msgstr "Отключена"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
 #, kde-format
@@ -5787,7 +5787,7 @@ msgid ""
 "custom display style."
 msgstr ""
 "При просмотре особых расположений, таких как результаты поиска, последние "
-"файлы и папки или корзина всё равно будут использованы отдельные режимы "
+"файлы и папки или корзина, всё равно будут использованы отдельные режимы "
 "просмотра."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:43
@@ -5813,7 +5813,7 @@ msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
 "Использовать режим просмотра «Значки» для расположений, в которых в основном "
-"расположены медиафайлы"
+"находятся медиафайлы"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
@@ -6363,7 +6363,7 @@ msgstr "Масштаб"
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
-msgstr "Изменить размер значков файлов"
+msgstr "Изменяет размер значков файлов."
 
 #: statusbar/dolphinstatusbar.cpp:94
 #, kde-format
@@ -6518,7 +6518,7 @@ msgstr[3] "1 файл"
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
-msgstr "%1. %2 (%3)"
+msgstr "%1, %2 (%3)"
 
 #: views/dolphinview.cpp:794
 #, kde-format
@@ -6573,7 +6573,7 @@ msgstr "Автоматическая ширина столбцов"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
-msgstr "Выборочная ширина столбцов"
+msgstr "Заданная вручную ширина столбцов"
 
 #: views/dolphinview.cpp:2153
 #, kde-format
@@ -6599,7 +6599,7 @@ msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
-"После добавления точки в начало имени, файл будет скрыт.\n"
+"После добавления точки в начало имени файл будет скрыт.\n"
 "Продолжить переименование?"
 
 #: views/dolphinview.cpp:2374
@@ -6608,7 +6608,7 @@ msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
-"После добавления точки в начало имени, папка будет скрыта.\n"
+"После добавления точки в начало имени папка будет скрыта.\n"
 "Продолжить переименование?"
 
 #: views/dolphinview.cpp:2376
@@ -6714,7 +6714,7 @@ msgstr "Не найдено ни одного недавно открытого 
 #: views/dolphinview.cpp:2904
 #, kde-format
 msgid "No shared folders found"
-msgstr "Сетевая папка не содержит ни одного файла."
+msgstr "Не найдено ни одной общей папки."
 
 #: views/dolphinview.cpp:2906
 #, kde-format
@@ -6776,9 +6776,9 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once results in their new names differing only in a number."
 msgstr ""
-"Это действие выполняет переименование выбранных объектов. <nl/> "
-"Переименование множества объектов приведёт к тому, что их имена будут "
-"различаться только номерами."
+"Это действие выполняет переименование выбранных объектов.<nl/>Переименование "
+"множества объектов приведёт к тому, что их имена будут различаться только "
+"номерами."
 
 #: views/dolphinviewactionhandler.cpp:124
 #, kde-kuit-format
@@ -6807,7 +6807,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
-msgstr "Удалить (с сохранением в корзину)"
+msgstr "Удалить (комбинацией клавиш удаления в корзину)"
 
 #: views/dolphinviewactionhandler.cpp:153
 #, kde-format
@@ -6830,9 +6830,9 @@ msgid ""
 "currently viewed folder instead.<nl/>You can configure advanced options "
 "there like managing read- and write-permissions."
 msgstr ""
-"Это действие отображает в новом окне все свойства выбранных объектов.<nl/"
+"Это действие показывает в новом окне все свойства выбранных объектов.<nl/"
 ">Если не выбран ни один объект, то будут показаны свойства текущей папки.<nl/"
-">В открывшемся окне возможно настраивать дополнительные свойства объектов, "
+">В открывшемся окне можно настраивать дополнительные свойства объектов, "
 "например, задавать права доступа для чтения и записи."
 
 #: views/dolphinviewactionhandler.cpp:173
@@ -6885,9 +6885,9 @@ msgid ""
 msgstr ""
 "<para>Это действие служит для выбора режима просмотра, в котором файлы и "
 "папки представлены в виде значков. Этот режим позволяет наглядно разделить "
-"папки и файлы, а также наглядно разделить файлы <emphasis>различных типов</"
-"emphasis>.</para><para>Этот режим удобен для просмотра изображений при "
-"включённом параметре <interface>Показывать миниатюры</interface>.</para>"
+"папки и файлы, а также выделить файлы <emphasis>различных типов</emphasis>.</"
+"para><para>Этот режим удобен для просмотра изображений при включённом "
+"параметре <interface>Показывать миниатюры</interface>.</para>"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
@@ -6917,12 +6917,11 @@ msgstr ""
 "<para>Это действие служит для выбора режима просмотра, в котором наглядно "
 "представлены различные свойства папок и файлов.</para> <para>Для сортировки "
 "по полю свойства нажмите на заголовок таблицы, повторное нажатие меняет "
-"порядок сортировки на обратный. Для выбора свойств, отображаемых в этом "
+"порядок сортировки на обратный. Для выбора свойств, показываемых в этом "
 "режиме, щёлкните правой кнопкой мыши по заголовку таблицы.</para> <para>Этот "
 "режим позволяет просматривать содержимое других папок без перехода в них, "
 "для этого нажмите на символ «>», расположенный слева от значка папки. Таким "
-"образом возможно просматривать содержимое нескольких папок одновременно.</"
-"para>"
+"образом можно просматривать содержимое нескольких папок одновременно.</para>"
 
 #: views/dolphinviewactionhandler.cpp:235
 #, kde-format
@@ -6951,7 +6950,7 @@ msgstr "Восстановить масштаб"
 #: views/dolphinviewactionhandler.cpp:260
 #, kde-format
 msgid "Zoom To Default"
-msgstr "Установить значение масштаба по умолчанию."
+msgstr "Установить значение масштаба по умолчанию"
 
 #: views/dolphinviewactionhandler.cpp:261
 #, kde-format
@@ -7112,8 +7111,7 @@ msgstr "Восстановить значения по умолчанию"
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr ""
-"При нажатии для настроек просмотра восстанавливаются значения по умолчанию"
+msgstr "Восстановить параметры просмотра по умолчанию"
 
 #: views/dolphinviewactionhandler.cpp:414
 #, kde-format
@@ -7128,7 +7126,7 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
-"Это действие переключает все режимы отображения по кругу. Выпадающее меню "
+"Это действие переключает все режимы просмотра по кругу. Выпадающее меню "
 "содержит различные действия, связанные с режимом просмотра."
 
 #: views/dolphinviewactionhandler.cpp:782
