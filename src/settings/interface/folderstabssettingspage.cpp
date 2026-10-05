@@ -157,7 +157,9 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     closeSplitViewHLayout->addWidget(closeSplitViewLabel);
     closeSplitViewHLayout->setContentsMargins(0, 0, 0, 0);
     closeSplitViewHLayout->addWidget(m_closeSplitComboBox);
-    topLayout->addRow(i18nc("@title:group", "Split view: "), closeSplitViewWidget);
+    QLabel *splitViewLabel{new QLabel(i18nc("@title:group", "Split view: "))};
+    splitViewLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    topLayout->addRow(splitViewLabel, closeSplitViewWidget);
 
     // 'Begin in split view mode'
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Open new windows in split view mode"));
