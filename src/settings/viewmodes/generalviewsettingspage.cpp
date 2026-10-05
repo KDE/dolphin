@@ -162,7 +162,9 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     doubleClickViewHLayout->addWidget(doubleClickViewLabel);
     doubleClickViewHLayout->setContentsMargins(0, 0, 0, 0);
     doubleClickViewHLayout->addWidget(m_doubleClickViewComboBox);
-    topLayout->addRow(i18nc("@title:group", "Background: "), doubleClickViewWidget);
+    QLabel *backgroundLabel{new QLabel(i18nc("@title:group", "Background: "))};
+    backgroundLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    topLayout->addRow(backgroundLabel, doubleClickViewWidget);
 
     m_doubleClickViewCustomAction = new QLineEdit();
     m_doubleClickViewCustomAction->setAccessibleDescription(
