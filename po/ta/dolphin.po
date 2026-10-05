@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-05-02 18:08+0530\n"
+"PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -355,16 +355,12 @@ msgstr ""
 "உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"புதிய அடைவை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
-"உங்களுக்கு இல்லை."
+"புதிய சாரடைவை உருவாக்க முடியவில்லை: நீங்கள் எழுதக்கூடிய ஏதாவதொரு அடைவை "
+"தேர்ந்தெடுக்கவும்"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -580,22 +576,16 @@ msgid "Move to Other View"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்து"
 
 #: dolphinmainwindow.cpp:1907
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Focus Other View"
-msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடு"
+msgstr "மாற்று காட்சிப்பகுதியை குவியப்படுத்து"
 
 #: dolphinmainwindow.cpp:1908
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Move keyboard focus to and from the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
-msgstr ""
-"இடங்கள் பலகைக்கு குவியத்தை நகர்த்தும், அல்லது அதிலிருந்து பிரதான காட்சிப்பகுதிக்கு "
-"நகர்த்தும்."
+msgstr "செயலிலில்லாத காட்சிப்பகுதிக்கு குவியத்தை நகர்த்தும்."
 
 #: dolphinmainwindow.cpp:1914
 #, kde-format
@@ -1883,14 +1873,13 @@ msgstr "மற்ற கீற்றுகளை மூடு"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Left"
-msgstr ""
+msgstr "இடதிலுள்ள கீற்றுகளை மூடு"
 
 #: dolphintabbar.cpp:191
-#, fuzzy, kde-format
-#| msgid "Close the right pane"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tabs to the Right"
-msgstr "வலது பகுதியை மூடு"
+msgstr "வலதிலுள்ள கீற்றுகளை மூடு"
 
 #: dolphintabbar.cpp:193
 #, kde-format
@@ -4431,12 +4420,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Sort files by"
+#, kde-format
 msgctxt "@label"
 msgid "Group files by"
-msgstr "கோப்புகளை இதனால் வரிசைப்படுத்து"
+msgstr "கோப்புகளை இதனால் குழுப்படுத்து"
 
 #. i18n: ectx: whatsthis, entry (GroupRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
@@ -4447,6 +4434,9 @@ msgid ""
 "sorting is enabled. An empty value means the grouping criterion follows the "
 "sort criterion."
 msgstr ""
+"குழுப்படுத்தி வரிசைப்படுத்தும் அம்சம் இயக்கப்பட்டிருப்பின், எந்த அடிப்படையில் குழுப்படுத்த "
+"வேண்டுமென்பதை இத்தேர்வு தீர்மானிக்கும். எதுவும் குறிப்பிடப்படாத பட்சத்தில், வரிசைப்படுத்தும் "
+"முறையே குழுப்படுத்தவும் பயன்படுத்தப்படும்."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -6400,12 +6390,10 @@ msgid "Create Folder…"
 msgstr "அடைவை உருவாக்கு…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "அடைவை உருவாக்கு…"
+msgstr "சாரடைவை உருவாக்கு…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6632,12 +6620,10 @@ msgid "Show Additional Information"
 msgstr "கூடுதல் விவரங்களைக் காட்டு"
 
 #: views/dolphinviewactionhandler.cpp:343
-#, fuzzy, kde-format
-#| msgctxt "@option:check Additional Information"
-#| msgid "Group"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
-msgstr "குழு"
+msgstr "இவ்வாறு குழுவாக்கு"
 
 #: views/dolphinviewactionhandler.cpp:345
 #, kde-format
@@ -6646,11 +6632,12 @@ msgid ""
 "This groups files and folders by a chosen attribute. \"None\" disables "
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
+"தேர்ந்தெடுக்கப்படும் அம்சத்தின் அடிப்படையில் கோப்புகளையும் அடைவுகளையும் இது குழுவாக்கும். "
+"'ஏதுமில்லை' எனில் குழுவாக்கம் முடக்கப்படும். 'வரிசைப்படுத்தும் முறையிலேயே' எனில், "
+"செயலிலுள்ள வரிசைப்படுத்தல் முறையின் அடிப்படையில் குழுவாக்குமும் இருக்கும்."
 
 #: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@action:button Required tags for search results: None"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "ஏதுமில்லை"
@@ -6659,7 +6646,7 @@ msgstr "ஏதுமில்லை"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr ""
+msgstr "வரிசைப்படுத்தும் முறையிலேயே"
 
 #: views/dolphinviewactionhandler.cpp:378
 #, kde-format
@@ -6695,11 +6682,10 @@ msgid ""
 msgstr "அடைவுகளின் காட்சிப் பண்புகளை மாற்ற உதவும் ஒரு சாளரத்தை இது திறக்கும்."
 
 #: views/dolphinviewactionhandler.cpp:403
-#, fuzzy, kde-format
-#| msgid "Zoom To Default"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "இயல்பிருப்பு உருப்பெருக்கத்தையே பயன்படுத்து"
+msgstr "இயல்பிருப்புகளாக மீட்டமை"
 
 #: views/dolphinviewactionhandler.cpp:404
 #, kde-format
@@ -6720,6 +6706,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"அனைத்து காட்சிமுறைகளுக்கிடையே சுழற்சியாக மாறும். சார்ந்த பட்டியில், காட்சியுடன் "
+"தொடர்புடைய பல்வேறு அமைப்புகள் இருக்கும்."
 
 #: views/dolphinviewactionhandler.cpp:443
 #, kde-format

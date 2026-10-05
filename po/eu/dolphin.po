@@ -1,7 +1,7 @@
 # Translation for dolphin.po to Euskara/Basque (eu).
 # Copyright (C) 2007-2026 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# SPDX-FileCopyrightText: 2023-2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023-2026 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2008, 2010.
