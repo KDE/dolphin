@@ -24,17 +24,23 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDBusConnection>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QLineEdit>
+#include <QMimeData>
+#include <QPointer>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSignalSpy>
 #include <QSplitter>
 #include <QStandardPaths>
 #include <QTest>
+#include <QVBoxLayout>
 
 /**
  * @brief Unit tests for DolphinColumnsView (Miller Columns).
@@ -118,6 +124,7 @@ private Q_SLOTS:
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
     void testDraggingAFileLeavesTheColumnsOpen();
     void testPressingAFolderLeavesTheColumnsOpen();
+    void testDroppingAFolderIntoTheNextColumnSelectsIt();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -145,6 +152,9 @@ private Q_SLOTS:
     void testTheActiveColumnStaysInViewWhenTheNextOneOpens();
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
+    void testChangingTheUrlLeavesTheFocusOutsideTheView();
+    void testGoingUpKeepsTheFolderLeftSelected();
+    void testGoingUpShowsTheColumnOfTheFolderLeft();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
@@ -1384,6 +1394,50 @@ void DolphinColumnsViewTest::testPressingAFolderLeavesTheColumnsOpen()
     QCOMPARE(m_view->columnCount(), 2);
 }
 
+void DolphinColumnsViewTest::testDroppingAFolderIntoTheNextColumnSelectsIt()
+{
+    // beta is pressed, which selects it, and dragged into the column of alpha. Moving it away
+    // leaves nothing selected in the first column, and alpha must stay shown.
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        QSKIP("The first column only sees beta leave through KDirNotify, which needs a D-Bus session");
+    }
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *rootPane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(rootPane, QStringLiteral("beta"));
+    auto *graphicsView = qobject_cast<QGraphicsView *>(rootPane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint betaPos = graphicsView->mapFromScene(rootPane->itemListView()->itemRect(betaIndex).center());
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(betaIndex));
+    Q_EMIT rootPane->controller()->draggingStarted();
+    QTest::mouseRelease(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+
+    // Shift moves without asking.
+    QMimeData mimeData;
+    mimeData.setUrls({urlOf(QStringLiteral("beta"))});
+    QGraphicsSceneDragDropEvent dropEvent(QEvent::GraphicsSceneDrop);
+    dropEvent.setMimeData(&mimeData);
+    dropEvent.setModifiers(Qt::ShiftModifier);
+    dropEvent.setPossibleActions(Qt::CopyAction | Qt::MoveAction);
+    dropEvent.setDropAction(Qt::MoveAction);
+    QPointer<DolphinColumnPane> alphaPane = m_view->columnAt(1);
+    Q_EMIT alphaPane->controller()->itemDropEvent(-1, &dropEvent);
+
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("beta")) < 0, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: proving that the column does not close needs time for it to happen
+    QVERIFY(alphaPane);
+    QCOMPARE(m_view->columnAt(1), alphaPane.data());
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("beta")) >= 0, 10000);
+    const int alphaIndex = indexOfName(rootPane, QStringLiteral("alpha"));
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(alphaIndex));
+
+    // The column that received beta is active, with beta selected in it.
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("beta"))), 5000);
+}
+
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
 {
     // Going back to a folder one of the columns already shows keeps the columns below it, which
@@ -2139,6 +2193,94 @@ void DolphinColumnsViewTest::testALongNameDoesNotPushOtherColumnsOut()
     QCOMPARE(m_view->m_scrollArea->horizontalScrollBar()->value(), 0);
     QWidget *last = m_view->columnAt(3);
     QVERIFY(last->mapTo(m_view->m_scrollArea->viewport(), QPoint(last->width(), 0)).x() <= viewportWidth);
+}
+
+void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
+{
+    // A cd in the terminal panel sets the url of the view, and the terminal keeps the focus.
+    QWidget host;
+    auto *layout = new QVBoxLayout(&host);
+    auto *terminal = new QLineEdit(&host);
+    layout->addWidget(terminal);
+    layout->addWidget(m_view);
+    host.resize(800, 500);
+    host.show();
+    QVERIFY(QTest::qWaitForWindowActive(&host));
+    terminal->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(terminal->hasFocus(), 5000);
+
+    // A folder below the open columns.
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha/alpha-child")), 5000);
+    QVERIFY(terminal->hasFocus());
+
+    // A folder in no open column, for which the columns are rebuilt.
+    TestDir otherDir;
+    m_view->setUrl(otherDir.url());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), otherDir.url().adjusted(QUrl::StripTrailingSlash), 5000);
+    QVERIFY(terminal->hasFocus());
+
+    // With the focus in a column, the new active column takes it.
+    m_view->activePane()->container()->setFocus();
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->activePane()->container()->hasFocus(), 5000);
+
+    m_view->setParent(nullptr);
+}
+
+void DolphinColumnsViewTest::testGoingUpKeepsTheFolderLeftSelected()
+{
+    // A cd .. in the terminal panel sets the url to the folder of an open column. As in the other
+    // view modes, the folder that was left stays selected there, so its column stays. What was
+    // selected inside it is dropped, with the columns after it.
+    m_testDir->createDir("alpha/alpha-child/deep");
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    selectItemInColumn(2, QStringLiteral("deep"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 4, 5000);
+
+    QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")));
+    auto *alphaPane = m_view->columnAt(1);
+    QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
+    QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha/alpha-child")));
+    QVERIFY(!m_view->columnAt(2)->controller()->selectionManager()->hasSelection());
+    // The location goes to alpha only, never through the column that stays.
+    for (const QList<QVariant> &arguments : std::as_const(urlSpy)) {
+        QCOMPARE(arguments.constFirst().toUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")));
+    }
+}
+
+void DolphinColumnsViewTest::testGoingUpShowsTheColumnOfTheFolderLeft()
+{
+    // After a cd .., the column of the folder that was left is in view next to the active column.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(200);
+    m_testDir->createDir("alpha/alpha-child/deep/deeper");
+    m_view->resize(500, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child/deep/deeper")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 5, 5000);
+    QScrollBar *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() > 0, 5000);
+
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    QWidget *viewport = m_view->m_scrollArea->viewport();
+    auto isShownWhole = [viewport](QWidget *column) {
+        const int left = column->mapTo(viewport, QPoint(0, 0)).x();
+        return left >= 0 && left + column->width() <= viewport->width();
+    };
+    QTRY_VERIFY_WITH_TIMEOUT(isShownWhole(m_view->columnAt(2)), 5000);
+    QVERIFY(isShownWhole(m_view->columnAt(1)));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
