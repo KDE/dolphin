@@ -65,7 +65,7 @@ Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
     void fileActivated(const KFileItem &item);
     void currentItemChanged(const KFileItem &item);
-    /// The item that the next column shows the folder of is no longer listed here.
+    /// The item that the next column shows the folder of is no longer listed here, or nothing is selected here.
     void activeChildRemoved();
     void directoryLoadingCompleted();
 
@@ -76,8 +76,11 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotItemActivated(int index);
     void slotCurrentChanged(int current, int previous);
+    void slotSelectionChanged();
 
 private:
+    void checkActiveChildSelected();
+
     KFileItemModel *m_model = nullptr;
     DolphinItemListView *m_view = nullptr;
     KItemListController *m_controller = nullptr;
@@ -85,6 +88,7 @@ private:
     VersionControlObserver *m_versionControlObserver = nullptr;
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
+    bool m_selectionCheckPending = false;
 };
 
 #endif // DOLPHINCOLUMNPANE_H

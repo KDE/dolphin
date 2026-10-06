@@ -395,6 +395,18 @@ void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
     senderPane->controller()->selectionManager()->blockSignals(false);
 }
 
+void DolphinColumnsView::slotPaneItemsInserted()
+{
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        if (pane->model() == sender()) {
+            // Not a selection by the user, so it must not navigate.
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            pane->reapplyActiveChildMark();
+            return;
+        }
+    }
+}
+
 void DolphinColumnsView::slotPaneLoadingCompleted()
 {
     auto *pane = qobject_cast<DolphinColumnPane *>(sender());
@@ -660,6 +672,7 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
         closeColumnsAfter(m_columns.indexOf(pane));
     });
     connect(pane, &DolphinColumnPane::directoryLoadingCompleted, this, &DolphinColumnsView::slotPaneLoadingCompleted);
+    connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::slotPaneItemsInserted);
 
     // A rename arrives as a "text" change from KIO, or as a remove and an insert from disk.
     connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::refitColumnsToContent);

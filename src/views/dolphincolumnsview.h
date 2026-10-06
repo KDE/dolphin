@@ -82,6 +82,8 @@ protected:
 private Q_SLOTS:
     void slotFileActivated(const KFileItem &item);
     void slotColumnsCurrentItemChanged(const KFileItem &item);
+    /// Marks the folder that the next column shows as soon as it is listed.
+    void slotPaneItemsInserted();
     void slotPaneLoadingCompleted();
     void slotSplitterMoved(int pos, int handleIndex);
     void slotActiveSelectionChanged(const KItemSet &current);
