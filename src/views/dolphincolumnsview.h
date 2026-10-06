@@ -115,6 +115,8 @@ private:
 
     void ensureActiveColumnVisible();
     void ensureColumnVisible(int index);
+    /// Whether the focus is on this view or one of its columns.
+    bool hasFocusInside() const;
     /// Scrolls left over the room after the last column, which a wider window leaves.
     void showEarlierColumnsInTheRoomAfterTheLast();
     void autoSelectFirstItem(int columnIndex);

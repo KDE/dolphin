@@ -27,12 +27,14 @@
 #include <QFile>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QLineEdit>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSignalSpy>
 #include <QSplitter>
 #include <QStandardPaths>
 #include <QTest>
+#include <QVBoxLayout>
 
 /**
  * @brief Unit tests for DolphinColumnsView (Miller Columns).
@@ -133,6 +135,7 @@ private Q_SLOTS:
     void testTheFirstVisibleColumnIsShownWhole();
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
+    void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
@@ -1834,6 +1837,40 @@ void DolphinColumnsViewTest::testALongNameDoesNotPushOtherColumnsOut()
     QCOMPARE(m_view->m_scrollArea->horizontalScrollBar()->value(), 0);
     QWidget *last = m_view->columnAt(3);
     QVERIFY(last->mapTo(m_view->m_scrollArea->viewport(), QPoint(last->width(), 0)).x() <= viewportWidth);
+}
+
+void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
+{
+    // A cd in the terminal panel sets the url of the view, and the terminal keeps the focus.
+    QWidget host;
+    auto *layout = new QVBoxLayout(&host);
+    auto *terminal = new QLineEdit(&host);
+    layout->addWidget(terminal);
+    layout->addWidget(m_view);
+    host.resize(800, 500);
+    host.show();
+    QVERIFY(QTest::qWaitForWindowActive(&host));
+    terminal->setFocus();
+    QTRY_VERIFY_WITH_TIMEOUT(terminal->hasFocus(), 5000);
+
+    // A folder below the open columns.
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha/alpha-child")), 5000);
+    QVERIFY(terminal->hasFocus());
+
+    // A folder in no open column, for which the columns are rebuilt.
+    TestDir otherDir;
+    m_view->setUrl(otherDir.url());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), otherDir.url().adjusted(QUrl::StripTrailingSlash), 5000);
+    QVERIFY(terminal->hasFocus());
+
+    // With the focus in a column, the new active column takes it.
+    m_view->activePane()->container()->setFocus();
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activePane()->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->activePane()->container()->hasFocus(), 5000);
+
+    m_view->setParent(nullptr);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
