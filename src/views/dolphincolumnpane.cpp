@@ -138,6 +138,15 @@ void DolphinColumnPane::reapplyActiveChildMark()
     setActiveChildUrl(m_activeChildUrl);
 }
 
+void DolphinColumnPane::dropActiveChild()
+{
+    m_controller->selectionManager()->clearSelection();
+    if (!m_activeChildUrl.isEmpty()) {
+        m_activeChildUrl.clear();
+        Q_EMIT activeChildRemoved();
+    }
+}
+
 void DolphinColumnPane::clearActiveChild()
 {
     m_controller->selectionManager()->clearSelection();

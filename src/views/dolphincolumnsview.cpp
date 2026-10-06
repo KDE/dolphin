@@ -124,8 +124,9 @@ void DolphinColumnsView::setUrl(const QUrl &url)
         return;
     }
 
+    const QUrl previousUrl = this->url();
     updateUrl(url);
-    if (!showUrlInOpenColumns(url)) {
+    if (!showUrlInOpenColumns(url, previousUrl)) {
         rebuildColumnsForUrl(url);
     }
     Q_EMIT urlChanged(url);
@@ -455,15 +456,20 @@ DolphinColumnPane *DolphinColumnsView::activePane() const
     return nullptr;
 }
 
-bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
+bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url, const QUrl &previousUrl)
 {
     // KIO::upUrl() ends a folder url with a slash and dirUrl() does not.
     const QUrl target = url.adjusted(QUrl::StripTrailingSlash);
 
-    // Going back to an open folder keeps the columns after it.
     for (int i = 0; i < m_columns.size(); ++i) {
         if (m_columns.at(i)->dirUrl().adjusted(QUrl::StripTrailingSlash) == target) {
+            // Going up keeps the folder on the way back selected, as KCoreUrlNavigator::urlSelectionRequested()
+            // asks the other view modes to. What was selected inside that folder is dropped.
+            const bool nextIsOnTheWayBack = i + 1 < m_columns.size()
+                && (m_columns.at(i + 1)->dirUrl().matches(previousUrl, QUrl::StripTrailingSlash) || m_columns.at(i + 1)->dirUrl().isParentOf(previousUrl));
+            // Active first, so closing the columns after the next one leaves the url alone.
             setActiveColumn(i);
+            m_columns.at(nextIsOnTheWayBack ? i + 1 : i)->dropActiveChild();
             return true;
         }
     }
@@ -898,10 +904,13 @@ void DolphinColumnsView::closeColumnsAfter(int column)
     if (column < 0 || column + 1 >= m_columns.size()) {
         return;
     }
+    const bool activeColumnIsAffected = m_activeColumn >= column;
     popAfter(column);
     recalculateColumnWidths();
-    updateUrl(m_columns.at(column)->dirUrl());
-    Q_EMIT urlChanged(url());
+    if (activeColumnIsAffected) {
+        updateUrl(m_columns.at(column)->dirUrl());
+        Q_EMIT urlChanged(url());
+    }
 }
 
 void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int itemIndex, Qt::MouseButtons buttons)
