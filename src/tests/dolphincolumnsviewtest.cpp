@@ -136,6 +136,7 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
+    void testClickingEmptySpaceClosesTheColumnsAfterIt();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
@@ -1871,6 +1872,26 @@ void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
     QTRY_VERIFY_WITH_TIMEOUT(m_view->activePane()->container()->hasFocus(), 5000);
 
     m_view->setParent(nullptr);
+}
+
+void DolphinColumnsViewTest::testClickingEmptySpaceClosesTheColumnsAfterIt()
+{
+    // A column shows the folder selected in the column before it. A click on empty space clears
+    // that selection, and the column closes.
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *pane = m_view->columnAt(0);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint emptyPos(graphicsView->viewport()->width() / 2, graphicsView->viewport()->height() - 10);
+    QVERIFY(!pane->itemListView()->itemAt(graphicsView->mapToScene(emptyPos)).has_value());
+
+    QTest::mouseClick(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, emptyPos);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QVERIFY(!pane->controller()->selectionManager()->hasSelection());
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
