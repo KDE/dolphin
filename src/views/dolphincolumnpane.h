@@ -43,6 +43,8 @@ public:
     void setWidthPending(bool pending);
     bool isWidthPending() const;
     void clearActiveChild();
+    /// Clears the selection, also of a child not listed yet, which closes the columns after this one.
+    void dropActiveChild();
 
     KFileItemModel *model() const;
     KItemListController *controller() const;
@@ -78,6 +80,7 @@ private Q_SLOTS:
     void slotItemActivated(int index);
     void slotCurrentChanged(int current, int previous);
     void slotSelectionChanged();
+    void slotItemsRemoved();
 
 private:
     void checkActiveChildSelected();
@@ -90,6 +93,7 @@ private:
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
     bool m_selectionCheckPending = false;
+    bool m_itemsRemoved = false;
 };
 
 #endif // DOLPHINCOLUMNPANE_H
