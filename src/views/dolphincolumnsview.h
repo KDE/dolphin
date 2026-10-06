@@ -111,7 +111,7 @@ private:
     /// Opens the column of @p item when it is a folder, or closes the columns after @p column.
     /// Returns whether it was a folder.
     bool followItem(int column, const KFileItem &item);
-    /// Closes the columns to the right of \a column, which becomes the url of the view.
+    /// Closes the columns to the right of \a column, which becomes the url of the view unless the active column is before it.
     void closeColumnsAfter(int column);
     /// Makes the column after @p column active, selecting its first item if nothing is selected.
     void enterChildColumn(int column);
@@ -120,6 +120,8 @@ private:
 
     void ensureActiveColumnVisible();
     void ensureColumnVisible(int index);
+    /// Whether the focus is on this view or one of its columns.
+    bool hasFocusInside() const;
     /// Scrolls left over the room after the last column, which a wider window leaves.
     void showEarlierColumnsInTheRoomAfterTheLast();
     void autoSelectFirstItem(int columnIndex);
@@ -145,7 +147,7 @@ private:
 
     /// Shows @p url within the open columns, activating it or opening the folders down to it.
     /// Returns false when @p url is not under an open column.
-    bool showUrlInOpenColumns(const QUrl &url);
+    bool showUrlInOpenColumns(const QUrl &url, const QUrl &previousUrl = QUrl());
 
     void syncColumnsFromViewProperties();
     void applyViewProperties(KFileItemModel *model) const;
