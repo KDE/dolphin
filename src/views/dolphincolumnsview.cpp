@@ -18,6 +18,7 @@
 #include "kitemviews/kitemlistview.h"
 #include "tooltips/tooltipmanager.h"
 #include <KIO/Global>
+#include <QApplication>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGuiApplication>
 #include <QKeyEvent>
@@ -288,6 +289,12 @@ DolphinColumnPane *DolphinColumnsView::columnAt(int index) const
     return nullptr;
 }
 
+bool DolphinColumnsView::hasFocusInside() const
+{
+    const QWidget *focusWidget = QApplication::focusWidget();
+    return focusWidget && (focusWidget == this || isAncestorOf(focusWidget));
+}
+
 int DolphinColumnsView::activeColumnIndex() const
 {
     return m_activeColumn;
@@ -306,7 +313,9 @@ void DolphinColumnsView::setActiveColumn(int index)
 
     // For setFocus() calls from outside, such as DolphinViewContainer::requestFocus().
     setFocusProxy(newPane->container());
-    newPane->container()->setFocus();
+    if (hasFocusInside()) {
+        newPane->container()->setFocus();
+    }
     ensureActiveColumnVisible();
 
     updateUrl(newPane->dirUrl());
@@ -494,12 +503,17 @@ QUrl DolphinColumnsView::rootUrlFor(const QUrl &url) const
 
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 {
+    // Removing the columns can move the focus out of the view.
+    const bool hadFocus = hasFocusInside();
     popAfter(-1);
 
     const QUrl root = rootUrlFor(url);
 
     appendPane(root);
     recalculateColumnWidths();
+    if (hadFocus) {
+        m_columns.constFirst()->container()->setFocus();
+    }
     setActiveColumn(0);
 
     if (root.adjusted(QUrl::StripTrailingSlash) != url.adjusted(QUrl::StripTrailingSlash)) {
