@@ -15,6 +15,7 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistview.h"
 #include "kitemviews/private/kfileitemmodelfilter.h"
@@ -76,6 +77,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
+    void testOnlyAnExternalUrlChangeClosesColumns();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
     void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
 
@@ -561,6 +563,53 @@ void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()
 
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
     QCOMPARE(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), columnsFolderUrl.adjusted(QUrl::StripTrailingSlash));
+}
+
+void DolphinViewContainerTest::testOnlyAnExternalUrlChangeClosesColumns()
+{
+    // Moving to a parent column keeps the columns after it, also once the url navigator has
+    // passed the new url back. Setting the url from outside, as the terminal panel does, drops
+    // what was selected inside the folder on the way back.
+    m_testDir->createDir("a/b/c");
+    m_testDir->createFile("a/b/c/a-file.txt");
+    const QUrl aUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a"));
+    const QUrl bUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b"));
+    const QUrl cUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b/c"));
+
+    // Attach a url navigator the way the toolbar does.
+    DolphinUrlNavigator navigator(m_testDir->url(), nullptr);
+    m_container->connectUrlNavigator(&navigator);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+
+    m_container->setUrl(cUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->url().adjusted(QUrl::StripTrailingSlash), cUrl, 5000);
+    const int columnCount = columnsView->columnCount();
+    QVERIFY(columnCount >= 3);
+
+    // As the Left key does.
+    columnsView->setActiveColumn(columnCount - 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->urlNavigatorInternalWithHistory()->locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(navigator.locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->columnCount(), columnCount);
+
+    // The same folder, written with a trailing slash.
+    m_container->setUrl(QUrl::fromLocalFile(bUrl.toLocalFile() + QLatin1Char('/')));
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->columnCount(), columnCount);
+
+    // b, the folder on the way back, stays open with nothing selected in it.
+    m_container->setUrl(aUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
+    QCOMPARE(columnsView->columnAt(columnCount - 2)->dirUrl().adjusted(QUrl::StripTrailingSlash), bUrl);
+    QVERIFY(!columnsView->columnAt(columnCount - 2)->controller()->selectionManager()->hasSelection());
+
+    m_container->disconnectUrlNavigator();
 }
 
 void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsView()
