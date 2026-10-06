@@ -43,6 +43,8 @@ public:
     void setWidthPending(bool pending);
     bool isWidthPending() const;
     void clearActiveChild();
+    /// Clears the selection, also of a child not listed yet, which closes the columns after this one.
+    void dropActiveChild();
 
     KFileItemModel *model() const;
     KItemListController *controller() const;
