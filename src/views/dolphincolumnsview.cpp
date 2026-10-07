@@ -112,6 +112,12 @@ void DolphinColumnsView::initColumnsUi()
     connect(this, &DolphinView::sortHiddenLastChanged, this, [this] {
         syncColumnsFromViewProperties();
     });
+    connect(this, &DolphinView::groupedSortingChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
+    connect(this, &DolphinView::groupRoleChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
     connect(this, &DolphinView::zoomLevelChanged, this, [this]() {
         for (auto c : std::as_const(m_columns)) {
             c->setZoomLevel(zoomLevel());
@@ -315,6 +321,8 @@ void DolphinColumnsView::setActiveColumn(int index)
         return;
     }
 
+    const DolphinColumnPane *previousPane = activePane();
+    const bool hadSelection = previousPane && previousPane->controller()->selectionManager()->hasSelection();
     m_activeColumn = index;
 
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
@@ -331,6 +339,10 @@ void DolphinColumnsView::setActiveColumn(int index)
     {
         QScopedValueRollback<bool> switching(m_switchingColumns, true);
         Q_EMIT urlChanged(newPane->dirUrl());
+    }
+    // A column selects its first item before it is entered, and only the active column reports its selection.
+    if (hadSelection || newPane->controller()->selectionManager()->hasSelection()) {
+        scheduleSelectionChangedSignal();
     }
 
     updateWritableState();
@@ -368,44 +380,13 @@ void DolphinColumnsView::applyViewProperties(KFileItemModel *model) const
     model->setSortOrder(sortOrder());
     model->setSortDirectoriesFirst(sortFoldersFirst());
     model->setSortHiddenLast(sortHiddenLast());
+    model->setGroupedSorting(groupedSorting());
+    model->setGroupRole(rawGroupRole());
 }
 
 void DolphinColumnsView::slotFileActivated(const KFileItem &item)
 {
     Q_EMIT itemActivated(item);
-}
-
-void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
-{
-    if (m_blockNavigation) {
-        return;
-    }
-
-    auto *senderPane = qobject_cast<DolphinColumnPane *>(sender());
-    if (!senderPane) {
-        return;
-    }
-
-    if (!senderPane->container()->hasFocus()) {
-        return;
-    }
-
-    // A click navigates on the release, see handleMouseButtonReleased().
-    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
-        return;
-    }
-
-    const int colIndex = m_columns.indexOf(senderPane);
-    if (colIndex < 0) {
-        return;
-    }
-
-    senderPane->controller()->selectionManager()->blockSignals(true);
-    if (!followItem(colIndex, item)) {
-        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
-        senderPane->setActiveChildUrl(item.url());
-    }
-    senderPane->controller()->selectionManager()->blockSignals(false);
 }
 
 void DolphinColumnsView::slotPaneItemsInserted()
@@ -444,6 +425,11 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 
     // The base view follows the writable state of the base model, which lists nothing here.
     updateWritableState();
+
+    // As DolphinView::slotDirectoryLoadingCompleted() does, for the items marked to select, such as a created folder.
+    if (pane && pane == activePane()) {
+        QTimer::singleShot(0, this, &DolphinColumnsView::updateViewState);
+    }
 
     // As the other loading signals, see appendPane().
     if (pane && pane->dirUrl().matches(url(), QUrl::StripTrailingSlash)) {
@@ -585,7 +571,7 @@ void DolphinColumnsView::resumePaintingOnceEveryColumnHasAWidth()
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 {
-    // One interaction can reach this from both the current item and the selection.
+    // The selection can name the folder that the next column already shows.
     if (columnIndex + 1 < m_columns.size() && m_columns.at(columnIndex + 1)->dirUrl() == childUrl) {
         return;
     }
@@ -728,7 +714,6 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
             openChild(colIndex, childUrl);
         }
     });
-    connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
     connect(pane, &DolphinColumnPane::activeChildRemoved, this, [this, pane]() {
         closeColumnsAfter(m_columns.indexOf(pane));
     });
@@ -997,11 +982,16 @@ void DolphinColumnsView::closeColumnsAfter(int column)
         return;
     }
     const bool activeColumnIsAffected = m_activeColumn >= column;
+    const bool activeColumnCloses = m_activeColumn > column;
     popAfter(column);
     recalculateColumnWidths();
     if (activeColumnIsAffected) {
         updateUrl(m_columns.at(column)->dirUrl());
         Q_EMIT urlChanged(url());
+    }
+    // The column left of the closed ones becomes active, and its selection was not reported.
+    if (activeColumnCloses) {
+        scheduleSelectionChangedSignal();
     }
 }
 
@@ -1387,9 +1377,13 @@ void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
     }
     DolphinColumnPane *pane = activePane();
     const KFileItem item = pane->model()->fileItem(current.first());
-    if (item.isDir()) {
-        pane->controller()->selectionManager()->blockSignals(true);
-        openChild(m_activeColumn, DolphinColumnPane::folderUrlFor(item));
-        pane->controller()->selectionManager()->blockSignals(false);
+    if (item.isNull()) {
+        return;
     }
+    pane->controller()->selectionManager()->blockSignals(true);
+    if (!followItem(m_activeColumn, item)) {
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        pane->setActiveChildUrl(item.url());
+    }
+    pane->controller()->selectionManager()->blockSignals(false);
 }
