@@ -385,6 +385,9 @@ private Q_SLOTS:
      */
     void popoutSplitView();
 
+    /** Moves both views from split view to separate cards and disables split view. */
+    void moveSplitViewToTabs();
+
     /** Dedicated action to open the stash:/ ioslave in split view. */
     void toggleSplitStash();
 
