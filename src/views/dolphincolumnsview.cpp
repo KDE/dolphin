@@ -109,6 +109,12 @@ void DolphinColumnsView::initColumnsUi()
     connect(this, &DolphinView::sortOrderChanged, this, [this] {
         syncColumnsFromViewProperties();
     });
+    connect(this, &DolphinView::groupedSortingChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
+    connect(this, &DolphinView::groupRoleChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
     connect(this, &DolphinView::zoomLevelChanged, this, [this]() {
         for (auto c : std::as_const(m_columns)) {
             c->setZoomLevel(zoomLevel());
@@ -356,6 +362,8 @@ void DolphinColumnsView::applyViewProperties(KFileItemModel *model) const
     model->setShowHiddenFiles(hiddenFilesShown());
     model->setSortRole(sortRole());
     model->setSortOrder(sortOrder());
+    model->setGroupedSorting(groupedSorting());
+    model->setGroupRole(rawGroupRole());
 }
 
 void DolphinColumnsView::slotFileActivated(const KFileItem &item)
