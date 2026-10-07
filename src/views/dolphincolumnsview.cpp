@@ -777,6 +777,9 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     // of an inactive column, where handleMouseButtonPressed() has no item.
     if (event->type() == QEvent::FocusIn) {
         if (sourceColumn != m_activeColumn) {
+            if (static_cast<QFocusEvent *>(event)->reason() == Qt::MouseFocusReason) {
+                m_paneActiveBeforeFocus = activePane();
+            }
             setActiveColumn(sourceColumn);
         }
         setActive(true);
@@ -918,6 +921,8 @@ void DolphinColumnsView::handleMouseButtonPressed(DolphinColumnPane *pane, int i
     hideToolTip();
     m_pressedPane = nullptr;
     m_pressedItemIndex = -1;
+    m_paneActiveBeforePress = m_paneActiveBeforeFocus ? m_paneActiveBeforeFocus.data() : activePane();
+    m_paneActiveBeforeFocus = nullptr;
 
     if (buttons & Qt::BackButton) {
         Q_EMIT goBackRequested();
@@ -976,6 +981,12 @@ void DolphinColumnsView::handleMouseButtonReleased(DolphinColumnPane *pane, int 
     const int colIndex = m_columns.indexOf(pane);
     if (colIndex >= 0 && !item.isNull()) {
         followItem(colIndex, item);
+    }
+
+    // The item that was active stays highlighted only as an ancestor of the clicked one.
+    const int previousColumn = m_columns.indexOf(m_paneActiveBeforePress);
+    if (colIndex >= 0 && previousColumn > colIndex) {
+        m_paneActiveBeforePress->controller()->selectionManager()->clearSelection();
     }
 }
 
