@@ -129,6 +129,10 @@ bool DolphinColumnPane::isWidthPending() const
 
 void DolphinColumnPane::reapplyActiveChildMark()
 {
+    // A selection cleared before the listing changed drops the mark instead.
+    if (m_selectionCheckPending) {
+        checkActiveChildSelected();
+    }
     if (m_activeChildUrl.isEmpty()) {
         return;
     }
@@ -250,25 +254,11 @@ void DolphinColumnPane::slotItemActivated(int index)
 
 void DolphinColumnPane::slotCurrentChanged(int current, int previous)
 {
-    if (current < 0) {
-        // The current item left a list that still has items, as filtering or deleting it does. A
-        // reload empties the list instead, and the columns after this one stay.
-        if (previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
-            m_activeChildUrl.clear();
-            Q_EMIT activeChildRemoved();
-        }
-        return;
-    }
-
-    // From no current item, the selection manager made the first item current after the listing.
-    // Nobody moved there, so the view must not follow it.
-    if (previous < 0 || current >= m_model->count()) {
-        return;
-    }
-
-    const KFileItem item = m_model->fileItem(current);
-    if (!item.isNull()) {
-        Q_EMIT currentItemChanged(item);
+    // The current item left a list that still has items, as filtering or deleting it does. A
+    // reload empties the list instead, and the columns after this one stay.
+    if (current < 0 && previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
+        m_activeChildUrl.clear();
+        Q_EMIT activeChildRemoved();
     }
 }
 
@@ -294,13 +284,14 @@ void DolphinColumnPane::checkActiveChildSelected()
     if (m_activeChildUrl.isEmpty()) {
         return;
     }
-    // Only an empty selection. A press on another item selects it, and the next column stays for a drag to it.
-    // A removed item is handled by slotCurrentChanged().
-    if (m_controller->selectionManager()->hasSelection() || m_model->fileItem(m_activeChildUrl).isNull()) {
+    // A press on another item selects it, and the next column stays for a drag to it. Several selected
+    // items show no folder, as in Finder. A removed item is handled by slotCurrentChanged().
+    const int selectedCount = m_controller->selectionManager()->selectedItems().count();
+    if (selectedCount == 1 || m_model->fileItem(m_activeChildUrl).isNull()) {
         return;
     }
     // The selected item was moved away or deleted, as when it is dropped into the next column.
-    if (itemsRemoved) {
+    if (selectedCount == 0 && itemsRemoved) {
         reapplyActiveChildMark();
         return;
     }

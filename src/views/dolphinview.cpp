@@ -551,12 +551,10 @@ void DolphinView::setSortRole(const QByteArray &role)
         const Qt::SortOrder preferredOrder = preferredSortOrder(role);
         if (sortOrder() != preferredOrder) {
             props.setSortOrder(preferredOrder);
-            KItemModelBase *model = m_container->controller()->model();
-            model->setSortOrder(preferredOrder);
+            m_model->setSortOrder(preferredOrder);
         }
 
-        KItemModelBase *model = m_container->controller()->model();
-        model->setSortRole(role);
+        m_model->setSortRole(role);
 
         Q_EMIT sortRoleChanged(role);
         Q_EMIT viewSettingsChanged(props.isDefaults());
@@ -565,35 +563,31 @@ void DolphinView::setSortRole(const QByteArray &role)
 
 QByteArray DolphinView::sortRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->sortRole();
+    return m_model->sortRole();
 }
 
 void DolphinView::setGroupRole(const QByteArray &role)
 {
-    KItemModelBase *model = m_container->controller()->model();
-    if (role == model->rawGroupRole()) {
+    if (role == m_model->rawGroupRole()) {
         return;
     }
 
     ViewProperties props(viewPropertiesUrl());
     props.setGroupRole(role);
 
-    model->setGroupRole(role);
+    m_model->setGroupRole(role);
 
     Q_EMIT groupRoleChanged(role);
 }
 
 QByteArray DolphinView::groupRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->groupRole();
+    return m_model->groupRole();
 }
 
 QByteArray DolphinView::rawGroupRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->rawGroupRole();
+    return m_model->rawGroupRole();
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
@@ -1754,6 +1748,15 @@ void DolphinView::emitSelectionChangedSignal()
     Q_EMIT selectionChanged(selectedItems());
 }
 
+void DolphinView::scheduleSelectionChangedSignal()
+{
+    // A pending emission reads the selection when it fires.
+    if (!m_selectionChangedTimer->isActive()) {
+        m_selectionChangedTimer->setInterval(0);
+        m_selectionChangedTimer->start();
+    }
+}
+
 void DolphinView::slotStatJobResult(KJob *job)
 {
     int folderCount = 0;
@@ -2062,9 +2065,9 @@ void DolphinView::observeCreatedItem(const QUrl &url)
     }
 
     // since this is async make sure the selection state hasn't change in the meantime
-    auto selection = m_container->controller()->selectionManager()->selectedItems();
+    auto selection = activeSelectionManager()->selectedItems();
     std::function<bool()> condition([this, selection]() {
-        return selection == m_container->controller()->selectionManager()->selectedItems();
+        return selection == activeSelectionManager()->selectedItems();
     });
 
     // need to wait for the item to be added to the model
@@ -2132,7 +2135,7 @@ void DolphinView::updateViewState()
 
                 // scroll to current item and reset the state
                 if (m_scrollToCurrentItem) {
-                    m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
+                    activeItemListView()->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
                     m_scrollToCurrentItem = false;
                 }
                 m_currentItemUrl = QUrl();
@@ -2232,12 +2235,12 @@ void DolphinView::slotDeleteFileFinished(KJob *job)
 void DolphinView::selectNextItem()
 {
     if (m_active && m_selectNextItem) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = activeSelectionManager();
         if (selectedItems().isEmpty()) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
         }
-        const auto lastSelectedIndex = m_model->index(selectedItems().constLast());
+        const auto lastSelectedIndex = activeModel()->index(selectedItems().constLast());
         if (lastSelectedIndex < 0) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
