@@ -139,6 +139,7 @@ private Q_SLOTS:
     void testGoingUpKeepsTheFolderLeftSelected();
     void testGoingUpShowsTheColumnOfTheFolderLeft();
     void testAClickedItemTakesTheHighlightFromTheActiveOne();
+    void testGroupingAndSortingApplyToEveryColumn();
     void testClickingEmptySpaceClosesTheColumnsAfterIt();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
@@ -1984,6 +1985,48 @@ void DolphinColumnsViewTest::testAClickedItemTakesTheHighlightFromTheActiveOne()
     QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
     QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
     QCOMPARE(m_view->columnCount(), 3);
+}
+
+void DolphinColumnsViewTest::testGroupingAndSortingApplyToEveryColumn()
+{
+    // The columns share the sorting and grouping of the view, whichever column is active.
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    auto everyColumn = [this](auto check) {
+        for (int i = 0; i < m_view->columnCount(); ++i) {
+            if (!check(m_view->columnAt(i)->model())) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    m_view->setGroupedSorting(true);
+    QVERIFY(everyColumn([](KFileItemModel *model) {
+        return model->groupedSorting();
+    }));
+
+    m_view->setGroupRole("size");
+    QCOMPARE(m_view->rawGroupRole(), QByteArray("size"));
+    QVERIFY(everyColumn([](KFileItemModel *model) {
+        return model->rawGroupRole() == "size";
+    }));
+
+    // From another column, and back to a role that an earlier change already set.
+    m_view->setActiveColumn(0);
+    m_view->setGroupRole("type");
+    m_view->setGroupRole("size");
+    QCOMPARE(m_view->rawGroupRole(), QByteArray("size"));
+    QVERIFY(everyColumn([](KFileItemModel *model) {
+        return model->rawGroupRole() == "size";
+    }));
+
+    m_view->setSortRole("modificationtime");
+    QCOMPARE(m_view->sortRole(), QByteArray("modificationtime"));
+    QVERIFY(everyColumn([](KFileItemModel *model) {
+        return model->sortRole() == "modificationtime";
+    }));
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
