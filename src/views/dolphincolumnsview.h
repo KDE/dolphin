@@ -176,6 +176,10 @@ private:
     // What a left press landed on, until the release or a drag.
     QPointer<DolphinColumnPane> m_pressedPane;
     int m_pressedItemIndex = -1;
+    /// The column that was active before a press moved the focus, which happens before the press arrives.
+    QPointer<DolphinColumnPane> m_paneActiveBeforeFocus;
+    /// The column that was active before the press, whose item a click to its left deselects.
+    QPointer<DolphinColumnPane> m_paneActiveBeforePress;
 
     // Widths the user dragged, by column index. Not saved.
     QHash<int, int> m_customColumnWidths;

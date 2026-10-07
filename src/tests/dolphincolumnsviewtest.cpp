@@ -138,6 +138,7 @@ private Q_SLOTS:
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftSelected();
     void testGoingUpShowsTheColumnOfTheFolderLeft();
+    void testAClickedItemTakesTheHighlightFromTheActiveOne();
     void testClickingEmptySpaceClosesTheColumnsAfterIt();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
     void testReadingSettingsKeepsTheColumnsMode();
@@ -1948,6 +1949,41 @@ void DolphinColumnsViewTest::testGoingUpShowsTheColumnOfTheFolderLeft()
     };
     QTRY_VERIFY_WITH_TIMEOUT(isShownWhole(m_view->columnAt(2)), 5000);
     QVERIFY(isShownWhole(m_view->columnAt(1)));
+}
+
+void DolphinColumnsViewTest::testAClickedItemTakesTheHighlightFromTheActiveOne()
+{
+    // A clicked item becomes the active one. The item that was active before stays selected, in
+    // the colour of an inactive column, only as an ancestor of the clicked item.
+    // Narrow columns, so all three are in view to be clicked.
+    ColumnsModeSettings::self()->setMinColumnWidth(150);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    auto *rootPane = m_view->columnAt(0);
+    auto *alphaPane = m_view->columnAt(1);
+    auto *childPane = m_view->columnAt(2);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("deep-file.txt")) >= 0, 5000);
+    auto mouseClick = [](DolphinColumnPane *pane, const QString &name) {
+        auto *graphicsView = qobject_cast<QGraphicsView *>(pane->container()->viewport());
+        const QPoint pos = graphicsView->mapFromScene(pane->itemListView()->itemRect(indexOfName(pane, name)).center());
+        QTest::mouseClick(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, pos);
+    };
+
+    // Further right: the items that lead to it stay selected.
+    m_view->setActiveColumn(0);
+    mouseClick(childPane, QStringLiteral("deep-file.txt"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 2, 5000);
+    QVERIFY(childPane->controller()->selectionManager()->isSelected(indexOfName(childPane, QStringLiteral("deep-file.txt"))));
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+    QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
+
+    // Further left: the item that was active is not an ancestor, so it loses its selection.
+    mouseClick(rootPane, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 0, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(!childPane->controller()->selectionManager()->hasSelection(), 5000);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+    QVERIFY(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("alpha-child"))));
+    QCOMPARE(m_view->columnCount(), 3);
 }
 
 void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
