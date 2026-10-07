@@ -18,6 +18,7 @@ KItemListStyleOption::KItemListStyleOption()
     , extendedSelectionRegion(false)
     , maxTextLines(0)
     , maxTextWidth(0)
+    , neutralInactiveSelection(false)
 {
 }
 
@@ -27,7 +28,8 @@ bool KItemListStyleOption::operator==(const KItemListStyleOption &other) const
 {
     return rect == other.rect && font == other.font && fontMetrics == other.fontMetrics && palette == other.palette && padding == other.padding
         && horizontalMargin == other.horizontalMargin && verticalMargin == other.verticalMargin && iconSize == other.iconSize
-        && extendedSelectionRegion == other.extendedSelectionRegion && maxTextLines == other.maxTextLines && maxTextWidth == other.maxTextWidth;
+        && extendedSelectionRegion == other.extendedSelectionRegion && maxTextLines == other.maxTextLines && maxTextWidth == other.maxTextWidth
+        && neutralInactiveSelection == other.neutralInactiveSelection;
 }
 
 bool KItemListStyleOption::operator!=(const KItemListStyleOption &other) const

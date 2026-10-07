@@ -31,6 +31,8 @@ public:
     bool extendedSelectionRegion;
     int maxTextLines;
     int maxTextWidth;
+    /// A selected item draws a neutral background while its view has no focus.
+    bool neutralInactiveSelection;
 
     bool operator==(const KItemListStyleOption &other) const;
     bool operator!=(const KItemListStyleOption &other) const;

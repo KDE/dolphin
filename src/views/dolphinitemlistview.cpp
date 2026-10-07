@@ -281,6 +281,8 @@ void DolphinItemListView::updateGridSize()
     option.iconSize = iconSize;
     option.maxTextLines = maxTextLines;
     option.maxTextWidth = maxTextWidth;
+    // The folders that lead to the active column are told apart from the selection in it.
+    option.neutralInactiveSelection = m_viewMode == DolphinView::ColumnsView;
     beginTransaction();
     setStyleOption(option);
     setItemSize(QSizeF(itemWidth, itemHeight));
