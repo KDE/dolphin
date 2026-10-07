@@ -11,6 +11,7 @@
 #include "kitemlistview.h"
 #include "private/kitemlistselectiontoggle.h"
 
+#include <KColorUtils>
 #include <KConfigGroup>
 #include <KSharedConfig>
 
@@ -636,6 +637,9 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRectFull().toRect();
     const bool current = m_current && styleState & QStyle::State_Active;
+    const bool neutralSelection = m_selected && m_styleOption.neutralInactiveSelection && !widget->hasFocus();
+    const QColor neutralColor =
+        KColorUtils::mix(m_styleOption.palette.color(QPalette::Base), m_styleOption.palette.color(QPalette::Text), m_hovered ? 0.18 : 0.12);
 
     // TODO: Remove this check after Plasma 6.8 release
     // See: https://invent.kde.org/plasma/breeze/-/merge_requests/595
@@ -644,6 +648,8 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
         backgroundColor.setAlphaF(0.0);
         if (m_clickHighlighted) {
             backgroundColor.setAlphaF(1.0);
+        } else if (neutralSelection) {
+            backgroundColor = neutralColor;
         } else {
             if (m_selected && m_hovered) {
                 backgroundColor.setAlphaF(0.40);
@@ -673,6 +679,10 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
             painter->strokePath(path, pen);
         }
     } else {
+        if (neutralSelection) {
+            viewItemOption.palette.setColor(QPalette::Inactive, QPalette::Highlight, neutralColor);
+            viewItemOption.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, m_styleOption.palette.color(QPalette::Text));
+        }
         style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 
         // Focus decoration
