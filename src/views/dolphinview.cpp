@@ -550,12 +550,10 @@ void DolphinView::setSortRole(const QByteArray &role)
         const Qt::SortOrder preferredOrder = preferredSortOrder(role);
         if (sortOrder() != preferredOrder) {
             props.setSortOrder(preferredOrder);
-            KItemModelBase *model = m_container->controller()->model();
-            model->setSortOrder(preferredOrder);
+            m_model->setSortOrder(preferredOrder);
         }
 
-        KItemModelBase *model = m_container->controller()->model();
-        model->setSortRole(role);
+        m_model->setSortRole(role);
 
         Q_EMIT sortRoleChanged(role);
         Q_EMIT viewSettingsChanged(props.isDefaults());
@@ -564,35 +562,31 @@ void DolphinView::setSortRole(const QByteArray &role)
 
 QByteArray DolphinView::sortRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->sortRole();
+    return m_model->sortRole();
 }
 
 void DolphinView::setGroupRole(const QByteArray &role)
 {
-    KItemModelBase *model = m_container->controller()->model();
-    if (role == model->rawGroupRole()) {
+    if (role == m_model->rawGroupRole()) {
         return;
     }
 
     ViewProperties props(viewPropertiesUrl());
     props.setGroupRole(role);
 
-    model->setGroupRole(role);
+    m_model->setGroupRole(role);
 
     Q_EMIT groupRoleChanged(role);
 }
 
 QByteArray DolphinView::groupRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->groupRole();
+    return m_model->groupRole();
 }
 
 QByteArray DolphinView::rawGroupRole() const
 {
-    const KItemModelBase *model = m_container->controller()->model();
-    return model->rawGroupRole();
+    return m_model->rawGroupRole();
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
