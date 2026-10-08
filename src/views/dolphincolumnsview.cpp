@@ -1078,9 +1078,10 @@ void DolphinColumnsView::autoSelectFirstItem(int columnIndex)
         selectionManager->setSelected(selectionManager->currentItem(), 1, KItemListSelectionManager::Select);
     }
 
-    // Selected, not opened, or browsing would add and drop a column at every step.
+    // Like any selected folder, the first one shows its content in the next column.
     const KFileItem item = pane->currentFileItem();
     if (!item.isNull()) {
+        followItem(columnIndex, item);
         Q_EMIT requestItemInfo(item);
     }
 }
