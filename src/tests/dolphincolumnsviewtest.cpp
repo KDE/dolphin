@@ -124,7 +124,7 @@ private Q_SLOTS:
     void testFilteringOutAFolderClosesItsColumn();
     void testAListedColumnOpensNothing();
     void testDeletingAnOpenFolderOpensNoOther();
-    void testOpeningAFolderDoesNotOpenAFurtherColumn();
+    void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
@@ -1419,23 +1419,23 @@ void DolphinColumnsViewTest::testFilteringOutAFolderClosesItsColumn()
     QCOMPARE(m_view->columnAt(0)->model()->count(), 1);
 }
 
-void DolphinColumnsViewTest::testOpeningAFolderDoesNotOpenAFurtherColumn()
+void DolphinColumnsViewTest::testEnteringAColumnShowsTheFirstFolder()
 {
-    // alpha holds alpha-child, which is a folder. Opening alpha selects alpha-child in the new
-    // column, and must stop there. Opening it as well puts a column on screen that nobody asked
-    // for, and browsing then adds and drops one at every step.
+    // alpha holds alpha-child, a folder, as its first item. Entering alpha selects alpha-child,
+    // which shows its content in the next column, as Down to another folder does.
     activateColumn(0);
     selectItemInColumn(0, QStringLiteral("alpha"));
     navigateRight();
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->activeColumnIndex(), 1, 5000);
 
-    // Entering a column selects its first item, and that is what used to open the column after
-    // it. Once the selection is on alpha-child, that code has had its turn.
     auto *selectionManager = m_view->columnAt(1)->controller()->selectionManager();
     QTRY_VERIFY_WITH_TIMEOUT(selectionManager->selectedItems().count() == 1, 5000);
     QCOMPARE(m_view->columnAt(1)->model()->fileItem(selectionManager->currentItem()).name(), QStringLiteral("alpha-child"));
 
-    QCOMPARE(m_view->columnCount(), 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha/alpha-child")));
+    // The column entered stays the active one.
+    QCOMPARE(m_view->activeColumnIndex(), 1);
 }
 
 void DolphinColumnsViewTest::testEveryFolderOnThePathIsMarkedInItsParent()
