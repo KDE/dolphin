@@ -639,7 +639,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     const bool current = m_current && styleState & QStyle::State_Active;
     const bool neutralSelection = m_selected && m_styleOption.neutralInactiveSelection && !widget->hasFocus();
     const QColor neutralColor =
-        KColorUtils::mix(m_styleOption.palette.color(QPalette::Base), m_styleOption.palette.color(QPalette::Text), m_hovered ? 0.18 : 0.12);
+        KColorUtils::mix(m_styleOption.palette.color(QPalette::Base), m_styleOption.palette.color(QPalette::Text), m_hovered ? 0.24 : 0.18);
 
     // TODO: Remove this check after Plasma 6.8 release
     // See: https://invent.kde.org/plasma/breeze/-/merge_requests/595
