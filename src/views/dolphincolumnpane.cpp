@@ -75,6 +75,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     connect(m_controller, &KItemListController::itemActivated, this, &DolphinColumnPane::slotItemActivated);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinColumnPane::slotSelectionChanged);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::slotItemsRemoved);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
 }
 
@@ -277,15 +278,27 @@ void DolphinColumnPane::slotSelectionChanged()
     }
 }
 
+void DolphinColumnPane::slotItemsRemoved()
+{
+    m_itemsRemoved = true;
+    slotSelectionChanged();
+}
+
 void DolphinColumnPane::checkActiveChildSelected()
 {
     m_selectionCheckPending = false;
+    const bool itemsRemoved = std::exchange(m_itemsRemoved, false);
     if (m_activeChildUrl.isEmpty()) {
         return;
     }
     // Only an empty selection. A press on another item selects it, and the next column stays for a drag to it.
     // A removed item is handled by slotCurrentChanged().
     if (m_controller->selectionManager()->hasSelection() || m_model->fileItem(m_activeChildUrl).isNull()) {
+        return;
+    }
+    // The selected item was moved away or deleted, as when it is dropped into the next column.
+    if (itemsRemoved) {
+        reapplyActiveChildMark();
         return;
     }
     m_activeChildUrl.clear();
