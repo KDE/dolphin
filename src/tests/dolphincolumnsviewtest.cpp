@@ -130,6 +130,7 @@ private Q_SLOTS:
     void testFilteringOutAFolderClosesItsColumn();
     void testAListedColumnOpensNothing();
     void testDeletingAnOpenFolderOpensNoOther();
+    void testAFileChangeOutsideDolphinOpensNothing();
     void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -1766,6 +1767,41 @@ void DolphinColumnsViewTest::testDeletingAnOpenFolderOpensNoOther()
 
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
     QTest::qWait(200); // UNAVOIDABLE: the check below is that no other column opens afterwards
+    QCOMPARE(m_view->columnCount(), 1);
+}
+
+void DolphinColumnsViewTest::testAFileChangeOutsideDolphinOpensNothing()
+{
+    // An item created before the current one moves the current item to another index. Nobody
+    // moved there, so nothing is selected and no column opens.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *alphaPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("alpha-child")) >= 0, 5000);
+    alphaPane->container()->setFocus();
+    QTRY_VERIFY(alphaPane->container()->hasFocus());
+    QVERIFY(!alphaPane->controller()->selectionManager()->hasSelection());
+
+    m_testDir->createDir("alpha/aaa");
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("aaa")) >= 0, 10000);
+    QTest::qWait(200); // UNAVOIDABLE: proving that nothing opens needs time for it to happen
+    QVERIFY(!alphaPane->controller()->selectionManager()->hasSelection());
+    QCOMPARE(m_view->columnCount(), 2);
+
+    // Renaming the shown folder removes it from the listing, and the item after it becomes
+    // current. That item is neither selected nor shown.
+    activateColumn(0);
+    auto *rootPane = m_view->columnAt(0);
+    rootPane->container()->setFocus();
+    QTRY_VERIFY(rootPane->container()->hasFocus());
+    selectItemInColumn(0, QStringLiteral("beta"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("beta")), 5000);
+
+    QVERIFY(QFile::rename(m_testDir->path() + QStringLiteral("/beta"), m_testDir->path() + QStringLiteral("/beta-renamed")));
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("beta-renamed")) >= 0, 10000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: see above
+    QVERIFY(!rootPane->controller()->selectionManager()->hasSelection());
     QCOMPARE(m_view->columnCount(), 1);
 }
 
