@@ -848,6 +848,9 @@ protected:
     /** Updates m_isFolderWritable from the folder of the active view, emitting writeStateChanged(). */
     void updateWritableState();
 
+    /** Emits selectionChanged() once the current event is handled, together with any selection change it makes. */
+    void scheduleSelectionChangedSignal();
+
 protected Q_SLOTS:
     void slotItemUnhovered(int index);
 

@@ -75,6 +75,7 @@ private Q_SLOTS:
     void testKeyRight_opensChild();
     void testKeyRight_fileDoesNotOpen();
     void testKeyLeft_activatesParent();
+    void testEnteringAColumnReportsItsSelection();
     void testKeyLeft_atFirstColumn();
 
     void testUrlUpdatesOnNavigation();
@@ -386,6 +387,30 @@ void DolphinColumnsViewTest::testKeyLeft_activatesParent()
 
     navigateLeft();
     QCOMPARE(m_view->activeColumnIndex(), 0);
+}
+
+void DolphinColumnsViewTest::testEnteringAColumnReportsItsSelection()
+{
+    // Right selects the first item of the next column before it activates that column. The
+    // Information panel clears its selection on urlChanged(), so the selection of the column must
+    // be reported after the url of the view changes.
+    activateColumn(0);
+    selectItemInColumn(0, "alpha");
+    QTest::qWait(400); // UNAVOIDABLE: the selection of alpha is reported on a timer, let it go first
+    QStringList signalOrder;
+    connect(m_view, &DolphinView::urlChanged, this, [&signalOrder](const QUrl &url) {
+        signalOrder << QStringLiteral("url ") + url.fileName();
+    });
+    connect(m_view, &DolphinView::selectionChanged, this, [&signalOrder](const KFileItemList &selection) {
+        signalOrder << QStringLiteral("selection ") + (selection.count() == 1 ? selection.first().name() : QString::number(selection.count()));
+    });
+
+    navigateRight();
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QTRY_VERIFY(signalOrder.contains(QStringLiteral("url alpha")));
+    QTRY_COMPARE(signalOrder.last(), QStringLiteral("selection alpha-child"));
+    QVERIFY(signalOrder.lastIndexOf(QStringLiteral("url alpha")) < signalOrder.lastIndexOf(QStringLiteral("selection alpha-child")));
+    disconnect(m_view, nullptr, this, nullptr);
 }
 
 void DolphinColumnsViewTest::testKeyLeft_atFirstColumn()
