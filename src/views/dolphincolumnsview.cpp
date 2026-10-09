@@ -447,6 +447,11 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
     // The base view follows the writable state of the base model, which lists nothing here.
     updateWritableState();
 
+    // As DolphinView::slotDirectoryLoadingCompleted() does, for the items marked to select, such as a created folder.
+    if (pane && pane == activePane()) {
+        QTimer::singleShot(0, this, &DolphinColumnsView::updateViewState);
+    }
+
     Q_EMIT directoryLoadingCompleted();
 }
 
