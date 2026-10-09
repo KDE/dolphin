@@ -148,6 +148,10 @@ bool DolphinColumnPane::isWidthPending() const
 
 void DolphinColumnPane::reapplyActiveChildMark()
 {
+    // A selection cleared before the listing changed drops the mark instead.
+    if (m_selectionCheckPending) {
+        checkActiveChildSelected();
+    }
     if (m_activeChildUrl.isEmpty()) {
         return;
     }
