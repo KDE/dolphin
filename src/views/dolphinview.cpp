@@ -2053,7 +2053,7 @@ void DolphinView::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUr
 void DolphinView::updateSelectionState()
 {
     if (!m_selectedUrls.isEmpty()) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = activeSelectionManager();
 
         const bool shouldScrollToCurrentItem = m_clearSelectionBeforeSelectingNewItems;
         // if there is a selection already, leave it that way
@@ -2068,7 +2068,7 @@ void DolphinView::updateSelectionState()
 
             QList<QUrl>::iterator it = m_selectedUrls.begin();
             while (it != m_selectedUrls.end()) {
-                const int index = m_model->index(*it);
+                const int index = activeModel()->index(*it);
                 if (index >= 0) {
                     selectedItems.insert(index);
                     it = m_selectedUrls.erase(it);
@@ -2081,7 +2081,7 @@ void DolphinView::updateSelectionState()
                 selectionManager->beginAnchoredSelection(selectionManager->currentItem());
                 selectionManager->setSelectedItems(selectedItems);
                 if (shouldScrollToCurrentItem) {
-                    m_view->scrollToItem(selectedItems.first());
+                    activeItemListView()->scrollToItem(selectedItems.first());
                 }
             }
         }
