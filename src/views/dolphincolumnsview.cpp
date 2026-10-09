@@ -715,6 +715,11 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 
     auto controller = pane->controller();
     connect(controller, &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
+        // Dropped into the folder of the column, which becomes active so that the dropped items are selected in it.
+        const KFileItem item = pane->model()->fileItem(index);
+        if (item.isNull() || (!item.isDir() && !item.isDesktopFile() && !item.isExecutable())) {
+            setActiveColumn(m_columns.indexOf(pane));
+        }
         handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
     });
 
