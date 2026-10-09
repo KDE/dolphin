@@ -2217,12 +2217,12 @@ void DolphinView::slotDeleteFileFinished(KJob *job)
 void DolphinView::selectNextItem()
 {
     if (m_active && m_selectNextItem) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = activeSelectionManager();
         if (selectedItems().isEmpty()) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
         }
-        const auto lastSelectedIndex = m_model->index(selectedItems().constLast());
+        const auto lastSelectedIndex = activeModel()->index(selectedItems().constLast());
         if (lastSelectedIndex < 0) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;

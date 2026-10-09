@@ -20,7 +20,9 @@
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
 
+#include <KConfigGroup>
 #include <KProtocolManager>
+#include <KSharedConfig>
 
 #include <QCoreApplication>
 #include <QDBusConnection>
@@ -135,6 +137,7 @@ private Q_SLOTS:
     void testSeveralSelectedItemsShowNoFolder();
     void testACreatedFolderIsSelected();
     void testItemsMarkedToSelectAreSelected();
+    void testDeletingSelectsTheNextItem();
     void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -1893,6 +1896,32 @@ void DolphinColumnsViewTest::testItemsMarkedToSelectAreSelected()
     QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(fileIndex), 5000);
     QCOMPARE(alphaPane->controller()->selectionManager()->currentItem(), fileIndex);
     QCOMPARE(m_view->activeColumnIndex(), 1);
+}
+
+void DolphinColumnsViewTest::testDeletingSelectsTheNextItem()
+{
+    // After Delete, the item after the deleted one is selected, as in the other view modes (bug 419914).
+    KConfigGroup confirmations = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::NoGlobals)->group(QStringLiteral("Confirmations"));
+    confirmations.writeEntry("ConfirmDelete", false);
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *alphaPane = m_view->columnAt(1);
+    QTRY_COMPARE_WITH_TIMEOUT(alphaPane->model()->count(), 3, 5000);
+    // The first file, whichever the sorting puts first, so that another item follows it.
+    int deletedIndex = 0;
+    while (alphaPane->model()->fileItem(deletedIndex).isDir()) {
+        ++deletedIndex;
+    }
+    QVERIFY(deletedIndex + 1 < alphaPane->model()->count());
+    const QString deletedName = alphaPane->model()->fileItem(deletedIndex).name();
+    const QString nextName = alphaPane->model()->fileItem(deletedIndex + 1).name();
+    selectItemInColumn(1, deletedName);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+
+    m_view->deleteSelectedItems();
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, deletedName) < 0, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, nextName)), 5000);
+    confirmations.deleteEntry("ConfirmDelete");
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
