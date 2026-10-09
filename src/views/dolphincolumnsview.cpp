@@ -927,11 +927,16 @@ void DolphinColumnsView::closeColumnsAfter(int column)
         return;
     }
     const bool activeColumnIsAffected = m_activeColumn >= column;
+    const bool activeColumnCloses = m_activeColumn > column;
     popAfter(column);
     recalculateColumnWidths();
     if (activeColumnIsAffected) {
         updateUrl(m_columns.at(column)->dirUrl());
         Q_EMIT urlChanged(url());
+    }
+    // The column left of the closed ones becomes active, and its selection was not reported.
+    if (activeColumnCloses) {
+        scheduleSelectionChangedSignal();
     }
 }
 
