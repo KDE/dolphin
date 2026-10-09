@@ -315,13 +315,14 @@ void DolphinColumnPane::checkActiveChildSelected()
     if (m_activeChildUrl.isEmpty()) {
         return;
     }
-    // Only an empty selection. A press on another item selects it, and the next column stays for a drag to it.
-    // A removed item is handled by slotCurrentChanged().
-    if (m_controller->selectionManager()->hasSelection() || m_model->fileItem(m_activeChildUrl).isNull()) {
+    // A press on another item selects it, and the next column stays for a drag to it. Several selected
+    // items show no folder, as in Finder. A removed item is handled by slotCurrentChanged().
+    const int selectedCount = m_controller->selectionManager()->selectedItems().count();
+    if (selectedCount == 1 || m_model->fileItem(m_activeChildUrl).isNull()) {
         return;
     }
     // The selected item was moved away or deleted, as when it is dropped into the next column.
-    if (itemsRemoved) {
+    if (selectedCount == 0 && itemsRemoved) {
         reapplyActiveChildMark();
         return;
     }
