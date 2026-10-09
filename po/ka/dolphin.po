@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-09-22 06:19+0200\n"
+"PO-Revision-Date: 2026-10-08 05:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -735,25 +735,19 @@ msgstr ""
 "para>დააწკაპუნეთ ამ ღილაკზე კიდევ ერთხელ, რომ ხედებიდან ერთ-ერთი დახუროთ."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "ხედის გაყოფა"
+msgstr "ხედის გაყოფის გადატანა ჩანართებში"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"თუ ხედი გაყოფილია, ეს ფოკუსის მქონე საქაღალდის ხედს ახალ ფანჯარაში გაიტანს."
+"თუ ხედი გაყოფილია, გადაიტანს ორივე ხედს ჩანართებში და დახურავს გაყოფილ ხედს."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format

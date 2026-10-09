@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-06-24 19:02+0000\n"
+"PO-Revision-Date: 2026-10-08 18:18+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -369,16 +369,12 @@ msgstr ""
 "hluti í þessari möppu."
 
 #: dolphinmainwindow.cpp:1532
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Gat ekki búið til nýja möppu: Þú hefur ekki heimild til að búa til nýja "
-"hluti í þessari möppu."
+"Gat ekki búið til nýja undirmöppu: Veldu staka möppu sem þú hefur heimild "
+"til að skrifa í."
 
 #: dolphinmainwindow.cpp:1643
 #, kde-format
@@ -747,12 +743,10 @@ msgstr ""
 "aftur á þennan hnapp til að loka öðru yfirlitinu."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "Tvískipta yfirliti"
+msgstr "Skipta yfirliti í flipa"
 
 #: dolphinmainwindow.cpp:2062
 #, fuzzy, kde-kuit-format
@@ -1544,12 +1538,10 @@ msgid "Split"
 msgstr "Tvískipta"
 
 #: dolphinmainwindow.cpp:2951
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "Tvískipta yfirliti"
+msgstr "Tvískipt yfirlit"
 
 #: dolphinmainwindow.cpp:2953
 #, kde-format
@@ -2053,12 +2045,10 @@ msgid "New tab name:"
 msgstr "Heiti á nýjum flipa:"
 
 #: dolphintabbar.cpp:417
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "Opna nýja flipa: "
+msgstr "Opna nýjan flipa"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2223,12 +2213,10 @@ msgid "You do not have permission to create the folder"
 msgstr "Þú ert ekki með heimild til að útbúa möppuna"
 
 #: dolphinviewcontainer.cpp:1132
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
-msgstr "Opna %1"
+msgstr "Opna með %1"
 
 #: dolphinviewcontainer.cpp:1178 dolphinviewcontainer.cpp:1181
 #, kde-kuit-format
@@ -3201,12 +3189,10 @@ msgid "File Manager"
 msgstr "Skráastjóri"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006-2025 Dolphin forritararnir"
+msgstr "© 2006-%1 Dolphin forritararnir"
 
 #: main.cpp:103
 #, kde-format
@@ -5059,20 +5045,16 @@ msgid "Deleting files or folders"
 msgstr "Skrám eða möppum er eytt"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "Endurnefning skráar breytir skráategund hennar"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "Endurnefning skráar breytir skráategund hennar"
+msgstr "Endurnefning skráar eða möppu mun fela hana"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6628,12 +6610,10 @@ msgid "Create Folder…"
 msgstr "Búa til möppu…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Búa til möppu…"
+msgstr "Búa til undirmöppu…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6854,12 +6834,10 @@ msgstr ""
 "> Til dæmis verða tákn fyrir myndir að minnkuðum útgáfum af myndunum."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Röðun:"
+msgstr "Röðun"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6892,12 +6870,10 @@ msgid "Show Additional Information"
 msgstr "Birta viðbótarupplýsingar"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Flokkuð röðun"
+msgstr "Hópun"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format
@@ -6975,9 +6951,7 @@ msgid "Restore to Defaults"
 msgstr "Endurheimta sjálfgefið"
 
 #: views/dolphinviewactionhandler.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "info:tooltip"
-#| msgid "Restore View Settings to Defaults Value"
+#, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Endurheimta sjálfgefnar stillingar yfirlits"

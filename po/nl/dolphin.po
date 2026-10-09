@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-09-22 11:01+0200\n"
+"PO-Revision-Date: 2026-10-08 19:59+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -740,26 +740,20 @@ msgstr ""
 "weergaven te sluiten."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "Gesplitste weergave"
+msgstr "Weergave splitsen in tabbladen"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"Als de weergave gesplitst is, laat dit de weergave in focus overzetten in "
-"een nieuw venster."
+"Als de weergave is gesplitst, worden beide weergaven naar tabbladen "
+"verplaatst en wordt de gesplitste weergave gesloten."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
