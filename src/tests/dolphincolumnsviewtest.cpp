@@ -132,6 +132,7 @@ private Q_SLOTS:
     void testDeletingAnOpenFolderOpensNoOther();
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
+    void testSeveralSelectedItemsShowNoFolder();
     void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -1829,6 +1830,30 @@ void DolphinColumnsViewTest::testClosingTheActiveColumnReportsTheSelectionLeft()
     QCOMPARE(m_view->activeColumnIndex(), 0);
     QTRY_COMPARE(reported, QStringList());
     disconnect(m_view, nullptr, this, nullptr);
+}
+
+void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
+{
+    // As in Finder, a column with several selected items shows none of them, so the columns after
+    // it close. Going to a folder from outside then leaves only that folder selected.
+    ColumnsModeSettings::self()->setMinColumnWidth(150);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    auto *rootPane = m_view->columnAt(0);
+    auto *rootSelection = rootPane->controller()->selectionManager();
+    auto *graphicsView = qobject_cast<QGraphicsView *>(rootPane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint gammaPos = graphicsView->mapFromScene(rootPane->itemListView()->itemRect(indexOfName(rootPane, QStringLiteral("gamma"))).center());
+
+    QTest::mouseClick(graphicsView->viewport(), Qt::LeftButton, Qt::ControlModifier, gammaPos);
+    QTRY_COMPARE(rootSelection->selectedItems().count(), 2);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(rootSelection->selectedItems().count(), 1);
+    QVERIFY(rootSelection->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
