@@ -23,11 +23,15 @@
 #include <KProtocolManager>
 
 #include <QCoreApplication>
+#include <QDBusConnection>
 #include <QDir>
 #include <QFile>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QMimeData>
+#include <QPointer>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSignalSpy>
@@ -114,6 +118,7 @@ private Q_SLOTS:
     void testMouseClickOnAFileDropsTheColumnsAfterIt();
     void testDraggingAFileLeavesTheColumnsOpen();
     void testPressingAFolderLeavesTheColumnsOpen();
+    void testDroppingAFolderIntoTheNextColumnSelectsIt();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -1268,6 +1273,50 @@ void DolphinColumnsViewTest::testPressingAFolderLeavesTheColumnsOpen()
     QTest::mouseRelease(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("beta")), 5000);
     QCOMPARE(m_view->columnCount(), 2);
+}
+
+void DolphinColumnsViewTest::testDroppingAFolderIntoTheNextColumnSelectsIt()
+{
+    // beta is pressed, which selects it, and dragged into the column of alpha. Moving it away
+    // leaves nothing selected in the first column, and alpha must stay shown.
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        QSKIP("The first column only sees beta leave through KDirNotify, which needs a D-Bus session");
+    }
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    auto *rootPane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(rootPane, QStringLiteral("beta"));
+    auto *graphicsView = qobject_cast<QGraphicsView *>(rootPane->container()->viewport());
+    QVERIFY(graphicsView);
+    const QPoint betaPos = graphicsView->mapFromScene(rootPane->itemListView()->itemRect(betaIndex).center());
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(betaIndex));
+    Q_EMIT rootPane->controller()->draggingStarted();
+    QTest::mouseRelease(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, betaPos);
+
+    // Shift moves without asking.
+    QMimeData mimeData;
+    mimeData.setUrls({urlOf(QStringLiteral("beta"))});
+    QGraphicsSceneDragDropEvent dropEvent(QEvent::GraphicsSceneDrop);
+    dropEvent.setMimeData(&mimeData);
+    dropEvent.setModifiers(Qt::ShiftModifier);
+    dropEvent.setPossibleActions(Qt::CopyAction | Qt::MoveAction);
+    dropEvent.setDropAction(Qt::MoveAction);
+    QPointer<DolphinColumnPane> alphaPane = m_view->columnAt(1);
+    Q_EMIT alphaPane->controller()->itemDropEvent(-1, &dropEvent);
+
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("beta")) < 0, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: proving that the column does not close needs time for it to happen
+    QVERIFY(alphaPane);
+    QCOMPARE(m_view->columnAt(1), alphaPane.data());
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("beta")) >= 0, 10000);
+    const int alphaIndex = indexOfName(rootPane, QStringLiteral("alpha"));
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(alphaIndex));
+
+    // The column that received beta is active, with beta selected in it.
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("beta"))), 5000);
 }
 
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
