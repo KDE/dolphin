@@ -313,6 +313,8 @@ void DolphinColumnsView::setActiveColumn(int index)
         return;
     }
 
+    const DolphinColumnPane *previousPane = activePane();
+    const bool hadSelection = previousPane && previousPane->controller()->selectionManager()->hasSelection();
     m_activeColumn = index;
 
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
@@ -329,6 +331,10 @@ void DolphinColumnsView::setActiveColumn(int index)
     {
         QScopedValueRollback<bool> switching(m_switchingColumns, true);
         Q_EMIT urlChanged(newPane->dirUrl());
+    }
+    // A column selects its first item before it is entered, and only the active column reports its selection.
+    if (hadSelection || newPane->controller()->selectionManager()->hasSelection()) {
+        scheduleSelectionChangedSignal();
     }
 
     updateWritableState();
