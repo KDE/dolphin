@@ -93,6 +93,8 @@ private:
     bool m_widthPending = false;
     bool m_selectionCheckPending = false;
     bool m_itemsRemoved = false;
+    // Set while the view applies an insertion, removal or move to the selection manager.
+    bool m_modelChanging = false;
 };
 
 #endif // DOLPHINCOLUMNPANE_H
