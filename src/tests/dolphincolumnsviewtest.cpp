@@ -131,6 +131,7 @@ private Q_SLOTS:
     void testAListedColumnOpensNothing();
     void testDeletingAnOpenFolderOpensNoOther();
     void testAFileChangeOutsideDolphinOpensNothing();
+    void testClosingTheActiveColumnReportsTheSelectionLeft();
     void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -1803,6 +1804,31 @@ void DolphinColumnsViewTest::testAFileChangeOutsideDolphinOpensNothing()
     QTest::qWait(200); // UNAVOIDABLE: see above
     QVERIFY(!rootPane->controller()->selectionManager()->hasSelection());
     QCOMPARE(m_view->columnCount(), 1);
+}
+
+void DolphinColumnsViewTest::testClosingTheActiveColumnReportsTheSelectionLeft()
+{
+    // The folder of the active column is deleted, and the column before it becomes active. The
+    // Information panel and the status bar follow selectionChanged(), so the selection of that
+    // column is reported, not the one of the closed column.
+    QStringList reported{QStringLiteral("<none>")};
+    connect(m_view, &DolphinView::selectionChanged, this, [&reported](const KFileItemList &selection) {
+        reported.clear();
+        for (const KFileItem &item : selection) {
+            reported << item.name();
+        }
+    });
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("beta"));
+    navigateRight();
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QTRY_COMPARE(reported, QStringList{QStringLiteral("beta-file.txt")});
+
+    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/beta")).removeRecursively());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QTRY_COMPARE(reported, QStringList());
+    disconnect(m_view, nullptr, this, nullptr);
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
