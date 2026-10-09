@@ -1730,6 +1730,15 @@ void DolphinView::emitSelectionChangedSignal()
     Q_EMIT selectionChanged(selectedItems());
 }
 
+void DolphinView::scheduleSelectionChangedSignal()
+{
+    // A pending emission reads the selection when it fires.
+    if (!m_selectionChangedTimer->isActive()) {
+        m_selectionChangedTimer->setInterval(0);
+        m_selectionChangedTimer->start();
+    }
+}
+
 void DolphinView::slotStatJobResult(KJob *job)
 {
     int folderCount = 0;
