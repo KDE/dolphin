@@ -2047,9 +2047,9 @@ void DolphinView::observeCreatedItem(const QUrl &url)
     }
 
     // since this is async make sure the selection state hasn't change in the meantime
-    auto selection = m_container->controller()->selectionManager()->selectedItems();
+    auto selection = activeSelectionManager()->selectedItems();
     std::function<bool()> condition([this, selection]() {
-        return selection == m_container->controller()->selectionManager()->selectedItems();
+        return selection == activeSelectionManager()->selectedItems();
     });
 
     // need to wait for the item to be added to the model
@@ -2117,7 +2117,7 @@ void DolphinView::updateViewState()
 
                 // scroll to current item and reset the state
                 if (m_scrollToCurrentItem) {
-                    m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
+                    activeItemListView()->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
                     m_scrollToCurrentItem = false;
                 }
                 m_currentItemUrl = QUrl();
