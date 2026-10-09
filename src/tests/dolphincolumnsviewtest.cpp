@@ -133,6 +133,8 @@ private Q_SLOTS:
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
     void testSeveralSelectedItemsShowNoFolder();
+    void testACreatedFolderIsSelected();
+    void testItemsMarkedToSelectAreSelected();
     void testEnteringAColumnShowsTheFirstFolder();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
@@ -1854,6 +1856,43 @@ void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     QCOMPARE(rootSelection->selectedItems().count(), 1);
     QVERIFY(rootSelection->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+}
+
+void DolphinColumnsViewTest::testACreatedFolderIsSelected()
+{
+    // "Create New" selects the folder it created, in the active column, as in the other view modes.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+
+    const QUrl createdUrl = urlOf(QStringLiteral("alpha/created"));
+    m_testDir->createDir("alpha/created");
+    QMetaObject::invokeMethod(m_view, "observeCreatedDirectory", Q_ARG(QUrl, createdUrl));
+
+    auto *alphaPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("created")) >= 0, 10000);
+    const int createdIndex = indexOfName(alphaPane, QStringLiteral("created"));
+    QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(createdIndex), 5000);
+    QCOMPARE(alphaPane->controller()->selectionManager()->selectedItems().count(), 1);
+    QCOMPARE(alphaPane->controller()->selectionManager()->currentItem(), createdIndex);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(m_view->columnCount() - 1)->dirUrl(), createdUrl, 5000);
+}
+
+void DolphinColumnsViewTest::testItemsMarkedToSelectAreSelected()
+{
+    // "Show in folder" and dolphin --select mark the item before they set the url.
+    m_view->markUrlsAsSelected({urlOf(QStringLiteral("alpha/file2.txt"))});
+    m_view->markUrlAsCurrent(urlOf(QStringLiteral("alpha/file2.txt")));
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *alphaPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, QStringLiteral("file2.txt")) >= 0, 5000);
+    const int fileIndex = indexOfName(alphaPane, QStringLiteral("file2.txt"));
+    QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(fileIndex), 5000);
+    QCOMPARE(alphaPane->controller()->selectionManager()->currentItem(), fileIndex);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
