@@ -42,6 +42,11 @@ ecm_add_test(kfileitemlistviewtest.cpp testdir.cpp
 TEST_NAME kfileitemlistviewtest
 LINK_LIBRARIES dolphinprivate Qt6::Test)
 
+# KFileItemModelRolesUpdaterTest
+ecm_add_test(kfileitemmodelrolesupdatertest.cpp testdir.cpp
+TEST_NAME kfileitemmodelrolesupdatertest
+LINK_LIBRARIES dolphinprivate Qt6::Test)
+
 # DolphinItemListViewTest
 ecm_add_test(dolphinitemlistviewtest.cpp testdir.cpp
 TEST_NAME dolphinitemlistviewtest

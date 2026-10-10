@@ -20,6 +20,7 @@
 #include <KJobWidgets>
 #include <KOverlayIconPlugin>
 #include <KPluginMetaData>
+#include <KSambaShare>
 #include <KSharedConfig>
 
 #include "dolphin_contentdisplaysettings.h"
@@ -1401,10 +1402,13 @@ SmallHash KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index
         data.insert("type", item.mimeComment());
     }
 
-    QStringList overlays = item.overlays();
-    for (KOverlayIconPlugin *it : std::as_const(m_overlayIconsPlugin)) {
-        overlays.append(it->getOverlays(item.url()));
+#ifndef Q_OS_WIN
+    if (!m_sharesWatched && item.isDir() && !item.localPath().isEmpty()) {
+        m_sharesWatched = true;
+        connect(KSambaShare::instance(), &KSambaShare::changed, this, &KFileItemModelRolesUpdater::slotSharesChanged);
     }
+#endif
+    const QStringList overlays = itemOverlays(item);
     if (!overlays.isEmpty()) {
         data.insert("iconOverlays", overlays);
     }
@@ -1426,12 +1430,34 @@ void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl &url, const QStr
     }
     const int index = m_model->index(item);
     SmallHash data = m_model->data(index);
+    data.insert("iconOverlays", itemOverlays(item));
+    m_model->setData(index, data);
+}
+
+void KFileItemModelRolesUpdater::slotSharesChanged()
+{
+    for (int index = 0; index < m_model->count(); ++index) {
+        const KFileItem item = m_model->fileItem(index);
+        if (!item.isDir() || item.localPath().isEmpty()) {
+            continue;
+        }
+        SmallHash data = m_model->data(index);
+        const QStringList overlays = itemOverlays(item);
+        if (data.value("iconOverlays").toStringList() == overlays) {
+            continue;
+        }
+        data.insert("iconOverlays", overlays);
+        setModelData(index, data);
+    }
+}
+
+QStringList KFileItemModelRolesUpdater::itemOverlays(const KFileItem &item) const
+{
     QStringList overlays = item.overlays();
     for (KOverlayIconPlugin *it : std::as_const(m_overlayIconsPlugin)) {
-        overlays.append(it->getOverlays(url));
+        overlays.append(it->getOverlays(item.url()));
     }
-    data.insert("iconOverlays", overlays);
-    m_model->setData(index, data);
+    return overlays;
 }
 
 void KFileItemModelRolesUpdater::updateAllPreviews()

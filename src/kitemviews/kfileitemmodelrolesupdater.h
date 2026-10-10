@@ -236,6 +236,12 @@ private Q_SLOTS:
     void slotOverlaysChanged(const QUrl &url, const QStringList &);
 
     /**
+     * Updates the overlays of the local folders, as KFileItem::overlays() adds emblem-shared.
+     * KSambaShare loads the shares in the background, and they change.
+     */
+    void slotSharesChanged();
+
+    /**
      * Resolves the sort role of the next item in m_pendingSortRole, applies it
      * to the model, and invokes itself if there are any pending items left. If
      * that is not the case, \a startUpdating() is called.
@@ -323,6 +329,8 @@ private:
     };
     bool applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem = KFileItem());
     SmallHash rolesData(const KFileItem &item, int index);
+
+    QStringList itemOverlays(const KFileItem &item) const;
 
     /**
      * Sets \a data on the model item at \a index without re-entering
@@ -434,6 +442,9 @@ private:
     KDirectoryContentsCounter *m_directoryContentsCounter;
 
     QList<KOverlayIconPlugin *> m_overlayIconsPlugin;
+
+    // Connected on the first local folder, so that a view of remote folders never loads the shares.
+    bool m_sharesWatched = false;
 
 #if HAVE_BALOO
     Baloo::FileMonitor *m_balooFileMonitor;
