@@ -135,6 +135,7 @@ private Q_SLOTS:
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
     void testSeveralSelectedItemsShowNoFolder();
+    void testShiftArrowExtendsTheSelection();
     void testACreatedFolderIsSelected();
     void testItemsMarkedToSelectAreSelected();
     void testDeletingSelectsTheNextItem();
@@ -298,13 +299,10 @@ void DolphinColumnsViewTest::selectItemInColumn(int columnIndex, const QString &
     QTRY_VERIFY2_WITH_TIMEOUT(indexOfName(pane, name) >= 0, qPrintable(QStringLiteral("Item '%1' not found in column %2").arg(name).arg(columnIndex)), 5000);
     const int index = indexOfName(pane, name);
     auto *selectionManager = pane->controller()->selectionManager();
-    // The listing made the first item current without opening it, so picking that one opens it here.
-    const bool alreadyCurrent = selectionManager->currentItem() == index;
+    // As KItemListController does for a click or an arrow key.
     selectionManager->setCurrentItem(index);
+    selectionManager->clearSelection();
     selectionManager->setSelected(index, 1, KItemListSelectionManager::Select);
-    if (alreadyCurrent) {
-        m_view->followItem(columnIndex, pane->model()->fileItem(index));
-    }
     QTRY_VERIFY_WITH_TIMEOUT(selectionManager->isSelected(index), 5000);
 }
 
@@ -1077,10 +1075,9 @@ void DolphinColumnsViewTest::testForwardButton_emitsGoForward()
 void DolphinColumnsViewTest::testDirectorySelectionOpensChildOnce()
 {
     // Selecting a directory in the active, focused column changes both the
-    // current item and the selection, which drives two independent handlers
-    // (slotColumnsCurrentItemChanged and the selectionChanged lambda). Verify
-    // that the child column is opened once, shows the right folder, does not
-    // reload, and is not torn down and rebuilt.
+    // current item and the selection. Verify that the child column is opened
+    // once, shows the right folder, does not reload, and is not torn down and
+    // rebuilt.
     activateColumn(0);
     auto *rootContainer = m_view->columnAt(0)->container();
     rootContainer->setFocus();
@@ -1127,7 +1124,7 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
     QVERIFY(betaIndex >= 0);
 
     // Make "beta" the current item without opening its child yet. During a real
-    // click the mouse button is held, so slotColumnsCurrentItemChanged()'s
+    // click the mouse button is held, so slotActiveSelectionChanged()'s
     // "mouseButtons() == NoButton" guard suppresses it and only
     // handleMouseButtonPressed() opens the child. Offscreen there is no held
     // button, so block signals while seeding the current item to reproduce that
@@ -1184,7 +1181,7 @@ void DolphinColumnsViewTest::testMouseClickOnNotCurrentDirectoryOpensChild()
     // The first click on an item that is not the current one has to open its child column.
     // KItemListController::onPress() emits mouseButtonPressed before it moves the current item,
     // so handleMouseButtonPressed() sees a clicked index that differs from the current one, and
-    // slotColumnsCurrentItemChanged() is suppressed while the button is held.
+    // slotActiveSelectionChanged() is suppressed while the button is held.
     activateColumn(0);
     auto *pane = m_view->columnAt(0);
     auto *selectionManager = pane->controller()->selectionManager();
@@ -1859,6 +1856,53 @@ void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     QCOMPARE(rootSelection->selectedItems().count(), 1);
     QVERIFY(rootSelection->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+}
+
+void DolphinColumnsViewTest::testShiftArrowExtendsTheSelection()
+{
+    // Shift+Down selects a range, as in the other view modes, and a range shows no folder.
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    activateColumn(0);
+    auto *rootPane = m_view->columnAt(0);
+    auto *rootSelection = rootPane->controller()->selectionManager();
+    const int alphaIndex = indexOfName(rootPane, QStringLiteral("alpha"));
+    QVERIFY(alphaIndex > 0 && alphaIndex + 1 < rootPane->model()->count());
+    QVERIFY(rootSelection->isSelected(alphaIndex));
+    QCOMPARE(rootSelection->currentItem(), alphaIndex);
+
+    // A key sent to the window sets QGuiApplication::keyboardModifiers(), as a real key press does.
+    QWindow *window = m_view->window()->windowHandle();
+    QTest::keyClick(window, Qt::Key_Down, Qt::ShiftModifier);
+    QTRY_COMPARE(rootSelection->selectedItems().count(), 2);
+    QVERIFY(rootSelection->isSelected(alphaIndex));
+    QVERIFY(rootSelection->isSelected(alphaIndex + 1));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    QTest::keyClick(window, Qt::Key_Up, Qt::ShiftModifier);
+    QTest::keyClick(window, Qt::Key_Up, Qt::ShiftModifier);
+    QTRY_COMPARE(rootSelection->selectedItems().count(), 2);
+    QVERIFY(rootSelection->isSelected(alphaIndex - 1));
+    QVERIFY(rootSelection->isSelected(alphaIndex));
+    QCOMPARE(m_view->columnCount(), 1);
+
+    // Ctrl moves only the current item, so the selection and the columns stay.
+    QTest::keyClick(window, Qt::Key_Down, Qt::ControlModifier);
+    QCOMPARE(rootSelection->currentItem(), alphaIndex);
+    QCOMPARE(rootSelection->selectedItems().count(), 2);
+    QCOMPARE(m_view->columnCount(), 1);
+
+    // An arrow key alone selects one item, and a folder shows its content.
+    QTest::keyClick(window, Qt::Key_Down);
+    QCOMPARE(rootSelection->selectedItems().count(), 1);
+    QVERIFY(rootSelection->isSelected(alphaIndex + 1));
+    QCOMPARE(m_view->columnCount(), 1);
+    QTest::keyClick(window, Qt::Key_Up);
+    QCOMPARE(rootSelection->selectedItems().count(), 1);
+    QVERIFY(rootSelection->isSelected(alphaIndex));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
 }
 
 void DolphinColumnsViewTest::testACreatedFolderIsSelected()

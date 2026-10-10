@@ -38,17 +38,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    // Before the view connects to the model, so that these run before it moves the current item.
-    connect(m_model, &KFileItemModel::itemsInserted, this, [this]() {
-        m_modelChanging = true;
-    });
-    connect(m_model, &KFileItemModel::itemsRemoved, this, [this]() {
-        m_modelChanging = true;
-    });
-    connect(m_model, &KFileItemModel::itemsMoved, this, [this]() {
-        m_modelChanging = true;
-    });
-
     m_view = new DolphinItemListView();
     m_view->setVisibleRoles({"text"});
     m_view->setViewMode(DolphinView::ColumnsView);
@@ -64,15 +53,6 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_controller = new KItemListController(m_model, m_view, this);
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(m_model, &KFileItemModel::itemsInserted, this, [this]() {
-        m_modelChanging = false;
-    });
-    connect(m_model, &KFileItemModel::itemsRemoved, this, [this]() {
-        m_modelChanging = false;
-    });
-    connect(m_model, &KFileItemModel::itemsMoved, this, [this]() {
-        m_modelChanging = false;
-    });
 
     m_container = new KItemListContainer(m_controller, this);
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -271,29 +251,11 @@ void DolphinColumnPane::slotItemActivated(int index)
 
 void DolphinColumnPane::slotCurrentChanged(int current, int previous)
 {
-    if (current < 0) {
-        // The current item left a list that still has items, as filtering or deleting it does. A
-        // reload empties the list instead, and the columns after this one stay.
-        if (previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
-            m_activeChildUrl.clear();
-            Q_EMIT activeChildRemoved();
-        }
-        return;
-    }
-
-    // From no current item, the selection manager made the first item current after the listing.
-    // Nobody moved there, so the view must not follow it.
-    if (previous < 0 || current >= m_model->count()) {
-        return;
-    }
-    // An item inserted or removed before the current one moves it, and nobody moved there either.
-    if (m_modelChanging) {
-        return;
-    }
-
-    const KFileItem item = m_model->fileItem(current);
-    if (!item.isNull()) {
-        Q_EMIT currentItemChanged(item);
+    // The current item left a list that still has items, as filtering or deleting it does. A
+    // reload empties the list instead, and the columns after this one stay.
+    if (current < 0 && previous >= 0 && m_model->count() > 0 && !m_activeChildUrl.isEmpty() && m_model->fileItem(m_activeChildUrl).isNull()) {
+        m_activeChildUrl.clear();
+        Q_EMIT activeChildRemoved();
     }
 }
 

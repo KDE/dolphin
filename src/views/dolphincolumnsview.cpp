@@ -377,39 +377,6 @@ void DolphinColumnsView::slotFileActivated(const KFileItem &item)
     Q_EMIT itemActivated(item);
 }
 
-void DolphinColumnsView::slotColumnsCurrentItemChanged(const KFileItem &item)
-{
-    if (m_blockNavigation) {
-        return;
-    }
-
-    auto *senderPane = qobject_cast<DolphinColumnPane *>(sender());
-    if (!senderPane) {
-        return;
-    }
-
-    if (!senderPane->container()->hasFocus()) {
-        return;
-    }
-
-    // A click navigates on the release, see handleMouseButtonReleased().
-    if (QGuiApplication::mouseButtons() != Qt::NoButton) {
-        return;
-    }
-
-    const int colIndex = m_columns.indexOf(senderPane);
-    if (colIndex < 0) {
-        return;
-    }
-
-    senderPane->controller()->selectionManager()->blockSignals(true);
-    if (!followItem(colIndex, item)) {
-        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
-        senderPane->setActiveChildUrl(item.url());
-    }
-    senderPane->controller()->selectionManager()->blockSignals(false);
-}
-
 void DolphinColumnsView::slotPaneItemsInserted()
 {
     for (DolphinColumnPane *pane : std::as_const(m_columns)) {
@@ -560,7 +527,7 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
 {
-    // One interaction can reach this from both the current item and the selection.
+    // The selection can name the folder that the next column already shows.
     if (columnIndex + 1 < m_columns.size() && m_columns.at(columnIndex + 1)->dirUrl() == childUrl) {
         return;
     }
@@ -692,7 +659,6 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
             openChild(colIndex, childUrl);
         }
     });
-    connect(pane, &DolphinColumnPane::currentItemChanged, this, &DolphinColumnsView::slotColumnsCurrentItemChanged);
     connect(pane, &DolphinColumnPane::activeChildRemoved, this, [this, pane]() {
         closeColumnsAfter(m_columns.indexOf(pane));
     });
@@ -1285,9 +1251,13 @@ void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
     }
     DolphinColumnPane *pane = activePane();
     const KFileItem item = pane->model()->fileItem(current.first());
-    if (item.isDir()) {
-        pane->controller()->selectionManager()->blockSignals(true);
-        openChild(m_activeColumn, DolphinColumnPane::folderUrlFor(item));
-        pane->controller()->selectionManager()->blockSignals(false);
+    if (item.isNull()) {
+        return;
     }
+    pane->controller()->selectionManager()->blockSignals(true);
+    if (!followItem(m_activeColumn, item)) {
+        QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+        pane->setActiveChildUrl(item.url());
+    }
+    pane->controller()->selectionManager()->blockSignals(false);
 }
