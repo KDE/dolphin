@@ -45,3 +45,4 @@ RuntimeDependencies:
 Options:
  use-ccache: True
  require-passing-tests-on: ['Linux/Qt6', 'FreeBSD/Qt6']
+ commit-checks: ['bug-links', 'missing-since', 'since-version']
