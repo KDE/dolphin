@@ -92,6 +92,9 @@ private:
     void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
+    /// Stops painting the columns until none of them waits for its width any more.
+    void holdPaintingUntilEveryColumnHasAWidth();
+    void resumePaintingOnceEveryColumnHasAWidth();
     /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
     QUrl rootUrlFor(const QUrl &url) const;

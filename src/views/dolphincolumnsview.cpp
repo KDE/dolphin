@@ -30,6 +30,7 @@
 #include <QSplitterHandle>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <algorithm>
 
 /// How long a new column waits for its folder to list before it takes a width anyway.
 static constexpr int s_pendingWidthTimeoutMs = 200;
@@ -524,6 +525,35 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 
     if (root.adjusted(QUrl::StripTrailingSlash) != url.adjusted(QUrl::StripTrailingSlash)) {
         showUrlInOpenColumns(url);
+        holdPaintingUntilEveryColumnHasAWidth();
+    }
+}
+
+void DolphinColumnsView::holdPaintingUntilEveryColumnHasAWidth()
+{
+    if (std::none_of(m_columns.cbegin(), m_columns.cend(), [](const DolphinColumnPane *pane) {
+            return pane->isWidthPending();
+        })) {
+        return;
+    }
+    // The columns on the way to the url take their widths one by one as their folders list, and
+    // each width moves the view. The view is painted once they all have one.
+    m_scrollArea->setUpdatesEnabled(false);
+    // A listing that never finishes still ends the wait of its column after s_pendingWidthTimeoutMs.
+    QTimer::singleShot(2 * s_pendingWidthTimeoutMs, this, [this]() {
+        m_scrollArea->setUpdatesEnabled(true);
+    });
+}
+
+void DolphinColumnsView::resumePaintingOnceEveryColumnHasAWidth()
+{
+    if (m_scrollArea->updatesEnabled()) {
+        return;
+    }
+    if (std::none_of(m_columns.cbegin(), m_columns.cend(), [](const DolphinColumnPane *pane) {
+            return pane->isWidthPending();
+        })) {
+        m_scrollArea->setUpdatesEnabled(true);
     }
 }
 
@@ -601,6 +631,7 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
         ensureColumnVisible(index);
         // The url is the one of the active column, so it stays in view when both do not fit.
         ensureActiveColumnVisible();
+        resumePaintingOnceEveryColumnHasAWidth();
     });
 }
 
@@ -634,6 +665,9 @@ void DolphinColumnsView::popAfter(int columnIndex)
     if (m_activeColumn >= m_columns.size()) {
         m_activeColumn = m_columns.size() - 1;
     }
+
+    // A closed column may have been the last one to wait for its width.
+    resumePaintingOnceEveryColumnHasAWidth();
 
     if (auto *pane = activePane()) {
         setFocusProxy(pane->container());
