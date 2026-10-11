@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 #include <QDBusConnection>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
@@ -150,6 +151,7 @@ private Q_SLOTS:
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testClosingColumnsLeavesTheScrollPositionAlone();
     void testTheColumnsStartAtTheRootTheResolverNames();
+    void testADeepFolderIsPaintedOnceItsColumnsHaveTheirWidths();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testTheFirstVisibleColumnIsShownWhole();
@@ -1807,6 +1809,42 @@ void DolphinColumnsViewTest::testTheColumnsStartAtTheRootTheResolverNames()
     QCOMPARE(view.columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
     // The folder that was asked for is the one the user lands on.
     QCOMPARE(view.url().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
+}
+
+void DolphinColumnsViewTest::testADeepFolderIsPaintedOnceItsColumnsHaveTheirWidths()
+{
+    // Switching to the columns view in a deep folder opens a column for every folder on the way.
+    // Each column takes its width when its folder has listed, and each width moved the view, which
+    // the user saw as flickering. The view is painted once every column has its width.
+    QString path;
+    for (const QString &name : {QStringLiteral("one"), QStringLiteral("two"), QStringLiteral("three"), QStringLiteral("four"), QStringLiteral("five")}) {
+        path += (path.isEmpty() ? QString() : QStringLiteral("/")) + name;
+        m_testDir->createFile(path + QStringLiteral("/a-file-with-a-long-name.txt"));
+    }
+    const QUrl rootUrl = m_testDir->url();
+
+    DolphinColumnsView view(urlOf(path), nullptr, DolphinView::ColumnsView, [rootUrl](const QUrl &) {
+        return rootUrl;
+    });
+    view.resize(900, 400);
+    view.show();
+
+    auto layoutOf = [&view]() {
+        return std::make_pair(view.m_scrollArea->horizontalScrollBar()->value(), view.m_splitter->sizes());
+    };
+    QList<std::pair<int, QList<int>>> paintedLayouts;
+    QElapsedTimer timer;
+    timer.start();
+    while (timer.elapsed() < 1000) {
+        QCoreApplication::processEvents();
+        if (view.m_scrollArea->updatesEnabled() && view.isVisible() && (paintedLayouts.isEmpty() || paintedLayouts.constLast() != layoutOf())) {
+            paintedLayouts.append(layoutOf());
+        }
+    }
+
+    QCOMPARE(view.columnCount(), 6);
+    QVERIFY(view.m_scrollArea->updatesEnabled());
+    QCOMPARE(paintedLayouts.size(), 1);
 }
 
 void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
