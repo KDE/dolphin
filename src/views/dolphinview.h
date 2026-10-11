@@ -380,6 +380,12 @@ public:
      */
     static QUrl openItemAsFolderUrl(const KFileItem &item, const bool browseThroughArchives = true);
 
+    /** The text that an empty listing of @p url shows, which names @p nameFilter when it is set. */
+    static QString emptyFolderText(const QUrl &url, const QString &nameFilter);
+
+    /** A label for that text, centered in @p container. */
+    static QLabel *createPlaceholderLabel(QWidget *container);
+
     /**
      * Set the default order for a given sort role.
      * Time-based roles, size/dimension roles, and quality/quantity roles

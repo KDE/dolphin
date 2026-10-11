@@ -21,6 +21,7 @@
 #include "views/dolphinview.h"
 
 #include <QGuiApplication>
+#include <QLabel>
 #include <QScrollBar>
 #include <QStyle>
 #include <QStyleOption>
@@ -60,6 +61,9 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_view->setAccessibleParentsObject(m_container);
 
+    m_placeholderLabel = DolphinView::createPlaceholderLabel(m_container);
+    m_placeholderLabel->hide();
+
     layout->addWidget(m_container);
 
     // No setView(): it needs a DolphinView and only matters on activation.
@@ -78,6 +82,19 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     connect(m_controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinColumnPane::slotSelectionChanged);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::slotItemsRemoved);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
+
+    connect(m_model, &KFileItemModel::directoryLoadingStarted, this, [this]() {
+        m_listing = true;
+        updatePlaceholderLabel();
+    });
+    for (auto signal : {&KFileItemModel::directoryLoadingCompleted, &KFileItemModel::directoryLoadingCanceled}) {
+        connect(m_model, signal, this, [this]() {
+            m_listing = false;
+            updatePlaceholderLabel();
+        });
+    }
+    connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinColumnPane::updatePlaceholderLabel);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::updatePlaceholderLabel);
 }
 
 DolphinColumnPane::~DolphinColumnPane() = default;
@@ -176,6 +193,16 @@ KItemListContainer *DolphinColumnPane::container() const
 DolphinItemListView *DolphinColumnPane::itemListView() const
 {
     return m_view;
+}
+
+void DolphinColumnPane::updatePlaceholderLabel()
+{
+    if (m_listing || m_model->count() > 0) {
+        m_placeholderLabel->hide();
+        return;
+    }
+    m_placeholderLabel->setText(DolphinView::emptyFolderText(dirUrl(), m_model->nameFilter()));
+    m_placeholderLabel->show();
 }
 
 void DolphinColumnPane::setPreviewsShown(bool show)
