@@ -85,6 +85,7 @@ private Q_SLOTS:
     void testGoActions();
     void testOpenFiles();
     void testDoubleClickViewBackgroundCustomCommand();
+    void testOpenFilesInColumns();
     void testAccessibilityTree();
     void testAutoSaveSession();
     void testSavingFewerTabsDropsTheOldEntries();
@@ -1308,6 +1309,41 @@ void DolphinMainWindowTest::testDoubleClickViewBackgroundCustomCommand()
 
     GeneralSettings::setDoubleClickViewAction(QStringLiteral("edit_select_all"));
     GeneralSettings::setDoubleClickViewCustomAction(QString());
+}
+
+void DolphinMainWindowTest::testOpenFilesInColumns()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    const QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
+    testDir->createDir("a/b");
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    m_mainWindow->show();
+    QAction *previousMode = nullptr;
+    for (const QString &mode : {QStringLiteral("icons"), QStringLiteral("compact"), QStringLiteral("details")}) {
+        if (m_mainWindow->actionCollection()->action(mode)->isChecked()) {
+            previousMode = m_mainWindow->actionCollection()->action(mode);
+        }
+    }
+    QVERIFY(previousMode);
+    m_mainWindow->actionCollection()->action(QStringLiteral("columns"))->trigger();
+    QTRY_VERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a"));
+    auto view = [this] {
+        return m_mainWindow->activeViewContainer()->view();
+    };
+
+    // The url of the columns view is the selected folder "a".
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    QTRY_COMPARE(view()->url(), QUrl(testDirUrl + "/a"));
+
+    // The url already shows "b", so the same tab selects "b" in the column of "a".
+    m_mainWindow->openFiles({testDirUrl + "/a/b"}, false);
+    QTRY_COMPARE(view()->url(), QUrl(testDirUrl + "/a/b"));
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 1);
+    QCOMPARE(view()->selectedItems().count(), 1);
+    QCOMPARE(view()->selectedItems().constFirst().url(), QUrl(testDirUrl + "/a/b"));
+
+    // The view mode is saved, and the next tests expect the previous one.
+    previousMode->trigger();
 }
 
 void DolphinMainWindowTest::testAccessibilityTree()
