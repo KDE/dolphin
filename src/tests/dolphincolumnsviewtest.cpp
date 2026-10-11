@@ -124,6 +124,7 @@ private Q_SLOTS:
     void testDraggingAFileLeavesTheColumnsOpen();
     void testPressingAFolderLeavesTheColumnsOpen();
     void testDroppingAFolderIntoTheNextColumnSelectsIt();
+    void testDroppingIntoAnEarlierColumnKeepsTheColumnsOpen();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
     void testNameFilterAppliesToEveryColumn();
@@ -1383,6 +1384,56 @@ void DolphinColumnsViewTest::testDroppingAFolderIntoTheNextColumnSelectsIt()
     // The column that received beta is active, with beta selected in it.
     QCOMPARE(m_view->activeColumnIndex(), 1);
     QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("beta"))), 5000);
+}
+
+void DolphinColumnsViewTest::testDroppingIntoAnEarlierColumnKeepsTheColumnsOpen()
+{
+    // Moving an item back to the folder of an earlier column keeps the folder that the column
+    // shows, so the user can move or copy the next item between the same folders.
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        QSKIP("A column only sees an item leave through KDirNotify, which needs a D-Bus session");
+    }
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    auto *rootPane = m_view->columnAt(0);
+    QPointer<DolphinColumnPane> alphaPane = m_view->columnAt(1);
+    auto dropOnRootColumn = [rootPane](const QUrl &url, QMimeData &mimeData, QGraphicsSceneDragDropEvent &dropEvent) {
+        mimeData.setUrls({url});
+        dropEvent.setMimeData(&mimeData);
+        // Shift moves without asking.
+        dropEvent.setModifiers(Qt::ShiftModifier);
+        dropEvent.setPossibleActions(Qt::CopyAction | Qt::MoveAction);
+        dropEvent.setDropAction(Qt::MoveAction);
+        Q_EMIT rootPane->controller()->itemDropEvent(-1, &dropEvent);
+    };
+
+    // From the active column, which shows alpha-child in the next one.
+    QMimeData childMimeData;
+    QGraphicsSceneDragDropEvent childDrop(QEvent::GraphicsSceneDrop);
+    dropOnRootColumn(urlOf(QStringLiteral("alpha/alpha-child")), childMimeData, childDrop);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("alpha-child")) >= 0, 10000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: proving that the column does not close needs time for it to happen
+    QCOMPARE(m_view->columnAt(1), alphaPane.data());
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QCOMPARE(rootPane->controller()->selectionManager()->selectedItems().count(), 1);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
+
+    // From the next column into the active one, which shows alpha.
+    activateColumn(0);
+    QMimeData fileMimeData;
+    QGraphicsSceneDragDropEvent fileDrop(QEvent::GraphicsSceneDrop);
+    dropOnRootColumn(urlOf(QStringLiteral("alpha/file1.txt")), fileMimeData, fileDrop);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("file1.txt")) >= 0, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: as above
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->columnAt(1), alphaPane.data());
+    QCOMPARE(rootPane->controller()->selectionManager()->selectedItems().count(), 1);
+    QVERIFY(rootPane->controller()->selectionManager()->isSelected(indexOfName(rootPane, QStringLiteral("alpha"))));
 }
 
 void DolphinColumnsViewTest::testSetUrlActivatesAnOpenColumn()
