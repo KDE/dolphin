@@ -342,7 +342,9 @@ void DolphinTabWidget::openFiles(const QList<QUrl> &files, bool splitView)
         // We also make sure the view will be activated.
         auto viewIndex = viewShowingItem(file);
         if (viewIndex.has_value()) {
-            viewContainerAt(viewIndex.value())->view()->clearSelection();
+            DolphinView *view = viewContainerAt(viewIndex.value())->view();
+            view->activateUrlFolder();
+            view->clearSelection();
             activateViewContainerAt(viewIndex.value());
             dirsThatWereAlreadyOpen.append(dir);
         } else {
