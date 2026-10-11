@@ -20,7 +20,10 @@
 #include "versioncontrol/versioncontrolobserver.h"
 #include "views/dolphinview.h"
 
+#include <KLocalizedString>
+
 #include <QGuiApplication>
+#include <QLabel>
 #include <QScrollBar>
 #include <QStyle>
 #include <QStyleOption>
@@ -60,6 +63,16 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_view->setAccessibleParentsObject(m_container);
 
+    m_placeholderLabel = DolphinView::createPlaceholderLabel(m_container);
+    m_placeholderLabel->hide();
+    m_showLoadingPlaceholderTimer = new QTimer(this);
+    m_showLoadingPlaceholderTimer->setInterval(500);
+    m_showLoadingPlaceholderTimer->setSingleShot(true);
+    connect(m_showLoadingPlaceholderTimer, &QTimer::timeout, this, [this]() {
+        m_placeholderLabel->setText(i18n("Loading…"));
+        m_placeholderLabel->show();
+    });
+
     layout->addWidget(m_container);
 
     // No setView(): it needs a DolphinView and only matters on activation.
@@ -78,6 +91,21 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     connect(m_controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinColumnPane::slotSelectionChanged);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::slotItemsRemoved);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
+
+    connect(m_model, &KFileItemModel::directoryLoadingStarted, this, [this]() {
+        m_loadingState = LoadingState::Loading;
+        updatePlaceholderLabel();
+    });
+    connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, [this]() {
+        m_loadingState = LoadingState::Completed;
+        updatePlaceholderLabel();
+    });
+    connect(m_model, &KFileItemModel::directoryLoadingCanceled, this, [this]() {
+        m_loadingState = LoadingState::Canceled;
+        updatePlaceholderLabel();
+    });
+    connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinColumnPane::updatePlaceholderLabel);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::updatePlaceholderLabel);
 }
 
 DolphinColumnPane::~DolphinColumnPane() = default;
@@ -176,6 +204,26 @@ KItemListContainer *DolphinColumnPane::container() const
 DolphinItemListView *DolphinColumnPane::itemListView() const
 {
     return m_view;
+}
+
+void DolphinColumnPane::updatePlaceholderLabel()
+{
+    m_showLoadingPlaceholderTimer->stop();
+    if (m_model->count() > 0) {
+        m_placeholderLabel->hide();
+        return;
+    }
+    if (m_loadingState == LoadingState::Loading) {
+        m_placeholderLabel->hide();
+        m_showLoadingPlaceholderTimer->start();
+        return;
+    }
+    if (m_loadingState == LoadingState::Canceled) {
+        m_placeholderLabel->setText(i18n("Loading canceled"));
+    } else {
+        m_placeholderLabel->setText(DolphinView::emptyFolderText(dirUrl(), m_model->nameFilter()));
+    }
+    m_placeholderLabel->show();
 }
 
 void DolphinColumnPane::setPreviewsShown(bool show)

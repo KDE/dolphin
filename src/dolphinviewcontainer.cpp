@@ -1101,7 +1101,10 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
 
 void DolphinViewContainer::slotUrlSelectionRequested(const QUrl &url)
 {
-    m_view->markUrlsAsSelected({url});
+    // In the columns view a selected folder shows its content, and the url would go down again.
+    if (!qobject_cast<DolphinColumnsView *>(m_view)) {
+        m_view->markUrlsAsSelected({url});
+    }
     m_view->markUrlAsCurrent(url); // makes the item scroll into view
 }
 

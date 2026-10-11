@@ -185,28 +185,9 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     connect(m_showLoadingPlaceholderTimer, &QTimer::timeout, this, &DolphinView::showLoadingPlaceholder);
 
     // Show some placeholder text for empty folders
-    // This is made using a heavily-modified QLabel rather than a KTitleWidget
-    // because KTitleWidget can't be told to turn off mouse-selectable text
-    m_placeholderLabel = new QLabel(this);
-    // Don't consume mouse events
-    m_placeholderLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-
-    QFont placeholderLabelFont;
-    // To match the size of a level 2 Heading/KTitleWidget
-    placeholderLabelFont.setPointSize(qRound(placeholderLabelFont.pointSize() * 1.3));
-    m_placeholderLabel->setFont(placeholderLabelFont);
-    m_placeholderLabel->setWordWrap(true);
-    m_placeholderLabel->setAlignment(Qt::AlignCenter);
-    // Match opacity of QML placeholder label component
-    auto *effect = new QGraphicsOpacityEffect(m_placeholderLabel);
-    effect->setOpacity(0.5);
-    m_placeholderLabel->setGraphicsEffect(effect);
+    m_placeholderLabel = createPlaceholderLabel(m_container);
     // Set initial text and visibility
     updatePlaceholderLabel();
-
-    auto *centeringLayout = new QVBoxLayout(m_container);
-    centeringLayout->addWidget(m_placeholderLabel);
-    centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
@@ -1561,7 +1542,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *even
     handleItemDropEvent(m_model, url(), index, event);
 }
 
-void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event)
+void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event, bool selectDroppedItems)
 {
     QUrl destUrl;
     KFileItem destItem = model->fileItem(index);
@@ -1573,12 +1554,17 @@ void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbac
 
     // KIO::drop() places its menu in the coordinates of this widget.
     QDropEvent dropEvent(mapFromGlobal(event->screenPos()), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
-    dropUrls(destUrl, &dropEvent, this);
+    dropUrls(destUrl, &dropEvent, this, selectDroppedItems && destUrl == url());
 
     setActive(true);
 }
 
 void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget)
+{
+    dropUrls(destUrl, dropEvent, dropWidget, destUrl == url());
+}
+
+void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget, bool selectDroppedItems)
 {
     KIO::DropJobFlags dropjobFlags;
     if (qobject_cast<KFilePlacesView *>(dropEvent->source())) {
@@ -1592,7 +1578,7 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
     if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
 
-        if (destUrl == url()) {
+        if (selectDroppedItems) {
             // Mark the dropped urls as selected.
             m_clearSelectionBeforeSelectingNewItems = true;
             m_markFirstNewlySelectedItemAsCurrent = true;
@@ -2002,6 +1988,7 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
     if (!m_active) {
         return;
     }
+    activateUrlFolder();
 
     // select the new directory
     if (!m_model->fileItem(newDirectoryUrl).isNull()) {
@@ -2039,6 +2026,7 @@ void DolphinView::observeCreatedItem(const QUrl &url)
     if (!m_active) {
         return;
     }
+    activateUrlFolder();
 
     // select the new file
     if (!m_model->fileItem(url).isNull()) {
@@ -2822,6 +2810,10 @@ KItemListSelectionManager *DolphinView::activeSelectionManager() const
     return m_container->controller()->selectionManager();
 }
 
+void DolphinView::activateUrlFolder()
+{
+}
+
 KFileItemModel *DolphinView::activeModel() const
 {
     return m_model;
@@ -2837,7 +2829,7 @@ void DolphinView::updateWritableState()
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = false;
 
-    KFileItem item = activeModel()->rootItem();
+    KFileItem item = rootItem();
     if (item.isNull()) {
         // Try to find out if the URL is writable even if the "root item" is
         // null, see https://bugs.kde.org/show_bug.cgi?id=330001
@@ -2938,6 +2930,69 @@ void DolphinView::showLoadingPlaceholder()
 #endif
 }
 
+QLabel *DolphinView::createPlaceholderLabel(QWidget *container)
+{
+    // This is made using a heavily-modified QLabel rather than a KTitleWidget
+    // because KTitleWidget can't be told to turn off mouse-selectable text
+    auto *label = new QLabel(container);
+    // Don't consume mouse events
+    label->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    QFont placeholderLabelFont;
+    // To match the size of a level 2 Heading/KTitleWidget
+    placeholderLabelFont.setPointSize(qRound(placeholderLabelFont.pointSize() * 1.3));
+    label->setFont(placeholderLabelFont);
+    label->setWordWrap(true);
+    label->setAlignment(Qt::AlignCenter);
+    // Match opacity of QML placeholder label component
+    auto *effect = new QGraphicsOpacityEffect(label);
+    effect->setOpacity(0.5);
+    label->setGraphicsEffect(effect);
+
+    auto *centeringLayout = new QVBoxLayout(container);
+    centeringLayout->addWidget(label);
+    centeringLayout->setAlignment(label, Qt::AlignCenter);
+    return label;
+}
+
+QString DolphinView::emptyFolderText(const QUrl &url, const QString &nameFilter)
+{
+    if (!nameFilter.isEmpty()) {
+        return i18n("No items matching the filter");
+    } else if (url.scheme() == QLatin1String("baloosearch") || url.scheme() == QLatin1String("filenamesearch")) {
+        return i18n("No items matching the search");
+    } else if (url.scheme() == QLatin1String("trash") && url.path() == QLatin1String("/")) {
+        return i18n("Trash is empty");
+    } else if (url.scheme() == QLatin1String("tags")) {
+        if (url.path() == QLatin1Char('/')) {
+            return i18n("No tags");
+        } else {
+            const QString tagName = url.path().mid(1); // Remove leading /
+            return i18n("No files tagged with \"%1\"", tagName);
+        }
+    } else if (url.scheme() == QLatin1String("recentlyused")) {
+        return i18n("No recently used items");
+    } else if (url.scheme() == QLatin1String("smb") && (url.host().isEmpty() || url.path().isEmpty() || url.path() == QLatin1String("/"))) {
+        return i18n("No shared folders found");
+    } else if (url.scheme() == QLatin1String("network")) {
+        return i18n("No relevant network resources found");
+    } else if (url.scheme() == QLatin1String("mtp") && url.path() == QLatin1String("/")) {
+        return i18n("No MTP-compatible devices found");
+    } else if (url.scheme() == QLatin1String("afc") && url.path() == QLatin1String("/")) {
+        return i18n("No Apple devices found");
+    } else if (url.scheme() == QLatin1String("kdeconnect") && url.path() == QLatin1String("/")) {
+        if (url.host().isEmpty()) {
+            return i18n("No KDE Connect devices found");
+        } else {
+            return i18n("No storage found on this device");
+        }
+    } else if (url.scheme() == QLatin1String("bluetooth")) {
+        return i18n("No Bluetooth devices found");
+    } else {
+        return i18n("Folder is empty");
+    }
+}
+
 void DolphinView::updatePlaceholderLabel()
 {
     m_showLoadingPlaceholderTimer->stop();
@@ -2959,40 +3014,8 @@ void DolphinView::updatePlaceholderLabel()
 
     if (m_loadingState == LoadingState::Canceled) {
         m_placeholderLabel->setText(i18n("Loading canceled"));
-    } else if (!nameFilter().isEmpty()) {
-        m_placeholderLabel->setText(i18n("No items matching the filter"));
-    } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")) {
-        m_placeholderLabel->setText(i18n("No items matching the search"));
-    } else if (m_url.scheme() == QLatin1String("trash") && m_url.path() == QLatin1String("/")) {
-        m_placeholderLabel->setText(i18n("Trash is empty"));
-    } else if (m_url.scheme() == QLatin1String("tags")) {
-        if (m_url.path() == QLatin1Char('/')) {
-            m_placeholderLabel->setText(i18n("No tags"));
-        } else {
-            const QString tagName = m_url.path().mid(1); // Remove leading /
-            m_placeholderLabel->setText(i18n("No files tagged with \"%1\"", tagName));
-        }
-
-    } else if (m_url.scheme() == QLatin1String("recentlyused")) {
-        m_placeholderLabel->setText(i18n("No recently used items"));
-    } else if (m_url.scheme() == QLatin1String("smb") && (m_url.host().isEmpty() || m_url.path().isEmpty() || m_url.path() == QLatin1String("/"))) {
-        m_placeholderLabel->setText(i18n("No shared folders found"));
-    } else if (m_url.scheme() == QLatin1String("network")) {
-        m_placeholderLabel->setText(i18n("No relevant network resources found"));
-    } else if (m_url.scheme() == QLatin1String("mtp") && m_url.path() == QLatin1String("/")) {
-        m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
-    } else if (m_url.scheme() == QLatin1String("afc") && m_url.path() == QLatin1String("/")) {
-        m_placeholderLabel->setText(i18n("No Apple devices found"));
-    } else if (m_url.scheme() == QLatin1String("kdeconnect") && m_url.path() == QLatin1String("/")) {
-        if (m_url.host().isEmpty()) {
-            m_placeholderLabel->setText(i18n("No KDE Connect devices found"));
-        } else {
-            m_placeholderLabel->setText(i18n("No storage found on this device"));
-        }
-    } else if (m_url.scheme() == QLatin1String("bluetooth")) {
-        m_placeholderLabel->setText(i18n("No Bluetooth devices found"));
     } else {
-        m_placeholderLabel->setText(i18n("Folder is empty"));
+        m_placeholderLabel->setText(emptyFolderText(m_url, nameFilter()));
     }
 
     m_placeholderLabel->setVisible(true);

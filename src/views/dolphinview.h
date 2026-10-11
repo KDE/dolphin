@@ -196,6 +196,9 @@ public:
      */
     void markUrlAsCurrent(const QUrl &url);
 
+    /// Gives the selection to the part of the view that shows url(), where marked and created items are selected.
+    virtual void activateUrlFolder();
+
     /**
      * All items that match the regular expression \a regexp will get selected
      * if \a enabled is true and deselected if \a enabled is false.
@@ -379,6 +382,12 @@ public:
      * otherwise return an empty url.
      */
     static QUrl openItemAsFolderUrl(const KFileItem &item, const bool browseThroughArchives = true);
+
+    /** The text that an empty listing of @p url shows, which names @p nameFilter when it is set. */
+    static QString emptyFolderText(const QUrl &url, const QString &nameFilter);
+
+    /** A label for that text, centered in @p container. */
+    static QLabel *createPlaceholderLabel(QWidget *container);
 
     /**
      * Set the default order for a given sort role.
@@ -827,8 +836,15 @@ protected:
      */
     QMimeData *selectionMimeData() const;
 
-    /** Drops on item @p index of @p model, or on @p fallbackUrl when that is not a folder. */
-    void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event);
+    /** As the public dropUrls(), and the dropped items are selected when @p selectDroppedItems is true. */
+    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget, bool selectDroppedItems);
+
+    /**
+     * Drops on item @p index of @p model, or on @p fallbackUrl when that is not a folder.
+     * The dropped items are selected when they land in the folder of the view and
+     * @p selectDroppedItems is true.
+     */
+    void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event, bool selectDroppedItems = true);
 
     /**
      * Returns the selection manager for the currently active view.
