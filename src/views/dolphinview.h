@@ -196,6 +196,9 @@ public:
      */
     void markUrlAsCurrent(const QUrl &url);
 
+    /// Gives the selection to the part of the view that shows url(), where marked and created items are selected.
+    virtual void activateUrlFolder();
+
     /**
      * All items that match the regular expression \a regexp will get selected
      * if \a enabled is true and deselected if \a enabled is false.
@@ -847,9 +850,6 @@ protected:
      * Returns the selection manager for the currently active view.
      */
     virtual KItemListSelectionManager *activeSelectionManager() const;
-
-    /// Gives the selection to the part of the view that shows url(), where created items are selected.
-    virtual void activateUrlFolder();
 
     /**
      * Returns the model for the currently active view.

@@ -59,6 +59,7 @@ public:
     KItemListController *draggingController() const override;
     /// Moving to another column keeps the selection mode.
     bool urlChangeLeavesTheSelectionBehind() const override;
+    void activateUrlFolder() override;
 
     int columnCount() const;
     DolphinColumnPane *columnAt(int index) const;
@@ -76,7 +77,6 @@ protected:
     void showEvent(QShowEvent *event) override;
 
     KItemListSelectionManager *activeSelectionManager() const override;
-    void activateUrlFolder() override;
     KFileItemModel *activeModel() const override;
     DolphinItemListView *activeItemListView() const override;
 
