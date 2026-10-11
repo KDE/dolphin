@@ -852,7 +852,9 @@ void DolphinColumnsView::handleKeyRight(int sourceColumn)
 bool DolphinColumnsView::handleKeyReturn(int sourceColumn)
 {
     // Several selected items are opened together by the controller, as in the other view modes.
-    if (m_columns.at(sourceColumn)->controller()->selectionManager()->selectedItems().count() >= 2) {
+    // With Ctrl or Shift, the controller activates the item to open it in a new tab or window.
+    if (m_columns.at(sourceColumn)->controller()->selectionManager()->selectedItems().count() >= 2
+        || (QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier))) {
         return false;
     }
     const KFileItem item = m_columns.at(sourceColumn)->currentFileItem();
