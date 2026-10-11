@@ -76,6 +76,7 @@ protected:
     void showEvent(QShowEvent *event) override;
 
     KItemListSelectionManager *activeSelectionManager() const override;
+    void activateUrlFolder() override;
     KFileItemModel *activeModel() const override;
     DolphinItemListView *activeItemListView() const override;
 
@@ -100,6 +101,8 @@ private:
     QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
+    /// The url is the folder of the last column: the one of the selected folder, as in Finder.
+    void updateUrlToTheLastColumn();
     /// Creates the column for @p dirUrl and adds it after the last one.
     DolphinColumnPane *appendPane(const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
@@ -142,7 +145,7 @@ private:
 
     /// Shows @p url within the open columns, activating it or opening the folders down to it.
     /// Returns false when @p url is not under an open column.
-    bool showUrlInOpenColumns(const QUrl &url, const QUrl &previousUrl = QUrl());
+    bool showUrlInOpenColumns(const QUrl &url);
 
     void syncColumnsFromViewProperties();
     void applyViewProperties(KFileItemModel *model) const;
@@ -158,6 +161,8 @@ private:
     int m_statusBarOffset = 0;
 
     bool m_switchingColumns = false;
+    /// setUrl() decides the url, the columns follow it.
+    bool m_settingUrl = false;
     QString m_nameFilter;
     std::function<QUrl(const QUrl &)> m_rootUrlResolver;
     KFileItemModelFilter::FilterMode m_filterMode;

@@ -2010,6 +2010,7 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
     if (!m_active) {
         return;
     }
+    activateUrlFolder();
 
     // select the new directory
     if (!m_model->fileItem(newDirectoryUrl).isNull()) {
@@ -2047,6 +2048,7 @@ void DolphinView::observeCreatedItem(const QUrl &url)
     if (!m_active) {
         return;
     }
+    activateUrlFolder();
 
     // select the new file
     if (!m_model->fileItem(url).isNull()) {
@@ -2826,6 +2828,10 @@ KItemListSelectionManager *DolphinView::activeSelectionManager() const
     return m_container->controller()->selectionManager();
 }
 
+void DolphinView::activateUrlFolder()
+{
+}
+
 KFileItemModel *DolphinView::activeModel() const
 {
     return m_model;
@@ -2841,7 +2847,7 @@ void DolphinView::updateWritableState()
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = false;
 
-    KFileItem item = activeModel()->rootItem();
+    KFileItem item = rootItem();
     if (item.isNull()) {
         // Try to find out if the URL is writable even if the "root item" is
         // null, see https://bugs.kde.org/show_bug.cgi?id=330001
