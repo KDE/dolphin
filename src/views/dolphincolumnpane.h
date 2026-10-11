@@ -18,6 +18,7 @@ class DolphinItemListView;
 class KFileItemModel;
 class KItemListContainer;
 class KItemListController;
+class QLabel;
 class VersionControlObserver;
 
 /**
@@ -55,6 +56,9 @@ public:
     /// The folder that @p item opens, a directory or an archive, or an empty url.
     static QUrl folderUrlFor(const KFileItem &item);
 
+    /// Shows what an empty folder says, once it has listed.
+    void updatePlaceholderLabel();
+
     void setPreviewsShown(bool show);
 
     int calculateOptimalWidth() const;
@@ -89,6 +93,8 @@ private:
     KItemListController *m_controller = nullptr;
     KItemListContainer *m_container = nullptr;
     VersionControlObserver *m_versionControlObserver = nullptr;
+    QLabel *m_placeholderLabel = nullptr;
+    bool m_listing = false;
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
     bool m_selectionCheckPending = false;

@@ -31,6 +31,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QLabel>
 #include <QLineEdit>
 #include <QMimeData>
 #include <QPointer>
@@ -101,6 +102,7 @@ private Q_SLOTS:
     void testModelMatchesActiveColumn();
 
     void testEmptyDirectory();
+    void testAnEmptyFolderSaysSo();
     void testReload();
 
     void testKeyReturn_fileEmitsItemActivated();
@@ -847,6 +849,33 @@ void DolphinColumnsViewTest::testEmptyDirectory()
         navigateRight();
         QCOMPARE(m_view->columnCount(), afterGamma);
     }
+}
+
+void DolphinColumnsViewTest::testAnEmptyFolderSaysSo()
+{
+    // As the other view modes do, a column of an empty folder says that it is empty instead of
+    // showing nothing at all.
+    auto placeholderOf = [](const DolphinColumnPane *pane) {
+        return pane->findChild<QLabel *>();
+    };
+    QVERIFY(placeholderOf(m_view->columnAt(0)));
+    QVERIFY(!placeholderOf(m_view->columnAt(0))->isVisible());
+
+    selectItemInColumn(0, QStringLiteral("gamma"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *gammaPane = m_view->columnAt(1);
+    QTRY_VERIFY_WITH_TIMEOUT(placeholderOf(gammaPane)->isVisible(), 5000);
+    QCOMPARE(placeholderOf(gammaPane)->text(), QStringLiteral("Folder is empty"));
+
+    // A file created in the folder takes the place of the text.
+    m_testDir->createFile(QStringLiteral("gamma/new-file.txt"));
+    QTRY_VERIFY_WITH_TIMEOUT(gammaPane->model()->count() > 0, 10000);
+    QVERIFY(!placeholderOf(gammaPane)->isVisible());
+
+    // A filter that matches nothing says so.
+    m_view->setNameFilter(QStringLiteral("matches-nothing"));
+    QTRY_VERIFY_WITH_TIMEOUT(placeholderOf(m_view->columnAt(0))->isVisible(), 5000);
+    QCOMPARE(placeholderOf(m_view->columnAt(0))->text(), QStringLiteral("No items matching the filter"));
 }
 
 void DolphinColumnsViewTest::testReload()
