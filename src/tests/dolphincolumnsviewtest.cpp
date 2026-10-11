@@ -2015,10 +2015,13 @@ void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
 void DolphinColumnsViewTest::testShiftArrowExtendsTheSelection()
 {
     // Shift+Down selects a range, as in the other view modes, and a range shows no folder.
+    // A folder before alpha, for the range that Shift+Up selects.
+    m_testDir->createDir("aardvark");
     m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     activateColumn(0);
     auto *rootPane = m_view->columnAt(0);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("aardvark")) >= 0, 10000);
     auto *rootSelection = rootPane->controller()->selectionManager();
     const int alphaIndex = indexOfName(rootPane, QStringLiteral("alpha"));
     QVERIFY(alphaIndex > 0 && alphaIndex + 1 < rootPane->model()->count());
@@ -2051,7 +2054,8 @@ void DolphinColumnsViewTest::testShiftArrowExtendsTheSelection()
     QTest::keyClick(window, Qt::Key_Down);
     QCOMPARE(rootSelection->selectedItems().count(), 1);
     QVERIFY(rootSelection->isSelected(alphaIndex + 1));
-    QCOMPARE(m_view->columnCount(), 1);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("beta")));
     QTest::keyClick(window, Qt::Key_Up);
     QCOMPARE(rootSelection->selectedItems().count(), 1);
     QVERIFY(rootSelection->isSelected(alphaIndex));
