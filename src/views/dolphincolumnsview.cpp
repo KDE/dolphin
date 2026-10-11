@@ -694,12 +694,15 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 
     auto controller = pane->controller();
     connect(controller, &KItemListController::itemDropEvent, this, [this, pane](int index, QGraphicsSceneDragDropEvent *event) {
-        // Dropped into the folder of the column, which becomes active so that the dropped items are selected in it.
+        // Dropped into the folder of the last column, which becomes active so that the dropped items are
+        // selected in it. A column with columns after it keeps its selection and the folder it shows.
+        const int colIndex = m_columns.indexOf(pane);
+        const bool showsAFolder = colIndex + 1 < m_columns.size();
         const KFileItem item = pane->model()->fileItem(index);
-        if (item.isNull() || (!item.isDir() && !item.isDesktopFile() && !item.isExecutable())) {
-            setActiveColumn(m_columns.indexOf(pane));
+        if (!showsAFolder && (item.isNull() || (!item.isDir() && !item.isDesktopFile() && !item.isExecutable()))) {
+            setActiveColumn(colIndex);
         }
-        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event);
+        handleItemDropEvent(pane->model(), pane->dirUrl(), index, event, !showsAFolder);
     });
 
     connect(controller, &KItemListController::mouseButtonReleased, this, [this, pane](int itemIndex, Qt::MouseButtons buttons) {

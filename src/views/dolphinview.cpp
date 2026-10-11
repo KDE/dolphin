@@ -1579,7 +1579,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *even
     handleItemDropEvent(m_model, url(), index, event);
 }
 
-void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event)
+void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event, bool selectDroppedItems)
 {
     QUrl destUrl;
     KFileItem destItem = model->fileItem(index);
@@ -1591,12 +1591,17 @@ void DolphinView::handleItemDropEvent(KFileItemModel *model, const QUrl &fallbac
 
     // KIO::drop() places its menu in the coordinates of this widget.
     QDropEvent dropEvent(mapFromGlobal(event->screenPos()), event->possibleActions(), event->mimeData(), event->buttons(), event->modifiers());
-    dropUrls(destUrl, &dropEvent, this);
+    dropUrls(destUrl, &dropEvent, this, selectDroppedItems && destUrl == url());
 
     setActive(true);
 }
 
 void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget)
+{
+    dropUrls(destUrl, dropEvent, dropWidget, destUrl == url());
+}
+
+void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget, bool selectDroppedItems)
 {
     KIO::DropJobFlags dropjobFlags;
     if (qobject_cast<KFilePlacesView *>(dropEvent->source())) {
@@ -1610,7 +1615,7 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
     if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
 
-        if (destUrl == url()) {
+        if (selectDroppedItems) {
             // Mark the dropped urls as selected.
             m_clearSelectionBeforeSelectingNewItems = true;
             m_markFirstNewlySelectedItemAsCurrent = true;
