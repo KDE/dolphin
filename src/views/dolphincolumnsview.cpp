@@ -211,6 +211,8 @@ void DolphinColumnsView::setNameFilter(const QString &nameFilter)
     m_nameFilter = nameFilter;
     for (DolphinColumnPane *pane : std::as_const(m_columns)) {
         pane->model()->setNameFilter(nameFilter);
+        // A folder that stays empty says that the filter matched nothing.
+        pane->updatePlaceholderLabel();
     }
     DolphinView::setNameFilter(nameFilter);
 }
