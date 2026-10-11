@@ -4894,7 +4894,7 @@ msgstr "Показывать или нет кнопки закрытия вкл�
 #: settings/dolphin_generalsettings.kcfg:56
 #, kde-format
 msgid "Tab style"
-msgstr "Оформление вкладок:"
+msgstr "Оформление вкладок"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66

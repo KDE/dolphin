@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-09-23 09:06+0200\n"
+"PO-Revision-Date: 2026-10-09 12:12+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -771,26 +771,20 @@ msgstr ""
 "fermer l'une des vues."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "Vue scindée"
+msgstr "Diviser la vue en onglets"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"Si la vue a été scindée, cela ouvrira la vue ayant le focus dans une "
-"nouvelle fenêtre."
+"Si la vue a été scindée, les deux vues seront déplacées vers des onglets et "
+"la vue scindée sera fermée."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format

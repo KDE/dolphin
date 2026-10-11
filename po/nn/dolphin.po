@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-09-25 18:03+0200\n"
+"PO-Revision-Date: 2026-10-10 12:35+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.08.1\n"
+"X-Generator: Lokalize 26.11.70\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -6019,7 +6019,7 @@ msgstr "Stigande"
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
-msgstr "Synkande"
+msgstr "Fallande"
 
 #: settings/viewpropertiesdialog.cpp:85
 #, kde-format
@@ -6458,12 +6458,10 @@ msgid "Hide this Folder?"
 msgstr "Gøyma mappa?"
 
 #: views/dolphinview.cpp:2397
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Endra namn …"
+msgstr "Endra namnet"
 
 #: views/dolphinview.cpp:2407
 #, kde-format
@@ -6482,6 +6480,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Dette vil endra filtypen frå «%1» til «%2».\n"
+"Innhaldet i fila vil vera det same, men det er ikkje sikkert alle program "
+"vil kjenna ho att.\n"
+"Er du sikker på at du vil endra namnet?"
 
 #: views/dolphinview.cpp:2417
 #, fuzzy, kde-format
@@ -7047,7 +7049,7 @@ msgstr "Lågaste først"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
-msgstr "Synkande"
+msgstr "Fallande"
 
 #: views/dolphinviewactionhandler.cpp:841
 #, kde-format
