@@ -148,6 +148,7 @@ private Q_SLOTS:
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testTheFirstVisibleColumnIsShownWhole();
+    void testTheActiveColumnStaysInViewWhenTheNextOneOpens();
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
@@ -2042,6 +2043,38 @@ void DolphinColumnsViewTest::testTheFirstVisibleColumnIsShownWhole()
 
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->horizontalScrollBar()->value() > 0, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(noColumnIsCut(), 5000);
+}
+
+void DolphinColumnsViewTest::testTheActiveColumnStaysInViewWhenTheNextOneOpens()
+{
+    // The url bar names the folder of the active column. In a split view one column can be all
+    // that fits, and showing the column a click opened left the url naming a column out of view.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(false);
+    settings->setMinColumnWidth(300);
+
+    m_view->resize(350, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    auto activeColumnIsInView = [this]() {
+        const int left = m_view->columnAt(m_view->activeColumnIndex())->mapTo(m_view->m_scrollArea->viewport(), QPoint(0, 0)).x();
+        return left >= 0 && left < m_view->m_scrollArea->viewport()->width();
+    };
+
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(m_view->columnAt(0), QStringLiteral("alpha")) >= 0, 5000);
+    clickItem(m_view->columnAt(0), indexOfName(m_view->columnAt(0), QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(m_view->columnAt(1), QStringLiteral("alpha-child")) >= 0, 5000);
+    QTest::qWait(50);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QVERIFY(activeColumnIsInView());
+
+    clickItem(m_view->columnAt(1), indexOfName(m_view->columnAt(1), QStringLiteral("alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QTest::qWait(50);
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")));
+    QVERIFY(activeColumnIsInView());
 }
 
 void DolphinColumnsViewTest::testWideningTheWindowShowsTheParentColumns()
