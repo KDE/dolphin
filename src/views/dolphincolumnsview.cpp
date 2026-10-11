@@ -689,6 +689,26 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
     }
     pane->setPreviewsShown(previewsShown());
     pane->setZoomLevel(zoomLevel());
+
+    // The status bar and the Stop action follow the listing of the folder that the view shows.
+    auto showsTheViewUrl = [this, pane]() {
+        return pane->dirUrl().matches(url(), QUrl::StripTrailingSlash);
+    };
+    connect(model, &KFileItemModel::directoryLoadingStarted, this, [this, showsTheViewUrl]() {
+        if (showsTheViewUrl()) {
+            Q_EMIT directoryLoadingStarted();
+        }
+    });
+    connect(model, &KFileItemModel::directoryLoadingCanceled, this, [this, showsTheViewUrl]() {
+        if (showsTheViewUrl()) {
+            Q_EMIT directoryLoadingCanceled();
+        }
+    });
+    connect(model, &KFileItemModel::directoryLoadingProgress, this, [this, showsTheViewUrl](int percent) {
+        if (showsTheViewUrl()) {
+            Q_EMIT directoryLoadingProgress(percent);
+        }
+    });
     model->loadDirectory(dirUrl);
 
     connect(pane, &DolphinColumnPane::fileActivated, this, &DolphinColumnsView::slotFileActivated);
