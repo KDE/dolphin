@@ -106,6 +106,8 @@ private Q_SLOTS:
     void testKeyReturn_fileEmitsItemActivated();
     void testKeyReturn_directoryOpensChild();
     void testKeyReturn_opensEverySelectedItem();
+    void testCtrlOrShiftOpensAFolderElsewhere_data();
+    void testCtrlOrShiftOpensAFolderElsewhere();
     void testKeyReturn_doesNotReloadAlreadyOpenChild();
 
     void testShiftRight_navigatesBetweenColumns();
@@ -881,6 +883,39 @@ void DolphinColumnsViewTest::testKeyReturn_directoryOpensChild()
 
     QCOMPARE(spy.count(), 0);
     QVERIFY(m_view->activeColumnIndex() >= 1);
+}
+
+void DolphinColumnsViewTest::testCtrlOrShiftOpensAFolderElsewhere_data()
+{
+    QTest::addColumn<Qt::KeyboardModifier>("modifier");
+    QTest::newRow("Ctrl, a new tab") << Qt::ControlModifier;
+    QTest::newRow("Shift, a new window") << Qt::ShiftModifier;
+}
+
+void DolphinColumnsViewTest::testCtrlOrShiftOpensAFolderElsewhere()
+{
+    // As in the other view modes, a folder activated with Ctrl or Shift is handed to the view
+    // container, which opens it in a new tab or window. The columns stay as they are.
+    QFETCH(Qt::KeyboardModifier, modifier);
+    selectItemInColumn(0, QStringLiteral("beta"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    auto *pane = m_view->columnAt(0);
+    const int betaIndex = indexOfName(pane, QStringLiteral("beta"));
+
+    QSignalSpy spy(m_view, &DolphinView::itemActivated);
+    QTest::keyClick(pane->container()->viewport(), Qt::Key_Return, modifier);
+    QTRY_COMPARE_WITH_TIMEOUT(spy.count(), 1, 5000);
+    QCOMPARE(spy.at(0).at(0).value<KFileItem>().name(), QStringLiteral("beta"));
+
+    // A double click activates the item with the modifier still held.
+    QTest::keyPress(pane->container()->viewport(), modifier == Qt::ControlModifier ? Qt::Key_Control : Qt::Key_Shift, modifier);
+    QVERIFY(QGuiApplication::keyboardModifiers() & modifier);
+    Q_EMIT pane->controller()->itemActivated(betaIndex);
+    QTest::keyRelease(pane->container()->viewport(), modifier == Qt::ControlModifier ? Qt::Key_Control : Qt::Key_Shift);
+    QCOMPARE(spy.count(), 2);
+
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+    QCOMPARE(m_view->columnCount(), 2);
 }
 
 void DolphinColumnsViewTest::testKeyReturn_opensEverySelectedItem()
