@@ -827,8 +827,15 @@ protected:
      */
     QMimeData *selectionMimeData() const;
 
-    /** Drops on item @p index of @p model, or on @p fallbackUrl when that is not a folder. */
-    void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event);
+    /** As the public dropUrls(), and the dropped items are selected when @p selectDroppedItems is true. */
+    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget, bool selectDroppedItems);
+
+    /**
+     * Drops on item @p index of @p model, or on @p fallbackUrl when that is not a folder.
+     * The dropped items are selected when they land in the folder of the view and
+     * @p selectDroppedItems is true.
+     */
+    void handleItemDropEvent(KFileItemModel *model, const QUrl &fallbackUrl, int index, QGraphicsSceneDragDropEvent *event, bool selectDroppedItems = true);
 
     /**
      * Returns the selection manager for the currently active view.
