@@ -79,6 +79,7 @@ private Q_SLOTS:
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
     void testOnlyAnExternalUrlChangeClosesColumns();
+    void testGoingUpInColumnsStaysUp();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
     void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
 
@@ -580,9 +581,9 @@ void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()
 
 void DolphinViewContainerTest::testOnlyAnExternalUrlChangeClosesColumns()
 {
-    // Moving to a parent column keeps the columns after it, also once the url navigator has
-    // passed the new url back. Setting the url from outside, as the terminal panel does, drops
-    // what was selected inside the folder on the way back.
+    // Moving the focus to a parent column keeps the url and the columns after it, also once the
+    // url navigator has passed the url back. Setting the url from outside, as the terminal panel
+    // does, closes the columns after the column of that url.
     m_testDir->createDir("a/b/c");
     m_testDir->createFile("a/b/c/a-file.txt");
     const QUrl aUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a"));
@@ -607,24 +608,58 @@ void DolphinViewContainerTest::testOnlyAnExternalUrlChangeClosesColumns()
 
     // As the Left key does.
     columnsView->setActiveColumn(columnCount - 2);
-    QTRY_COMPARE_WITH_TIMEOUT(m_container->urlNavigatorInternalWithHistory()->locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(m_container->urlNavigatorInternalWithHistory()->locationUrl().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(navigator.locationUrl().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(columnsView->columnCount(), columnCount);
+
+    // b, written with a trailing slash, closes the column of c.
+    m_container->setUrl(QUrl::fromLocalFile(bUrl.toLocalFile() + QLatin1Char('/')));
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), bUrl);
     QTRY_COMPARE_WITH_TIMEOUT(navigator.locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
     QCoreApplication::processEvents();
-    QCOMPARE(columnsView->columnCount(), columnCount);
+    QCOMPARE(columnsView->columnCount(), columnCount - 1);
 
-    // The same folder, written with a trailing slash.
-    m_container->setUrl(QUrl::fromLocalFile(bUrl.toLocalFile() + QLatin1Char('/')));
-    QCoreApplication::processEvents();
-    QCOMPARE(columnsView->columnCount(), columnCount);
-
-    // b, the folder on the way back, stays open with nothing selected in it.
+    // b, the folder on the way back, stays the current item in a, with nothing selected.
     m_container->setUrl(aUrl);
-    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 2, 5000);
     QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
-    QCOMPARE(columnsView->columnAt(columnCount - 2)->dirUrl().adjusted(QUrl::StripTrailingSlash), bUrl);
-    QVERIFY(!columnsView->columnAt(columnCount - 2)->controller()->selectionManager()->hasSelection());
+    QVERIFY(!columnsView->columnAt(columnCount - 3)->controller()->selectionManager()->hasSelection());
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->columnCount(), columnCount - 2);
 
     m_container->disconnectUrlNavigator();
+}
+
+void DolphinViewContainerTest::testGoingUpInColumnsStaysUp()
+{
+    // Going up asks the view to select the folder on the way back, as the other view modes do.
+    // In the columns view a selected folder shows its content, which would go down again.
+    m_testDir->createDir("a/b");
+    const QUrl aUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a"));
+    const QUrl bUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b"));
+    waitForItemListed(aUrl);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+
+    m_container->setUrl(bUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->url().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    const int columnCount = columnsView->columnCount();
+
+    m_container->urlNavigatorInternalWithHistory()->goUp();
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
+
+    // The next listing of the column applies what was marked to select.
+    columnsView->reload();
+    QTest::qWait(500); // UNAVOIDABLE: nothing is expected to happen
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
+    QCOMPARE(columnsView->columnCount(), columnCount - 1);
 }
 
 void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsView()
