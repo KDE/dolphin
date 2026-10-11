@@ -104,6 +104,7 @@ private Q_SLOTS:
 
     void testEmptyDirectory();
     void testAnEmptyFolderSaysSo();
+    void testTheShownFolderReportsItsListing();
     void testReload();
 
     void testKeyReturn_fileEmitsItemActivated();
@@ -878,6 +879,25 @@ void DolphinColumnsViewTest::testAnEmptyFolderSaysSo()
     m_view->setNameFilter(QStringLiteral("matches-nothing"));
     QTRY_VERIFY_WITH_TIMEOUT(placeholderOf(m_view->columnAt(0))->isVisible(), 5000);
     QCOMPARE(placeholderOf(m_view->columnAt(0))->text(), QStringLiteral("No items matching the filter"));
+}
+
+void DolphinColumnsViewTest::testTheShownFolderReportsItsListing()
+{
+    // The status bar says "Searching..." and the Stop action is enabled on the listing of the
+    // folder that the view shows, as in the other view modes.
+    QSignalSpy startedSpy(m_view, &DolphinView::directoryLoadingStarted);
+    QSignalSpy canceledSpy(m_view, &DolphinView::directoryLoadingCanceled);
+
+    const QUrl betaUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/beta"));
+    m_view->setUrl(betaUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(startedSpy.count(), 1, 5000);
+    waitForStableState();
+
+    const QUrl gammaUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/gamma"));
+    m_view->setUrl(gammaUrl);
+    QCOMPARE(startedSpy.count(), 2);
+    m_view->stopLoading();
+    QCOMPARE(canceledSpy.count(), 1);
 }
 
 void DolphinColumnsViewTest::testReload()
