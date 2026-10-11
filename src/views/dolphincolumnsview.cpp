@@ -597,6 +597,8 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
             return;
         }
         ensureColumnVisible(index);
+        // The url is the one of the active column, so it stays in view when both do not fit.
+        ensureActiveColumnVisible();
     });
 }
 
