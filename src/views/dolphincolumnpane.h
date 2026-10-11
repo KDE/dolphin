@@ -65,6 +65,7 @@ public:
 
 Q_SIGNALS:
     void directoryActivated(const QUrl &childDirUrl);
+    /// A file, or a folder activated with Ctrl or Shift.
     void fileActivated(const KFileItem &item);
     /// The item that the next column shows the folder of is no longer listed here, or nothing is selected here.
     void activeChildRemoved();

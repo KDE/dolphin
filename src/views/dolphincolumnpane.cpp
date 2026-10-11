@@ -20,6 +20,7 @@
 #include "versioncontrol/versioncontrolobserver.h"
 #include "views/dolphinview.h"
 
+#include <QGuiApplication>
 #include <QScrollBar>
 #include <QStyle>
 #include <QStyleOption>
@@ -242,7 +243,9 @@ void DolphinColumnPane::slotItemActivated(int index)
     if (item.isNull()) {
         return;
     }
-    if (const QUrl folderUrl = folderUrlFor(item); !folderUrl.isEmpty()) {
+    // Ctrl and Shift open a folder in a new tab or window, as for a file.
+    const bool opensElsewhere = QGuiApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+    if (const QUrl folderUrl = folderUrlFor(item); !folderUrl.isEmpty() && !opensElsewhere) {
         Q_EMIT directoryActivated(folderUrl);
     } else {
         Q_EMIT fileActivated(item);
