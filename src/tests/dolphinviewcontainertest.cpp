@@ -33,6 +33,7 @@
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KCoreDirLister>
+#include <KMessageWidget>
 #include <KSharedConfig>
 
 #include <QApplication>
@@ -83,9 +84,16 @@ private Q_SLOTS:
     void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
     void testEachViewModeKeepsItsOwnZoomLevel();
     void testOnlyAnExternalUrlChangeClosesColumns();
+    void testGoingUpInColumnsStaysUp();
     void testADragRunsWhenItsStartIsReported();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
     void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
+    void testAFileTypedAsTheLocationOpensItsFolder_data();
+    void testAFileTypedAsTheLocationOpensItsFolder();
+    void testARemovedFolderMovesTheViewToItsParent_data();
+    void testARemovedFolderMovesTheViewToItsParent();
+    void testALocationThatRedirectsShowsItsTarget_data();
+    void testALocationThatRedirectsShowsItsTarget();
 
 private:
     void waitForViewReady();
@@ -565,9 +573,9 @@ void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()
 
 void DolphinViewContainerTest::testOnlyAnExternalUrlChangeClosesColumns()
 {
-    // Moving to a parent column keeps the columns after it, also once the url navigator has
-    // passed the new url back. Setting the url from outside, as the terminal panel does, drops
-    // what was selected inside the folder on the way back.
+    // Moving the focus to a parent column keeps the url and the columns after it, also once the
+    // url navigator has passed the url back. Setting the url from outside, as the terminal panel
+    // does, closes the columns after the column of that url.
     // The folders below have no display style of their own, and they stay in the columns view with a
     // common display style for all folders.
     GeneralSettings::setGlobalViewProps(true);
@@ -598,24 +606,64 @@ void DolphinViewContainerTest::testOnlyAnExternalUrlChangeClosesColumns()
 
     // As the Left key does.
     columnsView->setActiveColumn(columnCount - 2);
-    QTRY_COMPARE_WITH_TIMEOUT(m_container->urlNavigatorInternalWithHistory()->locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(m_container->urlNavigatorInternalWithHistory()->locationUrl().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(navigator.locationUrl().adjusted(QUrl::StripTrailingSlash), cUrl);
+    QCOMPARE(columnsView->columnCount(), columnCount);
+
+    // b, written with a trailing slash, closes the column of c.
+    m_container->setUrl(QUrl::fromLocalFile(bUrl.toLocalFile() + QLatin1Char('/')));
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), bUrl);
     QTRY_COMPARE_WITH_TIMEOUT(navigator.locationUrl().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
     QCoreApplication::processEvents();
-    QCOMPARE(columnsView->columnCount(), columnCount);
+    QCOMPARE(columnsView->columnCount(), columnCount - 1);
 
-    // The same folder, written with a trailing slash.
-    m_container->setUrl(QUrl::fromLocalFile(bUrl.toLocalFile() + QLatin1Char('/')));
-    QCoreApplication::processEvents();
-    QCOMPARE(columnsView->columnCount(), columnCount);
-
-    // b, the folder on the way back, stays open with nothing selected in it.
+    // b, the folder on the way back, stays the current item in a, with nothing selected.
     m_container->setUrl(aUrl);
-    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 2, 5000);
     QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
-    QCOMPARE(columnsView->columnAt(columnCount - 2)->dirUrl().adjusted(QUrl::StripTrailingSlash), bUrl);
-    QVERIFY(!columnsView->columnAt(columnCount - 2)->controller()->selectionManager()->hasSelection());
+    QVERIFY(!columnsView->columnAt(columnCount - 3)->controller()->selectionManager()->hasSelection());
+    QCoreApplication::processEvents();
+    QCOMPARE(columnsView->columnCount(), columnCount - 2);
 
     m_container->disconnectUrlNavigator();
+}
+
+void DolphinViewContainerTest::testGoingUpInColumnsStaysUp()
+{
+    // Going up asks the view to select the folder on the way back, as the other view modes do.
+    // In the columns view a selected folder shows its content, which would go down again.
+    // The folders below have no display style of their own, and they stay in the columns view with a
+    // common display style for all folders.
+    GeneralSettings::setGlobalViewProps(true);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setGlobalViewProps(false);
+    });
+    m_testDir->createDir("a/b");
+    const QUrl aUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a"));
+    const QUrl bUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b"));
+    waitForItemListed(aUrl);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+
+    m_container->setUrl(bUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->url().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    const int columnCount = columnsView->columnCount();
+
+    m_container->urlNavigatorInternalWithHistory()->goUp();
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->columnCount(), columnCount - 1, 5000);
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
+
+    // The next listing of the column applies what was marked to select.
+    columnsView->reload();
+    QTest::qWait(500); // UNAVOIDABLE: nothing is expected to happen
+    QCOMPARE(columnsView->url().adjusted(QUrl::StripTrailingSlash), aUrl);
+    QCOMPARE(columnsView->columnCount(), columnCount - 1);
 }
 
 /**
@@ -915,6 +963,139 @@ void DolphinViewContainerTest::testAColumnClosedDuringItsDragStaysUntilTheDragEn
     QVERIFY(keptDuringTheDrag);
     QCOMPARE(columns->url(), sibling.url());
     QTRY_VERIFY_WITH_TIMEOUT(!pane, 5000);
+}
+
+// Every view mode, with a display style for each folder and with a common one for all folders.
+static void addViewModeRows()
+{
+    QTest::addColumn<DolphinView::Mode>("mode");
+    QTest::addColumn<bool>("globalViewProps");
+    const std::pair<const char *, DolphinView::Mode> modes[] = {
+        {"icons", DolphinView::IconsView},
+        {"compact", DolphinView::CompactView},
+        {"details", DolphinView::DetailsView},
+        {"columns", DolphinView::ColumnsView},
+    };
+    for (const auto &[name, mode] : modes) {
+        QTest::addRow("%s, per folder", name) << mode << false;
+        QTest::addRow("%s, common", name) << mode << true;
+    }
+}
+
+void DolphinViewContainerTest::testAFileTypedAsTheLocationOpensItsFolder_data()
+{
+    addViewModeRows();
+}
+
+/**
+ * A file typed in the location bar opens the folder that holds it, with a message that offers to
+ * open the file.
+ */
+void DolphinViewContainerTest::testAFileTypedAsTheLocationOpensItsFolder()
+{
+    QFETCH(DolphinView::Mode, mode);
+    QFETCH(bool, globalViewProps);
+    GeneralSettings::setGlobalViewProps(globalViewProps);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setGlobalViewProps(false);
+    });
+    m_testDir->createDir("folder");
+    m_testDir->createFile("folder/a-file.txt");
+    const QUrl folderUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/folder"));
+    const QUrl fileUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/folder/a-file.txt"));
+    waitForItemListed(fileUrl);
+
+    m_container->setUrl(folderUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), folderUrl, 5000);
+    m_container->setViewMode(mode);
+    waitForViewReady();
+
+    m_container->setUrl(fileUrl);
+
+    auto *messageWidget = m_container->findChild<KMessageWidget *>();
+    QVERIFY(messageWidget);
+    QTRY_VERIFY_WITH_TIMEOUT(messageWidget->isVisible() && messageWidget->text().contains(QStringLiteral("a-file.txt")), 5000);
+    QCOMPARE(messageWidget->messageType(), KMessageWidget::Error);
+    QCOMPARE(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), folderUrl);
+    QCOMPARE(m_container->url().adjusted(QUrl::StripTrailingSlash), folderUrl);
+    QCOMPARE(m_container->view()->viewMode(), mode);
+}
+
+void DolphinViewContainerTest::testARemovedFolderMovesTheViewToItsParent_data()
+{
+    addViewModeRows();
+}
+
+/**
+ * The folder that the view shows is removed from disk. The view moves to the nearest folder that
+ * still exists, with a warning that names the removed folder.
+ */
+void DolphinViewContainerTest::testARemovedFolderMovesTheViewToItsParent()
+{
+    QFETCH(DolphinView::Mode, mode);
+    QFETCH(bool, globalViewProps);
+    GeneralSettings::setGlobalViewProps(globalViewProps);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setGlobalViewProps(false);
+    });
+    m_testDir->createDir("parent/removed");
+    m_testDir->createFile("parent/removed/a-file.txt");
+    const QUrl parentUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/parent"));
+    const QUrl removedUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/parent/removed"));
+    waitForItemListed(removedUrl);
+
+    m_container->setViewMode(mode);
+    waitForViewReady();
+    m_container->setUrl(removedUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), removedUrl, 5000);
+    waitForViewReady();
+
+    m_testDir->removeDir(QStringLiteral("parent/removed"));
+
+    auto *messageWidget = m_container->findChild<KMessageWidget *>();
+    QVERIFY(messageWidget);
+    QTRY_VERIFY_WITH_TIMEOUT(messageWidget->isVisible() && messageWidget->text().contains(QStringLiteral("removed")), 5000);
+    QCOMPARE(messageWidget->messageType(), KMessageWidget::Warning);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), parentUrl, 5000);
+    QCOMPARE(m_container->url().adjusted(QUrl::StripTrailingSlash), parentUrl);
+}
+
+void DolphinViewContainerTest::testALocationThatRedirectsShowsItsTarget_data()
+{
+    addViewModeRows();
+}
+
+/**
+ * A location that the worker redirects, here a local folder named with the host "localhost", shows
+ * the folder that it redirects to, in the view and in the location bar.
+ */
+void DolphinViewContainerTest::testALocationThatRedirectsShowsItsTarget()
+{
+    QFETCH(DolphinView::Mode, mode);
+    QFETCH(bool, globalViewProps);
+    GeneralSettings::setGlobalViewProps(globalViewProps);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setGlobalViewProps(false);
+    });
+    m_testDir->createDir("folder");
+    m_testDir->createFile("folder/a-file.txt");
+    const QUrl folderUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/folder"));
+    waitForItemListed(folderUrl);
+
+    m_container->setUrl(folderUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), folderUrl, 5000);
+    m_container->setViewMode(mode);
+    waitForViewReady();
+
+    QUrl redirectedUrl = folderUrl;
+    redirectedUrl.setHost(QStringLiteral("localhost"));
+    m_container->setUrl(m_testDir->url());
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), m_testDir->url().adjusted(QUrl::StripTrailingSlash), 5000);
+    m_container->setUrl(redirectedUrl);
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), folderUrl, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->url().adjusted(QUrl::StripTrailingSlash), folderUrl, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->itemsCount() > 0, 5000);
 }
 
 QTEST_MAIN(DolphinViewContainerTest)
