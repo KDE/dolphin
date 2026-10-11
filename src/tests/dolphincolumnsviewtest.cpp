@@ -105,6 +105,7 @@ private Q_SLOTS:
     void testEmptyDirectory();
     void testAnEmptyFolderSaysSo();
     void testTheShownFolderReportsItsListing();
+    void testAStoppedListingSaysSo();
     void testReload();
 
     void testKeyReturn_fileEmitsItemActivated();
@@ -898,6 +899,19 @@ void DolphinColumnsViewTest::testTheShownFolderReportsItsListing()
     QCOMPARE(startedSpy.count(), 2);
     m_view->stopLoading();
     QCOMPARE(canceledSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testAStoppedListingSaysSo()
+{
+    // As in the other view modes, the column says that its listing was stopped instead of
+    // saying that the folder is empty.
+    const QUrl gammaUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/gamma"));
+    m_view->setUrl(gammaUrl);
+    m_view->stopLoading();
+
+    auto *placeholder = m_view->columnAt(m_view->activeColumnIndex())->findChild<QLabel *>();
+    QVERIFY(placeholder->isVisible());
+    QCOMPARE(placeholder->text(), QStringLiteral("Loading canceled"));
 }
 
 void DolphinColumnsViewTest::testReload()
