@@ -56,6 +56,7 @@ DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::op
         baseModel->clear();
 
         syncColumnsFromViewProperties();
+        QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
         rebuildColumnsForUrl(url);
     }
 }
@@ -131,11 +132,14 @@ void DolphinColumnsView::setUrl(const QUrl &url)
         return;
     }
 
-    const QUrl previousUrl = this->url();
     updateUrl(url);
-    if (!showUrlInOpenColumns(url, previousUrl)) {
-        rebuildColumnsForUrl(url);
+    {
+        QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
+        if (!showUrlInOpenColumns(url)) {
+            rebuildColumnsForUrl(url);
+        }
     }
+    updateWritableState();
     Q_EMIT urlChanged(url);
 }
 
@@ -249,16 +253,22 @@ void DolphinColumnsView::readSettings()
 
 KFileItem DolphinColumnsView::rootItem() const
 {
-    if (auto *pane = activePane()) {
-        return pane->model()->rootItem();
+    if (!m_columns.isEmpty()) {
+        return m_columns.constLast()->model()->rootItem();
     }
     return DolphinView::rootItem();
 }
 
 void DolphinColumnsView::paste()
 {
-    if (auto *pane = activePane()) {
-        pasteToUrl(pane->dirUrl());
+    activateUrlFolder();
+    pasteToUrl(url());
+}
+
+void DolphinColumnsView::activateUrlFolder()
+{
+    if (!m_columns.isEmpty() && m_activeColumn != m_columns.size() - 1) {
+        setActiveColumn(m_columns.size() - 1);
     }
 }
 
@@ -330,11 +340,7 @@ void DolphinColumnsView::setActiveColumn(int index)
     }
     ensureActiveColumnVisible();
 
-    updateUrl(newPane->dirUrl());
-    {
-        QScopedValueRollback<bool> switching(m_switchingColumns, true);
-        Q_EMIT urlChanged(newPane->dirUrl());
-    }
+    updateUrlToTheLastColumn();
     // A column selects its first item before it is entered, and only the active column reports its selection.
     if (hadSelection || newPane->controller()->selectionManager()->hasSelection()) {
         scheduleSelectionChangedSignal();
@@ -445,20 +451,32 @@ DolphinColumnPane *DolphinColumnsView::activePane() const
     return nullptr;
 }
 
-bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url, const QUrl &previousUrl)
+void DolphinColumnsView::updateUrlToTheLastColumn()
+{
+    if (m_settingUrl || m_columns.isEmpty()) {
+        return;
+    }
+    const QUrl lastUrl = m_columns.constLast()->dirUrl();
+    if (lastUrl.matches(url(), QUrl::StripTrailingSlash)) {
+        return;
+    }
+    updateUrl(lastUrl);
+    updateWritableState();
+    QScopedValueRollback<bool> switching(m_switchingColumns, true);
+    Q_EMIT urlChanged(lastUrl);
+}
+
+bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
 {
     // KIO::upUrl() ends a folder url with a slash and dirUrl() does not.
     const QUrl target = url.adjusted(QUrl::StripTrailingSlash);
 
     for (int i = 0; i < m_columns.size(); ++i) {
         if (m_columns.at(i)->dirUrl().adjusted(QUrl::StripTrailingSlash) == target) {
-            // Going up keeps the folder on the way back selected, as KCoreUrlNavigator::urlSelectionRequested()
-            // asks the other view modes to. What was selected inside that folder is dropped.
-            const bool nextIsOnTheWayBack = i + 1 < m_columns.size()
-                && (m_columns.at(i + 1)->dirUrl().matches(previousUrl, QUrl::StripTrailingSlash) || m_columns.at(i + 1)->dirUrl().isParentOf(previousUrl));
-            // Active first, so closing the columns after the next one leaves the url alone.
+            // The url is the last column, so the columns after this one close. The folder on the
+            // way back stays the current item, without the selection that would show it again.
             setActiveColumn(i);
-            m_columns.at(nextIsOnTheWayBack ? i + 1 : i)->dropActiveChild();
+            m_columns.at(i)->dropActiveChild();
             return true;
         }
     }
@@ -607,6 +625,8 @@ void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
     } else {
         QTimer::singleShot(0, this, &DolphinColumnsView::ensureActiveColumnVisible);
     }
+
+    updateUrlToTheLastColumn();
 }
 
 void DolphinColumnsView::finishPendingWidth(DolphinColumnPane *pane)
@@ -629,7 +649,7 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
             return;
         }
         ensureColumnVisible(index);
-        // The url is the one of the active column, so it stays in view when both do not fit.
+        // The focus is in the active column, so it stays in view when both do not fit.
         ensureActiveColumnVisible();
         resumePaintingOnceEveryColumnHasAWidth();
     });
@@ -960,14 +980,10 @@ void DolphinColumnsView::closeColumnsAfter(int column)
     if (column < 0 || column + 1 >= m_columns.size()) {
         return;
     }
-    const bool activeColumnIsAffected = m_activeColumn >= column;
     const bool activeColumnCloses = m_activeColumn > column;
     popAfter(column);
     recalculateColumnWidths();
-    if (activeColumnIsAffected) {
-        updateUrl(m_columns.at(column)->dirUrl());
-        Q_EMIT urlChanged(url());
-    }
+    updateUrlToTheLastColumn();
     // The column left of the closed ones becomes active, and its selection was not reported.
     if (activeColumnCloses) {
         scheduleSelectionChangedSignal();
