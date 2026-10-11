@@ -848,6 +848,9 @@ protected:
      */
     virtual KItemListSelectionManager *activeSelectionManager() const;
 
+    /// Gives the selection to the part of the view that shows url(), where created items are selected.
+    virtual void activateUrlFolder();
+
     /**
      * Returns the model for the currently active view.
      */
