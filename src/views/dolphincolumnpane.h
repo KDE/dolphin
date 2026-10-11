@@ -19,6 +19,7 @@ class KFileItemModel;
 class KItemListContainer;
 class KItemListController;
 class QLabel;
+class QTimer;
 class VersionControlObserver;
 
 /**
@@ -56,7 +57,7 @@ public:
     /// The folder that @p item opens, a directory or an archive, or an empty url.
     static QUrl folderUrlFor(const KFileItem &item);
 
-    /// Shows what an empty folder says, once it has listed.
+    /// Shows that the folder lists, after a delay, or what an empty folder says once it has listed.
     void updatePlaceholderLabel();
 
     void setPreviewsShown(bool show);
@@ -94,7 +95,13 @@ private:
     KItemListContainer *m_container = nullptr;
     VersionControlObserver *m_versionControlObserver = nullptr;
     QLabel *m_placeholderLabel = nullptr;
-    bool m_listing = false;
+    QTimer *m_showLoadingPlaceholderTimer = nullptr;
+    enum class LoadingState {
+        Loading,
+        Canceled,
+        Completed,
+    };
+    LoadingState m_loadingState = LoadingState::Completed;
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
     bool m_selectionCheckPending = false;
