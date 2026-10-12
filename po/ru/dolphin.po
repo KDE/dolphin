@@ -6207,7 +6207,7 @@ msgstr "Миниатюры вместо значков"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
-msgstr "Разбивать на группы в соответствии с режимом сортировки"
+msgstr "Группировать"
 
 #: settings/viewpropertiesdialog.cpp:89
 #, kde-format
