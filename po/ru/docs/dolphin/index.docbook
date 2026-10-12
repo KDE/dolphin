@@ -2792,7 +2792,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Вид</guimenu
 > <guimenuitem
->Разбивать на группы в соответствии с режимом сортировки</guimenuitem
+>Группировать</guimenuitem
 > </menuchoice
 ></term>
 <listitem
