@@ -2252,6 +2252,9 @@ void DolphinView::slotDirectoryLoadingCanceled()
 void DolphinView::slotItemsChanged()
 {
     m_assureVisibleCurrentIndex = false;
+    if (selectedItemsCount() > 0) {
+        m_selectionChangedTimer->start();
+    }
 }
 
 void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOrder previous)

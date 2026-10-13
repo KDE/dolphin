@@ -655,8 +655,12 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
 
 void DolphinViewContainer::delayedStatusBarUpdate()
 {
-    if (m_statusBarTimer->isActive() && (m_statusBarTimestamp.elapsed() > 2000)) {
-        // No update of the statusbar has been done during the last 2 seconds,
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Disabled) {
+        return;
+    }
+
+    if (m_statusBarTimer->isActive() && (m_statusBarTimestamp.elapsed() > 500)) {
+        // No update of the statusbar has been done during the last 500 ms,
         // although an update has been requested. Trigger an immediate update.
         m_statusBarTimer->stop();
         updateStatusBar();
