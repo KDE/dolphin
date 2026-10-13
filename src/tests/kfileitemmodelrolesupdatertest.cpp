@@ -13,12 +13,15 @@
 #include <QSignalSpy>
 #include <QTest>
 
+#include "kitemviews/private/kdirectorycontentscounterworker.h"
+
 class KFileItemModelRolesUpdaterTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
     void testSharesChangedUpdatesOverlays();
+    void testDirectoryContentsCounterWorkerDoesNotChangeCwd();
 };
 
 void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
@@ -50,6 +53,38 @@ void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
     KSambaShare *const shares = KSambaShare::instance();
     Q_EMIT shares->changed();
     QTRY_VERIFY(!model.data(0).value("iconOverlays").toStringList().contains(QStringLiteral("emblem-shared")));
+}
+
+void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerDoesNotChangeCwd()
+{
+#ifdef Q_OS_WIN
+    QSKIP("fts is not used on Windows");
+#endif
+    TestDir testDir;
+    testDir.createDir(QStringLiteral("dir1/dir2/dir3"));
+    testDir.createFile(QStringLiteral("dir1/dir2/dir3/file1.txt"), "content1");
+    testDir.createFile(QStringLiteral("dir1/file2.txt"), "content2");
+
+    const QString initialCwd = QDir::currentPath();
+
+    KDirectoryContentsCounterWorker worker;
+    QSignalSpy resultSpy(&worker, &KDirectoryContentsCounterWorker::result);
+    QSignalSpy intermediateSpy(&worker, &KDirectoryContentsCounterWorker::intermediateResult);
+
+    QString intermediateCwd;
+    connect(&worker, &KDirectoryContentsCounterWorker::intermediateResult, this, [&intermediateCwd]() {
+        intermediateCwd = QDir::currentPath();
+    });
+
+    worker.countDirectoryContents(testDir.url().toLocalFile(), KDirectoryContentsCounterWorker::NoOptions, 10);
+
+    QCOMPARE(resultSpy.count(), 1);
+    const QList<QVariant> arguments = resultSpy.takeFirst();
+    QCOMPARE(arguments.at(1).toInt(), 1); // 1 item directly inside testDir (dir1)
+    if (!intermediateCwd.isEmpty()) {
+        QCOMPARE(intermediateCwd, initialCwd);
+    }
+    QCOMPARE(QDir::currentPath(), initialCwd);
 }
 
 QTEST_MAIN(KFileItemModelRolesUpdaterTest)

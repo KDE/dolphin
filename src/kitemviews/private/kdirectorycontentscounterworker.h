@@ -7,12 +7,14 @@
 #ifndef KDIRECTORYCONTENTSCOUNTERWORKER_H
 #define KDIRECTORYCONTENTSCOUNTERWORKER_H
 
+#include "dolphin_export.h"
+
 #include <QMetaType>
 #include <QObject>
 
 class QString;
 
-class KDirectoryContentsCounterWorker : public QObject
+class DOLPHIN_EXPORT KDirectoryContentsCounterWorker : public QObject
 {
     Q_OBJECT
 

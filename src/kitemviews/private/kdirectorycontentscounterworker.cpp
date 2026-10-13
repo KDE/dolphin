@@ -31,8 +31,8 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
     ::strncpy(rootPath, text.constData(), text.size() + 1);
     char *path[2]{rootPath, nullptr};
 
-    // follow symlink only for root dir
-    auto tree = ::fts_open(path, FTS_COMFOLLOW | FTS_PHYSICAL | FTS_XDEV, nullptr);
+    // follow symlink only for root dir, and avoid changing process CWD in worker thread
+    auto tree = ::fts_open(path, FTS_COMFOLLOW | FTS_PHYSICAL | FTS_XDEV | FTS_NOCHDIR, nullptr);
     if (!tree) {
         delete[] rootPath;
         return;
