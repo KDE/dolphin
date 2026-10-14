@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-13 02:39+0000\n"
-"PO-Revision-Date: 2026-08-17 08:12+0200\n"
+"PO-Revision-Date: 2026-10-13 14:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -170,14 +170,14 @@ msgstr "აღარ გამაფრთხილო ამ რისკებ
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
-msgstr "ნაგვის დაცარიელება"
+msgstr "ნაგვის ყუთის დაცარიელება"
 
 #: dolphincontextmenu.cpp:149 panels/places/placespanel.cpp:53
 #: tests/placespaneltest.cpp:212 tests/placespaneltest.cpp:240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "ნაგვის ურნის მორგება…"
+msgstr "ნაგვის ყუთის მორგება…"
 
 #: dolphincontextmenu.cpp:170
 #, kde-format
@@ -1750,12 +1750,12 @@ msgstr "შეიყვანეთ სერვერის URL (მაგ: smb
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
-msgstr "ნაგვის დაცარიელება"
+msgstr "ნაგვის ყუთის დაცარიელება"
 
 #: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
-msgstr "ნაგვის გასუფთავება მეტი ადგილის მისაღებად"
+msgstr "გაასუფთავებს ნაგვის ყუთს მეტი ადგილის მისაღებად"
 
 #: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
@@ -1841,7 +1841,7 @@ msgstr "&ქსელურ საქაღალდეები"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
-msgstr "ნაგავი"
+msgstr "ნაგვის ყუთი"
 
 #: dolphinpart.cpp:185
 #, kde-format
@@ -3334,7 +3334,7 @@ msgstr "სახელის გადარქმევა…"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
-msgstr "ნაგავში გადატანა"
+msgstr "ნაგვის ყუთში გადატანა"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -4945,7 +4945,7 @@ msgstr "კონტექსტური მენიუ"
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
-msgstr "ნაგავი"
+msgstr "ნაგვის ყუთი"
 
 #: settings/dolphinsettingsdialog.cpp:90
 #, kde-format
