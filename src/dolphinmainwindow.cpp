@@ -3209,9 +3209,11 @@ void DolphinMainWindow::slotDoubleClickViewBackground(Qt::MouseButton button)
 
     if (clickAction == customCommand) {
         // run custom command set by the user
-        QString path = view->url().toLocalFile();
         QString clickCustomAction = settings->doubleClickViewCustomAction();
-        clickCustomAction.replace("{path}", path.prepend('"').append('"'));
+        // {path} becomes one quoted shell word, also when the command already has it in quotes.
+        clickCustomAction.replace(QLatin1String("\"{path}\""), QLatin1String("{path}"));
+        clickCustomAction.replace(QLatin1String("'{path}'"), QLatin1String("{path}"));
+        clickCustomAction.replace(QLatin1String("{path}"), KShell::quoteArg(view->url().toLocalFile()));
 
         m_job = new KIO::CommandLauncherJob(clickCustomAction);
         m_job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
