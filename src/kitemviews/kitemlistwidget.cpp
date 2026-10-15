@@ -138,8 +138,8 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
             m_hoverCache->fill(Qt::transparent);
 
             QPainter pixmapPainter(m_hoverCache);
-            const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active | QStyle::State_Enabled : 0);
-            drawItemStyleOption(&pixmapPainter, widget, activeState | selectedState | QStyle::State_MouseOver | QStyle::State_Item);
+            const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active : 0);
+            drawItemStyleOption(&pixmapPainter, widget, activeState | selectedState | QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item);
         }
 
         const qreal opacity = painter->opacity();
