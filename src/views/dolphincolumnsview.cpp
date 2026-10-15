@@ -30,6 +30,7 @@
 #include <QSplitterHandle>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QWheelEvent>
 #include <algorithm>
 
 /// How long a new column waits for its folder to list before it takes a width anyway.
@@ -842,6 +843,29 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
     if (sourceColumn < 0) {
         QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
         return DolphinView::eventFilter(watched, event);
+    }
+
+    // Shift turns the wheel sideways, through the columns. The columns themselves never scroll
+    // horizontally, and Ctrl is the zoom.
+    if (event->type() == QEvent::Wheel) {
+        auto *wheelEvent = static_cast<QWheelEvent *>(event);
+        const QPoint angleDelta = wheelEvent->angleDelta();
+        const Qt::KeyboardModifiers modifiers = wheelEvent->modifiers();
+        if (modifiers.testFlag(Qt::ShiftModifier) && !modifiers.testFlag(Qt::ControlModifier) && qAbs(angleDelta.y()) > qAbs(angleDelta.x())) {
+            const QPoint pixelDelta = wheelEvent->pixelDelta();
+            // Without Shift, which a scrollbar takes as a request for a whole page.
+            QWheelEvent sideways(wheelEvent->position(),
+                                 wheelEvent->globalPosition(),
+                                 QPoint(pixelDelta.y(), pixelDelta.x()),
+                                 QPoint(angleDelta.y(), angleDelta.x()),
+                                 wheelEvent->buttons(),
+                                 modifiers & ~Qt::ShiftModifier,
+                                 wheelEvent->phase(),
+                                 wheelEvent->inverted(),
+                                 wheelEvent->source());
+            QApplication::sendEvent(m_scrollArea->horizontalScrollBar(), &sideways);
+            return true;
+        }
     }
 
     // As the base view does for its container. This also covers a right-click on the background
