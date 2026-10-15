@@ -84,6 +84,7 @@ private Q_SLOTS:
     void testPlacesPanelWidthResistance();
     void testGoActions();
     void testOpenFiles();
+    void testDoubleClickViewBackgroundCustomCommand();
     void testAccessibilityTree();
     void testAutoSaveSession();
     void testSavingFewerTabsDropsTheOldEntries();
@@ -1277,6 +1278,32 @@ void DolphinMainWindowTest::testOpenFiles()
     QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 2);
     QVERIFY(m_mainWindow->m_tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
     QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+}
+
+void DolphinMainWindowTest::testDoubleClickViewBackgroundCustomCommand()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    const QString folderName = QStringLiteral("it's \"a\" $folder");
+    testDir->createDir(folderName);
+    const QString folderPath = testDir->url().toLocalFile() + QLatin1Char('/') + folderName;
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(folderPath)}, false);
+    m_mainWindow->show();
+    QTRY_COMPARE(m_mainWindow->activeViewContainer()->url(), QUrl::fromLocalFile(folderPath));
+
+    GeneralSettings::setDoubleClickViewAction(customCommand);
+    GeneralSettings::setDoubleClickViewCustomAction(QStringLiteral("touch {path}/marker"));
+
+    // {path} is replaced by the current folder as one argument, whatever characters its name holds.
+    m_mainWindow->slotDoubleClickViewBackground(Qt::LeftButton);
+    QTRY_VERIFY(QFile::exists(folderPath + QStringLiteral("/marker")));
+
+    // A command that already has {path} in quotes gets the same folder.
+    GeneralSettings::setDoubleClickViewCustomAction(QStringLiteral("touch \"{path}\"/quoted-marker"));
+    m_mainWindow->slotDoubleClickViewBackground(Qt::LeftButton);
+    QTRY_VERIFY(QFile::exists(folderPath + QStringLiteral("/quoted-marker")));
+
+    GeneralSettings::setDoubleClickViewAction(QStringLiteral("edit_select_all"));
+    GeneralSettings::setDoubleClickViewCustomAction(QString());
 }
 
 void DolphinMainWindowTest::testAccessibilityTree()
