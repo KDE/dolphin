@@ -24,6 +24,7 @@
 #include <KProtocolManager>
 #include <KSharedConfig>
 
+#include <QApplication>
 #include <QCoreApplication>
 #include <QDBusConnection>
 #include <QDir>
@@ -153,6 +154,8 @@ private Q_SLOTS:
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
     void testClosingColumnsLeavesTheScrollPositionAlone();
+    void testShiftWheelScrollsTheColumns_data();
+    void testShiftWheelScrollsTheColumns();
     void testTheColumnsStartAtTheRootTheResolverNames();
     void testADeepFolderIsPaintedOnceItsColumnsHaveTheirWidths();
     void testAColumnWithNoWidthYetTakesUpNothing();
@@ -1800,6 +1803,66 @@ void DolphinColumnsViewTest::testActivatingAnotherColumnKeepsWhatTheUserWasDoing
     m_view->setUrl(otherDir.url());
     disconnect(navigation);
     QCOMPARE(leavesBehindOnNavigation, true);
+}
+
+void DolphinColumnsViewTest::testShiftWheelScrollsTheColumns_data()
+{
+    QTest::addColumn<int>("extraFiles");
+
+    QTest::newRow("short column") << 0;
+    QTest::newRow("column that scrolls vertically") << 200;
+}
+
+void DolphinColumnsViewTest::testShiftWheelScrollsTheColumns()
+{
+    QFETCH(int, extraFiles);
+    for (int i = 0; i < extraFiles; ++i) {
+        m_testDir->createFile(QStringLiteral("alpha/alpha-child/file%1.txt").arg(i, 3, 10, QLatin1Char('0')));
+    }
+
+    m_view->resize(350, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1, 5000);
+    navigateRight();
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 2, 5000);
+    waitForStableState();
+
+    auto *container = m_view->columnAt(m_view->columnCount() - 1)->container();
+    if (extraFiles > 0) {
+        // Halfway down, so that the wheel could scroll the column either way.
+        QTRY_VERIFY_WITH_TIMEOUT(container->verticalScrollBar()->maximum() > 0, 5000);
+        container->verticalScrollBar()->setValue(container->verticalScrollBar()->maximum() / 2);
+    }
+    const int columnScrollBefore = container->verticalScrollBar()->value();
+
+    // Until the columns have their widths, the range of the scrollbar still moves.
+    auto *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->maximum() > 0, 5000);
+    int stableChecks = 0;
+    for (int maximum = -1; stableChecks < 3;) {
+        stableChecks = scrollBar->maximum() == maximum ? stableChecks + 1 : 0;
+        maximum = scrollBar->maximum();
+        QTest::qWait(100);
+    }
+    scrollBar->setValue(scrollBar->maximum());
+    const int scrollBefore = scrollBar->value();
+
+    // Shift and the wheel turned up, over the last column, scroll towards the first column.
+    auto *target = container->viewport();
+    const QPointF position(target->width() / 2, target->height() / 2);
+    QWheelEvent event(position, target->mapToGlobal(position), QPoint(), QPoint(0, 120), Qt::NoButton, Qt::ShiftModifier, Qt::NoScrollPhase, false);
+    QApplication::sendEvent(target, &event);
+
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() < scrollBefore, 2000);
+    // Less than a page: the scrollbar did not take Shift for a page step.
+    QVERIFY(scrollBefore - scrollBar->value() < scrollBar->pageStep());
+    // The column does not scroll, also not once a smooth scroll would have ended.
+    QTest::qWait(300);
+    QCOMPARE(container->verticalScrollBar()->value(), columnScrollBefore);
 }
 
 void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
