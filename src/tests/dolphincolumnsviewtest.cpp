@@ -92,6 +92,8 @@ private Q_SLOTS:
     void testColumnWidthMode();
     void testAutoAdjustColumns();
     void testDoubleClickOnAHandleFitsTheColumns();
+    void testFittingTheColumnsKeepsTheViewWhereItIs();
+    void testFittingTheColumnsShowsEveryColumnThatFits();
     void testIconSizeFollowsSettings();
     void testZoomingLeavesTheOtherViewModesAlone();
     void testRenameRefitsColumnWhenAdjustingToContent();
@@ -611,6 +613,83 @@ void DolphinColumnsViewTest::testDoubleClickOnAHandleFitsTheColumns()
     QTest::mouseRelease(splitter->handle(1), Qt::LeftButton);
     QCOMPARE(QGuiApplication::mouseButtons(), Qt::NoButton);
     QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
+}
+
+void DolphinColumnsViewTest::testFittingTheColumnsKeepsTheViewWhereItIs()
+{
+    // The user double clicks a handle that they are looking at, which is often far from the
+    // active column. The fit used to scroll to the active column, the last one.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+    settings->setMaxVisibleColumns(1);
+    m_testDir->createFile(QStringLiteral("alpha/alpha-child/") + QString(200, QLatin1Char('w')) + QStringLiteral(".txt"));
+
+    m_view->resize(350, 400);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QCOMPARE(m_view->activeColumnIndex(), 2);
+
+    // Until the columns have their widths, the range of the scrollbar still moves.
+    auto *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->maximum() > 0, 5000);
+    int stableChecks = 0;
+    for (int maximum = -1; stableChecks < 3;) {
+        stableChecks = scrollBar->maximum() == maximum ? stableChecks + 1 : 0;
+        maximum = scrollBar->maximum();
+        QTest::qWait(100);
+    }
+
+    // Back at the first column, away from the active one.
+    scrollBar->setValue(0);
+    auto *viewport = m_view->m_scrollArea->viewport();
+    QCOMPARE(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x(), 0);
+
+    auto *handle = m_view->m_splitter->handle(1);
+    QTest::mouseDClick(handle, Qt::LeftButton);
+    // mouseDClick() leaves the button held, and every later test would navigate with it down.
+    QTest::mouseRelease(handle, Qt::LeftButton);
+    QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
+
+    // Also after the layout that the new sizes bring.
+    QTest::qWait(200);
+    QCOMPARE(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x(), 0);
+    QCOMPARE(scrollBar->value(), 0);
+}
+
+void DolphinColumnsViewTest::testFittingTheColumnsShowsEveryColumnThatFits()
+{
+    // After the fit the columns take less room than before. The view used to keep the scroll
+    // position, with empty space after the last column and the first one out of view.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+    settings->setMinColumnWidth(10);
+
+    m_view->resize(700, 400);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    auto *scrollBar = m_view->m_scrollArea->horizontalScrollBar();
+    auto *viewport = m_view->m_scrollArea->viewport();
+    // The three columns fit once fitted.
+    QTRY_COMPARE_WITH_TIMEOUT(scrollBar->maximum(), 0, 5000);
+
+    // The user widened the first column, and scrolled to the last one.
+    m_view->m_customColumnWidths[0] = 900;
+    m_view->recalculateColumnWidths();
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->maximum() > 0, 5000);
+    scrollBar->setValue(scrollBar->maximum());
+    QTRY_VERIFY(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x() < 0);
+
+    auto *handle = m_view->m_splitter->handle(1);
+    QTest::mouseDClick(handle, Qt::LeftButton);
+    QTest::mouseRelease(handle, Qt::LeftButton);
+    QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
+
+    QTest::qWait(200);
+    QCOMPARE(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x(), 0);
+    auto *last = m_view->columnAt(2);
+    QVERIFY(last->mapTo(viewport, QPoint(0, 0)).x() + last->width() <= viewport->width());
+    QCOMPARE(scrollBar->value(), 0);
 }
 
 void DolphinColumnsViewTest::testIconSizeFollowsSettings()
