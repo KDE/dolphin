@@ -48,6 +48,42 @@
 #endif
 #include <iostream>
 
+#ifdef Q_OS_MACOS
+#include <QFileInfo>
+#include <QFileOpenEvent>
+#include <QPointer>
+
+// macOS sends "open folder" and "reveal file" requests as Apple Events, which Qt delivers as QFileOpenEvent.
+class FileOpenEventFilter : public QObject
+{
+public:
+    explicit FileOpenEventFilter(DolphinMainWindow *window)
+        : m_window(window)
+    {
+    }
+
+    bool eventFilter(QObject *watched, QEvent *event) override
+    {
+        if (event->type() != QEvent::FileOpen || !m_window) {
+            return QObject::eventFilter(watched, event);
+        }
+        const QUrl url = static_cast<QFileOpenEvent *>(event)->url();
+        if (QFileInfo(url.toLocalFile()).isDir()) {
+            m_window->openDirectories({url}, false);
+        } else {
+            m_window->openFiles({url}, false);
+        }
+        m_window->show();
+        m_window->raise();
+        m_window->QWidget::activateWindow(); // DolphinMainWindow::activateWindow(token) hides this overload
+        return true;
+    }
+
+private:
+    QPointer<DolphinMainWindow> m_window;
+};
+#endif
+
 constexpr auto dolphinTranslationDomain{"dolphin"};
 
 int main(int argc, char **argv)
@@ -277,6 +313,10 @@ int main(int argc, char **argv)
     }
 
     mainWindow->setSessionAutoSaveEnabled(GeneralSettings::rememberOpenedTabs());
+
+#ifdef Q_OS_MACOS
+    app.installEventFilter(new FileOpenEventFilter(mainWindow));
+#endif
 
     if (adminWorkerInfoWanted) {
         Admin::guideUserTowardsUsingAdminWorker();
