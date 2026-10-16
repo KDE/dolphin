@@ -36,7 +36,8 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
 
     auto layout = new QHBoxLayout(this);
     // We reduce the outside margin of the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
-    layout->setContentsMargins(2, -1, 0, -1); // "-1" makes it so the fixed height won't be ignored.
+    const auto spacing = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+    layout->setContentsMargins(2, spacing, 0, spacing);
     layout->addWidget(m_capacityBar);
     layout->addWidget(m_textInfoButton);
 }
