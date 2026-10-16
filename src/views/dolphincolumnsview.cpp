@@ -817,13 +817,17 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
             case QEvent::MouseButtonRelease:
                 if (m_splitterReleaseSeen) {
                     // Not while the handle still holds the mouse grab.
-                    QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                    QTimer::singleShot(0, this, [this, i]() {
+                        autoAdjustColumns(i - 1);
+                    });
                 }
                 m_splitterReleaseSeen = !m_splitterReleaseSeen;
                 break;
             case QEvent::MouseButtonDblClick:
                 m_splitterReleaseSeen = false;
-                QTimer::singleShot(0, this, &DolphinColumnsView::autoAdjustColumns);
+                QTimer::singleShot(0, this, [this, i]() {
+                    autoAdjustColumns(i - 1);
+                });
                 return true;
             default:
                 break;
@@ -1256,7 +1260,7 @@ int DolphinColumnsView::visibleHandlesBefore(int index) const
     return handles;
 }
 
-void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
+void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes, bool showActiveColumn)
 {
     const int numColumns = m_columns.size();
     const int handleWidth = m_splitter->handleWidth();
@@ -1293,14 +1297,19 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes)
     }
 
     // The active column may have just taken its final width.
-    ensureActiveColumnVisible();
+    if (showActiveColumn) {
+        ensureActiveColumnVisible();
+    }
 }
 
-void DolphinColumnsView::autoAdjustColumns()
+void DolphinColumnsView::autoAdjustColumns(int anchorColumn)
 {
     if (m_columns.isEmpty()) {
         return;
     }
+
+    const bool anchored = m_scrollArea && anchorColumn >= 0 && anchorColumn < m_columns.size();
+    const int anchorX = anchored ? m_columns.at(anchorColumn)->mapTo(m_scrollArea->viewport(), QPoint(0, 0)).x() : 0;
 
     m_customColumnWidths.clear();
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
@@ -1316,7 +1325,41 @@ void DolphinColumnsView::autoAdjustColumns()
             m_customColumnWidths[i] = width;
         }
     }
-    applyColumnSizes(sizes);
+
+    if (!anchored) {
+        applyColumnSizes(sizes);
+        return;
+    }
+    // The user is looking at the handle that was double clicked, not at the active column.
+    applyColumnSizes(sizes, false);
+    keepColumnAt(anchorColumn, anchorX);
+    // The splitter may take its new sizes only on the next layout.
+    QPointer<DolphinColumnPane> anchor = m_columns.at(anchorColumn);
+    QTimer::singleShot(0, this, [this, anchor, anchorX]() {
+        if (anchor) {
+            keepColumnAt(m_columns.indexOf(anchor), anchorX);
+        }
+    });
+}
+
+void DolphinColumnsView::keepColumnAt(int index, int viewportX)
+{
+    if (index < 0 || index >= m_columns.size()) {
+        return;
+    }
+    QScrollBar *scrollBar = m_scrollArea->horizontalScrollBar();
+    QWidget *viewport = m_scrollArea->viewport();
+    const int x = m_columns.at(index)->mapTo(viewport, QPoint(0, 0)).x();
+    scrollBar->setValue(scrollBar->value() + x - viewportX);
+
+    // No empty space after the last column while columns before it are scrolled out of view.
+    const DolphinColumnPane *last = m_columns.constLast();
+    const int gap = viewport->width() - (last->mapTo(viewport, QPoint(0, 0)).x() + last->width());
+    if (gap > 0 && scrollBar->value() > 0) {
+        scrollBar->setValue(qMax(0, scrollBar->value() - gap));
+        // The filler held the old position open.
+        applyColumnSizes(m_splitter->sizes().mid(0, m_columns.size()), false);
+    }
 }
 
 void DolphinColumnsView::connectActivePane(DolphinColumnPane *newPane)
