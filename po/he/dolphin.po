@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 00:49+0000\n"
-"PO-Revision-Date: 2026-09-22 08:03+0300\n"
+"PO-Revision-Date: 2026-10-09 09:55+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -729,24 +729,20 @@ msgstr ""
 "תועמעם. </para>לחיצה על הכפתור הזה שוב תסגור את אחת התצוגות."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "תצוגה מפוצלת"
+msgstr "פיצול התצוגה ללשוניות"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
-msgstr "אם התצוגה פוצלה, הגדרה זו תקפיץ את התצוגה הממוקדת החוצה לחלון חדש."
+msgstr ""
+"אם התצוגה פוצלה, ההגדרה הזאת תעביר את שתי התצוגות ללשוניות ותסגור את התצוגה "
+"המפוצלת."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
