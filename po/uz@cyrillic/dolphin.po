@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 00:49+0000\n"
+"POT-Creation-Date: 2026-10-17 00:53+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -266,7 +266,7 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2420
+#: views/dolphinview.cpp:2423
 #, kde-format
 msgid "Do not ask again"
 msgstr "Бошқа сўралмасин"
@@ -1976,7 +1976,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Саралаш:"
 
-#: dolphinviewcontainer.cpp:684
+#: dolphinviewcontainer.cpp:688
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -1984,19 +1984,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Қидириш..."
 
-#: dolphinviewcontainer.cpp:704
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:738
+#: dolphinviewcontainer.cpp:742
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:755
+#: dolphinviewcontainer.cpp:759
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:status"
 #| msgid "<filename>%1</filename> selected"
@@ -2004,38 +2004,38 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "<filename>%1</filename> танланган"
 
-#: dolphinviewcontainer.cpp:967
+#: dolphinviewcontainer.cpp:971
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:974
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:977
+#: dolphinviewcontainer.cpp:981
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:979
+#: dolphinviewcontainer.cpp:983
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1083
+#: dolphinviewcontainer.cpp:1087
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1088
+#: dolphinviewcontainer.cpp:1092
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -2043,19 +2043,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Жилдни яратиш..."
 
-#: dolphinviewcontainer.cpp:1105
+#: dolphinviewcontainer.cpp:1109
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1108
+#: dolphinviewcontainer.cpp:1112
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1132
+#: dolphinviewcontainer.cpp:1136
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -2063,7 +2063,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Билан очиш"
 
-#: dolphinviewcontainer.cpp:1178 dolphinviewcontainer.cpp:1181
+#: dolphinviewcontainer.cpp:1182 dolphinviewcontainer.cpp:1185
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6387,19 +6387,19 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:129
+#: statusbar/statusbarspaceinfo.cpp:130
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 бўш"
 
-#: statusbar/statusbarspaceinfo.cpp:130
+#: statusbar/statusbarspaceinfo.cpp:131
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:132
+#: statusbar/statusbarspaceinfo.cpp:133
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -6567,41 +6567,41 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr ""
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr ""
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Яширилган файлларни кўрсатиш"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Уй жилди"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2400
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6609,7 +6609,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Номини ўзгартириш..."
 
-#: views/dolphinview.cpp:2407
+#: views/dolphinview.cpp:2410
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6618,7 +6618,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2411
+#: views/dolphinview.cpp:2414
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6627,7 +6627,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2417
+#: views/dolphinview.cpp:2420
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6635,100 +6635,100 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Тури:"
 
-#: views/dolphinview.cpp:2465
+#: views/dolphinview.cpp:2468
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr ""
 
-#: views/dolphinview.cpp:2467
+#: views/dolphinview.cpp:2470
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr ""
 
-#: views/dolphinview.cpp:2857
+#: views/dolphinview.cpp:2860
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Жилд юкланмоқда..."
 
-#: views/dolphinview.cpp:2886
+#: views/dolphinview.cpp:2889
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Жилд юкланмоқда..."
 
-#: views/dolphinview.cpp:2888
+#: views/dolphinview.cpp:2891
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2890
+#: views/dolphinview.cpp:2893
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2892
+#: views/dolphinview.cpp:2895
 #, kde-format
 msgid "Trash is empty"
 msgstr ""
 
-#: views/dolphinview.cpp:2895
+#: views/dolphinview.cpp:2898
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2898
+#: views/dolphinview.cpp:2901
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2902
+#: views/dolphinview.cpp:2905
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "No recently used items"
 msgstr "Табни ёпиш"
 
-#: views/dolphinview.cpp:2904
+#: views/dolphinview.cpp:2907
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2906
+#: views/dolphinview.cpp:2909
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2908
+#: views/dolphinview.cpp:2911
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2910
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No Apple devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2916
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2915
+#: views/dolphinview.cpp:2918
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2918
+#: views/dolphinview.cpp:2921
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2920
+#: views/dolphinview.cpp:2923
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"

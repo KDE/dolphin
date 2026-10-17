@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 00:49+0000\n"
+"POT-Creation-Date: 2026-10-17 00:53+0000\n"
 "PO-Revision-Date: 2026-10-08 12:58+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -284,7 +284,7 @@ msgstr ""
 "sortir-ne?"
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2420
+#: views/dolphinview.cpp:2423
 #, kde-format
 msgid "Do not ask again"
 msgstr "No ho tornis a preguntar"
@@ -2140,37 +2140,37 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "S'està ordenant…"
 
-#: dolphinviewcontainer.cpp:684
+#: dolphinviewcontainer.cpp:688
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "S'està cercant…"
 
-#: dolphinviewcontainer.cpp:704
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "No s'ha trobat cap element."
 
-#: dolphinviewcontainer.cpp:738
+#: dolphinviewcontainer.cpp:742
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Obre com a fitxer"
 
-#: dolphinviewcontainer.cpp:755
+#: dolphinviewcontainer.cpp:759
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "S'intenta obrir un fitxer com a carpeta: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:967
+#: dolphinviewcontainer.cpp:971
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "El Dolphin no accepta pàgines web, s'acaba de llançar el navegador web"
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:974
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2179,49 +2179,49 @@ msgstr ""
 "El Dolphin no admet aquest protocol, s'acaba de llançar l'aplicació "
 "predeterminada"
 
-#: dolphinviewcontainer.cpp:977
+#: dolphinviewcontainer.cpp:981
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocol no vàlid «%1»"
 
-#: dolphinviewcontainer.cpp:979
+#: dolphinviewcontainer.cpp:983
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocol no vàlid"
 
-#: dolphinviewcontainer.cpp:1083
+#: dolphinviewcontainer.cpp:1087
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Cal autorització per a entrar en aquesta carpeta."
 
-#: dolphinviewcontainer.cpp:1088
+#: dolphinviewcontainer.cpp:1092
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Crea la carpeta que manca"
 
-#: dolphinviewcontainer.cpp:1105
+#: dolphinviewcontainer.cpp:1109
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Crea la carpeta en aquest camí i l'obre"
 
-#: dolphinviewcontainer.cpp:1108
+#: dolphinviewcontainer.cpp:1112
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "No teniu permís per a crear la carpeta"
 
-#: dolphinviewcontainer.cpp:1132
+#: dolphinviewcontainer.cpp:1136
 #, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Obre amb %1"
 
-#: dolphinviewcontainer.cpp:1178 dolphinviewcontainer.cpp:1181
+#: dolphinviewcontainer.cpp:1182 dolphinviewcontainer.cpp:1185
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6320,19 +6320,19 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Mostra el control lliscant del zoom"
 
-#: statusbar/statusbarspaceinfo.cpp:129
+#: statusbar/statusbarspaceinfo.cpp:130
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 lliure"
 
-#: statusbar/statusbarspaceinfo.cpp:130
+#: statusbar/statusbarspaceinfo.cpp:131
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 lliure de %2 (%3% usat)"
 
-#: statusbar/statusbarspaceinfo.cpp:132
+#: statusbar/statusbarspaceinfo.cpp:133
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -6492,13 +6492,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "S'ha completat l'operació de supressió."
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Reanomena i oculta"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6508,7 +6508,7 @@ msgstr ""
 "visualització.\n"
 "Encara el voleu reanomenar?"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6518,23 +6518,23 @@ msgstr ""
 "visualització.\n"
 "Encara la voleu reanomenar?"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "Hide this File?"
 msgstr "Oculto aquest fitxer?"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Oculto aquesta carpeta?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: views/dolphinview.cpp:2407
+#: views/dolphinview.cpp:2410
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6547,7 +6547,7 @@ msgstr ""
 "reconeixeran.\n"
 "Encara voleu canviar-ne el nom?"
 
-#: views/dolphinview.cpp:2411
+#: views/dolphinview.cpp:2414
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6560,100 +6560,100 @@ msgstr ""
 "reconeixeran.\n"
 "Encara voleu canviar-ne el nom?"
 
-#: views/dolphinview.cpp:2417
+#: views/dolphinview.cpp:2420
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Canvi de tipus de fitxer"
 
-#: views/dolphinview.cpp:2465
+#: views/dolphinview.cpp:2468
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "La localització està buida."
 
-#: views/dolphinview.cpp:2467
+#: views/dolphinview.cpp:2470
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "La localització «%1» no és vàlida."
 
-#: views/dolphinview.cpp:2857
+#: views/dolphinview.cpp:2860
 #, kde-format
 msgid "Loading…"
 msgstr "S'està carregant…"
 
-#: views/dolphinview.cpp:2886
+#: views/dolphinview.cpp:2889
 #, kde-format
 msgid "Loading canceled"
 msgstr "S'ha cancel·lat la càrrega"
 
-#: views/dolphinview.cpp:2888
+#: views/dolphinview.cpp:2891
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Cap element que coincideixi amb el filtre"
 
-#: views/dolphinview.cpp:2890
+#: views/dolphinview.cpp:2893
 #, kde-format
 msgid "No items matching the search"
 msgstr "Cap element que coincideixi amb la cerca"
 
-#: views/dolphinview.cpp:2892
+#: views/dolphinview.cpp:2895
 #, kde-format
 msgid "Trash is empty"
 msgstr "La paperera està buida"
 
-#: views/dolphinview.cpp:2895
+#: views/dolphinview.cpp:2898
 #, kde-format
 msgid "No tags"
 msgstr "Sense etiquetes"
 
-#: views/dolphinview.cpp:2898
+#: views/dolphinview.cpp:2901
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "No hi ha cap fitxer etiquetat amb «%1»"
 
-#: views/dolphinview.cpp:2902
+#: views/dolphinview.cpp:2905
 #, kde-format
 msgid "No recently used items"
 msgstr "No hi ha cap element emprat recentment"
 
-#: views/dolphinview.cpp:2904
+#: views/dolphinview.cpp:2907
 #, kde-format
 msgid "No shared folders found"
 msgstr "No s'ha trobat cap carpeta compartida"
 
-#: views/dolphinview.cpp:2906
+#: views/dolphinview.cpp:2909
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "No s'ha trobat cap recurs de xarxa rellevant"
 
-#: views/dolphinview.cpp:2908
+#: views/dolphinview.cpp:2911
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "No s'ha trobat cap dispositiu que admeti MTP"
 
-#: views/dolphinview.cpp:2910
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No Apple devices found"
 msgstr "No s'ha trobat cap dispositiu Apple"
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2916
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "No s'ha trobat cap dispositiu del KDE Connect"
 
-#: views/dolphinview.cpp:2915
+#: views/dolphinview.cpp:2918
 #, kde-format
 msgid "No storage found on this device"
 msgstr "No s'ha trobat cap emmagatzematge en aquest dispositiu"
 
-#: views/dolphinview.cpp:2918
+#: views/dolphinview.cpp:2921
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "No s'ha trobat cap dispositiu Bluetooth"
 
-#: views/dolphinview.cpp:2920
+#: views/dolphinview.cpp:2923
 #, kde-format
 msgid "Folder is empty"
 msgstr "La carpeta està buida"

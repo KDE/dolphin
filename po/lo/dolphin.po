@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 00:49+0000\n"
+"POT-Creation-Date: 2026-10-17 00:53+0000\n"
 "PO-Revision-Date: 2025-12-12 17:27+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -273,7 +273,7 @@ msgid ""
 msgstr "ທ່ານມີຫຼາຍແຖບເປີດຢູ່ໃນປ່ອງຢ້ຽມນີ້, ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອອກ?"
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2420
+#: views/dolphinview.cpp:2423
 #, kde-format
 msgid "Do not ask again"
 msgstr "ບໍ່ຕ້ອງຖາມອີກ"
@@ -2046,19 +2046,19 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ກຳລັງຈັດລຽງ…"
 
-#: dolphinviewcontainer.cpp:684
+#: dolphinviewcontainer.cpp:688
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "ກຳລັງຄົ້ນຫາ…"
 
-#: dolphinviewcontainer.cpp:704
+#: dolphinviewcontainer.cpp:708
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ບໍ່ພົບລາຍການ."
 
-#: dolphinviewcontainer.cpp:738
+#: dolphinviewcontainer.cpp:742
 #, fuzzy, kde-format
 #| msgctxt "Textual representation of files. %1 is the number of files."
 #| msgid "One File"
@@ -2067,62 +2067,62 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "%1 ໄຟລ໌"
 
-#: dolphinviewcontainer.cpp:755
+#: dolphinviewcontainer.cpp:759
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:967
+#: dolphinviewcontainer.cpp:971
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ບໍ່ຮອງຮັບໜ້າເວັບ, ເວັບບຣາວເຊີຖືກເປີດຂຶ້ນແລ້ວ"
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:974
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ໂປຣໂຕຄໍບໍ່ໄດ້ຮັບການຮອງຮັບໂດຍ Dolphin, ແອັບພລິເຄຊັນເລີ່ມຕົ້ນຖືກເປີດຂຶ້ນແລ້ວ"
 
-#: dolphinviewcontainer.cpp:977
+#: dolphinviewcontainer.cpp:981
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ໂປຣໂຕຄໍ '%1' ບໍ່ຖືກຕ້ອງ"
 
-#: dolphinviewcontainer.cpp:979
+#: dolphinviewcontainer.cpp:983
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ໂປຣໂຕຄໍບໍ່ຖືກຕ້ອງ"
 
-#: dolphinviewcontainer.cpp:1083
+#: dolphinviewcontainer.cpp:1087
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "ຕ້ອງການການອະນຸຍາດເພື່ອເຂົ້າໂຟນເດີນີ້."
 
-#: dolphinviewcontainer.cpp:1088
+#: dolphinviewcontainer.cpp:1092
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "ສ້າງໂຟນເດີທີ່ຂາດຫາຍໄປ"
 
-#: dolphinviewcontainer.cpp:1105
+#: dolphinviewcontainer.cpp:1109
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "ສ້າງໂຟນເດີທີ່ path ນີ້ ແລະ ເປີດມັນ"
 
-#: dolphinviewcontainer.cpp:1108
+#: dolphinviewcontainer.cpp:1112
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "ທ່ານບໍ່ມີສິດສ້າງໂຟນເດີ"
 
-#: dolphinviewcontainer.cpp:1132
+#: dolphinviewcontainer.cpp:1136
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
@@ -2130,7 +2130,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "ເປີດ %1"
 
-#: dolphinviewcontainer.cpp:1178 dolphinviewcontainer.cpp:1181
+#: dolphinviewcontainer.cpp:1182 dolphinviewcontainer.cpp:1185
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6158,19 +6158,19 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "ສະແດງໂຕເລື່ອນຂະຫຍາຍ"
 
-#: statusbar/statusbarspaceinfo.cpp:129
+#: statusbar/statusbarspaceinfo.cpp:130
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "ວ່າງ %1"
 
-#: statusbar/statusbarspaceinfo.cpp:130
+#: statusbar/statusbarspaceinfo.cpp:131
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "ວ່າງ %1 ຈາກທັງໝົດ %2 (ໃຊ້ໄປ %3%)"
 
-#: statusbar/statusbarspaceinfo.cpp:132
+#: statusbar/statusbarspaceinfo.cpp:133
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -6324,13 +6324,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "ການລຶບສຳເລັດ."
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ປ່ຽນຊື່ ແລະ ເຊື່ອງ"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6339,7 +6339,7 @@ msgstr ""
 "ການເພີ່ມຈຸດໃສ່ທາງໜ້າຊື່ໄຟລ໌ນີ້ ຈະເຊື່ອງມັນຈາກມຸມມອງ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6348,23 +6348,23 @@ msgstr ""
 "ການເພີ່ມຈຸດໃສ່ທາງໜ້າຊື່ໂຟນເດີນີ້ ຈະເຊື່ອງມັນຈາກມຸມມອງ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "Hide this File?"
 msgstr "ເຊື່ອງໄຟລ໌ນີ້ບໍ່?"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "ເຊື່ອງໂຟນເດີນີ້ບໍ່?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "ປ່ຽນຊື່"
 
-#: views/dolphinview.cpp:2407
+#: views/dolphinview.cpp:2410
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6376,7 +6376,7 @@ msgstr ""
 "ເນື້ອຫາໄຟລ໌ຈະບໍ່ປ່ຽນ ແຕ່ແອັບພລິເຄຊັນອາດຈະບໍ່ຮູ້ຈັກມັນອີກຕໍ່ໄປ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2411
+#: views/dolphinview.cpp:2414
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6388,101 +6388,101 @@ msgstr ""
 "ເນື້ອຫາໄຟລ໌ຈະບໍ່ປ່ຽນ ແຕ່ແອັບພລິເຄຊັນອາດຈະບໍ່ຮູ້ຈັກມັນອີກຕໍ່ໄປ.\n"
 "ທ່ານຍັງຕ້ອງການປ່ຽນຊື່ມັນບໍ່?"
 
-#: views/dolphinview.cpp:2417
+#: views/dolphinview.cpp:2420
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ປ່ຽນປະເພດໄຟລ໌"
 
-#: views/dolphinview.cpp:2465
+#: views/dolphinview.cpp:2468
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "ສະຖານທີ່ວ່າງເປົ່າ."
 
-#: views/dolphinview.cpp:2467
+#: views/dolphinview.cpp:2470
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "ສະຖານທີ່ '%1' ບໍ່ຖືກຕ້ອງ."
 
-#: views/dolphinview.cpp:2857
+#: views/dolphinview.cpp:2860
 #, kde-format
 msgid "Loading…"
 msgstr "ກຳລັງໂຫຼດ…"
 
-#: views/dolphinview.cpp:2886
+#: views/dolphinview.cpp:2889
 #, kde-format
 msgid "Loading canceled"
 msgstr "ການໂຫຼດຖືກຍົກເລີກ"
 
-#: views/dolphinview.cpp:2888
+#: views/dolphinview.cpp:2891
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ບໍ່ມີລາຍການທີ່ກົງກັບການກັ່ນຕອງ"
 
-#: views/dolphinview.cpp:2890
+#: views/dolphinview.cpp:2893
 #, kde-format
 msgid "No items matching the search"
 msgstr "ບໍ່ມີລາຍການທີ່ກົງກັບການຊອກຫາ"
 
-#: views/dolphinview.cpp:2892
+#: views/dolphinview.cpp:2895
 #, kde-format
 msgid "Trash is empty"
 msgstr "ຖັງຂີ້ເຫຍື້ອວ່າງເປົ່າ"
 
-#: views/dolphinview.cpp:2895
+#: views/dolphinview.cpp:2898
 #, kde-format
 msgid "No tags"
 msgstr "ບໍ່ມີແທັກ"
 
-#: views/dolphinview.cpp:2898
+#: views/dolphinview.cpp:2901
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ບໍ່ມີໄຟລ໌ທີ່ແທັກດ້ວຍ \"%1\""
 
-#: views/dolphinview.cpp:2902
+#: views/dolphinview.cpp:2905
 #, kde-format
 msgid "No recently used items"
 msgstr "ບໍ່ມີລາຍການທີ່ໃຊ້ລ່າສຸດ"
 
-#: views/dolphinview.cpp:2904
+#: views/dolphinview.cpp:2907
 #, kde-format
 msgid "No shared folders found"
 msgstr "ບໍ່ພົບໂຟນເດີທີ່ແບ່ງປັນ"
 
-#: views/dolphinview.cpp:2906
+#: views/dolphinview.cpp:2909
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "ບໍ່ພົບຊັບພະຍາກອນເຄືອຂ່າຍທີ່ກ່ຽວຂ້ອງ"
 
-#: views/dolphinview.cpp:2908
+#: views/dolphinview.cpp:2911
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "ບໍ່ພົບອຸປະກອນທີ່ຮອງຮັບ MTP"
 
-#: views/dolphinview.cpp:2910
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No Apple devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Apple"
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2916
 #, fuzzy, kde-format
 #| msgid "No Apple devices found"
 msgid "No KDE Connect devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Apple"
 
-#: views/dolphinview.cpp:2915
+#: views/dolphinview.cpp:2918
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2918
+#: views/dolphinview.cpp:2921
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ບໍ່ພົບອຸປະກອນ Bluetooth"
 
-#: views/dolphinview.cpp:2920
+#: views/dolphinview.cpp:2923
 #, kde-format
 msgid "Folder is empty"
 msgstr "ໂຟນເດີວ່າງເປົ່າ"
