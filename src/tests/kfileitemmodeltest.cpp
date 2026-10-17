@@ -12,11 +12,14 @@
 #include <QTest>
 #include <QTimer>
 
+#include <KConfig>
+#include <KConfigGroup>
 #include <KDirLister>
 #include <KIO/SimpleJob>
 
 #include <KFileMetaData/UserMetaData>
 
+#include "config-dolphin.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
@@ -52,6 +55,7 @@ private Q_SLOTS:
     void cleanup();
 
     void testDefaultRoles();
+    void testIndexerUnavailableReason();
     void testBackupFilesAreHidden();
     void testDefaultSortRole();
     void testDefaultGroupedSorting();
@@ -146,6 +150,45 @@ void KFileItemModelTest::cleanup()
 
     delete m_testDir;
     m_testDir = nullptr;
+}
+
+void KFileItemModelTest::testIndexerUnavailableReason()
+{
+    const QUrl folder = QUrl::fromLocalFile(m_testDir->path());
+#if HAVE_BALOO
+    KConfig config(QStringLiteral("baloofilerc"));
+    const auto writeConfig = [&config](bool indexingEnabled, bool onlyBasicIndexing, const QString &indexedFolder) {
+        config.group(QStringLiteral("Basic Settings")).writeEntry("Indexing-Enabled", indexingEnabled);
+        KConfigGroup general = config.group(QStringLiteral("General"));
+        general.writeEntry("only basic indexing", onlyBasicIndexing);
+        general.writePathEntry("folders", QStringList{indexedFolder});
+        config.sync();
+    };
+
+    writeConfig(true, false, m_testDir->path());
+    QCOMPARE(KFileItemModel::indexerUnavailableReason(folder), QString());
+
+    writeConfig(false, false, m_testDir->path());
+    const QString disabled = KFileItemModel::indexerUnavailableReason(folder);
+
+    writeConfig(true, true, m_testDir->path());
+    const QString onlyNames = KFileItemModel::indexerUnavailableReason(folder);
+
+    writeConfig(true, false, m_testDir->path() + QStringLiteral("/other"));
+    const QString notIndexed = KFileItemModel::indexerUnavailableReason(folder);
+
+    QVERIFY(!disabled.isEmpty());
+    QVERIFY(!onlyNames.isEmpty());
+    QVERIFY(!notIndexed.isEmpty());
+    QCOMPARE(QSet<QString>({disabled, onlyNames, notIndexed}).size(), 3);
+
+    // A folder that is not local, such as search results, is not compared with the indexed folders.
+    QCOMPARE(KFileItemModel::indexerUnavailableReason(QUrl(QStringLiteral("baloosearch:/documents"))), QString());
+
+    QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QStringLiteral("/baloofilerc"));
+#else
+    QVERIFY(!KFileItemModel::indexerUnavailableReason(folder).isEmpty());
+#endif
 }
 
 void KFileItemModelTest::testDefaultRoles()

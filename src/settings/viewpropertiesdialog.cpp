@@ -19,10 +19,6 @@
 
 #include <kwidgetsaddons_version.h>
 
-#if HAVE_BALOO
-#include <Baloo/IndexerConfig>
-#endif
-
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
@@ -107,11 +103,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
         }
 
         // Add checkboxes
-        bool indexingEnabled = false;
-#if HAVE_BALOO
-        Baloo::IndexerConfig config;
-        indexingEnabled = config.fileIndexingEnabled();
-#endif
+        const QString indexerReason = KFileItemModel::indexerUnavailableReason(m_dolphinView->url());
 
         m_listWidget = new QListWidget();
         connect(m_listWidget, &QListWidget::itemChanged, this, &ViewPropertiesDialog::slotItemChanged);
@@ -121,11 +113,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
             QListWidgetItem *item = new QListWidgetItem(info.translation, m_listWidget);
             item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
-            const bool enable =
-                ((!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled)) && info.role != "text";
-
-            if (!enable) {
+            if (info.role == "text") {
                 item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+            } else if (info.requiresIndexer && !indexerReason.isEmpty()) {
+                item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+                item->setToolTip(indexerReason);
             }
         }
         QLabel *additionalViewOptionsLabel = new QLabel(i18n("Choose what to see on each file or folder:"));
