@@ -213,6 +213,13 @@ public:
      */
     static QList<RoleInfo> rolesInformation();
 
+    /**
+     * @return A sentence for the user that says why the File Search index has no values for the roles
+     *         with requiresIndexer set, for the items of \a folder. It is empty when the index has them.
+     *         Only a local \a folder is checked against the folders that File Search indexes.
+     */
+    static QString indexerUnavailableReason(const QUrl &folder);
+
     /** set to true to hide application/x-trash files */
     void setShowTrashMime(bool show);
 

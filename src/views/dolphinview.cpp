@@ -29,9 +29,6 @@
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
 
-#if HAVE_BALOO
-#include <Baloo/IndexerConfig>
-#endif
 #include <kio_version.h>
 
 #include <KColorScheme>
@@ -1349,15 +1346,12 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
 
     QPointer<QMenu> menu = new QMenu(this);
     QMenu *const rawMenu = menu;
+    rawMenu->setToolTipsVisible(true);
 
     KItemListView *view = m_container->controller()->view();
     const QList<QByteArray> visibleRolesSet = view->visibleRoles();
 
-    bool indexingEnabled = false;
-#if HAVE_BALOO
-    Baloo::IndexerConfig config;
-    indexingEnabled = config.fileIndexingEnabled();
-#endif
+    const QString indexerReason = KFileItemModel::indexerUnavailableReason(url());
 
     QString groupName;
     QMenu *groupMenu = nullptr;
@@ -1378,6 +1372,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
             if (!groupMenu || info.group != groupName) {
                 groupName = info.group;
                 groupMenu = rawMenu->addMenu(groupName);
+                groupMenu->setToolTipsVisible(true);
             }
 
             action = groupMenu->addAction(text);
@@ -1386,10 +1381,12 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
         action->setCheckable(true);
         action->setChecked(visibleRolesSet.contains(info.role));
         action->setData(info.role);
-        action->setToolTip(info.tooltip);
-
-        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled);
-        action->setEnabled(enable);
+        if (info.requiresIndexer && !indexerReason.isEmpty()) {
+            action->setEnabled(false);
+            action->setToolTip(indexerReason);
+        } else {
+            action->setToolTip(info.tooltip);
+        }
     }
 
     rawMenu->addSeparator();

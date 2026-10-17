@@ -14,9 +14,6 @@
 #include "views/zoomlevelinfo.h"
 #include "views/zoomwidgetaction.h"
 
-#if HAVE_BALOO
-#include <Baloo/IndexerConfig>
-#endif
 #include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -71,6 +68,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView *view)
     });
     connect(view, &DolphinView::selectionChanged, this, &DolphinViewActionHandler::slotSelectionChanged);
     slotSelectionChanged(m_currentView->selectedItems());
+    connect(view, &DolphinView::urlChanged, this, &DolphinViewActionHandler::updateIndexerRoleActions);
 }
 
 DolphinView *DolphinViewActionHandler::currentView()
@@ -298,6 +296,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     sortByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sort")));
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
     sortByActionMenu->setPopupMode(QToolButton::InstantPopup);
+    sortByActionMenu->menu()->setToolTipsVisible(true);
 
     const auto sortByActionGroupActions = sortByActionGroup->actions();
     for (QAction *action : sortByActionGroupActions) {
@@ -335,6 +334,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     visibleRolesMenu->setText(i18nc("@action:inmenu View", "Show Additional Information"));
     visibleRolesMenu->setIcon(QIcon::fromTheme(QStringLiteral("documentinfo")));
     visibleRolesMenu->setPopupMode(QToolButton::InstantPopup);
+    visibleRolesMenu->menu()->setToolTipsVisible(true);
 
     const auto visibleRolesGroupActions = visibleRolesGroup->actions();
     for (QAction *action : visibleRolesGroupActions) {
@@ -344,6 +344,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     auto *groupingCategory = new KActionCategory(i18nc("@item:intable, Heading of a list of fields and grouping options", "Grouping"), m_actionCollection);
 
     KActionMenu *groupByActionMenu = groupingCategory->add<KActionMenu>(QStringLiteral("group_by"));
+    groupByActionMenu->menu()->setToolTipsVisible(true);
     groupByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-group")));
     groupByActionMenu->setText(i18nc("@action:inmenu View", "Group By"));
     groupByActionMenu->setWhatsThis(i18nc("@info:whatsthis",
@@ -454,12 +455,6 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     KActionMenu *groupMenu = nullptr;
     QActionGroup *groupMenuGroup = nullptr;
 
-    bool indexingEnabled = false;
-#if HAVE_BALOO
-    Baloo::IndexerConfig config;
-    indexingEnabled = config.fileIndexingEnabled();
-#endif
-
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     for (const KFileItemModel::RoleInfo &info : rolesInfo) {
         if (!isSortGroup && !isGroupGroup && info.role == "text") {
@@ -477,6 +472,7 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
                 groupName = info.group;
                 groupMenu = category->add<KActionMenu>(groupName);
                 groupMenu->setText(groupName);
+                groupMenu->menu()->setToolTipsVisible(true);
                 groupMenu->setActionGroup(rolesActionGroup);
 
                 groupMenuGroup = new QActionGroup(groupMenu);
@@ -497,8 +493,9 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
         action->setText(info.translation);
         action->setData(info.role);
 
-        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled);
-        action->setEnabled(enable);
+        if (info.requiresIndexer) {
+            m_indexerRoleActions.append(action);
+        }
 
         if (isSortGroup) {
             m_sortByActions.insert(info.role, action);
@@ -592,6 +589,15 @@ KActionCollection *DolphinViewActionHandler::actionCollection()
     return m_actionCollection;
 }
 
+void DolphinViewActionHandler::updateIndexerRoleActions()
+{
+    const QString reason = KFileItemModel::indexerUnavailableReason(m_currentView->url());
+    for (QAction *action : std::as_const(m_indexerRoleActions)) {
+        action->setEnabled(reason.isEmpty());
+        action->setToolTip(reason);
+    }
+}
+
 void DolphinViewActionHandler::updateViewActions()
 {
     QAction *viewModeAction = m_actionCollection->action(currentViewModeActionName());
@@ -618,6 +624,8 @@ void DolphinViewActionHandler::updateViewActions()
 
     // Updates the "show_hidden_files" action state and icon
     slotHiddenFilesShownChanged(m_currentView->hiddenFilesShown());
+
+    updateIndexerRoleActions();
 }
 
 void DolphinViewActionHandler::zoomIn()

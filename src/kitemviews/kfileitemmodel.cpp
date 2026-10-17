@@ -8,6 +8,7 @@
 
 #include "kfileitemmodel.h"
 
+#include "config-dolphin.h"
 #include "dolphin_contentdisplaysettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
@@ -20,6 +21,10 @@
 #include <KIO/ListJob>
 #include <KLocalizedString>
 #include <KUrlMimeData>
+
+#if HAVE_BALOO
+#include <Baloo/IndexerConfig>
+#endif
 
 #ifndef QT_NO_ACCESSIBILITY
 #include <QAccessible>
@@ -1300,6 +1305,26 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
     }
 
     return rolesInfo;
+}
+
+QString KFileItemModel::indexerUnavailableReason(const QUrl &folder)
+{
+#if HAVE_BALOO
+    const Baloo::IndexerConfig config;
+    if (!config.fileIndexingEnabled()) {
+        return i18nc("@info:tooltip", "File Search is disabled. Enable it in System Settings to see this information.");
+    }
+    if (config.onlyBasicIndexing()) {
+        return i18nc("@info:tooltip", "File Search indexes only file names. Enable indexing of file content in System Settings to see this information.");
+    }
+    if (folder.isLocalFile() && !config.shouldBeIndexed(folder.toLocalFile())) {
+        return i18nc("@info:tooltip", "This folder is not indexed by File Search.");
+    }
+    return QString();
+#else
+    Q_UNUSED(folder)
+    return i18nc("@info:tooltip", "This information comes from File Search, which this version of Dolphin was built without.");
+#endif
 }
 
 void KFileItemModel::onGroupedSortingChanged(bool current)
