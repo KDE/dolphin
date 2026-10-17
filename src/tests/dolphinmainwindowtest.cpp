@@ -41,6 +41,7 @@
 #include <QPixmap>
 #include <QScopeGuard>
 #include <QScopedPointer>
+#include <QSignalBlocker>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTemporaryDir>
@@ -84,6 +85,8 @@ private Q_SLOTS:
     void testPlacesPanelWidthResistance();
     void testGoActions();
     void testOpenFiles();
+    void testOpenFilesAtStartupInSplitView_data();
+    void testOpenFilesAtStartupInSplitView();
     void testDoubleClickViewBackgroundCustomCommand();
     void testAccessibilityTree();
     void testAutoSaveSession();
@@ -1278,6 +1281,63 @@ void DolphinMainWindowTest::testOpenFiles()
     QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 2);
     QVERIFY(m_mainWindow->m_tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
     QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+}
+
+void DolphinMainWindowTest::testOpenFilesAtStartupInSplitView_data()
+{
+    QTest::addColumn<QStringList>("files");
+
+    QTest::newRow("one file") << QStringList{QStringLiteral("a/file")};
+    QTest::newRow("files in two folders") << QStringList{QStringLiteral("a/file"), QStringLiteral("b/other")};
+}
+
+/**
+ * Starting Dolphin with --select in split view mode opens the parent folders of the files and selects the files.
+ * This replays the calls main() makes when the session is not restored. BUG: 526529
+ */
+void DolphinMainWindowTest::testOpenFilesAtStartupInSplitView()
+{
+    QFETCH(QStringList, files);
+
+    // New tabs read this global setting, so restore it even when the test aborts early.
+    // Saving emits splitViewChanged(), which would split the views of the window, so it is saved with signals blocked.
+    const bool splitViewBefore = GeneralSettings::splitView();
+    auto restoreSplitView = qScopeGuard([splitViewBefore] {
+        GeneralSettings::setSplitView(splitViewBefore);
+        const QSignalBlocker blocker(GeneralSettings::self());
+        GeneralSettings::self()->save();
+    });
+    GeneralSettings::setSplitView(true);
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFiles(files);
+    QList<QUrl> urls;
+    for (const QString &file : std::as_const(files)) {
+        urls.append(QUrl::fromLocalFile(testDir->url().toLocalFile() + QLatin1Char('/') + file));
+    }
+
+    // main() duplicates a single url so that split view has one for each view.
+    if (urls.size() < 2) {
+        urls.append(urls.last());
+    }
+
+    m_mainWindow->openFiles(urls, true);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    m_mainWindow->openFiles(urls, true);
+
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 1);
+    const DolphinTabPage *tabPage = m_mainWindow->m_tabWidget->currentTabPage();
+    QVERIFY(tabPage->splitViewEnabled());
+
+    // Each view shows the parent folder of one file and has that file selected.
+    const QList<DolphinViewContainer *> containers{tabPage->primaryViewContainer(), tabPage->secondaryViewContainer()};
+    for (int i = 0; i < containers.size(); ++i) {
+        const QUrl &file = urls.at(i);
+        QCOMPARE(containers.at(i)->url(), file.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
+        QTRY_COMPARE(containers.at(i)->view()->selectedItems().count(), 1);
+        QCOMPARE(containers.at(i)->view()->selectedItems().first().url(), file);
+    }
 }
 
 void DolphinMainWindowTest::testDoubleClickViewBackgroundCustomCommand()

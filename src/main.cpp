@@ -269,7 +269,11 @@ int main(int argc, char **argv)
     } else if (splitView) {
         // if split mode is set by default and we do not restore last session view
         // we need to call it to properly activate dolphin view
-        mainWindow->openDirectories(urls, splitView);
+        if (openFiles) {
+            mainWindow->openFiles(urls, splitView);
+        } else {
+            mainWindow->openDirectories(urls, splitView);
+        }
     }
 
     mainWindow->setSessionAutoSaveEnabled(GeneralSettings::rememberOpenedTabs());
