@@ -2441,6 +2441,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, &FoldersPanel::folderInNewTab, this, &DolphinMainWindow::openNewTab);
     connect(foldersPanel, &FoldersPanel::folderInNewActiveTab, this, &DolphinMainWindow::openNewTabAndActivate);
     connect(foldersPanel, &FoldersPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
+    connect(this, &DolphinMainWindow::settingsChanged, foldersPanel, &FoldersPanel::readSettings);
 
     actionCollection()
         ->action(QStringLiteral("show_folders_panel"))

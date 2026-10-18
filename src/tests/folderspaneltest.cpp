@@ -5,6 +5,8 @@
  */
 
 #include "panels/folders/folderspanel.h"
+#include "dolphin_folderspanelsettings.h"
+#include "dolphin_generalsettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
@@ -13,7 +15,9 @@
 
 #include "testdir.h"
 
+#include <QDir>
 #include <QScrollBar>
+#include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
 
@@ -26,6 +30,7 @@ private Q_SLOTS:
     void testCurrentFolderIsSelected();
     void testCurrentFolderNameIsShown();
     void testNameWiderThanThePanelIsShownFromItsStart();
+    void testLimitToHomeFollowsTheSettings();
 
 private:
     /** Where the name of the item at @p index ends, indentation and icon
@@ -153,6 +158,48 @@ void FoldersPanelTest::testNameWiderThanThePanelIsShownFromItsStart()
     // The end of the name cannot be shown together with its beginning, and the
     // beginning is the half a reader needs.
     QTRY_COMPARE(view->itemOffset(), nameStart(view, model, index));
+}
+
+void FoldersPanelTest::testLimitToHomeFollowsTheSettings()
+{
+    // The tree starts at the home folder or at the root folder, following the setting, and
+    // the folder shown in the view stays selected when the setting changes.
+    TestDir testDir;
+    const QUrl deepUrl = createNestedFolders(testDir, QStringLiteral("folder"), 3);
+    const QUrl rootUrl = QUrl::fromLocalFile(QDir::rootPath());
+    GeneralSettings::setHomeUrl(testDir.path());
+    FoldersPanelSettings::setLimitFoldersPanelToHome(true);
+
+    FoldersPanel panel;
+    QSignalSpy folderActivatedSpy(&panel, &FoldersPanel::folderActivated);
+    KItemListContainer *container = showPanelAt(panel, deepUrl);
+    QVERIFY(container);
+    auto *model = static_cast<KFileItemModel *>(container->controller()->model());
+    QTRY_VERIFY_WITH_TIMEOUT(model->index(deepUrl) >= 0, 10000);
+    QCOMPARE(model->directory(), testDir.url());
+
+    FoldersPanelSettings::setLimitFoldersPanelToHome(false);
+    panel.readSettings();
+    QTRY_COMPARE(model->directory(), rootUrl);
+    QTRY_VERIFY_WITH_TIMEOUT(model->index(testDir.url()) >= 0, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(model->index(deepUrl) >= 0, 10000);
+    QTRY_COMPARE(container->controller()->selectionManager()->currentItem(), model->index(deepUrl));
+
+    FoldersPanelSettings::setLimitFoldersPanelToHome(true);
+    panel.readSettings();
+    QTRY_COMPARE(model->directory(), testDir.url());
+    QTRY_VERIFY_WITH_TIMEOUT(model->index(deepUrl) >= 0, 10000);
+
+    // Outside the home folder the tree starts at the root folder, and the view stays where it is.
+    const QUrl outsideHomeUrl = QUrl::fromLocalFile(QDir::tempPath());
+    panel.setUrl(outsideHomeUrl);
+    QTRY_COMPARE(model->directory(), rootUrl);
+    panel.readSettings();
+    QCOMPARE(model->directory(), rootUrl);
+    QCOMPARE(folderActivatedSpy.count(), 0);
+
+    GeneralSettings::self()->setDefaults();
+    FoldersPanelSettings::self()->setDefaults();
 }
 
 QTEST_MAIN(FoldersPanelTest)

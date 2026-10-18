@@ -75,6 +75,11 @@ bool FoldersPanel::limitFoldersPanelToHome() const
     return FoldersPanelSettings::limitFoldersPanelToHome();
 }
 
+void FoldersPanel::readSettings()
+{
+    urlChanged();
+}
+
 void FoldersPanel::setAutoScrolling(bool enable)
 {
     // TODO: Not supported yet in Dolphin 2.0
