@@ -13,7 +13,7 @@ class QCheckBox;
 class QRadioButton;
 
 /**
- * @brief Page for the information panel.
+ * @brief Page for the information and folders panels.
  */
 class PanelSettingsPage : public SettingsPageBase
 {
@@ -31,7 +31,9 @@ public:
 
 private:
     void loadSettings();
+#if HAVE_BALOO
     void showPreviewToggled();
+#endif
 
 private:
     QCheckBox *m_showPreview;
@@ -39,6 +41,7 @@ private:
     QCheckBox *m_showHovered;
     QRadioButton *m_dateFormatLong;
     QRadioButton *m_dateFormatShort;
+    QCheckBox *m_limitFoldersPanelToHome;
 };
 
 #endif

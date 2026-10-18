@@ -331,6 +331,7 @@ target_sources(dolphinstatic PRIVATE
     settings/interface/statusandlocationbarssettingspage.cpp
     settings/interface/confirmationssettingspage.cpp
     settings/interface/interfacesettingspage.cpp
+    settings/interface/panelsettingspage.cpp
     settings/interface/previewssettingspage.cpp
     settings/dolphinsettingsdialog.cpp
     settings/contextmenu/contextmenusettingspage.cpp
@@ -400,6 +401,7 @@ target_sources(dolphinstatic PRIVATE
     settings/interface/statusandlocationbarssettingspage.h
     settings/interface/confirmationssettingspage.h
     settings/interface/interfacesettingspage.h
+    settings/interface/panelsettingspage.h
     settings/interface/previewssettingspage.h
     settings/dolphinsettingsdialog.h
     settings/contextmenu/contextmenusettingspage.h
@@ -429,12 +431,10 @@ if(HAVE_BALOO)
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp
         panels/information/mediawidget.cpp
-        settings/interface/panelsettingspage.cpp
         panels/information/informationpanel.h
         panels/information/informationpanelcontent.h
         panels/information/pixmapviewer.h
         panels/information/mediawidget.h
-        settings/interface/panelsettingspage.h
     )
 
     kconfig_add_kcfg_files(dolphinstatic

@@ -8,12 +8,9 @@
 
 #include "confirmationssettingspage.h"
 #include "folderstabssettingspage.h"
+#include "panelsettingspage.h"
 #include "previewssettingspage.h"
 #include "statusandlocationbarssettingspage.h"
-
-#if HAVE_BALOO
-#include "panelsettingspage.h"
-#endif
 
 #include <KLocalizedString>
 
@@ -47,12 +44,10 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     tabWidget->addTab(confirmationsPage, i18nc("@title:tab Confirmations settings", "Confirmations"));
     connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, &InterfaceSettingsPage::changed);
 
-#if HAVE_BALOO
     // initialize 'Panel' tab
     PanelSettingsPage *panelPage = new PanelSettingsPage(tabWidget);
     tabWidget->addTab(panelPage, i18nc("@title:tab Panels settings", "Panels"));
     connect(panelPage, &PanelSettingsPage::changed, this, &InterfaceSettingsPage::changed);
-#endif
 
     // initialize 'Status & location bars' tab
     StatusAndLocationBarsSettingsPage *statusAndLocationBarsPage = new StatusAndLocationBarsSettingsPage(tabWidget, foldersTabsPage);
@@ -62,11 +57,7 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     m_pages.append(foldersTabsPage);
     m_pages.append(previewsPage);
     m_pages.append(confirmationsPage);
-
-#if HAVE_BALOO
     m_pages.append(panelPage);
-#endif
-
     m_pages.append(statusAndLocationBarsPage);
 
     topLayout->addWidget(tabWidget, 0, {});
