@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-18 03:05+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -1928,7 +1928,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ವಿಂಗಡಣೆ:"
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1936,13 +1936,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "ಹುಡುಕಲಾಗುತ್ತಿದೆ..."
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ಯಾವುದೇ ಅಂಶಗಳು ಪತ್ತೆಯಾಗಿಲ್ಲ."
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste One File"
@@ -1950,7 +1950,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "ಒಂದು ಕಡತವನ್ನು ಅಂಟಿಸು"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, fuzzy, kde-kuit-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the item <filename>%1</filename> to:"
@@ -1958,13 +1958,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "ಅಂಶದ ಹೆಸರನ್ನು <filename>%1</filename> ಗೆ ಬದಲಾಯಿಸು:"
 
-#: dolphinviewcontainer.cpp:914
+#: dolphinviewcontainer.cpp:921
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ಡಾಲ್ಫಿನ್ ಜಾಲಪುಟಗಳನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಜಾಲ ವೀಕ್ಷಕವನ್ನು ಆರಂಭಿಸಲಾಗಿದೆ"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:924
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1973,7 +1973,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ಡಾಲ್ಫಿನ್‌ನಿಂದ ಪ್ರೊಟೊಕಾಲ್ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ, ಕಾಂಕರರನ್ನು ಆರಂಭಿಸಲಾಗಿದೆ"
 
-#: dolphinviewcontainer.cpp:924
+#: dolphinviewcontainer.cpp:931
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1981,19 +1981,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ಅಮಾನ್ಯವಾದ ಪ್ರೊಟೋಕಾಲ್"
 
-#: dolphinviewcontainer.cpp:926
+#: dolphinviewcontainer.cpp:933
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ಅಮಾನ್ಯವಾದ ಪ್ರೊಟೋಕಾಲ್"
 
-#: dolphinviewcontainer.cpp:1029
+#: dolphinviewcontainer.cpp:1037
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1042
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2001,19 +2001,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "ಕಡತಕೋಶವು ಸೃಷ್ಟಿಯಾಗಿದೆ."
 
-#: dolphinviewcontainer.cpp:1051
+#: dolphinviewcontainer.cpp:1059
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1054
+#: dolphinviewcontainer.cpp:1062
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1098 dolphinviewcontainer.cpp:1101
+#: dolphinviewcontainer.cpp:1106 dolphinviewcontainer.cpp:1109
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

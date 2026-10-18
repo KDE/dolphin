@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-18 03:05+0000\n"
 "PO-Revision-Date: 2026-10-07 14:30+0200\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -2089,80 +2089,80 @@ msgid "Sorting…"
 msgstr "Ređam…"
 
 # >! @info:progress
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Tražim…"
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ništa nije nađeno."
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Otvori kao fajl"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Pokušavam da otvorim fajl kao fasciklu: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:914
+#: dolphinviewcontainer.cpp:921
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ne podržava veb stranice, pokrećem veb pregledač"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podržava protokol, pokrenut je podrazumijevani program"
 
-#: dolphinviewcontainer.cpp:924
+#: dolphinviewcontainer.cpp:931
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Loš protokol „%1“"
 
-#: dolphinviewcontainer.cpp:926
+#: dolphinviewcontainer.cpp:933
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Loš protokol"
 
-#: dolphinviewcontainer.cpp:1029
+#: dolphinviewcontainer.cpp:1037
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Potrebno je ovlašćenje za ulazak u ovu fasciklu."
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1042
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Napravi nedostajuću fasciklu"
 
-#: dolphinviewcontainer.cpp:1051
+#: dolphinviewcontainer.cpp:1059
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Napravi fasciklu na ovoj putanji i otvori je"
 
-#: dolphinviewcontainer.cpp:1054
+#: dolphinviewcontainer.cpp:1062
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Nemate dozvolu za stvaranje fascikle"
 
-#: dolphinviewcontainer.cpp:1098 dolphinviewcontainer.cpp:1101
+#: dolphinviewcontainer.cpp:1106 dolphinviewcontainer.cpp:1109
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

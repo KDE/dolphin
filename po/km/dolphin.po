@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-18 03:05+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -1911,7 +1911,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ការ​តម្រៀប ៖"
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1919,13 +1919,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "កំពុង​ស្វែងរក..."
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "រកមិនឃើញ​ធាតុ​ទេ"
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File"
@@ -1934,7 +1934,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "ឯកសារ %1"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:status"
 #| msgid "Access denied. Could not write to <filename>%1</filename>"
@@ -1942,13 +1942,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "បាន​បដិសេធ ។ មិន​អាច​សរសេរ​ទៅកាន់ <filename>%1</filename> បាន​ទេ ។"
 
-#: dolphinviewcontainer.cpp:914
+#: dolphinviewcontainer.cpp:921
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ​​មិន​គាំទ្រ​ទំព័រ​បណ្ដាញ​ទេ កម្មវិធី​រុករក​បណ្ដាញ​ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:924
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1957,7 +1957,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ពិធីការ​មិន​បាន​គាំទ្រ​ដោយ Dolphin Konqueror ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:924
+#: dolphinviewcontainer.cpp:931
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1965,19 +1965,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ពិធីការ​មិន​ត្រឹមត្រូវ"
 
-#: dolphinviewcontainer.cpp:926
+#: dolphinviewcontainer.cpp:933
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ពិធីការ​មិន​ត្រឹមត្រូវ"
 
-#: dolphinviewcontainer.cpp:1029
+#: dolphinviewcontainer.cpp:1037
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1042
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1985,19 +1985,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "បាន​បង្កើតថត ។"
 
-#: dolphinviewcontainer.cpp:1051
+#: dolphinviewcontainer.cpp:1059
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1054
+#: dolphinviewcontainer.cpp:1062
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1098 dolphinviewcontainer.cpp:1101
+#: dolphinviewcontainer.cpp:1106 dolphinviewcontainer.cpp:1109
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

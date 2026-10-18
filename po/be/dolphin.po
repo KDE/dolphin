@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-18 03:05+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2153,19 +2153,19 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Сартаванне…"
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Пошук…"
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Не знойдзена элементаў."
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "Textual representation of files. %1 is the number of files."
 #| msgid "One File"
@@ -2174,7 +2174,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "%1 файл"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Could not access <filename>%1</filename>."
@@ -2182,13 +2182,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Не ўдалося атрымаць доступ да <filename>%1</filename>."
 
-#: dolphinviewcontainer.cpp:914
+#: dolphinviewcontainer.cpp:921
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin не падтрымлівае вэб-старонкі, быў запушчаны вэб-браўзер"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2196,25 +2196,25 @@ msgid ""
 msgstr ""
 "Пратакол не падтрымліваецца Dolphin, была запушчаная прадвызначаная праграма"
 
-#: dolphinviewcontainer.cpp:924
+#: dolphinviewcontainer.cpp:931
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Хібны пратакол \"%1\""
 
-#: dolphinviewcontainer.cpp:926
+#: dolphinviewcontainer.cpp:933
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Хібны пратакол"
 
-#: dolphinviewcontainer.cpp:1029
+#: dolphinviewcontainer.cpp:1037
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Каб перайсці ў гэты каталог, патрэбна аўтарызавацца."
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1042
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2222,13 +2222,13 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Каталог створаны."
 
-#: dolphinviewcontainer.cpp:1051
+#: dolphinviewcontainer.cpp:1059
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1054
+#: dolphinviewcontainer.cpp:1062
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Cannot paste: You do not have permission to write into this folder."
@@ -2236,7 +2236,7 @@ msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Немагчыма ўставіць: вы не маеце правоў на запіс у гэты каталог."
 
-#: dolphinviewcontainer.cpp:1098 dolphinviewcontainer.cpp:1101
+#: dolphinviewcontainer.cpp:1106 dolphinviewcontainer.cpp:1109
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-18 03:05+0000\n"
 "PO-Revision-Date: 2026-06-24 19:02+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -2096,37 +2096,37 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Röðun…"
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:684
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Leita…"
 
-#: dolphinviewcontainer.cpp:699
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Engir hlutir fundust."
 
-#: dolphinviewcontainer.cpp:733
+#: dolphinviewcontainer.cpp:738
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Opna sem skrá"
 
-#: dolphinviewcontainer.cpp:750
+#: dolphinviewcontainer.cpp:755
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Reyni að opna skrá sem möppu: <filename>%1</filename>."
 
-#: dolphinviewcontainer.cpp:914
+#: dolphinviewcontainer.cpp:921
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin styður ekki vefsíður, vefskoðarinn hefur verið ræstur"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:924
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2134,43 +2134,43 @@ msgid ""
 msgstr ""
 "Samskiptareglan er ekki studd af Dolphin, sjálfgefið forrit hefur verið ræst"
 
-#: dolphinviewcontainer.cpp:924
+#: dolphinviewcontainer.cpp:931
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ógild samskiptaregla '%1'"
 
-#: dolphinviewcontainer.cpp:926
+#: dolphinviewcontainer.cpp:933
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ógild samskiptaregla"
 
-#: dolphinviewcontainer.cpp:1029
+#: dolphinviewcontainer.cpp:1037
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Auðkenningar krafist til að fara inn í þessa möppu."
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1042
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Búa til möppu sem vantar"
 
-#: dolphinviewcontainer.cpp:1051
+#: dolphinviewcontainer.cpp:1059
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Búa til möppu á þessari slóð og opna hana"
 
-#: dolphinviewcontainer.cpp:1054
+#: dolphinviewcontainer.cpp:1062
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Þú ert ekki með heimild til að útbúa möppuna"
 
-#: dolphinviewcontainer.cpp:1098 dolphinviewcontainer.cpp:1101
+#: dolphinviewcontainer.cpp:1106 dolphinviewcontainer.cpp:1109
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
