@@ -411,6 +411,8 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
 
     if (pane) {
         finishPendingWidth(pane);
+        // The splitter takes the new width on the next layout.
+        QTimer::singleShot(0, this, &DolphinColumnsView::resumePaintingOnceEveryColumnHasAWidth);
     }
 
     if (pane && pane == m_pendingAutoSelect) {
@@ -569,8 +571,10 @@ void DolphinColumnsView::resumePaintingOnceEveryColumnHasAWidth()
     if (m_scrollArea->updatesEnabled()) {
         return;
     }
+    // KCoreDirLister can list a folder again right after it completed it empty, so a column
+    // that is listing may still change its width.
     if (std::none_of(m_columns.cbegin(), m_columns.cend(), [](const DolphinColumnPane *pane) {
-            return pane->isWidthPending();
+            return pane->isWidthPending() || pane->isLoading();
         })) {
         m_scrollArea->setUpdatesEnabled(true);
     }
