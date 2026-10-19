@@ -27,6 +27,10 @@
             <label>Minimum column width in pixels</label>
             <default>320</default>
         </entry>
+        <entry name="MinContentColumnWidth" type="Int">
+            <label>Minimum width in pixels of a column adjusted to its content</label>
+            <default>150</default>
+        </entry>
         <entry name="MaxVisibleColumns" type="Int">
             <label>Maximum number of visible columns before scrolling</label>
             <default>4</default>
