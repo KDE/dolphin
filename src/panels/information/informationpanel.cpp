@@ -386,6 +386,7 @@ void InformationPanel::markUrlAsInvalid()
 void InformationPanel::readSettings()
 {
     if (m_initialized) {
+        m_content->setPreviewAutoPlay(InformationPanelSettings::previewsAutoPlay());
         m_content->refreshPreview();
         m_content->refreshMetaData();
     }

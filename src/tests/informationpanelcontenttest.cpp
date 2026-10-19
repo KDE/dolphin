@@ -5,13 +5,20 @@
  */
 
 #include "panels/information/informationpanelcontent.h"
+#include "dolphin_informationpanelsettings.h"
+#include "panels/information/informationpanel.h"
+#include "panels/information/mediawidget.h"
 #include "panels/information/pixmapviewer.h"
 
 #include <KFileItem>
 
+#include <QDir>
 #include <QPainter>
+#include <QScopeGuard>
+#include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QTest>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -22,6 +29,7 @@ class InformationPanelContentTest : public QObject
 private Q_SLOTS:
     void initTestCase();
     void testThePreviewGrowsWithThePanel();
+    void testAutoPlayFollowsTheSettings();
 
 private:
     QTemporaryDir m_dir;
@@ -30,6 +38,7 @@ private:
 
 void InformationPanelContentTest::initTestCase()
 {
+    QStandardPaths::setTestModeEnabled(true);
     QVERIFY(m_dir.isValid());
     m_imagePath = m_dir.path() + QLatin1String("/big.png");
 
@@ -83,6 +92,35 @@ void InformationPanelContentTest::testThePreviewGrowsWithThePanel()
     QVERIFY(preview.width() <= viewer->width());
     QVERIFY(preview.height() <= viewer->height());
     QCOMPARE(qMax(preview.width(), preview.height()), qMin(viewer->width(), viewer->height()));
+}
+
+// The media player of a shown panel plays files on its own, or not, as the setting says once the
+// settings are applied. The settings dialog changes the setting and then applies the settings.
+void InformationPanelContentTest::testAutoPlayFollowsTheSettings()
+{
+    const bool previousAutoPlay = InformationPanelSettings::previewsAutoPlay();
+    const auto restore = qScopeGuard([previousAutoPlay] {
+        InformationPanelSettings::setPreviewsAutoPlay(previousAutoPlay);
+    });
+
+    InformationPanel panel;
+    panel.setUrl(QUrl::fromLocalFile(m_dir.path()));
+    panel.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&panel));
+    auto *mediaWidget = panel.findChild<MediaWidget *>();
+    QVERIFY(mediaWidget);
+    // The panel shows the folder once it has read it. Settings are only applied to a panel in that
+    // state, since the settings dialog opens after the panel has loaded.
+    auto *nameLabel = panel.findChild<QTextEdit *>();
+    QVERIFY(nameLabel);
+    // The label puts zero-width spaces in the name where it may wrap.
+    QTRY_COMPARE(nameLabel->toPlainText().remove(QChar(0x200B)), QDir(m_dir.path()).dirName());
+
+    for (const bool autoPlay : {true, false, true}) {
+        InformationPanelSettings::setPreviewsAutoPlay(autoPlay);
+        panel.readSettings();
+        QCOMPARE(mediaWidget->autoPlay(), autoPlay);
+    }
 }
 
 QTEST_MAIN(InformationPanelContentTest)

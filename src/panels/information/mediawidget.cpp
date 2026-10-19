@@ -182,6 +182,11 @@ void MediaWidget::setAutoPlay(bool autoPlay)
     }
 }
 
+bool MediaWidget::autoPlay() const
+{
+    return m_autoPlay;
+}
+
 QUrl MediaWidget::url() const
 {
     return m_url;

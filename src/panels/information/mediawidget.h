@@ -41,6 +41,7 @@ public:
     QMediaPlayer::PlaybackState state() const;
 
     void setAutoPlay(bool autoPlay);
+    bool autoPlay() const;
     bool eventFilter(QObject *object, QEvent *event) override;
 
 Q_SIGNALS:
