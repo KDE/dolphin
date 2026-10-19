@@ -1211,7 +1211,8 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
     // One long name elides instead of pushing the other columns out of the viewport.
     const int maxVisibleColumns = ColumnsModeSettings::self()->maxVisibleColumns();
-    const int maxContentWidth = qMax(minColumnWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
+    const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
+    const int maxContentWidth = qMax(minContentWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
     const QList<int> currentSizes = m_splitter->sizes();
 
@@ -1226,7 +1227,7 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
         if (m_customColumnWidths.contains(i)) {
             columnWidth = m_customColumnWidths.value(i);
         } else if (dynamicWidth) {
-            columnWidth = qBound(minColumnWidth, m_columns.at(i)->calculateOptimalWidth(), maxContentWidth);
+            columnWidth = qBound(minContentWidth, m_columns.at(i)->calculateOptimalWidth(), maxContentWidth);
             if (policy == WidthPolicy::GrowOnly) {
                 // Only the user narrows a column.
                 columnWidth = qMax(columnWidth, widthFloorFor(i, currentSizes));
@@ -1316,13 +1317,13 @@ void DolphinColumnsView::autoAdjustColumns(int anchorColumn)
     const int anchorX = anchored ? m_columns.at(anchorColumn)->mapTo(m_scrollArea->viewport(), QPoint(0, 0)).x() : 0;
 
     m_customColumnWidths.clear();
-    const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
+    const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
     const bool fixedWidth = !ColumnsModeSettings::self()->dynamicColumnWidth();
 
     QList<int> sizes;
     sizes.reserve(m_columns.size());
     for (int i = 0; i < m_columns.size(); ++i) {
-        const int width = qMax(minColumnWidth, m_columns.at(i)->calculateOptimalWidth());
+        const int width = qMax(minContentWidth, m_columns.at(i)->calculateOptimalWidth());
         sizes.append(width);
         if (fixedWidth) {
             // Or the next relayout would go back to the fixed width.
