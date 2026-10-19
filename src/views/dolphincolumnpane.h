@@ -64,6 +64,9 @@ public:
 
     int calculateOptimalWidth() const;
 
+    /// Whether the folder of the column is being listed.
+    bool isLoading() const;
+
     void setZoomLevel(int level);
 
     void reloadSettings();
