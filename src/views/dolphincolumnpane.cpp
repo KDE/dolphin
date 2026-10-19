@@ -262,6 +262,11 @@ int DolphinColumnPane::calculateOptimalWidth() const
     return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + sidePadding + chrome);
 }
 
+bool DolphinColumnPane::isLoading() const
+{
+    return m_loadingState == LoadingState::Loading;
+}
+
 void DolphinColumnPane::setZoomLevel(int level)
 {
     m_view->setZoomLevel(level);
