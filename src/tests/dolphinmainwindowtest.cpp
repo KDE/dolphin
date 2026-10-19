@@ -1144,7 +1144,8 @@ void DolphinMainWindowTest::testGoActions()
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // There was no action in this view yet that would warrant a selection.
     QCOMPARE(currentItemUrl(), QUrl(QDir::cleanPath(testDir->url().toString() + "/b/b-1"))); // The first item in the view should have keyboard focus.
 
-    // Press the 'Down' key in the child folder.
+    // Press the 'Down' key in the child folder, which has a view mode of its own.
+    m_mainWindow->actionCollection()->action(QStringLiteral("compact"))->trigger();
     QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Down, Qt::NoModifier);
     // The second item in the view should have keyboard focus and be selected.
     const QUrl secondItemInChildFolderUrl{QDir::cleanPath(testDir->url().toString() + "/b/b-2")};
@@ -1682,6 +1683,8 @@ void DolphinMainWindowTest::testInlineRename()
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QVERIFY(viewDirectoryLoadingCompletedSpy.count() > 0 || viewDirectoryLoadingCompletedSpy.wait());
+    // The Down key moves the editor to the item below, so the items are in a column.
+    m_mainWindow->actionCollection()->action(QStringLiteral("compact"))->trigger();
     QTest::qWait(500); // UNAVOIDABLE: view must be fully settled before inline rename sequence
     view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/aaaa")});
     view->updateViewState();
