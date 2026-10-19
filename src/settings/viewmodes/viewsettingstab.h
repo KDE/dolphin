@@ -55,6 +55,7 @@ private:
     DolphinFontRequester *m_fontRequester;
     QComboBox *m_widthBox;
     QComboBox *m_maxLinesBox;
+    QCheckBox *m_compactSpacing = nullptr;
     QRadioButton *m_entireRow;
     QRadioButton *m_iconAndNameOnly;
     QCheckBox *m_expandableFolders;

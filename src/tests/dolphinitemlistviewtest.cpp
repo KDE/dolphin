@@ -50,6 +50,8 @@ private Q_SLOTS:
 
     void testZoomLevelIsClamped();
 
+    void testCompactSpacingFitsTheItemsCloser();
+
     void testTheFilesOnScreenStayOnScreenWhenTheViewGetsNarrower();
     void testTheViewComesBackToWhereItWasWhenTheWidthDoes();
     void testTheLastRowStaysClearOfTheStatusBarWhenTheViewGetsWider();
@@ -176,6 +178,33 @@ bool DolphinItemListViewTest::resizeContainer(const QSize &size)
     return QTest::qWaitFor([this, size]() {
         return m_container->size() == size;
     });
+}
+
+/**
+ * Compact spacing in the icons view narrows the gap between items and keeps the room for their
+ * names. See BUG 526192.
+ */
+void DolphinItemListViewTest::testCompactSpacingFitsTheItemsCloser()
+{
+    const bool compactSpacing = IconsModeSettings::compactSpacing();
+    auto restore = qScopeGuard([compactSpacing] {
+        IconsModeSettings::setCompactSpacing(compactSpacing);
+        IconsModeSettings::self()->save();
+    });
+
+    IconsModeSettings::setCompactSpacing(false);
+    QVERIFY(IconsModeSettings::self()->save());
+    m_view->setItemLayout(KStandardItemListView::IconsLayout);
+    m_view->readSettings();
+    const QSizeF normalSize = m_view->itemSize();
+    const KItemListStyleOption normalOption = m_view->styleOption();
+
+    IconsModeSettings::setCompactSpacing(true);
+    QVERIFY(IconsModeSettings::self()->save());
+    m_view->readSettings();
+    QCOMPARE(m_view->itemSize(), normalSize);
+    QVERIFY(m_view->styleOption().horizontalMargin < normalOption.horizontalMargin);
+    QVERIFY(m_view->styleOption().verticalMargin < normalOption.verticalMargin);
 }
 
 static void addLayoutRows()

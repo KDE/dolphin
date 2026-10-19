@@ -93,6 +93,10 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "4"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "5"));
         topLayout->addRow(i18nc("@label:listbox", "Maximum lines:"), m_maxLinesBox);
+
+        m_compactSpacing = new QCheckBox(i18nc("@option:check Icons view item spacing", "Compact"));
+        m_compactSpacing->setToolTip(i18nc("@info:tooltip", "Places the items closer together, so that more of them fit in a row."));
+        topLayout->addRow(i18nc("@label:checkbox", "Spacing:"), m_compactSpacing);
         break;
     }
     case CompactMode: {
@@ -135,6 +139,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     case IconsMode:
         connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         connect(m_maxLinesBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
+        connect(m_compactSpacing, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         break;
     case CompactMode:
         connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
@@ -173,6 +178,7 @@ void ViewSettingsTab::applySettings()
     case IconsMode:
         IconsModeSettings::setTextWidthIndex(m_widthBox->currentIndex());
         IconsModeSettings::setMaximumTextLines(m_maxLinesBox->currentIndex());
+        IconsModeSettings::setCompactSpacing(m_compactSpacing->isChecked());
         IconsModeSettings::self()->save();
         break;
     case CompactMode:
@@ -235,6 +241,7 @@ void ViewSettingsTab::loadSettings()
     case IconsMode:
         m_widthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
         m_maxLinesBox->setCurrentIndex(IconsModeSettings::maximumTextLines());
+        m_compactSpacing->setChecked(IconsModeSettings::compactSpacing());
         break;
     case CompactMode:
         m_widthBox->setCurrentIndex(CompactModeSettings::maximumTextWidthIndex());

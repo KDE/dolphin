@@ -27,6 +27,10 @@
             <label>Text width index</label>
             <default>1</default>
         </entry>
+        <entry name="CompactSpacing" type="Bool">
+            <label>Place the items closer together</label>
+            <default>false</default>
+        </entry>
         <entry name="MaximumTextLines" type="Int">
             <label>Maximum textlines (0 means unlimited)</label>
             <default>3</default>

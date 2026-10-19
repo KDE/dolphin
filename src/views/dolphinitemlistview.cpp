@@ -222,7 +222,8 @@ void DolphinItemListView::updateGridSize()
 
         itemHeight = padding * 3 + iconSize + option.fontMetrics.lineSpacing();
 
-        const auto margin = style()->pixelMetric(QStyle::PM_SizeGripSize);
+        // Compact spacing keeps the room for the names and narrows the gap between items.
+        const auto margin = IconsModeSettings::compactSpacing() ? padding * 2 : style()->pixelMetric(QStyle::PM_SizeGripSize);
         horizontalMargin = margin;
         verticalMargin = margin;
         maxTextLines = IconsModeSettings::maximumTextLines();
