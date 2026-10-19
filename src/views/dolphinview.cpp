@@ -271,6 +271,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
 
     applyViewProperties();
     m_topLayout->addWidget(m_container);
+    updateContainerFrame();
 
     loadDirectory(url);
 }
@@ -1058,6 +1059,17 @@ void DolphinView::stopLoading()
     m_model->cancelDirectoryLoading();
 }
 
+void DolphinView::updateContainerFrame()
+{
+    // The view keeps the frame of a scroll area where the style gives it no width, as Breeze does
+    // for a view that fills its place. Elsewhere the frame lies between the scroll bar and the edge
+    // of the window, so the view has none.
+    m_container->setFrameShape(QFrame::StyledPanel);
+    if (m_container->frameWidth() > 0) {
+        m_container->setFrameShape(QFrame::NoFrame);
+    }
+}
+
 void DolphinView::updatePalette()
 {
     QColor color = KColorScheme(isActiveWindow() ? QPalette::Active : QPalette::Inactive, KColorScheme::View).background().color();
@@ -1105,6 +1117,12 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
     case QEvent::FocusIn:
         if (watched == m_container) {
             setActive(true);
+        }
+        break;
+
+    case QEvent::StyleChange:
+        if (watched == m_container) {
+            updateContainerFrame();
         }
         break;
 

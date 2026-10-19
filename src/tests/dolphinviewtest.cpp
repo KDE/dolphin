@@ -22,6 +22,8 @@
 #include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QStyle>
+#include <QStyleFactory>
 #include <QTest>
 
 class DolphinViewTest : public QObject
@@ -41,6 +43,8 @@ private Q_SLOTS:
     void aFreshViewUsesTheConfiguredSizeOfItsOwnViewMode();
     void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState_data();
     void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState();
+    void scrollBarReachesTheEdgeOfTheView_data();
+    void scrollBarReachesTheEdgeOfTheView();
 
 private:
     void requestBackgroundContextMenu();
@@ -371,6 +375,43 @@ void DolphinViewTest::navigatingToAFolderUsesTheSizeOfItsOwnPreviewState()
     QCOMPARE(m_view->zoomLevel(), previews ? previewLevel : iconLevel);
     // Nothing was stored along the way, so this really was the fallback.
     QCOMPARE(ViewProperties(entered).zoomLevel(), -1);
+}
+
+void DolphinViewTest::scrollBarReachesTheEdgeOfTheView_data()
+{
+    QTest::addColumn<QString>("styleName");
+    QTest::addColumn<bool>("keepsFrameShape");
+
+    QTest::newRow("fusion") << QStringLiteral("fusion") << false;
+    QTest::newRow("windows") << QStringLiteral("windows") << false;
+    // Breeze gives the frame no width and styles the view by its frame shape, so the shape stays.
+    QTest::newRow("breeze") << QStringLiteral("breeze") << true;
+}
+
+/**
+ * Whatever the style, no frame lies between the scroll bar of the view and the edge of the view,
+ * for a view that exists when the style changes and for one created afterwards.
+ */
+void DolphinViewTest::scrollBarReachesTheEdgeOfTheView()
+{
+    QFETCH(QString, styleName);
+    QFETCH(bool, keepsFrameShape);
+    if (!QStyleFactory::keys().contains(styleName, Qt::CaseInsensitive)) {
+        QSKIP("The style is not installed");
+    }
+    const QString previousStyle = QApplication::style()->name();
+    const auto restoreStyle = qScopeGuard([&previousStyle] {
+        QApplication::setStyle(previousStyle);
+    });
+    QApplication::setStyle(styleName);
+
+    DolphinView newView(m_testDir->url(), nullptr);
+    for (DolphinView *view : {m_view, &newView}) {
+        auto *container = view->findChild<KItemListContainer *>();
+        QVERIFY(container);
+        QCOMPARE(container->frameWidth(), 0);
+        QCOMPARE(container->frameShape() == QFrame::StyledPanel, keepsFrameShape);
+    }
 }
 
 void DolphinViewTest::writeViewProperties(const QUrl &folder, DolphinView::Mode mode, bool previewsShown)
