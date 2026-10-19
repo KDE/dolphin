@@ -33,6 +33,10 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     void restoreDefaults() override;
 
+Q_SIGNALS:
+    /** Is emitted when the default display style has been written, without waiting for applySettings(). */
+    void defaultViewPropertiesChanged();
+
 private:
     ContentDisplayTab *contentDisplayTab;
     QTabWidget *tabWidget;

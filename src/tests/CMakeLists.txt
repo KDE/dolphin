@@ -98,6 +98,11 @@ ecm_add_test(viewpropertiestest.cpp testdir.cpp
 TEST_NAME viewpropertiestest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test KF6::FileMetaData)
 
+# ViewPropertiesDialogTest
+ecm_add_test(viewpropertiesdialogtest.cpp testdir.cpp
+TEST_NAME viewpropertiesdialogtest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+
 # DolphinMainWindowTest (requires a real window desktop; not reliable on Windows CI)
 if(NOT WIN32)
     ecm_add_test(dolphinmainwindowtest.cpp testdir.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc

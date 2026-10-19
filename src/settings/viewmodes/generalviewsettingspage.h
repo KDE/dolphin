@@ -16,6 +16,7 @@ class QCheckBox;
 class QComboBox;
 class QLabel;
 class QLineEdit;
+class QPushButton;
 class QRadioButton;
 
 /**
@@ -35,6 +36,10 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     void restoreDefaults() override;
 
+Q_SIGNALS:
+    /** Is emitted when the default display style has been written, without waiting for applySettings(). */
+    void defaultViewPropertiesChanged();
+
 private:
     void loadSettings();
     void updateCustomActionVisibility(int doubleClickViewComboBoxCurrentIndex);
@@ -43,6 +48,7 @@ private:
     QUrl m_url;
     QRadioButton *m_localViewProps = nullptr;
     QRadioButton *m_globalViewProps = nullptr;
+    QPushButton *m_defaultViewProps = nullptr;
 #if HAVE_BALOO
     QCheckBox *m_showToolTips = nullptr;
 #endif

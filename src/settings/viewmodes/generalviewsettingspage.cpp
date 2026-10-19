@@ -8,6 +8,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "dolphinmainwindow.h"
+#include "settings/viewpropertiesdialog.h"
 #include "views/viewproperties.h"
 
 #include <KActionCollection>
@@ -22,6 +23,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMimeDatabase>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *parent)
@@ -48,6 +50,14 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     localViewPropsLabel->setWordWrap(true);
     localViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    m_defaultViewProps = new QPushButton(QIcon::fromTheme(QStringLiteral("view-choose")), i18nc("@action:button", "Configure Default Display Style…"));
+    m_defaultViewProps->setToolTip(i18nc("@info:tooltip", "Choose the display style of the folders that do not have one of their own."));
+    connect(m_defaultViewProps, &QPushButton::clicked, this, [this]() {
+        ViewPropertiesDialog dialog(this);
+        connect(&dialog, &ViewPropertiesDialog::defaultPropertiesChanged, this, &GeneralViewSettingsPage::defaultViewPropertiesChanged);
+        dialog.exec();
+    });
+
     m_dynamicView = new QCheckBox(i18nc("option:check", "Use icons view mode for locations which mostly contain media files"));
 
     QButtonGroup *viewGroup = new QButtonGroup(this);
@@ -57,6 +67,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     topLayout->addRow(QString(), globalViewPropsLabel);
     topLayout->addRow(QString(), m_localViewProps);
     topLayout->addRow(QString(), localViewPropsLabel);
+    topLayout->addRow(QString(), m_defaultViewProps);
     topLayout->addRow(QString(), m_dynamicView);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -196,6 +207,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 
     connect(m_localViewProps, &QRadioButton::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_globalViewProps, &QRadioButton::toggled, this, &GeneralViewSettingsPage::changed);
+    connect(m_localViewProps, &QRadioButton::toggled, m_defaultViewProps, &QPushButton::setEnabled);
 
     connect(m_openArchivesAsFolder, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_autoExpandFolders, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
@@ -264,6 +276,7 @@ void GeneralViewSettingsPage::loadSettings()
 
     m_localViewProps->setChecked(!useGlobalViewProps);
     m_globalViewProps->setChecked(useGlobalViewProps);
+    m_defaultViewProps->setEnabled(!useGlobalViewProps);
     int index = m_doubleClickViewComboBox->findData(GeneralSettings::doubleClickViewAction());
     m_doubleClickViewComboBox->setCurrentIndex((index == -1) ? 0 : index);
     m_doubleClickViewCustomAction->setText(GeneralSettings::doubleClickViewCustomAction());

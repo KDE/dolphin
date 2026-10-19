@@ -30,6 +30,7 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     GeneralViewSettingsPage *generalViewPage = new GeneralViewSettingsPage(url, tabWidget);
     tabWidget->addTab(generalViewPage, QIcon::fromTheme(QStringLiteral("description")), i18nc("@title:tab General View settings", "General"));
     connect(generalViewPage, &GeneralViewSettingsPage::changed, this, &ViewSettingsPage::changed);
+    connect(generalViewPage, &GeneralViewSettingsPage::defaultViewPropertiesChanged, this, &ViewSettingsPage::defaultViewPropertiesChanged);
 
     // Content Display Tab
     contentDisplayTab = new ContentDisplayTab(tabWidget);

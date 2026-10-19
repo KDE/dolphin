@@ -34,6 +34,10 @@ class DOLPHIN_EXPORT ViewPropertiesDialog : public QDialog
 
 public:
     explicit ViewPropertiesDialog(DolphinView *dolphinView);
+    /**
+     * Edits the display style that every folder without a style of its own is shown with.
+     */
+    explicit ViewPropertiesDialog(QWidget *parent);
     ~ViewPropertiesDialog() override;
 
 public Q_SLOTS:
@@ -54,8 +58,13 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void isDirtyChanged(bool isDirty);
+    /** Is emitted when the default display style has been written. */
+    void defaultPropertiesChanged();
 
 private:
+    /** @p dolphinView is null where the dialog edits the default display style. */
+    ViewPropertiesDialog(QWidget *parent, DolphinView *dolphinView);
+
     void applyViewProperties();
     void loadSettings();
 

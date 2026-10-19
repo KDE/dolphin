@@ -36,7 +36,18 @@
 #include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
-    : QDialog(dolphinView)
+    : ViewPropertiesDialog(dolphinView, dolphinView)
+{
+    Q_ASSERT(dolphinView);
+}
+
+ViewPropertiesDialog::ViewPropertiesDialog(QWidget *parent)
+    : ViewPropertiesDialog(parent, nullptr)
+{
+}
+
+ViewPropertiesDialog::ViewPropertiesDialog(QWidget *parent, DolphinView *dolphinView)
+    : QDialog(parent)
     , m_isDirty(false)
     , m_dolphinView(dolphinView)
     , m_viewProps(nullptr)
@@ -53,12 +64,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
     , m_applyToAllFolders(nullptr)
     , m_useAsDefault(nullptr)
 {
-    Q_ASSERT(dolphinView);
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
-    setWindowTitle(i18nc("@title:window", "View Display Style"));
-
-    const QUrl &url = dolphinView->url();
+    // An empty url holds the style every folder starts from.
+    setWindowTitle(dolphinView ? i18nc("@title:window", "View Display Style") : i18nc("@title:window", "Default View Display Style"));
+    const QUrl url = dolphinView ? dolphinView->url() : QUrl();
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 
@@ -160,7 +170,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
 
     // Only show the following settings if the view properties are remembered
     // for each directory:
-    if (!useGlobalViewProps) {
+    if (!useGlobalViewProps && dolphinView) {
         // create 'Apply View Properties To' group
         m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To", "Current folder"));
         m_applyToCurrentFolder->setChecked(true);
@@ -364,6 +374,13 @@ void ViewPropertiesDialog::applyViewProperties()
         GeneralSettings *settings = GeneralSettings::self();
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
         settings->save();
+    }
+
+    if (!m_dolphinView) {
+        m_viewProps->save();
+        markAsDirty(false);
+        Q_EMIT defaultPropertiesChanged();
+        return;
     }
 
     m_dolphinView->setViewMode(m_viewProps->viewMode());

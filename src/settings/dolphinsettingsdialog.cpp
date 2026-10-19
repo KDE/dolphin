@@ -52,6 +52,8 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     KPageWidgetItem *viewSettingsFrame = addPage(viewSettingsPage, i18nc("@title:group", "View"));
     viewSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-icons")));
     connect(viewSettingsPage, &ViewSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    // The views read the default display style again as soon as it is written.
+    connect(viewSettingsPage, &ViewSettingsPage::defaultViewPropertiesChanged, this, &DolphinSettingsDialog::settingsChanged);
 
     // Context Menu
     auto contextMenuSettingsPage = new ContextMenuSettingsPage(this,
