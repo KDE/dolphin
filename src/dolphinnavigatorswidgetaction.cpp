@@ -24,6 +24,20 @@
 #include <QStyle>
 #include <QToolBar>
 
+namespace
+{
+// A flat QPushButton is taller than the url navigator next to it, so the navigator decides
+// the height of the row. Otherwise showing one of these buttons moves the whole window
+// contents down. See bugs 522650 and 527300
+QPushButton *createNavigatorButton(const QString &iconName, const QString &text, QWidget *parent)
+{
+    auto button = new QPushButton(QIcon::fromTheme(iconName), text, parent);
+    button->setFlat(true);
+    button->setSizePolicy(button->sizePolicy().horizontalPolicy(), QSizePolicy::Ignored);
+    return button;
+}
+}
+
 DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent)
     : QWidgetAction{parent}
     , m_splitter{new QSplitter(Qt::Horizontal)}
@@ -254,14 +268,8 @@ QPushButton *DolphinNavigatorsWidgetAction::emptyTrashButton(DolphinNavigatorsWi
 
 QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
 {
-    auto emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:button", "Empty Trash"), parent);
+    auto emptyTrashButton = createNavigatorButton(QStringLiteral("edit-delete"), i18nc("@action:button", "Empty Trash"), parent);
     emptyTrashButton->setToolTip(i18n("Empties Trash to create free space"));
-
-    emptyTrashButton->setFlat(true);
-    // A flat QPushButton is taller than the url navigator next to it, so let the navigator
-    // decide the height of that row. Otherwise showing this button moves the whole window
-    // contents down. See bug 522650
-    emptyTrashButton->setSizePolicy(emptyTrashButton->sizePolicy().horizontalPolicy(), QSizePolicy::Ignored);
     connect(emptyTrashButton, &QPushButton::clicked, this, [parent, emptyTrashButton]() {
         emptyTrashButton->setDisabled(true);
         auto *job = Trash::empty(parent);
@@ -289,8 +297,7 @@ QPushButton *DolphinNavigatorsWidgetAction::networkFolderButton(DolphinNavigator
 
 QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
 {
-    auto networkFolderButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-add")), i18nc("@action:button", "Add Network Folder"), parent);
-    networkFolderButton->setFlat(true);
+    auto networkFolderButton = createNavigatorButton(QStringLiteral("folder-add"), i18nc("@action:button", "Add Network Folder"), parent);
     connect(networkFolderButton, &QPushButton::clicked, this, [networkFolderButton]() {
         const KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
         auto *job = new KIO::ApplicationLauncherJob(service, networkFolderButton);
@@ -320,9 +327,8 @@ QPushButton *DolphinNavigatorsWidgetAction::kdeConnectButton(DolphinNavigatorsWi
 
 QPushButton *DolphinNavigatorsWidgetAction::newKdeConnectButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
 {
-    auto kdeConnectButton = new QPushButton(QIcon::fromTheme(QStringLiteral("kdeconnect")), i18nc("@action:button", "Open KDE Connect"), parent);
+    auto kdeConnectButton = createNavigatorButton(QStringLiteral("kdeconnect"), i18nc("@action:button", "Open KDE Connect"), parent);
     kdeConnectButton->setObjectName(QStringLiteral("KdeConnectButton"));
-    kdeConnectButton->setFlat(true);
     connect(kdeConnectButton, &QPushButton::clicked, urlNavigator, [kdeConnectButton, urlNavigator]() {
         QStringList args;
         if (const QString deviceId = urlNavigator->locationUrl().host(); !deviceId.isEmpty()) {

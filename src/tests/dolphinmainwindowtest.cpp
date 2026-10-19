@@ -8,10 +8,12 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphincontextmenu.h"
+#include "dolphinnavigatorswidgetaction.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinplacesmodelsingleton.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
+#include "dolphinurlnavigator.h"
 #include "dolphinviewcontainer.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kfileitemmodelrolesupdater.h"
@@ -118,6 +120,7 @@ private Q_SLOTS:
     void testARestoredTabReopensItsColumnsWithAModePerFolder();
     void testTheSelectionModeBarFollowsAViewOfAnotherMode();
     void testTheSecondViewOfASplitReportsARedirectionAsTheFirst();
+    void testNavigatorButtonsKeepTheRowHeight();
     void cleanupTestCase();
 
 private:
@@ -2776,6 +2779,38 @@ void DolphinMainWindowTest::testTheSecondViewOfASplitReportsARedirectionAsTheFir
     const int reportsInTheFirstView = reportsOfARedirection(page->primaryViewContainer(), QStringLiteral("first"));
     QVERIFY(reportsInTheFirstView > 0);
     QCOMPARE(reportsOfARedirection(page->secondaryViewContainer(), QStringLiteral("second")), reportsInTheFirstView);
+}
+
+/**
+ * The Empty Trash, Add Network Folder and Open KDE Connect buttons are taller than the url
+ * navigator with a font larger than the default one. Showing one of them must not change the
+ * height of the location bar row. See bugs 522650 and 527300.
+ */
+void DolphinMainWindowTest::testNavigatorButtonsKeepTheRowHeight()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(m_mainWindow->actionCollection()->action(QStringLiteral("url_navigators")));
+    QWidget *navigatorWidget = navigators->primaryUrlNavigator()->parentWidget();
+    QFont font = navigatorWidget->font();
+    font.setPointSizeF(font.pointSizeF() * 1.5);
+    navigatorWidget->setFont(font);
+
+    const QList<QPushButton *> buttons = navigatorWidget->findChildren<QPushButton *>(Qt::FindDirectChildrenOnly);
+    QCOMPARE(buttons.count(), 3);
+    for (QPushButton *button : buttons) {
+        button->hide();
+    }
+    const int rowHeight = navigatorWidget->sizeHint().height();
+
+    for (QPushButton *button : buttons) {
+        QVERIFY2(button->sizeHint().height() > rowHeight, qPrintable(button->text()));
+        button->show();
+        QCOMPARE(navigatorWidget->sizeHint().height(), rowHeight);
+        button->hide();
+    }
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
