@@ -62,6 +62,7 @@ public:
 
     void setPreviewsShown(bool show);
 
+    /// The width that shows the longest name of the column, with no lower bound.
     int calculateOptimalWidth() const;
 
     /// Whether the folder of the column is being listed.
