@@ -23,6 +23,7 @@ private Q_SLOTS:
     void initTestCase();
     void testSpaceOfTheFolderFileSystem();
     void testOneObserverPerMountPoint();
+    void testAMissingFolderReportsNoSpace();
 };
 
 namespace
@@ -77,6 +78,27 @@ void MountPointObserverTest::testOneObserverPerMountPoint()
         QVERIFY(MountPointObserver::observerForUrl(QUrl::fromLocalFile(home)) != observer);
     }
     observer->deref();
+}
+
+// A missing folder reports no space, not the space of its parent mount. See bug 459456.
+void MountPointObserverTest::testAMissingFolderReportsNoSpace()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QUrl missingUrl = QUrl::fromLocalFile(dir.filePath(QStringLiteral("unmounted")));
+
+    MountPointObserver *parentObserver = MountPointObserver::observerForUrl(QUrl::fromLocalFile(dir.path()));
+    parentObserver->ref();
+    MountPointObserver *observer = MountPointObserver::observerForUrl(missingUrl);
+    QVERIFY(observer != parentObserver);
+    observer->ref();
+    const auto space = reportedSpace(observer);
+    observer->deref();
+    parentObserver->deref();
+
+    QVERIFY(space.has_value());
+    QCOMPARE(space->first, quint64(0));
+    QCOMPARE(space->second, quint64(0));
 }
 
 QTEST_GUILESS_MAIN(MountPointObserverTest)

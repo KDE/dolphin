@@ -11,6 +11,7 @@
 #include <KMountPoint>
 #include <kio_version.h>
 
+#include <QFileInfo>
 #include <QTimer>
 
 class MountPointObserverCacheSingleton
@@ -39,7 +40,8 @@ MountPointObserver *MountPointObserverCache::observerForUrl(const QUrl &url)
 {
     QUrl cachedObserverUrl;
     // If the url is a local path we can extract the root dir by checking the mount points.
-    if (url.isLocalFile()) {
+    // A missing folder, such as an unmounted device, is measured as is, which shows no free space.
+    if (url.isLocalFile() && QFileInfo::exists(url.toLocalFile())) {
         // Try to share the observer with other paths that have the same mount point.
 #if KIO_VERSION >= QT_VERSION_CHECK(6, 30, 0)
         const KMountPoint::Ptr mountPoint = KMountPoint::currentMountPointForPath(url.toLocalFile());
