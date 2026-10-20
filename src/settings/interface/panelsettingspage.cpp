@@ -62,6 +62,13 @@ PanelSettingsPage::PanelSettingsPage(QWidget *parent)
 #endif
 
     m_limitFoldersPanelToHome = new QCheckBox(i18nc("@option:check", "Limit to home directory when inside it"), this);
+    m_limitFoldersPanelToHome->setToolTip(i18nc("@info:tooltip", "Start the folder tree of the Folders panel at your home folder while you are inside it."));
+    m_limitFoldersPanelToHome->setWhatsThis(xi18nc("@info:whatsthis",
+                                                   "<para>When this is enabled and the current folder is in your home folder, the Folders panel "
+                                                   "shows only your home folder and the folders inside it. The root folder and the other drives "
+                                                   "are not shown in the panel then.</para>"
+                                                   "<para>Outside your home folder, the panel shows all folders, starting from the root "
+                                                   "folder.</para>"));
     topLayout->addRow(i18nc("@label:checkbox", "Folders Panel:"), m_limitFoldersPanelToHome);
 
     QLabel *contextMenuHint =
