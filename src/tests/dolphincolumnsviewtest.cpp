@@ -167,6 +167,7 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
+    void testAPlaceIsTheFirstColumn();
     void testAFolderThatCannotBeListedShowsAnError();
     void testANewFirstColumnTakesTheWidthOfItsContent();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
@@ -2594,6 +2595,34 @@ void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
     QCOMPARE(errorSpy.constFirst().at(1).toInt(), static_cast<int>(KIO::ERR_DOES_NOT_EXIST));
     QTest::qWait(200);
     QCOMPARE(errorSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testAPlaceIsTheFirstColumn()
+{
+    // A place opens as the first column, as on a new start, also below a column already open.
+    const QUrl root = m_testDir->url();
+    const QUrl alpha = urlOf(QStringLiteral("alpha"));
+    const QUrl alphaChild = urlOf(QStringLiteral("alpha/alpha-child"));
+    m_view->setUrl(alpha);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+
+    m_view->markNextUrlAsPlace(alphaChild);
+    m_view->setUrl(alphaChild);
+    QCOMPARE(m_view->columnCount(), 1);
+    QCOMPARE(m_view->columnAt(0)->dirUrl(), alphaChild);
+    QCOMPARE(m_view->url(), alphaChild);
+
+    // Other urls follow the open columns again.
+    m_view->setUrl(root);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(0)->dirUrl(), root, 5000);
+    m_view->setUrl(alphaChild);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    // The place that the view already shows, deeper than the first column.
+    m_view->markNextUrlAsPlace(alphaChild);
+    QCOMPARE(m_view->columnCount(), 1);
+    QCOMPARE(m_view->columnAt(0)->dirUrl(), alphaChild);
+    QCOMPARE(m_view->url(), alphaChild);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
