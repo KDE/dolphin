@@ -169,6 +169,7 @@ private Q_SLOTS:
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
     void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
+    void testAColumnShowsItsNamesWhileTheColumnsFit();
     void testAPlaceIsTheFirstColumn();
     void testAFolderThatCannotBeListedShowsAnError();
     void testANewFirstColumnTakesTheWidthOfItsContent();
@@ -2653,11 +2654,15 @@ void DolphinColumnsViewTest::testAPlaceIsTheFirstColumn()
 
 void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames()
 {
-    // A column adjusted to its content stops at a quarter of the view, but not below the width of a
-    // fixed column. Below that, names that a fixed column shows in full were elided.
+    // When the columns do not fit, a column adjusted to its content stops at a quarter of the view,
+    // but not below the width of a fixed column. Below that, names that a fixed column shows in
+    // full were elided.
     auto *settings = ColumnsModeSettings::self();
     QVERIFY(settings->dynamicColumnWidth());
-    m_testDir->createFile(QStringLiteral("names/a-fairly-long-document-name-with-a-version-v3-final.odt"));
+    const QString longName = QStringLiteral("a-fairly-long-document-name-with-a-version-v3-final.odt");
+    m_testDir->createFile(QStringLiteral("names/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/deeper/") + longName);
 
     m_view->resize(1000, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
@@ -2665,9 +2670,46 @@ void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongN
 
     m_view->openChild(0, urlOf(QStringLiteral("names")));
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
-    DolphinColumnPane *column = m_view->columnAt(1);
-    QVERIFY(column->calculateOptimalWidth() > settings->minColumnWidth());
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), settings->minColumnWidth(), 5000);
+    m_view->openChild(1, urlOf(QStringLiteral("names/more")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("names/more/deeper")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+
+    for (int i = 1; i < 4; ++i) {
+        QVERIFY(m_view->columnAt(i)->calculateOptimalWidth() > settings->minColumnWidth());
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(i), settings->minColumnWidth(), 5000);
+    }
+}
+
+void DolphinColumnsViewTest::testAColumnShowsItsNamesWhileTheColumnsFit()
+{
+    // A column takes the width of its longest name while there is room for it in the view. Once a
+    // new column needs that room, it goes back to the cap, so the other columns stay in view.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    const QString longName = QStringLiteral("A Material Analysis of Earthbag Housing - Nikul Vadgama - revised edition.pdf");
+    m_testDir->createFile(QStringLiteral("books/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/deep/") + longName);
+
+    m_view->resize(1600, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const int maxVisible = settings->maxVisibleColumns();
+    const int cap = qMax(settings->minColumnWidth(), (viewportWidth - (maxVisible - 1) * m_view->m_splitter->handleWidth()) / maxVisible);
+
+    m_view->openChild(0, urlOf(QStringLiteral("books")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    DolphinColumnPane *books = m_view->columnAt(1);
+    QVERIFY(books->calculateOptimalWidth() > cap);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth(), 5000);
+
+    m_view->openChild(1, urlOf(QStringLiteral("books/sub")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("books/sub/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), cap, 5000);
+    QCOMPARE(m_view->m_splitter->sizes().at(3), cap);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
