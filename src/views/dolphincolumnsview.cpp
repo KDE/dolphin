@@ -734,6 +734,13 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
             Q_EMIT directoryLoadingProgress(percent);
         }
     });
+    // A folder that cannot be listed, such as a mount point of a share that is not mounted, would
+    // otherwise show as an empty column.
+    connect(model, &KFileItemModel::errorMessage, this, [this, showsTheViewUrl](const QString &message, int kioErrorCode) {
+        if (showsTheViewUrl()) {
+            Q_EMIT errorMessage(message, kioErrorCode);
+        }
+    });
     model->loadDirectory(dirUrl);
 
     connect(pane, &DolphinColumnPane::fileActivated, this, &DolphinColumnsView::slotFileActivated);
