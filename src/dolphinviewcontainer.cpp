@@ -1080,9 +1080,15 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
             setSearchBarVisible(false);
         }
 
-        // Only into the columns view: it is left by choosing another mode, not by browsing.
-        if (!qobject_cast<DolphinColumnsView *>(m_view) && ViewProperties(url).viewMode() == DolphinView::ColumnsView) {
+        // A folder opens in the mode it was saved with. A folder that the columns view opened itself,
+        // as a column, stays in the columns view. Leaving the columns view stores nothing, so the
+        // folders passed through keep no record of their own.
+        const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
+        const DolphinView::Mode savedMode = ViewProperties(url).viewMode();
+        if (!isColumns && savedMode == DolphinView::ColumnsView) {
             setViewMode(DolphinView::ColumnsView);
+        } else if (isColumns && savedMode != DolphinView::ColumnsView && !m_view->url().matches(url, QUrl::StripTrailingSlash)) {
+            swapView(savedMode);
         }
 
         updateViewPropertiesContext(url);
