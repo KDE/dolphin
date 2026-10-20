@@ -33,7 +33,9 @@
 #include <KIO/MkpathJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
+#ifdef Q_OS_WIN
 #include <KMountPoint>
+#endif
 #include <KProtocolManager>
 #include <KShell>
 #include <kio_version.h>
@@ -71,7 +73,7 @@ struct LayoutStructure {
 };
 constexpr LayoutStructure positionFor;
 
-/// Where the columns view starts for @p url: the place it belongs to, else its volume.
+/// Where the columns view starts for @p url: the place it belongs to, else / for a local folder.
 static QUrl columnsRootFor(const QUrl &url)
 {
     auto *places = DolphinPlacesModelSingleton::instance().placesModel();
@@ -84,9 +86,14 @@ static QUrl columnsRootFor(const QUrl &url)
     }
 
     if (url.isLocalFile()) {
+#ifdef Q_OS_WIN
+        // The drive.
         if (const KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(url.toLocalFile())) {
             return QUrl::fromLocalFile(mountPoint->mountPoint());
         }
+#else
+        return QUrl::fromLocalFile(QStringLiteral("/"));
+#endif
     }
 
     return url;
