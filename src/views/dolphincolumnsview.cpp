@@ -92,6 +92,9 @@ void DolphinColumnsView::initColumnsUi()
     m_filler->setMinimumWidth(0);
     m_splitter->addWidget(m_filler);
     m_splitter->setStretchFactor(0, 1);
+    // The handle on the right of the last column is the one of the filler, so a double click on it
+    // fits the columns as well.
+    m_splitter->handle(0)->installEventFilter(this);
 
     m_scrollArea->setWidget(m_splitter);
     topLayout()->addWidget(m_scrollArea);
