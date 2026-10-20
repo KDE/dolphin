@@ -92,6 +92,7 @@ private Q_SLOTS:
     void testColumnWidthMode();
     void testAutoAdjustColumns();
     void testDoubleClickOnAHandleFitsTheColumns();
+    void testDoubleClickRightOfTheLastColumnFitsIt();
     void testFittingTheColumnsKeepsTheViewWhereItIs();
     void testFittingTheColumnsShowsEveryColumnThatFits();
     void testIconSizeFollowsSettings();
@@ -619,6 +620,30 @@ void DolphinColumnsViewTest::testDoubleClickOnAHandleFitsTheColumns()
     QTest::mouseRelease(splitter->handle(1), Qt::LeftButton);
     QCOMPARE(QGuiApplication::mouseButtons(), Qt::NoButton);
     QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
+}
+
+void DolphinColumnsViewTest::testDoubleClickRightOfTheLastColumnFitsIt()
+{
+    // The border on the right of the last column is the handle of the filler, not of a column.
+    auto *settings = ColumnsModeSettings::self();
+    settings->setDynamicColumnWidth(true);
+
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    waitForStableState();
+    QCOMPARE(m_view->columnCount(), 2);
+
+    auto *splitter = m_view->m_splitter;
+    QSplitterHandle *lastBorder = splitter->handle(splitter->indexOf(m_view->m_filler));
+    QVERIFY(lastBorder->isVisible());
+    Q_EMIT splitter->splitterMoved(700, splitter->indexOf(m_view->m_filler));
+    QVERIFY(m_view->m_customColumnWidths.contains(1));
+
+    QTest::mouseDClick(lastBorder, Qt::LeftButton);
+    // mouseDClick() leaves the button held, and every later test would navigate with it down.
+    QTest::mouseRelease(lastBorder, Qt::LeftButton);
+    QCOMPARE(QGuiApplication::mouseButtons(), Qt::NoButton);
+    QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
+    QTRY_COMPARE(splitter->sizes().at(1), qMax(settings->minContentColumnWidth(), m_view->columnAt(1)->calculateOptimalWidth()));
 }
 
 void DolphinColumnsViewTest::testFittingTheColumnsKeepsTheViewWhereItIs()
