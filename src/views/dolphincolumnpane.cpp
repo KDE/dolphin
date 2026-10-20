@@ -154,6 +154,16 @@ bool DolphinColumnPane::isWidthPending() const
     return m_widthPending;
 }
 
+void DolphinColumnPane::setAppliedWidth(int width)
+{
+    m_appliedWidth = width;
+}
+
+int DolphinColumnPane::appliedWidth() const
+{
+    return m_appliedWidth;
+}
+
 void DolphinColumnPane::reapplyActiveChildMark()
 {
     // A selection cleared before the listing changed drops the mark instead.

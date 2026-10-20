@@ -167,6 +167,7 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
+    void testANewFirstColumnTakesTheWidthOfItsContent();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftCurrent();
     void testGoingUpShowsTheColumnOfTheUrl();
@@ -2555,6 +2556,30 @@ void DolphinColumnsViewTest::testShortNamesGiveANarrowColumn()
     settings->setDynamicColumnWidth(false);
     m_view->recalculateColumnWidths(DolphinColumnsView::WidthPolicy::Refit);
     QTRY_VERIFY_WITH_TIMEOUT(column->width() >= settings->minColumnWidth(), 5000);
+}
+
+void DolphinColumnsViewTest::testANewFirstColumnTakesTheWidthOfItsContent()
+{
+    // A column that is inserted in a shown splitter has a size before the view gives it one. The
+    // first column of a new place took that size as the width it could not go below.
+    m_testDir->createFile(QStringLiteral("downloads/a-download-with-a-really-really-long-file-name-v2.tar.gz"));
+    m_testDir->createDir("home/Desktop");
+    const QUrl downloads = urlOf(QStringLiteral("downloads"));
+    const QUrl home = urlOf(QStringLiteral("home"));
+    DolphinColumnsView view(downloads, nullptr, DolphinView::ColumnsView, [downloads, home](const QUrl &url) {
+        return home.matches(url, QUrl::StripTrailingSlash) || home.isParentOf(url) ? home : downloads;
+    });
+    view.resize(1600, 400);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+    DolphinColumnPane *column = view.columnAt(0);
+    QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qBound(150, column->calculateOptimalWidth(), view.m_scrollArea->viewport()->width() / 4), 5000);
+
+    view.setUrl(home);
+    QTRY_COMPARE_WITH_TIMEOUT(view.columnAt(0)->dirUrl(), home, 5000);
+    column = view.columnAt(0);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(column, QStringLiteral("Desktop")) >= 0, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qMax(150, column->calculateOptimalWidth()), 5000);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()

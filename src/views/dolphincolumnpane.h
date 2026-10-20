@@ -44,6 +44,9 @@ public:
     /// A pending column has no width until its folder has listed.
     void setWidthPending(bool pending);
     bool isWidthPending() const;
+    /// The width that the columns view last gave this column, 0 before it gave one.
+    void setAppliedWidth(int width);
+    int appliedWidth() const;
     void clearActiveChild();
     /// Clears the selection, also of a child not listed yet, which closes the columns after this one.
     void dropActiveChild();
@@ -108,6 +111,7 @@ private:
     LoadingState m_loadingState = LoadingState::Completed;
     QUrl m_activeChildUrl;
     bool m_widthPending = false;
+    int m_appliedWidth = 0;
     bool m_selectionCheckPending = false;
     bool m_itemsRemoved = false;
 };
