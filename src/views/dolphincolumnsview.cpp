@@ -1236,10 +1236,11 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
-    // One long name elides instead of pushing the other columns out of the viewport.
+    // One long name elides instead of pushing the other columns out of the viewport, but not below
+    // the width of a fixed column, which shows it in full.
     const int maxVisibleColumns = ColumnsModeSettings::self()->maxVisibleColumns();
     const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
-    const int maxContentWidth = qMax(minContentWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
+    const int maxContentWidth = qMax(minColumnWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
 
     QList<int> sizes;

@@ -168,6 +168,7 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
+    void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
     void testAPlaceIsTheFirstColumn();
     void testAFolderThatCannotBeListedShowsAnError();
     void testANewFirstColumnTakesTheWidthOfItsContent();
@@ -2648,6 +2649,25 @@ void DolphinColumnsViewTest::testAPlaceIsTheFirstColumn()
     QCOMPARE(m_view->columnCount(), 1);
     QCOMPARE(m_view->columnAt(0)->dirUrl(), alphaChild);
     QCOMPARE(m_view->url(), alphaChild);
+}
+
+void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames()
+{
+    // A column adjusted to its content stops at a quarter of the view, but not below the width of a
+    // fixed column. Below that, names that a fixed column shows in full were elided.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    m_testDir->createFile(QStringLiteral("names/a-fairly-long-document-name-with-a-version-v3-final.odt"));
+
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    QVERIFY(m_view->m_scrollArea->viewport()->width() / settings->maxVisibleColumns() < settings->minColumnWidth());
+
+    m_view->openChild(0, urlOf(QStringLiteral("names")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    DolphinColumnPane *column = m_view->columnAt(1);
+    QVERIFY(column->calculateOptimalWidth() > settings->minColumnWidth());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), settings->minColumnWidth(), 5000);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
