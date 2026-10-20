@@ -77,7 +77,8 @@ private Q_SLOTS:
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
-    void testBrowsingOutOfAColumnsFolderKeepsTheColumnsView();
+    void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
+    void testAFolderOpenedAsAColumnKeepsTheColumnsView();
     void testOnlyAnExternalUrlChangeClosesColumns();
     void testGoingUpInColumnsStaysUp();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
@@ -662,10 +663,11 @@ void DolphinViewContainerTest::testGoingUpInColumnsStaysUp()
     QCOMPARE(columnsView->columnCount(), columnCount - 1);
 }
 
-void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsView()
+void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderSwitchesToItsMode()
 {
-    // The columns view is left through a view-mode change and not by browsing, so a folder that
-    // is configured for another mode does not swap it away.
+    // With view properties per folder, a folder saved with another mode opens in that mode, also
+    // when the columns view showed the folder before. Leaving the columns view does not change
+    // what the folder has stored.
     m_testDir->createDir("iconsfolder");
     m_testDir->createFile("iconsfolder/a-file.txt");
     const QUrl iconsFolderUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/iconsfolder"));
@@ -683,7 +685,35 @@ void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderKeepsTheColumnsVie
     m_container->setUrl(iconsFolderUrl);
     waitForViewReady();
 
-    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
+    QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) == nullptr);
+    QCOMPARE(m_container->view()->viewMode(), DolphinView::IconsView);
+    QCOMPARE(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), iconsFolderUrl.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(ViewProperties(iconsFolderUrl).viewMode(), DolphinView::IconsView);
+}
+
+void DolphinViewContainerTest::testAFolderOpenedAsAColumnKeepsTheColumnsView()
+{
+    // A folder that the columns view opens as a column stays in the columns view, whatever mode it
+    // was saved with, or browsing in the columns would leave them at every folder.
+    m_testDir->createDir("iconschild");
+    m_testDir->createFile("iconschild/a-file.txt");
+    const QUrl iconsChildUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/iconschild"));
+    {
+        ViewProperties props(iconsChildUrl);
+        props.setViewMode(DolphinView::IconsView);
+        props.save();
+    }
+    waitForItemListed(iconsChildUrl);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columns = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columns);
+
+    columns->openChild(0, iconsChildUrl);
+    QTRY_COMPARE(m_container->url().adjusted(QUrl::StripTrailingSlash), iconsChildUrl.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(m_container->view(), columns);
+    QCOMPARE(ViewProperties(iconsChildUrl).viewMode(), DolphinView::IconsView);
 }
 
 /**

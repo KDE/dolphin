@@ -30,6 +30,7 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
     Q_OBJECT
 
     friend class DolphinColumnsViewTest;
+    friend class DolphinViewContainerTest;
 
 public:
     /// @p rootUrlResolver names the folder the columns start at, such as the place that holds
