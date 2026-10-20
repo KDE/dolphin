@@ -259,6 +259,12 @@ public Q_SLOTS:
     void setUrl(const QUrl &url);
 
     /**
+     * The next setUrl() with \a url opens a place, which the columns view shows as its
+     * first column. The other view modes do not change.
+     */
+    void markNextUrlAsPlace(const QUrl &url);
+
+    /**
      * Popups the filter bar above the status bar if \a visible is true.
      * It \a visible is true, it is assured that the filter bar gains
      * the keyboard focus.

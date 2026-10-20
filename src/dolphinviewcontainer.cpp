@@ -751,6 +751,13 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
     }
 }
 
+void DolphinViewContainer::markNextUrlAsPlace(const QUrl &url)
+{
+    if (auto *columnsView = qobject_cast<DolphinColumnsView *>(m_view)) {
+        columnsView->markNextUrlAsPlace(url);
+    }
+}
+
 void DolphinViewContainer::setFilterBarVisible(bool visible)
 {
     Q_ASSERT(m_filterBar);
