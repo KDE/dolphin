@@ -22,6 +22,8 @@
 #include "search/bar.h"
 #include "settings/viewmodes/viewmodesettings.h"
 #include "testdir.h"
+#include "views/dolphincolumnpane.h"
+#include "views/dolphincolumnsview.h"
 #include "views/dolphinitemlistview.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
@@ -107,6 +109,7 @@ private Q_SLOTS:
     void testActiveViewFollowsTheActivatedView();
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
+    void testAPlaceOpensAsTheFirstColumn();
     void cleanupTestCase();
 
 private:
@@ -2409,6 +2412,36 @@ void DolphinMainWindowTest::testFileItemActionsOutliveContextMenu()
     QVERIFY(!m_mainWindow->m_contextMenuOpen);
     QVERIFY(!m_mainWindow->m_fileItemActionsSetupPending);
     QTRY_VERIFY(fileItemActions.isNull());
+}
+
+/**
+ * In the columns view a place from the Places panel is the first column, as on a new start, and
+ * not a column below the folder that was open.
+ */
+void DolphinMainWindowTest::testAPlaceOpensAsTheFirstColumn()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b");
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+
+    m_mainWindow->changeUrl(b);
+    QTRY_COMPARE(columns->url(), b);
+    QVERIFY(columns->columnCount() > 1);
+
+    m_mainWindow->changeUrl(testDir->url());
+    QTRY_COMPARE(columns->url(), testDir->url());
+    m_mainWindow->slotPlaceActivated(b);
+    QCOMPARE(columns->url(), b);
+    QCOMPARE(columns->columnCount(), 1);
+    QCOMPARE(columns->columnAt(0)->dirUrl(), b);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
