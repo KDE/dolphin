@@ -597,7 +597,9 @@ QPixmap KStandardItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem
     const TextInfo *textInfo = m_textInfo.value("text");
     const int rightClip = textInfo->pos.x() + textInfo->staticText.size().width() + 2 * styleOption().padding;
 
-    QPixmap clippedPixmap(rightClip - leftClip + 1, pixmap.height());
+    const qreal dpr = pixmap.devicePixelRatio();
+    QPixmap clippedPixmap(qRound((rightClip - leftClip + 1) * dpr), pixmap.height());
+    clippedPixmap.setDevicePixelRatio(dpr);
     clippedPixmap.fill(Qt::transparent);
 
     QPainter painter(&clippedPixmap);
