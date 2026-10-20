@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -110,6 +111,7 @@ private Q_SLOTS:
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
     void testAPlaceOpensAsTheFirstColumn();
+    void testAFolderOutsideThePlacesStartsAtTheRoot();
     void cleanupTestCase();
 
 private:
@@ -2442,6 +2444,35 @@ void DolphinMainWindowTest::testAPlaceOpensAsTheFirstColumn()
     QCOMPARE(columns->url(), b);
     QCOMPARE(columns->columnCount(), 1);
     QCOMPARE(columns->columnAt(0)->dirUrl(), b);
+}
+
+/**
+ * In the columns view a local folder that no place holds starts at /, also on a mount of its own.
+ */
+void DolphinMainWindowTest::testAFolderOutsideThePlacesStartsAtTheRoot()
+{
+#ifdef Q_OS_WIN
+    QSKIP("A folder starts at its drive on Windows.");
+#endif
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b");
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+    auto *places = DolphinPlacesModelSingleton::instance().placesModel();
+    if (const QModelIndex closest = places->closestItem(b); closest.isValid() && places->url(closest).isParentOf(b)) {
+        QSKIP("The test folder is inside a place.");
+    }
+
+    m_mainWindow->openDirectories({b}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+
+    QTRY_COMPARE(columns->url(), b);
+    QCOMPARE(columns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), QUrl::fromLocalFile(QStringLiteral("/")));
+    QCOMPARE(columns->columnAt(columns->columnCount() - 1)->dirUrl(), b);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
