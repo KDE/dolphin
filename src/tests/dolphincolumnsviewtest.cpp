@@ -167,6 +167,7 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
+    void testAFolderThatCannotBeListedShowsAnError();
     void testANewFirstColumnTakesTheWidthOfItsContent();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftCurrent();
@@ -2580,6 +2581,19 @@ void DolphinColumnsViewTest::testANewFirstColumnTakesTheWidthOfItsContent()
     column = view.columnAt(0);
     QTRY_VERIFY_WITH_TIMEOUT(indexOfName(column, QStringLiteral("Desktop")) >= 0, 5000);
     QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qMax(150, column->calculateOptimalWidth()), 5000);
+}
+
+void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
+{
+    // Like the other view modes, the view reports the error of the folder it shows, for the
+    // container to explain it, and only that one.
+    QSignalSpy errorSpy(m_view, &DolphinView::errorMessage);
+    m_view->setUrl(urlOf(QStringLiteral("gone/missing")));
+
+    QTRY_COMPARE_WITH_TIMEOUT(errorSpy.count(), 1, 5000);
+    QCOMPARE(errorSpy.constFirst().at(1).toInt(), static_cast<int>(KIO::ERR_DOES_NOT_EXIST));
+    QTest::qWait(200);
+    QCOMPARE(errorSpy.count(), 1);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
