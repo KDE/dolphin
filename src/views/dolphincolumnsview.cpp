@@ -1236,15 +1236,19 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
-    // One long name elides instead of pushing the other columns out of the viewport, but not below
-    // the width of a fixed column, which shows it in full.
+    // While the columns fit, each one shows its names in full. Once they do not, a long name elides
+    // instead of pushing the other columns out of the viewport, but not below the width of a fixed
+    // column, which shows it in full.
     const int maxVisibleColumns = ColumnsModeSettings::self()->maxVisibleColumns();
     const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
     const int maxContentWidth = qMax(minColumnWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
 
+    // The width of each column without the cap. A column that the cap would narrow is marked.
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
+    QList<bool> fitsItsContent(numColumns, false);
+    int totalWidth = visibleHandlesBefore(numColumns - 1) * handleWidth;
     for (int i = 0; i < numColumns; ++i) {
         int columnWidth;
         if (m_columns.at(i)->isWidthPending()) {
@@ -1254,16 +1258,27 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
         if (m_customColumnWidths.contains(i)) {
             columnWidth = m_customColumnWidths.value(i);
         } else if (dynamicWidth) {
-            columnWidth = qBound(minContentWidth, m_columns.at(i)->calculateOptimalWidth(), maxContentWidth);
+            fitsItsContent[i] = true;
+            columnWidth = qMax(minContentWidth, m_columns.at(i)->calculateOptimalWidth());
             if (policy == WidthPolicy::GrowOnly) {
-                // Only the user narrows a column.
+                // Only the user narrows a column, or the cap below when the columns do not fit.
                 columnWidth = qMax(columnWidth, widthFloorFor(i));
             }
         } else {
             columnWidth = defaultWidth;
         }
         // Never wider than the viewport, so scrolling to a column shows its scrollbar.
-        sizes.append(qMin(viewportWidth, columnWidth));
+        columnWidth = qMin(viewportWidth, columnWidth);
+        sizes.append(columnWidth);
+        totalWidth += columnWidth;
+    }
+
+    if (totalWidth > viewportWidth) {
+        for (int i = 0; i < numColumns; ++i) {
+            if (fitsItsContent.at(i)) {
+                sizes[i] = qMin(sizes.at(i), maxContentWidth);
+            }
+        }
     }
     applyColumnSizes(sizes);
 }
