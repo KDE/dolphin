@@ -1214,7 +1214,6 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
     const int maxContentWidth = qMax(minContentWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
     const bool dynamicWidth = ColumnsModeSettings::self()->dynamicColumnWidth();
-    const QList<int> currentSizes = m_splitter->sizes();
 
     QList<int> sizes;
     sizes.reserve(m_splitter->count());
@@ -1230,7 +1229,7 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
             columnWidth = qBound(minContentWidth, m_columns.at(i)->calculateOptimalWidth(), maxContentWidth);
             if (policy == WidthPolicy::GrowOnly) {
                 // Only the user narrows a column.
-                columnWidth = qMax(columnWidth, widthFloorFor(i, currentSizes));
+                columnWidth = qMax(columnWidth, widthFloorFor(i));
             }
         } else {
             columnWidth = defaultWidth;
@@ -1241,12 +1240,9 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     applyColumnSizes(sizes);
 }
 
-int DolphinColumnsView::widthFloorFor(int index, const QList<int> &currentSizes) const
+int DolphinColumnsView::widthFloorFor(int index) const
 {
-    int floor = 0;
-    if (index < currentSizes.size()) {
-        floor = currentSizes.at(index);
-    }
+    int floor = m_columns.at(index)->appliedWidth();
     if (m_carriedColumnWidth && m_carriedColumnWidth->first == index) {
         floor = qMax(floor, m_carriedColumnWidth->second);
     }
@@ -1290,6 +1286,9 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes, bool showActiv
         }
     }
 
+    for (int i = 0; i < numColumns; ++i) {
+        m_columns.at(i)->setAppliedWidth(columnSizes.at(i));
+    }
     columnSizes.append(filler);
     m_splitter->setSizes(columnSizes);
 
