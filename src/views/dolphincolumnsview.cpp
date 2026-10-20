@@ -129,6 +129,8 @@ void DolphinColumnsView::initColumnsUi()
 
 void DolphinColumnsView::setUrl(const QUrl &url)
 {
+    const bool opensAPlace = m_nextPlaceUrl.matches(url, QUrl::StripTrailingSlash);
+    m_nextPlaceUrl.clear();
     if (url == this->url()) {
         return;
     }
@@ -136,7 +138,9 @@ void DolphinColumnsView::setUrl(const QUrl &url)
     updateUrl(url);
     {
         QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
-        if (!showUrlInOpenColumns(url)) {
+        if (opensAPlace) {
+            rebuildColumnsForUrl(url, url);
+        } else if (!showUrlInOpenColumns(url)) {
             rebuildColumnsForUrl(url);
         }
     }
@@ -529,13 +533,26 @@ QUrl DolphinColumnsView::rootUrlFor(const QUrl &url) const
     return root;
 }
 
-void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
+void DolphinColumnsView::markNextUrlAsPlace(const QUrl &url)
+{
+    if (!url.matches(this->url(), QUrl::StripTrailingSlash)) {
+        m_nextPlaceUrl = url;
+        return;
+    }
+    // Already the url, so no setUrl() follows.
+    if (!m_columns.isEmpty() && !m_columns.constFirst()->dirUrl().matches(url, QUrl::StripTrailingSlash)) {
+        QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
+        rebuildColumnsForUrl(url, url);
+    }
+}
+
+void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url, const QUrl &placeRoot)
 {
     // Removing the columns can move the focus out of the view.
     const bool hadFocus = hasFocusInside();
     popAfter(-1);
 
-    const QUrl root = rootUrlFor(url);
+    const QUrl root = placeRoot.isEmpty() ? rootUrlFor(url) : placeRoot;
 
     appendPane(root);
     recalculateColumnWidths();

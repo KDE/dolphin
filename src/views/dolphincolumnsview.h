@@ -67,6 +67,10 @@ public:
 
     void setActiveColumn(int index);
 
+    /// The next setUrl() with @p url opens a place, such as one from the Places panel, so the
+    /// columns start at @p url instead of following the columns already open.
+    void markNextUrlAsPlace(const QUrl &url);
+
 public Q_SLOTS:
     void paste() override;
 
@@ -90,7 +94,8 @@ private Q_SLOTS:
 
 private:
     void initColumnsUi();
-    void rebuildColumnsForUrl(const QUrl &url);
+    /// Starts the columns at @p placeRoot, or at the place that rootUrlFor() finds when it is empty.
+    void rebuildColumnsForUrl(const QUrl &url, const QUrl &placeRoot = {});
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
     /// Stops painting the columns until none of them waits for its width any more.
@@ -168,6 +173,7 @@ private:
     bool m_switchingColumns = false;
     /// setUrl() decides the url, the columns follow it.
     bool m_settingUrl = false;
+    QUrl m_nextPlaceUrl;
     QString m_nameFilter;
     std::function<QUrl(const QUrl &)> m_rootUrlResolver;
     KFileItemModelFilter::FilterMode m_filterMode;
