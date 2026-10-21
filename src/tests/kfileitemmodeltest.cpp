@@ -61,6 +61,7 @@ private Q_SLOTS:
     void testSetDataWithModifiedSortRole();
     void testChangeSortRole();
     void testResortAfterChangingName();
+    void testRefreshAfterSetDataRename();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
@@ -474,6 +475,40 @@ void KFileItemModelTest::testResortAfterChangingName()
              QStringList() << "a.txt"
                            << "b.txt"
                            << "c.txt");
+}
+
+void KFileItemModelTest::testRefreshAfterSetDataRename()
+{
+    // The rename dialog renames the item with setData() before the dir lister reports the
+    // rename, so the refresh names an old url that the model no longer has. See bug 527059.
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsChangedSpy(m_model, &KFileItemModel::itemsChanged);
+
+    m_testDir->createFile("test.txt");
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(itemsInModel(), QStringList() << "test.txt");
+
+    const KFileItem oldItem = m_model->fileItem(0);
+    QCOMPARE(oldItem.mimetype(), QStringLiteral("text/plain"));
+
+    const QString newPath = m_testDir->path() + QStringLiteral("/test.py");
+    QVERIFY(QFile::rename(m_testDir->path() + QStringLiteral("/test.txt"), newPath));
+
+    SmallHash data;
+    data.insert("text", "test.py");
+    m_model->setData(0, data);
+    QCOMPARE(itemsInModel(), QStringList() << "test.py");
+    QCOMPARE(m_model->fileItem(0).mimetype(), QStringLiteral("text/plain"));
+
+    itemsChangedSpy.clear();
+    const KFileItem newItem(QUrl::fromLocalFile(newPath));
+    m_model->slotRefreshItems({qMakePair(oldItem, newItem)});
+
+    QCOMPARE(itemsInModel(), QStringList() << "test.py");
+    QVERIFY(newItem.mimetype() != QLatin1String("text/plain"));
+    QCOMPARE(m_model->fileItem(0).mimetype(), newItem.mimetype());
+    QVERIFY(!itemsChangedSpy.isEmpty());
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()

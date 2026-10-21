@@ -1701,7 +1701,11 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &
         const QPair<KFileItem, KFileItem> &itemPair = it.next();
         const KFileItem &oldItem = itemPair.first;
         const KFileItem &newItem = itemPair.second;
-        const int indexForItem = index(oldItem);
+        int indexForItem = index(oldItem);
+        // setData() may have renamed the item already, with the KFileItem of its old name.
+        if (indexForItem < 0 && oldItem.url() != newItem.url()) {
+            indexForItem = index(newItem);
+        }
         const bool newItemMatchesFilter = m_filter.matches(newItem);
         if (indexForItem >= 0) {
             m_itemData[indexForItem]->item = newItem;
