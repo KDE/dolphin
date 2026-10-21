@@ -14,6 +14,7 @@
 #include <KLocalizedString>
 #include <KNewFileMenu>
 #include <KPluginFactory>
+#include <KProtocolManager>
 
 #include <QUrl>
 
@@ -37,10 +38,19 @@ QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListPropertie
         return {};
     }
 
+    // Not for the items of recentlyused:/, or of a folder that is not writable.
+    if (!fileItemInfos.supportsMoving()) {
+        return {};
+    }
+
+    const QUrl selectedFileDirPath = selectedItems.at(0).url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+    if (!KProtocolManager::supportsMakeDir(selectedFileDirPath)) {
+        return {};
+    }
+
     QAction *createFolderFromSelected = new QAction(i18nc("@action:inmenu", "Move to New Folder…"), parentWidget);
     createFolderFromSelected->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     connect(createFolderFromSelected, &QAction::triggered, this, [=, this]() {
-        const QUrl selectedFileDirPath = selectedItems.at(0).url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
         auto newFileMenu = new KNewFileMenu(parentWidget);
         newFileMenu->setWorkingDirectory(selectedFileDirPath);
         newFileMenu->createDirectory();

@@ -183,3 +183,8 @@ if (Gem_test-unit_FOUND)
     add_test(NAME servicemenutest
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/contextmenu/test/test_run.rb)
 endif()
+
+# MoveToNewFolderItemActionTest
+ecm_add_test(movetonewfolderitemactiontest.cpp ../itemactions/movetonewfolderitemaction.cpp
+TEST_NAME movetonewfolderitemactiontest
+LINK_LIBRARIES Qt6::Test KF6::I18n KF6::KIOCore KF6::KIOWidgets KF6::KIOFileWidgets)
