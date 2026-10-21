@@ -44,6 +44,14 @@
 
 using namespace std::chrono_literals;
 
+namespace
+{
+// A file that changes again within this time, such as one being downloaded, is resolved once it
+// has not changed for that long. The directory lister reports a file that is being written
+// about every 500 ms.
+constexpr auto ChangedItemQuietTime = 2s;
+}
+
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
 
 namespace
@@ -107,11 +115,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     connect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
     connect(m_model, &KFileItemModel::sortRoleChanged, this, &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
-    // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
-    // resolving of the roles. Postpone the resolving until no update has been done for 100 ms.
     m_recentlyChangedItemsTimer = new QTimer(this);
-    m_recentlyChangedItemsTimer->setInterval(100ms);
     m_recentlyChangedItemsTimer->setSingleShot(true);
+    m_changeClock.start();
     connect(m_recentlyChangedItemsTimer, &QTimer::timeout, this, &KFileItemModelRolesUpdater::resolveRecentlyChangedItems);
 
     m_resolvableRoles.insert("size");
@@ -457,6 +463,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         m_pendingIndexes.clear();
         m_pendingPreviewItems.clear();
         m_recentlyChangedItems.clear();
+        m_lastChangeTimes.clear();
         m_recentlyChangedItemsTimer->stop();
         m_changedItems.clear();
         m_hoverSequenceLoadedItems.clear();
@@ -519,25 +526,30 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList &itemRang
         return;
     }
 
-    // Find out if slotItemsChanged() has been done recently. If that is the
-    // case, resolving the roles is postponed until a timer has exceeded
-    // to prevent expensive repeated updates if files are updated frequently.
-    const bool itemsChangedRecently = m_recentlyChangedItemsTimer->isActive();
-
-    QSet<KFileItem> &targetSet = itemsChangedRecently ? m_recentlyChangedItems : m_changedItems;
-
+    const qint64 now = m_changeClock.elapsed();
+    const qint64 quietTime = std::chrono::milliseconds(ChangedItemQuietTime).count();
+    bool resolveNow = false;
     for (const KItemRange &itemRange : itemRanges) {
         int index = itemRange.index;
         for (int count = itemRange.count; count > 0; --count) {
             const KFileItem item = m_model->fileItem(index);
-            targetSet.insert(item);
+            const auto lastChange = m_lastChangeTimes.constFind(item.url());
+            const bool changedRecently = lastChange != m_lastChangeTimes.constEnd() && now - *lastChange < quietTime;
+            m_lastChangeTimes.insert(item.url(), now);
+            if (changedRecently) {
+                m_recentlyChangedItems.insert(item);
+            } else {
+                m_changedItems.insert(item);
+                resolveNow = true;
+            }
             ++index;
         }
     }
 
-    m_recentlyChangedItemsTimer->start();
-
-    if (!itemsChangedRecently) {
+    if (!m_recentlyChangedItems.isEmpty() && !m_recentlyChangedItemsTimer->isActive()) {
+        m_recentlyChangedItemsTimer->start(ChangedItemQuietTime);
+    }
+    if (resolveNow) {
         updateChangedItems();
     }
 }
@@ -830,8 +842,27 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
 
 void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
 {
-    m_changedItems += m_recentlyChangedItems;
-    m_recentlyChangedItems.clear();
+    const qint64 now = m_changeClock.elapsed();
+    const qint64 quietTime = std::chrono::milliseconds(ChangedItemQuietTime).count();
+    qint64 nextCheck = quietTime;
+    for (auto it = m_recentlyChangedItems.begin(); it != m_recentlyChangedItems.end();) {
+        const qint64 quietFor = now - m_lastChangeTimes.value(it->url());
+        if (quietFor >= quietTime) {
+            m_changedItems.insert(*it);
+            it = m_recentlyChangedItems.erase(it);
+        } else {
+            nextCheck = qMin(nextCheck, quietTime - quietFor);
+            ++it;
+        }
+    }
+    // A change after the quiet time counts as a first change again.
+    m_lastChangeTimes.removeIf([now, quietTime](const auto &entry) {
+        return now - entry.value() >= quietTime;
+    });
+
+    if (!m_recentlyChangedItems.isEmpty()) {
+        m_recentlyChangedItemsTimer->start(std::chrono::milliseconds(nextCheck));
+    }
     updateChangedItems();
 }
 

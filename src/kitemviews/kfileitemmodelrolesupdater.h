@@ -15,6 +15,8 @@
 #include "config-dolphin.h"
 #include <KFileItem>
 
+#include <QElapsedTimer>
+#include <QHash>
 #include <QObject>
 #include <QSet>
 #include <QSize>
@@ -256,9 +258,8 @@ private Q_SLOTS:
     void resolveNextPendingRoles();
 
     /**
-     * Resolves items that have not been resolved yet after the change has been
-     * notified by slotItemsChanged(). Is invoked if the m_changedItemsTimer
-     * expires.
+     * Resolves the items of m_recentlyChangedItems that have not changed for
+     * ChangedItemQuietTime, and checks the others again later.
      */
     void resolveRecentlyChangedItems();
 
@@ -430,11 +431,14 @@ private:
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent
-    // a high CPU-load by generating e.g. previews for each notification, the update
-    // will be postponed until no file change has been done within a longer period
-    // of time.
+    // a high CPU-load by generating e.g. previews for each notification, a file
+    // that changes again soon after is resolved once it has not changed for a
+    // longer period of time. The other files are resolved at once.
     QTimer *m_recentlyChangedItemsTimer;
     QSet<KFileItem> m_recentlyChangedItems;
+    // The time of the last change of each file that changed recently, on m_changeClock.
+    QHash<QUrl, qint64> m_lastChangeTimes;
+    QElapsedTimer m_changeClock;
 
     // Items which have not been changed repeatedly recently.
     QSet<KFileItem> m_changedItems;
