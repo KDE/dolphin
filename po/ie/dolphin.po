@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-20 00:55+0000\n"
+"POT-Creation-Date: 2026-10-21 00:54+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -4749,8 +4749,14 @@ msgstr "Fólderes"
 msgid "Text width index"
 msgstr "Max largore:"
 
-#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#. i18n: ectx: label, entry (CompactSpacing), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:31
+#, kde-format
+msgid "Place the items closer together"
+msgstr ""
+
+#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:35
 #, fuzzy, kde-format
 msgid "Maximum textlines (0 means unlimited)"
 msgstr "Ínlimitat"
@@ -5779,68 +5785,90 @@ msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Max lineas:"
 
-#: settings/viewmodes/viewsettingstab.cpp:100
+#: settings/viewmodes/viewsettingstab.cpp:97
+#, fuzzy, kde-format
+#| msgctxt "@title:tab"
+#| msgid "Compact"
+msgctxt "@option:check Icons view item spacing"
+msgid "Compact"
+msgstr "Compact"
+
+#: settings/viewmodes/viewsettingstab.cpp:98
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Places the items closer together, so that more of them fit in a row."
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
+msgctxt "@label:checkbox"
+msgid "Spacing:"
+msgstr "Sercha"
+
+#: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Ínlimitat"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Micri"
 
-#: settings/viewmodes/viewsettingstab.cpp:102
+#: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Medie"
 
-#: settings/viewmodes/viewsettingstab.cpp:103
+#: settings/viewmodes/viewsettingstab.cpp:107
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Grand"
 
-#: settings/viewmodes/viewsettingstab.cpp:104
+#: settings/viewmodes/viewsettingstab.cpp:108
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Max largore:"
 
-#: settings/viewmodes/viewsettingstab.cpp:108
+#: settings/viewmodes/viewsettingstab.cpp:112
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Expansibil"
 
-#: settings/viewmodes/viewsettingstab.cpp:109
+#: settings/viewmodes/viewsettingstab.cpp:113
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Fólderes:"
 
-#: settings/viewmodes/viewsettingstab.cpp:112
+#: settings/viewmodes/viewsettingstab.cpp:116
 #, fuzzy, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr "Interspacie de ranges"
 
-#: settings/viewmodes/viewsettingstab.cpp:113
+#: settings/viewmodes/viewsettingstab.cpp:117
 #, fuzzy, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr "Nómine"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:121
+#: settings/viewmodes/viewsettingstab.cpp:125
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Aperter files e fólderes:"
 
-#: settings/viewmodes/viewsettingstab.cpp:278
+#: settings/viewmodes/viewsettingstab.cpp:285
 #: statusbar/dolphinstatusbar.cpp:415
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"

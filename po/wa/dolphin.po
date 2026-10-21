@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-20 00:55+0000\n"
+"POT-Creation-Date: 2026-10-21 00:54+0000\n"
 "PO-Revision-Date: 2014-03-28 22:43+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -5029,8 +5029,14 @@ msgstr "Dimander di racertiner å cloyaedje di purneas avou sacwantès linwetes.
 msgid "Text width index"
 msgstr "Lårdjeur do tecse di l' indeces"
 
-#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#. i18n: ectx: label, entry (CompactSpacing), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:31
+#, kde-format
+msgid "Place the items closer together"
+msgstr ""
+
+#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum textlines (0 means unlimited)"
 msgstr "Royes di tecse macsimom (0 vout dire sins limite)"
@@ -6134,44 +6140,66 @@ msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Nombe macsimom di lenes :"
 
-#: settings/viewmodes/viewsettingstab.cpp:100
+#: settings/viewmodes/viewsettingstab.cpp:97
+#, fuzzy, kde-format
+#| msgctxt "@title:tab"
+#| msgid "Compact"
+msgctxt "@option:check Icons view item spacing"
+msgid "Compact"
+msgstr "Rastrindou"
+
+#: settings/viewmodes/viewsettingstab.cpp:98
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Places the items closer together, so that more of them fit in a row."
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Grid spacing:"
+msgctxt "@label:checkbox"
+msgid "Spacing:"
+msgstr "Espåçmint del grile:"
+
+#: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Sins limite"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Pitite"
 
-#: settings/viewmodes/viewsettingstab.cpp:102
+#: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Moyene"
 
-#: settings/viewmodes/viewsettingstab.cpp:103
+#: settings/viewmodes/viewsettingstab.cpp:107
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Grande"
 
-#: settings/viewmodes/viewsettingstab.cpp:104
+#: settings/viewmodes/viewsettingstab.cpp:108
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Lårdjeur macsimom :"
 
-#: settings/viewmodes/viewsettingstab.cpp:108
+#: settings/viewmodes/viewsettingstab.cpp:112
 #, fuzzy, kde-format
 #| msgid "Expandable folders"
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Agrandixhåves ridants"
 
-#: settings/viewmodes/viewsettingstab.cpp:109
+#: settings/viewmodes/viewsettingstab.cpp:113
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Folders"
@@ -6179,20 +6207,20 @@ msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Ridants"
 
-#: settings/viewmodes/viewsettingstab.cpp:112
+#: settings/viewmodes/viewsettingstab.cpp:116
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:113
+#: settings/viewmodes/viewsettingstab.cpp:117
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:121
+#: settings/viewmodes/viewsettingstab.cpp:125
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Show preview of files and folders"
@@ -6200,7 +6228,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Mostrer des prévoeyaedjes des fitchîs et des ridants"
 
-#: settings/viewmodes/viewsettingstab.cpp:278
+#: settings/viewmodes/viewsettingstab.cpp:285
 #: statusbar/dolphinstatusbar.cpp:415
 #, kde-format
 msgctxt "@info:tooltip"
@@ -8558,10 +8586,6 @@ msgstr "Zoumer"
 #~ msgctxt "@item:inlistbox Arrangement"
 #~ msgid "Rows"
 #~ msgstr "Royes"
-
-#~ msgctxt "@label:listbox"
-#~ msgid "Grid spacing:"
-#~ msgstr "Espåçmint del grile:"
 
 #~ msgctxt "@item:inlistbox Grid spacing"
 #~ msgid "Small"
