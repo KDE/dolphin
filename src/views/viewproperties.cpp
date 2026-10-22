@@ -15,6 +15,8 @@
 #include <QBuffer>
 #include <QCryptographicHash>
 
+#include <memory>
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -198,6 +200,18 @@ void ViewProperties::applyOwnDefaultStyle()
 
 void ViewProperties::restoreToDefaults()
 {
+    if (m_locked && !m_hasOwnDefaultStyle && GeneralSettings::globalViewProps()) {
+        // The folder goes back to the style all folders share, so what is written down for it goes.
+        forgetStoredProperties();
+        delete m_node;
+        m_node = defaultProperties();
+        m_filePath = destinationDir(QStringLiteral("global"));
+        m_locked = false;
+        return;
+    }
+    // Elsewhere the folder keeps its own storage, and what restoring writes there has no lock.
+    m_locked = false;
+
     delete m_node;
     m_node = defaultProperties();
 
@@ -221,6 +235,62 @@ void ViewProperties::restoreToDefaults()
 bool ViewProperties::hasSpecialDefaultViewSettings() const
 {
     return m_hasOwnDefaultStyle;
+}
+
+bool ViewProperties::isLocked() const
+{
+    return m_locked;
+}
+
+bool ViewProperties::canBeLocked() const
+{
+    return !m_locked && !m_url.isEmpty() && GeneralSettings::globalViewProps();
+}
+
+void ViewProperties::lock()
+{
+    if (!canBeLocked()) {
+        return;
+    }
+
+    if (m_hasOwnDefaultStyle) {
+        // Such a folder keeps its view settings in its own storage already.
+        m_node->setLocked(true);
+        m_locked = true;
+        update();
+        if (m_autoSave) {
+            save();
+        }
+        return;
+    }
+
+    const QString ownPath = folderStoragePath(m_url);
+    ViewPropertySettings *ownProps = loadProperties(ownPath);
+    if (!ownProps) {
+        auto buffer = std::make_shared<QBuffer>();
+        if (!buffer->open(QIODevice::ReadWrite)) {
+            qCWarning(DolphinDebug) << "Could not create buffer";
+            return;
+        }
+        ownProps = new ViewPropertySettings(std::make_unique<KConfig>(buffer, KConfig::OpenFlag::SimpleConfig));
+    }
+
+    // The folder keeps the style it is shown with now.
+    const auto items = m_node->items();
+    for (const KConfigSkeletonItem *item : items) {
+        if (KConfigSkeletonItem *ownItem = ownProps->findItem(item->name())) {
+            ownItem->setProperty(item->property());
+        }
+    }
+    delete m_node;
+    m_node = ownProps;
+    m_filePath = ownPath;
+    m_locked = true;
+    m_node->setLocked(true);
+    update();
+    if (m_autoSave) {
+        save();
+    }
 }
 
 bool ViewProperties::forgetStoredProperties()
@@ -302,6 +372,67 @@ bool ViewProperties::isDefaults() const
     // clang-format on
 }
 
+QString ViewProperties::folderStoragePath(const QUrl &url) const
+{
+    // We try and save it to the file .directory in the directory being viewed.
+    // If the directory is not writable by the user or the directory is not local,
+    // we store the properties information in a local file.
+    if (!url.isLocalFile()) {
+        return destinationDir(QStringLiteral("remote/")) + directoryHashForUrl(url);
+    }
+
+    QString filePath = url.toLocalFile();
+    const QString localPath = filePath;
+
+    // Resolve symlinks (bug 477662).
+    const QFileInfo dirInfo(filePath);
+    if (const QString canonicalPath = dirInfo.canonicalFilePath(); !canonicalPath.isEmpty()) {
+        filePath = canonicalPath;
+    }
+    const QUrl canonicalUrl = QUrl::fromLocalFile(filePath);
+
+    bool useDestinationDir = !isPartOfHome(filePath);
+    if (!useDestinationDir) {
+        const KFileItem fileItem(canonicalUrl);
+        useDestinationDir = fileItem.isSlow();
+    }
+
+    if (!useDestinationDir) {
+        const QFileInfo fileInfo(filePath + QDir::separator() + ViewPropertiesFileName);
+        bool dirWritable = dirInfo.isWritable();
+#ifdef Q_OS_WIN
+        if (dirWritable) {
+            const DWORD attrs = GetFileAttributesW(reinterpret_cast<const wchar_t *>(filePath.utf16()));
+            dirWritable = (attrs == INVALID_FILE_ATTRIBUTES) || !(attrs & FILE_ATTRIBUTE_READONLY);
+        }
+#endif
+        useDestinationDir = !dirWritable || (dirInfo.size() > 0 && fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()));
+    }
+
+    if (useDestinationDir) {
+        filePath = destinationDir(QStringLiteral("local/")) + directoryHashForUrl(canonicalUrl);
+
+        // Migration: properties for such folders used to be stored under the
+        // full local path, which could exceed path-length limits and exposed
+        // the path in the storage location. Move an existing entry to the
+        // hashed location once.
+        // TODO: remove this block after 2028-06, once Debian 14 (Forky)
+        // has shipped and users have had time to migrate.
+        if (!QFileInfo::exists(filePath)) {
+#ifdef Q_OS_WIN
+            // The old path had the drive colon stripped to keep it valid.
+            const QString oldPath = destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localPath).remove(QLatin1Char(':'));
+#else
+            const QString oldPath = destinationDir(QStringLiteral("local")) + localPath;
+#endif
+            if (QFileInfo::exists(oldPath)) {
+                QDir().rename(oldPath, filePath);
+            }
+        }
+    }
+    return filePath;
+}
+
 ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
@@ -312,15 +443,12 @@ ViewProperties::ViewProperties(const QUrl &url)
     , m_node(nullptr)
 {
     GeneralSettings *settings = GeneralSettings::self();
-    const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
+    bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
 
     if (url.isLocalFile() && url.toLocalFile() == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
         m_ownDefaultStyle = OwnDefaultStyle::Downloads;
     }
 
-    // We try and save it to the file .directory in the directory being viewed.
-    // If the directory is not writable by the user or the directory is not local,
-    // we store the properties information in a local file.
     if (url.scheme().contains(QLatin1String("search"))) {
         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
         m_ownDefaultStyle = OwnDefaultStyle::Search;
@@ -349,59 +477,19 @@ ViewProperties::ViewProperties(const QUrl &url)
         }
     } else if (useGlobalViewProps && m_ownDefaultStyle == OwnDefaultStyle::None) {
         m_filePath = destinationDir(QStringLiteral("global"));
-    } else if (url.isLocalFile()) {
-        m_filePath = url.toLocalFile();
-        const QString localPath = m_filePath;
-
-        // Resolve symlinks (bug 477662).
-        const QFileInfo dirInfo(m_filePath);
-        if (const QString canonicalPath = dirInfo.canonicalFilePath(); !canonicalPath.isEmpty()) {
-            m_filePath = canonicalPath;
-        }
-        const QUrl canonicalUrl = QUrl::fromLocalFile(m_filePath);
-
-        bool useDestinationDir = !isPartOfHome(m_filePath);
-        if (!useDestinationDir) {
-            const KFileItem fileItem(canonicalUrl);
-            useDestinationDir = fileItem.isSlow();
-        }
-
-        if (!useDestinationDir) {
-            const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
-            bool dirWritable = dirInfo.isWritable();
-#ifdef Q_OS_WIN
-            if (dirWritable) {
-                const DWORD attrs = GetFileAttributesW(reinterpret_cast<const wchar_t *>(m_filePath.utf16()));
-                dirWritable = (attrs == INVALID_FILE_ATTRIBUTES) || !(attrs & FILE_ATTRIBUTE_READONLY);
-            }
-#endif
-            useDestinationDir = !dirWritable || (dirInfo.size() > 0 && fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()));
-        }
-
-        if (useDestinationDir) {
-            m_filePath = destinationDir(QStringLiteral("local/")) + directoryHashForUrl(canonicalUrl);
-
-            // Migration: properties for such folders used to be stored under the
-            // full local path, which could exceed path-length limits and exposed
-            // the path in the storage location. Move an existing entry to the
-            // hashed location once.
-            // TODO: remove this block after 2028-06, once Debian 14 (Forky)
-            // has shipped and users have had time to migrate.
-            if (!QFileInfo::exists(m_filePath)) {
-#ifdef Q_OS_WIN
-                // The old path had the drive colon stripped to keep it valid.
-                const QString oldPath = destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localPath).remove(QLatin1Char(':'));
-#else
-                const QString oldPath = destinationDir(QStringLiteral("local")) + localPath;
-#endif
-                if (QFileInfo::exists(oldPath)) {
-                    QDir().rename(oldPath, m_filePath);
-                }
+        if (!url.isEmpty()) {
+            // A folder that was locked keeps what is written down for it while folders share one style.
+            const QString ownPath = folderStoragePath(url);
+            bool hasStored = false;
+            const std::unique_ptr<ViewPropertySettings> ownProps(loadProperties(ownPath, &hasStored));
+            if (hasStored && ownProps && ownProps->locked()) {
+                m_filePath = ownPath;
+                m_locked = true;
+                useGlobalViewProps = false;
             }
         }
-
     } else {
-        m_filePath = destinationDir(QStringLiteral("remote/")) + directoryHashForUrl(url);
+        m_filePath = folderStoragePath(url);
     }
 
     m_hasOwnDefaultStyle = m_ownDefaultStyle != OwnDefaultStyle::None;
@@ -410,10 +498,15 @@ ViewProperties::ViewProperties(const QUrl &url)
     // says which of the two it is rather than the storage being read a second time.
     auto propsOpt = loadProperties(m_filePath, &m_hasStoredProperties);
 
+    // A locked style is kept as written down: a newer timestamp and a built-in style do not replace it.
+    const bool storedLocked = propsOpt && m_hasStoredProperties && propsOpt->locked();
+    m_locked = m_locked || storedLocked;
+
     bool useDefaultSettings =
         // If the props timestamp is too old,
         // use default values instead.
-        (propsOpt && m_hasStoredProperties && (!useGlobalViewProps || m_hasOwnDefaultStyle) && propsOpt->timestamp() < settings->viewPropsTimestamp())
+        (propsOpt && m_hasStoredProperties && !storedLocked && (!useGlobalViewProps || m_hasOwnDefaultStyle)
+         && propsOpt->timestamp() < settings->viewPropsTimestamp())
         // When global view props is on and this is a special folder (search, trash,
         // recents/timeline, downloads), only apply defaults on the first visit.
         // On subsequent visits the user's saved properties should be preserved.

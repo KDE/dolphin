@@ -71,6 +71,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView *view)
     });
     connect(view, &DolphinView::selectionChanged, this, &DolphinViewActionHandler::slotSelectionChanged);
     slotSelectionChanged(m_currentView->selectedItems());
+    connect(view, &DolphinView::viewSettingsChanged, this, &DolphinViewActionHandler::updateRestoreViewSettingsAction);
 }
 
 DolphinView *DolphinViewActionHandler::currentView()
@@ -407,7 +408,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     restoreViewSettingsToDefault->setIcon(QIcon::fromTheme(QStringLiteral("view-restore")));
     restoreViewSettingsToDefault->setText(i18nc("@action:inmenu", "Restore to Defaults"));
     restoreViewSettingsToDefault->setToolTip(i18nc("info:tooltip", "Restore View Settings to Default Values"));
-    connect(restoreViewSettingsToDefault, &QAction::triggered, this, &DolphinViewActionHandler::restoreViewSettingsToDefaults);
+    connect(restoreViewSettingsToDefault, &QAction::triggered, this, &DolphinViewActionHandler::restoreOrLockViewSettings);
 
     // View settings: the dropdown menu contains various view-related actions
     KActionMenu *viewSettings = m_actionCollection->add<KActionMenu>(QStringLiteral("view_settings"));
@@ -618,6 +619,8 @@ void DolphinViewActionHandler::updateViewActions()
 
     // Updates the "show_hidden_files" action state and icon
     slotHiddenFilesShownChanged(m_currentView->hiddenFilesShown());
+
+    updateRestoreViewSettingsAction();
 }
 
 void DolphinViewActionHandler::zoomIn()
@@ -997,9 +1000,29 @@ void DolphinViewActionHandler::updateCreateSubdirectoryAction()
     m_actionCollection->action(QStringLiteral("create_subdir"))->setEnabled(enabled);
 }
 
-void DolphinViewActionHandler::restoreViewSettingsToDefaults()
+void DolphinViewActionHandler::restoreOrLockViewSettings()
 {
-    m_currentView->restoreViewSettingsToDefaults();
+    if (m_currentView->canLockViewSettings()) {
+        m_currentView->lockViewSettings();
+    } else {
+        m_currentView->restoreViewSettingsToDefaults();
+    }
+}
+
+void DolphinViewActionHandler::updateRestoreViewSettingsAction()
+{
+    QAction *action = m_actionCollection->action(QStringLiteral("restore_view_settings_default"));
+    if (m_currentView->canLockViewSettings()) {
+        action->setText(i18nc("@action:inmenu", "Lock View Settings"));
+        action->setIcon(QIcon::fromTheme(QStringLiteral("object-locked")));
+        action->setToolTip(i18nc("@info:tooltip", "Keep the current view settings for this folder"));
+        action->setEnabled(true);
+        return;
+    }
+    action->setText(i18nc("@action:inmenu", "Restore to Defaults"));
+    action->setIcon(QIcon::fromTheme(QStringLiteral("view-restore")));
+    action->setToolTip(i18nc("info:tooltip", "Restore View Settings to Default Values"));
+    action->setEnabled(m_currentView->canRestoreViewSettings());
 }
 
 #include "moc_dolphinviewactionhandler.cpp"

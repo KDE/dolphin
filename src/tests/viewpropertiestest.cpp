@@ -54,6 +54,12 @@ private Q_SLOTS:
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
     void testSymlinkSharesProperties();
+    void testALockedFolderKeepsItsStyleInGlobalMode();
+    void testRestoringALockedFolderGivesItTheSharedStyle();
+    void testAStyleWrittenDownWithoutTheLockIsIgnoredInGlobalMode();
+    void testWhichFoldersCanBeLocked();
+    void testALockedFolderKeepsItsStyleWhenAllFoldersAreReset();
+    void testALockedDownloadsFolderKeepsItsStyleOverItsOwn();
 
 private:
     bool m_globalViewProps;
@@ -1149,6 +1155,192 @@ void ViewPropertiesTest::testARemovalThatFailsLeavesTheStyleWrittenDown()
     }
     QVERIFY(props.m_hasStoredProperties);
 #endif
+}
+
+// The view mode of the style all folders share, set for a test and put back after it.
+static DolphinView::Mode setSharedViewMode(DolphinView::Mode mode)
+{
+    ViewProperties shared{QUrl()};
+    const DolphinView::Mode previous = shared.viewMode();
+    shared.setViewMode(mode);
+    shared.save();
+    return previous;
+}
+
+void ViewPropertiesTest::testALockedFolderKeepsItsStyleInGlobalMode()
+{
+    GeneralSettings::self()->setGlobalViewProps(true);
+    const DolphinView::Mode previous = setSharedViewMode(DolphinView::IconsView);
+    auto cleanup = qScopeGuard([previous] {
+        setSharedViewMode(previous);
+    });
+    m_testDir->createDir(QStringLiteral("other"));
+    const QUrl otherUrl = QUrl::fromLocalFile(m_testDir->url().toLocalFile() + QStringLiteral("/other"));
+
+    {
+        ViewProperties props(m_testDir->url());
+        QVERIFY(!props.isLocked());
+        QVERIFY(props.canBeLocked());
+        props.lock();
+        QVERIFY(props.isLocked());
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+
+    {
+        ViewProperties props(m_testDir->url());
+        QVERIFY(props.isLocked());
+        QVERIFY(!props.canBeLocked());
+        QCOMPARE(props.viewMode(), DolphinView::DetailsView);
+    }
+    // The change was written for the locked folder only.
+    QCOMPARE(ViewProperties{QUrl()}.viewMode(), DolphinView::IconsView);
+    QCOMPARE(ViewProperties{otherUrl}.viewMode(), DolphinView::IconsView);
+
+    // A change of the shared style does not reach the locked folder.
+    setSharedViewMode(DolphinView::CompactView);
+    QCOMPARE(ViewProperties{m_testDir->url()}.viewMode(), DolphinView::DetailsView);
+    QCOMPARE(ViewProperties{otherUrl}.viewMode(), DolphinView::CompactView);
+}
+
+void ViewPropertiesTest::testRestoringALockedFolderGivesItTheSharedStyle()
+{
+    GeneralSettings::self()->setGlobalViewProps(true);
+    const DolphinView::Mode previous = setSharedViewMode(DolphinView::IconsView);
+    auto cleanup = qScopeGuard([previous] {
+        setSharedViewMode(previous);
+    });
+
+    {
+        ViewProperties props(m_testDir->url());
+        props.lock();
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+    {
+        ViewProperties props(m_testDir->url());
+        props.restoreToDefaults();
+        QVERIFY(!props.isLocked());
+        QCOMPARE(props.viewMode(), DolphinView::IconsView);
+    }
+
+    ViewProperties props(m_testDir->url());
+    QVERIFY(!props.isLocked());
+    QVERIFY(props.canBeLocked());
+    QCOMPARE(props.viewMode(), DolphinView::IconsView);
+    // Nothing is left written down for the folder.
+    KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
+    if (metadata.isSupported()) {
+        QVERIFY(metadata.attribute(QStringLiteral("kde.fm.viewproperties#1")).isEmpty());
+    }
+    QVERIFY(!QFile::exists(m_testDir->url().toLocalFile() + QStringLiteral("/.directory")));
+}
+
+void ViewPropertiesTest::testAStyleWrittenDownWithoutTheLockIsIgnoredInGlobalMode()
+{
+    // A folder style kept from a time in per-folder mode does not come back in global mode.
+    {
+        ViewProperties props(m_testDir->url());
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    const DolphinView::Mode previous = setSharedViewMode(DolphinView::IconsView);
+    auto cleanup = qScopeGuard([previous] {
+        setSharedViewMode(previous);
+    });
+
+    ViewProperties props(m_testDir->url());
+    QVERIFY(!props.isLocked());
+    QVERIFY(props.canBeLocked());
+    QCOMPARE(props.viewMode(), DolphinView::IconsView);
+}
+
+void ViewPropertiesTest::testWhichFoldersCanBeLocked()
+{
+    // init() has turned per-folder view properties on, where every folder has its own style already.
+    QVERIFY(!ViewProperties(m_testDir->url()).canBeLocked());
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    QVERIFY(ViewProperties(m_testDir->url()).canBeLocked());
+    // A lock also keeps a style over the one these folders come with.
+    QVERIFY(ViewProperties(QUrl(QStringLiteral("trash:/"))).canBeLocked());
+    QVERIFY(ViewProperties(QUrl::fromLocalFile(m_downloadsPath)).canBeLocked());
+    // The empty url is the shared style itself.
+    QVERIFY(!ViewProperties(QUrl()).canBeLocked());
+}
+
+// "Apply to all folders" in the display style dialog makes the styles written down before it out of
+// date, but not a locked one.
+static void resetAllFolders()
+{
+    GeneralSettings::self()->setViewPropsTimestamp(QDateTime::currentDateTime().addSecs(60));
+}
+
+void ViewPropertiesTest::testALockedFolderKeepsItsStyleWhenAllFoldersAreReset()
+{
+    GeneralSettings::self()->setGlobalViewProps(true);
+    const QDateTime previousTimestamp = GeneralSettings::viewPropsTimestamp();
+    const DolphinView::Mode previous = setSharedViewMode(DolphinView::IconsView);
+    auto cleanup = qScopeGuard([previous, previousTimestamp] {
+        setSharedViewMode(previous);
+        GeneralSettings::self()->setViewPropsTimestamp(previousTimestamp);
+    });
+
+    {
+        ViewProperties props(m_testDir->url());
+        props.lock();
+        props.setViewMode(DolphinView::DetailsView);
+        props.setZoomLevel(3);
+        props.save();
+    }
+    resetAllFolders();
+
+    ViewProperties props(m_testDir->url());
+    QVERIFY(props.isLocked());
+    QCOMPARE(props.viewMode(), DolphinView::DetailsView);
+    QCOMPARE(props.zoomLevel(), 3);
+}
+
+void ViewPropertiesTest::testALockedDownloadsFolderKeepsItsStyleOverItsOwn()
+{
+    GeneralSettings::self()->setGlobalViewProps(true);
+    const QDateTime previousTimestamp = GeneralSettings::viewPropsTimestamp();
+    auto cleanup = qScopeGuard([previousTimestamp] {
+        GeneralSettings::self()->setViewPropsTimestamp(previousTimestamp);
+    });
+    const QUrl downloadsUrl = QUrl::fromLocalFile(m_downloadsPath);
+
+    // Downloads comes sorted by date, newest first.
+    QCOMPARE(ViewProperties(downloadsUrl).sortRole(), QByteArrayLiteral("modificationtime"));
+    {
+        ViewProperties props(downloadsUrl);
+        props.setSortRole(QByteArrayLiteral("text"));
+        props.setSortOrder(Qt::AscendingOrder);
+        props.lock();
+        QVERIFY(props.isLocked());
+        props.save();
+    }
+    resetAllFolders();
+
+    {
+        ViewProperties props(downloadsUrl);
+        QVERIFY(props.isLocked());
+        QVERIFY(!props.canBeLocked());
+        QCOMPARE(props.sortRole(), QByteArrayLiteral("text"));
+        QCOMPARE(props.sortOrder(), Qt::AscendingOrder);
+
+        // Restoring gives the folder the style it comes with, not the shared one.
+        props.restoreToDefaults();
+        QVERIFY(!props.isLocked());
+    }
+
+    ViewProperties props(downloadsUrl);
+    QVERIFY(!props.isLocked());
+    QVERIFY(props.canBeLocked());
+    QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
+    QCOMPARE(props.sortOrder(), Qt::DescendingOrder);
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

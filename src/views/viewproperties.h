@@ -145,6 +145,17 @@ public:
      * searches do, rather than the one every other folder starts from. */
     bool hasSpecialDefaultViewSettings() const;
 
+    /** @returns whether this folder keeps the view settings written down for it, rather than the
+     * style all folders share or the style it comes with. restoreToDefaults() removes the lock. */
+    bool isLocked() const;
+
+    /** @returns whether lock() applies: all folders share one style, and this folder is not locked. */
+    bool canBeLocked() const;
+
+    /** Makes this folder keep its current view settings while all folders share one style, also over
+     * the style it comes with, as the trash and Downloads have. */
+    void lock();
+
 private:
     /**
      * Returns the view-mode prefix when storing additional properties for
@@ -182,6 +193,9 @@ private:
     ViewPropertySettings *loadProperties(const QString &folderPath, bool *hasStoredProperties = nullptr) const;
     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
     ViewPropertySettings *defaultProperties() const;
+
+    /** @returns where the view settings of the folder at @p url are written down, as in per-folder mode. */
+    QString folderStoragePath(const QUrl &url) const;
 
     /** Removes what is stored for this folder, so that it is read with the style it comes with.
      * @returns whether the storage is now empty. A read-only mount keeps what it holds. */
@@ -221,6 +235,8 @@ private:
     bool m_hasStoredProperties;
     /** Set where a restore could not write yet, so that save() does the removal it asked for. */
     bool m_forgetOnSave = false;
+    /** Whether this folder keeps its own view settings while all folders share one style. */
+    bool m_locked = false;
     OwnDefaultStyle m_ownDefaultStyle;
     /** The folder this is about, which the style it comes with is worked out from. */
     QUrl m_url;

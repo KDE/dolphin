@@ -106,6 +106,7 @@ private Q_SLOTS:
     void testActiveViewFollowsTheActivatedView();
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
+    void testLockViewSettingsInGlobalMode();
     void cleanupTestCase();
 
 private:
@@ -2389,6 +2390,63 @@ void DolphinMainWindowTest::cleanupTestCase()
 
     // Quit Dolphin to save the hiding of panels and make sure that normal Quit doesn't crash.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Quit))->trigger();
+}
+
+// While all folders share one style, the restore action locks the view settings of the folder
+// shown, and restores them once the folder is locked.
+void DolphinMainWindowTest::testLockViewSettingsInGlobalMode()
+{
+    const bool wasGlobal = GeneralSettings::globalViewProps();
+    GeneralSettings::setGlobalViewProps(true);
+    auto restoreSetting = qScopeGuard([wasGlobal] {
+        GeneralSettings::setGlobalViewProps(wasGlobal);
+    });
+
+    TestDir dir;
+    dir.createDir(QStringLiteral("sub"));
+    const QUrl subUrl = QUrl::fromLocalFile(dir.path() + QStringLiteral("/sub"));
+    m_mainWindow->openDirectories({dir.url()}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    QSignalSpy loadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), dir.url());
+
+    QAction *action = m_mainWindow->actionCollection()->action(QStringLiteral("restore_view_settings_default"));
+    QVERIFY(action);
+    auto text = [action] {
+        return action->text().remove(QLatin1Char('&'));
+    };
+    QTRY_COMPARE(text(), QStringLiteral("Lock View Settings"));
+    QVERIFY(action->isEnabled());
+
+    action->trigger();
+    QVERIFY(ViewProperties(dir.url()).isLocked());
+    QCOMPARE(text(), QStringLiteral("Restore to Defaults"));
+    QVERIFY(action->isEnabled());
+
+    // The locked folder keeps its own zoom level, and the other folders keep the shared one.
+    const int sharedZoomLevel = view->zoomLevel();
+    const int lockedZoomLevel = sharedZoomLevel > ZoomLevelInfo::minimumLevel() ? sharedZoomLevel - 1 : sharedZoomLevel + 1;
+    view->setZoomLevel(lockedZoomLevel);
+    QCOMPARE(ViewProperties(dir.url()).zoomLevel(), lockedZoomLevel);
+
+    loadingCompletedSpy.clear();
+    m_mainWindow->activeViewContainer()->setUrl(subUrl);
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(view->zoomLevel(), sharedZoomLevel);
+    QCOMPARE(text(), QStringLiteral("Lock View Settings"));
+
+    loadingCompletedSpy.clear();
+    m_mainWindow->activeViewContainer()->setUrl(dir.url());
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(view->zoomLevel(), lockedZoomLevel);
+    QCOMPARE(text(), QStringLiteral("Restore to Defaults"));
+
+    action->trigger();
+    QVERIFY(!ViewProperties(dir.url()).isLocked());
+    QCOMPARE(text(), QStringLiteral("Lock View Settings"));
+    QCOMPARE(view->zoomLevel(), sharedZoomLevel);
 }
 
 int main(int argc, char *argv[])

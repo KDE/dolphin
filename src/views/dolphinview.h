@@ -516,6 +516,15 @@ public Q_SLOTS:
 
     void restoreViewSettingsToDefaults();
 
+    /** @returns whether lockViewSettings() applies: all folders share one style and this one is not locked. */
+    bool canLockViewSettings() const;
+
+    /** @returns whether restoreViewSettingsToDefaults() changes anything for the folder shown. */
+    bool canRestoreViewSettings() const;
+
+    /** Makes the folder shown keep its current view settings while all folders share one style. */
+    void lockViewSettings();
+
 Q_SIGNALS:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
@@ -1072,6 +1081,8 @@ private:
 
     // Cached out default zoom level after view mode changes
     int m_defaultZoomLevel = -1;
+    /** Whether the folder shown keeps its own view settings while all folders share one style. */
+    bool m_viewSettingsLocked = false;
 
     QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5 and file operations
     bool m_clearSelectionBeforeSelectingNewItems;

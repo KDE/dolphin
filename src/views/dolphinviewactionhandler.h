@@ -237,7 +237,11 @@ private Q_SLOTS:
      */
     void slotSelectionChanged(const KFileItemList &selection);
 
-    void restoreViewSettingsToDefaults();
+    /** Locks the view settings of the folder shown where that applies, else restores them to the defaults. */
+    void restoreOrLockViewSettings();
+
+    /** The restore action reads "Lock View Settings" where locking applies, else "Restore to Defaults". */
+    void updateRestoreViewSettingsAction();
 
 private:
     /**

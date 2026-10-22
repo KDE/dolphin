@@ -30,6 +30,13 @@ public:
     void setZoomLevel(int level);
     int zoomLevel() const;
 
+    /**
+     * Sets whether the folder shown uses the view settings all folders share. A zoom change is then
+     * written to the view mode settings, else it is the folder's own.
+     * The default follows GeneralSettings::globalViewProps().
+     */
+    void setSharedViewSettings(bool shared);
+
     enum SelectionTogglesEnabled {
         True,
         False,
@@ -68,6 +75,7 @@ private:
     int m_zoomLevel;
     int m_previewSize = 0;
     int m_iconSize = 0;
+    bool m_sharedViewSettings;
 };
 
 #endif

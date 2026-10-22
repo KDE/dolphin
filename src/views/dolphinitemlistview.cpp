@@ -21,6 +21,7 @@
 DolphinItemListView::DolphinItemListView(QGraphicsWidget *parent)
     : KFileItemListView(parent)
     , m_zoomLevel(0)
+    , m_sharedViewSettings(GeneralSettings::globalViewProps())
 {
     DolphinItemListView::updateFont();
     updateGridSize();
@@ -39,7 +40,7 @@ void DolphinItemListView::setZoomLevel(int level)
         level = ZoomLevelInfo::maximumLevel();
     }
 
-    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
+    const bool useGlobalViewProps = m_sharedViewSettings;
     ViewModeSettings settings(itemLayout());
 
     // The size belonging to the requested zoom level must be applied even when the zoom level
@@ -181,10 +182,15 @@ void DolphinItemListView::updateFont()
     setStyleOption(option);
 }
 
+void DolphinItemListView::setSharedViewSettings(bool shared)
+{
+    m_sharedViewSettings = shared;
+}
+
 void DolphinItemListView::updateGridSize()
 {
     const ViewModeSettings settings(itemLayout());
-    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
+    const bool useGlobalViewProps = m_sharedViewSettings;
 
     // Calculate the size of the icon
     // Only use zoom stored in settings if we're using global view props

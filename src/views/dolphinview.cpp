@@ -2130,6 +2130,26 @@ void DolphinView::restoreViewSettingsToDefaults()
     applyViewProperties(props);
 }
 
+bool DolphinView::canLockViewSettings() const
+{
+    const ViewProperties props(viewPropertiesUrl());
+    return props.canBeLocked();
+}
+
+bool DolphinView::canRestoreViewSettings() const
+{
+    const ViewProperties props(viewPropertiesUrl());
+    return props.isLocked() || !props.isDefaults();
+}
+
+void DolphinView::lockViewSettings()
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.lock();
+
+    applyViewProperties(props);
+}
+
 void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
 {
     if (GeneralSettings::showToolTips()) {
@@ -2510,6 +2530,12 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     // Caches old zoom level change for signal emitting
     int zoomLevelChangeFrom = -1;
 
+    // A locked folder keeps its own zoom level while all folders share one style.
+    const bool sharedViewSettings = GeneralSettings::globalViewProps() && !props.isLocked();
+    const bool leavingLockedFolder = m_viewSettingsLocked && !props.isLocked();
+    m_viewSettingsLocked = props.isLocked();
+    m_view->setSharedViewSettings(sharedViewSettings);
+
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
         const Mode previousMode = m_mode;
@@ -2595,7 +2621,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
     }
 
     // Only check for folder zoom changes if we're using local view props
-    if (!GeneralSettings::globalViewProps()) {
+    if (!sharedViewSettings) {
         const int propZoomLevel = props.zoomLevel();
         if (m_defaultZoomLevel < 0) {
             updateDefaultZoomLevel();
@@ -2605,6 +2631,13 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
         if (nextZoomLevel != m_view->zoomLevel()) {
             zoomLevelChangeFrom = m_view->zoomLevel();
             m_view->setZoomLevel(nextZoomLevel);
+        }
+    } else if (leavingLockedFolder) {
+        // The zoom level of the locked folder gives way to the one all folders share.
+        updateDefaultZoomLevel();
+        if (m_defaultZoomLevel != m_view->zoomLevel()) {
+            zoomLevelChangeFrom = m_view->zoomLevel();
+            m_view->setZoomLevel(m_defaultZoomLevel);
         }
     }
 
@@ -2723,7 +2756,7 @@ void DolphinView::applyDynamicView()
         return;
     }
 
-    props.setAutoSaveEnabled(!GeneralSettings::globalViewProps());
+    props.setAutoSaveEnabled(!GeneralSettings::globalViewProps() || props.isLocked());
     props.setDynamicViewPassed(true);
     props.setViewMode(IconsView);
     applyViewProperties(props);
