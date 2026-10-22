@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-21 00:54+0000\n"
+"POT-Creation-Date: 2026-10-22 00:53+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -2149,7 +2149,7 @@ msgctxt "@action:inmenu"
 msgid "Unhide"
 msgstr ""
 
-#: itemactions/movetonewfolderitemaction.cpp:40
+#: itemactions/movetonewfolderitemaction.cpp:51
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -2548,13 +2548,13 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2796
+#: kitemviews/kfileitemmodel.cpp:2800
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2802
 #, fuzzy, kde-format
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2562,56 +2562,56 @@ msgctxt "@title:group"
 msgid "Others"
 msgstr "Yên din"
 
-#: kitemviews/kfileitemmodel.cpp:2830
+#: kitemviews/kfileitemmodel.cpp:2834
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Peldank"
 
-#: kitemviews/kfileitemmodel.cpp:2838
+#: kitemviews/kfileitemmodel.cpp:2842
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Biçûk"
 
-#: kitemviews/kfileitemmodel.cpp:2840
+#: kitemviews/kfileitemmodel.cpp:2844
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Orte"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2846
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Mezin"
 
-#: kitemviews/kfileitemmodel.cpp:2888
+#: kitemviews/kfileitemmodel.cpp:2892
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Îro"
 
-#: kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2895
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Do"
 
-#: kitemviews/kfileitemmodel.cpp:2894
+#: kitemviews/kfileitemmodel.cpp:2898
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2902
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2903
+#: kitemviews/kfileitemmodel.cpp:2907
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Three Weeks Ago"
@@ -2619,25 +2619,25 @@ msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Sê Hefte Berê"
 
-#: kitemviews/kfileitemmodel.cpp:2906
+#: kitemviews/kfileitemmodel.cpp:2910
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Du Hefte Berê"
 
-#: kitemviews/kfileitemmodel.cpp:2909
+#: kitemviews/kfileitemmodel.cpp:2913
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Sê Hefte Berê"
 
-#: kitemviews/kfileitemmodel.cpp:2913
+#: kitemviews/kfileitemmodel.cpp:2917
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Berê di vî mehî de"
 
-#: kitemviews/kfileitemmodel.cpp:2927
+#: kitemviews/kfileitemmodel.cpp:2931
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2651,7 +2651,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "Do (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2934
+#: kitemviews/kfileitemmodel.cpp:2938
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2659,7 +2659,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2951
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2671,7 +2671,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "Do (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2955
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2679,7 +2679,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2959
+#: kitemviews/kfileitemmodel.cpp:2963
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2693,7 +2693,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "Sê Hefte Berê (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2966
+#: kitemviews/kfileitemmodel.cpp:2970
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2701,7 +2701,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2980
+#: kitemviews/kfileitemmodel.cpp:2984
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2715,7 +2715,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "Du Hefte Berê (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2987
+#: kitemviews/kfileitemmodel.cpp:2991
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2723,7 +2723,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3001
+#: kitemviews/kfileitemmodel.cpp:3005
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2737,7 +2737,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "Sê Hefte Berê (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:3008
+#: kitemviews/kfileitemmodel.cpp:3012
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2745,7 +2745,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3022
+#: kitemviews/kfileitemmodel.cpp:3026
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2759,7 +2759,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "Zûtir ji %B, %Y"
 
-#: kitemviews/kfileitemmodel.cpp:3029
+#: kitemviews/kfileitemmodel.cpp:3033
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2767,7 +2767,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3043
+#: kitemviews/kfileitemmodel.cpp:3047
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2775,7 +2775,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3047
+#: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2783,35 +2783,35 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3087 kitemviews/kfileitemmodel.cpp:3100
-#: kitemviews/kfileitemmodel.cpp:3113
+#: kitemviews/kfileitemmodel.cpp:3091 kitemviews/kfileitemmodel.cpp:3104
+#: kitemviews/kfileitemmodel.cpp:3117
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Xwendin, "
 
-#: kitemviews/kfileitemmodel.cpp:3090 kitemviews/kfileitemmodel.cpp:3103
-#: kitemviews/kfileitemmodel.cpp:3116
+#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3107
+#: kitemviews/kfileitemmodel.cpp:3120
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Nivîsîn, "
 
-#: kitemviews/kfileitemmodel.cpp:3093 kitemviews/kfileitemmodel.cpp:3106
-#: kitemviews/kfileitemmodel.cpp:3119
+#: kitemviews/kfileitemmodel.cpp:3097 kitemviews/kfileitemmodel.cpp:3110
+#: kitemviews/kfileitemmodel.cpp:3123
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Xebitandin, "
 
-#: kitemviews/kfileitemmodel.cpp:3095 kitemviews/kfileitemmodel.cpp:3108
-#: kitemviews/kfileitemmodel.cpp:3121
+#: kitemviews/kfileitemmodel.cpp:3099 kitemviews/kfileitemmodel.cpp:3112
+#: kitemviews/kfileitemmodel.cpp:3125
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Qedexe"
 
-#: kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3127
 #, fuzzy, kde-format
 #| msgctxt "@title:group Files and folders by permissions"
 #| msgid "(User: %1) (Group: %2) (Others: %3)"
@@ -2819,7 +2819,7 @@ msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "(Bikarhêner: %1) (Kom: %2) (Ên Din: %3)"
 
-#: kitemviews/kfileitemmodel.cpp:3213
+#: kitemviews/kfileitemmodel.cpp:3217
 #, fuzzy
 #| msgctxt "@action:inmenu Sort By"
 #| msgid "Name"
@@ -2827,7 +2827,7 @@ msgctxt "@label"
 msgid "Name"
 msgstr "Nav"
 
-#: kitemviews/kfileitemmodel.cpp:3214
+#: kitemviews/kfileitemmodel.cpp:3218
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Size"
@@ -2835,7 +2835,7 @@ msgctxt "@label"
 msgid "Size"
 msgstr "Mezinahî"
 
-#: kitemviews/kfileitemmodel.cpp:3215
+#: kitemviews/kfileitemmodel.cpp:3219
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Modified:"
@@ -2843,13 +2843,13 @@ msgctxt "@label"
 msgid "Modified"
 msgstr "Guhartî:"
 
-#: kitemviews/kfileitemmodel.cpp:3215 kitemviews/kfileitemmodel.cpp:3216
-#: kitemviews/kfileitemmodel.cpp:3217
+#: kitemviews/kfileitemmodel.cpp:3219 kitemviews/kfileitemmodel.cpp:3220
+#: kitemviews/kfileitemmodel.cpp:3221
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3216
+#: kitemviews/kfileitemmodel.cpp:3220
 #, fuzzy
 #| msgctxt "@title:menu Create new folder, file, link, etc."
 #| msgid "Create New"
@@ -2857,12 +2857,12 @@ msgctxt "@label"
 msgid "Created"
 msgstr "Nû Biafirîne"
 
-#: kitemviews/kfileitemmodel.cpp:3217
+#: kitemviews/kfileitemmodel.cpp:3221
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3218
+#: kitemviews/kfileitemmodel.cpp:3222
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Type"
@@ -2870,7 +2870,7 @@ msgctxt "@label"
 msgid "Type"
 msgstr "Cure"
 
-#: kitemviews/kfileitemmodel.cpp:3219
+#: kitemviews/kfileitemmodel.cpp:3223
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2878,7 +2878,7 @@ msgctxt "@label"
 msgid "Rating"
 msgstr "Rêzkirin:"
 
-#: kitemviews/kfileitemmodel.cpp:3220
+#: kitemviews/kfileitemmodel.cpp:3224
 #, fuzzy
 #| msgctxt "@label Indicator when no tags defined"
 #| msgid "No Tags"
@@ -2886,7 +2886,7 @@ msgctxt "@label"
 msgid "Tags"
 msgstr "Bê Etîketan"
 
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3225
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2894,7 +2894,7 @@ msgctxt "@label"
 msgid "Comment"
 msgstr "Şirove Lê Zêde Bike..."
 
-#: kitemviews/kfileitemmodel.cpp:3222
+#: kitemviews/kfileitemmodel.cpp:3226
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Title:"
@@ -2902,9 +2902,9 @@ msgctxt "@label"
 msgid "Title"
 msgstr "Sernav:"
 
-#: kitemviews/kfileitemmodel.cpp:3222 kitemviews/kfileitemmodel.cpp:3223
-#: kitemviews/kfileitemmodel.cpp:3224 kitemviews/kfileitemmodel.cpp:3225
 #: kitemviews/kfileitemmodel.cpp:3226 kitemviews/kfileitemmodel.cpp:3227
+#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
+#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2912,17 +2912,17 @@ msgctxt "@label"
 msgid "Document"
 msgstr "Belgekirin"
 
-#: kitemviews/kfileitemmodel.cpp:3223
+#: kitemviews/kfileitemmodel.cpp:3227
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3224
+#: kitemviews/kfileitemmodel.cpp:3228
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3225
+#: kitemviews/kfileitemmodel.cpp:3229
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Change Comment..."
@@ -2930,39 +2930,39 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Şîroveyê Biguherîne..."
 
-#: kitemviews/kfileitemmodel.cpp:3226
+#: kitemviews/kfileitemmodel.cpp:3230
 msgctxt "@label"
 msgid "Word Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3227
+#: kitemviews/kfileitemmodel.cpp:3231
 msgctxt "@label"
 msgid "Line Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3228
+#: kitemviews/kfileitemmodel.cpp:3232
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
-#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
-#: kitemviews/kfileitemmodel.cpp:3232
+#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3233
+#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3235
+#: kitemviews/kfileitemmodel.cpp:3236
 msgctxt "@label"
 msgid "Image"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3229 kitemviews/kfileitemmodel.cpp:3245
+#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3249
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3248
+#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3252
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3235
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2970,7 +2970,7 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "Belgekirin"
 
-#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3251
+#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3255
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Width:"
@@ -2978,7 +2978,7 @@ msgctxt "@label"
 msgid "Width"
 msgstr "Firehî:"
 
-#: kitemviews/kfileitemmodel.cpp:3233
+#: kitemviews/kfileitemmodel.cpp:3237
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Album:"
@@ -2986,15 +2986,15 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Album:"
 
-#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3234
-#: kitemviews/kfileitemmodel.cpp:3235 kitemviews/kfileitemmodel.cpp:3236
 #: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3238
 #: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
+#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
 msgctxt "@label"
 msgid "Audio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3234
+#: kitemviews/kfileitemmodel.cpp:3238
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Artist:"
@@ -3002,7 +3002,7 @@ msgctxt "@label"
 msgid "Artist"
 msgstr "Hunermend:"
 
-#: kitemviews/kfileitemmodel.cpp:3235 kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3246
 #, fuzzy
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
@@ -3010,12 +3010,12 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Pelên Veşartî Nîşan Bide"
 
-#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3243
+#: kitemviews/kfileitemmodel.cpp:3240 kitemviews/kfileitemmodel.cpp:3247
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3246
+#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3250
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -3023,7 +3023,7 @@ msgctxt "@label"
 msgid "Duration"
 msgstr "Belgekirin"
 
-#: kitemviews/kfileitemmodel.cpp:3238
+#: kitemviews/kfileitemmodel.cpp:3242
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Genre:"
@@ -3031,7 +3031,7 @@ msgctxt "@label"
 msgid "Genre"
 msgstr "Cure:"
 
-#: kitemviews/kfileitemmodel.cpp:3239
+#: kitemviews/kfileitemmodel.cpp:3243
 #, fuzzy
 #| msgctxt "@action:inmenu View"
 #| msgid "Reload"
@@ -3039,7 +3039,7 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "Nûbarkirin"
 
-#: kitemviews/kfileitemmodel.cpp:3240
+#: kitemviews/kfileitemmodel.cpp:3244
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Track:"
@@ -3047,42 +3047,42 @@ msgctxt "@label"
 msgid "Track"
 msgstr "Stran:"
 
-#: kitemviews/kfileitemmodel.cpp:3241
+#: kitemviews/kfileitemmodel.cpp:3245
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
-#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
 #: kitemviews/kfileitemmodel.cpp:3245 kitemviews/kfileitemmodel.cpp:3246
 #: kitemviews/kfileitemmodel.cpp:3247 kitemviews/kfileitemmodel.cpp:3248
 #: kitemviews/kfileitemmodel.cpp:3249 kitemviews/kfileitemmodel.cpp:3250
-#: kitemviews/kfileitemmodel.cpp:3251
+#: kitemviews/kfileitemmodel.cpp:3251 kitemviews/kfileitemmodel.cpp:3252
+#: kitemviews/kfileitemmodel.cpp:3253 kitemviews/kfileitemmodel.cpp:3254
+#: kitemviews/kfileitemmodel.cpp:3255
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3248
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3247
+#: kitemviews/kfileitemmodel.cpp:3251
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3249
+#: kitemviews/kfileitemmodel.cpp:3253
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3250
+#: kitemviews/kfileitemmodel.cpp:3254
 msgctxt "@label"
 msgid "Video Codec"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3252
+#: kitemviews/kfileitemmodel.cpp:3256
 #, fuzzy
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -3090,11 +3090,11 @@ msgctxt "@label"
 msgid "Path"
 msgstr "Pê Ve Bike"
 
-#: kitemviews/kfileitemmodel.cpp:3252 kitemviews/kfileitemmodel.cpp:3253
-#: kitemviews/kfileitemmodel.cpp:3254 kitemviews/kfileitemmodel.cpp:3255
 #: kitemviews/kfileitemmodel.cpp:3256 kitemviews/kfileitemmodel.cpp:3257
 #: kitemviews/kfileitemmodel.cpp:3258 kitemviews/kfileitemmodel.cpp:3259
-#: kitemviews/kfileitemmodel.cpp:3260
+#: kitemviews/kfileitemmodel.cpp:3260 kitemviews/kfileitemmodel.cpp:3261
+#: kitemviews/kfileitemmodel.cpp:3262 kitemviews/kfileitemmodel.cpp:3263
+#: kitemviews/kfileitemmodel.cpp:3264
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -3102,7 +3102,7 @@ msgctxt "@label"
 msgid "Other"
 msgstr "Yên din"
 
-#: kitemviews/kfileitemmodel.cpp:3253
+#: kitemviews/kfileitemmodel.cpp:3257
 #, fuzzy
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -3110,12 +3110,12 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "Gerînendeyê Pelan"
 
-#: kitemviews/kfileitemmodel.cpp:3254
+#: kitemviews/kfileitemmodel.cpp:3258
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3259
 #, fuzzy
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Invert Selection"
@@ -3123,7 +3123,7 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Hilbijartinê Serûbin Bike"
 
-#: kitemviews/kfileitemmodel.cpp:3256
+#: kitemviews/kfileitemmodel.cpp:3260
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -3131,12 +3131,12 @@ msgctxt "@label"
 msgid "Link Destination"
 msgstr "Belgekirin"
 
-#: kitemviews/kfileitemmodel.cpp:3257
+#: kitemviews/kfileitemmodel.cpp:3261
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3258
+#: kitemviews/kfileitemmodel.cpp:3262
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Permissions"
@@ -3144,14 +3144,14 @@ msgctxt "@label"
 msgid "Permissions"
 msgstr "Destûr"
 
-#: kitemviews/kfileitemmodel.cpp:3258
+#: kitemviews/kfileitemmodel.cpp:3262
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3259
+#: kitemviews/kfileitemmodel.cpp:3263
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Owner"
@@ -3159,7 +3159,7 @@ msgctxt "@label"
 msgid "Owner"
 msgstr "Xwedî"
 
-#: kitemviews/kfileitemmodel.cpp:3260
+#: kitemviews/kfileitemmodel.cpp:3264
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -3167,7 +3167,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "Kom"
 
-#: kitemviews/kfileitemmodel.cpp:3361
+#: kitemviews/kfileitemmodel.cpp:3365
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Unknown size"
