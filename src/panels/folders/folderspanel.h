@@ -36,7 +36,7 @@ public:
     bool limitFoldersPanelToHome() const;
 
     /** Rebuilds the tree from the stored settings. The current folder stays the same. */
-    void readSettings();
+    void readSettings() override;
 
     void setAutoScrolling(bool enable);
     bool autoScrolling() const;
