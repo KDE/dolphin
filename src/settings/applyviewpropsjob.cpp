@@ -19,6 +19,9 @@ ApplyViewPropsJob::ApplyViewPropsJob(const QUrl &dir, const ViewProperties &view
     , m_dir(dir)
 {
     m_viewProps = new ViewProperties(dir);
+    // While all folders share one style, a folder keeps the style applied to it by being locked.
+    // Without the lock, the properties of the folder are the shared ones.
+    m_viewProps->lock();
     m_viewProps->setViewMode(viewProps.viewMode());
     m_viewProps->setPreviewsShown(viewProps.previewsShown());
     m_viewProps->setHiddenFilesShown(viewProps.hiddenFilesShown());
@@ -51,6 +54,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job *, const KIO::UDSEntryList &list)
             Q_ASSERT(m_viewProps);
 
             ViewProperties props(url);
+            props.lock();
             props.setDirProperties(*m_viewProps);
         }
     }

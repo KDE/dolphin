@@ -153,7 +153,7 @@ public:
     bool canBeLocked() const;
 
     /** Makes this folder keep its current view settings while all folders share one style, also over
-     * the style it comes with, as the trash and Downloads have. */
+     * the style it comes with, as the trash and Downloads have. Written down as any other change. */
     void lock();
 
 private:

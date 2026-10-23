@@ -10,6 +10,8 @@
 #ifndef APPLYVIEWPROPSJOB_H
 #define APPLYVIEWPROPSJOB_H
 
+#include "dolphin_export.h"
+
 #include <KIO/Job>
 #include <KIO/UDSEntry>
 
@@ -37,7 +39,7 @@ class ViewProperties;
  *   In combination with the total directory count it is possible to show a
  *   progress bar now.
  */
-class ApplyViewPropsJob : public KIO::Job
+class DOLPHIN_EXPORT ApplyViewPropsJob : public KIO::Job
 {
     Q_OBJECT
 

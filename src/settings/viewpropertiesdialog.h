@@ -69,6 +69,14 @@ private:
     void loadSettings();
 
 private:
+    /** While all folders share one style: changes that style, or locks the style of the current
+     * folder, and of its sub-folders where asked. */
+    void applyWhileFoldersShareOneStyle();
+    /** Shows the style of the dialog in the view, which writes it for its folder. */
+    void applyToView();
+    /** Writes the style of the dialog for the sub-folders of the folder of the view, with a progress window. */
+    void applyToSubFoldersOfView();
+
     bool m_isDirty;
     DolphinView *m_dolphinView;
     ViewProperties *m_viewProps;

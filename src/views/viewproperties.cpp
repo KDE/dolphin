@@ -258,9 +258,6 @@ void ViewProperties::lock()
         m_node->setLocked(true);
         m_locked = true;
         update();
-        if (m_autoSave) {
-            save();
-        }
         return;
     }
 
@@ -288,9 +285,6 @@ void ViewProperties::lock()
     m_locked = true;
     m_node->setLocked(true);
     update();
-    if (m_autoSave) {
-        save();
-    }
 }
 
 bool ViewProperties::forgetStoredProperties()

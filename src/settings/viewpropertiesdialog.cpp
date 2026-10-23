@@ -168,14 +168,23 @@ ViewPropertiesDialog::ViewPropertiesDialog(QWidget *parent, DolphinView *dolphin
     connect(m_showInGroups, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotGroupedSortingChanged);
     connect(m_showHiddenFiles, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotShowHiddenFilesChanged);
 
-    // Only show the following settings if the view properties are remembered
-    // for each directory:
-    if (!useGlobalViewProps && dolphinView) {
+    // The folders that the style applies to only make sense for the folder of a view.
+    if (dolphinView) {
         // create 'Apply View Properties To' group
         m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To", "Current folder"));
-        m_applyToCurrentFolder->setChecked(true);
         m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To", "Current folder and sub-folders"));
         m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To", "All folders"));
+        if (useGlobalViewProps) {
+            // While all folders share one style, a folder keeps a style of its own by being locked.
+            m_applyToCurrentFolder->setToolTip(i18nc("@info:tooltip", "Lock these view settings for the current folder"));
+            m_applyToSubFolders->setToolTip(i18nc("@info:tooltip", "Lock these view settings for the current folder and each of its sub-folders"));
+            m_applyToAllFolders->setToolTip(i18nc("@info:tooltip", "Change the view settings that all folders share"));
+            // A folder that follows the shared style changes it, as before the lock existed.
+            const bool hasOwnStyle = m_viewProps->isLocked() || m_viewProps->hasSpecialDefaultViewSettings();
+            (hasOwnStyle ? m_applyToCurrentFolder : m_applyToAllFolders)->setChecked(true);
+        } else {
+            m_applyToCurrentFolder->setChecked(true);
+        }
 
         QButtonGroup *applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
@@ -187,15 +196,17 @@ ViewPropertiesDialog::ViewPropertiesDialog(QWidget *parent, DolphinView *dolphin
         layout->addRow(i18nc("@title:group", "Apply to:"), m_applyToCurrentFolder);
         layout->addRow(QString(), m_applyToSubFolders);
         layout->addRow(QString(), m_applyToAllFolders);
-        layout->addRow(QString(), m_applyToAllFolders);
-
-        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default view settings"), this);
-        layout->addRow(QString(), m_useAsDefault);
 
         connect(m_applyToCurrentFolder, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
         connect(m_applyToSubFolders, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
         connect(m_applyToAllFolders, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
-        connect(m_useAsDefault, &QCheckBox::clicked, this, &ViewPropertiesDialog::markAsDirty);
+
+        // With one style for all folders, "All folders" is that default already.
+        if (!useGlobalViewProps) {
+            m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default view settings"), this);
+            layout->addRow(QString(), m_useAsDefault);
+            connect(m_useAsDefault, &QCheckBox::clicked, this, &ViewPropertiesDialog::markAsDirty);
+        }
     }
 
     layout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -342,11 +353,15 @@ void ViewPropertiesDialog::applyViewProperties()
         if (KMessageBox::questionTwoActions(this, text, {}, KStandardGuiItem::cont(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             return;
         }
+    }
 
-        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView, m_dolphinView->url(), *m_viewProps);
-        info->setAttribute(Qt::WA_DeleteOnClose);
-        info->setWindowModality(Qt::NonModal);
-        info->show();
+    if (m_dolphinView && GeneralSettings::globalViewProps()) {
+        applyWhileFoldersShareOneStyle();
+        return;
+    }
+
+    if (applyToSubFolders) {
+        applyToSubFoldersOfView();
     }
 
     const bool applyToAllFolders = m_applyToAllFolders && m_applyToAllFolders->isChecked();
@@ -383,6 +398,36 @@ void ViewPropertiesDialog::applyViewProperties()
         return;
     }
 
+    applyToView();
+    m_viewProps->save();
+
+    markAsDirty(false);
+}
+
+void ViewPropertiesDialog::applyWhileFoldersShareOneStyle()
+{
+    if (m_applyToCurrentFolder->isChecked() || m_applyToSubFolders->isChecked()) {
+        // The folder keeps the style from now on. The view then writes to the folder's own storage.
+        m_dolphinView->lockViewSettings();
+    } else {
+        ViewProperties sharedProps{QUrl()};
+        sharedProps.setDirProperties(*m_viewProps);
+        sharedProps.save();
+    }
+
+    if (m_applyToSubFolders->isChecked()) {
+        // ApplyViewPropsJob locks each sub-folder too.
+        applyToSubFoldersOfView();
+    }
+
+    // m_viewProps is not written: for a folder that followed the shared style, it holds that style.
+    applyToView();
+
+    markAsDirty(false);
+}
+
+void ViewPropertiesDialog::applyToView()
+{
     m_dolphinView->setViewMode(m_viewProps->viewMode());
     m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
@@ -392,10 +437,14 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setVisibleRoles(m_viewProps->visibleRoles());
     m_dolphinView->setPreviewsShown(m_viewProps->previewsShown());
     m_dolphinView->setHiddenFilesShown(m_viewProps->hiddenFilesShown());
+}
 
-    m_viewProps->save();
-
-    markAsDirty(false);
+void ViewPropertiesDialog::applyToSubFoldersOfView()
+{
+    auto *info = new ViewPropsProgressInfo(m_dolphinView, m_dolphinView->url(), *m_viewProps);
+    info->setAttribute(Qt::WA_DeleteOnClose);
+    info->setWindowModality(Qt::NonModal);
+    info->show();
 }
 
 void ViewPropertiesDialog::loadSettings()

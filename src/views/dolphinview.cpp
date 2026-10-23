@@ -2146,6 +2146,8 @@ void DolphinView::lockViewSettings()
 {
     ViewProperties props(viewPropertiesUrl());
     props.lock();
+    // Written before the view is updated, which reads the lock back.
+    props.save();
 
     applyViewProperties(props);
 }
