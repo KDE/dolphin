@@ -60,6 +60,9 @@ private Q_SLOTS:
     void testWhichFoldersCanBeLocked();
     void testALockedFolderKeepsItsStyleWhenAllFoldersAreReset();
     void testALockedDownloadsFolderKeepsItsStyleOverItsOwn();
+    void testLookingForALockMovesNoOldEntry();
+    void testALockOnlyCountsWhileFoldersShareOneStyle();
+    void testARestoreThatCannotRemoveTheLockKeepsIt();
 
 private:
     bool m_globalViewProps;
@@ -1341,6 +1344,113 @@ void ViewPropertiesTest::testALockedDownloadsFolderKeepsItsStyleOverItsOwn()
     QVERIFY(props.canBeLocked());
     QCOMPARE(props.sortRole(), QByteArrayLiteral("modificationtime"));
     QCOMPARE(props.sortOrder(), Qt::DescendingOrder);
+}
+
+// Looking for a lock while all folders share one style only reads. An entry at the place where
+// earlier versions wrote it is moved when the folder is locked, which writes.
+void ViewPropertiesTest::testLookingForALockMovesNoOldEntry()
+{
+    const QUrl testDirUrl = m_testDir->url();
+    const QString localFolder = testDirUrl.toLocalFile();
+    // Read-only, so the folder uses the fallback store.
+    QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+    auto restorePermissions = qScopeGuard([&localFolder] {
+        QFile(localFolder).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+    });
+
+    const QString localBase = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties/local");
+#ifdef Q_OS_WIN
+    const QString oldPath = localBase + QDir::separator() + QString(localFolder).remove(QLatin1Char(':'));
+#else
+    const QString oldPath = localBase + localFolder;
+#endif
+    const QString newPath = localBase + QStringLiteral("/") + ViewProperties::directoryHashForUrl(testDirUrl);
+    QVERIFY(QDir().mkpath(oldPath));
+    {
+        KConfig oldConfig(oldPath + QStringLiteral("/.directory"), KConfig::SimpleConfig);
+        oldConfig.group(QStringLiteral("Dolphin")).writeEntry("ViewMode", int(DolphinView::DetailsView));
+        oldConfig.sync();
+    }
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    {
+        const ViewProperties props(testDirUrl);
+        QVERIFY(!props.isLocked());
+    }
+    QVERIFY(QFileInfo::exists(oldPath));
+    QVERIFY(!QFileInfo::exists(newPath));
+
+    {
+        ViewProperties props(testDirUrl);
+        props.lock();
+        props.save();
+    }
+    QVERIFY(QFileInfo::exists(newPath));
+    QVERIFY(!QFileInfo::exists(oldPath));
+}
+
+// A lock set while all folders share one style does not count in per-folder mode, where "Apply to all
+// folders" resets the folder like any other.
+void ViewPropertiesTest::testALockOnlyCountsWhileFoldersShareOneStyle()
+{
+    const QDateTime previousTimestamp = GeneralSettings::viewPropsTimestamp();
+    auto cleanup = qScopeGuard([previousTimestamp] {
+        GeneralSettings::self()->setViewPropsTimestamp(previousTimestamp);
+    });
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    {
+        ViewProperties props(m_testDir->url());
+        props.lock();
+        props.setZoomLevel(3);
+        props.save();
+    }
+
+    GeneralSettings::self()->setGlobalViewProps(false);
+    QVERIFY(!ViewProperties(m_testDir->url()).isLocked());
+    QCOMPARE(ViewProperties(m_testDir->url()).zoomLevel(), 3);
+    resetAllFolders();
+    QCOMPARE(ViewProperties(m_testDir->url()).zoomLevel(), -1);
+}
+
+// Where what is written down for a locked folder cannot be removed, the folder stays locked, as the
+// next visit reads it.
+void ViewPropertiesTest::testARestoreThatCannotRemoveTheLockKeepsIt()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("A read-only folder stops the removal on Unix");
+#else
+    if (::geteuid() == 0) {
+        QSKIP("root can write to a read-only folder");
+    }
+    // The folder is read-only, so its view settings go to the fallback store, which is made read-only
+    // after the lock is written there.
+    const QString folder = m_testDir->url().toLocalFile();
+    const QString store = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties/local/")
+        + ViewProperties::directoryHashForUrl(m_testDir->url());
+    QVERIFY(QFile(folder).setPermissions(QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+    auto restorePermissions = qScopeGuard([&folder, &store] {
+        QFile(store).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+        QFile(folder).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+    });
+
+    GeneralSettings::self()->setGlobalViewProps(true);
+    {
+        ViewProperties props(m_testDir->url());
+        props.lock();
+        props.save();
+    }
+    QVERIFY(QFileInfo(store).isDir());
+    QVERIFY(QFile(store).setPermissions(QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+
+    {
+        ViewProperties props(m_testDir->url());
+        QVERIFY(props.isLocked());
+        props.restoreToDefaults();
+        QVERIFY(props.isLocked());
+    }
+    QVERIFY(ViewProperties(m_testDir->url()).isLocked());
+#endif
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

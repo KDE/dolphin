@@ -146,7 +146,8 @@ public:
     bool hasSpecialDefaultViewSettings() const;
 
     /** @returns whether this folder keeps the view settings written down for it, rather than the
-     * style all folders share or the style it comes with. restoreToDefaults() removes the lock. */
+     * style all folders share or the style it comes with. restoreToDefaults() removes the lock.
+     * The lock only counts while all folders share one style. */
     bool isLocked() const;
 
     /** @returns whether lock() applies: all folders share one style, and this folder is not locked. */
@@ -194,8 +195,9 @@ private:
     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
     ViewPropertySettings *defaultProperties() const;
 
-    /** @returns where the view settings of the folder at @p url are written down, as in per-folder mode. */
-    QString folderStoragePath(const QUrl &url) const;
+    /** @returns where the view settings of the folder at @p url are written down, as in per-folder mode.
+     * @p moveOldEntry moves an entry from where earlier versions wrote it, for a caller that writes. */
+    QString folderStoragePath(const QUrl &url, bool moveOldEntry = true) const;
 
     /** Removes what is stored for this folder, so that it is read with the style it comes with.
      * @returns whether the storage is now empty. A read-only mount keeps what it holds. */

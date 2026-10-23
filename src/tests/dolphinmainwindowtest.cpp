@@ -107,6 +107,7 @@ private Q_SLOTS:
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
     void testLockViewSettingsInGlobalMode();
+    void testRestoreActionFollowsAChangeAtOnce();
     void cleanupTestCase();
 
 private:
@@ -2424,6 +2425,8 @@ void DolphinMainWindowTest::testLockViewSettingsInGlobalMode()
     QVERIFY(ViewProperties(dir.url()).isLocked());
     QCOMPARE(text(), QStringLiteral("Restore to Defaults"));
     QVERIFY(action->isEnabled());
+    // The folder keeps the zoom level it was shown with.
+    QCOMPARE(ViewProperties(dir.url()).zoomLevel(), view->zoomLevel());
 
     // The locked folder keeps its own zoom level, and the other folders keep the shared one.
     const int sharedZoomLevel = view->zoomLevel();
@@ -2447,6 +2450,31 @@ void DolphinMainWindowTest::testLockViewSettingsInGlobalMode()
     QVERIFY(!ViewProperties(dir.url()).isLocked());
     QCOMPARE(text(), QStringLiteral("Lock View Settings"));
     QCOMPARE(view->zoomLevel(), sharedZoomLevel);
+}
+
+// The restore action follows a change of the view settings at once, although the change is written
+// after the view reports it.
+void DolphinMainWindowTest::testRestoreActionFollowsAChangeAtOnce()
+{
+    const bool wasGlobal = GeneralSettings::globalViewProps();
+    GeneralSettings::setGlobalViewProps(false);
+    auto restoreSetting = qScopeGuard([wasGlobal] {
+        GeneralSettings::setGlobalViewProps(wasGlobal);
+    });
+
+    TestDir dir;
+    m_mainWindow->openDirectories({dir.url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+
+    QAction *restore = m_mainWindow->actionCollection()->action(QStringLiteral("restore_view_settings_default"));
+    QAction *hiddenFiles = m_mainWindow->actionCollection()->action(QStringLiteral("show_hidden_files"));
+    QTRY_VERIFY(!restore->isEnabled());
+
+    hiddenFiles->trigger();
+    QVERIFY(restore->isEnabled());
+    hiddenFiles->trigger();
+    QVERIFY(!restore->isEnabled());
 }
 
 int main(int argc, char *argv[])

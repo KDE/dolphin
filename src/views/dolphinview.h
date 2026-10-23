@@ -519,8 +519,8 @@ public Q_SLOTS:
     /** @returns whether lockViewSettings() applies: all folders share one style and this one is not locked. */
     bool canLockViewSettings() const;
 
-    /** @returns whether restoreViewSettingsToDefaults() changes anything for the folder shown. */
-    bool canRestoreViewSettings() const;
+    /** @returns whether the folder shown keeps its own view settings while all folders share one style. */
+    bool isViewSettingsLocked() const;
 
     /** Makes the folder shown keep its current view settings while all folders share one style. */
     void lockViewSettings();

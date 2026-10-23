@@ -7,6 +7,7 @@
 
 #include "dolphinviewactionhandler.h"
 
+#include "dolphin_generalsettings.h"
 #include "kitemviews/kfileitemlisttostring.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "selectionmode/actiontexthelper.h"
@@ -620,7 +621,7 @@ void DolphinViewActionHandler::updateViewActions()
     // Updates the "show_hidden_files" action state and icon
     slotHiddenFilesShownChanged(m_currentView->hiddenFilesShown());
 
-    updateRestoreViewSettingsAction();
+    updateRestoreViewSettingsAction(m_currentView->isViewSettingsDefaults());
 }
 
 void DolphinViewActionHandler::zoomIn()
@@ -1009,10 +1010,12 @@ void DolphinViewActionHandler::restoreOrLockViewSettings()
     }
 }
 
-void DolphinViewActionHandler::updateRestoreViewSettingsAction()
+void DolphinViewActionHandler::updateRestoreViewSettingsAction(bool isDefault)
 {
     QAction *action = m_actionCollection->action(QStringLiteral("restore_view_settings_default"));
-    if (m_currentView->canLockViewSettings()) {
+    // A change of the view settings does not change the lock, so what is written down tells it.
+    const bool locked = m_currentView->isViewSettingsLocked();
+    if (GeneralSettings::globalViewProps() && !locked) {
         action->setText(i18nc("@action:inmenu", "Lock View Settings"));
         action->setIcon(QIcon::fromTheme(QStringLiteral("object-locked")));
         action->setToolTip(i18nc("@info:tooltip", "Keep the current view settings for this folder"));
@@ -1022,7 +1025,7 @@ void DolphinViewActionHandler::updateRestoreViewSettingsAction()
     action->setText(i18nc("@action:inmenu", "Restore to Defaults"));
     action->setIcon(QIcon::fromTheme(QStringLiteral("view-restore")));
     action->setToolTip(i18nc("info:tooltip", "Restore View Settings to Default Values"));
-    action->setEnabled(m_currentView->canRestoreViewSettings());
+    action->setEnabled(locked || !isDefault);
 }
 
 #include "moc_dolphinviewactionhandler.cpp"

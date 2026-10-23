@@ -202,7 +202,11 @@ void ViewProperties::restoreToDefaults()
 {
     if (m_locked && !m_hasOwnDefaultStyle && GeneralSettings::globalViewProps()) {
         // The folder goes back to the style all folders share, so what is written down for it goes.
-        forgetStoredProperties();
+        // Where it stays, the folder stays locked, as the next visit would read it.
+        if (!forgetStoredProperties()) {
+            qCWarning(DolphinDebug) << "could not remove the locked view settings of" << m_filePath;
+            return;
+        }
         delete m_node;
         m_node = defaultProperties();
         m_filePath = destinationDir(QStringLiteral("global"));
@@ -257,6 +261,9 @@ void ViewProperties::lock()
         // Such a folder keeps its view settings in its own storage already.
         m_node->setLocked(true);
         m_locked = true;
+        // The zoom level shown with the shared style comes from the view mode settings, so the view
+        // writes the one it shows.
+        setZoomLevel(-1);
         update();
         return;
     }
@@ -284,6 +291,9 @@ void ViewProperties::lock()
     m_filePath = ownPath;
     m_locked = true;
     m_node->setLocked(true);
+    // The zoom level shown with the shared style comes from the view mode settings, not from the
+    // shared properties, so the view writes the one it shows.
+    setZoomLevel(-1);
     update();
 }
 
@@ -366,7 +376,7 @@ bool ViewProperties::isDefaults() const
     // clang-format on
 }
 
-QString ViewProperties::folderStoragePath(const QUrl &url) const
+QString ViewProperties::folderStoragePath(const QUrl &url, bool moveOldEntry) const
 {
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
@@ -412,7 +422,7 @@ QString ViewProperties::folderStoragePath(const QUrl &url) const
         // hashed location once.
         // TODO: remove this block after 2028-06, once Debian 14 (Forky)
         // has shipped and users have had time to migrate.
-        if (!QFileInfo::exists(filePath)) {
+        if (moveOldEntry && !QFileInfo::exists(filePath)) {
 #ifdef Q_OS_WIN
             // The old path had the drive colon stripped to keep it valid.
             const QString oldPath = destinationDir(QStringLiteral("local")) + QDir::separator() + QString(localPath).remove(QLatin1Char(':'));
@@ -438,6 +448,8 @@ ViewProperties::ViewProperties(const QUrl &url)
 {
     GeneralSettings *settings = GeneralSettings::self();
     bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
+    // The storage of a locked folder, read while looking for the lock.
+    std::unique_ptr<ViewPropertySettings> lockedProps;
 
     if (url.isLocalFile() && url.toLocalFile() == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
         m_ownDefaultStyle = OwnDefaultStyle::Downloads;
@@ -473,13 +485,15 @@ ViewProperties::ViewProperties(const QUrl &url)
         m_filePath = destinationDir(QStringLiteral("global"));
         if (!url.isEmpty()) {
             // A folder that was locked keeps what is written down for it while folders share one style.
-            const QString ownPath = folderStoragePath(url);
+            // Only looking, so an entry at its old place is not moved.
+            const QString ownPath = folderStoragePath(url, false);
             bool hasStored = false;
-            const std::unique_ptr<ViewPropertySettings> ownProps(loadProperties(ownPath, &hasStored));
+            std::unique_ptr<ViewPropertySettings> ownProps(loadProperties(ownPath, &hasStored));
             if (hasStored && ownProps && ownProps->locked()) {
                 m_filePath = ownPath;
                 m_locked = true;
                 useGlobalViewProps = false;
+                lockedProps = std::move(ownProps);
             }
         }
     } else {
@@ -489,11 +503,19 @@ ViewProperties::ViewProperties(const QUrl &url)
     m_hasOwnDefaultStyle = m_ownDefaultStyle != OwnDefaultStyle::None;
 
     // loadProperties() answers with a settings object whether or not anything is written down, so it
-    // says which of the two it is rather than the storage being read a second time.
-    auto propsOpt = loadProperties(m_filePath, &m_hasStoredProperties);
+    // says which of the two it is rather than the storage being read a second time. The storage of a
+    // locked folder was read already.
+    ViewPropertySettings *propsOpt = nullptr;
+    if (lockedProps) {
+        propsOpt = lockedProps.release();
+        m_hasStoredProperties = true;
+    } else {
+        propsOpt = loadProperties(m_filePath, &m_hasStoredProperties);
+    }
 
     // A locked style is kept as written down: a newer timestamp and a built-in style do not replace it.
-    const bool storedLocked = propsOpt && m_hasStoredProperties && propsOpt->locked();
+    // The lock only counts while all folders share one style.
+    const bool storedLocked = settings->globalViewProps() && propsOpt && m_hasStoredProperties && propsOpt->locked();
     m_locked = m_locked || storedLocked;
 
     bool useDefaultSettings =

@@ -240,8 +240,9 @@ private Q_SLOTS:
     /** Locks the view settings of the folder shown where that applies, else restores them to the defaults. */
     void restoreOrLockViewSettings();
 
-    /** The restore action reads "Lock View Settings" where locking applies, else "Restore to Defaults". */
-    void updateRestoreViewSettingsAction();
+    /** The restore action reads "Lock View Settings" where locking applies, else "Restore to Defaults".
+     * @p isDefault comes with DolphinView::viewSettingsChanged(), which is emitted before the change is written. */
+    void updateRestoreViewSettingsAction(bool isDefault);
 
 private:
     /**

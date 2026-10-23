@@ -526,7 +526,8 @@ void DolphinView::setZoomLevel(int level)
     const int newZoomLevel = zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
         ViewProperties props(viewPropertiesUrl());
-        props.setZoomLevel(level == m_defaultZoomLevel ? -1 : level);
+        // A locked folder keeps its zoom level, rather than following the default one.
+        props.setZoomLevel(level == m_defaultZoomLevel && !props.isLocked() ? -1 : level);
 
         hideToolTip();
 
@@ -2136,16 +2137,18 @@ bool DolphinView::canLockViewSettings() const
     return props.canBeLocked();
 }
 
-bool DolphinView::canRestoreViewSettings() const
+bool DolphinView::isViewSettingsLocked() const
 {
     const ViewProperties props(viewPropertiesUrl());
-    return props.isLocked() || !props.isDefaults();
+    return props.isLocked();
 }
 
 void DolphinView::lockViewSettings()
 {
     ViewProperties props(viewPropertiesUrl());
     props.lock();
+    // The folder keeps the zoom level it is shown with.
+    props.setZoomLevel(zoomLevel());
     // Written before the view is updated, which reads the lock back.
     props.save();
 
