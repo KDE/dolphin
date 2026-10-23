@@ -739,26 +739,20 @@ msgstr ""
 "para>Kliknutím na toto tlačidlo znova zatvoríte jeden z panelov."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "Rozdelené zobrazenie"
+msgstr "Rozdeliť zobrazenie do kariet"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"If the view has been split, this will pop the view in focus out into a new "
-"window."
+"Ak je zobrazenie rozdelené, presunie oba pohľady do kariet a zavrie "
+"rozdelené zobrazenie."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
@@ -3185,12 +3179,10 @@ msgid "File Manager"
 msgstr "Správca súborov"
 
 #: main.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "(C) 2006-2022 Vývojári Dolphin"
+msgstr "© 2006–%1 Vývojári Dolphinu"
 
 #: main.cpp:139
 #, kde-format
@@ -4979,7 +4971,7 @@ msgstr "Text s indexom"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Umiestniť položky bližšie k sebe"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5378,19 +5370,16 @@ msgid "Information Panel:"
 msgstr "Panel informácií:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "Obmedziť panel priečinkov na domovský adresár ak je tam"
+msgstr "Obmedziť na domovský adresár, ak je v ňom"
 
 #: settings/interface/panelsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Priečinky:"
+msgstr "Panel priečinkov:"
 
 #: settings/interface/panelsettingspage.cpp:68
 #, kde-format
@@ -5966,9 +5955,7 @@ msgid "Maximum lines:"
 msgstr "Maximálny počet riadkov:"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "Kompaktný"
@@ -5977,15 +5964,13 @@ msgstr "Kompaktný"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "Umiestni položky bližšie k sebe, aby sa ich do riadku zmestilo viac."
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Hľadať pomocou:"
+msgstr "Rozostupy:"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
@@ -6901,12 +6886,10 @@ msgstr ""
 "týchto obrázkov."
 
 #: views/dolphinviewactionhandler.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Zoraďovanie:"
+msgstr "Zoraďovanie"
 
 #: views/dolphinviewactionhandler.cpp:287
 #, kde-format
@@ -6939,12 +6922,10 @@ msgid "Show Additional Information"
 msgstr "Zobraziť ďalšie informácie"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Skupinové zoraďovanie"
+msgstr "Zoskupovanie"
 
 #: views/dolphinviewactionhandler.cpp:348
 #, kde-format

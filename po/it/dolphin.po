@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-22 00:53+0000\n"
-"PO-Revision-Date: 2026-10-08 12:59+0200\n"
+"PO-Revision-Date: 2026-10-21 15:47+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.1\n"
+"X-Generator: Poedit 3.10\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -176,7 +176,7 @@ msgstr "Svuota il cestino"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Configura il cestino..."
+msgstr "Configura il cestino…"
 
 #: dolphincontextmenu.cpp:184
 #, kde-format
@@ -1867,19 +1867,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Modifica tipo di fil&e..."
+msgstr "Modifica tipo di fil&e…"
 
 #: dolphinpart.cpp:154
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Seleziona elementi corrispondenti..."
+msgstr "Seleziona elementi corrispondenti…"
 
 #: dolphinpart.cpp:159
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Deseleziona elementi corrispondenti..."
+msgstr "Deseleziona elementi corrispondenti…"
 
 #: dolphinpart.cpp:165
 #, kde-format
@@ -4809,8 +4809,7 @@ msgid ""
 msgstr ""
 "Versione di configurazione interna di Dolphin, utilizzata principalmente per "
 "determinare se è in esecuzione una versione aggiornata di Dolphin, in modo "
-"da migrare le voci di configurazione che sono state rimosse/rinominate ... "
-"ecc."
+"da migrare le voci di configurazione che sono state rimosse/rinominate …ecc."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:70
@@ -4862,7 +4861,7 @@ msgstr "Sfoglia gli archivi"
 #: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
-msgstr "Chiedi conferma in caso di chiusura di finestre con più schede"
+msgstr "Chiedi conferma in caso di chiusura di finestre con più schede."
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
@@ -4961,7 +4960,7 @@ msgid ""
 "items"
 msgstr ""
 "Scegli l'ordinamento degli elementi naturale, con distinzione delle "
-"maiuscole o senza distinzione."
+"maiuscole o senza distinzione"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
 #: settings/dolphin_generalsettings.kcfg:175
@@ -5003,7 +5002,7 @@ msgstr "Indice larghezza testo"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Avvicina gli oggetti tra loro"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5099,7 +5098,7 @@ msgstr "La rinomina di un file ne cambierà il tipo"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "La rinomina di un file o di una cartella li nasconderà."
+msgstr "La rinomina di un file o di una cartella li nasconderà"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -5405,19 +5404,16 @@ msgid "Information Panel:"
 msgstr "Pannello informazioni:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "Limita il pannello delle cartelle alla cartella home se al suo interno"
+msgstr "Limita alla cartella home se al suo interno"
 
 #: settings/interface/panelsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Cartelle:"
+msgstr "Pannello delle cartelle:"
 
 #: settings/interface/panelsettingspage.cpp:68
 #, kde-format
@@ -5601,7 +5597,7 @@ msgstr "Alfabetico, con distinzione delle maiuscole"
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
-msgstr "Modalità di ordinamento:"
+msgstr "Modalità di ordinamento: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
@@ -5613,7 +5609,7 @@ msgstr "Mostra il numero di elementi"
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Mostra la dimensione del contenuto, fino a"
+msgstr "Mostra la dimensione del contenuto, fino a "
 
 #: settings/viewmodes/contentdisplaytab.cpp:55
 #, kde-format
@@ -5791,7 +5787,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
-msgstr "Varie:"
+msgstr "Varie: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
@@ -6002,9 +5998,7 @@ msgid "Maximum lines:"
 msgstr "Num. massimo di righe:"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "Compatta"
@@ -6014,14 +6008,13 @@ msgstr "Compatta"
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
 msgstr ""
+"Avvicina gli elementi tra loro, in modo che ce ne stiano di più in una riga."
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Grid spacing:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Spaziatura della griglia:"
+msgstr "Spaziatura:"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
@@ -6308,7 +6301,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr "Installa Filelight..."
+msgstr "Installa Filelight…"
 
 #: statusbar/dolphinstatusbar.cpp:68
 #, kde-format
@@ -6807,7 +6800,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Cestina..."
+msgstr "Cestina…"
 
 #: views/dolphinviewactionhandler.cpp:183
 #, kde-format

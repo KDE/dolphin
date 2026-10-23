@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-22 00:53+0000\n"
-"PO-Revision-Date: 2026-10-09 12:12+0200\n"
+"PO-Revision-Date: 2026-10-21 10:01+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -5500,21 +5500,16 @@ msgid "Information Panel:"
 msgstr "Panneau d'informations :"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr ""
-"Limiter le panneau des dossiers au dossier personnel lors qu'on est dans ce "
-"dossier"
+msgstr "Se limiter au dossier personnel lorsque positionné à l'intérieur"
 
 #: settings/interface/panelsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Dossiers :"
+msgstr "Panneau des dossiers :"
 
 #: settings/interface/panelsettingspage.cpp:68
 #, kde-format
