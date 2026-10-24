@@ -190,6 +190,7 @@ private Q_SLOTS:
     void testBackButton_emitsGoBack();
     void testForwardButton_emitsGoForward();
     void testAReplacingColumnKeepsTheWidthWhenItsNamesDoNotFit();
+    void testALastColumnAlmostAtTheEdgeReachesIt();
 
 private:
     void waitForStableState();
@@ -2958,6 +2959,31 @@ void DolphinColumnsViewTest::testAReplacingColumnKeepsTheWidthWhenItsNamesDoNotF
     QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
     QVERIFY(m_view->columnAt(1)->calculateOptimalWidth() > m_view->m_scrollArea->viewport()->width());
     QCOMPARE(m_view->m_splitter->sizes().at(1), fitsWidth);
+}
+
+// A gap after the last column that is too narrow to show anything is taken by the last column, rather
+// than showing a sliver of the window background next to it.
+void DolphinColumnsViewTest::testALastColumnAlmostAtTheEdgeReachesIt()
+{
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const int handles = 2 * m_view->m_splitter->handleWidth();
+    // As after dragging the handle on the right of the last column nearly to the edge.
+    const int almostAll = viewportWidth - m_view->m_splitter->sizes().at(0) - handles - 3;
+    m_view->m_customColumnWidths[1] = almostAll;
+    m_view->recalculateColumnWidths();
+    QCOMPARE(m_view->m_splitter->sizes().at(2), 0);
+    QCOMPARE(m_view->m_splitter->sizes().at(1), almostAll + 3);
+
+    // A gap a column could use stays.
+    m_view->m_customColumnWidths[1] = almostAll - 200;
+    m_view->recalculateColumnWidths();
+    QCOMPARE(m_view->m_splitter->sizes().at(1), almostAll - 200);
+    QCOMPARE(m_view->m_splitter->sizes().at(2), 203);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
