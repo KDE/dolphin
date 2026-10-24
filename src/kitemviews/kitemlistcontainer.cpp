@@ -208,6 +208,23 @@ void KItemListContainer::wheelEvent(QWheelEvent *event)
 #else
     const QPoint scrollDelta = event->angleDelta();
 #endif
+    // Shift + vertical wheel scrolls horizontally, if there is something to scroll.
+    if (event->modifiers().testFlag(Qt::ShiftModifier) && scrollDelta.x() == 0 && scrollDelta.y() != 0 && horizontalScrollBar()->isVisible()) {
+        // Swap the axes and drop Shift, as QScrollBar would otherwise scroll by pages.
+        QWheelEvent swapped(event->position(),
+                            event->globalPosition(),
+                            QPoint(),
+                            QPoint(scrollDelta.y(), 0),
+                            event->buttons(),
+                            event->modifiers() & ~Qt::ShiftModifier,
+                            event->phase(),
+                            event->inverted(),
+                            event->source());
+        m_horizontalSmoothScroller->handleWheelEvent(&swapped);
+        event->setAccepted(swapped.isAccepted());
+        return;
+    }
+
     const bool scrollHorizontally = (qAbs(scrollDelta.y()) < qAbs(scrollDelta.x())) || (!verticalScrollBar()->isVisible());
     KItemListSmoothScroller *smoothScroller = scrollHorizontally ? m_horizontalSmoothScroller : m_verticalSmoothScroller;
 
