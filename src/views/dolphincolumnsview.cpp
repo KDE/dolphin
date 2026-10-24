@@ -1323,8 +1323,13 @@ void DolphinColumnsView::applyColumnSizes(QList<int> columnSizes, bool showActiv
     // The filler holds the scroll position when a column closes.
     const int viewportWidthForFiller = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     const int scrollValue = m_scrollArea ? m_scrollArea->horizontalScrollBar()->value() : 0;
-    const int filler = qMax(0, scrollValue + viewportWidthForFiller - totalWidth);
+    int filler = qMax(0, scrollValue + viewportWidthForFiller - totalWidth);
     totalWidth += filler;
+    // A gap narrower than a scrollbar would only show a sliver of the window background, so the last column takes it.
+    if (numColumns > 0 && filler > 0 && filler < style()->pixelMetric(QStyle::PM_ScrollBarExtent, nullptr, this)) {
+        columnSizes[numColumns - 1] += filler;
+        filler = 0;
+    }
 
     // Before setSizes(), so the layout counts the handles it draws. Handle 0 is not a separator.
     for (int i = 1; i < numColumns; ++i) {
