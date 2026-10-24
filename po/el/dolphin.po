@@ -6,7 +6,7 @@
 # Toussis Manolis <manolis@koppermind.homelinux.org>, 2007, 2008, 2009.
 # Σπύρος Γεωργαράς <sngeorgaras@otenet.gr>, 2008.
 # Spiros Georgaras <sngeorgaras@otenet.gr>, 2008.
-# SPDX-FileCopyrightText: 2009, 2010, 2024 Petros Vidalis <p_vidalis@hotmail.com>
+# SPDX-FileCopyrightText: 2009, 2010, 2024, 2026 Petros Vidalis <p_vidalis@hotmail.com>
 # Petros <pvidalis@gmail.com>, 2009, 2010, 2016.
 # Dimitrios Glentadakis <dglent@gmail.com>, 2010, 2011, 2012, 2013.
 # nikos, 2011.
@@ -20,15 +20,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-23 02:59+0000\n"
-"PO-Revision-Date: 2024-09-19 14:38+0300\n"
-"Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
+"PO-Revision-Date: 2026-10-23 14:43+0300\n"
+"Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1276,7 +1276,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Ακολούθηση αλλαγής καταλόγου"
 
 #: dolphinmainwindow.cpp:2483
 #, kde-format
@@ -1489,17 +1489,13 @@ msgid "Close"
 msgstr "Κλείσιμο"
 
 #: dolphinmainwindow.cpp:2849 dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Κλείσιμο αριστερής προβολής"
 
 #: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Κλείσιμο αριστερής προβολής"
@@ -1529,18 +1525,14 @@ msgstr "Κλείσιμο"
 
 #: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
 #: dolphinmainwindow.cpp:2886
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Κλείσιμο δεξιάς προβολής"
 
 #: dolphinmainwindow.cpp:2859 dolphinmainwindow.cpp:2878
 #: dolphinmainwindow.cpp:2888
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Κλείσιμο δεξιάς προβολής"
@@ -2292,7 +2284,7 @@ msgstr "Μη έγκυρο πρωτόκολλο"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
-msgstr ""
+msgstr "Διάκριση πεζών/κεφαλαίων"
 
 #: filterbar/filterbar.cpp:66
 #, kde-format
@@ -2304,13 +2296,13 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
-msgstr ""
+msgstr "Μοτίβο καθολικής αντιστοίχισης"
 
 #: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Κανονική έκφραση"
 
 #: filterbar/filterbar.cpp:78
 #, kde-format
@@ -2319,9 +2311,7 @@ msgid "Hide Filter Bar"
 msgstr "Απόκρυψη γραμμής φίλτρου"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Απόκρυψη"
@@ -2339,9 +2329,7 @@ msgid "Move to New Folder…"
 msgstr "Μετακίνηση σε νέο φάκελο…"
 
 #: itemactions/setfoldericonitemaction.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Άλλο"
@@ -2430,7 +2418,7 @@ msgstr "&Σελιδοδείκτες"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Σύννεφο"
 
 #: itemactions/setfoldericonitemaction.cpp:213
 #, fuzzy, kde-format
@@ -2453,9 +2441,7 @@ msgid "Mail"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:216
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Music"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "Μουσική"
@@ -2504,13 +2490,13 @@ msgstr "Απαγορευμένο"
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", σύνδεσμος προς %1 στη διεύθυνση %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurrences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2522,7 +2508,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
@@ -2530,7 +2516,7 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 στην τοποθεσία %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
 #, kde-format
@@ -2542,7 +2528,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "σε διάταξη πλέγματος στην τοποθεσία %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
 #, fuzzy, kde-format
@@ -3152,7 +3138,7 @@ msgstr "Βίντεο"
 #: kitemviews/kfileitemmodel.cpp:3155
 msgctxt "@label"
 msgid "Color Space"
-msgstr ""
+msgstr "Χρωματικός χώρος"
 
 #: kitemviews/kfileitemmodel.cpp:3158
 msgctxt "@label"
@@ -3162,7 +3148,7 @@ msgstr "Ρυθμός αναπαραγωγής"
 #: kitemviews/kfileitemmodel.cpp:3160
 msgctxt "@label"
 msgid "Pixel Format"
-msgstr ""
+msgstr "Μορφή εικονοστοιχείων"
 
 #: kitemviews/kfileitemmodel.cpp:3161
 #, fuzzy
@@ -3247,16 +3233,16 @@ msgstr "Άγνωστο σφάλμα."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 αστέρι και μισό"
+msgstr[1] "%1 αστέρια και μισό"
 
 #: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 αστέρι"
+msgstr[1] "%1 αστέρια"
 
 #: main.cpp:62
 #, kde-kuit-format
@@ -3666,9 +3652,7 @@ msgid "Here"
 msgstr "Από εδώ"
 
 #: search/bar.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Παντού"
@@ -3765,7 +3749,7 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Αρχεία που περιέχουν «%1» στο %2"
 
 #: search/dolphinquery.cpp:395
 #, fuzzy, kde-format
@@ -3868,9 +3852,7 @@ msgid "Search in:"
 msgstr "Αναζήτηση:"
 
 #: search/popup.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Filenames"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "Ονόματα αρχείων"
@@ -3925,9 +3907,7 @@ msgid "Modified since:"
 msgstr "Τροποποιήθηκε:"
 
 #: search/popup.cpp:225
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating:"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Αξιολόγηση:"
@@ -4092,9 +4072,7 @@ msgid " && "
 msgstr ""
 
 #: search/selectors/tagsselector.cpp:194
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "Κανένα"
@@ -5248,7 +5226,7 @@ msgstr "Εναλλαγή σε λειτουργία διαχειριστή"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Η μετονομασία αρχείου θα αλλάξει τον τύπο του"
 
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
@@ -7079,9 +7057,7 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "Κανένα"
