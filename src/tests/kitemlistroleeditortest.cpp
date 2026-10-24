@@ -22,9 +22,14 @@ private Q_SLOTS:
     void keepsEditingWhileAnotherWindowHasTheFocus();
     void keepsEditingWhileAMenuHasTheFocus();
     void finishesEditingWhenTheFocusMovesOnInTheSameWindow();
+    void growsWiderWhileANameThatDoesNotWrapIsTyped();
+    void growsNoWiderThanTheView();
+    void keepsItsWidthWhileANameThatWrapsIsTyped();
 
 private:
     void sendFocusOut(Qt::FocusReason reason);
+    // Places the editor over a short name, as the view does, with the wrap mode of the name.
+    void startEditing(QTextOption::WrapMode wrapMode);
 
     QWidget *m_parent = nullptr;
     KItemListRoleEditor *m_editor = nullptr;
@@ -88,6 +93,46 @@ void KItemListRoleEditorTest::sendFocusOut(Qt::FocusReason reason)
 {
     QFocusEvent focusOut(QEvent::FocusOut, reason);
     QCoreApplication::sendEvent(m_editor, &focusOut);
+}
+
+void KItemListRoleEditorTest::startEditing(QTextOption::WrapMode wrapMode)
+{
+    QTextOption textOption = m_editor->document()->defaultTextOption();
+    textOption.setWrapMode(wrapMode);
+    m_editor->document()->setDefaultTextOption(textOption);
+    m_editor->setPlainText(QStringLiteral("a"));
+    m_editor->setGeometry(10, 10, 30, 30);
+}
+
+// The compact view shows a name on one line. See bug 524922.
+void KItemListRoleEditorTest::growsWiderWhileANameThatDoesNotWrapIsTyped()
+{
+    startEditing(QTextOption::NoWrap);
+
+    m_editor->insertPlainText(QStringLiteral("bcdef"));
+
+    QVERIFY2(m_editor->width() > 30, qPrintable(QString::number(m_editor->width())));
+    QVERIFY(m_editor->width() < m_parent->width() - m_editor->x());
+}
+
+void KItemListRoleEditorTest::growsNoWiderThanTheView()
+{
+    startEditing(QTextOption::NoWrap);
+
+    m_editor->insertPlainText(QStringLiteral("a name much longer than the view it is typed in"));
+
+    QCOMPARE(m_editor->geometry().right() + 1, m_parent->width());
+}
+
+// The icons view wraps a name, and the editor gets taller instead.
+void KItemListRoleEditorTest::keepsItsWidthWhileANameThatWrapsIsTyped()
+{
+    startEditing(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+    m_editor->insertPlainText(QStringLiteral(" a longer name that wraps"));
+
+    QCOMPARE(m_editor->width(), 30);
+    QVERIFY(m_editor->height() > 30);
 }
 
 QTEST_MAIN(KItemListRoleEditorTest)

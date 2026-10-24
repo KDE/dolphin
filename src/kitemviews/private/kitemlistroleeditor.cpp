@@ -151,6 +151,20 @@ void KItemListRoleEditor::autoAdjustSize()
     const auto originalSize = size();
     auto newSize = originalSize;
 
+    // A name that does not wrap, as in the compact view, gets wider while it is typed, up to the edge
+    // of the view. A name that wraps gets taller instead.
+    if (document()->defaultTextOption().wrapMode() == QTextOption::NoWrap) {
+        const qreal requiredWidth = document()->idealWidth();
+        const qreal availableWidth = size().width() - frameBorder;
+        if (requiredWidth > availableWidth) {
+            qreal newWidth = requiredWidth + frameBorder;
+            if (parentWidget() && pos().x() + newWidth > parentWidget()->width()) {
+                newWidth = parentWidget()->width() - pos().x();
+            }
+            newSize.setWidth(newWidth);
+        }
+    }
+
     const qreal requiredHeight = document()->size().height();
     const qreal availableHeight = size().height() - frameBorder;
     if (requiredHeight > availableHeight) {
