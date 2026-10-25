@@ -121,6 +121,8 @@ SmallHash KBalooRolesProvider::roleValues(const Baloo::File &file, const QSet<QB
             if (propertyInfo.valueType() == QMetaType::Type::QDateTime) {
                 // Let dolphin format later Dates
                 values.insert(role, (*rangeBegin).second);
+            } else if (key == Property::Rating) {
+                values.insert(role, (*rangeBegin).second.toInt());
             } else {
                 values.insert(role, propertyInfo.formatAsDisplayString((*rangeBegin).second));
             }
@@ -165,7 +167,7 @@ SmallHash KBalooRolesProvider::roleValues(const Baloo::File &file, const QSet<QB
         values.insert("tags", tagsFromValues(md.tags()));
     }
     if (attributes & KFileMetaData::UserMetaData::Rating) {
-        values.insert("rating", QString::number(md.rating()));
+        values.insert("rating", md.rating());
     }
     if (attributes & KFileMetaData::UserMetaData::Comment) {
         values.insert("comment", md.userComment());

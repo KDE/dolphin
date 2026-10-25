@@ -2063,6 +2063,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
     case PathRole:
     case FolderRole:
     case DeletionTimeRole:
+    case RatingRole:
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
         for (ItemData *itemData : std::as_const(itemDataList)) {
@@ -2100,6 +2101,12 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
                 if (item.isDir() || item.isMimeTypeKnown()) {
                     itemData->values = retrieveData(itemData->item, itemData->parent);
                 }
+            }
+        }
+    } else if (typeForRole(rawGroupRole()) == RatingRole && m_sortRole != RatingRole) {
+        for (ItemData *itemData : std::as_const(itemDataList)) {
+            if (itemData->values.isEmpty()) {
+                itemData->values = retrieveData(itemData->item, itemData->parent);
             }
         }
     }
@@ -2424,10 +2431,7 @@ SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *pa
 
     if (m_requestRole[RatingRole] && item.isLocalFile()) {
         KFileMetaData::UserMetaData md(item.localPath());
-        const int rating = md.rating();
-        if (rating > 0) {
-            data.insert(sharedValue("rating"), rating);
-        }
+        data.insert(sharedValue("rating"), md.rating());
     }
 
     return data;
@@ -2442,6 +2446,8 @@ QString KFileItemModel::groupKeyForItem(const ItemData *item, const QByteArray &
         return QDateTime::fromSecsSinceEpoch(item->values.value(role).toLongLong()).date().toString(Qt::ISODate);
     case DeletionTimeRole:
         return item->values.value("deletiontime").toDateTime().date().toString(Qt::ISODate);
+    case RatingRole:
+        return QString::number(item->values.value(role, 0).toInt());
     default:
         return item->values.value(role).toString();
     }
@@ -2506,12 +2512,20 @@ bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QColla
 
     if (groupedSorting() && !rawGroupRole().isEmpty() && groupRole() != sortRole()) {
         const QByteArray gRole = groupRole();
-        const QString groupValueA = groupKeyForItem(a, gRole);
-        const QString groupValueB = groupKeyForItem(b, gRole);
-        const int groupResult = stringCompare(groupValueA, groupValueB, collator);
-        if (groupResult != 0) {
-            // Groups are always in ascending order regardless of the sort order setting.
-            return groupResult < 0;
+        if (typeForRole(gRole) == RatingRole) {
+            const int ratingA = a->values.value(gRole, 0).toInt();
+            const int ratingB = b->values.value(gRole, 0).toInt();
+            if (ratingA != ratingB) {
+                return ratingA < ratingB;
+            }
+        } else {
+            const QString groupValueA = groupKeyForItem(a, gRole);
+            const QString groupValueB = groupKeyForItem(b, gRole);
+            const int groupResult = stringCompare(groupValueA, groupValueB, collator);
+            if (groupResult != 0) {
+                // Groups are always in ascending order regardless of the sort order setting.
+                return groupResult < 0;
+            }
         }
     }
 
@@ -3145,6 +3159,9 @@ QList<QPair<int, QVariant>> KFileItemModel::ratingRoleGroups() const
     for (int i = 0; i <= maxIndex; ++i) {
         if (isChildItem(i)) {
             continue;
+        }
+        if (m_itemData.at(i)->values.isEmpty()) {
+            m_itemData[i]->values = retrieveData(m_itemData.at(i)->item, m_itemData.at(i)->parent);
         }
         const int newGroupValue = m_itemData.at(i)->values.value("rating", 0).toInt();
         if (newGroupValue != groupValue) {
