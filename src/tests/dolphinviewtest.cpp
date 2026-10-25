@@ -45,6 +45,8 @@ private Q_SLOTS:
     void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState();
     void scrollBarReachesTheEdgeOfTheView_data();
     void scrollBarReachesTheEdgeOfTheView();
+    void aRefreshedFolderStaysWritable();
+    void aNewFolderIsWritableOnceListed();
 
 private:
     void requestBackgroundContextMenu();
@@ -431,6 +433,37 @@ void DolphinViewTest::requestBackgroundContextMenu()
 
     QContextMenuEvent event(QContextMenuEvent::Keyboard, QPoint(), QPoint());
     QApplication::sendEvent(container, &event);
+}
+
+void DolphinViewTest::aRefreshedFolderStaysWritable()
+{
+    QTRY_VERIFY(m_view->isFolderWritable());
+    QSignalSpy loadingStartedSpy(m_view, &DolphinView::directoryLoadingStarted);
+    QSignalSpy loadingCompletedSpy(m_view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy writeStateSpy(m_view, &DolphinView::writeStateChanged);
+
+    m_view->reload();
+
+    QTRY_COMPARE(loadingCompletedSpy.count(), 1);
+    QCOMPARE(loadingStartedSpy.count(), 1);
+    QVERIFY(m_view->isFolderWritable());
+    QCOMPARE(writeStateSpy.count(), 0);
+}
+
+void DolphinViewTest::aNewFolderIsWritableOnceListed()
+{
+    QTRY_VERIFY(m_view->isFolderWritable());
+    m_testDir->createDir(QStringLiteral("sub"));
+    QSignalSpy loadingCompletedSpy(m_view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy writeStateSpy(m_view, &DolphinView::writeStateChanged);
+
+    m_view->setUrl(QUrl::fromLocalFile(QDir(m_testDir->path()).filePath(QStringLiteral("sub"))));
+
+    QTRY_COMPARE(loadingCompletedSpy.count(), 1);
+    QCOMPARE(writeStateSpy.count(), 2);
+    QCOMPARE(writeStateSpy.at(0).at(0).toBool(), false);
+    QCOMPARE(writeStateSpy.at(1).at(0).toBool(), true);
+    QVERIFY(m_view->isFolderWritable());
 }
 
 QTEST_MAIN(DolphinViewTest)

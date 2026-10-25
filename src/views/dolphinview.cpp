@@ -91,7 +91,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     , m_active(true)
     , m_tabsForFiles(false)
     , m_assureVisibleCurrentIndex(false)
-    , m_isFolderWritable(true)
+    , m_isFolderWritable(false)
     , m_dragging(false)
     , m_selectNextItem(false)
     , m_url(url)
@@ -826,6 +826,13 @@ void DolphinView::setUrl(const QUrl &url)
     clearSelection();
 
     m_url = url;
+
+    // The new folder is not writable until its listing completes in slotDirectoryLoadingCompleted().
+    // A refresh of the same folder keeps its state.
+    if (m_isFolderWritable) {
+        m_isFolderWritable = false;
+        Q_EMIT writeStateChanged(m_isFolderWritable);
+    }
 
     hideToolTip();
 
@@ -2229,13 +2236,6 @@ void DolphinView::slotDirectoryLoadingStarted()
 {
     m_loadingState = LoadingState::Loading;
     updatePlaceholderLabel();
-
-    // Disable the writestate temporary until it can be determined in a fast way
-    // in DolphinView::slotDirectoryLoadingCompleted()
-    if (m_isFolderWritable) {
-        m_isFolderWritable = false;
-        Q_EMIT writeStateChanged(m_isFolderWritable);
-    }
 
     Q_EMIT directoryLoadingStarted();
 }
