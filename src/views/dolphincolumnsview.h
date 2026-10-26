@@ -90,7 +90,6 @@ private Q_SLOTS:
     /// Marks the folder that the next column shows as soon as it is listed.
     void slotPaneItemsInserted();
     void slotPaneLoadingCompleted();
-    void slotSplitterMoved(int pos, int handleIndex);
     void slotActiveSelectionChanged(const KItemSet &current);
 
 private:
@@ -159,6 +158,8 @@ private:
     bool showUrlInOpenColumns(const QUrl &url);
 
     void syncColumnsFromViewProperties();
+    /// Sets the width of @p column only, so the columns after it move and the total width changes.
+    void resizeColumn(int column, int width);
     void applyViewProperties(KFileItemModel *model) const;
     void connectActivePane(DolphinColumnPane *newPane);
 
@@ -168,6 +169,10 @@ private:
 
     /// A splitter handle does not reliably get a double click, so two releases count as one.
     bool m_splitterReleaseSeen = false;
+    /// The column left of the dragged handle, with the column sizes and the pointer x at the press.
+    int m_draggedColumn = -1;
+    QList<int> m_dragStartSizes;
+    qreal m_dragStartX = 0;
 
     int m_statusBarOffset = 0;
 
