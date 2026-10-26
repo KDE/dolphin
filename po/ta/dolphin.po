@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-22 00:53+0000\n"
+"POT-Creation-Date: 2026-10-26 00:52+0000\n"
 "PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -5220,6 +5220,25 @@ msgid "Limit to home directory when inside it"
 msgstr "முகப்பு அடைவில் இருந்தால், அதற்கே இடங்கள் பலகையை வரம்புப்படுத்து"
 
 #: settings/interface/panelsettingspage.cpp:65
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"Start the folder tree of the Folders panel at your home folder while you are "
+"inside it."
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:67
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled and the current folder is in your home folder, "
+"the Folders panel shows only your home folder and the folders inside it. The "
+"root folder and the other drives are not shown in the panel then.</"
+"para><para>Outside your home folder, the panel shows all folders, starting "
+"from the root folder.</para>"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:72
 #, fuzzy, kde-format
 #| msgctxt "@label:checkbox"
 #| msgid "Folders:"
@@ -5227,7 +5246,7 @@ msgctxt "@label:checkbox"
 msgid "Folders Panel:"
 msgstr "அடைவுகள்:"
 
-#: settings/interface/panelsettingspage.cpp:68
+#: settings/interface/panelsettingspage.cpp:75
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6270,20 +6289,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 அடைவுகள், 0 கோப்புகள்"
 
-#: views/dolphinview.cpp:1060 views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 என்பதன் நகல்"
 
-#: views/dolphinview.cpp:1272
+#: views/dolphinview.cpp:1279
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "உறுதியாக 1 உருப்படியை திறக்க வேண்டுமா?"
 msgstr[1] "உறுதியாக %1 உருப்படிகளை திறக்க வேண்டுமா?"
 
-#: views/dolphinview.cpp:1277
+#: views/dolphinview.cpp:1284
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6291,31 +6310,31 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 உருப்படியைத் திற"
 msgstr[1] "%1 உருப்படிகளைத் திற"
 
-#: views/dolphinview.cpp:1418
+#: views/dolphinview.cpp:1425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "ஓரத்தில் காலியிடம்"
 
-#: views/dolphinview.cpp:1422
+#: views/dolphinview.cpp:1429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "தானாக இடப்படும் நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:1427
+#: views/dolphinview.cpp:1434
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "பயனரால் மாற்றக்கூடிய நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:2171
+#: views/dolphinview.cpp:2178
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "அகற்றிடத்துக்கு நகர்த்தும் பணி நிறைவடைந்தது."
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2188
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."

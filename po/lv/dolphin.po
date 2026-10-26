@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-22 00:53+0000\n"
+"POT-Creation-Date: 2026-10-26 00:52+0000\n"
 "PO-Revision-Date: 2026-10-16 14:40+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -5370,6 +5370,25 @@ msgid "Limit to home directory when inside it"
 msgstr "Ierobežot mapju paneli līdz mājas mapei, ja atrodas mājas mapē"
 
 #: settings/interface/panelsettingspage.cpp:65
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"Start the folder tree of the Folders panel at your home folder while you are "
+"inside it."
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:67
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled and the current folder is in your home folder, "
+"the Folders panel shows only your home folder and the folders inside it. The "
+"root folder and the other drives are not shown in the panel then.</"
+"para><para>Outside your home folder, the panel shows all folders, starting "
+"from the root folder.</para>"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:72
 #, fuzzy, kde-format
 #| msgctxt "@label:checkbox"
 #| msgid "Folders:"
@@ -5377,7 +5396,7 @@ msgctxt "@label:checkbox"
 msgid "Folders Panel:"
 msgstr "Mapes:"
 
-#: settings/interface/panelsettingspage.cpp:68
+#: settings/interface/panelsettingspage.cpp:75
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6439,13 +6458,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 mapju, 0 datņu"
 
-#: views/dolphinview.cpp:1060 views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1272
+#: views/dolphinview.cpp:1279
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6453,7 +6472,7 @@ msgstr[0] "Vai tiešām vēlaties atvērt %1 vienumu?"
 msgstr[1] "Vai tiešām vēlaties atvērt %1 vienumus?"
 msgstr[2] "Vai tiešām vēlaties atvērt %1 vienumu?"
 
-#: views/dolphinview.cpp:1277
+#: views/dolphinview.cpp:1284
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6462,31 +6481,31 @@ msgstr[0] "Atvērt %1 vienumu"
 msgstr[1] "Atvērt %1 vienumus"
 msgstr[2] "Atvērt %1 vienumu"
 
-#: views/dolphinview.cpp:1418
+#: views/dolphinview.cpp:1425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Sānu atstarpes"
 
-#: views/dolphinview.cpp:1422
+#: views/dolphinview.cpp:1429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automātisks kolonnu platums"
 
-#: views/dolphinview.cpp:1427
+#: views/dolphinview.cpp:1434
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Pielāgots kolonnu platums"
 
-#: views/dolphinview.cpp:2171
+#: views/dolphinview.cpp:2178
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Atkritnes darbība ir pabeigta."
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2188
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."

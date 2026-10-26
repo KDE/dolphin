@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-22 00:53+0000\n"
+"POT-Creation-Date: 2026-10-26 00:52+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -5249,6 +5249,25 @@ msgid "Limit to home directory when inside it"
 msgstr "အိမ်ဒါရိုက်ထရီတွင်သာ"
 
 #: settings/interface/panelsettingspage.cpp:65
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"Start the folder tree of the Folders panel at your home folder while you are "
+"inside it."
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:67
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled and the current folder is in your home folder, "
+"the Folders panel shows only your home folder and the folders inside it. The "
+"root folder and the other drives are not shown in the panel then.</"
+"para><para>Outside your home folder, the panel shows all folders, starting "
+"from the root folder.</para>"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:72
 #, fuzzy, kde-format
 #| msgctxt "@label:checkbox"
 #| msgid "Folders:"
@@ -5256,7 +5275,7 @@ msgctxt "@label:checkbox"
 msgid "Folders Panel:"
 msgstr "ဖိုလ်ဒါများ -"
 
-#: settings/interface/panelsettingspage.cpp:68
+#: settings/interface/panelsettingspage.cpp:75
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6335,50 +6354,50 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "သုည ဖိုလ်ဒါများ၊ သုည ဖိုင်လ်များ"
 
-#: views/dolphinview.cpp:1060 views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 မိတ္တူ"
 
-#: views/dolphinview.cpp:1272
+#: views/dolphinview.cpp:1279
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "အိုင်တမ် %1ခုကို တကယ်ဖွင့်တော့မှာလား။"
 
-#: views/dolphinview.cpp:1277
+#: views/dolphinview.cpp:1284
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "%1 ဖွင့်မည်"
 
-#: views/dolphinview.cpp:1418
+#: views/dolphinview.cpp:1425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1422
+#: views/dolphinview.cpp:1429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "အလိုအလျောက် တိုင်အကျယ်"
 
-#: views/dolphinview.cpp:1427
+#: views/dolphinview.cpp:1434
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "စိတ်ကြိုက် တိုင်အကျယ်"
 
-#: views/dolphinview.cpp:2171
+#: views/dolphinview.cpp:2178
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "အမှိုက်ပုံးဆိုင်ရာလုပ်ဆောင်မှုပြီးမြောက်ခဲ့သည်။"
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2188
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."

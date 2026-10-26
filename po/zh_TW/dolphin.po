@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-22 00:53+0000\n"
+"POT-Creation-Date: 2026-10-26 00:52+0000\n"
 "PO-Revision-Date: 2026-10-01 01:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -5201,6 +5201,25 @@ msgid "Limit to home directory when inside it"
 msgstr "若位於家目錄內，則資料夾面板只顯示到家目錄"
 
 #: settings/interface/panelsettingspage.cpp:65
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"Start the folder tree of the Folders panel at your home folder while you are "
+"inside it."
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:67
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled and the current folder is in your home folder, "
+"the Folders panel shows only your home folder and the folders inside it. The "
+"root folder and the other drives are not shown in the panel then.</"
+"para><para>Outside your home folder, the panel shows all folders, starting "
+"from the root folder.</para>"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:72
 #, fuzzy, kde-format
 #| msgctxt "@label:checkbox"
 #| msgid "Folders:"
@@ -5208,7 +5227,7 @@ msgctxt "@label:checkbox"
 msgid "Folders Panel:"
 msgstr "資料夾："
 
-#: settings/interface/panelsettingspage.cpp:68
+#: settings/interface/panelsettingspage.cpp:75
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6243,50 +6262,50 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 個資料夾，0 個檔案"
 
-#: views/dolphinview.cpp:1060 views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 的複本"
 
-#: views/dolphinview.cpp:1272
+#: views/dolphinview.cpp:1279
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "您確定要開啟這 %1 個項目嗎？"
 
-#: views/dolphinview.cpp:1277
+#: views/dolphinview.cpp:1284
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "開啟 %1 個項目"
 
-#: views/dolphinview.cpp:1418
+#: views/dolphinview.cpp:1425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "側邊填充"
 
-#: views/dolphinview.cpp:1422
+#: views/dolphinview.cpp:1429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "自動調整欄位寬度"
 
-#: views/dolphinview.cpp:1427
+#: views/dolphinview.cpp:1434
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "自訂欄位寬度"
 
-#: views/dolphinview.cpp:2171
+#: views/dolphinview.cpp:2178
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "移動到垃圾桶已完成。"
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2188
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
