@@ -44,6 +44,7 @@
 #include <QStandardPaths>
 #include <QTest>
 #include <QVBoxLayout>
+#include <QWindow>
 
 /**
  * @brief Unit tests for DolphinColumnsView (Miller Columns).
@@ -191,6 +192,7 @@ private Q_SLOTS:
     void testForwardButton_emitsGoForward();
     void testAReplacingColumnKeepsTheWidthWhenItsNamesDoNotFit();
     void testALastColumnAlmostAtTheEdgeReachesIt();
+    void testDraggingAHandleResizesOnlyTheColumnOnItsLeft();
 
 private:
     void waitForStableState();
@@ -497,13 +499,9 @@ void DolphinColumnsViewTest::testCustomWidthPreserved()
     auto *splitter = m_view->findChild<QSplitter *>();
     QVERIFY(splitter);
 
-    QList<int> sizes = splitter->sizes();
-    QVERIFY(sizes.size() >= 2);
+    QVERIFY(splitter->sizes().size() >= 2);
     const int customWidth = 250;
-    sizes[0] = customWidth;
-    splitter->setSizes(sizes);
-
-    Q_EMIT splitter->splitterMoved(customWidth, 1);
+    m_view->resizeColumn(0, customWidth);
 
     const int widthAfterCustom = splitter->sizes().at(0);
     QVERIFY(qAbs(widthAfterCustom - customWidth) <= 10);
@@ -521,7 +519,7 @@ void DolphinColumnsViewTest::testCustomWidthCleanupOnPop()
     auto *splitter = m_view->findChild<QSplitter *>();
     QVERIFY(splitter);
 
-    Q_EMIT splitter->splitterMoved(300, colCount - 1);
+    m_view->resizeColumn(colCount - 2, 300);
 
     navigateLeft();
 
@@ -573,11 +571,8 @@ void DolphinColumnsViewTest::testAutoAdjustColumns()
     // Adjust-to-content mode: fitting drops the manual widths so the columns keep
     // tracking their content, and nothing is pinned.
     settings->setDynamicColumnWidth(true);
-    QList<int> sizes = splitter->sizes();
     const int manualWidth = 600;
-    sizes[0] = manualWidth;
-    splitter->setSizes(sizes);
-    Q_EMIT splitter->splitterMoved(manualWidth, 1);
+    m_view->resizeColumn(0, manualWidth);
     QVERIFY(!m_view->m_customColumnWidths.isEmpty());
 
     m_view->autoAdjustColumns();
@@ -616,7 +611,7 @@ void DolphinColumnsViewTest::testDoubleClickOnAHandleFitsTheColumns()
 
     auto *splitter = m_view->findChild<QSplitter *>();
     QVERIFY(splitter);
-    Q_EMIT splitter->splitterMoved(600, 1);
+    m_view->resizeColumn(0, 600);
     QVERIFY(!m_view->m_customColumnWidths.isEmpty());
 
     QTest::mouseDClick(splitter->handle(1), Qt::LeftButton);
@@ -639,7 +634,7 @@ void DolphinColumnsViewTest::testDoubleClickRightOfTheLastColumnFitsIt()
     auto *splitter = m_view->m_splitter;
     QSplitterHandle *lastBorder = splitter->handle(splitter->indexOf(m_view->m_filler));
     QVERIFY(lastBorder->isVisible());
-    Q_EMIT splitter->splitterMoved(700, splitter->indexOf(m_view->m_filler));
+    m_view->resizeColumn(1, 700);
     QVERIFY(m_view->m_customColumnWidths.contains(1));
 
     QTest::mouseDClick(lastBorder, Qt::LeftButton);
@@ -2984,6 +2979,39 @@ void DolphinColumnsViewTest::testALastColumnAlmostAtTheEdgeReachesIt()
     m_view->recalculateColumnWidths();
     QCOMPARE(m_view->m_splitter->sizes().at(1), almostAll - 200);
     QCOMPARE(m_view->m_splitter->sizes().at(2), 203);
+}
+
+// A handle belongs to the column on its left. The columns after it move, and the total width follows.
+void DolphinColumnsViewTest::testDraggingAHandleResizesOnlyTheColumnOnItsLeft()
+{
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    waitForStableState();
+    QCOMPARE(m_view->columnCount(), 3);
+
+    auto *splitter = m_view->m_splitter;
+    QTRY_VERIFY_WITH_TIMEOUT(splitter->sizes().at(2) > 0, 5000);
+    const QList<int> before = splitter->sizes();
+    QSplitterHandle *handle = splitter->handle(1);
+    // Through the QWindow, so the press reaches the handle under it and the handle keeps the moves.
+    QWindow *window = m_view->window()->windowHandle();
+    QVERIFY(window);
+    const QPoint pressPos = handle->mapTo(m_view->window(), QPoint(handle->width() / 2, handle->height() / 2));
+
+    QTest::mousePress(window, Qt::LeftButton, Qt::NoModifier, pressPos);
+    QTest::mouseMove(window, pressPos + QPoint(-40, 0));
+    QCOMPARE(splitter->sizes().at(0), before.at(0) - 40);
+    QCOMPARE(splitter->sizes().at(1), before.at(1));
+    QCOMPARE(splitter->sizes().at(2), before.at(2));
+
+    QTest::mouseMove(window, pressPos + QPoint(60, 0));
+    QTest::mouseRelease(window, Qt::LeftButton, Qt::NoModifier, pressPos + QPoint(60, 0));
+    QCOMPARE(QGuiApplication::mouseButtons(), Qt::NoButton);
+    QCOMPARE(splitter->sizes().at(0), before.at(0) + 60);
+    QCOMPARE(splitter->sizes().at(1), before.at(1));
+    QCOMPARE(splitter->sizes().at(2), before.at(2));
+    QCOMPARE(m_view->m_customColumnWidths.keys(), QList<int>{0});
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)

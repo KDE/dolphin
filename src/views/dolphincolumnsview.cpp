@@ -22,6 +22,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QGuiApplication>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QResizeEvent>
 #include <QScopedValueRollback>
 #include <QScrollArea>
@@ -98,8 +99,6 @@ void DolphinColumnsView::initColumnsUi()
 
     m_scrollArea->setWidget(m_splitter);
     topLayout()->addWidget(m_scrollArea);
-
-    connect(m_splitter, &QSplitter::splitterMoved, this, &DolphinColumnsView::slotSplitterMoved);
 
     m_scrollArea->hide();
 
@@ -441,16 +440,19 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
     Q_EMIT directoryLoadingCompleted();
 }
 
-void DolphinColumnsView::slotSplitterMoved(int pos, int handleIndex)
+void DolphinColumnsView::resizeColumn(int column, int width)
 {
-    Q_UNUSED(pos)
-    // A drag resizes the columns on both sides of the handle, so both keep their new width.
-    const QList<int> sizes = m_splitter->sizes();
-    for (const int colIndex : {handleIndex - 1, handleIndex}) {
-        if (colIndex >= 0 && colIndex < m_columns.size() && colIndex < sizes.size()) {
-            m_customColumnWidths[colIndex] = sizes.at(colIndex);
-        }
+    if (column < 0 || column >= m_columns.size()) {
+        return;
     }
+    width = qMax(width, m_columns.at(column)->minimumWidth());
+    m_customColumnWidths[column] = width;
+
+    // Each step of a drag starts from the sizes at the press, so the last column does not keep the narrow
+    // gap that applyColumnSizes() gives it.
+    QList<int> sizes = m_draggedColumn >= 0 && m_dragStartSizes.size() == m_columns.size() ? m_dragStartSizes : m_splitter->sizes().mid(0, m_columns.size());
+    sizes[column] = width;
+    applyColumnSizes(sizes, false);
 }
 
 DolphinColumnPane *DolphinColumnsView::activePane() const
@@ -835,17 +837,33 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
-    // A double click on a handle fits the columns. Press and release still reach the handle.
-    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease || event->type() == QEvent::MouseButtonDblClick) {
+    // A handle drag resizes the column on its left only, which QSplitter cannot do because it moves
+    // the room between the two neighbours. A double click on a handle fits the columns.
+    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonRelease
+        || event->type() == QEvent::MouseButtonDblClick) {
         for (int i = 1; i < m_splitter->count(); ++i) {
             if (m_splitter->handle(i) != watched) {
                 continue;
             }
+            auto *mouseEvent = static_cast<QMouseEvent *>(event);
             switch (event->type()) {
             case QEvent::MouseButtonPress:
                 m_splitterReleaseSeen = false;
-                break;
+                if (mouseEvent->button() == Qt::LeftButton && i - 1 < m_columns.size()) {
+                    m_draggedColumn = i - 1;
+                    m_dragStartSizes = m_splitter->sizes().mid(0, m_columns.size());
+                    m_dragStartX = mouseEvent->globalPosition().x();
+                }
+                return true;
+            case QEvent::MouseMove:
+                if (m_draggedColumn == i - 1 && mouseEvent->buttons().testFlag(Qt::LeftButton)) {
+                    const qreal delta = mouseEvent->globalPosition().x() - m_dragStartX;
+                    const int startWidth = m_dragStartSizes.value(m_draggedColumn);
+                    resizeColumn(m_draggedColumn, startWidth + qRound(m_splitter->isRightToLeft() ? -delta : delta));
+                }
+                return true;
             case QEvent::MouseButtonRelease:
+                m_draggedColumn = -1;
                 if (m_splitterReleaseSeen) {
                     // Not while the handle still holds the mouse grab.
                     QTimer::singleShot(0, this, [this, i]() {
@@ -853,7 +871,7 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
                     });
                 }
                 m_splitterReleaseSeen = !m_splitterReleaseSeen;
-                break;
+                return true;
             case QEvent::MouseButtonDblClick:
                 m_splitterReleaseSeen = false;
                 QTimer::singleShot(0, this, [this, i]() {
