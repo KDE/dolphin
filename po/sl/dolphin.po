@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-26 00:52+0000\n"
-"PO-Revision-Date: 2026-10-21 07:00+0200\n"
+"PO-Revision-Date: 2026-10-26 06:45+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5417,6 +5417,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Začnite drevesno strukturo v podoknu »Mape« pri svoji domači mapi, ko ste v "
+"njej."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5428,6 +5430,11 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Ko je to omogočeno in se trenutna mapa nahaja v vaši domači mapi, "
+"plošča \"Mape\" prikazuje le vašo domačo mapo in mape v njej. Korenska mapa "
+"in drugi pogoni v tem primeru na plošči niso prikazani.</para><para>Zunaj "
+"vaše domače mape plošča prikazuje vse mape, z začetkom v korenski mapi.</"
+"para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format

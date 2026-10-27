@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-26 00:52+0000\n"
-"PO-Revision-Date: 2026-10-21 12:07+0200\n"
+"PO-Revision-Date: 2026-10-26 12:58+0100\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -5384,6 +5384,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Nastavit, aby strom složek v panelu složek začínal ve vaší domovské složce, "
+"když se v ní právě nacházíte."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5395,6 +5397,11 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Je-li zapnuto a aktuální složka se nachází ve vaší domovské složce, "
+"panel složek zobrazuje pouze vaší domovskou složku a složky v ní obsažené. "
+"Kořenová složka a ostatní disky se v panelu v takovém případě nezobrazují.</"
+"para><para>Mimo váš domovský adresář panel zobrazuje všechny složky, "
+"počínaje kořenovou složkou.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format

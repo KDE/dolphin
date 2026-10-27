@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-26 00:52+0000\n"
-"PO-Revision-Date: 2026-10-21 15:10+0300\n"
+"PO-Revision-Date: 2026-10-26 18:33+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5474,6 +5474,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Починати ієрархію тек панелі «Теки» з вашої домашньої теки, доки ви у ній "
+"перебуваєте."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5485,6 +5487,11 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Якщо цей пункт позначено, а поточна тека перебуває у вашій домашній "
+"теці, на панелі «Теки» буде показано лише вашу домашню теку і теки, що "
+"містяться в ній. Коренева тека та інші диски на панелі у такому випадку "
+"показано не буде.</para><para>Якщо ви перебуваєте за межами своєї домашньої "
+"теки, на панелі буде показано усі теки, починаючи з кореневої.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format

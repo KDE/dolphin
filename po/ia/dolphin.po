@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-26 00:52+0000\n"
-"PO-Revision-Date: 2026-10-09 15:49+0200\n"
+"PO-Revision-Date: 2026-10-26 16:57+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -4977,7 +4977,7 @@ msgstr "Indice de largessa de texto"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Placia le elementos plus vicine insimul"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5395,6 +5395,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Starta le arbore de dosier del pannello de Dossieres a tu dossier de initio "
+"(domo) durante que tu es intra."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5408,12 +5410,10 @@ msgid ""
 msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Dossieres:"
+msgstr "Pannello deDossieres:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5990,9 +5990,7 @@ msgid "Maximum lines:"
 msgstr "Maxime numero de lineas:"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "Compacte"
@@ -6004,12 +6002,10 @@ msgid "Places the items closer together, so that more of them fit in a row."
 msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Grid spacing:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Spatios de grillia:"
+msgstr "Spatiar:"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format

@@ -2697,7 +2697,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "“Dün” (AAAA, yyyy)"
+msgstr "'Dün' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2938
 #, kde-format
@@ -2713,7 +2713,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "gggg (AAAA, yyyy)"
+msgstr "dddd (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2955
 #, kde-format
@@ -2731,7 +2731,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr "“Bir Hafta Önce” (AAAA, yyyy)"
+msgstr "'Bir Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2970
 #, kde-format
@@ -2749,7 +2749,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
-msgstr "“İki Hafta Önce” (AAAA, yyyy)"
+msgstr "'İki Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2991
 #, kde-format
@@ -2767,7 +2767,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "“Üç Hafta Önce” (AAAA, yyyy)"
+msgstr "'Üç Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3012
 #, kde-format
@@ -2785,7 +2785,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "“Daha Önce” AAAA, yyyy"
+msgstr "'Daha Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3033
 #, kde-format
@@ -2801,7 +2801,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr "AAAA, yyyy"
+msgstr "MMMM yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-26 00:52+0000\n"
-"PO-Revision-Date: 2026-10-21 09:08+0200\n"
+"PO-Revision-Date: 2026-10-26 09:45+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5414,6 +5414,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Inicia l'arbre de carpetes del quadro Carpetes a la carpeta personal mentre "
+"estigues dins d'ella."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5425,6 +5427,11 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Quan es marca i la carpeta actual és a la carpeta personal, el quadro "
+"Carpetes només mostra la carpeta personal i les carpetes que hi ha dins. La "
+"carpeta arrel i les altres unitats no es mostren en el quadro.</"
+"para><para>Fora de la carpeta personal, el quadro mostra totes les carpetes, "
+"començant des de la carpeta arrel.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format
