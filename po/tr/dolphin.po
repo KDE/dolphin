@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-23 02:59+0000\n"
-"PO-Revision-Date: 2026-06-19 18:56+0300\n"
+"PO-Revision-Date: 2026-10-24 21:47+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -362,15 +362,11 @@ msgstr ""
 "Yeni klasör oluşturulamıyor: Bu klasörde yeni ögeler oluşturma izniniz yok."
 
 #: dolphinmainwindow.cpp:1519
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
-"Yeni klasör oluşturulamıyor: Bu klasörde yeni ögeler oluşturma izniniz yok."
+"Yeni alt klasör oluşturulamıyor: İçine yazabileceğiniz tek bir klasör seçin."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
@@ -1764,7 +1760,7 @@ msgstr "Ağ Klasörü Ekle"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open KDE Connect"
-msgstr "KDE Bağlan’ı Aç"
+msgstr "KDE Connect’i Aç"
 
 #: dolphinnavigatorswidgetaction.cpp:351
 #, kde-format
@@ -2654,7 +2650,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "“Dün” (AAAA, yyyy)"
+msgstr "'Dün' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2845
 #, kde-format
@@ -2670,7 +2666,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "gggg (AAAA, yyyy)"
+msgstr "dddd (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2862
 #, kde-format
@@ -2688,7 +2684,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr "“Bir Hafta Önce” (AAAA, yyyy)"
+msgstr "'Bir Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2877
 #, kde-format
@@ -2706,7 +2702,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
-msgstr "“İki Hafta Önce” (AAAA, yyyy)"
+msgstr "'İki Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2898
 #, kde-format
@@ -2724,7 +2720,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "“Üç Hafta Önce” (AAAA, yyyy)"
+msgstr "'Üç Hafta Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2919
 #, kde-format
@@ -2742,7 +2738,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "“Daha Önce” AAAA, yyyy"
+msgstr "'Daha Önce' (MMMM yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2940
 #, kde-format
@@ -2758,7 +2754,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr "AAAA, yyyy"
+msgstr "MMMM yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2958
 #, kde-format
@@ -3113,10 +3109,12 @@ msgid "File Manager"
 msgstr "Dosya Yöneticisi"
 
 #: main.cpp:100
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "© 2006–%1 The Dolphin Developers"
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "© 2006–2025 Dolphin Geliştiricileri"
+msgstr "© 2006–%1 Dolphin Geliştiricileri"
 
 #: main.cpp:102
 #, kde-format
@@ -3712,7 +3710,7 @@ msgstr ""
 "application> ve <application>ripgrep-all</application>, eğer kuruluylarsa "
 "arama deneyiminizi iyileştirebilir. Özellikle <application>ripgrep-all</"
 "application>, daha çok dosya türünde aramayı etkinleştirir (örneğin, pdf, "
-"docx, sqlite, jpg, film altyazıları (mkv, mp4)).</para><para>Bu arama "
+"docx, sqlite, jpg, film alt yazıları (mkv, mp4)).</para><para>Bu arama "
 "araçlarının nasıl çağrılacağı, bir betik dosyası düzenlenerek "
 "yapılandırılabilir. Kendi kopyanızı düzenlemeden önce onu, <filename>%2</"
 "filename> konumundan <filename>%3</filename> konumuna kopyalayın. Herhangi "
@@ -3838,19 +3836,19 @@ msgstr "Aç: %1"
 #, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "K Bul’u Kur…"
+msgstr "KFind’ı Kur…"
 
 #: search/popup.cpp:368
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>K Bul</application> uygulaması başarıyla kuruldu."
+msgstr "<application>KFind</application> uygulaması başarıyla kuruldu."
 
 #: search/popup.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "K Bul kuruluyor…"
+msgstr "KFind kuruluyor…"
 
 #: search/selectors/dateselector.cpp:59
 #, kde-format
@@ -5023,7 +5021,9 @@ msgid "Switching to act as an administrator"
 msgstr "Yönetici gibi davranmaya geçerken"
 
 #: settings/interface/confirmationssettingspage.cpp:70
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@option:check Ask for confirmation when"
+#| msgid "Renaming a file will change its type"
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
 msgstr "Dosyayı yeniden adlandırmak dosyanın türünü değiştirir"
@@ -6103,13 +6103,13 @@ msgstr "Klasörler: %1"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr "<application>Dosya Feneri</application> uygulaması başarıyla kuruldu."
+msgstr "<application>Filelight</application> uygulaması başarıyla kuruldu."
 
 #: statusbar/diskspaceusagemenu.cpp:55
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr "Dosya Feneri kuruluyor…"
+msgstr "Filelight kuruluyor…"
 
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
@@ -6152,7 +6152,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr "Dosya Feneri’ni Kur…"
+msgstr "Filelight’ı Kur…"
 
 #: statusbar/dolphinstatusbar.cpp:68
 #, kde-format
@@ -6525,7 +6525,7 @@ msgstr "Bulunan Apple aygıtı yok"
 #: views/dolphinview.cpp:2854
 #, kde-format
 msgid "No KDE Connect devices found"
-msgstr "Bulunan KDE Bağlan aygıtı yok"
+msgstr "Bulunan KDE Connect aygıtı yok"
 
 #: views/dolphinview.cpp:2856
 #, kde-format
@@ -6549,12 +6549,10 @@ msgid "Create Folder…"
 msgstr "Klasör Oluştur…"
 
 #: views/dolphinviewactionhandler.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
-msgstr "Klasör Oluştur…"
+msgstr "Alt Klasör Oluştur…"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-format
@@ -6879,7 +6877,9 @@ msgid "Restore to Defaults"
 msgstr "Öntanımlılara Sıfırla"
 
 #: views/dolphinviewactionhandler.cpp:404
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "info:tooltip"
+#| msgid "Restore View Settings to Default Values"
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Defaults Value"
 msgstr "Görünüm ayarlarını öntanımlı değerlere sıfırla"
@@ -7059,6 +7059,75 @@ msgstr "Yakınlaştır"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Yakınlaştır"
+
+#~ msgctxt "@action:intoolbar Splits both views into separate tabs"
+#~ msgid "Split View To Tabs"
+#~ msgstr "Görünümü Sekmelere Böl"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "If the view has been split, this will move both views to tabs and close "
+#~ "split view."
+#~ msgstr ""
+#~ "Görünüm bölünmüşse bu, her bir görünümü sekmelere taşır ve görünmüş "
+#~ "bölünümü kapatır."
+
+#~ msgctxt "@action Split view name in configuration dialogs"
+#~ msgid "Split View: Close Left Pane"
+#~ msgstr "Görünümü Böl: Sol Bölmeyi Kapat"
+
+#~ msgctxt "@action Split view name in configuration dialogs"
+#~ msgid "Split View: Close Right Pane"
+#~ msgstr "Görünümü Böl: Sağ Bölmeyi Kapat"
+
+#~ msgctxt "@action Split view name in configuration dialogs"
+#~ msgid "Split View"
+#~ msgstr "Görünümü Böl"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Open a new tab"
+#~ msgstr "Yeni bir sekme aç"
+
+#~ msgctxt "@action:button"
+#~ msgid "Open with %1"
+#~ msgstr "%1 ile Aç"
+
+#~ msgid "Place the items closer together"
+#~ msgstr "Ögeleri birbirine yakın yerleştir"
+
+#~ msgctxt "@option:check Ask for confirmation when"
+#~ msgid "Renaming a file or folder will hide it"
+#~ msgstr "Dosyayı veya klasörü yeniden adlandırmak onu gizler"
+
+#~ msgctxt "@option:check"
+#~ msgid "Limit to home directory when inside it"
+#~ msgstr "İçindeyken ana klasöre sınırla"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "Folders Panel:"
+#~ msgstr "Klasörler paneli:"
+
+#~ msgctxt "@option:check Icons view item spacing"
+#~ msgid "Compact"
+#~ msgstr "Sıkışık"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Places the items closer together, so that more of them fit in a row."
+#~ msgstr ""
+#~ "Ögeleri birbirine daha yakın yerleştirin ki, bir satıra daha fazla öge "
+#~ "sığsın."
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "Spacing:"
+#~ msgstr "Boşluklandırma:"
+
+#~ msgctxt "@item:intable, Heading of a list of fields and sorting options"
+#~ msgid "Sorting"
+#~ msgstr "Sıralama"
+
+#~ msgctxt "@item:intable, Heading of a list of fields and grouping options"
+#~ msgid "Grouping"
+#~ msgstr "Gruplama"
 
 #~ msgid "Use tab for switching between right and left view"
 #~ msgstr ""
