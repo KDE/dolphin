@@ -880,6 +880,13 @@ private Q_SLOTS:
     void slotDirectoryLoadingCanceled();
 
     /**
+     * Scrolls a folder opened by setUrl() to the position that restoreState() or
+     * markUrlAsCurrent() asked for, as soon as the inserted items reach it. The view
+     * then never paints the top of the folder first, and does not animate the scroll.
+     */
+    void applyScrollPositionOfNewFolder();
+
+    /**
      * Is invoked when items of KFileItemModel have been changed.
      */
     void slotItemsChanged();
@@ -1016,6 +1023,9 @@ private:
      */
     void scrollToItemOnceResorted(const QUrl &url);
 
+    /** Sets the scroll bar values @p x and @p y without the smooth-scrolling animation. */
+    void setContentsPosition(int x, int y);
+
     void abortTwoClicksRenaming();
 
     void updatePlaceholderLabel();
@@ -1065,6 +1075,7 @@ private:
     QUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
     bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
     QPoint m_restoredContentsPosition;
+    bool m_newFolderScrollPending = false; // Set by setUrl() until updateViewState() of the new folder
 
     // Used for tracking the accumulated scroll amount (for zooming with high
     // resolution scroll wheels)

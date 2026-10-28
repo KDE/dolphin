@@ -710,6 +710,16 @@ void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
     Q_EMIT scrollingStopped();
 }
 
+void KItemListView::scrollToItemWithoutAnimation(int index, ViewItemPosition viewItemPosition)
+{
+    if (supportsItemExpanding() && !m_headerWidget->isVisible()) {
+        scrollHorizontallyToShowItemAt(index);
+    }
+
+    const qreal offset = scrollOffset() + scrollDeltaToShowItem(index, viewItemPosition, scrollOffset());
+    setScrollOffset(qBound(qreal(0), offset, maximumVisibleScrollOffset()));
+}
+
 qreal KItemListView::scrollDeltaToShowItem(int index, ViewItemPosition viewItemPosition, qreal atOffset) const
 {
     QRectF viewGeometry = geometry();

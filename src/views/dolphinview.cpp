@@ -231,6 +231,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_model, &KFileItemModel::itemsChanged, this, &DolphinView::slotItemsChanged);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinView::itemCountChanged);
     connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinView::itemCountChanged);
+    connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinView::applyScrollPositionOfNewFolder);
     connect(m_model, &KFileItemModel::infoMessage, this, &DolphinView::infoMessage);
     connect(m_model, &KFileItemModel::errorMessage, this, &DolphinView::errorMessage);
     connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
@@ -823,6 +824,7 @@ void DolphinView::setUrl(const QUrl &url)
     clearSelection();
 
     m_url = url;
+    m_newFolderScrollPending = true;
 
     // The new folder is not writable until its listing completes in slotDirectoryLoadingCompleted().
     // A refresh of the same folder keeps its state.
@@ -2096,7 +2098,11 @@ void DolphinView::updateViewState()
 
                 // scroll to current item and reset the state
                 if (m_scrollToCurrentItem) {
-                    m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
+                    if (m_newFolderScrollPending) {
+                        m_view->scrollToItemWithoutAnimation(currentIndex, KItemListView::ViewItemPosition::Middle);
+                    } else {
+                        m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
+                    }
                     m_scrollToCurrentItem = false;
                 }
                 m_currentItemUrl = QUrl();
@@ -2109,15 +2115,51 @@ void DolphinView::updateViewState()
     }
 
     if (!m_restoredContentsPosition.isNull()) {
-        const int x = m_restoredContentsPosition.x();
-        const int y = m_restoredContentsPosition.y();
+        // The folder can be shorter than when its position was saved.
+        const int x = qMin(m_restoredContentsPosition.x(), m_container->horizontalScrollBar()->maximum());
+        const int y = qMin(m_restoredContentsPosition.y(), m_container->verticalScrollBar()->maximum());
         m_restoredContentsPosition = QPoint();
 
-        m_container->horizontalScrollBar()->setValue(x);
-        m_container->verticalScrollBar()->setValue(y);
+        setContentsPosition(x, y);
     }
+    m_newFolderScrollPending = false;
 
     updateSelectionState();
+}
+
+void DolphinView::setContentsPosition(int x, int y)
+{
+    // The scroll bars follow the offsets of the view, so the smooth scroller has nothing to animate.
+    // Only the compact view scrolls horizontally.
+    if (m_mode != CompactView) {
+        m_view->setScrollOffset(y);
+        m_view->setItemOffset(x);
+    } else {
+        m_view->setScrollOffset(x);
+        m_view->setItemOffset(y);
+    }
+}
+
+void DolphinView::applyScrollPositionOfNewFolder()
+{
+    if (!m_newFolderScrollPending) {
+        return;
+    }
+
+    if (!m_restoredContentsPosition.isNull()) {
+        const int x = m_restoredContentsPosition.x();
+        const int y = m_restoredContentsPosition.y();
+        if (x <= m_container->horizontalScrollBar()->maximum() && y <= m_container->verticalScrollBar()->maximum()) {
+            m_restoredContentsPosition = QPoint();
+            setContentsPosition(x, y);
+        }
+    } else if (m_scrollToCurrentItem && !m_currentItemUrl.isEmpty()) {
+        // m_scrollToCurrentItem stays set: items inserted later can still move the current item.
+        const int index = m_model->index(m_currentItemUrl);
+        if (index != -1) {
+            m_view->scrollToItemWithoutAnimation(index, KItemListView::ViewItemPosition::Middle);
+        }
+    }
 }
 
 bool DolphinView::isViewSettingsDefaults() const
@@ -2258,6 +2300,7 @@ void DolphinView::slotDirectoryLoadingCompleted()
 void DolphinView::slotDirectoryLoadingCanceled()
 {
     m_loadingState = LoadingState::Canceled;
+    m_newFolderScrollPending = false;
 
     updatePlaceholderLabel();
 

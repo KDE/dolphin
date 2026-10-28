@@ -10,6 +10,8 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistview.h"
 #include "testdir.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
@@ -47,9 +49,13 @@ private Q_SLOTS:
     void scrollBarReachesTheEdgeOfTheView();
     void aRefreshedFolderStaysWritable();
     void aNewFolderIsWritableOnceListed();
+    void aFolderGoneBackToIsAtItsSavedPositionWhenListed();
+    void aParentFolderIsAtTheFolderItCameFromWhenListed();
 
 private:
     void requestBackgroundContextMenu();
+    QUrl createFolderWithManyFiles();
+    qreal scrollOffsetWhenListed(const std::function<void()> &openFolder);
     static void writeViewProperties(const QUrl &folder, DolphinView::Mode mode, bool previewsShown);
 
     TestDir *m_testDir = nullptr;
@@ -464,6 +470,82 @@ void DolphinViewTest::aNewFolderIsWritableOnceListed()
     QCOMPARE(writeStateSpy.at(0).at(0).toBool(), false);
     QCOMPARE(writeStateSpy.at(1).at(0).toBool(), true);
     QVERIFY(m_view->isFolderWritable());
+}
+
+QUrl DolphinViewTest::createFolderWithManyFiles()
+{
+    QStringList files;
+    for (int i = 0; i < 300; ++i) {
+        files << QStringLiteral("many/f%1").arg(i, 3, 10, QLatin1Char('0'));
+    }
+    m_testDir->createFiles(files);
+    return QUrl::fromLocalFile(QDir(m_testDir->path()).filePath(QStringLiteral("many")));
+}
+
+/**
+ * Calls @p openFolder and returns the scroll offset of the view when the folder it opens is
+ * listed. The view can paint from then on, so this is the first offset anybody sees.
+ */
+qreal DolphinViewTest::scrollOffsetWhenListed(const std::function<void()> &openFolder)
+{
+    const KItemListView *itemListView = m_view->findChild<KItemListContainer *>()->controller()->view();
+    qreal offsetWhenListed = -1;
+    const auto connection = connect(m_view, &DolphinView::directoryLoadingCompleted, this, [&offsetWhenListed, itemListView] {
+        offsetWhenListed = itemListView->scrollOffset();
+    });
+    openFolder();
+    [&offsetWhenListed] {
+        QTRY_VERIFY(offsetWhenListed >= 0);
+    }();
+    disconnect(connection);
+    return offsetWhenListed;
+}
+
+/**
+ * Going back to a folder shows it at the position it was left at as soon as it is listed. Before,
+ * the position was applied in a later event, after the view could paint the top of the folder,
+ * and the first time in a window it was animated from the top. See Bug 527772.
+ */
+void DolphinViewTest::aFolderGoneBackToIsAtItsSavedPositionWhenListed()
+{
+    const QUrl manyFiles = createFolderWithManyFiles();
+    const KItemListView *itemListView = m_view->findChild<KItemListContainer *>()->controller()->view();
+    const int savedOffset = 600;
+
+    QByteArray state;
+    QDataStream stream(&state, QIODevice::WriteOnly);
+    stream << quint32(1) << QUrl() << QList<QUrl>() << QPoint(0, savedOffset) << QSet<QUrl>();
+
+    const qreal offsetWhenListed = scrollOffsetWhenListed([this, &manyFiles, &state] {
+        m_view->setUrl(manyFiles);
+        QDataStream readStream(&state, QIODevice::ReadOnly);
+        m_view->restoreState(readStream);
+    });
+    QCOMPARE(offsetWhenListed, savedOffset);
+
+    // Nothing moves the view afterwards.
+    QTest::qWait(100);
+    QCOMPARE(itemListView->scrollOffset(), savedOffset);
+}
+
+/**
+ * Going up to a folder shows the folder it came from as soon as the parent is listed, in the
+ * middle of the view, without scrolling there from the top. See Bug 527772.
+ */
+void DolphinViewTest::aParentFolderIsAtTheFolderItCameFromWhenListed()
+{
+    const QUrl manyFiles = createFolderWithManyFiles();
+    const QUrl cameFrom = QUrl::fromLocalFile(QDir(manyFiles.toLocalFile()).filePath(QStringLiteral("f250")));
+    const KItemListView *itemListView = m_view->findChild<KItemListContainer *>()->controller()->view();
+
+    const qreal offsetWhenListed = scrollOffsetWhenListed([this, &manyFiles, &cameFrom] {
+        m_view->setUrl(manyFiles);
+        m_view->markUrlAsCurrent(cameFrom);
+    });
+    QVERIFY(offsetWhenListed > 0);
+
+    QTest::qWait(100);
+    QCOMPARE(itemListView->scrollOffset(), offsetWhenListed);
 }
 
 QTEST_MAIN(DolphinViewTest)

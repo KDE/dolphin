@@ -274,6 +274,12 @@ public:
     void scrollToItem(int index, ViewItemPosition viewItemPosition = ViewItemPosition::Nearest);
 
     /**
+     * Like scrollToItem(), but sets the scroll offset at once, without the
+     * smooth-scrolling animation.
+     */
+    void scrollToItemWithoutAnimation(int index, ViewItemPosition viewItemPosition = ViewItemPosition::Nearest);
+
+    /**
      * If several properties of KItemListView are changed synchronously, it is
      * recommended to encapsulate the calls between beginTransaction() and endTransaction().
      * This prevents unnecessary and expensive layout-calculations.
