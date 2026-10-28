@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 00:52+0000\n"
+"POT-Creation-Date: 2026-10-28 01:04+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -270,7 +270,7 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2441
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "Do not ask again"
 msgstr ""
@@ -2544,13 +2544,43 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:1315
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search is disabled. Enable it in System Settings to see this "
+"information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1318
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search indexes only file names. Enable indexing of file content in "
+"System Settings to see this information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1321
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "This folder is not indexed by File Search."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1326
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"This information comes from File Search, which this version of Dolphin was "
+"built without."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2841
 #, fuzzy, kde-format
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2558,56 +2588,56 @@ msgctxt "@title:group"
 msgid "Others"
 msgstr "ఇతరములు"
 
-#: kitemviews/kfileitemmodel.cpp:2834
+#: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "ఫోల్డర్లు"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2881
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "చిన్న"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2883
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "మీడియం"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2885
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "పెద్ద"
 
-#: kitemviews/kfileitemmodel.cpp:2892
+#: kitemviews/kfileitemmodel.cpp:2931
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "ఈరోజు"
 
-#: kitemviews/kfileitemmodel.cpp:2895
+#: kitemviews/kfileitemmodel.cpp:2934
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "నిన్న"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2937
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2902
+#: kitemviews/kfileitemmodel.cpp:2941
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2907
+#: kitemviews/kfileitemmodel.cpp:2946
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Three Weeks Ago"
@@ -2615,25 +2645,25 @@ msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "మూడు వారాల క్రితం"
 
-#: kitemviews/kfileitemmodel.cpp:2910
+#: kitemviews/kfileitemmodel.cpp:2949
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "రెండు వారాల క్రితం"
 
-#: kitemviews/kfileitemmodel.cpp:2913
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "మూడు వారాల క్రితం"
 
-#: kitemviews/kfileitemmodel.cpp:2917
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "ఈ నెలకు ముందు"
 
-#: kitemviews/kfileitemmodel.cpp:2931
+#: kitemviews/kfileitemmodel.cpp:2970
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2647,7 +2677,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "నిన్న (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2938
+#: kitemviews/kfileitemmodel.cpp:2977
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2655,7 +2685,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2990
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2667,7 +2697,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "నిన్న (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2955
+#: kitemviews/kfileitemmodel.cpp:2994
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2675,7 +2705,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2963
+#: kitemviews/kfileitemmodel.cpp:3002
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2689,7 +2719,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "మూడు వారాల క్రితం (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2970
+#: kitemviews/kfileitemmodel.cpp:3009
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2697,7 +2727,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2984
+#: kitemviews/kfileitemmodel.cpp:3023
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2711,7 +2741,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "రెండు వారాల క్రితం (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:2991
+#: kitemviews/kfileitemmodel.cpp:3030
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2719,7 +2749,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3005
+#: kitemviews/kfileitemmodel.cpp:3044
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2733,7 +2763,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "మూడు వారాల క్రితం (%B, %Y)"
 
-#: kitemviews/kfileitemmodel.cpp:3012
+#: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2741,7 +2771,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3026
+#: kitemviews/kfileitemmodel.cpp:3065
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "@title:group Date: %B is full month name in current locale, and %Y is "
@@ -2755,7 +2785,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "%B, %Y ముందు"
 
-#: kitemviews/kfileitemmodel.cpp:3033
+#: kitemviews/kfileitemmodel.cpp:3072
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2763,7 +2793,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3047
+#: kitemviews/kfileitemmodel.cpp:3086
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2771,7 +2801,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3051
+#: kitemviews/kfileitemmodel.cpp:3090
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2779,35 +2809,35 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3091 kitemviews/kfileitemmodel.cpp:3104
-#: kitemviews/kfileitemmodel.cpp:3117
+#: kitemviews/kfileitemmodel.cpp:3130 kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3156
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "చదువు, "
 
-#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3107
-#: kitemviews/kfileitemmodel.cpp:3120
+#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3159
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "వ్రాయి, "
 
-#: kitemviews/kfileitemmodel.cpp:3097 kitemviews/kfileitemmodel.cpp:3110
-#: kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3162
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "నిర్వర్తించు, "
 
-#: kitemviews/kfileitemmodel.cpp:3099 kitemviews/kfileitemmodel.cpp:3112
-#: kitemviews/kfileitemmodel.cpp:3125
+#: kitemviews/kfileitemmodel.cpp:3138 kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3164
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "ఫర్బిడెన్"
 
-#: kitemviews/kfileitemmodel.cpp:3127
+#: kitemviews/kfileitemmodel.cpp:3166
 #, fuzzy, kde-format
 #| msgctxt "@title:group Files and folders by permissions"
 #| msgid "(User: %1) (Group: %2) (Others: %3)"
@@ -2815,7 +2845,7 @@ msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "(వినియోగదారి: %1) (సమూహం: %2) (ఇతరులు: %3)"
 
-#: kitemviews/kfileitemmodel.cpp:3217
+#: kitemviews/kfileitemmodel.cpp:3259
 #, fuzzy
 #| msgctxt "@action:inmenu Sort By"
 #| msgid "Name"
@@ -2823,7 +2853,7 @@ msgctxt "@label"
 msgid "Name"
 msgstr "పేరు"
 
-#: kitemviews/kfileitemmodel.cpp:3218
+#: kitemviews/kfileitemmodel.cpp:3260
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Size"
@@ -2831,7 +2861,7 @@ msgctxt "@label"
 msgid "Size"
 msgstr "పరిమాణము"
 
-#: kitemviews/kfileitemmodel.cpp:3219
+#: kitemviews/kfileitemmodel.cpp:3261
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Modified:"
@@ -2839,13 +2869,13 @@ msgctxt "@label"
 msgid "Modified"
 msgstr "సవరించబడిన:"
 
-#: kitemviews/kfileitemmodel.cpp:3219 kitemviews/kfileitemmodel.cpp:3220
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3261 kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3220
+#: kitemviews/kfileitemmodel.cpp:3262
 #, fuzzy
 #| msgctxt "@title:menu Create new folder, file, link, etc."
 #| msgid "Create New"
@@ -2853,12 +2883,12 @@ msgctxt "@label"
 msgid "Created"
 msgstr "కొత్తది సృష్టించుము"
 
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3222
+#: kitemviews/kfileitemmodel.cpp:3264
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Type"
@@ -2866,7 +2896,7 @@ msgctxt "@label"
 msgid "Type"
 msgstr "రకము"
 
-#: kitemviews/kfileitemmodel.cpp:3223
+#: kitemviews/kfileitemmodel.cpp:3265
 #, fuzzy
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2874,7 +2904,7 @@ msgctxt "@label"
 msgid "Rating"
 msgstr "వరుసక్రమము:"
 
-#: kitemviews/kfileitemmodel.cpp:3224
+#: kitemviews/kfileitemmodel.cpp:3266
 #, fuzzy
 #| msgctxt "@label Indicator when no tags defined"
 #| msgid "No Tags"
@@ -2882,7 +2912,7 @@ msgctxt "@label"
 msgid "Tags"
 msgstr "కొత్త టాగ్సు"
 
-#: kitemviews/kfileitemmodel.cpp:3225
+#: kitemviews/kfileitemmodel.cpp:3267
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2890,7 +2920,7 @@ msgctxt "@label"
 msgid "Comment"
 msgstr "వ్యాఖ్యానమును జతచేయుము..."
 
-#: kitemviews/kfileitemmodel.cpp:3226
+#: kitemviews/kfileitemmodel.cpp:3268
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Title:"
@@ -2898,9 +2928,9 @@ msgctxt "@label"
 msgid "Title"
 msgstr "శీర్షిక:"
 
-#: kitemviews/kfileitemmodel.cpp:3226 kitemviews/kfileitemmodel.cpp:3227
-#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
-#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3268 kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3270 kitemviews/kfileitemmodel.cpp:3271
+#: kitemviews/kfileitemmodel.cpp:3272 kitemviews/kfileitemmodel.cpp:3273
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2908,17 +2938,17 @@ msgctxt "@label"
 msgid "Document"
 msgstr "పత్రికీకరణ"
 
-#: kitemviews/kfileitemmodel.cpp:3227
+#: kitemviews/kfileitemmodel.cpp:3269
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3228
+#: kitemviews/kfileitemmodel.cpp:3270
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3229
+#: kitemviews/kfileitemmodel.cpp:3271
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Change Comment..."
@@ -2926,39 +2956,39 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "వ్యాఖ్యానమును మార్చుము..."
 
-#: kitemviews/kfileitemmodel.cpp:3230
+#: kitemviews/kfileitemmodel.cpp:3272
 msgctxt "@label"
 msgid "Word Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Line Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3232
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3233
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3235
-#: kitemviews/kfileitemmodel.cpp:3236
+#: kitemviews/kfileitemmodel.cpp:3274 kitemviews/kfileitemmodel.cpp:3275
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3277
+#: kitemviews/kfileitemmodel.cpp:3278
 msgctxt "@label"
 msgid "Image"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3249
+#: kitemviews/kfileitemmodel.cpp:3275 kitemviews/kfileitemmodel.cpp:3291
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3252
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3294
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3235
+#: kitemviews/kfileitemmodel.cpp:3277
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2966,7 +2996,7 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "పత్రికీకరణ"
 
-#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3278 kitemviews/kfileitemmodel.cpp:3297
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Width:"
@@ -2974,7 +3004,7 @@ msgctxt "@label"
 msgid "Width"
 msgstr "వెడల్పు:"
 
-#: kitemviews/kfileitemmodel.cpp:3237
+#: kitemviews/kfileitemmodel.cpp:3279
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Album:"
@@ -2982,15 +3012,15 @@ msgctxt "@label"
 msgid "Album"
 msgstr "ఆల్బమ్:"
 
-#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3238
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
-#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3279 kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3282
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3284
+#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
 msgctxt "@label"
 msgid "Audio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3238
+#: kitemviews/kfileitemmodel.cpp:3280
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Artist:"
@@ -2998,7 +3028,7 @@ msgctxt "@label"
 msgid "Artist"
 msgstr "కళాకారుడు:"
 
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3246
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3288
 #, fuzzy
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
@@ -3006,12 +3036,12 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "మరుగునవున్న ఫైళ్ళను చూపుము"
 
-#: kitemviews/kfileitemmodel.cpp:3240 kitemviews/kfileitemmodel.cpp:3247
+#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3289
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3250
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3292
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -3019,7 +3049,7 @@ msgctxt "@label"
 msgid "Duration"
 msgstr "పత్రికీకరణ"
 
-#: kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3284
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Genre:"
@@ -3027,7 +3057,7 @@ msgctxt "@label"
 msgid "Genre"
 msgstr "Genre:"
 
-#: kitemviews/kfileitemmodel.cpp:3243
+#: kitemviews/kfileitemmodel.cpp:3285
 #, fuzzy
 #| msgctxt "@action:inmenu View"
 #| msgid "Reload"
@@ -3035,7 +3065,7 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "తిరిగిలోడ్‌చేయి"
 
-#: kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3286
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Track:"
@@ -3043,42 +3073,42 @@ msgctxt "@label"
 msgid "Track"
 msgstr "ట్రాక్:"
 
-#: kitemviews/kfileitemmodel.cpp:3245
+#: kitemviews/kfileitemmodel.cpp:3287
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3245 kitemviews/kfileitemmodel.cpp:3246
-#: kitemviews/kfileitemmodel.cpp:3247 kitemviews/kfileitemmodel.cpp:3248
-#: kitemviews/kfileitemmodel.cpp:3249 kitemviews/kfileitemmodel.cpp:3250
-#: kitemviews/kfileitemmodel.cpp:3251 kitemviews/kfileitemmodel.cpp:3252
-#: kitemviews/kfileitemmodel.cpp:3253 kitemviews/kfileitemmodel.cpp:3254
-#: kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
+#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3290
+#: kitemviews/kfileitemmodel.cpp:3291 kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3294
+#: kitemviews/kfileitemmodel.cpp:3295 kitemviews/kfileitemmodel.cpp:3296
+#: kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3248
+#: kitemviews/kfileitemmodel.cpp:3290
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3251
+#: kitemviews/kfileitemmodel.cpp:3293
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3253
+#: kitemviews/kfileitemmodel.cpp:3295
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3254
+#: kitemviews/kfileitemmodel.cpp:3296
 msgctxt "@label"
 msgid "Video Codec"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3256
+#: kitemviews/kfileitemmodel.cpp:3298
 #, fuzzy
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -3086,11 +3116,11 @@ msgctxt "@label"
 msgid "Path"
 msgstr "అతికించుము"
 
-#: kitemviews/kfileitemmodel.cpp:3256 kitemviews/kfileitemmodel.cpp:3257
-#: kitemviews/kfileitemmodel.cpp:3258 kitemviews/kfileitemmodel.cpp:3259
-#: kitemviews/kfileitemmodel.cpp:3260 kitemviews/kfileitemmodel.cpp:3261
-#: kitemviews/kfileitemmodel.cpp:3262 kitemviews/kfileitemmodel.cpp:3263
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3298 kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3300 kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3302 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3306
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -3098,7 +3128,7 @@ msgctxt "@label"
 msgid "Other"
 msgstr "ఇతరములు"
 
-#: kitemviews/kfileitemmodel.cpp:3257
+#: kitemviews/kfileitemmodel.cpp:3299
 #, fuzzy
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -3106,12 +3136,12 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "దస్త్రాల అభికర్త"
 
-#: kitemviews/kfileitemmodel.cpp:3258
+#: kitemviews/kfileitemmodel.cpp:3300
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3259
+#: kitemviews/kfileitemmodel.cpp:3301
 #, fuzzy
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Invert Selection"
@@ -3119,7 +3149,7 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "విలోమ యెంపిక"
 
-#: kitemviews/kfileitemmodel.cpp:3260
+#: kitemviews/kfileitemmodel.cpp:3302
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -3127,12 +3157,12 @@ msgctxt "@label"
 msgid "Link Destination"
 msgstr "పత్రికీకరణ"
 
-#: kitemviews/kfileitemmodel.cpp:3261
+#: kitemviews/kfileitemmodel.cpp:3303
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Permissions"
@@ -3140,14 +3170,14 @@ msgctxt "@label"
 msgid "Permissions"
 msgstr "అనుమతులు"
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3263
+#: kitemviews/kfileitemmodel.cpp:3305
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Owner"
@@ -3155,7 +3185,7 @@ msgctxt "@label"
 msgid "Owner"
 msgstr "యజమాని"
 
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3306
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -3163,7 +3193,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "సమూహము"
 
-#: kitemviews/kfileitemmodel.cpp:3365
+#: kitemviews/kfileitemmodel.cpp:3407
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Unknown size"
@@ -6380,43 +6410,43 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "పరిమాణము: 1 పిగ్జెల్"
 msgstr[1] "పరిమాణము: 1 పిగ్జెల్"
 
-#: settings/viewpropertiesdialog.cpp:59
+#: settings/viewpropertiesdialog.cpp:55
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:71
+#: settings/viewpropertiesdialog.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "ప్రతిమలు"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "వివరాలు"
 
-#: settings/viewpropertiesdialog.cpp:76
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "ఆరోహణ"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "అవరోహణ"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:81
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -6424,7 +6454,7 @@ msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:82
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show hidden files"
@@ -6432,25 +6462,25 @@ msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "మరుగునవుంచిన ఫైళ్ళను చూపుము"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:83
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "ముందస్తు వీక్షణం జరిపించుము"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:84
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "సమూహములలో చూపుము"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "మరుగునవుంచిన ఫైళ్ళను చూపుము"
 
-#: settings/viewpropertiesdialog.cpp:92
+#: settings/viewpropertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Additional Information"
@@ -6458,37 +6488,37 @@ msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "అదనపు సమాచారము"
 
-#: settings/viewpropertiesdialog.cpp:131
+#: settings/viewpropertiesdialog.cpp:123
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:141
+#: settings/viewpropertiesdialog.cpp:133
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "వీక్షణ తీరు:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:134
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "వరుసక్రమము:"
 
-#: settings/viewpropertiesdialog.cpp:146
+#: settings/viewpropertiesdialog.cpp:138
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "View Properties"
 msgid "View options:"
 msgstr "గుణాలను చూ‍డుము"
 
-#: settings/viewpropertiesdialog.cpp:165
+#: settings/viewpropertiesdialog.cpp:157
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "ప్రస్తుత ఫోల్డర్"
 
-#: settings/viewpropertiesdialog.cpp:167
+#: settings/viewpropertiesdialog.cpp:159
 #, fuzzy, kde-format
 #| msgctxt "@option:radio Apply View Properties To"
 #| msgid "Current folder including all sub folders"
@@ -6496,19 +6526,19 @@ msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "అన్ని వుప ఫోల్డర్లను కలుపుకొని ప్రస్తుత ఫోల్డర్"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:160
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "అన్ని ఫోల్డర్లు"
 
-#: settings/viewpropertiesdialog.cpp:177
+#: settings/viewpropertiesdialog.cpp:169
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:182
+#: settings/viewpropertiesdialog.cpp:174
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Use as default for new folders"
@@ -6516,7 +6546,7 @@ msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "కొత్త ఫోల్డర్లకు అప్రమేయంగా వుపయోగించుము"
 
-#: settings/viewpropertiesdialog.cpp:331
+#: settings/viewpropertiesdialog.cpp:323
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -6528,7 +6558,7 @@ msgid ""
 "continue?"
 msgstr "అన్ని వుప ఫోల్డర్ల యొక్క వీక్షణ గుణములు మార్చబడతాయి. మీరు కొనసాగిద్దామని అనుకొనుచున్నారా?"
 
-#: settings/viewpropertiesdialog.cpp:357
+#: settings/viewpropertiesdialog.cpp:349
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6736,7 +6766,7 @@ msgstr "అప్రమేయ:"
 msgid "Reload"
 msgstr "తిరిగిలోడ్‌చేయి"
 
-#: views/dolphinview.cpp:785
+#: views/dolphinview.cpp:782
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6744,7 +6774,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 ఫోల్డరు ఎంపిక కాబడినది"
 msgstr[1] "1 ఫోల్డరు ఎంపిక కాబడినది"
 
-#: views/dolphinview.cpp:786
+#: views/dolphinview.cpp:783
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6752,7 +6782,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 ఫైలు ఎంపిక కాబడినది"
 msgstr[1] "1 ఫైలు ఎంపిక కాబడినది"
 
-#: views/dolphinview.cpp:788
+#: views/dolphinview.cpp:785
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -6762,7 +6792,7 @@ msgid_plural "%1 folders"
 msgstr[0] "ఫొల్డర్"
 msgstr[1] "ఫొల్డర్"
 
-#: views/dolphinview.cpp:789
+#: views/dolphinview.cpp:786
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6772,19 +6802,19 @@ msgid_plural "%1 files"
 msgstr[0] "k.meetme@gmail.com,infyquest@gmail.com"
 msgstr[1] "k.meetme@gmail.com,infyquest@gmail.com"
 
-#: views/dolphinview.cpp:793
+#: views/dolphinview.cpp:790
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:795
+#: views/dolphinview.cpp:792
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:799
+#: views/dolphinview.cpp:796
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -6792,20 +6822,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
+#: views/dolphinview.cpp:1064 views/dolphinview.cpp:1073
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1279
+#: views/dolphinview.cpp:1276
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1284
+#: views/dolphinview.cpp:1281
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -6815,13 +6845,13 @@ msgid_plural "Open %1 Items"
 msgstr[0] "అతికించుము"
 msgstr[1] "అతికించుము"
 
-#: views/dolphinview.cpp:1425
+#: views/dolphinview.cpp:1422
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1429
+#: views/dolphinview.cpp:1426
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -6829,7 +6859,7 @@ msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "నిలువువరుస వెడల్పు"
 
-#: views/dolphinview.cpp:1434
+#: views/dolphinview.cpp:1431
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -6837,7 +6867,7 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "నిలువువరుస వెడల్పు"
 
-#: views/dolphinview.cpp:2178
+#: views/dolphinview.cpp:2175
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -6845,13 +6875,13 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ట్రాష్‌కు కదుల్చు కార్యము పుర్తైనది."
 
-#: views/dolphinview.cpp:2188
+#: views/dolphinview.cpp:2185
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "తొలగింపు కార్యము పూర్తైనది."
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2386
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rename inline"
@@ -6859,35 +6889,35 @@ msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ఇన్‌లైన్‌ను పునఃనామకరణ చేయుము"
 
-#: views/dolphinview.cpp:2393
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2395
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "మరుగునవున్న ఫైళ్ళను చూపుము"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "ఇంటి ఫొల్డర్"
 
-#: views/dolphinview.cpp:2418
+#: views/dolphinview.cpp:2415
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6895,7 +6925,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "పునఃనామకరణ..."
 
-#: views/dolphinview.cpp:2428
+#: views/dolphinview.cpp:2425
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6904,7 +6934,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2432
+#: views/dolphinview.cpp:2429
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6913,7 +6943,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2438
+#: views/dolphinview.cpp:2435
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6921,109 +6951,109 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "రకం:"
 
-#: views/dolphinview.cpp:2486
+#: views/dolphinview.cpp:2483
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "స్థానము ఖాళీగావుంది"
 
-#: views/dolphinview.cpp:2488
+#: views/dolphinview.cpp:2485
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "స్థానము '%1' సరైనదికాదు."
 
-#: views/dolphinview.cpp:2878
+#: views/dolphinview.cpp:2875
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
-#: views/dolphinview.cpp:2907
+#: views/dolphinview.cpp:2904
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
-#: views/dolphinview.cpp:2909
+#: views/dolphinview.cpp:2906
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2911
+#: views/dolphinview.cpp:2908
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2910
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "స్థానము ఖాళీగావుంది"
 
-#: views/dolphinview.cpp:2916
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2919
+#: views/dolphinview.cpp:2916
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2923
+#: views/dolphinview.cpp:2920
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "No recently used items"
 msgstr "టాబ్‌ను మూయుము"
 
-#: views/dolphinview.cpp:2925
+#: views/dolphinview.cpp:2922
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2927
+#: views/dolphinview.cpp:2924
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2929
+#: views/dolphinview.cpp:2926
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2931
+#: views/dolphinview.cpp:2928
 #, kde-format
 msgid "No Apple devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2934
+#: views/dolphinview.cpp:2931
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2936
+#: views/dolphinview.cpp:2933
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2939
+#: views/dolphinview.cpp:2936
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2941
+#: views/dolphinview.cpp:2938
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
 msgid "Folder is empty"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:86
+#: views/dolphinviewactionhandler.cpp:84
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -7031,7 +7061,7 @@ msgctxt "@action"
 msgid "Create Folder…"
 msgstr "ఫోల్డరును సృష్టించుము..."
 
-#: views/dolphinviewactionhandler.cpp:95
+#: views/dolphinviewactionhandler.cpp:93
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -7039,7 +7069,7 @@ msgctxt "@action"
 msgid "Create Subfolder…"
 msgstr "ఫోల్డరును సృష్టించుము..."
 
-#: views/dolphinviewactionhandler.cpp:103
+#: views/dolphinviewactionhandler.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -7047,7 +7077,7 @@ msgctxt "@action"
 msgid "Create File…"
 msgstr "ఫోల్డరును సృష్టించుము..."
 
-#: views/dolphinviewactionhandler.cpp:112
+#: views/dolphinviewactionhandler.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7055,7 +7085,7 @@ msgid ""
 "items at once results in their new names differing only in a number."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:124
+#: views/dolphinviewactionhandler.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7064,7 +7094,7 @@ msgid ""
 "deleted later if disk space is needed."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:137
+#: views/dolphinviewactionhandler.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7072,7 +7102,7 @@ msgid ""
 "recovered by normal means."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:145
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Delete (using shortcut for Trash)"
@@ -7080,13 +7110,13 @@ msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "తొలగించు (ట్రాష్‌కు శీఘ్రమార్గమును వుపయోగించి)"
 
-#: views/dolphinviewactionhandler.cpp:153
+#: views/dolphinviewactionhandler.cpp:151
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:159
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Properties"
@@ -7094,7 +7124,7 @@ msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "గుణాలు"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -7104,7 +7134,7 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -7112,13 +7142,13 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "స్థానము:"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:182
+#: views/dolphinviewactionhandler.cpp:180
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Move to Trash"
@@ -7126,7 +7156,7 @@ msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "ట్రాష్‌కు కదుల్చుము"
 
-#: views/dolphinviewactionhandler.cpp:183
+#: views/dolphinviewactionhandler.cpp:181
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -7134,13 +7164,13 @@ msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "తొలగించుము"
 
-#: views/dolphinviewactionhandler.cpp:184
+#: views/dolphinviewactionhandler.cpp:182
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:185
+#: views/dolphinviewactionhandler.cpp:183
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -7148,7 +7178,7 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "స్థానము:"
 
-#: views/dolphinviewactionhandler.cpp:214
+#: views/dolphinviewactionhandler.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -7159,7 +7189,7 @@ msgid ""
 "interface> option is enabled.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -7168,7 +7198,7 @@ msgid ""
 "you an overview in folders with many items.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -7181,7 +7211,7 @@ msgid ""
 "contents of multiple folders in the same list.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:233
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "View Mode"
@@ -7189,44 +7219,44 @@ msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "వీక్షణం తీరు"
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:234
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:254
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:258
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
 msgid "Zoom To Default"
 msgstr "అప్రమేయ:"
 
-#: views/dolphinviewactionhandler.cpp:261
+#: views/dolphinviewactionhandler.cpp:259
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:267
+#: views/dolphinviewactionhandler.cpp:265
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:273
+#: views/dolphinviewactionhandler.cpp:271
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show preview"
@@ -7234,7 +7264,7 @@ msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "ముందస్తు వీక్షణం జరిపించుము"
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:272
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show preview"
@@ -7242,7 +7272,7 @@ msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "ముందస్తు వీక్షణం జరిపించుము"
 
-#: views/dolphinviewactionhandler.cpp:276
+#: views/dolphinviewactionhandler.cpp:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7251,7 +7281,7 @@ msgid ""
 "the images."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:284
+#: views/dolphinviewactionhandler.cpp:282
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -7259,7 +7289,7 @@ msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
 msgstr "వరుసక్రమము:"
 
-#: views/dolphinviewactionhandler.cpp:287
+#: views/dolphinviewactionhandler.cpp:285
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -7267,7 +7297,7 @@ msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:291
+#: views/dolphinviewactionhandler.cpp:289
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show hidden files"
@@ -7275,7 +7305,7 @@ msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "మరుగునవుంచిన ఫైళ్ళను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:299
+#: views/dolphinviewactionhandler.cpp:297
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Sort By"
@@ -7283,7 +7313,7 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "దీనిద్వారా వరుసక్రమము"
 
-#: views/dolphinviewactionhandler.cpp:331
+#: views/dolphinviewactionhandler.cpp:330
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -7291,7 +7321,7 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:334
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Additional Information"
@@ -7307,7 +7337,7 @@ msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
 msgstr "సమూహము"
 
-#: views/dolphinviewactionhandler.cpp:348
+#: views/dolphinviewactionhandler.cpp:349
 #, fuzzy, kde-format
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -7315,7 +7345,7 @@ msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "సమూహము"
 
-#: views/dolphinviewactionhandler.cpp:350
+#: views/dolphinviewactionhandler.cpp:351
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7323,7 +7353,7 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:361
+#: views/dolphinviewactionhandler.cpp:362
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Grid spacing"
 #| msgid "None"
@@ -7331,13 +7361,13 @@ msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "ఏదీకాదు"
 
-#: views/dolphinviewactionhandler.cpp:368
+#: views/dolphinviewactionhandler.cpp:369
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:383
+#: views/dolphinviewactionhandler.cpp:384
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
@@ -7345,7 +7375,7 @@ msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "మరుగునవున్న ఫైళ్ళను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:385
+#: views/dolphinviewactionhandler.cpp:386
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7359,7 +7389,7 @@ msgid ""
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:399
+#: views/dolphinviewactionhandler.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
@@ -7367,14 +7397,14 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "వీక్షణ గుణాలను సర్దుము..."
 
-#: views/dolphinviewactionhandler.cpp:402
+#: views/dolphinviewactionhandler.cpp:403
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:408
+#: views/dolphinviewactionhandler.cpp:409
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
@@ -7382,7 +7412,7 @@ msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "అప్రమేయ:"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:410
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
@@ -7390,7 +7420,7 @@ msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "అప్రమేయ:"
 
-#: views/dolphinviewactionhandler.cpp:414
+#: views/dolphinviewactionhandler.cpp:415
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "Sett&ings"
@@ -7398,7 +7428,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "(&i) అమర్పులు"
 
-#: views/dolphinviewactionhandler.cpp:416
+#: views/dolphinviewactionhandler.cpp:417
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7406,7 +7436,7 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:790
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Icons"
@@ -7414,7 +7444,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "ప్రతిమలు"
 
-#: views/dolphinviewactionhandler.cpp:783
+#: views/dolphinviewactionhandler.cpp:791
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -7422,13 +7452,13 @@ msgctxt "@info"
 msgid "Icons view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:801
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:794
+#: views/dolphinviewactionhandler.cpp:802
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -7436,7 +7466,7 @@ msgctxt "@info"
 msgid "Compact view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:812
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Details"
@@ -7444,7 +7474,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "వివరాలు"
 
-#: views/dolphinviewactionhandler.cpp:805
+#: views/dolphinviewactionhandler.cpp:813
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -7452,19 +7482,19 @@ msgctxt "@info"
 msgid "Details view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:836
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:829
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:839
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7472,7 +7502,7 @@ msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:832
+#: views/dolphinviewactionhandler.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7480,7 +7510,7 @@ msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:842
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7488,7 +7518,7 @@ msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:835
+#: views/dolphinviewactionhandler.cpp:843
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -7496,7 +7526,7 @@ msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:845
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -7504,7 +7534,7 @@ msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:846
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7512,7 +7542,7 @@ msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:848
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Descending"
@@ -7520,7 +7550,7 @@ msgctxt "Sort descending"
 msgid "Descending"
 msgstr "అవరోహణ"
 
-#: views/dolphinviewactionhandler.cpp:841
+#: views/dolphinviewactionhandler.cpp:849
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Ascending"
@@ -7528,7 +7558,7 @@ msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ఆరోహణ"
 
-#: views/dolphinviewactionhandler.cpp:939
+#: views/dolphinviewactionhandler.cpp:947
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7541,12 +7571,12 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:948
+#: views/dolphinviewactionhandler.cpp:956
 #, kde-format
 msgid "Actions for %1"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:955
+#: views/dolphinviewactionhandler.cpp:963
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "

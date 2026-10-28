@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 00:52+0000\n"
+"POT-Creation-Date: 2026-10-28 01:04+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -291,7 +291,7 @@ msgid ""
 msgstr "У гэтым акне адкрыта некалькі ўкладак. Сапраўды хочаце выйсці?"
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2441
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "Do not ask again"
 msgstr "Больш не пытацца"
@@ -2780,92 +2780,124 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:1315
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search is disabled. Enable it in System Settings to see this "
+"information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1318
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search indexes only file names. Enable indexing of file content in "
+"System Settings to see this information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1321
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+#| msgid "This folder is not writable for you."
+msgctxt "@info:tooltip"
+msgid "This folder is not indexed by File Search."
+msgstr "Вы не можаце запісваць у гэты каталог."
+
+#: kitemviews/kfileitemmodel.cpp:1326
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"This information comes from File Search, which this version of Dolphin was "
+"built without."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Іншае"
 
-#: kitemviews/kfileitemmodel.cpp:2834
+#: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Каталогі"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2881
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Маленькія"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2883
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Сярэднія"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2885
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Вялікія"
 
-#: kitemviews/kfileitemmodel.cpp:2892
+#: kitemviews/kfileitemmodel.cpp:2931
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Сёння"
 
-#: kitemviews/kfileitemmodel.cpp:2895
+#: kitemviews/kfileitemmodel.cpp:2934
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Учора"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2937
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2902
+#: kitemviews/kfileitemmodel.cpp:2941
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2907
+#: kitemviews/kfileitemmodel.cpp:2946
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Тыдзень таму"
 
-#: kitemviews/kfileitemmodel.cpp:2910
+#: kitemviews/kfileitemmodel.cpp:2949
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Два тыдні таму"
 
-#: kitemviews/kfileitemmodel.cpp:2913
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Тры тыдні таму"
 
-#: kitemviews/kfileitemmodel.cpp:2917
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Раней у гэтым месяцы"
 
-#: kitemviews/kfileitemmodel.cpp:2931
+#: kitemviews/kfileitemmodel.cpp:2970
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2875,7 +2907,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "\"Учора\" (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2938
+#: kitemviews/kfileitemmodel.cpp:2977
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2883,7 +2915,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2990
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2891,7 +2923,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2955
+#: kitemviews/kfileitemmodel.cpp:2994
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2899,7 +2931,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2963
+#: kitemviews/kfileitemmodel.cpp:3002
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2909,7 +2941,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Тыдзень таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2970
+#: kitemviews/kfileitemmodel.cpp:3009
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2917,7 +2949,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2984
+#: kitemviews/kfileitemmodel.cpp:3023
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2927,7 +2959,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Два тыдні таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2991
+#: kitemviews/kfileitemmodel.cpp:3030
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2935,7 +2967,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3005
+#: kitemviews/kfileitemmodel.cpp:3044
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2945,7 +2977,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Тры тыдні таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:3012
+#: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2953,7 +2985,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3026
+#: kitemviews/kfileitemmodel.cpp:3065
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2963,7 +2995,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Раней у' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:3033
+#: kitemviews/kfileitemmodel.cpp:3072
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2971,7 +3003,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3047
+#: kitemviews/kfileitemmodel.cpp:3086
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2979,7 +3011,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:3051
+#: kitemviews/kfileitemmodel.cpp:3090
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2987,179 +3019,179 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3091 kitemviews/kfileitemmodel.cpp:3104
-#: kitemviews/kfileitemmodel.cpp:3117
+#: kitemviews/kfileitemmodel.cpp:3130 kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3156
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Чытанне, "
 
-#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3107
-#: kitemviews/kfileitemmodel.cpp:3120
+#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3159
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Запіс, "
 
-#: kitemviews/kfileitemmodel.cpp:3097 kitemviews/kfileitemmodel.cpp:3110
-#: kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3162
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Выкананне, "
 
-#: kitemviews/kfileitemmodel.cpp:3099 kitemviews/kfileitemmodel.cpp:3112
-#: kitemviews/kfileitemmodel.cpp:3125
+#: kitemviews/kfileitemmodel.cpp:3138 kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3164
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Забаронена"
 
-#: kitemviews/kfileitemmodel.cpp:3127
+#: kitemviews/kfileitemmodel.cpp:3166
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Карыстальнік: %1 | Група: %2 | Іншыя: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3217
+#: kitemviews/kfileitemmodel.cpp:3259
 msgctxt "@label"
 msgid "Name"
 msgstr "Назва"
 
-#: kitemviews/kfileitemmodel.cpp:3218
+#: kitemviews/kfileitemmodel.cpp:3260
 msgctxt "@label"
 msgid "Size"
 msgstr "Памер"
 
-#: kitemviews/kfileitemmodel.cpp:3219
+#: kitemviews/kfileitemmodel.cpp:3261
 msgctxt "@label"
 msgid "Modified"
 msgstr "Зменена"
 
-#: kitemviews/kfileitemmodel.cpp:3219 kitemviews/kfileitemmodel.cpp:3220
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3261 kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Фармат даты можна абраць у наладах."
 
-#: kitemviews/kfileitemmodel.cpp:3220
+#: kitemviews/kfileitemmodel.cpp:3262
 msgctxt "@label"
 msgid "Created"
 msgstr "Створана"
 
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Апошні доступ"
 
-#: kitemviews/kfileitemmodel.cpp:3222
+#: kitemviews/kfileitemmodel.cpp:3264
 msgctxt "@label"
 msgid "Type"
 msgstr "Тып"
 
-#: kitemviews/kfileitemmodel.cpp:3223
+#: kitemviews/kfileitemmodel.cpp:3265
 msgctxt "@label"
 msgid "Rating"
 msgstr "Рэйтынг"
 
-#: kitemviews/kfileitemmodel.cpp:3224
+#: kitemviews/kfileitemmodel.cpp:3266
 msgctxt "@label"
 msgid "Tags"
 msgstr "Тэгі"
 
-#: kitemviews/kfileitemmodel.cpp:3225
+#: kitemviews/kfileitemmodel.cpp:3267
 msgctxt "@label"
 msgid "Comment"
 msgstr "Каментар"
 
-#: kitemviews/kfileitemmodel.cpp:3226
+#: kitemviews/kfileitemmodel.cpp:3268
 msgctxt "@label"
 msgid "Title"
 msgstr "Назва"
 
-#: kitemviews/kfileitemmodel.cpp:3226 kitemviews/kfileitemmodel.cpp:3227
-#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
-#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3268 kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3270 kitemviews/kfileitemmodel.cpp:3271
+#: kitemviews/kfileitemmodel.cpp:3272 kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Document"
 msgstr "Дакумент"
 
-#: kitemviews/kfileitemmodel.cpp:3227
+#: kitemviews/kfileitemmodel.cpp:3269
 msgctxt "@label"
 msgid "Author"
 msgstr "Стваральнік"
 
-#: kitemviews/kfileitemmodel.cpp:3228
+#: kitemviews/kfileitemmodel.cpp:3270
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Выдавец"
 
-#: kitemviews/kfileitemmodel.cpp:3229
+#: kitemviews/kfileitemmodel.cpp:3271
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Колькасць старонак"
 
-#: kitemviews/kfileitemmodel.cpp:3230
+#: kitemviews/kfileitemmodel.cpp:3272
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Колькасць слоў"
 
-#: kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Колькасць радкоў"
 
-#: kitemviews/kfileitemmodel.cpp:3232
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Дата фатаграфавання"
 
-#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3233
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3235
-#: kitemviews/kfileitemmodel.cpp:3236
+#: kitemviews/kfileitemmodel.cpp:3274 kitemviews/kfileitemmodel.cpp:3275
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3277
+#: kitemviews/kfileitemmodel.cpp:3278
 msgctxt "@label"
 msgid "Image"
 msgstr "Выява"
 
-#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3249
+#: kitemviews/kfileitemmodel.cpp:3275 kitemviews/kfileitemmodel.cpp:3291
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Памеры"
 
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3252
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3294
 msgctxt "@label"
 msgid "Height"
 msgstr "Вышыня"
 
-#: kitemviews/kfileitemmodel.cpp:3235
+#: kitemviews/kfileitemmodel.cpp:3277
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Арыентацыя"
 
-#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3278 kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Width"
 msgstr "Шырыня"
 
-#: kitemviews/kfileitemmodel.cpp:3237
+#: kitemviews/kfileitemmodel.cpp:3279
 msgctxt "@label"
 msgid "Album"
 msgstr "Альбом"
 
-#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3238
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
-#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3279 kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3282
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3284
+#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
 msgctxt "@label"
 msgid "Audio"
 msgstr "Аўдыё"
 
-#: kitemviews/kfileitemmodel.cpp:3238
+#: kitemviews/kfileitemmodel.cpp:3280
 msgctxt "@label"
 msgid "Artist"
 msgstr "Выканаўца"
 
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3246
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3288
 #, fuzzy
 #| msgctxt "@item:inlistbox"
 #| msgid "Audio Files"
@@ -3167,62 +3199,62 @@ msgctxt "@label"
 msgid "Audio Codec"
 msgstr "Аўдыяфайлы"
 
-#: kitemviews/kfileitemmodel.cpp:3240 kitemviews/kfileitemmodel.cpp:3247
+#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3289
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Бітрэйт"
 
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3250
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3292
 msgctxt "@label"
 msgid "Duration"
 msgstr "Працягласць"
 
-#: kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Genre"
 msgstr "Жанр"
 
-#: kitemviews/kfileitemmodel.cpp:3243
+#: kitemviews/kfileitemmodel.cpp:3285
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Год выпуску"
 
-#: kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3286
 msgctxt "@label"
 msgid "Track"
 msgstr "Кампазіцыя"
 
-#: kitemviews/kfileitemmodel.cpp:3245
+#: kitemviews/kfileitemmodel.cpp:3287
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Суадносіны бакоў"
 
-#: kitemviews/kfileitemmodel.cpp:3245 kitemviews/kfileitemmodel.cpp:3246
-#: kitemviews/kfileitemmodel.cpp:3247 kitemviews/kfileitemmodel.cpp:3248
-#: kitemviews/kfileitemmodel.cpp:3249 kitemviews/kfileitemmodel.cpp:3250
-#: kitemviews/kfileitemmodel.cpp:3251 kitemviews/kfileitemmodel.cpp:3252
-#: kitemviews/kfileitemmodel.cpp:3253 kitemviews/kfileitemmodel.cpp:3254
-#: kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
+#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3290
+#: kitemviews/kfileitemmodel.cpp:3291 kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3294
+#: kitemviews/kfileitemmodel.cpp:3295 kitemviews/kfileitemmodel.cpp:3296
+#: kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Video"
 msgstr "Відэа"
 
-#: kitemviews/kfileitemmodel.cpp:3248
+#: kitemviews/kfileitemmodel.cpp:3290
 msgctxt "@label"
 msgid "Color Space"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3251
+#: kitemviews/kfileitemmodel.cpp:3293
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Частата кадраў"
 
-#: kitemviews/kfileitemmodel.cpp:3253
+#: kitemviews/kfileitemmodel.cpp:3295
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:3254
+#: kitemviews/kfileitemmodel.cpp:3296
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Video"
@@ -3230,21 +3262,21 @@ msgctxt "@label"
 msgid "Video Codec"
 msgstr "Відэа"
 
-#: kitemviews/kfileitemmodel.cpp:3256
+#: kitemviews/kfileitemmodel.cpp:3298
 msgctxt "@label"
 msgid "Path"
 msgstr "Шлях"
 
-#: kitemviews/kfileitemmodel.cpp:3256 kitemviews/kfileitemmodel.cpp:3257
-#: kitemviews/kfileitemmodel.cpp:3258 kitemviews/kfileitemmodel.cpp:3259
-#: kitemviews/kfileitemmodel.cpp:3260 kitemviews/kfileitemmodel.cpp:3261
-#: kitemviews/kfileitemmodel.cpp:3262 kitemviews/kfileitemmodel.cpp:3263
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3298 kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3300 kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3302 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "Other"
 msgstr "Іншае"
 
-#: kitemviews/kfileitemmodel.cpp:3257
+#: kitemviews/kfileitemmodel.cpp:3299
 #, fuzzy
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -3252,32 +3284,32 @@ msgctxt "@label"
 msgid "Folder Name"
 msgstr "Кіраўнік файлаў"
 
-#: kitemviews/kfileitemmodel.cpp:3258
+#: kitemviews/kfileitemmodel.cpp:3300
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Пашырэнне файла"
 
-#: kitemviews/kfileitemmodel.cpp:3259
+#: kitemviews/kfileitemmodel.cpp:3301
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Час выдалення"
 
-#: kitemviews/kfileitemmodel.cpp:3260
+#: kitemviews/kfileitemmodel.cpp:3302
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Месца прызначэння спасылкі"
 
-#: kitemviews/kfileitemmodel.cpp:3261
+#: kitemviews/kfileitemmodel.cpp:3303
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Спампавана з"
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Правы доступу"
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3286,17 +3318,17 @@ msgstr ""
 "Фармат правоў доступу можна змяніць у наладах. Варыянты: сімвальны, лічбавы "
 "(васьмярковы) або камбінаваны"
 
-#: kitemviews/kfileitemmodel.cpp:3263
+#: kitemviews/kfileitemmodel.cpp:3305
 msgctxt "@label"
 msgid "Owner"
 msgstr "Уласнік"
 
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "User Group"
 msgstr "Група карыстальнікаў"
 
-#: kitemviews/kfileitemmodel.cpp:3365
+#: kitemviews/kfileitemmodel.cpp:3407
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6319,131 +6351,131 @@ msgstr[1] "Памер: %1 пікселі"
 msgstr[2] "Памер: %1 пікселяў"
 msgstr[3] "Памер: %1 пікселі"
 
-#: settings/viewpropertiesdialog.cpp:59
+#: settings/viewpropertiesdialog.cpp:55
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "Стыль выгляду"
 
-#: settings/viewpropertiesdialog.cpp:71
+#: settings/viewpropertiesdialog.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "Значкі"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "Сціслы выгляд"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "Падрабязы выгляд"
 
-#: settings/viewpropertiesdialog.cpp:76
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "Па павелічэнні"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "Па памяншэнні"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:81
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "Спачатку паказваць каталогі"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:82
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "Паказваць схаваныя файлы ў канцы"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:83
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "Паказваць мініяцюры"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:84
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "Паказваць у групах"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "Паказваць схаваныя файлы"
 
-#: settings/viewpropertiesdialog.cpp:92
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Дадатковая інфармацыя"
 
-#: settings/viewpropertiesdialog.cpp:131
+#: settings/viewpropertiesdialog.cpp:123
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Абярыце, што бачыць у кожным файле або каталозе:"
 
-#: settings/viewpropertiesdialog.cpp:141
+#: settings/viewpropertiesdialog.cpp:133
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Рэжым выгляду:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:134
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Сартаванне:"
 
-#: settings/viewpropertiesdialog.cpp:146
+#: settings/viewpropertiesdialog.cpp:138
 #, kde-format
 msgid "View options:"
 msgstr "Параметры выгляду:"
 
-#: settings/viewpropertiesdialog.cpp:165
+#: settings/viewpropertiesdialog.cpp:157
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Бягучы каталог"
 
-#: settings/viewpropertiesdialog.cpp:167
+#: settings/viewpropertiesdialog.cpp:159
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Бягучы каталог і ўкладзеныя каталогі"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:160
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Усе каталогі"
 
-#: settings/viewpropertiesdialog.cpp:177
+#: settings/viewpropertiesdialog.cpp:169
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Ужыць да:"
 
-#: settings/viewpropertiesdialog.cpp:182
+#: settings/viewpropertiesdialog.cpp:174
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Выкарыстоўваць як прадвызначаныя налады"
 
-#: settings/viewpropertiesdialog.cpp:331
+#: settings/viewpropertiesdialog.cpp:323
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6451,7 +6483,7 @@ msgid ""
 "continue?"
 msgstr "Уласцівасці для ўсіх укладзеных каталогаў будуць змененыя. Працягнуць?"
 
-#: settings/viewpropertiesdialog.cpp:357
+#: settings/viewpropertiesdialog.cpp:349
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6656,7 +6688,7 @@ msgstr "Прадвызначана"
 msgid "Reload"
 msgstr "Перазагрузіць"
 
-#: views/dolphinview.cpp:785
+#: views/dolphinview.cpp:782
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6666,7 +6698,7 @@ msgstr[1] "Абрана %1 каталогі"
 msgstr[2] "Абрана %1 каталогаў"
 msgstr[3] "Абрана %1 каталогі"
 
-#: views/dolphinview.cpp:786
+#: views/dolphinview.cpp:783
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6676,7 +6708,7 @@ msgstr[1] "Абрана %1 файлы"
 msgstr[2] "Абрана %1 файлаў"
 msgstr[3] "Абрана %1 файлы"
 
-#: views/dolphinview.cpp:788
+#: views/dolphinview.cpp:785
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6686,7 +6718,7 @@ msgstr[1] "%1 каталогі"
 msgstr[2] "%1 каталогаў"
 msgstr[3] "%1 каталогі"
 
-#: views/dolphinview.cpp:789
+#: views/dolphinview.cpp:786
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6696,31 +6728,31 @@ msgstr[1] "%1 файлы"
 msgstr[2] "%1 файлаў"
 msgstr[3] "%1 файлы"
 
-#: views/dolphinview.cpp:793
+#: views/dolphinview.cpp:790
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:795
+#: views/dolphinview.cpp:792
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:799
+#: views/dolphinview.cpp:796
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 каталогаў, 0 файлаў"
 
-#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
+#: views/dolphinview.cpp:1064 views/dolphinview.cpp:1073
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 копія"
 
-#: views/dolphinview.cpp:1279
+#: views/dolphinview.cpp:1276
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6729,7 +6761,7 @@ msgstr[1] "Сапраўды хочаце адкрыць %1 элементы?"
 msgstr[2] "Сапраўды хочаце адкрыць %1 элементаў?"
 msgstr[3] "Сапраўды хочаце адкрыць %1 элементы?"
 
-#: views/dolphinview.cpp:1284
+#: views/dolphinview.cpp:1281
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6739,43 +6771,43 @@ msgstr[1] "Адкрыць %1 элементы"
 msgstr[2] "Адкрыць %1 элементаў"
 msgstr[3] "Адкрыць %1 элементы"
 
-#: views/dolphinview.cpp:1425
+#: views/dolphinview.cpp:1422
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Бакавы водступ"
 
-#: views/dolphinview.cpp:1429
+#: views/dolphinview.cpp:1426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Аўтаматычная шырыня слупкоў"
 
-#: views/dolphinview.cpp:1434
+#: views/dolphinview.cpp:1431
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Адвольная шырыня слупкоў"
 
-#: views/dolphinview.cpp:2178
+#: views/dolphinview.cpp:2175
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Аперацыя перамяшчэння ў сметніцу завершаная."
 
-#: views/dolphinview.cpp:2188
+#: views/dolphinview.cpp:2185
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Выдаленне скончана."
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Змяніць назву і схаваць"
 
-#: views/dolphinview.cpp:2393
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6784,7 +6816,7 @@ msgstr ""
 "Калі ў пачатку назвы гэтага файла дадаць кропку, то гэта схавае яго ад "
 "прагляду. Усё яшчэ хочаце змяніць назву?"
 
-#: views/dolphinview.cpp:2395
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6793,17 +6825,17 @@ msgstr ""
 "Калі ў пачатку назвы гэтага каталога дадаць кропку, то гэта схавае яго ад "
 "прагляду. Усё яшчэ хочаце змяніць назву?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Hide this File?"
 msgstr "Схаваць гэты файл?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Схаваць гэты каталог?"
 
-#: views/dolphinview.cpp:2418
+#: views/dolphinview.cpp:2415
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6811,7 +6843,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Змяніць назву…"
 
-#: views/dolphinview.cpp:2428
+#: views/dolphinview.cpp:2425
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6820,7 +6852,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2432
+#: views/dolphinview.cpp:2429
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6829,7 +6861,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2438
+#: views/dolphinview.cpp:2435
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6837,106 +6869,106 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Тып:"
 
-#: views/dolphinview.cpp:2486
+#: views/dolphinview.cpp:2483
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Размяшчэнне пустое."
 
-#: views/dolphinview.cpp:2488
+#: views/dolphinview.cpp:2485
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Размяшчэнне \"%1\" хібнае."
 
-#: views/dolphinview.cpp:2878
+#: views/dolphinview.cpp:2875
 #, kde-format
 msgid "Loading…"
 msgstr "Загрузка…"
 
-#: views/dolphinview.cpp:2907
+#: views/dolphinview.cpp:2904
 #, kde-format
 msgid "Loading canceled"
 msgstr "Загрузка скасаваная"
 
-#: views/dolphinview.cpp:2909
+#: views/dolphinview.cpp:2906
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Няма элементаў, якія адпавядаюць фільтру"
 
-#: views/dolphinview.cpp:2911
+#: views/dolphinview.cpp:2908
 #, kde-format
 msgid "No items matching the search"
 msgstr "Няма элементаў, якія адпавядаюць пошуку"
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2910
 #, kde-format
 msgid "Trash is empty"
 msgstr "Сметніца пустая"
 
-#: views/dolphinview.cpp:2916
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No tags"
 msgstr "Няма тэгаў"
 
-#: views/dolphinview.cpp:2919
+#: views/dolphinview.cpp:2916
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Няма файлаў з тэгам \"%1\""
 
-#: views/dolphinview.cpp:2923
+#: views/dolphinview.cpp:2920
 #, kde-format
 msgid "No recently used items"
 msgstr "Няма элементаў, якія нядаўна выкарыстоўваліся"
 
-#: views/dolphinview.cpp:2925
+#: views/dolphinview.cpp:2922
 #, kde-format
 msgid "No shared folders found"
 msgstr "Не знойдзена абагуленых каталогаў"
 
-#: views/dolphinview.cpp:2927
+#: views/dolphinview.cpp:2924
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Не знойдзена адпаведных сеткавых рэсурсаў"
 
-#: views/dolphinview.cpp:2929
+#: views/dolphinview.cpp:2926
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Не знойдзена MTP-сумяшчальных прылад"
 
-#: views/dolphinview.cpp:2931
+#: views/dolphinview.cpp:2928
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Не знойдзена прылад Apple"
 
-#: views/dolphinview.cpp:2934
+#: views/dolphinview.cpp:2931
 #, fuzzy, kde-format
 #| msgid "No Apple devices found"
 msgid "No KDE Connect devices found"
 msgstr "Не знойдзена прылад Apple"
 
-#: views/dolphinview.cpp:2936
+#: views/dolphinview.cpp:2933
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2939
+#: views/dolphinview.cpp:2936
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Не знойдзена прылад Bluetooth"
 
-#: views/dolphinview.cpp:2941
+#: views/dolphinview.cpp:2938
 #, kde-format
 msgid "Folder is empty"
 msgstr "Каталог пусты"
 
-#: views/dolphinviewactionhandler.cpp:86
+#: views/dolphinviewactionhandler.cpp:84
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Стварыць каталог…"
 
-#: views/dolphinviewactionhandler.cpp:95
+#: views/dolphinviewactionhandler.cpp:93
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder…"
@@ -6944,7 +6976,7 @@ msgctxt "@action"
 msgid "Create Subfolder…"
 msgstr "Стварыць каталог…"
 
-#: views/dolphinviewactionhandler.cpp:103
+#: views/dolphinviewactionhandler.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder…"
@@ -6952,7 +6984,7 @@ msgctxt "@action"
 msgid "Create File…"
 msgstr "Стварыць каталог…"
 
-#: views/dolphinviewactionhandler.cpp:112
+#: views/dolphinviewactionhandler.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6962,7 +6994,7 @@ msgstr ""
 "Гэтае дзеянне зменіць назву абраных элементаў.<nl/>Пры масавай змене назваў "
 "некалькіх элементаў назвы будуць адрозніваюцца толькі лічбай."
 
-#: views/dolphinviewactionhandler.cpp:124
+#: views/dolphinviewactionhandler.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6974,7 +7006,7 @@ msgstr ""
 ">Сметніца - гэта часовае сховішча, адкуль можна выдаліць элементы, калі "
 "спатрэбіцца месца на дыску."
 
-#: views/dolphinviewactionhandler.cpp:137
+#: views/dolphinviewactionhandler.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6984,25 +7016,25 @@ msgstr ""
 "Гэтае дзеянне незваротна выдаляе абраныя элементы. Іх нельга аднавіць "
 "звычайнымі сродкамі."
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:145
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Выдаліць (з дапамогай сметніцы)"
 
-#: views/dolphinviewactionhandler.cpp:153
+#: views/dolphinviewactionhandler.cpp:151
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Стварыць тут дублікат"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:159
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Уласцівасці"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -7015,44 +7047,44 @@ msgstr ""
 "акне.<nl/>Калі нічога не абрана, будзе паказвацца каталог, які праглядаецца."
 "<nl/>Там можна наладзіць дадатковыя параметры, напрыклад, правы доступу."
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Скапіяваць размяшчэнне"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 "Гэтае дзеянне скапіюе шлях да першага абранага элемента ў буфер абмену."
 
-#: views/dolphinviewactionhandler.cpp:182
+#: views/dolphinviewactionhandler.cpp:180
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Перамясціць у сметніцу…"
 
-#: views/dolphinviewactionhandler.cpp:183
+#: views/dolphinviewactionhandler.cpp:181
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Выдаліць…"
 
-#: views/dolphinviewactionhandler.cpp:184
+#: views/dolphinviewactionhandler.cpp:182
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Стварыць тут дублікат…"
 
-#: views/dolphinviewactionhandler.cpp:185
+#: views/dolphinviewactionhandler.cpp:183
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Скапіяваць размяшчэнне…"
 
-#: views/dolphinviewactionhandler.cpp:214
+#: views/dolphinviewactionhandler.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -7068,7 +7100,7 @@ msgstr ""
 "прагляду малюнкаў, калі ўключаны параметр <interface>Папярэдні прагляд</"
 "interface>.</para>"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -7081,7 +7113,7 @@ msgstr ""
 "para><para>Гэта дапамагае аглядаць каталогі з вялікай колькасцю элементаў.</"
 "para>"
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -7101,7 +7133,7 @@ msgstr ""
 "размяшчэння, пстрыкнуўшы злева ад яго. Такім чынам вы можаце праглядаць "
 "змесціва некалькіх каталогаў у адным спісе.</para>"
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:233
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "View Mode"
@@ -7109,54 +7141,54 @@ msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Рэжым выгляду"
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:234
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:254
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Гэта павялічвае памер значкоў."
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Скінуць узровень павелічэння"
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:258
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Скінуць маштаб да прадвызначанага"
 
-#: views/dolphinviewactionhandler.cpp:261
+#: views/dolphinviewactionhandler.cpp:259
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Гэта скідвае памер значкоў да прадвызначанага значэння."
 
-#: views/dolphinviewactionhandler.cpp:267
+#: views/dolphinviewactionhandler.cpp:265
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Гэта памяншае памер значкоў."
 
-#: views/dolphinviewactionhandler.cpp:273
+#: views/dolphinviewactionhandler.cpp:271
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Паказваць мініяцюры"
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Паказваць мініяцюры файлаў і каталогаў"
 
-#: views/dolphinviewactionhandler.cpp:276
+#: views/dolphinviewactionhandler.cpp:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7168,7 +7200,7 @@ msgstr ""
 "або каталога.<nl/>Напрыклад, значкамі малюнкаў будуць паменшаныя версіі "
 "малюнкаў."
 
-#: views/dolphinviewactionhandler.cpp:284
+#: views/dolphinviewactionhandler.cpp:282
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -7176,25 +7208,25 @@ msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
 msgstr "Сартаванне:"
 
-#: views/dolphinviewactionhandler.cpp:287
+#: views/dolphinviewactionhandler.cpp:285
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Спачатку каталогі"
 
-#: views/dolphinviewactionhandler.cpp:291
+#: views/dolphinviewactionhandler.cpp:289
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Схаваныя файлы ў канцы"
 
-#: views/dolphinviewactionhandler.cpp:299
+#: views/dolphinviewactionhandler.cpp:297
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Сартаванне"
 
-#: views/dolphinviewactionhandler.cpp:331
+#: views/dolphinviewactionhandler.cpp:330
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -7202,7 +7234,7 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Паказваць панэль фільтра"
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:334
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
@@ -7216,7 +7248,7 @@ msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
 msgstr "Група"
 
-#: views/dolphinviewactionhandler.cpp:348
+#: views/dolphinviewactionhandler.cpp:349
 #, fuzzy, kde-format
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -7224,7 +7256,7 @@ msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "Група"
 
-#: views/dolphinviewactionhandler.cpp:350
+#: views/dolphinviewactionhandler.cpp:351
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7232,25 +7264,25 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:361
+#: views/dolphinviewactionhandler.cpp:362
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:368
+#: views/dolphinviewactionhandler.cpp:369
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:383
+#: views/dolphinviewactionhandler.cpp:384
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Паказваць схаваныя файлы"
 
-#: views/dolphinviewactionhandler.cpp:385
+#: views/dolphinviewactionhandler.cpp:386
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7272,13 +7304,13 @@ msgstr ""
 "trash\", такія як файлы рэзервовых копій, таксама можна схаваць, уключыўшы "
 "гэты параметр у Наладжванне Dolphin > Выгляд > Асноўныя налады</para>"
 
-#: views/dolphinviewactionhandler.cpp:399
+#: views/dolphinviewactionhandler.cpp:400
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Падладжванне стылю адлюстравання…"
 
-#: views/dolphinviewactionhandler.cpp:402
+#: views/dolphinviewactionhandler.cpp:403
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7287,21 +7319,21 @@ msgstr ""
 "Адкрывае акно, у якім можна падладзіць усе ўласцівасці адлюстравання "
 "каталогаў."
 
-#: views/dolphinviewactionhandler.cpp:408
+#: views/dolphinviewactionhandler.cpp:409
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Скінуць маштаб да прадвызначанага"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:410
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Скінуць маштаб да прадвызначанага"
 
-#: views/dolphinviewactionhandler.cpp:414
+#: views/dolphinviewactionhandler.cpp:415
 #, fuzzy, kde-format
 #| msgctxt "name of kuserfeedback data source provided by dolphin"
 #| msgid "Settings"
@@ -7309,7 +7341,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Налады"
 
-#: views/dolphinviewactionhandler.cpp:416
+#: views/dolphinviewactionhandler.cpp:417
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7317,103 +7349,103 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:790
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Значкі"
 
-#: views/dolphinviewactionhandler.cpp:783
+#: views/dolphinviewactionhandler.cpp:791
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Рэжым значкоў"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:801
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Сціслы выгляд"
 
-#: views/dolphinviewactionhandler.cpp:794
+#: views/dolphinviewactionhandler.cpp:802
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Рэжым сціслага выгляду"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Падрабязы выгляд"
 
-#: views/dolphinviewactionhandler.cpp:805
+#: views/dolphinviewactionhandler.cpp:813
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Рэжым падрабязнага выгляду"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:836
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Я-А"
 
-#: views/dolphinviewactionhandler.cpp:829
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "А-Я"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:839
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Спачатку большыя"
 
-#: views/dolphinviewactionhandler.cpp:832
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Спачатку меншыя"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:842
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Спачатку навейшыя"
 
-#: views/dolphinviewactionhandler.cpp:835
+#: views/dolphinviewactionhandler.cpp:843
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Спачатку старэйшыя"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:845
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Спачатку большыя"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:846
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Спачатку меншыя"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:848
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Па памяншэнні"
 
-#: views/dolphinviewactionhandler.cpp:841
+#: views/dolphinviewactionhandler.cpp:849
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Па павелічэнні"
 
-#: views/dolphinviewactionhandler.cpp:939
+#: views/dolphinviewactionhandler.cpp:947
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7426,12 +7458,12 @@ msgstr "Дзеянні для бягучага рэжыму"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:948
+#: views/dolphinviewactionhandler.cpp:956
 #, kde-format
 msgid "Actions for %1"
 msgstr "Дзеянні для %1"
 
-#: views/dolphinviewactionhandler.cpp:955
+#: views/dolphinviewactionhandler.cpp:963
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "

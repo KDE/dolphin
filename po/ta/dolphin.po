@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 00:52+0000\n"
+"POT-Creation-Date: 2026-10-28 01:04+0000\n"
 "PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -276,7 +276,7 @@ msgid ""
 msgstr "இந்த சாளரத்தில் பல கீற்றுகள் உள்ளன. உறுதியாக வெளியேற விரும்புகிறீர்களா?"
 
 #: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2441
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "Do not ask again"
 msgstr "மீண்டும் கேட்காதே"
@@ -2522,92 +2522,124 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:1315
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search is disabled. Enable it in System Settings to see this "
+"information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1318
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"File Search indexes only file names. Enable indexing of file content in "
+"System Settings to see this information."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:1321
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+#| msgid "This folder is not writable for you."
+msgctxt "@info:tooltip"
+msgid "This folder is not indexed by File Search."
+msgstr "இந்த அடைவில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
+
+#: kitemviews/kfileitemmodel.cpp:1326
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"This information comes from File Search, which this version of Dolphin was "
+"built without."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 – 9"
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2841
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "மற்றவை"
 
-#: kitemviews/kfileitemmodel.cpp:2834
+#: kitemviews/kfileitemmodel.cpp:2873
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "அடைவுகள்"
 
-#: kitemviews/kfileitemmodel.cpp:2842
+#: kitemviews/kfileitemmodel.cpp:2881
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "சிறியவை"
 
-#: kitemviews/kfileitemmodel.cpp:2844
+#: kitemviews/kfileitemmodel.cpp:2883
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "நடுத்தரமானவை"
 
-#: kitemviews/kfileitemmodel.cpp:2846
+#: kitemviews/kfileitemmodel.cpp:2885
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "பெரியவை"
 
-#: kitemviews/kfileitemmodel.cpp:2892
+#: kitemviews/kfileitemmodel.cpp:2931
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "இன்று"
 
-#: kitemviews/kfileitemmodel.cpp:2895
+#: kitemviews/kfileitemmodel.cpp:2934
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "நேற்று"
 
-#: kitemviews/kfileitemmodel.cpp:2898
+#: kitemviews/kfileitemmodel.cpp:2937
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2902
+#: kitemviews/kfileitemmodel.cpp:2941
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2907
+#: kitemviews/kfileitemmodel.cpp:2946
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "ஒரு வாரத்துக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2910
+#: kitemviews/kfileitemmodel.cpp:2949
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "இரு வாரங்களுக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2913
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "மூன்று வாரங்களுக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2917
+#: kitemviews/kfileitemmodel.cpp:2956
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "முன்னர் இம்மாதத்தில்"
 
-#: kitemviews/kfileitemmodel.cpp:2931
+#: kitemviews/kfileitemmodel.cpp:2970
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2617,7 +2649,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'நேற்று' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2938
+#: kitemviews/kfileitemmodel.cpp:2977
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2625,7 +2657,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2951
+#: kitemviews/kfileitemmodel.cpp:2990
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2633,7 +2665,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2955
+#: kitemviews/kfileitemmodel.cpp:2994
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2641,7 +2673,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2963
+#: kitemviews/kfileitemmodel.cpp:3002
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2651,7 +2683,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'ஒரு வாரம் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2970
+#: kitemviews/kfileitemmodel.cpp:3009
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2659,7 +2691,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2984
+#: kitemviews/kfileitemmodel.cpp:3023
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2669,7 +2701,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'இரு வாரங்கள் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2991
+#: kitemviews/kfileitemmodel.cpp:3030
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2677,7 +2709,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3005
+#: kitemviews/kfileitemmodel.cpp:3044
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2687,7 +2719,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'மூன்று வாரங்கள் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:3012
+#: kitemviews/kfileitemmodel.cpp:3051
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2695,7 +2727,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3026
+#: kitemviews/kfileitemmodel.cpp:3065
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2705,7 +2737,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "MMMM, yyyy'-இல் முன்னதாக'"
 
-#: kitemviews/kfileitemmodel.cpp:3033
+#: kitemviews/kfileitemmodel.cpp:3072
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2713,7 +2745,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3047
+#: kitemviews/kfileitemmodel.cpp:3086
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2721,7 +2753,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:3051
+#: kitemviews/kfileitemmodel.cpp:3090
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2729,288 +2761,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3091 kitemviews/kfileitemmodel.cpp:3104
-#: kitemviews/kfileitemmodel.cpp:3117
+#: kitemviews/kfileitemmodel.cpp:3130 kitemviews/kfileitemmodel.cpp:3143
+#: kitemviews/kfileitemmodel.cpp:3156
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "வாசிக்க, "
 
-#: kitemviews/kfileitemmodel.cpp:3094 kitemviews/kfileitemmodel.cpp:3107
-#: kitemviews/kfileitemmodel.cpp:3120
+#: kitemviews/kfileitemmodel.cpp:3133 kitemviews/kfileitemmodel.cpp:3146
+#: kitemviews/kfileitemmodel.cpp:3159
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "எழுத, "
 
-#: kitemviews/kfileitemmodel.cpp:3097 kitemviews/kfileitemmodel.cpp:3110
-#: kitemviews/kfileitemmodel.cpp:3123
+#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3149
+#: kitemviews/kfileitemmodel.cpp:3162
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "இயக்க, "
 
-#: kitemviews/kfileitemmodel.cpp:3099 kitemviews/kfileitemmodel.cpp:3112
-#: kitemviews/kfileitemmodel.cpp:3125
+#: kitemviews/kfileitemmodel.cpp:3138 kitemviews/kfileitemmodel.cpp:3151
+#: kitemviews/kfileitemmodel.cpp:3164
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "தடைசெய்யப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:3127
+#: kitemviews/kfileitemmodel.cpp:3166
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "பயனர்: %1 |குழு: %2 | மற்றவர்கள்: %3)"
 
-#: kitemviews/kfileitemmodel.cpp:3217
+#: kitemviews/kfileitemmodel.cpp:3259
 msgctxt "@label"
 msgid "Name"
 msgstr "பெயர்"
 
-#: kitemviews/kfileitemmodel.cpp:3218
+#: kitemviews/kfileitemmodel.cpp:3260
 msgctxt "@label"
 msgid "Size"
 msgstr "அளவு"
 
-#: kitemviews/kfileitemmodel.cpp:3219
+#: kitemviews/kfileitemmodel.cpp:3261
 msgctxt "@label"
 msgid "Modified"
 msgstr "மாற்றப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:3219 kitemviews/kfileitemmodel.cpp:3220
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3261 kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "தேதிகளின் வடிவத்தை அமைப்புகளில் மாற்றலாம்"
 
-#: kitemviews/kfileitemmodel.cpp:3220
+#: kitemviews/kfileitemmodel.cpp:3262
 msgctxt "@label"
 msgid "Created"
 msgstr "உருவாக்கப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:3221
+#: kitemviews/kfileitemmodel.cpp:3263
 msgctxt "@label"
 msgid "Accessed"
 msgstr "அணுகப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:3222
+#: kitemviews/kfileitemmodel.cpp:3264
 msgctxt "@label"
 msgid "Type"
 msgstr "வகை"
 
-#: kitemviews/kfileitemmodel.cpp:3223
+#: kitemviews/kfileitemmodel.cpp:3265
 msgctxt "@label"
 msgid "Rating"
 msgstr "மதிப்பீடு"
 
-#: kitemviews/kfileitemmodel.cpp:3224
+#: kitemviews/kfileitemmodel.cpp:3266
 msgctxt "@label"
 msgid "Tags"
 msgstr "குறிச்சொற்கள்"
 
-#: kitemviews/kfileitemmodel.cpp:3225
+#: kitemviews/kfileitemmodel.cpp:3267
 msgctxt "@label"
 msgid "Comment"
 msgstr "குறிப்பு"
 
-#: kitemviews/kfileitemmodel.cpp:3226
+#: kitemviews/kfileitemmodel.cpp:3268
 msgctxt "@label"
 msgid "Title"
 msgstr "தலைப்பு"
 
-#: kitemviews/kfileitemmodel.cpp:3226 kitemviews/kfileitemmodel.cpp:3227
-#: kitemviews/kfileitemmodel.cpp:3228 kitemviews/kfileitemmodel.cpp:3229
-#: kitemviews/kfileitemmodel.cpp:3230 kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3268 kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3270 kitemviews/kfileitemmodel.cpp:3271
+#: kitemviews/kfileitemmodel.cpp:3272 kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Document"
 msgstr "ஆவணம்"
 
-#: kitemviews/kfileitemmodel.cpp:3227
+#: kitemviews/kfileitemmodel.cpp:3269
 msgctxt "@label"
 msgid "Author"
 msgstr "இயற்றியவர்"
 
-#: kitemviews/kfileitemmodel.cpp:3228
+#: kitemviews/kfileitemmodel.cpp:3270
 msgctxt "@label"
 msgid "Publisher"
 msgstr "பதிப்பகம்"
 
-#: kitemviews/kfileitemmodel.cpp:3229
+#: kitemviews/kfileitemmodel.cpp:3271
 msgctxt "@label"
 msgid "Page Count"
 msgstr "பக்க எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:3230
+#: kitemviews/kfileitemmodel.cpp:3272
 msgctxt "@label"
 msgid "Word Count"
 msgstr "சொற்களின் எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:3231
+#: kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Line Count"
 msgstr "வரிகளின் எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:3232
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "படம் பிடிக்கப்பட்ட தேதி"
 
-#: kitemviews/kfileitemmodel.cpp:3232 kitemviews/kfileitemmodel.cpp:3233
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3235
-#: kitemviews/kfileitemmodel.cpp:3236
+#: kitemviews/kfileitemmodel.cpp:3274 kitemviews/kfileitemmodel.cpp:3275
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3277
+#: kitemviews/kfileitemmodel.cpp:3278
 msgctxt "@label"
 msgid "Image"
 msgstr "படம்"
 
-#: kitemviews/kfileitemmodel.cpp:3233 kitemviews/kfileitemmodel.cpp:3249
+#: kitemviews/kfileitemmodel.cpp:3275 kitemviews/kfileitemmodel.cpp:3291
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "வடிவம்"
 
-#: kitemviews/kfileitemmodel.cpp:3234 kitemviews/kfileitemmodel.cpp:3252
+#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3294
 msgctxt "@label"
 msgid "Height"
 msgstr "உயரம்"
 
-#: kitemviews/kfileitemmodel.cpp:3235
+#: kitemviews/kfileitemmodel.cpp:3277
 msgctxt "@label"
 msgid "Orientation"
 msgstr "நோக்குநிலை"
 
-#: kitemviews/kfileitemmodel.cpp:3236 kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3278 kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Width"
 msgstr "அகலம்"
 
-#: kitemviews/kfileitemmodel.cpp:3237
+#: kitemviews/kfileitemmodel.cpp:3279
 msgctxt "@label"
 msgid "Album"
 msgstr "ஆல்பம்"
 
-#: kitemviews/kfileitemmodel.cpp:3237 kitemviews/kfileitemmodel.cpp:3238
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3240
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3242
-#: kitemviews/kfileitemmodel.cpp:3243 kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3279 kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3282
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3284
+#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
 msgctxt "@label"
 msgid "Audio"
 msgstr "ஒலி"
 
-#: kitemviews/kfileitemmodel.cpp:3238
+#: kitemviews/kfileitemmodel.cpp:3280
 msgctxt "@label"
 msgid "Artist"
 msgstr "கலைஞர்:"
 
-#: kitemviews/kfileitemmodel.cpp:3239 kitemviews/kfileitemmodel.cpp:3246
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3288
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "ஒலிக்குறிமுறை"
 
-#: kitemviews/kfileitemmodel.cpp:3240 kitemviews/kfileitemmodel.cpp:3247
+#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3289
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "பிட்விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:3241 kitemviews/kfileitemmodel.cpp:3250
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3292
 msgctxt "@label"
 msgid "Duration"
 msgstr "நீடிக்கும் காலம்"
 
-#: kitemviews/kfileitemmodel.cpp:3242
+#: kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Genre"
 msgstr "பாடல்வகை"
 
-#: kitemviews/kfileitemmodel.cpp:3243
+#: kitemviews/kfileitemmodel.cpp:3285
 msgctxt "@label"
 msgid "Release Year"
 msgstr "வெளியான ஆண்டு"
 
-#: kitemviews/kfileitemmodel.cpp:3244
+#: kitemviews/kfileitemmodel.cpp:3286
 msgctxt "@label"
 msgid "Track"
 msgstr "பாடல்"
 
-#: kitemviews/kfileitemmodel.cpp:3245
+#: kitemviews/kfileitemmodel.cpp:3287
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "உருவ விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:3245 kitemviews/kfileitemmodel.cpp:3246
-#: kitemviews/kfileitemmodel.cpp:3247 kitemviews/kfileitemmodel.cpp:3248
-#: kitemviews/kfileitemmodel.cpp:3249 kitemviews/kfileitemmodel.cpp:3250
-#: kitemviews/kfileitemmodel.cpp:3251 kitemviews/kfileitemmodel.cpp:3252
-#: kitemviews/kfileitemmodel.cpp:3253 kitemviews/kfileitemmodel.cpp:3254
-#: kitemviews/kfileitemmodel.cpp:3255
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
+#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3290
+#: kitemviews/kfileitemmodel.cpp:3291 kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3294
+#: kitemviews/kfileitemmodel.cpp:3295 kitemviews/kfileitemmodel.cpp:3296
+#: kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Video"
 msgstr "ஒளிக்காட்சி"
 
-#: kitemviews/kfileitemmodel.cpp:3248
+#: kitemviews/kfileitemmodel.cpp:3290
 msgctxt "@label"
 msgid "Color Space"
 msgstr "நிற வகை"
 
-#: kitemviews/kfileitemmodel.cpp:3251
+#: kitemviews/kfileitemmodel.cpp:3293
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "சட்டக விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:3253
+#: kitemviews/kfileitemmodel.cpp:3295
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "பிக்செல் வடிவம்"
 
-#: kitemviews/kfileitemmodel.cpp:3254
+#: kitemviews/kfileitemmodel.cpp:3296
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "நிகழ்பட குறிமுறை"
 
-#: kitemviews/kfileitemmodel.cpp:3256
+#: kitemviews/kfileitemmodel.cpp:3298
 msgctxt "@label"
 msgid "Path"
 msgstr "பாதை"
 
-#: kitemviews/kfileitemmodel.cpp:3256 kitemviews/kfileitemmodel.cpp:3257
-#: kitemviews/kfileitemmodel.cpp:3258 kitemviews/kfileitemmodel.cpp:3259
-#: kitemviews/kfileitemmodel.cpp:3260 kitemviews/kfileitemmodel.cpp:3261
-#: kitemviews/kfileitemmodel.cpp:3262 kitemviews/kfileitemmodel.cpp:3263
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3298 kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3300 kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3302 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "Other"
 msgstr "மற்றவை"
 
-#: kitemviews/kfileitemmodel.cpp:3257
+#: kitemviews/kfileitemmodel.cpp:3299
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "அடைவின் பெயர்"
 
-#: kitemviews/kfileitemmodel.cpp:3258
+#: kitemviews/kfileitemmodel.cpp:3300
 msgctxt "@label"
 msgid "File Extension"
 msgstr "வகைப்பெயர்"
 
-#: kitemviews/kfileitemmodel.cpp:3259
+#: kitemviews/kfileitemmodel.cpp:3301
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "அகற்றப்பட்ட நேரம்"
 
-#: kitemviews/kfileitemmodel.cpp:3260
+#: kitemviews/kfileitemmodel.cpp:3302
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "இணைப்பின் இலக்கு"
 
-#: kitemviews/kfileitemmodel.cpp:3261
+#: kitemviews/kfileitemmodel.cpp:3303
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "எங்கிருந்து பதிவிறக்கப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@label"
 msgid "Permissions"
 msgstr "அனுமதிகள்"
 
-#: kitemviews/kfileitemmodel.cpp:3262
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3019,17 +3051,17 @@ msgstr ""
 "அனுமதிகளுக்கான வடிவத்தை அமைப்புகளில் மாற்றலாம். எழுத்துகளாகவோ, எண்ம‍மாகவோ, இரண்டும் கலந்த‍"
 "தாகவோ அவற்றை காட்டுமாறு அமைக்கலாம்."
 
-#: kitemviews/kfileitemmodel.cpp:3263
+#: kitemviews/kfileitemmodel.cpp:3305
 msgctxt "@label"
 msgid "Owner"
 msgstr "உரிமையாளர்"
 
-#: kitemviews/kfileitemmodel.cpp:3264
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "User Group"
 msgstr "பயனர் குழு"
 
-#: kitemviews/kfileitemmodel.cpp:3365
+#: kitemviews/kfileitemmodel.cpp:3407
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -5909,131 +5941,131 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "அளவு: 1 pixel"
 msgstr[1] "அளவு: %1 pixels"
 
-#: settings/viewpropertiesdialog.cpp:59
+#: settings/viewpropertiesdialog.cpp:55
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "காட்சி காட்டப்படும் விதம்"
 
-#: settings/viewpropertiesdialog.cpp:71
+#: settings/viewpropertiesdialog.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "சின்னங்கள்"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "சுருக்கமானது"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "விவரங்கள்"
 
-#: settings/viewpropertiesdialog.cpp:76
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "ஏறுவரிசை"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "இறங்குவரிசை"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:81
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "அடைவுகளை முதலில் காட்டு"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:82
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "மறைந்துள்ள கோப்புகளை கடைசியாக காட்டு"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:83
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "முன்தோற்றத்தைக் காட்டுக"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:84
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "குழுமங்களில் காட்டுக"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "மறைந்துள்ள கோப்புகளைக் காட்டு"
 
-#: settings/viewpropertiesdialog.cpp:92
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "கூடுதல் விவரங்கள்"
 
-#: settings/viewpropertiesdialog.cpp:131
+#: settings/viewpropertiesdialog.cpp:123
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "ஒவ்வொரு அடைவிலும் அல்லது கோப்பிலும் எதை பார்க்க வேண்டுமென்று தேர்வு செய்யுங்கள்:"
 
-#: settings/viewpropertiesdialog.cpp:141
+#: settings/viewpropertiesdialog.cpp:133
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "காட்சி முறை:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:134
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "வரிசைப்படுத்துதல்:"
 
-#: settings/viewpropertiesdialog.cpp:146
+#: settings/viewpropertiesdialog.cpp:138
 #, kde-format
 msgid "View options:"
 msgstr "காட்சி விருப்பங்கள்:"
 
-#: settings/viewpropertiesdialog.cpp:165
+#: settings/viewpropertiesdialog.cpp:157
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "தற்போதைய அடைவுக்கு"
 
-#: settings/viewpropertiesdialog.cpp:167
+#: settings/viewpropertiesdialog.cpp:159
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "தற்போதைய அடைவுக்கும் அதன் சார் அடைவுகளுக்கும்"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:160
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "அனைத்து அடைவுகளுக்கும்"
 
-#: settings/viewpropertiesdialog.cpp:177
+#: settings/viewpropertiesdialog.cpp:169
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "இவற்றிற்கு செயல்படுத்து:"
 
-#: settings/viewpropertiesdialog.cpp:182
+#: settings/viewpropertiesdialog.cpp:174
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "இயல்பிருப்பு பார்வை அமைப்புகளாக பயன்படுத்து"
 
-#: settings/viewpropertiesdialog.cpp:331
+#: settings/viewpropertiesdialog.cpp:323
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6041,7 +6073,7 @@ msgid ""
 "continue?"
 msgstr "அனைத்து சார் அடைவுகளின் காட்சிப் பண்புகள் மாற்றப்படும். தொடர விரும்புகிறீர்களா?"
 
-#: settings/viewpropertiesdialog.cpp:357
+#: settings/viewpropertiesdialog.cpp:349
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6239,7 +6271,7 @@ msgstr "இயல்பிருப்பு"
 msgid "Reload"
 msgstr "மீளேற்று"
 
-#: views/dolphinview.cpp:785
+#: views/dolphinview.cpp:782
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6247,7 +6279,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 அடைவு தேர்வு செய்யப்பட்டுள்ளது"
 msgstr[1] "%1 அடைவுகள் தேர்வு செய்யப்பட்டுள்ளன"
 
-#: views/dolphinview.cpp:786
+#: views/dolphinview.cpp:783
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6255,7 +6287,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 கோப்பு தேர்வு செய்யப்பட்டுள்ளது"
 msgstr[1] "%1 கோப்புகள் தேர்வு செய்யப்பட்டுள்ளன"
 
-#: views/dolphinview.cpp:788
+#: views/dolphinview.cpp:785
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6263,7 +6295,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 அடைவு"
 msgstr[1] "%1 அடைவுகள்"
 
-#: views/dolphinview.cpp:789
+#: views/dolphinview.cpp:786
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6271,38 +6303,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 கோப்பு"
 msgstr[1] "%1 கோப்புகள்"
 
-#: views/dolphinview.cpp:793
+#: views/dolphinview.cpp:790
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:795
+#: views/dolphinview.cpp:792
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:799
+#: views/dolphinview.cpp:796
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 அடைவுகள், 0 கோப்புகள்"
 
-#: views/dolphinview.cpp:1067 views/dolphinview.cpp:1076
+#: views/dolphinview.cpp:1064 views/dolphinview.cpp:1073
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 என்பதன் நகல்"
 
-#: views/dolphinview.cpp:1279
+#: views/dolphinview.cpp:1276
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "உறுதியாக 1 உருப்படியை திறக்க வேண்டுமா?"
 msgstr[1] "உறுதியாக %1 உருப்படிகளை திறக்க வேண்டுமா?"
 
-#: views/dolphinview.cpp:1284
+#: views/dolphinview.cpp:1281
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6310,43 +6342,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 உருப்படியைத் திற"
 msgstr[1] "%1 உருப்படிகளைத் திற"
 
-#: views/dolphinview.cpp:1425
+#: views/dolphinview.cpp:1422
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "ஓரத்தில் காலியிடம்"
 
-#: views/dolphinview.cpp:1429
+#: views/dolphinview.cpp:1426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "தானாக இடப்படும் நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:1434
+#: views/dolphinview.cpp:1431
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "பயனரால் மாற்றக்கூடிய நெடுவரிசை அகலங்கள்"
 
-#: views/dolphinview.cpp:2178
+#: views/dolphinview.cpp:2175
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "அகற்றிடத்துக்கு நகர்த்தும் பணி நிறைவடைந்தது."
 
-#: views/dolphinview.cpp:2188
+#: views/dolphinview.cpp:2185
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "நீக்கும் பணி நிறைவடைந்தது."
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "மறுபெயரிட்டு மறை"
 
-#: views/dolphinview.cpp:2393
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6355,7 +6387,7 @@ msgstr ""
 "ஒரு கோப்பின் பெயர், புள்ளியில் ஆரம்பித்தால் அது மறைந்த கோப்பு ஆகும். உறுதியாக மறுபெயரிட "
 "வேண்டுமா?"
 
-#: views/dolphinview.cpp:2395
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6364,23 +6396,23 @@ msgstr ""
 "ஒரு அடைவின் பெயர் புள்ளியில் ஆரம்பித்தால் அது மறைந்த அடைவு ஆகும்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Hide this File?"
 msgstr "கோப்பை மறைக்கலாமா?"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "அடைவை மறைக்கலாமா?"
 
-#: views/dolphinview.cpp:2418
+#: views/dolphinview.cpp:2415
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "மறுபெயரிடு"
 
-#: views/dolphinview.cpp:2428
+#: views/dolphinview.cpp:2425
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6393,7 +6425,7 @@ msgstr ""
 "போகலாம்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2432
+#: views/dolphinview.cpp:2429
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6406,123 +6438,123 @@ msgstr ""
 "போகலாம்.\n"
 "உறுதியாக மறுபெயரிட வேண்டுமா?"
 
-#: views/dolphinview.cpp:2438
+#: views/dolphinview.cpp:2435
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "கோப்பின் வகையை மாற்று"
 
-#: views/dolphinview.cpp:2486
+#: views/dolphinview.cpp:2483
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "இடம் காலியாகவுள்ளது."
 
-#: views/dolphinview.cpp:2488
+#: views/dolphinview.cpp:2485
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' என்ற இடம் முறையற்றது."
 
-#: views/dolphinview.cpp:2878
+#: views/dolphinview.cpp:2875
 #, kde-format
 msgid "Loading…"
 msgstr "ஏற்றுகிறது…"
 
-#: views/dolphinview.cpp:2907
+#: views/dolphinview.cpp:2904
 #, kde-format
 msgid "Loading canceled"
 msgstr "ஏற்றுவது ரத்து செய்யப்பட்டது"
 
-#: views/dolphinview.cpp:2909
+#: views/dolphinview.cpp:2906
 #, kde-format
 msgid "No items matching the filter"
 msgstr "வடிகட்டிக்கு எதுவும் பொருந்தவில்லை"
 
-#: views/dolphinview.cpp:2911
+#: views/dolphinview.cpp:2908
 #, kde-format
 msgid "No items matching the search"
 msgstr "தேடலுக்கு எதுவும் பொருந்தவில்லை"
 
-#: views/dolphinview.cpp:2913
+#: views/dolphinview.cpp:2910
 #, kde-format
 msgid "Trash is empty"
 msgstr "அகற்றிடம் காலியாக இருக்கிறது"
 
-#: views/dolphinview.cpp:2916
+#: views/dolphinview.cpp:2913
 #, kde-format
 msgid "No tags"
 msgstr "குறிச்சொற்கள் இல்லை"
 
-#: views/dolphinview.cpp:2919
+#: views/dolphinview.cpp:2916
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "\"%1\" என்ற குறிச்சொல்லுடன் எந்த கோப்பும் இல்லை"
 
-#: views/dolphinview.cpp:2923
+#: views/dolphinview.cpp:2920
 #, kde-format
 msgid "No recently used items"
 msgstr "சமீபத்தில் பயன்படுத்தியவை எதுவும் இல்லை"
 
-#: views/dolphinview.cpp:2925
+#: views/dolphinview.cpp:2922
 #, kde-format
 msgid "No shared folders found"
 msgstr "பகிர்ந்த அடைவுகள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2927
+#: views/dolphinview.cpp:2924
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "பிணையத்தில் அணுகக்கூடியவற்றில் பொருத்தமானது எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2929
+#: views/dolphinview.cpp:2926
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2931
+#: views/dolphinview.cpp:2928
 #, kde-format
 msgid "No Apple devices found"
 msgstr "ஆப்பிள் சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2934
+#: views/dolphinview.cpp:2931
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "எந்த கே.டீ.யீ. கனெக்ட் சாதனமும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2936
+#: views/dolphinview.cpp:2933
 #, kde-format
 msgid "No storage found on this device"
 msgstr "இச்சாதனத்தில் சேமிப்பகம் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2939
+#: views/dolphinview.cpp:2936
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetooth சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
-#: views/dolphinview.cpp:2941
+#: views/dolphinview.cpp:2938
 #, kde-format
 msgid "Folder is empty"
 msgstr "அடைவு காலியாக உள்ளது"
 
-#: views/dolphinviewactionhandler.cpp:86
+#: views/dolphinviewactionhandler.cpp:84
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "அடைவை உருவாக்கு…"
 
-#: views/dolphinviewactionhandler.cpp:95
+#: views/dolphinviewactionhandler.cpp:93
 #, kde-format
 msgctxt "@action"
 msgid "Create Subfolder…"
 msgstr "சாரடைவை உருவாக்கு…"
 
-#: views/dolphinviewactionhandler.cpp:103
+#: views/dolphinviewactionhandler.cpp:101
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "கோப்பை உருவாக்கு…"
 
-#: views/dolphinviewactionhandler.cpp:112
+#: views/dolphinviewactionhandler.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6532,7 +6564,7 @@ msgstr ""
 "நீங்கள் தேர்ந்தெடுத்துள்ளவற்றின் பெயர்களை இது மாற்றும்.<nl/> ஒரே நேரத்தில் பலவற்றின் பெயர்களை "
 "மாற்றினால், அவற்றின் புதிய பெயர்கள் ஒரு எண்ணை பொறுத்த வரையிலே வேறுபடும்."
 
-#: views/dolphinviewactionhandler.cpp:124
+#: views/dolphinviewactionhandler.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6544,7 +6576,7 @@ msgstr ""
 "அகற்றிடம் என்பது, ஒரு தற்காலிக சேமிப்பகம் ஆகும்; வட்டில் இடம் தேவைப்படும்போது அதிலுள்ளவை "
 "நீக்கப்படலாம்."
 
-#: views/dolphinviewactionhandler.cpp:137
+#: views/dolphinviewactionhandler.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6554,25 +6586,25 @@ msgstr ""
 "நீங்கள் தேர்ந்தெடுத்துள்ளவற்றை முழுதாக நீக்கும். இவ்வாறு நீக்கியவற்றை சாதாரணமாக திரும்ப‍ப் பெற "
 "முடியாது."
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:145
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "நீக்கு (அகற்றுவதற்கான சுருக்குவழியைப் பயன்படுத்தி)"
 
-#: views/dolphinviewactionhandler.cpp:153
+#: views/dolphinviewactionhandler.cpp:151
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "இங்கே நகலெடு"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:159
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "பண்புகள்"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6582,43 +6614,43 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "இருப்பிடத்தை நகலெடு"
 
-#: views/dolphinviewactionhandler.cpp:174
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "தேர்ந்தெடுக்கப்பட்டுள்ள முதல் உருப்படியின் முகவரியை பிடிப்புப்பலகைக்கு நகலெடுக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:182
+#: views/dolphinviewactionhandler.cpp:180
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "அகற்றிடத்துக்கு நகர்த்து…"
 
-#: views/dolphinviewactionhandler.cpp:183
+#: views/dolphinviewactionhandler.cpp:181
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "அழி…"
 
-#: views/dolphinviewactionhandler.cpp:184
+#: views/dolphinviewactionhandler.cpp:182
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "இங்கே நகலெடு…"
 
-#: views/dolphinviewactionhandler.cpp:185
+#: views/dolphinviewactionhandler.cpp:183
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "இருப்பிடத்தை நகலெடு…"
 
-#: views/dolphinviewactionhandler.cpp:214
+#: views/dolphinviewactionhandler.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6629,7 +6661,7 @@ msgid ""
 "interface> option is enabled.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6638,7 +6670,7 @@ msgid ""
 "you an overview in folders with many items.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6651,60 +6683,60 @@ msgid ""
 "contents of multiple folders in the same list.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:233
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "காட்சி முறையை மாற்று"
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:234
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr "உள்ள அனைத்து காட்சிமுறைகளுக்கிடையே மாறும்."
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:254
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "சின்னங்களை பெரிதாக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "உருப்பெருக்கத்தை மீட்டமை"
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:258
 #, kde-format
 msgid "Zoom To Default"
 msgstr "இயல்பிருப்பு உருப்பெருக்கத்தையே பயன்படுத்து"
 
-#: views/dolphinviewactionhandler.cpp:261
+#: views/dolphinviewactionhandler.cpp:259
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "சின்னங்களின் அளவை இயல்புநிலைக்கு மீட்டமைக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:267
+#: views/dolphinviewactionhandler.cpp:265
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "சின்னங்களை சிறிதாக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:273
+#: views/dolphinviewactionhandler.cpp:271
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "முன்தோற்றங்களைக் காட்டு"
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "கோப்புகள் மற்றும் அடைவுகளுக்கு முன்தோற்றங்களைக் காட்டு"
 
-#: views/dolphinviewactionhandler.cpp:276
+#: views/dolphinviewactionhandler.cpp:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6716,37 +6748,37 @@ msgstr ""
 "இருக்கும்.<nl/>எடுத்துக்காட்டாக, படங்களின் சின்னங்கள் அவற்றையே சிறிதாக்கி காட்டுவது போல் "
 "அமையும்."
 
-#: views/dolphinviewactionhandler.cpp:284
+#: views/dolphinviewactionhandler.cpp:282
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
 msgstr "வரிசைப்படுத்துவது"
 
-#: views/dolphinviewactionhandler.cpp:287
+#: views/dolphinviewactionhandler.cpp:285
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "அடைவுகள் முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:291
+#: views/dolphinviewactionhandler.cpp:289
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "மறைந்துள்ள கோப்புகள் கடைசியாக"
 
-#: views/dolphinviewactionhandler.cpp:299
+#: views/dolphinviewactionhandler.cpp:297
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "இவ்வாறு வரிசைப்படுத்து"
 
-#: views/dolphinviewactionhandler.cpp:331
+#: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "காட்டப்படும் புலங்கள்"
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:334
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
@@ -6758,13 +6790,13 @@ msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
 msgstr "குழுவாக்குவது"
 
-#: views/dolphinviewactionhandler.cpp:348
+#: views/dolphinviewactionhandler.cpp:349
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr "இவ்வாறு குழுவாக்கு"
 
-#: views/dolphinviewactionhandler.cpp:350
+#: views/dolphinviewactionhandler.cpp:351
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6775,25 +6807,25 @@ msgstr ""
 "'ஏதுமில்லை' எனில் குழுவாக்கம் முடக்கப்படும். 'வரிசைப்படுத்தும் முறையிலேயே' எனில், "
 "செயலிலுள்ள வரிசைப்படுத்தல் முறையின் அடிப்படையில் குழுவாக்குமும் இருக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:361
+#: views/dolphinviewactionhandler.cpp:362
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr "ஏதுமில்லை"
 
-#: views/dolphinviewactionhandler.cpp:368
+#: views/dolphinviewactionhandler.cpp:369
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr "வரிசைப்படுத்தும் முறையிலேயே"
 
-#: views/dolphinviewactionhandler.cpp:383
+#: views/dolphinviewactionhandler.cpp:384
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "மறைந்துள்ள கோப்புகளைக் காட்டு"
 
-#: views/dolphinviewactionhandler.cpp:385
+#: views/dolphinviewactionhandler.cpp:386
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6807,38 +6839,38 @@ msgid ""
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:399
+#: views/dolphinviewactionhandler.cpp:400
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "காட்சி காட்டப்படும் விதத்தை மாற்று…"
 
-#: views/dolphinviewactionhandler.cpp:402
+#: views/dolphinviewactionhandler.cpp:403
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr "அடைவுகளின் காட்சிப் பண்புகளை மாற்ற உதவும் ஒரு சாளரத்தை இது திறக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:408
+#: views/dolphinviewactionhandler.cpp:409
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "இயல்பிருப்புகளாக மீட்டமை"
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:410
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "காட்சி விருப்பங்களை இயல்பிருப்புகளை மீட்டமைக்கும்"
 
-#: views/dolphinviewactionhandler.cpp:414
+#: views/dolphinviewactionhandler.cpp:415
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "காட்சிமுறை அமைப்புகள்"
 
-#: views/dolphinviewactionhandler.cpp:416
+#: views/dolphinviewactionhandler.cpp:417
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6848,103 +6880,103 @@ msgstr ""
 "அனைத்து காட்சிமுறைகளுக்கிடையே சுழற்சியாக மாறும். சார்ந்த பட்டியில், காட்சியுடன் "
 "தொடர்புடைய பல்வேறு அமைப்புகள் இருக்கும்."
 
-#: views/dolphinviewactionhandler.cpp:782
+#: views/dolphinviewactionhandler.cpp:790
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "சின்னங்கள்"
 
-#: views/dolphinviewactionhandler.cpp:783
+#: views/dolphinviewactionhandler.cpp:791
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "சின்னங்களைக் கொண்ட காட்சி முறை"
 
-#: views/dolphinviewactionhandler.cpp:793
+#: views/dolphinviewactionhandler.cpp:801
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "சுருக்கமானது"
 
-#: views/dolphinviewactionhandler.cpp:794
+#: views/dolphinviewactionhandler.cpp:802
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "சுருக்கமான காட்சி முறை"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "விவரங்கள்"
 
-#: views/dolphinviewactionhandler.cpp:805
+#: views/dolphinviewactionhandler.cpp:813
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "விவரமான காட்சி முறை"
 
-#: views/dolphinviewactionhandler.cpp:828
+#: views/dolphinviewactionhandler.cpp:836
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "ஃ–அ"
 
-#: views/dolphinviewactionhandler.cpp:829
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "அ–ஃ"
 
-#: views/dolphinviewactionhandler.cpp:831
+#: views/dolphinviewactionhandler.cpp:839
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "பெரியது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:832
+#: views/dolphinviewactionhandler.cpp:840
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "சிறியது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:834
+#: views/dolphinviewactionhandler.cpp:842
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "புதியது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:835
+#: views/dolphinviewactionhandler.cpp:843
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "பழையது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:845
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "அதிகப்படியானது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:846
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "குறைவானது முதலில்"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:848
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "இறங்குவரிசை"
 
-#: views/dolphinviewactionhandler.cpp:841
+#: views/dolphinviewactionhandler.cpp:849
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ஏறுவரிசை"
 
-#: views/dolphinviewactionhandler.cpp:939
+#: views/dolphinviewactionhandler.cpp:947
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6957,12 +6989,12 @@ msgstr "தற்போதைய காட்சிக்கான செயல�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:948
+#: views/dolphinviewactionhandler.cpp:956
 #, kde-format
 msgid "Actions for %1"
 msgstr "%1 செயல்கள்"
 
-#: views/dolphinviewactionhandler.cpp:955
+#: views/dolphinviewactionhandler.cpp:963
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
