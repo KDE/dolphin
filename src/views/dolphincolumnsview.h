@@ -94,12 +94,15 @@ private:
     void scrollToColumnWhenLaidOut(int index);
     /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
+    /// Opens the folders from @p target down to the first column in front of it.
+    void prependColumnsUpTo(const QUrl &target);
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
     /// The url is the folder of the last column: the one of the selected folder, as in Finder.
     void updateUrlToTheLastColumn();
     /// Creates the column for @p dirUrl and adds it after the last one.
     DolphinColumnPane *appendPane(const QUrl &dirUrl);
+    DolphinColumnPane *insertPane(int index, const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
     void handleKeyLeft(int sourceColumn);

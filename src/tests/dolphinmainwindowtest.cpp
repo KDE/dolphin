@@ -113,7 +113,7 @@ private Q_SLOTS:
     void testFileItemActionsOutliveContextMenu();
     void testAPlaceOpensAsTheFirstColumn();
     void testAFolderOpenedFromOutsideIsTheFirstColumn();
-    void testUpOpensTheParentAsTheFirstColumn();
+    void testUpAddsTheParentAsTheFirstColumn();
     void cleanupTestCase();
 
 private:
@@ -2535,9 +2535,10 @@ void DolphinMainWindowTest::testAFolderOpenedFromOutsideIsTheFirstColumn()
 }
 
 /**
- * In the columns view Up from the first column makes the parent the first column.
+ * In the columns view Up from the first column adds the parent as the first column, with the folder
+ * it came from selected, and the columns that were open stay.
  */
-void DolphinMainWindowTest::testUpOpensTheParentAsTheFirstColumn()
+void DolphinMainWindowTest::testUpAddsTheParentAsTheFirstColumn()
 {
     QScopedPointer<TestDir> testDir{new TestDir()};
     testDir->createDir("a/b");
@@ -2554,9 +2555,26 @@ void DolphinMainWindowTest::testUpOpensTheParentAsTheFirstColumn()
     QTRY_COMPARE(columns->url(), b);
     QCOMPARE(columns->columnCount(), 1);
 
-    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up))->trigger();
+    QAction *up = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up));
+    up->trigger();
     QTRY_COMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnCount(), 2);
     QCOMPARE(columns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnAt(1)->dirUrl(), b);
+    QCOMPARE(columns->activeColumnIndex(), 0);
+    DolphinColumnPane *aColumn = columns->columnAt(0);
+    QTRY_VERIFY(aColumn->model()->index(b) >= 0);
+    QVERIFY(aColumn->controller()->selectionManager()->isSelected(aColumn->model()->index(b)));
+    // Listing the new column does not move the url to the last column.
+    QTest::qWait(300);
+    QCOMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
+
+    up->trigger();
+    QTRY_COMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), testDir->url().adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(columns->columnCount(), 3);
+    QCOMPARE(columns->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnAt(2)->dirUrl(), b);
+    QCOMPARE(columns->activeColumnIndex(), 0);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
