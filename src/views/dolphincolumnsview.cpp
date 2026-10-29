@@ -499,6 +499,10 @@ bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
         }
     }
     if (ancestor < 0) {
+        if (!m_columns.isEmpty() && target.isParentOf(m_columns.constFirst()->dirUrl())) {
+            prependColumnsUpTo(target);
+            return true;
+        }
         return false;
     }
 
@@ -548,6 +552,46 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
         m_columns.constFirst()->container()->setFocus();
     }
     setActiveColumn(0);
+}
+
+void DolphinColumnsView::prependColumnsUpTo(const QUrl &target)
+{
+    int added = 0;
+    QUrl child = m_columns.constFirst()->dirUrl().adjusted(QUrl::StripTrailingSlash);
+    while (child != target) {
+        const QUrl parent = KIO::upUrl(child).adjusted(QUrl::StripTrailingSlash);
+        if (parent == child) {
+            break;
+        }
+        DolphinColumnPane *pane = insertPane(0, parent);
+        {
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            pane->setActiveChildUrl(child);
+        }
+        if (ColumnsModeSettings::self()->dynamicColumnWidth()) {
+            pane->setWidthPending(true);
+            QTimer::singleShot(s_pendingWidthTimeoutMs, pane, [this, pane]() {
+                finishPendingWidth(pane);
+            });
+        }
+        ++added;
+        child = parent;
+    }
+
+    // The columns that were open moved right.
+    m_activeColumn += added;
+    QHash<int, int> customColumnWidths;
+    for (auto it = m_customColumnWidths.cbegin(); it != m_customColumnWidths.cend(); ++it) {
+        customColumnWidths.insert(it.key() + added, it.value());
+    }
+    m_customColumnWidths = customColumnWidths;
+    if (m_carriedColumnWidth) {
+        m_carriedColumnWidth->first += added;
+    }
+
+    recalculateColumnWidths();
+    setActiveColumn(0);
+    scrollToColumnWhenLaidOut(0);
 }
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
@@ -667,6 +711,11 @@ void DolphinColumnsView::popAfter(int columnIndex)
 
 DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
 {
+    return insertPane(m_columns.size(), dirUrl);
+}
+
+DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
+{
     // Configured before it loads: changing a property during a load inserts items twice.
     auto *model = new KFileItemModel();
     applyViewProperties(model);
@@ -739,11 +788,14 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
     pane->container()->installEventFilter(this);
     pane->container()->viewport()->installEventFilter(this);
 
-    m_columns.append(pane);
-    m_splitter->insertWidget(m_splitter->count() - 1, pane);
-    m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
-    if (const int handleIndex = m_splitter->indexOf(pane); handleIndex > 0) {
-        m_splitter->handle(handleIndex)->installEventFilter(this);
+    m_columns.insert(index, pane);
+    m_splitter->insertWidget(index, pane);
+    m_splitter->setStretchFactor(index, 0);
+    // A column inserted first gives the column after it a handle.
+    for (int handleIndex : {index, index + 1}) {
+        if (handleIndex > 0 && handleIndex < m_columns.size()) {
+            m_splitter->handle(handleIndex)->installEventFilter(this);
+        }
     }
 
     auto controller = pane->controller();
