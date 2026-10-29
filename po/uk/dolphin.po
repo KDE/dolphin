@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-28 01:04+0000\n"
-"PO-Revision-Date: 2026-10-26 18:33+0200\n"
+"PO-Revision-Date: 2026-10-28 14:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2696,6 +2696,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"«Пошук файлів» вимкнено. Увімкніть його у «Системних параметрах», щоб "
+"переглянути ці відомості."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2704,14 +2706,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"«Пошук файлів» індексує лише назви файлів. Увімкніть індексування вмісту "
+"файлів у «Системних параметрах», щоб переглянути ці відомості."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Ваш користувач не може записувати дані до цієї теки."
+msgstr "«Пошук файлів» не індексує цю теку."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2720,6 +2722,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Ці відомості походять із «Пошуку файлів», а цю версію Dolphin зібрано без "
+"його підтримки."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format

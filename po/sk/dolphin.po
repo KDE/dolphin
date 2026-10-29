@@ -2633,6 +2633,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Vyhľadávanie súborov je vypnuté. Ak chcete vidieť tieto informácie, zapnite "
+"ho v Nastaveniach systému."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2641,14 +2643,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Vyhľadávanie súborov indexuje iba názvy súborov. Ak chcete vidieť tieto "
+"informácie, zapnite v Nastaveniach systému indexovanie obsahu súborov."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "This folder is not writable for you."
+msgstr "Tento priečinok nie je indexovaný Vyhľadávaním súborov."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2657,6 +2659,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Tieto informácie pochádzajú z Vyhľadávania súborov, bez ktorého bola táto "
+"verzia Dolphinu zostavená."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
@@ -5414,6 +5418,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Začať strom priečinkov panela Priečinky vo vašom domovskom priečinku, kým "
+"ste v ňom."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5425,6 +5431,11 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Keď je toto zapnuté a aktuálny priečinok je vo vašom domovskom "
+"priečinku, panel Priečinky zobrazuje iba váš domovský priečinok a priečinky "
+"v ňom. Koreňový priečinok a ostatné disky sa vtedy v paneli nezobrazujú.</"
+"para><para>Mimo domovského priečinka panel zobrazuje všetky priečinky od "
+"koreňového priečinka.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format

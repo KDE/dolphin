@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-28 01:04+0000\n"
-"PO-Revision-Date: 2026-10-21 18:41+0200\n"
+"PO-Revision-Date: 2026-10-27 13:19+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -5544,6 +5544,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Démarrez l'arborescence des dossiers du panneau « Dossiers » à partir de "
+"votre dossier personnel à condition que vous y soyez."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5555,6 +5557,12 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Lorsque cette option est activée et que le dossier courant se trouve "
+"dans votre dossier personnel, le panneau « Dossiers » affiche uniquement "
+"votre dossier personnel et les dossiers qu'il contient. Le dossier racine et "
+"les autres lecteurs ne sont alors pas affichés dans le panneau.</"
+"para><para>En dehors de votre dossier personnel, le panneau affiche tous les "
+"dossiers, en commençant par le dossier racine.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format

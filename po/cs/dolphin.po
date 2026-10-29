@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-28 01:04+0000\n"
-"PO-Revision-Date: 2026-10-26 12:58+0100\n"
+"PO-Revision-Date: 2026-10-28 23:00+0100\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -2630,6 +2630,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Vyhledávání souborů je deaktivováno. Chcete-li tyto informace zobrazit, "
+"povolte tuto funkci v nastavení systému."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2638,14 +2640,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Funkce vyhledávání souborů indexuje pouze názvy souborů. Chcete-li tyto "
+"informace zobrazit, povolte indexování obsahu souborů v nastavení systému."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Tato složka pro vás není zapisovatelná."
+msgstr "Tato složka není indexována funkcí vyhledávání souborů."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2654,6 +2656,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Tyto informace pocházejí z vyhledávání souborů, bez níž byla tato verze "
+"aplikace Dolphin sestavena."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
