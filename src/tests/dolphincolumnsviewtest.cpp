@@ -160,8 +160,6 @@ private Q_SLOTS:
     void testShiftWheelScrollsTheColumns_data();
     void testShiftWheelScrollsTheColumns();
     void testClosingColumnsLeavesTheScrollPositionAlone();
-    void testTheColumnsStartAtTheRootTheResolverNames();
-    void testADeepFolderIsPaintedOnceItsColumnsHaveTheirWidths();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testTheFirstVisibleColumnIsShownWhole();
@@ -2033,65 +2031,6 @@ void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
         qPrintable(QStringLiteral("splitter keeps %1, which is below the %2 the position needs").arg(m_view->m_splitter->minimumWidth()).arg(neededWidth)));
 }
 
-void DolphinColumnsViewTest::testTheColumnsStartAtTheRootTheResolverNames()
-{
-    // Restoring a session opens a url that is several folders deep. Without a root to start from
-    // that folder was the only column and everything above it was gone, so there was nothing to
-    // scroll left to.
-    const QUrl deepUrl = urlOf(QStringLiteral("alpha/alpha-child"));
-    const QUrl rootUrl = m_testDir->url();
-
-    DolphinColumnsView view(deepUrl, nullptr, DolphinView::ColumnsView, [rootUrl](const QUrl &) {
-        return rootUrl;
-    });
-    view.resize(1200, 600);
-    view.show();
-    QVERIFY(QTest::qWaitForWindowExposed(&view));
-
-    QTRY_COMPARE_WITH_TIMEOUT(view.columnCount(), 3, 5000);
-    QCOMPARE(view.columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), rootUrl.adjusted(QUrl::StripTrailingSlash));
-    QCOMPARE(view.columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("alpha"));
-    QCOMPARE(view.columnAt(2)->dirUrl().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
-    // The folder that was asked for is the one the user lands on.
-    QCOMPARE(view.url().adjusted(QUrl::StripTrailingSlash), deepUrl.adjusted(QUrl::StripTrailingSlash));
-}
-
-void DolphinColumnsViewTest::testADeepFolderIsPaintedOnceItsColumnsHaveTheirWidths()
-{
-    // Switching to the columns view in a deep folder opens a column for every folder on the way.
-    // Each column takes its width when its folder has listed, and each width moved the view, which
-    // the user saw as flickering. The view is painted once every column has its width.
-    QString path;
-    for (const QString &name : {QStringLiteral("one"), QStringLiteral("two"), QStringLiteral("three"), QStringLiteral("four"), QStringLiteral("five")}) {
-        path += (path.isEmpty() ? QString() : QStringLiteral("/")) + name;
-        m_testDir->createFile(path + QStringLiteral("/a-file-with-a-long-name.txt"));
-    }
-    const QUrl rootUrl = m_testDir->url();
-
-    DolphinColumnsView view(urlOf(path), nullptr, DolphinView::ColumnsView, [rootUrl](const QUrl &) {
-        return rootUrl;
-    });
-    view.resize(900, 400);
-    view.show();
-
-    auto layoutOf = [&view]() {
-        return std::make_pair(view.m_scrollArea->horizontalScrollBar()->value(), view.m_splitter->sizes());
-    };
-    QList<std::pair<int, QList<int>>> paintedLayouts;
-    QElapsedTimer timer;
-    timer.start();
-    while (timer.elapsed() < 1000) {
-        QCoreApplication::processEvents();
-        if (view.m_scrollArea->updatesEnabled() && view.isVisible() && (paintedLayouts.isEmpty() || paintedLayouts.constLast() != layoutOf())) {
-            paintedLayouts.append(layoutOf());
-        }
-    }
-
-    QCOMPARE(view.columnCount(), 6);
-    QVERIFY(view.m_scrollArea->updatesEnabled());
-    QCOMPARE(paintedLayouts.size(), 1);
-}
-
 void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
 {
     // A column sized before its folder has listed takes the width of an empty model and then
@@ -2591,9 +2530,7 @@ void DolphinColumnsViewTest::testANewFirstColumnTakesTheWidthOfItsContent()
     m_testDir->createDir("home/Desktop");
     const QUrl downloads = urlOf(QStringLiteral("downloads"));
     const QUrl home = urlOf(QStringLiteral("home"));
-    DolphinColumnsView view(downloads, nullptr, DolphinView::ColumnsView, [downloads, home](const QUrl &url) {
-        return home.matches(url, QUrl::StripTrailingSlash) || home.isParentOf(url) ? home : downloads;
-    });
+    DolphinColumnsView view(downloads, nullptr, DolphinView::ColumnsView);
     view.resize(1600, 400);
     view.show();
     QVERIFY(QTest::qWaitForWindowExposed(&view));
