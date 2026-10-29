@@ -111,7 +111,8 @@ private Q_SLOTS:
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
     void testAPlaceOpensAsTheFirstColumn();
-    void testAFolderOutsideThePlacesStartsAtTheRoot();
+    void testAFolderOpenedFromOutsideIsTheFirstColumn();
+    void testUpOpensTheParentAsTheFirstColumn();
     void cleanupTestCase();
 
 private:
@@ -2447,20 +2448,19 @@ void DolphinMainWindowTest::testAPlaceOpensAsTheFirstColumn()
 }
 
 /**
- * In the columns view a local folder that no place holds starts at /, also on a mount of its own.
+ * In the columns view a folder opened from outside the view is the first column, also below a place.
  */
-void DolphinMainWindowTest::testAFolderOutsideThePlacesStartsAtTheRoot()
+void DolphinMainWindowTest::testAFolderOpenedFromOutsideIsTheFirstColumn()
 {
-#ifdef Q_OS_WIN
-    QSKIP("A folder starts at its drive on Windows.");
-#endif
-    QScopedPointer<TestDir> testDir{new TestDir()};
+    QScopedPointer<TestDir> testDir{new TestDir(QDir::homePath() + QStringLiteral("/columns-XXXXXX"))};
     testDir->createDir("a/b");
     const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
     auto *places = DolphinPlacesModelSingleton::instance().placesModel();
-    if (const QModelIndex closest = places->closestItem(b); closest.isValid() && places->url(closest).isParentOf(b)) {
-        QSKIP("The test folder is inside a place.");
-    }
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    places->addPlace(QStringLiteral("a"), a);
+    auto removePlace = qScopeGuard([places, a]() {
+        places->removePlace(places->closestItem(a));
+    });
 
     m_mainWindow->openDirectories({b}, false);
     m_mainWindow->show();
@@ -2471,8 +2471,33 @@ void DolphinMainWindowTest::testAFolderOutsideThePlacesStartsAtTheRoot()
     QVERIFY(columns);
 
     QTRY_COMPARE(columns->url(), b);
-    QCOMPARE(columns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), QUrl::fromLocalFile(QStringLiteral("/")));
-    QCOMPARE(columns->columnAt(columns->columnCount() - 1)->dirUrl(), b);
+    QCOMPARE(columns->columnCount(), 1);
+    QCOMPARE(columns->columnAt(0)->dirUrl(), b);
+}
+
+/**
+ * In the columns view Up from the first column makes the parent the first column.
+ */
+void DolphinMainWindowTest::testUpOpensTheParentAsTheFirstColumn()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b");
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+
+    m_mainWindow->openDirectories({b}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+    QTRY_COMPARE(columns->url(), b);
+    QCOMPARE(columns->columnCount(), 1);
+
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up))->trigger();
+    QTRY_COMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

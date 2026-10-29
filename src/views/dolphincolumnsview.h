@@ -13,7 +13,6 @@
 
 #include <QPointer>
 
-#include <functional>
 #include <optional>
 #include <utility>
 
@@ -33,12 +32,7 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
     friend class DolphinViewContainerTest;
 
 public:
-    /// @p rootUrlResolver names the folder the columns start at, such as the place that holds
-    /// the url. Without one they start at the url.
-    explicit DolphinColumnsView(const QUrl &url,
-                                QWidget *parent,
-                                std::optional<Mode> initialMode = std::nullopt,
-                                std::function<QUrl(const QUrl &)> rootUrlResolver = {});
+    explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
     ~DolphinColumnsView() override;
 
     void setUrl(const QUrl &url) override;
@@ -94,16 +88,12 @@ private Q_SLOTS:
 
 private:
     void initColumnsUi();
-    /// Starts the columns at @p placeRoot, or at the place that rootUrlFor() finds when it is empty.
-    void rebuildColumnsForUrl(const QUrl &url, const QUrl &placeRoot = {});
+    /// Makes @p url the only column.
+    void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
-    /// Stops painting the columns until none of them waits for its width any more.
-    void holdPaintingUntilEveryColumnHasAWidth();
-    void resumePaintingOnceEveryColumnHasAWidth();
     /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
-    QUrl rootUrlFor(const QUrl &url) const;
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
     /// The url is the folder of the last column: the one of the selected folder, as in Finder.
@@ -181,7 +171,6 @@ private:
     bool m_settingUrl = false;
     QUrl m_nextPlaceUrl;
     QString m_nameFilter;
-    std::function<QUrl(const QUrl &)> m_rootUrlResolver;
     KFileItemModelFilter::FilterMode m_filterMode;
     bool m_filterCaseSensitive = false;
 
