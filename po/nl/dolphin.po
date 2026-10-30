@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-28 01:04+0000\n"
-"PO-Revision-Date: 2026-10-26 10:46+0100\n"
+"PO-Revision-Date: 2026-10-28 11:09+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2641,6 +2641,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Bestandszoekfunctie is uitgeschakeld. Schakel deze in via "
+"Systeeminstellingen om deze informatie te kunnen zien."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2649,14 +2651,15 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Bestandszoekfuncties indexeren alleen bestandsnamen. Schakel in de "
+"systeeminstellingen het indexeren van de inhoud van bestanden in om deze "
+"informatie te kunnen zien."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Deze map is voor u niet beschrijfbaar."
+msgstr "Deze map wordt niet geïndexeerd door de bestandszoekfunctie."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2665,6 +2668,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Deze informatie is afkomstig van Bestandszoekfunctie, een functionaliteit "
+"die in deze versie van Dolphin niet is opgenomen."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
