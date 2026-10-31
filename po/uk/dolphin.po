@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-28 01:04+0000\n"
+"POT-Creation-Date: 2026-10-31 00:54+0000\n"
 "PO-Revision-Date: 2026-10-28 14:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -3413,37 +3413,43 @@ msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:164
+#: main.cpp:164 main.cpp:165
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Документація"
 
-#: main.cpp:175
+#: main.cpp:165
+#, kde-format
+msgctxt "@info:credit"
+msgid "Yuma Kakei"
+msgstr ""
+
+#: main.cpp:176
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Назви файлів та тек, передані як параметри, буде позначено."
 
-#: main.cpp:177
+#: main.cpp:178
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin запускатиметься у режимі розділеного перегляду."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin явним чином запуститься у новому вікні."
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr "Налаштувати Dolphin на завдання з адміністрування."
 
-#: main.cpp:182
+#: main.cpp:183
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
@@ -3451,7 +3457,7 @@ msgstr ""
 "Запустити фонову службу Dolphin (потрібна лише для роботи з інтерфейсом D-"
 "Bus)."
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"

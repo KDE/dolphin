@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-28 01:04+0000\n"
+"POT-Creation-Date: 2026-10-31 00:54+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -3281,37 +3281,43 @@ msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:164
+#: main.cpp:164 main.cpp:165
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "مستندات"
 
-#: main.cpp:175
+#: main.cpp:165
+#, kde-format
+msgctxt "@info:credit"
+msgid "Yuma Kakei"
+msgstr ""
+
+#: main.cpp:176
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "پرونده‌ها و پوشه‌هایی که به عنوان آرگومان رد شدند انتخاب خواهند شد."
 
-#: main.cpp:177
+#: main.cpp:178
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "دلفین با نمای دوبخشی آغاز خواهد شد."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:183
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "Start Dolphin Daemon (only required for DBus Interface)"
@@ -3319,7 +3325,7 @@ msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "آغاز شبح دلفین ( فقط برای  واسط DBus مورد نیاز است.)"
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"

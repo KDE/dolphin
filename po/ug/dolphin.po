@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-28 01:04+0000\n"
+"POT-Creation-Date: 2026-10-31 00:54+0000\n"
 "PO-Revision-Date: 2026-09-23 06:56+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -3117,43 +3117,49 @@ msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr ""
 
-#: main.cpp:164
+#: main.cpp:164 main.cpp:165
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "قوللانما"
 
-#: main.cpp:175
+#: main.cpp:165
+#, kde-format
+msgctxt "@info:credit"
+msgid "Yuma Kakei"
+msgstr ""
+
+#: main.cpp:176
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "ئەركىن ئۆزگەرگۈچىدە يوللىنىدىغان ھۆججەت ۋە قىسقۇچ تاللىنىدۇ."
 
-#: main.cpp:177
+#: main.cpp:178
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin بۆلۈنمە كۆرۈنۈش بىلەن قوزغىلىدۇ."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin ئېنىقلا يېڭى كۆزنەكتە ئېچىلىدۇ."
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr "Dolphin نى باشقۇرغۇچى ۋەزىپىسىنى ئىجرا قىلىشقا تەڭشەيدۇ."
 
-#: main.cpp:182
+#: main.cpp:183
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Dolphin نازارەتچىنى قوزغىتىدۇ (پەقەت DBus ئارايۈزى ئىشلەتكەندە زۆرۈر)."
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"

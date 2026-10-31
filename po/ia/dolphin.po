@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-28 01:04+0000\n"
-"PO-Revision-Date: 2026-10-27 12:28+0100\n"
+"POT-Creation-Date: 2026-10-31 00:54+0000\n"
+"PO-Revision-Date: 2026-10-30 12:25+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2639,6 +2639,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Le recerca de files es dishabilitate. Activa lo in le Preferentias  de "
+"Systema pro vider iste information."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2647,14 +2649,15 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Recerca de files indicisa solmente nomines de files. Activa le indicisation "
+"del contento de files in le Preferentias del Systema pro vider iste "
+"information."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Iste dossier non es scribibile per te."
+msgstr "Iste dossier non es indicisate per Recerca de File"
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2663,6 +2666,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Iste information proveni del Recerca de Files, sin le qual iste version de "
+"Dolphin esseva construite."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
@@ -3347,43 +3352,49 @@ msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:164
+#: main.cpp:164 main.cpp:165
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Documentation"
 
-#: main.cpp:175
+#: main.cpp:165
+#, kde-format
+msgctxt "@info:credit"
+msgid "Yuma Kakei"
+msgstr ""
+
+#: main.cpp:176
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Le files e directorios passate como argumentos essera selectionate"
 
-#: main.cpp:177
+#: main.cpp:178
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin initiara con un vista dividite."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin explicitemente aperira in un nove fenestra."
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr "Configura Dolphin per cargas administrative"
 
-#: main.cpp:182
+#: main.cpp:183
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Initia Daemon de Dophin (requirite solmente per interfacie DBus)"
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"

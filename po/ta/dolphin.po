@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-28 01:04+0000\n"
+"POT-Creation-Date: 2026-10-31 00:54+0000\n"
 "PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -3237,43 +3237,49 @@ msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "மைகேல் ஆஸ்டின்"
 
-#: main.cpp:164
+#: main.cpp:164 main.cpp:165
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "கையேடு எழுதுதல்"
 
-#: main.cpp:175
+#: main.cpp:165
+#, kde-format
+msgctxt "@info:credit"
+msgid "Yuma Kakei"
+msgstr ""
+
+#: main.cpp:176
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "தரு மதிப்புகளாக உள்ள கோப்புகளும் அடைவுகளும் தேர்ந்தெடுக்கப் படும்."
 
-#: main.cpp:177
+#: main.cpp:178
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "ஒரு துண்டாக்கப்பட்ட காட்சிமுறையுடன் டால்பின் துவக்கப்படும்."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "டால்பின் ஒரு புதிய சாளரத்தில் திறக்கும்."
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr "நிர்வாகப் பணிகளுக்கு டால்பினை அமை"
 
-#: main.cpp:182
+#: main.cpp:183
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "டால்பின் பின்னணி சேவையைத் துவக்கு (DBus இடைமுகப்புக்கு மட்டும் தேவை)."
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
