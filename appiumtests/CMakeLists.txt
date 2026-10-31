@@ -22,3 +22,8 @@ add_test(
 )
 set_tests_properties(dolphintest PROPERTIES TIMEOUT 300 ENVIRONMENT "CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}/bin")
 
+add_test(
+    NAME columnsviewtest
+    COMMAND selenium-webdriver-at-spi-run ${CMAKE_CURRENT_SOURCE_DIR}/columnsviewtest.py
+)
+set_tests_properties(columnsviewtest PROPERTIES TIMEOUT 300 ENVIRONMENT "CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}/bin")
