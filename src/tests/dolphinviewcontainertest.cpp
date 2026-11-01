@@ -523,7 +523,7 @@ void DolphinViewContainerTest::testTheSmallStatusBarStaysOffTheScrollbars()
 
     // Two columns of the minimum width do not fit in a viewport this narrow, so the view really
     // has a horizontal scrollbar. Without one the two rects cannot be told apart.
-    m_container->resize(400, 600);
+    m_container->resize(250, 600);
     m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
     QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->horizontalScrollBarHeight() > 0, 5000);
 
