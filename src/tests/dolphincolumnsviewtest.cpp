@@ -148,6 +148,7 @@ private Q_SLOTS:
     void testDeletingAnOpenFolderOpensNoOther();
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
+    void testTheColumnLeftActiveAfterAClosedOneStillWorks();
     void testSeveralSelectedItemsShowNoFolder();
     void testShiftArrowExtendsTheSelection();
     void testACreatedFolderIsSelected();
@@ -2170,6 +2171,33 @@ void DolphinColumnsViewTest::testClosingTheActiveColumnReportsTheSelectionLeft()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
     QCOMPARE(m_view->activeColumnIndex(), 0);
     QTRY_COMPARE(reported, QStringList());
+    disconnect(m_view, nullptr, this, nullptr);
+}
+
+void DolphinColumnsViewTest::testTheColumnLeftActiveAfterAClosedOneStillWorks()
+{
+    // The folder of the active column is deleted, and the column before it becomes active. A
+    // selection in that column is reported and opens the folder it selects, as in any active column.
+    QStringList reported;
+    connect(m_view, &DolphinView::selectionChanged, this, [&reported](const KFileItemList &selection) {
+        reported.clear();
+        for (const KFileItem &item : selection) {
+            reported << item.name();
+        }
+    });
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("beta"));
+    navigateRight();
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+
+    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/beta")).removeRecursively());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE(reported, QStringList{QStringLiteral("alpha")});
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
     disconnect(m_view, nullptr, this, nullptr);
 }
 

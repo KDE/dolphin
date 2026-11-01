@@ -676,7 +676,8 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
 void DolphinColumnsView::popAfter(int columnIndex)
 {
     // Disconnected first, so that no queued signal reaches a deleted column.
-    if (activePane() && m_activeColumn > columnIndex) {
+    const bool activeColumnCloses = activePane() && m_activeColumn > columnIndex;
+    if (activeColumnCloses) {
         connectActivePane(nullptr);
     }
 
@@ -705,6 +706,10 @@ void DolphinColumnsView::popAfter(int columnIndex)
     }
 
     if (auto *pane = activePane()) {
+        // The last column left becomes the active one, with the model and the signals of an active column.
+        if (activeColumnCloses) {
+            connectActivePane(pane);
+        }
         setFocusProxy(pane->container());
     }
 }
