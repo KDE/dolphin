@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 00:54+0000\n"
-"PO-Revision-Date: 2026-10-28 07:44+0200\n"
+"PO-Revision-Date: 2026-10-31 12:02+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -3465,7 +3465,7 @@ msgstr "Документация"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format

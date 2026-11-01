@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 00:54+0000\n"
-"PO-Revision-Date: 2026-10-28 09:07-0300\n"
+"PO-Revision-Date: 2026-10-31 12:22-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -546,7 +546,7 @@ msgstr "Copiar para outra exibição"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copiar para a outra exibição…"
+msgstr "Copiar para outra exibição…"
 
 #: dolphinmainwindow.cpp:1912
 #, kde-kuit-format
@@ -1485,7 +1485,7 @@ msgstr "Fechar exibição à esquerda"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
-msgstr "Apresentar exibição à esquerda"
+msgstr "Destacar exibição à esquerda"
 
 #: dolphinmainwindow.cpp:2895 dolphinmainwindow.cpp:2916
 #, kde-format
@@ -1526,7 +1526,7 @@ msgstr "Fechar exibição à direita"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
-msgstr "Apresentar exibição à direita"
+msgstr "Destacar exibição à direita"
 
 #: dolphinmainwindow.cpp:2904 dolphinmainwindow.cpp:2925
 #: dolphinmainwindow.cpp:2936
@@ -3377,7 +3377,7 @@ msgstr "Documentação"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -5000,7 +5000,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:175
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr "Também esconde arquivos com tipo MIMO application/x-trash"
+msgstr "Também ocultar arquivos com tipo MIMO application/x-trash"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
 #: settings/dolphin_generalsettings.kcfg:179
@@ -5197,7 +5197,7 @@ msgstr "Executar script"
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Pastas, abas e estado das janelas da última vez"
+msgstr "Pastas, abas e estado da janela da última vez"
 
 #: settings/interface/folderstabssettingspage.cpp:58
 #, kde-format
@@ -5565,7 +5565,7 @@ msgstr "Armazenamento remoto:"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "Pequeno"
+msgstr "Pequena"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -5583,7 +5583,7 @@ msgstr "Mostrar barra de zoom"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr "Desabilitado"
+msgstr "Desabilitada"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:52
 #, kde-format
@@ -5712,19 +5712,19 @@ msgstr "Estilo de data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Simbólica (ex.: 'drwxr-xr-x')"
+msgstr "Simbólico (ex.: 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numérica (octal) (ex.: '755')"
+msgstr "Numérico (octal) (ex.: '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Combinada (ex.: 'drwxr-xr-x (755)')"
+msgstr "Combinado (ex.: 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:98
 #, kde-format
@@ -5808,8 +5808,7 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
-"Utilizar o modo de exibição em ícones para locais que mostram arquivos de "
-"mídia"
+"Usar modo de exibição em ícones para locais que mostram arquivos de mídia"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
@@ -5869,7 +5868,7 @@ msgstr "Renomear múltiplos itens é sempre feito com uma janela de diálogo."
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr "Também esconder arquivos de backup ao esconder arquivos escondidos"
+msgstr "Também ocultar arquivos de backup ao ocultar arquivos ocultos"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:95
 #, kde-format
@@ -5967,7 +5966,7 @@ msgstr "Tamanho padrão dos ícones:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
-msgstr "Tamanho dos ícones de prévia:"
+msgstr "Tamanho dos ícones de prévias:"
 
 #: settings/viewmodes/viewsettingstab.cpp:66
 #, kde-format
@@ -7040,8 +7039,7 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 "Isso agrupa arquivos e pastas por um atributo escolhido. \"Nenhum\" desativa "
-"o agrupamento. \"Igual à classificação\" agrupa pelo critério de "
-"classificação ativo."
+"o agrupamento. \"Igual à ordenação\" agrupa pelo critério de ordenação ativo."
 
 #: views/dolphinviewactionhandler.cpp:362
 #, kde-format
@@ -7053,7 +7051,7 @@ msgstr "Nenhum"
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
-msgstr "Igual à classificação"
+msgstr "Igual à ordenação"
 
 #: views/dolphinviewactionhandler.cpp:384
 #, kde-format

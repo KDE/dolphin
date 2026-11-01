@@ -2,7 +2,7 @@
 # translation of dolphin.po to
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2008, 2012, 2021, 2022, 2023, 2024, 2025, 2026 zayed <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2008, 2012, 2021-2026 zayed <zayed.alsaidi@gmail.com>
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # محمد الحرقان <imksa@hotmail.com>, 2008.
 # Anas Husseini <linux.anas@gmail.com>, 2008.
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 00:54+0000\n"
-"PO-Revision-Date: 2026-09-23 17:33+0400\n"
+"PO-Revision-Date: 2026-10-31 19:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -739,25 +739,19 @@ msgstr ""
 "مرة أخرى لإغلاق إحدى طرق العرض."
 
 #: dolphinmainwindow.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "اقسم العرض"
+msgstr "نقل العرض المنقسم إلى ألسنة"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"إذا كان عرض المجلدات مقسوما، فسيؤدي ذلك إلى فصل العرض النشط إلى نافذة جديدة."
+"إذا كان العرض منقسمًا، فستُنقل كلا العرضين إلى ألسنة ويُغلق العرض المنقسم."
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
@@ -2639,7 +2633,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
-msgstr ""
+msgstr "البحث في الملفات معطّل. مكّنه في إعدادات النظام لترى هذه المعلومات."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2648,14 +2642,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"البحث في الملفات يفهرس أسماء الملفات فقط. مكّن فهرسة محتوى الملفات في إعدادات "
+"النظام لترى هذه المعلومات."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "لا تستطيع الكتابة في هذا المجلد."
+msgstr "هذا المجلد غير مفهرس بواسطة البحث في الملفات."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2664,6 +2658,7 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"تأتي هذه المعلومات من البحث في الملفات، الذي بُنيت هذه النسخة من دولفين دونه."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
@@ -5020,7 +5015,7 @@ msgstr "فهرس عرض النص"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "ضع العناصر أقرب إلى بعضها"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5417,11 +5412,10 @@ msgid "Information Panel:"
 msgstr "لوحة المعلومات:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "اقصر لوح المجلدات على الدليل الرئيسي إذا كان بداخل المنزل"
+msgstr "اقتصر على المجلد المنزلي عند التواجد داخله"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5430,6 +5424,7 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"ابدأ شجرة المجلدات في لوحة المجلدات من مجلدك المنزلي أثناء تواجدك داخله."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5441,14 +5436,16 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>عند تمكين هذا وكان المجلد الحالي داخل مجلدك المنزلي، تعرض لوحة "
+"المجلدات مجلدك المنزلي والمجلدات داخله فقط. ولا يُعرض المجلد الجذر والأقراص "
+"الأخرى في اللوحة حينها.</para><para>خارج مجلدك المنزلي، تعرض اللوحة جميع "
+"المجلدات بدءًا من المجلد الجذر.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "المجلّدات:"
+msgstr "لوحة المجلدات:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -6024,9 +6021,7 @@ msgid "Maximum lines:"
 msgstr "أقصى أسطر:"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "مُدمج"
@@ -6035,15 +6030,13 @@ msgstr "مُدمج"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "يضع العناصر أقرب إلى بعضها، بحيث يتسع صف واحد لعدد أكبر منها."
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Grid spacing:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "تباعد الشبكية:"
+msgstr "التباعد:"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format

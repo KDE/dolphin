@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 00:54+0000\n"
-"PO-Revision-Date: 2026-10-28 14:59+0200\n"
+"PO-Revision-Date: 2026-10-31 16:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3423,7 +3423,7 @@ msgstr "Документація"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
