@@ -97,14 +97,14 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), nullptr, this);
     m_actionHandler->setCurrentView(m_view);
+    // The part shows a plain DolphinView, which cannot draw columns.
+    m_actionHandler->removeColumnsMode();
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, [this](const QUrl &parent) {
         setNewFileMenuWorkingDirectory(parent);
         createDirectory();
     });
     connect(m_actionHandler, &DolphinViewActionHandler::viewModeChangeRequested, this, [this](DolphinView::Mode mode) {
         if (mode == DolphinView::ColumnsView) {
-            // The part shows a plain DolphinView, which cannot draw columns. The action has
-            // already been checked and the view_mode button relabelled, so put them back.
             m_actionHandler->updateViewActions();
             return;
         }
