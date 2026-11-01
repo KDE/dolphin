@@ -64,6 +64,7 @@ private Q_SLOTS:
     void testSetViewMode_fullCycle();
     void testSetViewMode_columnsToDetailsThenBackToColumns();
     void testSetViewMode_sameModeTwice();
+    void testAReplacedViewNoLongerMovesTheUrlNavigator();
     void testColumnsIconSizeStaysNonZeroOnPreviewToggle();
     void testSwapDoesNotPersistOutgoingMode();
     void testNavigatorFollowsViewAfterModeSwap();
@@ -246,6 +247,23 @@ void DolphinViewContainerTest::testSetViewMode_sameModeTwice()
 
     QCOMPARE(spy.count(), 0);
     QCOMPARE(m_container->view(), viewBefore);
+}
+
+void DolphinViewContainerTest::testAReplacedViewNoLongerMovesTheUrlNavigator()
+{
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QPointer<DolphinView> oldView = m_container->view();
+    const QUrl url = m_container->urlNavigatorInternalWithHistory()->locationUrl();
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    QVERIFY(m_container->view() != oldView);
+
+    // The old view is deleted later, so it can still emit here.
+    QVERIFY(oldView);
+    Q_EMIT oldView->urlChanged(QUrl::fromLocalFile(QDir::rootPath()));
+    QCOMPARE(m_container->urlNavigatorInternalWithHistory()->locationUrl(), url);
+    waitForViewReady();
 }
 
 void DolphinViewContainerTest::testColumnsIconSizeStaysNonZeroOnPreviewToggle()
