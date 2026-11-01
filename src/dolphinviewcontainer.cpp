@@ -282,7 +282,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     // A new view starts active, which is wrong in an inactive split pane.
     m_view->setActive(wasActive);
 
-    oldView->disconnect(this);
+    // The old view lives on until its drag ends; blocking its signals cuts the connections
+    // made by this container, the main window, the tab page and the admin bar.
+    oldView->blockSignals(true);
+    ContentDisplaySettings::self()->disconnect(oldView);
     oldView->hide();
     KItemListController::deleteLaterAfterDrag(oldView, oldView->draggingController());
 
