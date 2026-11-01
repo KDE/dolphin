@@ -149,6 +149,7 @@ private Q_SLOTS:
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
     void testTheColumnLeftActiveAfterAClosedOneStillWorks();
+    void testOnlyTheShownFolderReportsItsListingDone();
     void testSeveralSelectedItemsShowNoFolder();
     void testShiftArrowExtendsTheSelection();
     void testACreatedFolderIsSelected();
@@ -2199,6 +2200,20 @@ void DolphinColumnsViewTest::testTheColumnLeftActiveAfterAClosedOneStillWorks()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
     disconnect(m_view, nullptr, this, nullptr);
+}
+
+void DolphinColumnsViewTest::testOnlyTheShownFolderReportsItsListingDone()
+{
+    // The status bar and the Stop action follow the listing of the folder that the view shows. A
+    // parent column that finishes listing first does not end the progress of that folder.
+    QSignalSpy viewDone(m_view, &DolphinView::directoryLoadingCompleted);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QCOMPARE(m_view->columnCount(), 3);
+    QSignalSpy parentDone(m_view->columnAt(1), &DolphinColumnPane::directoryLoadingCompleted);
+    QSignalSpy shownDone(m_view->columnAt(2), &DolphinColumnPane::directoryLoadingCompleted);
+
+    QTRY_VERIFY_WITH_TIMEOUT(parentDone.count() >= 1 && shownDone.count() >= 1, 5000);
+    QCOMPARE(viewDone.count(), 1);
 }
 
 void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()

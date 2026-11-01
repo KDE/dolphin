@@ -434,7 +434,10 @@ void DolphinColumnsView::slotPaneLoadingCompleted()
         QTimer::singleShot(0, this, &DolphinColumnsView::updateViewState);
     }
 
-    Q_EMIT directoryLoadingCompleted();
+    // As the other loading signals, see appendPane().
+    if (pane && pane->dirUrl().matches(url(), QUrl::StripTrailingSlash)) {
+        Q_EMIT directoryLoadingCompleted();
+    }
 }
 
 void DolphinColumnsView::resizeColumn(int column, int width)
