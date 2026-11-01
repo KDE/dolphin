@@ -244,7 +244,7 @@ public:
     bool alternateBackgrounds() const;
 
     /**
-     * Set by KItemListContainer from its horizontal scrollbar policy. Without horizontal
+     * Follows the horizontal scrollbar policy of the container. Without horizontal
      * scrolling a single column wider than the view is shrunk to fit. Enabled by default.
      */
     void setHorizontalScrollingEnabled(bool enabled);

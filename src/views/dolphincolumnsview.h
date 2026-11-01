@@ -98,7 +98,7 @@ private:
     void prependColumnsUpTo(const QUrl &target);
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
-    /// The url is the folder of the last column: the one of the selected folder, as in Finder.
+    /// The url is the folder of the last column: the one of the selected folder.
     void updateUrlToTheLastColumn();
     /// Creates the column for @p dirUrl and adds it after the last one.
     DolphinColumnPane *appendPane(const QUrl &dirUrl);

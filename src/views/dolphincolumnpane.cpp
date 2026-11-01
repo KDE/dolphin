@@ -347,7 +347,7 @@ void DolphinColumnPane::checkActiveChildSelected()
         return;
     }
     // A press on another item selects it, and the next column stays for a drag to it. Several selected
-    // items show no folder, as in Finder. A removed item is handled by slotCurrentChanged().
+    // items show no folder. A removed item is handled by slotCurrentChanged().
     const int selectedCount = m_controller->selectionManager()->selectedItems().count();
     if (selectedCount == 1 || m_model->fileItem(m_activeChildUrl).isNull()) {
         return;
