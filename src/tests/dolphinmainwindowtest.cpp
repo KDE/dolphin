@@ -95,6 +95,7 @@ private Q_SLOTS:
     void testRestoredSplitTabIsCreatedAtBothUrls();
     void testOlderSessionStillRestoresItsUrls();
     void testInlineRename();
+    void testInlineRenameAltTab();
     void testScrollToRenamedItem();
     void testRenameWithoutResortDoesNotScroll();
     void testRenameThatHidesItemDoesNotScroll();
@@ -1718,6 +1719,64 @@ void DolphinMainWindowTest::testInlineRename()
     QCOMPARE(view->m_model->fileItem(2).name(), "cccc");
     QCOMPARE(view->m_model->fileItem(3).name(), "eaaaa");
     QCOMPARE(view->m_model->count(), 4);
+}
+
+// Switching away from Dolphin while inline-renaming and then switching back must not lose focus
+// to the Places panel or prevent keyboard navigation. BUG: 422686
+void DolphinMainWindowTest::testInlineRenameAltTab()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFiles({"file1", "file2"});
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+
+    m_mainWindow->show();
+#ifdef Q_OS_WIN
+    if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
+        QSKIP("Window not exposed on Windows, probably running in a headless CI environment.");
+    }
+#else
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+#endif
+    QVERIFY(m_mainWindow->isVisible());
+    m_mainWindow->windowHandle()->requestActivate();
+    QVERIFY(QTest::qWaitForWindowActive(m_mainWindow.data()));
+
+    QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
+    if (!showPlacesPanelAction->isChecked()) {
+        showPlacesPanelAction->trigger();
+        m_mainWindow->activeViewContainer()->view()->setFocus();
+    }
+
+    QVERIFY(viewDirectoryLoadingCompletedSpy.count() > 0 || viewDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE(view->m_view->m_visibleItems.count(), view->m_model->count());
+
+    view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/file1")});
+    view->updateViewState();
+    view->renameSelectedItems();
+
+    QVERIFY(view->m_view->m_editingRole);
+
+    // Simulate switching to another window:
+    QMainWindow otherWindow;
+    otherWindow.show();
+    otherWindow.windowHandle()->requestActivate();
+    QVERIFY(QTest::qWaitForWindowActive(&otherWindow));
+
+    // Switch back to Dolphin:
+    m_mainWindow->windowHandle()->requestActivate();
+    QVERIFY(QTest::qWaitForWindowActive(m_mainWindow.data()));
+
+    // Focus must not have leaked to the Places panel or other panels
+    QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
+    QVERIFY(!placesPanel->hasFocus());
+
+    // Keyboard navigation must still work
+    const int initialIndex = view->m_view->controller()->selectionManager()->currentItem();
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Right);
+    const int newIndex = view->m_view->controller()->selectionManager()->currentItem();
+    QVERIFY(newIndex != initialIndex || view->m_view->m_editingRole);
 }
 
 // Renaming an item that re-sorts to an off-screen position must scroll it back into view. BUG: 354330

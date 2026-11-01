@@ -76,6 +76,11 @@ void KItemListRoleEditor::setFinishedSignalBlocked(bool blocked)
 
 void KItemListRoleEditor::keyPressEvent(QKeyEvent *event)
 {
+    if ((event->modifiers() & Qt::AltModifier) && (event->key() == Qt::Key_Tab || event->key() == Qt::Key_Backtab)) {
+        event->ignore();
+        return;
+    }
+
     switch (event->key()) {
     case Qt::Key_Escape:
         // Emitting the signal roleEditingCanceled might result

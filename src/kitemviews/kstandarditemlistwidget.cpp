@@ -1738,9 +1738,12 @@ void KStandardItemListWidget::closeRoleEditor()
     disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled, this, &KStandardItemListWidget::slotRoleEditingCanceled);
     disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished, this, &KStandardItemListWidget::slotRoleEditingFinished);
 
-    if (m_roleEditor->hasFocus()) {
-        // If the editing was not ended by a FocusOut event, we have
-        // to transfer the keyboard focus back to the KItemListContainer.
+    QWidget *window = m_roleEditor->window();
+    QWidget *windowFocus = window ? window->focusWidget() : nullptr;
+    const bool otherWidgetHasFocus = windowFocus && windowFocus != m_roleEditor && windowFocus != m_roleEditor->viewport();
+    if (!otherWidgetHasFocus) {
+        // If the editing was not ended by transferring focus to another widget in this window,
+        // transfer the keyboard focus back to the KItemListContainer.
         scene()->views()[0]->parentWidget()->setFocus();
     }
 

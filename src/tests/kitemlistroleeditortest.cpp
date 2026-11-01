@@ -22,6 +22,7 @@ private Q_SLOTS:
     void keepsEditingWhileAnotherWindowHasTheFocus();
     void keepsEditingWhileAMenuHasTheFocus();
     void finishesEditingWhenTheFocusMovesOnInTheSameWindow();
+    void ignoresAltTabKey();
 
 private:
     void sendFocusOut(Qt::FocusReason reason);
@@ -82,6 +83,18 @@ void KItemListRoleEditorTest::finishesEditingWhenTheFocusMovesOnInTheSameWindow(
     QCOMPARE(editingFinished.count(), 1);
     QCOMPARE(editingFinished.first().at(0).toByteArray(), QByteArrayLiteral("text"));
     QCOMPARE(editingFinished.first().at(1).value<EditResult>().newName, QStringLiteral("a name being typed"));
+}
+
+// Pressing Alt+Tab or Alt+Shift+Tab to switch windows must not be interpreted as Tab navigation
+// to edit the next/previous item.
+void KItemListRoleEditorTest::ignoresAltTabKey()
+{
+    QSignalSpy editingFinished(m_editor, &KItemListRoleEditor::roleEditingFinished);
+    QTest::keyClick(m_editor, Qt::Key_Tab, Qt::AltModifier);
+    QCOMPARE(editingFinished.count(), 0);
+
+    QTest::keyClick(m_editor, Qt::Key_Backtab, Qt::AltModifier);
+    QCOMPARE(editingFinished.count(), 0);
 }
 
 void KItemListRoleEditorTest::sendFocusOut(Qt::FocusReason reason)
