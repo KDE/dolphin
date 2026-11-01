@@ -45,7 +45,7 @@ bool attachToExistingInstance(const QList<QUrl> &inputUrls, bool openFiles, bool
 /**
  * Returns a QVector with all GUI-capable Dolphin instances
  */
-QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString &preferredService);
+QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString &preferredService = QString());
 
 QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
 

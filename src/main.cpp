@@ -277,12 +277,13 @@ int main(int argc, char **argv)
     }
 
     // Only restore session if:
-    // 1. The "remember state" setting is enabled or session restoration after
+    // 1. Not explicitly opening a new instance
+    // 2. The "remember state" setting is enabled or session restoration after
     //    reboot is in use
-    // 2. This is the first instance or restoring multiple instances with
+    // 3. This is the first instance or restoring multiple instances with
     //    session restoration after reboot enabled
-    // 3. There is a session available to restore
-    if (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs()) {
+    // 4. There is a session available to restore
+    if (app.isSessionRestored() || (!parser.isSet(QStringLiteral("new-window")) && GeneralSettings::rememberOpenedTabs())) {
         // Get saved state data for the last-closed Dolphin instance
         const QString serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
         const auto instancesCount = Dolphin::dolphinGuiInstances(serviceName).size();

@@ -41,7 +41,10 @@ QUrl Dolphin::homeUrl()
 
 void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const OpenNewWindowFlags &flags)
 {
-    QString command = QStringLiteral("dolphin --new-window");
+    QString command = QStringLiteral("dolphin");
+    if (window || !dolphinGuiInstances().isEmpty()) {
+        command.append(QLatin1String(" --new-window"));
+    }
 
     if (flags.testFlag(OpenNewWindowFlag::Select)) {
         command.append(QLatin1String(" --select"));
