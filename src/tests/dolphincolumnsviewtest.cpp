@@ -149,6 +149,7 @@ private Q_SLOTS:
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
     void testTheColumnLeftActiveAfterAClosedOneStillWorks();
+    void testAFolderCreatedBeforeAColumnClickIsNotSelectedLater();
     void testOnlyTheShownFolderReportsItsListingDone();
     void testSeveralSelectedItemsShowNoFolder();
     void testShiftArrowExtendsTheSelection();
@@ -2315,6 +2316,34 @@ void DolphinColumnsViewTest::testACreatedFolderIsSelected()
     QCOMPARE(childPane->controller()->selectionManager()->selectedItems().count(), 1);
     QCOMPARE(childPane->controller()->selectionManager()->currentItem(), createdIndex);
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(m_view->columnCount() - 1)->dirUrl(), createdUrl, 5000);
+}
+
+void DolphinColumnsViewTest::testAFolderCreatedBeforeAColumnClickIsNotSelectedLater()
+{
+    // A click in another column before the created folder is listed: the folder is not selected,
+    // neither then nor when an item of the same name appears in that column later.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    const QUrl createdUrl = urlOf(QStringLiteral("alpha/alpha-child/created"));
+    m_testDir->createDir("alpha/alpha-child/created");
+    QMetaObject::invokeMethod(m_view, "observeCreatedDirectory", Q_ARG(QUrl, createdUrl));
+    QCOMPARE(m_view->activeColumnIndex(), 2);
+    activateColumn(1);
+
+    auto *childPane = m_view->columnAt(2);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
+    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
+
+    QVERIFY(QDir(createdUrl.toLocalFile()).removeRecursively());
+    QTRY_COMPARE_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")), -1, 10000);
+    activateColumn(2);
+    m_testDir->createDir("alpha/alpha-child/created");
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: checks that no selection is made after the insertion
+    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
 }
 
 void DolphinColumnsViewTest::testItemsMarkedToSelectAreSelected()

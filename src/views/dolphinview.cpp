@@ -60,6 +60,8 @@
 
 #include <kwidgetsaddons_version.h>
 
+#include <memory>
+
 #include <QAbstractItemView>
 #ifndef QT_NO_ACCESSIBILITY
 #include <QAccessible>
@@ -1978,13 +1980,15 @@ void DolphinView::resetZoomLevel()
 
 void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition)
 {
-    // need to wait for the item to be added to the model
-    QMetaObject::Connection *connection = new QMetaObject::Connection;
-    *connection = connect(m_model, &KFileItemModel::itemsInserted, this, [this, url, connection, condition](const KItemRangeList &ranges) {
+    // need to wait for the item to be added to the model.
+    // The columns view moves m_model to another column when the user clicks it, so the model is captured.
+    KFileItemModel *model = m_model;
+    auto connection = std::make_shared<QMetaObject::Connection>();
+    *connection = connect(model, &KFileItemModel::itemsInserted, this, [this, model, url, connection, condition](const KItemRangeList &ranges) {
         bool found = false;
         for (const KItemRange &it : ranges) {
             for (int i = 0; i < it.count; ++i) {
-                if (m_model->fileItem(it.index + i).url() == url) {
+                if (model->fileItem(it.index + i).url() == url) {
                     found = true;
                     break;
                 }
@@ -1993,15 +1997,15 @@ void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<b
                 break;
             }
         }
+        if (!found) {
+            return;
+        }
         // check whether the selection should be changed, but only once the item really is there:
         // forceUrlsSelection() clears the current selection, so calling it early would drop it
-        if (found && condition()) {
+        if (model == m_model && condition()) {
             forceUrlsSelection(url, {url});
         }
-        if (found) {
-            disconnect(*connection);
-            delete connection;
-        }
+        disconnect(*connection);
     });
 }
 
