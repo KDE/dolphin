@@ -67,6 +67,12 @@ public:
      */
     KActionCollection *actionCollection();
 
+    /**
+     * Takes the Columns view mode out of the view mode button and the menus, for a view that
+     * cannot show columns.
+     */
+    void removeColumnsMode();
+
 public Q_SLOTS:
     /**
      * Update all actions in the 'View' menu, i.e. those that depend on the

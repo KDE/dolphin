@@ -71,6 +71,7 @@ private Q_SLOTS:
     void testEachViewModeKeepsItsOwnZoomLevel();
     void testSwapCarriesTheNameFilter();
     void testTheViewPropertiesDialogFollowsASwappedView();
+    void testTheViewModeButtonSkipsTheColumnsModeTakenOut();
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
     void testSwapCarriesTheViewPropertiesContext();
@@ -714,6 +715,34 @@ void DolphinViewContainerTest::testAFolderOpenedAsAColumnKeepsTheColumnsView()
     QTRY_COMPARE(m_container->url().adjusted(QUrl::StripTrailingSlash), iconsChildUrl.adjusted(QUrl::StripTrailingSlash));
     QCOMPARE(m_container->view(), columns);
     QCOMPARE(ViewProperties(iconsChildUrl).viewMode(), DolphinView::IconsView);
+}
+
+/**
+ * A view that cannot show columns takes the Columns mode out. The view mode button then goes from
+ * Details back to Icons, and the Columns action is in no menu.
+ */
+void DolphinViewContainerTest::testTheViewModeButtonSkipsTheColumnsModeTakenOut()
+{
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+
+    KActionCollection actions(this);
+    DolphinViewActionHandler handler(&actions, nullptr, this);
+    handler.setCurrentView(m_container->view());
+    handler.updateViewActions();
+    QSignalSpy requested(&handler, &DolphinViewActionHandler::viewModeChangeRequested);
+
+    actions.action(QStringLiteral("view_mode"))->trigger();
+    QCOMPARE(requested.count(), 1);
+    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::ColumnsView);
+
+    handler.updateViewActions();
+    handler.removeColumnsMode();
+    actions.action(QStringLiteral("view_mode"))->trigger();
+    QCOMPARE(requested.count(), 1);
+    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::IconsView);
+    QVERIFY(!actions.action(QStringLiteral("columns"))->isVisible());
+    QVERIFY(!actions.action(QStringLiteral("columns"))->isEnabled());
 }
 
 /**
