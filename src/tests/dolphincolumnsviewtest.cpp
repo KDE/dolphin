@@ -2599,10 +2599,18 @@ void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongN
 
     m_view->resize(1000, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
-    QVERIFY(m_view->m_scrollArea->viewport()->width() / settings->maxVisibleColumns() < settings->minColumnWidth());
 
     m_view->openChild(0, urlOf(QStringLiteral("names")));
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    // The width of the long name depends on the font. The view holds the first column and two
+    // columns of the long name, and not a third.
+    const int nameWidth = m_view->columnAt(1)->calculateOptimalWidth();
+    const int viewportWidth = m_view->m_splitter->sizes().at(0) + 2 * nameWidth + nameWidth / 2;
+    m_view->resize(m_view->width() - m_view->m_scrollArea->viewport()->width() + viewportWidth, 400);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width(), viewportWidth, 5000);
+    QVERIFY(viewportWidth / settings->maxVisibleColumns() < settings->minColumnWidth());
+
     m_view->openChild(1, urlOf(QStringLiteral("names/more")));
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
     m_view->openChild(2, urlOf(QStringLiteral("names/more/deeper")));
