@@ -666,7 +666,7 @@ void DolphinColumnsViewTest::testFittingTheColumnsKeepsTheViewWhereItIs()
     for (int maximum = -1; stableChecks < 3;) {
         stableChecks = scrollBar->maximum() == maximum ? stableChecks + 1 : 0;
         maximum = scrollBar->maximum();
-        QTest::qWait(100);
+        QTest::qWait(100); // UNAVOIDABLE: no signal marks the last change of the range
     }
 
     // Back at the first column, away from the active one.
@@ -681,7 +681,7 @@ void DolphinColumnsViewTest::testFittingTheColumnsKeepsTheViewWhereItIs()
     QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
 
     // Also after the layout that the new sizes bring.
-    QTest::qWait(200);
+    QTest::qWait(200); // UNAVOIDABLE: checks that a later layout does not move the columns
     QCOMPARE(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x(), 0);
     QCOMPARE(scrollBar->value(), 0);
 }
@@ -715,7 +715,7 @@ void DolphinColumnsViewTest::testFittingTheColumnsShowsEveryColumnThatFits()
     QTest::mouseRelease(handle, Qt::LeftButton);
     QTRY_VERIFY(m_view->m_customColumnWidths.isEmpty());
 
-    QTest::qWait(200);
+    QTest::qWait(200); // UNAVOIDABLE: checks that a later layout does not move the columns
     QCOMPARE(m_view->columnAt(0)->mapTo(viewport, QPoint(0, 0)).x(), 0);
     auto *last = m_view->columnAt(2);
     QVERIFY(last->mapTo(viewport, QPoint(0, 0)).x() + last->width() <= viewport->width());
@@ -1959,7 +1959,7 @@ void DolphinColumnsViewTest::testShiftWheelScrollsTheColumns()
     for (int maximum = -1; stableChecks < 3;) {
         stableChecks = scrollBar->maximum() == maximum ? stableChecks + 1 : 0;
         maximum = scrollBar->maximum();
-        QTest::qWait(100);
+        QTest::qWait(100); // UNAVOIDABLE: no signal marks the last change of the range
     }
     scrollBar->setValue(scrollBar->maximum());
     const int scrollBefore = scrollBar->value();
@@ -1974,7 +1974,7 @@ void DolphinColumnsViewTest::testShiftWheelScrollsTheColumns()
     // Less than a page: the scrollbar did not take Shift for a page step.
     QVERIFY(scrollBefore - scrollBar->value() < scrollBar->pageStep());
     // The column does not scroll, also not once a smooth scroll would have ended.
-    QTest::qWait(300);
+    QTest::qWait(300); // UNAVOIDABLE: checks that the column does not scroll
     QCOMPARE(container->verticalScrollBar()->value(), columnScrollBefore);
 }
 
@@ -2414,13 +2414,13 @@ void DolphinColumnsViewTest::testTheActiveColumnStaysInViewWhenTheNextOneOpens()
     clickItem(m_view->columnAt(0), indexOfName(m_view->columnAt(0), QStringLiteral("alpha")));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(indexOfName(m_view->columnAt(1), QStringLiteral("alpha-child")) >= 0, 5000);
-    QTest::qWait(50);
+    QTest::qWait(50); // UNAVOIDABLE: checks that the active column does not change
     QCOMPARE(m_view->activeColumnIndex(), 0);
     QVERIFY(activeColumnIsInView());
 
     clickItem(m_view->columnAt(1), indexOfName(m_view->columnAt(1), QStringLiteral("alpha-child")));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
-    QTest::qWait(50);
+    QTest::qWait(50); // UNAVOIDABLE: checks that the active column does not change
     QCOMPARE(m_view->activeColumnIndex(), 1);
     QVERIFY(activeColumnIsInView());
 }
@@ -2553,7 +2553,7 @@ void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
 
     QTRY_COMPARE_WITH_TIMEOUT(errorSpy.count(), 1, 5000);
     QCOMPARE(errorSpy.constFirst().at(1).toInt(), static_cast<int>(KIO::ERR_DOES_NOT_EXIST));
-    QTest::qWait(200);
+    QTest::qWait(200); // UNAVOIDABLE: checks that no second error arrives
     QCOMPARE(errorSpy.count(), 1);
 }
 

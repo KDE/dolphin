@@ -2566,7 +2566,7 @@ void DolphinMainWindowTest::testUpAddsTheParentAsTheFirstColumn()
     QTRY_VERIFY(aColumn->model()->index(b) >= 0);
     QVERIFY(aColumn->controller()->selectionManager()->isSelected(aColumn->model()->index(b)));
     // Listing the new column does not move the url to the last column.
-    QTest::qWait(300);
+    QTest::qWait(300); // UNAVOIDABLE: checks that the url does not move to the last column
     QCOMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
 
     up->trigger();
