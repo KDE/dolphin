@@ -162,7 +162,7 @@ void DolphinViewContainerTest::testSetViewMode_iconsToColumns()
     waitForViewReady();
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) == nullptr);
 
-    // Switch to Columns — should swap the view
+    // Switch to Columns, which swaps the view
     QSignalSpy spy(m_container, &DolphinViewContainer::viewReplaced);
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();
@@ -179,7 +179,7 @@ void DolphinViewContainerTest::testSetViewMode_columnsToIcons()
     waitForViewReady();
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
 
-    // Switch to Icons — should swap back
+    // Switch to Icons, which swaps back
     QSignalSpy spy(m_container, &DolphinViewContainer::viewReplaced);
     m_container->setViewMode(DolphinView::IconsView);
     waitForViewReady();
@@ -191,7 +191,7 @@ void DolphinViewContainerTest::testSetViewMode_columnsToIcons()
 
 void DolphinViewContainerTest::testSetViewMode_fullCycle()
 {
-    // Icons → Compact → Details → Columns → Icons → Compact → Details → Columns
+    // Icons, Compact, Details, Columns, then the same cycle again
     const DolphinView::Mode modes[] = {
         DolphinView::IconsView,
         DolphinView::CompactView,
@@ -217,7 +217,7 @@ void DolphinViewContainerTest::testSetViewMode_fullCycle()
 
 void DolphinViewContainerTest::testSetViewMode_columnsToDetailsThenBackToColumns()
 {
-    // Columns → Details → Columns
+    // Columns, Details, then Columns again
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);

@@ -1214,7 +1214,6 @@ void DolphinColumnsViewTest::testLeftKeyClearsChildSelection()
     QVERIFY(childSelectionManager->hasSelection());
 
     // Left key moves focus to parent column but preserves child selection
-    // (consistent with macOS Finder behaviour)
     navigateLeft();
     QCOMPARE(m_view->activeColumnIndex(), 0);
     QVERIFY(childSelectionManager->hasSelection());
@@ -1369,8 +1368,8 @@ void DolphinColumnsViewTest::testMouseClickOnDirectoryOpensChildOnce()
     QCOMPARE(m_view->columnAt(1)->dirUrl().fileName(), QStringLiteral("beta"));
 }
 
-// Activating a folder shows it in the next column but leaves the selection on the folder itself,
-// the way the Finder column view does. Moving into that column is the Right arrow's job, see
+// Activating a folder shows it in the next column but leaves the selection on the folder itself.
+// Moving into that column is the Right arrow's job, see
 // testKeyRight_opensChild().
 void DolphinColumnsViewTest::testActivatingADirectoryStaysInItsColumn()
 {
@@ -1623,7 +1622,7 @@ void DolphinColumnsViewTest::testDroppingIntoAnEarlierColumnKeepsTheColumnsOpen(
 
 void DolphinColumnsViewTest::testTheUrlIsTheSelectedFolder()
 {
-    // As in Finder, the url names the folder that the last column shows: the selected folder, not
+    // The url names the folder that the last column shows: the selected folder, not
     // the column with the focus. The url bar, New Folder, Paste and the terminal follow it.
     QSignalSpy urlSpy(m_view, &DolphinView::urlChanged);
     selectItemInColumn(0, QStringLiteral("alpha"));
@@ -2219,7 +2218,7 @@ void DolphinColumnsViewTest::testOnlyTheShownFolderReportsItsListingDone()
 
 void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
 {
-    // As in Finder, a column with several selected items shows none of them, so the columns after
+    // A column with several selected items shows none of them, so the columns after
     // it close. Going to a folder from outside then leaves only that folder selected.
     ColumnsModeSettings::self()->setMinColumnWidth(150);
     ColumnsModeSettings::self()->setMinContentColumnWidth(150);

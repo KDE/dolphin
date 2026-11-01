@@ -33,8 +33,6 @@
 #include <KIO/MkpathJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
-#ifdef Q_OS_WIN
-#endif
 #include <KProtocolManager>
 #include <KShell>
 #include <kio_version.h>

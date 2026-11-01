@@ -339,7 +339,7 @@ void DolphinColumnsView::setActiveColumn(int index)
     DolphinColumnPane *newPane = m_columns.at(m_activeColumn);
     connectActivePane(newPane);
 
-    // For setFocus() calls from outside, such as DolphinViewContainer::requestFocus().
+    // A focus given to the view goes to the active column.
     setFocusProxy(newPane->container());
     if (hasFocusInside()) {
         newPane->container()->setFocus();
