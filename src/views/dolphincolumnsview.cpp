@@ -852,7 +852,6 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
             auto *mouseEvent = static_cast<QMouseEvent *>(event);
             switch (event->type()) {
             case QEvent::MouseButtonPress:
-                m_splitterReleaseSeen = false;
                 if (mouseEvent->button() == Qt::LeftButton && i - 1 < m_columns.size()) {
                     m_draggedColumn = i - 1;
                     m_dragStartSizes = m_splitter->sizes().mid(0, m_columns.size());
@@ -868,16 +867,9 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
                 return true;
             case QEvent::MouseButtonRelease:
                 m_draggedColumn = -1;
-                if (m_splitterReleaseSeen) {
-                    // Not while the handle still holds the mouse grab.
-                    QTimer::singleShot(0, this, [this, i]() {
-                        autoAdjustColumns(i - 1);
-                    });
-                }
-                m_splitterReleaseSeen = !m_splitterReleaseSeen;
                 return true;
             case QEvent::MouseButtonDblClick:
-                m_splitterReleaseSeen = false;
+                // Not while the handle still holds the mouse grab.
                 QTimer::singleShot(0, this, [this, i]() {
                     autoAdjustColumns(i - 1);
                 });
