@@ -105,6 +105,17 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     });
     connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinColumnPane::updatePlaceholderLabel);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::updatePlaceholderLabel);
+
+    // Before the columns view connects, which reads the widest name on the same signals.
+    connect(m_model, &KFileItemModel::itemsInserted, this, &DolphinColumnPane::measureInsertedNames);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, [this]() {
+        m_widestNameValid = false;
+    });
+    connect(m_model, &KFileItemModel::itemsChanged, this, [this](const KItemRangeList &, const QSet<QByteArray> &changedRoles) {
+        if (changedRoles.contains("text")) {
+            m_widestNameValid = false;
+        }
+    });
 }
 
 DolphinColumnPane::~DolphinColumnPane() = default;
@@ -240,23 +251,45 @@ void DolphinColumnPane::setPreviewsShown(bool show)
     m_view->setPreviewsShown(show);
 }
 
+qreal DolphinColumnPane::nameWidth(int index) const
+{
+    if (!m_widestNameHiddenShown && m_model->fileItem(index).isHidden()) {
+        return -1;
+    }
+    return m_view->styleOption().fontMetrics.horizontalAdvance(m_model->data(index).value("text").toString());
+}
+
+void DolphinColumnPane::measureInsertedNames(const KItemRangeList &ranges)
+{
+    if (!m_widestNameValid) {
+        return;
+    }
+    for (const KItemRange &range : ranges) {
+        for (int i = range.index; i < range.index + range.count; ++i) {
+            m_widestName = qMax(m_widestName, nameWidth(i));
+        }
+    }
+}
+
 int DolphinColumnPane::calculateOptimalWidth() const
 {
     const KItemListStyleOption &option = m_view->styleOption();
-    const QFontMetrics &fm = option.fontMetrics;
-    qreal maxWidth = 0;
-
     const bool hiddenFilesShown = m_model->showHiddenFiles();
-
-    for (int i = 0; i < m_model->count(); ++i) {
-        if (!hiddenFilesShown && m_model->fileItem(i).isHidden()) {
-            continue;
+    if (!m_widestNameValid || m_widestNameFont != option.font || m_widestNameHiddenShown != hiddenFilesShown) {
+        m_widestNameFont = option.font;
+        m_widestNameHiddenShown = hiddenFilesShown;
+        m_widestName = -1;
+        for (int i = 0; i < m_model->count(); ++i) {
+            m_widestName = qMax(m_widestName, nameWidth(i));
         }
-        const QString text = m_model->data(i).value("text").toString();
-        qreal width = option.padding * 6; // matches KStandardItemListWidget::columnPadding()
-        width += option.padding * 2 + option.iconSize;
-        width += fm.horizontalAdvance(text);
-        maxWidth = qMax(maxWidth, width);
+        m_widestNameValid = true;
+    }
+
+    qreal maxWidth = 0;
+    if (m_widestName >= 0) {
+        maxWidth = option.padding * 6; // matches KStandardItemListWidget::columnPadding()
+        maxWidth += option.padding * 2 + option.iconSize;
+        maxWidth += m_widestName;
     }
 
     // The frame and the scrollbar, even while it is hidden, so the width holds when it appears.
