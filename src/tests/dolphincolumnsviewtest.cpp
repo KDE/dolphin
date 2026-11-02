@@ -103,6 +103,7 @@ private Q_SLOTS:
     void testAColumnKeepsItsWidthWhenItIsEntered();
     void testShownHiddenFileWidensColumn();
     void testTheContentWidthFollowsInsertedAndRemovedNames();
+    void testTheBaseModelDoesNotListTheFolder();
     void testColumnIsNeverWiderThanTheViewport();
 
     void testSelectionMatchesActiveColumn();
@@ -847,6 +848,15 @@ void DolphinColumnsViewTest::testTheContentWidthFollowsInsertedAndRemovedNames()
 
     m_view->setZoomLevel(m_view->zoomLevel() + 2);
     QTRY_VERIFY_WITH_TIMEOUT(pane->calculateOptimalWidth() > widthWithTheName, 5000);
+}
+
+void DolphinColumnsViewTest::testTheBaseModelDoesNotListTheFolder()
+{
+    // Each column lists its folder in its own model, so the base model lists nothing.
+    DolphinColumnsView view(urlOf(QStringLiteral("alpha")), nullptr, DolphinView::ColumnsView);
+    QVERIFY(view.m_baseModel->directory().isEmpty());
+    QCOMPARE(view.columnCount(), 1);
+    QCOMPARE(view.columnAt(0)->model()->directory().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")));
 }
 
 void DolphinColumnsViewTest::testNoJumpWhenSiblingSelectionReplacesWideColumn()
