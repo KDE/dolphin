@@ -9,8 +9,10 @@
 #define DOLPHINCOLUMNPANE_H
 
 #include "dolphin_export.h"
+#include "kitemviews/kitemrange.h"
 
 #include <KFileItem>
+#include <QFont>
 #include <QUrl>
 #include <QWidget>
 
@@ -95,6 +97,8 @@ private Q_SLOTS:
 
 private:
     void checkActiveChildSelected();
+    void measureInsertedNames(const KItemRangeList &ranges);
+    qreal nameWidth(int index) const;
 
     KFileItemModel *m_model = nullptr;
     DolphinItemListView *m_view = nullptr;
@@ -114,6 +118,12 @@ private:
     int m_appliedWidth = 0;
     bool m_selectionCheckPending = false;
     bool m_itemsRemoved = false;
+    /// The width of the longest name, measured only for the items inserted since the last full
+    /// measure. A removal or a rename makes the next calculateOptimalWidth() measure all names.
+    mutable bool m_widestNameValid = false;
+    mutable qreal m_widestName = -1;
+    mutable QFont m_widestNameFont;
+    mutable bool m_widestNameHiddenShown = false;
 };
 
 #endif // DOLPHINCOLUMNPANE_H
