@@ -51,11 +51,6 @@ DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::op
         // The focus goes to the active column, not to the hidden base container.
         setFocusProxy(nullptr);
 
-        // Every column has its own model, so the listing of the base one is not wanted.
-        auto *baseModel = static_cast<KFileItemModel *>(itemListContainer()->controller()->model());
-        baseModel->cancelDirectoryLoading();
-        baseModel->clear();
-
         syncColumnsFromViewProperties();
         QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
         rebuildColumnsForUrl(url);

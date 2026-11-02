@@ -285,7 +285,10 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
     m_topLayout->addWidget(m_container);
     updateContainerFrame();
 
-    loadDirectory(url);
+    // The columns view lists each folder in the model of its column.
+    if (!(m_canDisplayColumns && m_mode == ColumnsView)) {
+        loadDirectory(url);
+    }
 }
 
 DolphinView::~DolphinView()
