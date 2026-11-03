@@ -30,6 +30,7 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
 
     friend class DolphinColumnsViewTest;
     friend class DolphinViewContainerTest;
+    friend class DolphinMainWindowTest;
 
 public:
     explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
