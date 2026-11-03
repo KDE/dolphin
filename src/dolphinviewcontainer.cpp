@@ -1042,6 +1042,23 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
+/** The mode that a view state of version 2 holds, or nothing for an empty or older state. */
+static std::optional<DolphinView::Mode> viewModeOfState(QByteArray state)
+{
+    if (state.isEmpty()) {
+        return std::nullopt;
+    }
+    QDataStream stream(&state, QIODevice::ReadOnly);
+    quint32 version = 0;
+    stream >> version;
+    if (version < 2) {
+        return std::nullopt;
+    }
+    quint32 mode = 0;
+    stream >> mode;
+    return static_cast<DolphinView::Mode>(mode);
+}
+
 void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl &)
 {
     saveViewState();
@@ -1063,12 +1080,14 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
 
         // A folder opens in the mode it was saved with. A folder that the columns view opened itself,
         // as a column, stays in the columns view. Leaving the columns view stores nothing, so the
-        // folders passed through keep no record of their own.
+        // folders passed through keep no record of their own. Back and Forward come with the view
+        // state of the history, which holds the mode of the view that showed the folder.
         const bool isColumns = qobject_cast<DolphinColumnsView *>(m_view) != nullptr;
         const DolphinView::Mode savedMode = ViewProperties(url).viewMode();
+        const bool stateShowsColumns = viewModeOfState(m_urlNavigator->locationState()) == DolphinView::ColumnsView;
         if (!isColumns && savedMode == DolphinView::ColumnsView) {
             setViewMode(DolphinView::ColumnsView);
-        } else if (isColumns && savedMode != DolphinView::ColumnsView && !m_view->url().matches(url, QUrl::StripTrailingSlash)) {
+        } else if (isColumns && savedMode != DolphinView::ColumnsView && !stateShowsColumns && !m_view->url().matches(url, QUrl::StripTrailingSlash)) {
             swapView(savedMode);
         }
 
@@ -1326,8 +1345,26 @@ void DolphinViewContainer::tryRestoreViewState()
     QByteArray locationState = m_urlNavigator->locationState();
     if (!locationState.isEmpty()) {
         QDataStream stream(&locationState, QIODevice::ReadOnly);
-        m_view->restoreState(stream);
+        restoreViewState(stream);
     }
+}
+
+void DolphinViewContainer::restoreViewState(QDataStream &stream)
+{
+    // A folder opened as a column has no mode of its own, so the state names the mode of the view.
+    QIODevice *device = stream.device();
+    const qint64 start = device->pos();
+    quint32 version = 0;
+    stream >> version;
+    if (version >= 2) {
+        quint32 mode = 0;
+        stream >> mode;
+        if (mode == DolphinView::ColumnsView && !qobject_cast<DolphinColumnsView *>(m_view)) {
+            swapView(DolphinView::ColumnsView);
+        }
+    }
+    device->seek(start);
+    m_view->restoreState(stream);
 }
 
 QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &path) const

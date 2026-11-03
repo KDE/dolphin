@@ -79,6 +79,11 @@ protected:
     KFileItemModel *activeModel() const override;
     DolphinItemListView *activeItemListView() const override;
 
+    /// The folders of the columns, when more than one column is open.
+    QSet<QUrl> openFolders() const override;
+    /// Opens the columns of @p folders, which are a folder and its children down to the last column.
+    void restoreOpenFolders(const QSet<QUrl> &folders, const QUrl &currentItemUrl) override;
+
 private Q_SLOTS:
     void slotFileActivated(const KFileItem &item);
     /// Marks the folder that the next column shows as soon as it is listed.
