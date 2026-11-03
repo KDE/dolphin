@@ -1472,9 +1472,7 @@ msgid "Close Left View"
 msgstr "Pechar a vista esquerda"
 
 #: dolphinmainwindow.cpp:2853 dolphinmainwindow.cpp:2872
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Separar a vista esquerda"
@@ -1514,9 +1512,7 @@ msgstr "Pechar a vista dereita"
 
 #: dolphinmainwindow.cpp:2861 dolphinmainwindow.cpp:2880
 #: dolphinmainwindow.cpp:2890
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Separar a vista dereita"
@@ -2269,9 +2265,7 @@ msgid "Hide Filter Bar"
 msgstr "Agochar a barra de filtro."
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Agochar"
