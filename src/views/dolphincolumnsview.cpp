@@ -554,6 +554,65 @@ void DolphinColumnsView::markNextUrlAsPlace(const QUrl &url)
     }
 }
 
+QSet<QUrl> DolphinColumnsView::openFolders() const
+{
+    QSet<QUrl> folders;
+    if (m_columns.size() < 2) {
+        return folders;
+    }
+    for (const DolphinColumnPane *pane : m_columns) {
+        folders.insert(pane->dirUrl());
+    }
+    return folders;
+}
+
+void DolphinColumnsView::restoreOpenFolders(const QSet<QUrl> &folders, const QUrl &currentItemUrl)
+{
+    // Each column shows a child of the folder of the column before it.
+    QList<QUrl> chain;
+    for (const QUrl &folder : folders) {
+        chain.append(folder.adjusted(QUrl::StripTrailingSlash));
+    }
+    std::sort(chain.begin(), chain.end(), [](const QUrl &a, const QUrl &b) {
+        return a.path().size() < b.path().size();
+    });
+    for (int i = 1; i < chain.size(); ++i) {
+        if (KIO::upUrl(chain.at(i)).adjusted(QUrl::StripTrailingSlash) != chain.at(i - 1)) {
+            return;
+        }
+    }
+    const int urlColumn = chain.indexOf(url().adjusted(QUrl::StripTrailingSlash));
+    if (chain.size() < 2 || urlColumn < 0 || m_columns.isEmpty()) {
+        return;
+    }
+
+    {
+        QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
+        const bool onlyTheUrl = m_columns.size() == 1 && m_columns.constFirst()->dirUrl().matches(url(), QUrl::StripTrailingSlash);
+        if (onlyTheUrl) {
+            if (urlColumn > 0) {
+                prependColumnsUpTo(chain.constFirst());
+            }
+        } else if (!m_columns.constFirst()->dirUrl().matches(chain.constFirst(), QUrl::StripTrailingSlash)) {
+            rebuildColumnsForUrl(chain.constFirst());
+        }
+        for (int i = 1; i < chain.size(); ++i) {
+            if (i < m_columns.size() && m_columns.at(i)->dirUrl().matches(chain.at(i), QUrl::StripTrailingSlash)) {
+                continue;
+            }
+            openChild(i - 1, chain.at(i));
+        }
+
+        // The current item of the state is in the column of its folder.
+        const int itemColumn = currentItemUrl.isValid() ? chain.indexOf(KIO::upUrl(currentItemUrl).adjusted(QUrl::StripTrailingSlash)) : -1;
+        const int active = itemColumn >= 0 ? itemColumn : urlColumn;
+        setActiveColumn(active);
+        scrollToColumnWhenLaidOut(active);
+    }
+    // A column that already listed its folder gets the current item and the selection now.
+    QTimer::singleShot(0, this, &DolphinColumnsView::updateViewState);
+}
+
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
 {
     // Removing the columns can move the focus out of the view.
