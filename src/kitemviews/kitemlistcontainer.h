@@ -53,6 +53,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private Q_SLOTS:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
@@ -69,6 +70,12 @@ private:
     void updateSmoothScrollers(Qt::Orientation orientation);
 
     /**
+     * Gives the text of the view the window text color, for a view without a frame and
+     * without a background of its own.
+     */
+    void updateFramelessPalette();
+
+    /**
      * Helper method for updateScrollOffsetScrollBar(). Updates the scrollbar-policy
      * to Qt::ScrollBarAlwaysOn for cases where turning off the scrollbar might lead
      * to an endless layout loop (see bug #293318).
@@ -77,6 +84,7 @@ private:
 
 private:
     KItemListController *m_controller;
+    bool m_enabledFrame = true;
 
     KItemListSmoothScroller *m_horizontalSmoothScroller;
     KItemListSmoothScroller *m_verticalSmoothScroller;

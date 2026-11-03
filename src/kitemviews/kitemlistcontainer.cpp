@@ -118,6 +118,7 @@ KItemListController *KItemListContainer::controller() const
 
 void KItemListContainer::setEnabledFrame(bool enable)
 {
+    m_enabledFrame = enable;
     QGraphicsView *graphicsView = qobject_cast<QGraphicsView *>(viewport());
     if (enable) {
         setFrameShape(QFrame::StyledPanel);
@@ -125,22 +126,33 @@ void KItemListContainer::setEnabledFrame(bool enable)
         graphicsView->viewport()->setAutoFillBackground(true);
     } else {
         setFrameShape(QFrame::NoFrame);
-        // Make the background of the container transparent and apply the window-text color
-        // to the text color, so that enough contrast is given for all color
-        // schemes
-        QPalette p = graphicsView->palette();
-        p.setColor(QPalette::Active, QPalette::Text, p.color(QPalette::Active, QPalette::WindowText));
-        p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
-        p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
-        graphicsView->setPalette(p);
+        updateFramelessPalette();
         graphicsView->viewport()->setAutoFillBackground(false);
     }
 }
 
 bool KItemListContainer::enabledFrame() const
 {
-    const QGraphicsView *graphicsView = qobject_cast<QGraphicsView *>(viewport());
-    return graphicsView->autoFillBackground();
+    return m_enabledFrame;
+}
+
+void KItemListContainer::changeEvent(QEvent *event)
+{
+    QAbstractScrollArea::changeEvent(event);
+    if (event->type() == QEvent::PaletteChange && !m_enabledFrame) {
+        // The text color set on the view does not follow the palette, so it is set again.
+        updateFramelessPalette();
+    }
+}
+
+void KItemListContainer::updateFramelessPalette()
+{
+    QGraphicsView *graphicsView = qobject_cast<QGraphicsView *>(viewport());
+    QPalette p = palette();
+    p.setColor(QPalette::Active, QPalette::Text, p.color(QPalette::Active, QPalette::WindowText));
+    p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
+    p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
+    graphicsView->setPalette(p);
 }
 
 void KItemListContainer::keyPressEvent(QKeyEvent *event)

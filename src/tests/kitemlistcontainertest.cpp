@@ -15,6 +15,7 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QProxyStyle>
+#include <QScopeGuard>
 #include <QScrollBar>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -49,6 +50,7 @@ private Q_SLOTS:
     void testScrollBarCatchesUpWithAViewWhichGrewWhileScrolling();
     void testItemsFollowThePaletteOfTheViewWidget();
     void testBackgroundOfTheViewWidgetLeavesItemsAlone();
+    void testFramelessTextFollowsTheApplicationPalette();
 };
 
 void KItemListContainerTest::initTestCase()
@@ -163,6 +165,26 @@ void KItemListContainerTest::testBackgroundOfTheViewWidgetLeavesItemsAlone()
     viewWidget->setPalette(palette);
 
     QVERIFY(view->styleOption() == before);
+}
+
+void KItemListContainerTest::testFramelessTextFollowsTheApplicationPalette()
+{
+    // Without a frame the text of the items takes the window text color, and it keeps doing so
+    // when the color scheme changes.
+    auto *view = new KFileItemListView();
+    auto *controller = new KItemListController(new KFileItemModel(), view, this);
+    KItemListContainer container(controller);
+    container.setEnabledFrame(false);
+
+    const QPalette applicationPalette = QApplication::palette();
+    auto restorePalette = qScopeGuard([&applicationPalette] {
+        QApplication::setPalette(applicationPalette);
+    });
+    QPalette changed = applicationPalette;
+    changed.setColor(QPalette::WindowText, Qt::magenta);
+    QApplication::setPalette(changed);
+
+    QTRY_COMPARE(view->styleOption().palette.color(QPalette::Active, QPalette::Text), QColor(Qt::magenta));
 }
 
 QTEST_MAIN(KItemListContainerTest)
