@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-02 00:58+0000\n"
-"PO-Revision-Date: 2026-10-31 13:30+0100\n"
+"PO-Revision-Date: 2026-11-02 12:29+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2000,15 +2000,13 @@ msgstr "Tabblad losmaken"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Pin van tabblad losmaken"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Vorig tabblad"
+msgstr "Tabblad vastpinnen"
 
 #: dolphintabbar.cpp:372
 #, kde-format
