@@ -5,12 +5,14 @@
  */
 
 #include "kitemviews/kfileitemmodelrolesupdater.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
 #include <KIO/PreviewJob>
 #include <KSambaShare>
 
+#include <QScopeGuard>
 #include <QTimer>
 
 #include <QSignalSpy>
@@ -26,6 +28,8 @@ private Q_SLOTS:
     void testSharesChangedUpdatesOverlays();
     void testDirectoryContentsCounterWorkerDoesNotChangeCwd();
     void testAFileThatKeepsChangingGetsItsPreviewOnceItIsQuiet();
+    void testFolderItemCountFollowsHiddenFiles_data();
+    void testFolderItemCountFollowsHiddenFiles();
 };
 
 void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
@@ -121,6 +125,46 @@ void KFileItemModelRolesUpdaterTest::testAFileThatKeepsChangingGetsItsPreviewOnc
     QVERIFY2(previews.value(QStringLiteral("growing.txt")) <= 1, qPrintable(QString::number(previews.value(QStringLiteral("growing.txt")))));
     const int whileWriting = previews.value(QStringLiteral("growing.txt"));
     QTRY_COMPARE_WITH_TIMEOUT(previews.value(QStringLiteral("growing.txt")), whileWriting + 1, 5000);
+}
+
+void KFileItemModelRolesUpdaterTest::testFolderItemCountFollowsHiddenFiles_data()
+{
+    QTest::addColumn<bool>("showHiddenFiles");
+    QTest::addColumn<int>("expectedCount");
+
+    QTest::newRow("hidden files shown") << true << 3;
+    QTest::newRow("hidden files not shown") << false << 1;
+}
+
+void KFileItemModelRolesUpdaterTest::testFolderItemCountFollowsHiddenFiles()
+{
+    // With "Show number of items", a folder shows how many items it holds. The hidden items
+    // count only when the view shows hidden files, see BUG 528198.
+    QFETCH(bool, showHiddenFiles);
+    QFETCH(int, expectedCount);
+
+    const auto previousMode = ContentDisplaySettings::directorySizeMode();
+    ContentDisplaySettings::setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::ContentCount);
+    const auto restoreMode = qScopeGuard([previousMode] {
+        ContentDisplaySettings::setDirectorySizeMode(previousMode);
+    });
+
+    TestDir testDir;
+    testDir.createFile(QStringLiteral("folder/visible.txt"));
+    testDir.createFile(QStringLiteral("folder/.hidden.txt"));
+    testDir.createDir(QStringLiteral("folder/.hiddenfolder"));
+
+    KFileItemModel model;
+    model.setShowHiddenFiles(showHiddenFiles);
+    KFileItemModelRolesUpdater updater(&model);
+    updater.setRoles({"text", "size"});
+    QSignalSpy loadingCompletedSpy(&model, &KFileItemModel::directoryLoadingCompleted);
+    model.loadDirectory(testDir.url());
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(model.count(), 1);
+    updater.setVisibleIndexRange(0, 1);
+
+    QTRY_COMPARE(model.data(0).value("count").toInt(), expectedCount);
 }
 
 void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerDoesNotChangeCwd()

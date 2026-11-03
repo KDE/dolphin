@@ -1342,10 +1342,11 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
 
         setModelData(index, data);
 
-        // Use KIO flags to exclude dot entries at the source to simplify counting
+        // Use KIO flags to exclude dot entries at the source to simplify counting.
+        // ExcludeHidden is 0, so hidden entries are listed only when IncludeHidden is set.
         KIO::ListJob::ListFlags flags = KIO::ListJob::ListFlag::ExcludeDotAndDotDot;
-        if (!m_model->showHiddenFiles()) {
-            flags |= KIO::ListJob::ListFlag::ExcludeHidden;
+        if (m_model->showHiddenFiles()) {
+            flags |= KIO::ListJob::ListFlag::IncludeHidden;
         }
 
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo, flags);
