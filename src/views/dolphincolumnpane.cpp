@@ -7,7 +7,6 @@
 
 #include "dolphincolumnpane.h"
 
-#include "dolphin_columnsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinitemlistview.h"
 #include "kitemviews/kfileitemlistview.h"
@@ -155,6 +154,16 @@ bool DolphinColumnPane::isWidthPending() const
     return m_widthPending;
 }
 
+void DolphinColumnPane::setAppliedWidth(int width)
+{
+    m_appliedWidth = width;
+}
+
+int DolphinColumnPane::appliedWidth() const
+{
+    return m_appliedWidth;
+}
+
 void DolphinColumnPane::reapplyActiveChildMark()
 {
     // A selection cleared before the listing changed drops the mark instead.
@@ -259,7 +268,7 @@ int DolphinColumnPane::calculateOptimalWidth() const
     }
     const int chrome = m_container->frameWidth() * 2 + scrollBarSpacing + m_container->style()->pixelMetric(QStyle::PM_ScrollBarExtent, &styleOpt, m_container);
     const int sidePadding = 2 * (2 * option.padding);
-    return qMax(ColumnsModeSettings::self()->minColumnWidth(), static_cast<int>(std::ceil(maxWidth)) + sidePadding + chrome);
+    return static_cast<int>(std::ceil(maxWidth)) + sidePadding + chrome;
 }
 
 void DolphinColumnPane::setZoomLevel(int level)
