@@ -169,7 +169,11 @@ private Q_SLOTS:
     void testTheFirstVisibleColumnIsShownWhole();
     void testTheActiveColumnStaysInViewWhenTheNextOneOpens();
     void testWideningTheWindowShowsTheParentColumns();
-    void testALongNameDoesNotPushOtherColumnsOut();
+    void testTheLastColumnShowsALongNameInFull();
+    void testShortNamesGiveANarrowColumn();
+    void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
+    void testAColumnShowsItsNamesWhileTheColumnsFit();
+    void testANewFirstColumnTakesTheWidthOfItsContent();
     void testAFolderThatCannotBeListedShowsAnError();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftCurrent();
@@ -191,6 +195,8 @@ private Q_SLOTS:
 
     void testBackButton_emitsGoBack();
     void testForwardButton_emitsGoForward();
+    void testAReplacingColumnKeepsTheWidthWhenItsNamesDoNotFit();
+    void testALastColumnAlmostAtTheEdgeReachesIt();
 
 private:
     void waitForStableState();
@@ -537,6 +543,7 @@ void DolphinColumnsViewTest::testColumnWidthMode()
     // clearly apart regardless of the viewport size.
     auto *settings = ColumnsModeSettings::self();
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
 
     activateColumn(0);
     auto *splitter = m_view->findChild<QSplitter *>();
@@ -565,6 +572,7 @@ void DolphinColumnsViewTest::testAutoAdjustColumns()
     // fit is kept afterwards depends on the width mode.
     auto *settings = ColumnsModeSettings::self();
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
 
     activateColumn(0);
     auto *splitter = m_view->findChild<QSplitter *>();
@@ -633,6 +641,7 @@ void DolphinColumnsViewTest::testFittingTheColumnsKeepsTheViewWhereItIs()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     settings->setMaxVisibleColumns(1);
     m_testDir->createFile(QStringLiteral("alpha/alpha-child/") + QString(200, QLatin1Char('w')) + QStringLiteral(".txt"));
 
@@ -675,6 +684,7 @@ void DolphinColumnsViewTest::testFittingTheColumnsShowsEveryColumnThatFits()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
 
     m_view->resize(700, 400);
     m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
@@ -757,6 +767,7 @@ void DolphinColumnsViewTest::testRenameRefitsColumnWhenAdjustingToContent()
     // A small minimum keeps the content width from being clamped, so the change is visible.
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     // Up to the whole viewport, the width of the content.
     settings->setMaxVisibleColumns(1);
 
@@ -780,6 +791,7 @@ void DolphinColumnsViewTest::testShownHiddenFileWidensColumn()
     // A small minimum keeps the content width from being clamped, so the change is visible.
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     // Up to the whole viewport, the width of the content.
     settings->setMaxVisibleColumns(1);
     m_view->setHiddenFilesShown(false);
@@ -813,6 +825,7 @@ void DolphinColumnsViewTest::testNoJumpWhenSiblingSelectionReplacesWideColumn()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     // Up to the whole viewport, the width of the content.
     settings->setMaxVisibleColumns(1);
 
@@ -873,6 +886,7 @@ void DolphinColumnsViewTest::testAColumnKeepsItsWidthWhenItIsEntered()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     // Up to the whole viewport, the width of the content.
     settings->setMaxVisibleColumns(1);
 
@@ -1971,6 +1985,7 @@ void DolphinColumnsViewTest::testClosingColumnsLeavesTheScrollPositionAlone()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
     // Up to the whole viewport, the width of the content.
     settings->setMaxVisibleColumns(1);
 
@@ -2082,6 +2097,7 @@ void DolphinColumnsViewTest::testAColumnWithNoWidthYetTakesUpNothing()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
 
     m_view->resize(900, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
@@ -2220,6 +2236,7 @@ void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
     // A column with several selected items shows none of them, so the columns after
     // it close. Going to a folder from outside then leaves only that folder selected.
     ColumnsModeSettings::self()->setMinColumnWidth(150);
+    ColumnsModeSettings::self()->setMinContentColumnWidth(150);
     m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     auto *rootPane = m_view->columnAt(0);
@@ -2433,6 +2450,7 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(200);
+    settings->setMinContentColumnWidth(200);
 
     m_testDir->createDir("alpha/alpha-child/deep");
     m_testDir->createFile("alpha/alpha-child/deep/deep-file.txt");
@@ -2462,7 +2480,7 @@ void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
     const int viewportWidth = m_view->m_scrollArea->viewport()->width();
     const QList<int> applied = splitter->sizes();
     for (int i = 0; i < m_view->columnCount(); ++i) {
-        const int asked = qMin(viewportWidth, qMax(settings->minColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
+        const int asked = qMin(viewportWidth, qMax(settings->minContentColumnWidth(), m_view->columnAt(i)->calculateOptimalWidth()));
         QVERIFY2(applied.at(i) == asked, qPrintable(QStringLiteral("column %1 asked for %2 and was given %3").arg(i).arg(asked).arg(applied.at(i))));
     }
 }
@@ -2474,6 +2492,7 @@ void DolphinColumnsViewTest::testTheFirstVisibleColumnIsShownWhole()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(200);
+    settings->setMinContentColumnWidth(200);
     m_testDir->createDir("alpha/alpha-child/deep");
 
     m_view->resize(500, 400);
@@ -2508,6 +2527,7 @@ void DolphinColumnsViewTest::testTheActiveColumnStaysInViewWhenTheNextOneOpens()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(false);
     settings->setMinColumnWidth(300);
+    settings->setMinContentColumnWidth(300);
 
     m_view->resize(350, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
@@ -2538,6 +2558,7 @@ void DolphinColumnsViewTest::testWideningTheWindowShowsTheParentColumns()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(200);
+    settings->setMinContentColumnWidth(200);
     m_testDir->createDir("alpha/alpha-child/deep");
 
     m_view->resize(500, 400);
@@ -2576,16 +2597,15 @@ void DolphinColumnsViewTest::testWideningTheWindowShowsTheParentColumns()
     }
 }
 
-void DolphinColumnsViewTest::testALongNameDoesNotPushOtherColumnsOut()
+void DolphinColumnsViewTest::testTheLastColumnShowsALongNameInFull()
 {
-    // A column that fits its content stops at its share of the viewport, so the maximum number of
-    // visible columns still fits when one of them holds a long name.
+    // The last column shows a long name in full, within the view.
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(100);
+    settings->setMinContentColumnWidth(100);
     settings->setMaxVisibleColumns(4);
-    m_testDir->createDir("alpha/alpha-child/deep");
-    m_testDir->createFile(QStringLiteral("alpha/") + QString(80, QLatin1Char('x')) + QStringLiteral(".txt"));
+    m_testDir->createFile(QStringLiteral("alpha/alpha-child/deep/") + QString(80, QLatin1Char('x')) + QStringLiteral(".txt"));
 
     m_view->resize(1000, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
@@ -2598,11 +2618,136 @@ void DolphinColumnsViewTest::testALongNameDoesNotPushOtherColumnsOut()
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
 
     const int viewportWidth = m_view->m_scrollArea->viewport()->width();
-    QVERIFY(m_view->columnAt(1)->width() <= viewportWidth / 4);
-    QVERIFY(m_view->columnAt(1)->width() < m_view->columnAt(1)->calculateOptimalWidth());
-    QCOMPARE(m_view->m_scrollArea->horizontalScrollBar()->value(), 0);
     QWidget *last = m_view->columnAt(3);
-    QVERIFY(last->mapTo(m_view->m_scrollArea->viewport(), QPoint(last->width(), 0)).x() <= viewportWidth);
+    QTRY_COMPARE_WITH_TIMEOUT(last->width(), qMin(viewportWidth, m_view->columnAt(3)->calculateOptimalWidth()), 5000);
+    // The view scrolls to a new column once it is active.
+    m_view->setActiveColumn(3);
+    QTRY_VERIFY_WITH_TIMEOUT(last->mapTo(m_view->m_scrollArea->viewport(), QPoint(last->width(), 0)).x() <= viewportWidth, 5000);
+}
+
+void DolphinColumnsViewTest::testShortNamesGiveANarrowColumn()
+{
+    // With the default settings, a column adjusted to its content is narrower than a fixed one
+    // when its names are short.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+
+    m_view->resize(1600, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    DolphinColumnPane *column = m_view->columnAt(1);
+    QVERIFY(column->calculateOptimalWidth() < settings->minColumnWidth());
+    QTRY_COMPARE_WITH_TIMEOUT(column->width(), qMax(settings->minContentColumnWidth(), column->calculateOptimalWidth()), 5000);
+    QVERIFY(column->width() < settings->minColumnWidth());
+
+    settings->setDynamicColumnWidth(false);
+    m_view->recalculateColumnWidths(DolphinColumnsView::WidthPolicy::Refit);
+    QTRY_VERIFY_WITH_TIMEOUT(column->width() >= settings->minColumnWidth(), 5000);
+}
+
+void DolphinColumnsViewTest::testANewFirstColumnTakesTheWidthOfItsContent()
+{
+    // A column that is inserted in a shown splitter has a size before the view gives it one. The
+    // first column of a new place took that size as the width it could not go below.
+    m_testDir->createFile(QStringLiteral("downloads/a-download-with-a-really-really-long-file-name-v2.tar.gz"));
+    m_testDir->createDir("home/Desktop");
+    const QUrl downloads = urlOf(QStringLiteral("downloads"));
+    const QUrl home = urlOf(QStringLiteral("home"));
+    DolphinColumnsView view(downloads, nullptr, DolphinView::ColumnsView, [downloads, home](const QUrl &url) {
+        return home.matches(url, QUrl::StripTrailingSlash) || home.isParentOf(url) ? home : downloads;
+    });
+    view.resize(1600, 400);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+    DolphinColumnPane *column = view.columnAt(0);
+    QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qBound(150, column->calculateOptimalWidth(), view.m_scrollArea->viewport()->width() / 4), 5000);
+
+    view.setUrl(home);
+    QTRY_COMPARE_WITH_TIMEOUT(view.columnAt(0)->dirUrl(), home, 5000);
+    column = view.columnAt(0);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(column, QStringLiteral("Desktop")) >= 0, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qMax(150, column->calculateOptimalWidth()), 5000);
+}
+
+void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames()
+{
+    // When the columns do not fit, a new column adjusted to its content stops at a quarter of the
+    // view, but not below the width of a fixed column. Below that, names that a fixed column shows in
+    // full were elided. The columns that had room for their names when they opened keep it, and the
+    // last column shows its names in full.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    const QString longName = QStringLiteral("a-fairly-long-document-name-with-a-version-v3-final.odt");
+    m_testDir->createFile(QStringLiteral("names/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/deeper/") + longName);
+
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->openChild(0, urlOf(QStringLiteral("names")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    // The width of the long name depends on the font. The view holds the first column and two
+    // columns of the long name, and not a third.
+    const int nameWidth = m_view->columnAt(1)->calculateOptimalWidth();
+    const int viewportWidth = m_view->m_splitter->sizes().at(0) + 2 * nameWidth + nameWidth / 2;
+    m_view->resize(m_view->width() - m_view->m_scrollArea->viewport()->width() + viewportWidth, 400);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width(), viewportWidth, 5000);
+    QVERIFY(viewportWidth / settings->maxVisibleColumns() < settings->minColumnWidth());
+
+    m_view->openChild(1, urlOf(QStringLiteral("names/more")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("names/more/deeper")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+
+    for (int i = 1; i < 3; ++i) {
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(i), m_view->columnAt(i)->calculateOptimalWidth(), 5000);
+    }
+    DolphinColumnPane *last = m_view->columnAt(3);
+    QVERIFY(last->calculateOptimalWidth() > settings->minColumnWidth());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3), last->calculateOptimalWidth(), 5000);
+}
+
+void DolphinColumnsViewTest::testAColumnShowsItsNamesWhileTheColumnsFit()
+{
+    // A column takes the width of its longest name while there is room for it in the view, and keeps
+    // it when more columns open. A new column that finds no room stops at the cap, or at the room
+    // left after the columns before it.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    const QString longName = QStringLiteral("A Material Analysis of Earthbag Housing - Nikul Vadgama - revised edition.pdf");
+    m_testDir->createFile(QStringLiteral("books/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/deep/") + longName);
+
+    m_view->resize(1600, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const int maxVisible = settings->maxVisibleColumns();
+    const int cap = qMax(settings->minColumnWidth(), (viewportWidth - (maxVisible - 1) * m_view->m_splitter->handleWidth()) / maxVisible);
+
+    m_view->openChild(0, urlOf(QStringLiteral("books")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    DolphinColumnPane *books = m_view->columnAt(1);
+    QVERIFY(books->calculateOptimalWidth() > cap);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth(), 5000);
+
+    m_view->openChild(1, urlOf(QStringLiteral("books/sub")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("books/sub/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
+    QCOMPARE(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth());
+    DolphinColumnPane *deep = m_view->columnAt(3);
+    QWidget *viewport = m_view->m_scrollArea->viewport();
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) == deep->calculateOptimalWidth()
+                                 || deep->mapTo(viewport, QPoint(deep->width(), 0)).x() == viewport->width(),
+                             5000);
+    QVERIFY(m_view->m_splitter->sizes().at(3) >= cap);
 }
 
 void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
@@ -2704,6 +2849,7 @@ void DolphinColumnsViewTest::testGoingUpShowsTheColumnOfTheUrl()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(200);
+    settings->setMinContentColumnWidth(200);
     m_testDir->createDir("alpha/alpha-child/deep/deeper");
     m_view->resize(500, 400);
     QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
@@ -2730,6 +2876,7 @@ void DolphinColumnsViewTest::testAClickedItemTakesTheHighlightFromTheActiveOne()
     // the colour of an inactive column, only as an ancestor of the clicked item.
     // Narrow columns, so all three are in view to be clicked.
     ColumnsModeSettings::self()->setMinColumnWidth(150);
+    ColumnsModeSettings::self()->setMinContentColumnWidth(150);
     m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
     auto *rootPane = m_view->columnAt(0);
@@ -2808,6 +2955,7 @@ void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
     auto *settings = ColumnsModeSettings::self();
     settings->setDynamicColumnWidth(true);
     settings->setMinColumnWidth(10);
+    settings->setMinContentColumnWidth(10);
 
     // A name far longer than the window is wide.
     m_testDir->createFile(QString(200, QLatin1Char('x')) + QStringLiteral(".txt"));
@@ -2825,6 +2973,67 @@ void DolphinColumnsViewTest::testColumnIsNeverWiderThanTheViewport()
     const int columnWidth = splitter->sizes().at(0);
     const int viewportWidth = scrollArea->viewport()->width();
     QVERIFY2(columnWidth <= viewportWidth, qPrintable(QStringLiteral("column (%1) should fit the viewport (%2)").arg(columnWidth).arg(viewportWidth)));
+}
+
+// A column that replaces another keeps its width, also when the names of its folder need more room
+// than the view has: they elide, rather than the column dropping to the cap.
+void DolphinColumnsViewTest::testAReplacingColumnKeepsTheWidthWhenItsNamesDoNotFit()
+{
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    m_testDir->createFile(QStringLiteral("fits/") + QString(70, QLatin1Char('f')) + QStringLiteral(".epub"));
+    m_testDir->createFile(QStringLiteral("too-wide/") + QString(150, QLatin1Char('w')) + QStringLiteral(".epub"));
+
+    m_view->resize(966, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    activateColumn(0);
+    auto *rootPane = m_view->columnAt(0);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(rootPane, QStringLiteral("fits")) >= 0 && indexOfName(rootPane, QStringLiteral("too-wide")) >= 0, 10000);
+
+    selectItemInColumn(0, QStringLiteral("fits"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1 && m_view->columnAt(1)->model()->count() == 1, 5000);
+    const int cap = qMax(settings->minColumnWidth(),
+                         (m_view->m_scrollArea->viewport()->width() - (settings->maxVisibleColumns() - 1) * m_view->m_splitter->handleWidth())
+                             / settings->maxVisibleColumns());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), m_view->columnAt(1)->calculateOptimalWidth(), 5000);
+    const int fitsWidth = m_view->m_splitter->sizes().at(1);
+    QVERIFY(fitsWidth > cap);
+
+    selectItemInColumn(0, QStringLiteral("too-wide"));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->columnCount() > 1
+                                 && m_view->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash).fileName() == QStringLiteral("too-wide")
+                                 && m_view->columnAt(1)->model()->count() == 1,
+                             5000);
+    QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
+    QVERIFY(m_view->columnAt(1)->calculateOptimalWidth() > m_view->m_scrollArea->viewport()->width());
+    // As the last column, it does not narrow and shows as much of its names as the view can.
+    QVERIFY(fitsWidth < m_view->m_scrollArea->viewport()->width());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), m_view->m_scrollArea->viewport()->width(), 5000);
+}
+
+// A gap after the last column that is too narrow to show anything is taken by the last column, rather
+// than showing a sliver of the window background next to it.
+void DolphinColumnsViewTest::testALastColumnAlmostAtTheEdgeReachesIt()
+{
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    m_view->openChild(0, urlOf(QStringLiteral("alpha")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const int handles = 2 * m_view->m_splitter->handleWidth();
+    // As after dragging the handle on the right of the last column nearly to the edge.
+    const int almostAll = viewportWidth - m_view->m_splitter->sizes().at(0) - handles - 3;
+    m_view->m_customColumnWidths[1] = almostAll;
+    m_view->recalculateColumnWidths();
+    QCOMPARE(m_view->m_splitter->sizes().at(2), 0);
+    QCOMPARE(m_view->m_splitter->sizes().at(1), almostAll + 3);
+
+    // A gap a column could use stays.
+    m_view->m_customColumnWidths[1] = almostAll - 200;
+    m_view->recalculateColumnWidths();
+    QCOMPARE(m_view->m_splitter->sizes().at(1), almostAll - 200);
+    QCOMPARE(m_view->m_splitter->sizes().at(2), 203);
 }
 
 void DolphinColumnsViewTest::testAnotherFolderOpensWithTheSettingsChangedInAColumn()
