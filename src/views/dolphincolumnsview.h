@@ -13,7 +13,6 @@
 
 #include <QPointer>
 
-#include <functional>
 #include <optional>
 #include <utility>
 
@@ -33,12 +32,7 @@ class DOLPHIN_EXPORT DolphinColumnsView : public DolphinView
     friend class DolphinViewContainerTest;
 
 public:
-    /// @p rootUrlResolver names the folder the columns start at, such as the place that holds
-    /// the url. Without one they start at the url.
-    explicit DolphinColumnsView(const QUrl &url,
-                                QWidget *parent,
-                                std::optional<Mode> initialMode = std::nullopt,
-                                std::function<QUrl(const QUrl &)> rootUrlResolver = {});
+    explicit DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode = std::nullopt);
     ~DolphinColumnsView() override;
 
     void setUrl(const QUrl &url) override;
@@ -68,6 +62,10 @@ public:
 
     void setActiveColumn(int index);
 
+    /// The next setUrl() with @p url opens a place, such as one from the Places panel, so the
+    /// columns start at @p url instead of following the columns already open.
+    void markNextUrlAsPlace(const QUrl &url);
+
 public Q_SLOTS:
     void paste() override;
 
@@ -90,21 +88,21 @@ private Q_SLOTS:
 
 private:
     void initColumnsUi();
+    /// Makes @p url the only column.
     void rebuildColumnsForUrl(const QUrl &url);
     /// Scrolls to a column once the splitter has laid out the sizes it was given.
     void scrollToColumnWhenLaidOut(int index);
-    /// Stops painting the columns until none of them waits for its width any more.
-    void holdPaintingUntilEveryColumnHasAWidth();
-    void resumePaintingOnceEveryColumnHasAWidth();
     /// Gives @p pane its width if it is still waiting for its folder to list.
     void finishPendingWidth(DolphinColumnPane *pane);
-    QUrl rootUrlFor(const QUrl &url) const;
+    /// Opens the folders from @p target down to the first column in front of it.
+    void prependColumnsUpTo(const QUrl &target);
     void openChild(int columnIndex, const QUrl &childUrl);
     void popAfter(int columnIndex);
     /// The url is the folder of the last column: the one of the selected folder.
     void updateUrlToTheLastColumn();
     /// Creates the column for @p dirUrl and adds it after the last one.
     DolphinColumnPane *appendPane(const QUrl &dirUrl);
+    DolphinColumnPane *insertPane(int index, const QUrl &dirUrl);
     DolphinColumnPane *activePane() const;
 
     void handleKeyLeft(int sourceColumn);
@@ -173,8 +171,8 @@ private:
     bool m_switchingColumns = false;
     /// setUrl() decides the url, the columns follow it.
     bool m_settingUrl = false;
+    QUrl m_nextPlaceUrl;
     QString m_nameFilter;
-    std::function<QUrl(const QUrl &)> m_rootUrlResolver;
     KFileItemModelFilter::FilterMode m_filterMode;
     bool m_filterCaseSensitive = false;
 

@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -22,6 +23,8 @@
 #include "search/bar.h"
 #include "settings/viewmodes/viewmodesettings.h"
 #include "testdir.h"
+#include "views/dolphincolumnpane.h"
+#include "views/dolphincolumnsview.h"
 #include "views/dolphinitemlistview.h"
 #include "views/viewproperties.h"
 #include "views/zoomlevelinfo.h"
@@ -108,6 +111,9 @@ private Q_SLOTS:
     void testActiveViewFollowsTheActivatedView();
     void testRestoreStateKeepsTheActiveSplitPane();
     void testFileItemActionsOutliveContextMenu();
+    void testAPlaceOpensAsTheFirstColumn();
+    void testAFolderOpenedFromOutsideIsTheFirstColumn();
+    void testUpAddsTheParentAsTheFirstColumn();
     void testTheSelectionModeBarFollowsAViewOfAnotherMode();
     void testTheSecondViewOfASplitReportsARedirectionAsTheFirst();
     void cleanupTestCase();
@@ -2470,6 +2476,107 @@ void DolphinMainWindowTest::testFileItemActionsOutliveContextMenu()
     QVERIFY(!m_mainWindow->m_contextMenuOpen);
     QVERIFY(!m_mainWindow->m_fileItemActionsSetupPending);
     QTRY_VERIFY(fileItemActions.isNull());
+}
+
+/**
+ * In the columns view a place from the Places panel is the first column, as on a new start, and
+ * not a column below the folder that was open.
+ */
+void DolphinMainWindowTest::testAPlaceOpensAsTheFirstColumn()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b");
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+
+    m_mainWindow->changeUrl(b);
+    QTRY_COMPARE(columns->url(), b);
+    QVERIFY(columns->columnCount() > 1);
+
+    m_mainWindow->changeUrl(testDir->url());
+    QTRY_COMPARE(columns->url(), testDir->url());
+    m_mainWindow->slotPlaceActivated(b);
+    QCOMPARE(columns->url(), b);
+    QCOMPARE(columns->columnCount(), 1);
+    QCOMPARE(columns->columnAt(0)->dirUrl(), b);
+}
+
+/**
+ * In the columns view a folder opened from outside the view is the first column, also below a place.
+ */
+void DolphinMainWindowTest::testAFolderOpenedFromOutsideIsTheFirstColumn()
+{
+    QScopedPointer<TestDir> testDir{new TestDir(QDir::homePath() + QStringLiteral("/columns-XXXXXX"))};
+    testDir->createDir("a/b");
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+    auto *places = DolphinPlacesModelSingleton::instance().placesModel();
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    places->addPlace(QStringLiteral("a"), a);
+    auto removePlace = qScopeGuard([places, a]() {
+        places->removePlace(places->closestItem(a));
+    });
+
+    m_mainWindow->openDirectories({b}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+
+    QTRY_COMPARE(columns->url(), b);
+    QCOMPARE(columns->columnCount(), 1);
+    QCOMPARE(columns->columnAt(0)->dirUrl(), b);
+}
+
+/**
+ * In the columns view Up from the first column adds the parent as the first column, with the folder
+ * it came from selected, and the columns that were open stay.
+ */
+void DolphinMainWindowTest::testUpAddsTheParentAsTheFirstColumn()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b");
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+
+    m_mainWindow->openDirectories({b}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+    QTRY_COMPARE(columns->url(), b);
+    QCOMPARE(columns->columnCount(), 1);
+
+    QAction *up = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up));
+    up->trigger();
+    QTRY_COMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnCount(), 2);
+    QCOMPARE(columns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnAt(1)->dirUrl(), b);
+    QCOMPARE(columns->activeColumnIndex(), 0);
+    DolphinColumnPane *aColumn = columns->columnAt(0);
+    QTRY_VERIFY(aColumn->model()->index(b) >= 0);
+    QVERIFY(aColumn->controller()->selectionManager()->isSelected(aColumn->model()->index(b)));
+    // Listing the new column does not move the url to the last column.
+    QTest::qWait(300); // UNAVOIDABLE: checks that the url does not move to the last column
+    QCOMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), a);
+
+    up->trigger();
+    QTRY_COMPARE(columns->url().adjusted(QUrl::StripTrailingSlash), testDir->url().adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(columns->columnCount(), 3);
+    QCOMPARE(columns->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(columns->columnAt(2)->dirUrl(), b);
+    QCOMPARE(columns->activeColumnIndex(), 0);
 }
 
 void DolphinMainWindowTest::testTheSelectionModeBarFollowsAViewOfAnotherMode()

@@ -33,7 +33,6 @@
 #include <KIO/MkpathJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
-#include <KMountPoint>
 #include <KProtocolManager>
 #include <KShell>
 #include <kio_version.h>
@@ -70,27 +69,6 @@ struct LayoutStructure {
     int statusBar = 7;
 };
 constexpr LayoutStructure positionFor;
-
-/// Where the columns view starts for @p url: the place it belongs to, else its volume.
-static QUrl columnsRootFor(const QUrl &url)
-{
-    auto *places = DolphinPlacesModelSingleton::instance().placesModel();
-    const QModelIndex closest = places->closestItem(url);
-    if (closest.isValid()) {
-        const QUrl placeUrl = places->url(closest);
-        if (placeUrl.isValid() && (placeUrl.matches(url, QUrl::StripTrailingSlash) || placeUrl.isParentOf(url))) {
-            return placeUrl;
-        }
-    }
-
-    if (url.isLocalFile()) {
-        if (const KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(url.toLocalFile())) {
-            return QUrl::fromLocalFile(mountPoint->mountPoint());
-        }
-    }
-
-    return url;
-}
 
 DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     : QWidget(parent)
@@ -145,7 +123,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         props.setAutoSaveEnabled(false);
         const auto mode = props.viewMode();
         if (mode == DolphinView::ColumnsView) {
-            m_view = new DolphinColumnsView(url, this, mode, &columnsRootFor);
+            m_view = new DolphinColumnsView(url, this, mode);
         } else {
             m_view = new DolphinView(url, this, mode);
         }
@@ -282,7 +260,7 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     m_topLayout->removeWidget(oldView);
 
     if (mode == DolphinView::ColumnsView) {
-        m_view = new DolphinColumnsView(savedUrl, this, mode, &columnsRootFor);
+        m_view = new DolphinColumnsView(savedUrl, this, mode);
     } else {
         m_view = new DolphinView(savedUrl, this, mode);
     }
@@ -758,6 +736,13 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
         if (m_searchBar && !Search::isSupportedSearchScheme(newUrl.scheme())) {
             m_searchBar->setSearchPath(newUrl);
         }
+    }
+}
+
+void DolphinViewContainer::markNextUrlAsPlace(const QUrl &url)
+{
+    if (auto *columnsView = qobject_cast<DolphinColumnsView *>(m_view)) {
+        columnsView->markNextUrlAsPlace(url);
     }
 }
 
