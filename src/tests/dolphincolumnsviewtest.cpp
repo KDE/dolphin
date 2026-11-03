@@ -102,6 +102,7 @@ private Q_SLOTS:
     void testNoJumpWhenSiblingSelectionReplacesWideColumn();
     void testAColumnKeepsItsWidthWhenItIsEntered();
     void testShownHiddenFileWidensColumn();
+    void testTheContentWidthFollowsInsertedAndRemovedNames();
     void testTheBaseModelDoesNotListTheFolder();
     void testColumnIsNeverWiderThanTheViewport();
 
@@ -831,6 +832,31 @@ void DolphinColumnsViewTest::testShownHiddenFileWidensColumn()
     // Showing the file makes the column wide enough for its name.
     m_view->setHiddenFilesShown(true);
     QTRY_VERIFY_WITH_TIMEOUT(splitter->sizes().at(0) > widthWithoutTheFile, 5000);
+}
+
+void DolphinColumnsViewTest::testTheContentWidthFollowsInsertedAndRemovedNames()
+{
+    // The column measures only the names that are inserted, and all of them again after a
+    // removal or a zoom change.
+    auto *pane = m_view->columnAt(0);
+    const int widthBefore = pane->calculateOptimalWidth();
+
+    const QString longName = QStringLiteral("long-") + QString(80, QLatin1Char('x')) + QStringLiteral(".txt");
+    m_testDir->createFile(longName);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(pane, longName) >= 0, 5000);
+    const int widthWithTheName = pane->calculateOptimalWidth();
+    QVERIFY(widthWithTheName > widthBefore);
+
+    QVERIFY(QFile::remove(m_testDir->url().toLocalFile() + QLatin1Char('/') + longName));
+    QTRY_COMPARE_WITH_TIMEOUT(indexOfName(pane, longName), -1, 5000);
+    QCOMPARE(pane->calculateOptimalWidth(), widthBefore);
+
+    m_testDir->createFile(longName);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(pane, longName) >= 0, 5000);
+    QCOMPARE(pane->calculateOptimalWidth(), widthWithTheName);
+
+    m_view->setZoomLevel(m_view->zoomLevel() + 2);
+    QTRY_VERIFY_WITH_TIMEOUT(pane->calculateOptimalWidth() > widthWithTheName, 5000);
 }
 
 void DolphinColumnsViewTest::testTheBaseModelDoesNotListTheFolder()
