@@ -80,11 +80,8 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     m_nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     m_nameLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_nameLabel->setFrameShape(QFrame::NoFrame);
-    auto nameLabelPalette = m_nameLabel->palette();
-    nameLabelPalette.setColor(QPalette::ColorGroup::Normal,
-                              QPalette::ColorRole::Base,
-                              nameLabelPalette.color(QPalette::ColorGroup::Normal, QPalette::ColorRole::Window));
-    m_nameLabel->setPalette(nameLabelPalette);
+    // dont't paint any background behind the label
+    m_nameLabel->viewport()->setAutoFillBackground(false);
     m_nameLabel->setContentsMargins(0, 0, 0, 0);
     m_nameLabel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_nameLabel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
