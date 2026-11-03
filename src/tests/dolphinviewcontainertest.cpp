@@ -83,6 +83,7 @@ private Q_SLOTS:
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
     void testAFolderOpenedAsAColumnKeepsTheColumnsView();
+    void testBackAndForwardInColumnsKeepTheColumnsView();
     void testEachViewModeKeepsItsOwnZoomLevel();
     void testOnlyAnExternalUrlChangeClosesColumns();
     void testGoingUpInColumnsStaysUp();
@@ -746,6 +747,39 @@ void DolphinViewContainerTest::testAFolderOpenedAsAColumnKeepsTheColumnsView()
     QTRY_COMPARE(m_container->url().adjusted(QUrl::StripTrailingSlash), iconsChildUrl.adjusted(QUrl::StripTrailingSlash));
     QCOMPARE(m_container->view(), columns);
     QCOMPARE(ViewProperties(iconsChildUrl).viewMode(), DolphinView::IconsView);
+}
+
+void DolphinViewContainerTest::testBackAndForwardInColumnsKeepTheColumnsView()
+{
+    // Back and Forward between folders opened as columns stay in the same columns view, with a
+    // mode per folder too, where these folders store no mode of their own.
+    m_testDir->createDir("a/b/c");
+    m_testDir->createFile("a/b/c/a-file.txt");
+    const QUrl aUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a"));
+    const QUrl bUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b"));
+    waitForItemListed(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/a/b/c/a-file.txt")));
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    auto *columns = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columns);
+    columns->openChild(0, aUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->url().adjusted(QUrl::StripTrailingSlash), aUrl, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(columns->columnCount(), 2, 5000);
+    columns->openChild(1, bUrl);
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->url().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(columns->columnCount(), 3, 5000);
+
+    QSignalSpy viewReplaced(m_container, &DolphinViewContainer::viewReplaced);
+    m_container->urlNavigatorInternalWithHistory()->goBack();
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->url().adjusted(QUrl::StripTrailingSlash), aUrl, 5000);
+    QCOMPARE(viewReplaced.count(), 0);
+    QCOMPARE(m_container->view(), columns);
+
+    m_container->urlNavigatorInternalWithHistory()->goForward();
+    QTRY_COMPARE_WITH_TIMEOUT(m_container->url().adjusted(QUrl::StripTrailingSlash), bUrl, 5000);
+    QCOMPARE(viewReplaced.count(), 0);
+    QCOMPARE(m_container->view(), columns);
 }
 
 void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
