@@ -806,11 +806,17 @@ DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
     connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::slotPaneItemsInserted);
 
     // A rename arrives as a "text" change from KIO, or as a remove and an insert from disk.
-    connect(model, &KFileItemModel::itemsInserted, this, &DolphinColumnsView::refitColumnsToContent);
-    connect(model, &KFileItemModel::itemsRemoved, this, &DolphinColumnsView::refitColumnsToContent);
-    connect(model, &KFileItemModel::itemsChanged, this, [this](const KItemRangeList &, const QSet<QByteArray> &changedRoles) {
-        if (changedRoles.contains("text")) {
+    // A closed column still lists until it is deleted.
+    const auto refitForPane = [this, pane]() {
+        if (m_columns.contains(pane)) {
             refitColumnsToContent();
+        }
+    };
+    connect(model, &KFileItemModel::itemsInserted, this, refitForPane);
+    connect(model, &KFileItemModel::itemsRemoved, this, refitForPane);
+    connect(model, &KFileItemModel::itemsChanged, this, [refitForPane](const KItemRangeList &, const QSet<QByteArray> &changedRoles) {
+        if (changedRoles.contains("text")) {
+            refitForPane();
         }
     });
 
