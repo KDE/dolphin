@@ -1045,12 +1045,39 @@ void KItemListView::setStatusBarOffset(int offset)
 
 QVariant KItemListView::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == QGraphicsItem::ItemSceneHasChanged && scene()) {
-        if (!scene()->views().isEmpty()) {
-            m_styleOption.palette = scene()->views().at(0)->palette();
+    if (change == QGraphicsItem::ItemSceneHasChanged) {
+        if (m_paletteWidget) {
+            m_paletteWidget->removeEventFilter(this);
+        }
+        m_paletteWidget = (scene() && !scene()->views().isEmpty()) ? scene()->views().at(0) : nullptr;
+        if (m_paletteWidget) {
+            // The palette of that widget changes without a PaletteChange of this item, for example
+            // when the application palette changes before the event loop runs.
+            m_paletteWidget->installEventFilter(this);
+            m_styleOption.palette = itemPalette();
         }
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+QPalette KItemListView::itemPalette() const
+{
+    if (!m_paletteWidget) {
+        return palette();
+    }
+    QPalette result = m_paletteWidget->palette();
+    for (const auto group : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
+        result.setBrush(group, QPalette::Base, palette().brush(group, QPalette::Base));
+    }
+    return result;
+}
+
+bool KItemListView::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == m_paletteWidget && event->type() == QEvent::PaletteChange) {
+        updatePalette();
+    }
+    return QGraphicsWidget::eventFilter(watched, event);
 }
 
 void KItemListView::setItemSize(const QSizeF &size)
@@ -1391,7 +1418,7 @@ void KItemListView::updateFont()
 void KItemListView::updatePalette()
 {
     KItemListStyleOption option = styleOption();
-    option.palette = palette();
+    option.palette = itemPalette();
     setStyleOption(option);
 }
 
