@@ -1892,8 +1892,8 @@ void DolphinView::restoreState(QDataStream &stream)
     // Restore the view position
     m_restoredContentsPosition = contentsPosition;
 
-    // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
-    m_model->restoreExpandedDirectories(expandedDirectories);
+    // The expanded folders of the details view, or the folders of the open columns.
+    restoreOpenFolders(expandedDirectories, m_currentItemUrl);
 }
 
 void DolphinView::saveState(QDataStream &stream)
@@ -1920,9 +1920,20 @@ void DolphinView::saveState(QDataStream &stream)
     const qreal y = m_container->verticalScrollBar()->value();
     stream << QPoint(x, y);
 
-    // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
-    const QSet<QUrl> expandedDirectories = m_model->expandedDirectories();
-    stream << (fitsInASession(expandedDirectories) ? expandedDirectories : QSet<QUrl>());
+    // The expanded folders of the details view, or the folders of the open columns.
+    const QSet<QUrl> folders = openFolders();
+    stream << (fitsInASession(folders) ? folders : QSet<QUrl>());
+}
+
+QSet<QUrl> DolphinView::openFolders() const
+{
+    return m_model->expandedDirectories();
+}
+
+void DolphinView::restoreOpenFolders(const QSet<QUrl> &folders, const QUrl &currentItemUrl)
+{
+    Q_UNUSED(currentItemUrl)
+    m_model->restoreExpandedDirectories(folders);
 }
 
 KFileItem DolphinView::rootItem() const
