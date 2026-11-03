@@ -38,9 +38,8 @@
 /// How long a new column waits for its folder to list before it takes a width anyway.
 static constexpr int s_pendingWidthTimeoutMs = 200;
 
-DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode, std::function<QUrl(const QUrl &)> rootUrlResolver)
+DolphinColumnsView::DolphinColumnsView(const QUrl &url, QWidget *parent, std::optional<Mode> initialMode)
     : DolphinView(url, parent, initialMode, true)
-    , m_rootUrlResolver(std::move(rootUrlResolver))
 {
     initColumnsUi();
 
@@ -133,6 +132,8 @@ void DolphinColumnsView::initColumnsUi()
 
 void DolphinColumnsView::setUrl(const QUrl &url)
 {
+    const bool opensAPlace = m_nextPlaceUrl.matches(url, QUrl::StripTrailingSlash);
+    m_nextPlaceUrl.clear();
     if (url == this->url()) {
         return;
     }
@@ -145,7 +146,9 @@ void DolphinColumnsView::setUrl(const QUrl &url)
     updateUrl(url);
     {
         QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
-        if (!showUrlInOpenColumns(url)) {
+        if (opensAPlace) {
+            rebuildColumnsForUrl(url);
+        } else if (!showUrlInOpenColumns(url)) {
             rebuildColumnsForUrl(url);
         }
     }
@@ -510,6 +513,10 @@ bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
         }
     }
     if (ancestor < 0) {
+        if (!m_columns.isEmpty() && target.isParentOf(m_columns.constFirst()->dirUrl())) {
+            prependColumnsUpTo(target);
+            return true;
+        }
         return false;
     }
 
@@ -534,16 +541,17 @@ bool DolphinColumnsView::showUrlInOpenColumns(const QUrl &url)
     return true;
 }
 
-QUrl DolphinColumnsView::rootUrlFor(const QUrl &url) const
+void DolphinColumnsView::markNextUrlAsPlace(const QUrl &url)
 {
-    if (!m_rootUrlResolver) {
-        return url;
+    if (!url.matches(this->url(), QUrl::StripTrailingSlash)) {
+        m_nextPlaceUrl = url;
+        return;
     }
-    const QUrl root = m_rootUrlResolver(url);
-    if (!root.isValid() || !(root.matches(url, QUrl::StripTrailingSlash) || root.isParentOf(url))) {
-        return url;
+    // Already the url, so no setUrl() follows.
+    if (!m_columns.isEmpty() && !m_columns.constFirst()->dirUrl().matches(url, QUrl::StripTrailingSlash)) {
+        QScopedValueRollback<bool> settingUrl(m_settingUrl, true);
+        rebuildColumnsForUrl(url);
     }
-    return root;
 }
 
 void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
@@ -552,47 +560,52 @@ void DolphinColumnsView::rebuildColumnsForUrl(const QUrl &url)
     const bool hadFocus = hasFocusInside();
     popAfter(-1);
 
-    const QUrl root = rootUrlFor(url);
-
-    appendPane(root);
+    appendPane(url);
     recalculateColumnWidths();
     if (hadFocus) {
         m_columns.constFirst()->container()->setFocus();
     }
     setActiveColumn(0);
-
-    if (root.adjusted(QUrl::StripTrailingSlash) != url.adjusted(QUrl::StripTrailingSlash)) {
-        showUrlInOpenColumns(url);
-        holdPaintingUntilEveryColumnHasAWidth();
-    }
 }
 
-void DolphinColumnsView::holdPaintingUntilEveryColumnHasAWidth()
+void DolphinColumnsView::prependColumnsUpTo(const QUrl &target)
 {
-    if (std::none_of(m_columns.cbegin(), m_columns.cend(), [](const DolphinColumnPane *pane) {
-            return pane->isWidthPending();
-        })) {
-        return;
+    int added = 0;
+    QUrl child = m_columns.constFirst()->dirUrl().adjusted(QUrl::StripTrailingSlash);
+    while (child != target) {
+        const QUrl parent = KIO::upUrl(child).adjusted(QUrl::StripTrailingSlash);
+        if (parent == child) {
+            break;
+        }
+        DolphinColumnPane *pane = insertPane(0, parent);
+        {
+            QScopedValueRollback<bool> navigationGuard(m_blockNavigation, true);
+            pane->setActiveChildUrl(child);
+        }
+        if (ColumnsModeSettings::self()->dynamicColumnWidth()) {
+            pane->setWidthPending(true);
+            QTimer::singleShot(s_pendingWidthTimeoutMs, pane, [this, pane]() {
+                finishPendingWidth(pane);
+            });
+        }
+        ++added;
+        child = parent;
     }
-    // The columns on the way to the url take their widths one by one as their folders list, and
-    // each width moves the view. The view is painted once they all have one.
-    m_scrollArea->setUpdatesEnabled(false);
-    // A listing that never finishes still ends the wait of its column after s_pendingWidthTimeoutMs.
-    QTimer::singleShot(2 * s_pendingWidthTimeoutMs, this, [this]() {
-        m_scrollArea->setUpdatesEnabled(true);
-    });
-}
 
-void DolphinColumnsView::resumePaintingOnceEveryColumnHasAWidth()
-{
-    if (m_scrollArea->updatesEnabled()) {
-        return;
+    // The columns that were open moved right.
+    m_activeColumn += added;
+    QHash<int, int> customColumnWidths;
+    for (auto it = m_customColumnWidths.cbegin(); it != m_customColumnWidths.cend(); ++it) {
+        customColumnWidths.insert(it.key() + added, it.value());
     }
-    if (std::none_of(m_columns.cbegin(), m_columns.cend(), [](const DolphinColumnPane *pane) {
-            return pane->isWidthPending();
-        })) {
-        m_scrollArea->setUpdatesEnabled(true);
+    m_customColumnWidths = customColumnWidths;
+    if (m_carriedColumnWidth) {
+        m_carriedColumnWidth->first += added;
     }
+
+    recalculateColumnWidths();
+    setActiveColumn(0);
+    scrollToColumnWhenLaidOut(0);
 }
 
 void DolphinColumnsView::openChild(int columnIndex, const QUrl &childUrl)
@@ -671,7 +684,6 @@ void DolphinColumnsView::scrollToColumnWhenLaidOut(int index)
         ensureColumnVisible(index);
         // The focus is in the active column, so it stays in view when both do not fit.
         ensureActiveColumnVisible();
-        resumePaintingOnceEveryColumnHasAWidth();
     });
 }
 
@@ -707,9 +719,6 @@ void DolphinColumnsView::popAfter(int columnIndex)
         m_activeColumn = m_columns.size() - 1;
     }
 
-    // A closed column may have been the last one to wait for its width.
-    resumePaintingOnceEveryColumnHasAWidth();
-
     if (auto *pane = activePane()) {
         // The last column left becomes the active one, with the model and the signals of an active column.
         if (activeColumnCloses) {
@@ -720,6 +729,11 @@ void DolphinColumnsView::popAfter(int columnIndex)
 }
 
 DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
+{
+    return insertPane(m_columns.size(), dirUrl);
+}
+
+DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
 {
     // Configured before it loads: changing a property during a load inserts items twice.
     auto *model = new KFileItemModel();
@@ -809,11 +823,14 @@ DolphinColumnPane *DolphinColumnsView::appendPane(const QUrl &dirUrl)
     pane->container()->installEventFilter(this);
     pane->container()->viewport()->installEventFilter(this);
 
-    m_columns.append(pane);
-    m_splitter->insertWidget(m_splitter->count() - 1, pane);
-    m_splitter->setStretchFactor(m_splitter->indexOf(pane), 0);
-    if (const int handleIndex = m_splitter->indexOf(pane); handleIndex > 0) {
-        m_splitter->handle(handleIndex)->installEventFilter(this);
+    m_columns.insert(index, pane);
+    m_splitter->insertWidget(index, pane);
+    m_splitter->setStretchFactor(index, 0);
+    // A column inserted first gives the column after it a handle.
+    for (int handleIndex : {index, index + 1}) {
+        if (handleIndex > 0 && handleIndex < m_columns.size()) {
+            m_splitter->handle(handleIndex)->installEventFilter(this);
+        }
     }
 
     auto controller = pane->controller();
