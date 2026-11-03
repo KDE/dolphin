@@ -1659,6 +1659,7 @@ void DolphinMainWindow::updateHamburgerMenu()
 void DolphinMainWindow::slotPlaceActivated(const QUrl &url)
 {
     DolphinViewContainer *view = activeViewContainer();
+    view->markNextUrlAsPlace(url);
 
     if (view->url() == url) {
         view->clearFilterBar(); // Fixes bug 259382.

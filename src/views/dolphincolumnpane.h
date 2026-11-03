@@ -68,6 +68,9 @@ public:
     /// The width that shows the longest name of the column, with no lower bound.
     int calculateOptimalWidth() const;
 
+    /// Whether the folder of the column is being listed.
+    bool isLoading() const;
+
     void setZoomLevel(int level);
 
     void reloadSettings();
