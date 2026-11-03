@@ -1319,8 +1319,26 @@ void DolphinViewContainer::tryRestoreViewState()
     QByteArray locationState = m_urlNavigator->locationState();
     if (!locationState.isEmpty()) {
         QDataStream stream(&locationState, QIODevice::ReadOnly);
-        m_view->restoreState(stream);
+        restoreViewState(stream);
     }
+}
+
+void DolphinViewContainer::restoreViewState(QDataStream &stream)
+{
+    // A folder opened as a column has no mode of its own, so the state names the mode of the view.
+    QIODevice *device = stream.device();
+    const qint64 start = device->pos();
+    quint32 version = 0;
+    stream >> version;
+    if (version >= 2) {
+        quint32 mode = 0;
+        stream >> mode;
+        if (mode == DolphinView::ColumnsView && !qobject_cast<DolphinColumnsView *>(m_view)) {
+            swapView(DolphinView::ColumnsView);
+        }
+    }
+    device->seek(start);
+    m_view->restoreState(stream);
 }
 
 QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &path) const

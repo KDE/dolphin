@@ -1843,9 +1843,14 @@ void DolphinView::restoreState(QDataStream &stream)
     // Read the version number of the view state and check if the version is supported.
     quint32 version = 0;
     stream >> version;
-    if (version != 1) {
+    if (version != 1 && version != 2) {
         // The version of the view state isn't supported, we can't restore it.
         return;
+    }
+    if (version >= 2) {
+        // The mode is for the container, which picks the view before the view reads this state.
+        quint32 mode = 0;
+        stream >> mode;
     }
 
     // Restore the current item that had the keyboard focus
@@ -1865,7 +1870,8 @@ void DolphinView::restoreState(QDataStream &stream)
 
 void DolphinView::saveState(QDataStream &stream)
 {
-    stream << quint32(1); // View state version
+    stream << quint32(2); // View state version
+    stream << quint32(m_mode);
 
     // Save the current item that has the keyboard focus
     const int currentIndex = activeSelectionManager()->currentItem();

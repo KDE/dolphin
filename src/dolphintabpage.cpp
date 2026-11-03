@@ -350,7 +350,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     bool primaryUrlEditable;
     stream >> primaryUrlEditable;
     m_primaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(primaryUrlEditable);
-    m_primaryViewContainer->view()->restoreState(stream);
+    m_primaryViewContainer->restoreViewState(stream);
 
     if (isSplitViewEnabled) {
         if (version <= 3) {
@@ -361,7 +361,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
         bool secondaryUrlEditable;
         stream >> secondaryUrlEditable;
         m_secondaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(secondaryUrlEditable);
-        m_secondaryViewContainer->view()->restoreState(stream);
+        m_secondaryViewContainer->restoreViewState(stream);
     }
 
     stream >> m_primaryViewActive;
