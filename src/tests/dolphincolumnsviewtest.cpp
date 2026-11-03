@@ -173,6 +173,8 @@ private Q_SLOTS:
     void testTheLastColumnShowsALongNameInFull();
     void testShortNamesGiveANarrowColumn();
     void testAPlaceIsTheFirstColumn();
+    void testTheViewStateReopensTheColumns();
+    void testTheViewStateKeepsTheUrlBeforeTheLastColumn();
     void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
     void testAColumnShowsItsNamesWhileTheColumnsFit();
     void testANewFirstColumnTakesTheWidthOfItsContent();
@@ -2748,6 +2750,70 @@ void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
     QCOMPARE(errorSpy.constFirst().at(1).toInt(), static_cast<int>(KIO::ERR_DOES_NOT_EXIST));
     QTest::qWait(200); // UNAVOIDABLE: checks that no second error arrives
     QCOMPARE(errorSpy.count(), 1);
+}
+
+void DolphinColumnsViewTest::testTheViewStateReopensTheColumns()
+{
+    // As the details view does with its expanded folders, a saved view state brings back the
+    // columns that were open.
+    const QUrl root = m_testDir->url();
+    const QUrl alpha = urlOf(QStringLiteral("alpha"));
+    const QUrl alphaChild = urlOf(QStringLiteral("alpha/alpha-child"));
+    m_view->setUrl(alpha);
+    m_view->setUrl(alphaChild);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    QByteArray state;
+    {
+        QDataStream out(&state, QIODevice::WriteOnly);
+        m_view->saveState(out);
+    }
+
+    DolphinColumnsView view(alphaChild, nullptr, DolphinView::ColumnsView);
+    view.resize(800, 400);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+    QCOMPARE(view.columnCount(), 1);
+
+    QDataStream in(&state, QIODevice::ReadOnly);
+    view.restoreState(in);
+    QCOMPARE(view.columnCount(), 3);
+    QCOMPARE(view.columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), root.adjusted(QUrl::StripTrailingSlash));
+    QCOMPARE(view.columnAt(1)->dirUrl(), alpha);
+    QCOMPARE(view.columnAt(2)->dirUrl(), alphaChild);
+    QCOMPARE(view.url(), alphaChild);
+}
+
+void DolphinColumnsViewTest::testTheViewStateKeepsTheUrlBeforeTheLastColumn()
+{
+    // Going up to a folder that is not open adds it in front and keeps the columns after it. The
+    // view state brings back those columns, and the url stays on the parent.
+    const QUrl alpha = urlOf(QStringLiteral("alpha"));
+    const QUrl alphaChild = urlOf(QStringLiteral("alpha/alpha-child"));
+    DolphinColumnsView source(alphaChild, nullptr, DolphinView::ColumnsView);
+    source.resize(800, 400);
+    source.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&source));
+    source.setUrl(alpha);
+    QTRY_COMPARE_WITH_TIMEOUT(source.columnCount(), 2, 5000);
+    QCOMPARE(source.url(), alpha);
+
+    QByteArray state;
+    {
+        QDataStream out(&state, QIODevice::WriteOnly);
+        source.saveState(out);
+    }
+
+    DolphinColumnsView view(alpha, nullptr, DolphinView::ColumnsView);
+    view.resize(800, 400);
+    view.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&view));
+    QDataStream in(&state, QIODevice::ReadOnly);
+    view.restoreState(in);
+    QCOMPARE(view.columnCount(), 2);
+    QCOMPARE(view.columnAt(0)->dirUrl(), alpha);
+    QCOMPARE(view.columnAt(1)->dirUrl(), alphaChild);
+    QCOMPARE(view.url(), alpha);
 }
 
 void DolphinColumnsViewTest::testAPlaceIsTheFirstColumn()

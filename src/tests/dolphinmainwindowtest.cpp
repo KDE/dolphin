@@ -114,6 +114,8 @@ private Q_SLOTS:
     void testAPlaceOpensAsTheFirstColumn();
     void testAFolderOpenedFromOutsideIsTheFirstColumn();
     void testUpAddsTheParentAsTheFirstColumn();
+    void testARestoredTabReopensItsColumns();
+    void testARestoredTabReopensItsColumnsWithAModePerFolder();
     void testTheSelectionModeBarFollowsAViewOfAnotherMode();
     void testTheSecondViewOfASplitReportsARedirectionAsTheFirst();
     void cleanupTestCase();
@@ -2577,6 +2579,118 @@ void DolphinMainWindowTest::testUpAddsTheParentAsTheFirstColumn()
     QCOMPARE(columns->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
     QCOMPARE(columns->columnAt(2)->dirUrl(), b);
     QCOMPARE(columns->activeColumnIndex(), 0);
+}
+
+void DolphinMainWindowTest::testARestoredTabReopensItsColumns()
+{
+    // A restored session shows the columns that were open, as it shows the expanded folders of
+    // the details view.
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b/c");
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+    const QUrl c = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b/c"));
+
+    m_mainWindow->openDirectories({a}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+    container->setUrl(b);
+    QTRY_COMPARE(columns->url(), b);
+    container->setUrl(c);
+    QTRY_COMPARE(columns->url(), c);
+    QCOMPARE(columns->columnCount(), 3);
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    tabWidget->saveProperties(group);
+
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
+    tabWidget->closeTab(0);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->readProperties(group);
+
+    DolphinViewContainer *restored = tabWidget->tabPageAt(0)->primaryViewContainer();
+    QTRY_COMPARE(restored->url(), c);
+    auto *restoredColumns = qobject_cast<DolphinColumnsView *>(restored->view());
+    QVERIFY(restoredColumns);
+    QCOMPARE(restoredColumns->columnCount(), 3);
+    QCOMPARE(restoredColumns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(restoredColumns->columnAt(1)->dirUrl(), b);
+    QCOMPARE(restoredColumns->columnAt(2)->dirUrl(), c);
+}
+
+void DolphinMainWindowTest::testARestoredTabReopensItsColumnsWithAModePerFolder()
+{
+    // With a mode per folder, only the folder that was switched to the columns mode stores it. The
+    // folders opened as columns store nothing, and the restored tab still shows the columns.
+    GeneralSettings *settings = GeneralSettings::self();
+    const bool globalViewProps = settings->globalViewProps();
+    // A folder with no mode of its own takes the global one, which an earlier test may have left
+    // in the columns mode.
+    settings->setGlobalViewProps(true);
+    {
+        ViewProperties props(QUrl::fromLocalFile(QDir::homePath()));
+        props.setViewMode(DolphinView::IconsView);
+        props.save();
+    }
+    settings->setGlobalViewProps(false);
+    settings->save();
+    const auto restoreSetting = qScopeGuard([settings, globalViewProps] {
+        settings->setGlobalViewProps(globalViewProps);
+        settings->save();
+    });
+
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b/c");
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+    const QUrl c = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b/c"));
+
+    m_mainWindow->openDirectories({a}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+    // As a click on a folder opens it.
+    columns->openChild(0, b);
+    QTRY_COMPARE(columns->url(), b);
+    columns->openChild(1, c);
+    QTRY_COMPARE(columns->url(), c);
+    QCOMPARE(columns->columnCount(), 3);
+    QVERIFY(ViewProperties(c).viewMode() != DolphinView::ColumnsView);
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    tabWidget->saveProperties(group);
+
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
+    tabWidget->closeTab(0);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->readProperties(group);
+
+    DolphinViewContainer *restored = tabWidget->tabPageAt(0)->primaryViewContainer();
+    QTRY_COMPARE(restored->url(), c);
+    auto *restoredColumns = qobject_cast<DolphinColumnsView *>(restored->view());
+    QVERIFY(restoredColumns);
+    QTRY_COMPARE(restoredColumns->columnCount(), 3);
+    QCOMPARE(restoredColumns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(restoredColumns->columnAt(2)->dirUrl(), c);
+    // Restoring stores no mode for the folder.
+    QVERIFY(ViewProperties(c).viewMode() != DolphinView::ColumnsView);
 }
 
 void DolphinMainWindowTest::testTheSelectionModeBarFollowsAViewOfAnotherMode()
