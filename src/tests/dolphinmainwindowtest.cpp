@@ -114,6 +114,7 @@ private Q_SLOTS:
     void testAPlaceOpensAsTheFirstColumn();
     void testAFolderOpenedFromOutsideIsTheFirstColumn();
     void testUpAddsTheParentAsTheFirstColumn();
+    void testARestoredTabReopensItsColumns();
     void cleanupTestCase();
 
 private:
@@ -2575,6 +2576,52 @@ void DolphinMainWindowTest::testUpAddsTheParentAsTheFirstColumn()
     QCOMPARE(columns->columnAt(1)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
     QCOMPARE(columns->columnAt(2)->dirUrl(), b);
     QCOMPARE(columns->activeColumnIndex(), 0);
+}
+
+void DolphinMainWindowTest::testARestoredTabReopensItsColumns()
+{
+    // A restored session shows the columns that were open, as it shows the expanded folders of
+    // the details view.
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a/b/c");
+    const QUrl a = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a"));
+    const QUrl b = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b"));
+    const QUrl c = QUrl::fromLocalFile(testDir->path() + QStringLiteral("/a/b/c"));
+
+    m_mainWindow->openDirectories({a}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    DolphinViewContainer *container = m_mainWindow->activeViewContainer();
+    container->setViewMode(DolphinView::ColumnsView);
+    auto *columns = qobject_cast<DolphinColumnsView *>(container->view());
+    QVERIFY(columns);
+    container->setUrl(b);
+    QTRY_COMPARE(columns->url(), b);
+    container->setUrl(c);
+    QTRY_COMPARE(columns->url(), c);
+    QCOMPARE(columns->columnCount(), 3);
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    QTemporaryDir configDir;
+    QVERIFY(configDir.isValid());
+    KConfig config(configDir.filePath(QStringLiteral("sessionrc")), KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QStringLiteral("Session"));
+    tabWidget->saveProperties(group);
+
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
+    tabWidget->closeTab(0);
+    QCOMPARE(tabWidget->count(), 1);
+    tabWidget->readProperties(group);
+
+    DolphinViewContainer *restored = tabWidget->tabPageAt(0)->primaryViewContainer();
+    QTRY_COMPARE(restored->url(), c);
+    auto *restoredColumns = qobject_cast<DolphinColumnsView *>(restored->view());
+    QVERIFY(restoredColumns);
+    QCOMPARE(restoredColumns->columnCount(), 3);
+    QCOMPARE(restoredColumns->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), a);
+    QCOMPARE(restoredColumns->columnAt(1)->dirUrl(), b);
+    QCOMPARE(restoredColumns->columnAt(2)->dirUrl(), c);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
