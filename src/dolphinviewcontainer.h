@@ -250,6 +250,12 @@ public Q_SLOTS:
     void setViewMode(DolphinView::Mode mode);
 
     /**
+     * Restores a state that DolphinView::saveState() wrote. A state of the columns view comes back
+     * in the columns view, whatever the mode of the folder.
+     */
+    void restoreViewState(QDataStream &stream);
+
+    /**
      * Sets the current active URL, where all actions are applied. The
      * URL navigator is synchronized with this URL. The signals
      * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()

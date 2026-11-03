@@ -351,12 +351,12 @@ public:
     bool isExpanded(const KFileItem &item) const;
 
     /**
-     * Restores the view state (current item, contents position, details view expansion state)
+     * Restores the view state (current item, contents position, open folders)
      */
     void restoreState(QDataStream &stream);
 
     /**
-     * Saves the view state (current item, contents position, details view expansion state)
+     * Saves the view state (current item, contents position, open folders)
      */
     void saveState(QDataStream &stream);
 
@@ -833,6 +833,18 @@ protected:
 
     /// Whether this view is able to draw @p mode. See the constructor.
     bool canDisplayMode(Mode mode) const;
+
+    /**
+     * The folders that the view state keeps open next to the url: the expanded folders of the
+     * details view. Empty when no folder is open.
+     */
+    virtual QSet<QUrl> openFolders() const;
+
+    /**
+     * Opens the @p folders of a restored view state. @p currentItemUrl is the current item of
+     * that state.
+     */
+    virtual void restoreOpenFolders(const QSet<QUrl> &folders, const QUrl &currentItemUrl);
 
     /**
      * Returns the MIME data for all selected items.
