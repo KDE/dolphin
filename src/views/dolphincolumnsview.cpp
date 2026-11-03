@@ -33,6 +33,7 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <algorithm>
+#include <numeric>
 
 /// How long a new column waits for its folder to list before it takes a width anyway.
 static constexpr int s_pendingWidthTimeoutMs = 200;
@@ -1011,28 +1012,60 @@ bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 void DolphinColumnsView::resizeEvent(QResizeEvent *event)
 {
     DolphinView::resizeEvent(event);
-    if (event->size().width() > event->oldSize().width()) {
-        showEarlierColumnsInTheRoomAfterTheLast();
-    }
-    recalculateColumnWidths(WidthPolicy::Refit);
+    layoutToTheRightEdge(columnWidths(WidthPolicy::Refit));
 }
 
-void DolphinColumnsView::showEarlierColumnsInTheRoomAfterTheLast()
+void DolphinColumnsView::layoutToTheRightEdge(QList<int> sizes)
 {
-    if (!m_scrollArea || m_columns.isEmpty()) {
+    // The same width always gives the same layout, whichever way the view was resized: the last
+    // column ends at the right edge, and the first column shown starts at its left edge.
+    const int numColumns = m_columns.size();
+    if (!m_scrollArea || numColumns == 0 || sizes.size() != numColumns) {
         return;
     }
-    const QList<int> sizes = m_splitter->sizes();
-    const int lastColumn = m_columns.size() - 1;
-    int lastRight = visibleHandlesBefore(lastColumn) * m_splitter->handleWidth();
-    for (int i = 0; i <= lastColumn && i < sizes.size(); ++i) {
-        lastRight += sizes.at(i);
+    const int handleWidth = m_splitter->handleWidth();
+    const int viewportWidth = m_scrollArea->viewport()->width();
+    auto leftOf = [this, &sizes, handleWidth](int column) {
+        return visibleHandlesBefore(column) * handleWidth + std::accumulate(sizes.cbegin(), sizes.cbegin() + column, 0);
+    };
+    const int totalWidth = leftOf(numColumns);
+
+    int scrollValue = qMax(0, totalWidth - viewportWidth);
+    int filler = qMax(0, viewportWidth - totalWidth);
+    if (scrollValue > 0) {
+        int firstShown = 0;
+        while (firstShown < numColumns - 1 && leftOf(firstShown) < scrollValue) {
+            ++firstShown;
+        }
+        int room = leftOf(firstShown) - scrollValue;
+        scrollValue = leftOf(firstShown);
+        // The columns shown that elide their names take the room, from the last one.
+        for (int column = numColumns - 1; column >= firstShown && room > 0; --column) {
+            if (!ColumnsModeSettings::self()->dynamicColumnWidth() || m_customColumnWidths.contains(column) || m_columns.at(column)->isWidthPending()) {
+                continue;
+            }
+            const int content = qMin(viewportWidth, m_columns.at(column)->calculateOptimalWidth());
+            const int growth = qMin(room, qMax(0, content - sizes.at(column)));
+            sizes[column] += growth;
+            room -= growth;
+        }
+        filler = room;
     }
-    // ensureColumnVisible() then moves on to the left edge of a column.
-    QScrollBar *scrollBar = m_scrollArea->horizontalScrollBar();
-    const int scrollValue = qMax(0, lastRight - m_scrollArea->viewport()->width());
-    if (scrollBar->value() > scrollValue) {
-        scrollBar->setValue(scrollValue);
+    // A gap narrower than a scrollbar would only show a sliver of the window background.
+    if (filler > 0 && filler < style()->pixelMetric(QStyle::PM_ScrollBarExtent, nullptr, this)) {
+        sizes[numColumns - 1] += filler;
+        filler = 0;
+    }
+
+    applyColumnSizes(sizes, false);
+    sizes.append(filler);
+    m_splitter->setSizes(sizes);
+    const int splitterWidth = leftOf(numColumns) + filler;
+    m_splitter->setMinimumWidth(splitterWidth > viewportWidth ? splitterWidth : 0);
+    m_splitter->resize(qMax(splitterWidth, viewportWidth), m_splitter->height());
+    m_scrollArea->horizontalScrollBar()->setValue(scrollValue);
+    if (m_activeColumn >= 0 && m_activeColumn < numColumns && leftOf(m_activeColumn) < scrollValue) {
+        ensureActiveColumnVisible();
     }
 }
 
@@ -1246,7 +1279,23 @@ void DolphinColumnsView::ensureColumnVisible(int index)
 
     // Starting at a column edge can need room past the last column, which the filler gives.
     if (scrollValue > scrollBar->maximum() && !sizes.isEmpty()) {
-        sizes.last() += scrollValue - scrollBar->maximum();
+        int room = scrollValue - scrollBar->maximum();
+        // The shown columns that elide their names take the room first, from the last one.
+        for (int column = m_columns.size() - 1; column >= 0 && room > 0 && column + 1 < sizes.size(); --column) {
+            const int left = visibleHandlesBefore(column) * handleWidth + std::accumulate(sizes.cbegin(), sizes.cbegin() + column, 0);
+            if (left < scrollValue) {
+                break;
+            }
+            if (!ColumnsModeSettings::self()->dynamicColumnWidth() || m_customColumnWidths.contains(column) || m_columns.at(column)->isWidthPending()) {
+                continue;
+            }
+            const int content = qMin(viewportWidth, m_columns.at(column)->calculateOptimalWidth());
+            const int growth = qMin(room, qMax(0, content - sizes.at(column)));
+            sizes[column] += growth;
+            m_columns.at(column)->setAppliedWidth(sizes.at(column));
+            room -= growth;
+        }
+        sizes.last() += room;
         int totalWidth = visibleHandlesBefore(m_columns.size()) * handleWidth;
         for (int size : std::as_const(sizes)) {
             totalWidth += size;
@@ -1294,14 +1343,22 @@ void DolphinColumnsView::refitColumnsToContent()
 
 void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
 {
+    const QList<int> sizes = columnWidths(policy);
+    if (!sizes.isEmpty()) {
+        applyColumnSizes(sizes);
+    }
+}
+
+QList<int> DolphinColumnsView::columnWidths(WidthPolicy policy) const
+{
     const int numColumns = m_columns.size();
     if (numColumns == 0) {
-        return;
+        return {};
     }
 
     const int viewportWidth = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     if (viewportWidth <= 0) {
-        return;
+        return {};
     }
 
     const int divisor = qMax(1, qMin(ColumnsModeSettings::self()->maxVisibleColumns(), numColumns));
@@ -1310,9 +1367,10 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     const int availableForColumns = qMax(0, viewportWidth - (divisor - 1) * handleWidth);
     const int minColumnWidth = ColumnsModeSettings::self()->minColumnWidth();
     const int defaultWidth = qMax(minColumnWidth, availableForColumns / divisor);
-    // While the columns fit, each one shows its names in full. Once they do not, a column does not
-    // grow past the cap for a long name, which elides instead of pushing the other columns out of the
-    // viewport. The cap is not below the width of a fixed column, and it never narrows a column.
+    // While the columns fit, each one shows its names in full. Once they do not, a column before the
+    // last does not grow past the cap for a long name, which elides instead of pushing the other
+    // columns out of the viewport. The cap is not below the width of a fixed column, and it never
+    // narrows a column. The last column always shows its names, up to the width of the viewport.
     const int maxVisibleColumns = ColumnsModeSettings::self()->maxVisibleColumns();
     const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
     const int maxContentWidth = qMax(minColumnWidth, qMax(0, viewportWidth - (maxVisibleColumns - 1) * handleWidth) / maxVisibleColumns);
@@ -1352,13 +1410,24 @@ void DolphinColumnsView::recalculateColumnWidths(WidthPolicy policy)
     }
 
     if (totalWidth > viewportWidth) {
+        int cappedWidth = visibleHandlesBefore(numColumns) * handleWidth;
         for (int i = 0; i < numColumns; ++i) {
-            if (fitsItsContent.at(i)) {
+            if (fitsItsContent.at(i) && i < numColumns - 1) {
                 sizes[i] = qMin(viewportWidth, qMax(qMin(contentWidths.at(i), maxContentWidth), floors.at(i)));
+            }
+            cappedWidth += sizes.at(i);
+        }
+        // The cap can leave room after the last column while names elide. The columns before it take it.
+        int room = viewportWidth - cappedWidth;
+        for (int i = numColumns - 2; i >= 0 && room > 0; --i) {
+            if (fitsItsContent.at(i)) {
+                const int growth = qMin(room, qMax(0, qMin(viewportWidth, contentWidths.at(i)) - sizes.at(i)));
+                sizes[i] += growth;
+                room -= growth;
             }
         }
     }
-    applyColumnSizes(sizes);
+    return sizes;
 }
 
 int DolphinColumnsView::widthFloorFor(int index) const
@@ -1442,13 +1511,14 @@ void DolphinColumnsView::autoAdjustColumns(int anchorColumn)
     const int anchorX = anchored ? m_columns.at(anchorColumn)->mapTo(m_scrollArea->viewport(), QPoint(0, 0)).x() : 0;
 
     m_customColumnWidths.clear();
+    const int viewportWidth = m_scrollArea ? m_scrollArea->viewport()->width() : width();
     const int minContentWidth = ColumnsModeSettings::self()->minContentColumnWidth();
     const bool fixedWidth = !ColumnsModeSettings::self()->dynamicColumnWidth();
 
     QList<int> sizes;
     sizes.reserve(m_columns.size());
     for (int i = 0; i < m_columns.size(); ++i) {
-        const int width = qMax(minContentWidth, m_columns.at(i)->calculateOptimalWidth());
+        const int width = qMin(viewportWidth, qMax(minContentWidth, m_columns.at(i)->calculateOptimalWidth()));
         sizes.append(width);
         if (fixedWidth) {
             // Or the next relayout would go back to the fixed width.
@@ -1468,6 +1538,13 @@ void DolphinColumnsView::autoAdjustColumns(int anchorColumn)
     QTimer::singleShot(0, this, [this, anchor, anchorX]() {
         if (anchor) {
             keepColumnAt(m_columns.indexOf(anchor), anchorX);
+            // A column that grew past the right edge moves back into view.
+            QWidget *viewport = m_scrollArea->viewport();
+            const int overflow = anchor->mapTo(viewport, QPoint(anchor->width(), 0)).x() - viewport->width();
+            if (overflow > 0) {
+                QScrollBar *scrollBar = m_scrollArea->horizontalScrollBar();
+                scrollBar->setValue(scrollBar->value() + overflow);
+            }
         }
     });
 }

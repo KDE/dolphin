@@ -127,8 +127,8 @@ private:
     void ensureColumnVisible(int index);
     /// Whether the focus is on this view or one of its columns.
     bool hasFocusInside() const;
-    /// Scrolls left over the room after the last column, which a wider window leaves.
-    void showEarlierColumnsInTheRoomAfterTheLast();
+    /// Applies @p sizes with the last column at the right edge and the first column shown at its left edge.
+    void layoutToTheRightEdge(QList<int> sizes);
     void autoSelectFirstItem(int columnIndex);
     /// Refit may narrow a column, which only a request by the user does.
     enum class WidthPolicy {
@@ -136,6 +136,7 @@ private:
         Refit,
     };
     void recalculateColumnWidths(WidthPolicy policy = WidthPolicy::GrowOnly);
+    QList<int> columnWidths(WidthPolicy policy) const;
     /// The width that column @p index keeps: the last width the view gave it, or the width of the
     /// column it replaced. Not its size in the splitter, which it has before the view sizes it.
     int widthFloorFor(int index) const;
