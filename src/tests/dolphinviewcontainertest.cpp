@@ -69,7 +69,6 @@ private Q_SLOTS:
     void testSwapDoesNotPersistOutgoingMode();
     void testNavigatorFollowsViewAfterModeSwap();
     void testSwapAdoptsContainerActiveState();
-    void testEachViewModeKeepsItsOwnZoomLevel();
     void testSwapCarriesTheNameFilter();
     void testTheViewPropertiesDialogFollowsASwappedView();
     void testTheViewModeButtonSkipsTheColumnsModeTakenOut();
@@ -81,6 +80,7 @@ private Q_SLOTS:
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
     void testAFolderOpenedAsAColumnKeepsTheColumnsView();
+    void testEachViewModeKeepsItsOwnZoomLevel();
     void testOnlyAnExternalUrlChangeClosesColumns();
     void testGoingUpInColumnsStaysUp();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
@@ -385,64 +385,6 @@ void DolphinViewContainerTest::testTabUrlFollowsColumnsViewAfterSwap()
     QCOMPARE(urlSpy.last().first().toUrl().adjusted(QUrl::StripTrailingSlash).fileName(), QStringLiteral("subdir"));
 }
 
-void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
-{
-    // With a common display style for all folders, every view mode shows the icon size it is
-    // configured with, so a mode shows its own size again each time it comes back.
-    GeneralSettings::setGlobalViewProps(true);
-
-    auto *icons = IconsModeSettings::self();
-    auto *details = DetailsModeSettings::self();
-    auto *columns = ColumnsModeSettings::self();
-    const int savedIconsIcon = icons->iconSize();
-    const int savedIconsPreview = icons->previewSize();
-    const int savedDetailsIcon = details->iconSize();
-    const int savedDetailsPreview = details->previewSize();
-    const int savedColumnsIcon = columns->iconSize();
-    const int savedColumnsPreview = columns->previewSize();
-    auto restore = qScopeGuard([&]() {
-        GeneralSettings::setGlobalViewProps(false);
-        icons->setIconSize(savedIconsIcon);
-        icons->setPreviewSize(savedIconsPreview);
-        details->setIconSize(savedDetailsIcon);
-        details->setPreviewSize(savedDetailsPreview);
-        columns->setIconSize(savedColumnsIcon);
-        columns->setPreviewSize(savedColumnsPreview);
-    });
-
-    const int iconsLevel = ZoomLevelInfo::minimumLevel();
-    const int detailsLevel = ZoomLevelInfo::minimumLevel() + 2;
-    const int columnsLevel = ZoomLevelInfo::minimumLevel() + 4;
-    QVERIFY(columnsLevel <= ZoomLevelInfo::maximumLevel());
-    const auto setSize = [](auto *settings, int level) {
-        const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        settings->setIconSize(size);
-        settings->setPreviewSize(size);
-        settings->save();
-    };
-    setSize(icons, iconsLevel);
-    setSize(details, detailsLevel);
-    setSize(columns, columnsLevel);
-
-    // The container starts in Icons mode, and a view only picks up a size that changed in the
-    // settings when it is asked to read them, so every size below is checked after a switch.
-    m_container->setViewMode(DolphinView::DetailsView);
-    waitForViewReady();
-    QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
-
-    m_container->setViewMode(DolphinView::ColumnsView);
-    waitForViewReady();
-    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
-
-    m_container->setViewMode(DolphinView::IconsView);
-    waitForViewReady();
-    QCOMPARE(m_container->view()->zoomLevel(), iconsLevel);
-
-    m_container->setViewMode(DolphinView::ColumnsView);
-    waitForViewReady();
-    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
-}
-
 void DolphinViewContainerTest::testSwapCarriesTheNameFilter()
 {
     // The filter bar is not touched by a swap, so the replacement view has to apply the filter
@@ -682,6 +624,34 @@ void DolphinViewContainerTest::testGoingUpInColumnsStaysUp()
     QCOMPARE(columnsView->columnCount(), columnCount - 1);
 }
 
+/**
+ * A view that cannot show columns takes the Columns mode out. The view mode button then goes from
+ * Details back to Icons, and the Columns action is in no menu.
+ */
+void DolphinViewContainerTest::testTheViewModeButtonSkipsTheColumnsModeTakenOut()
+{
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+
+    KActionCollection actions(this);
+    DolphinViewActionHandler handler(&actions, nullptr, this);
+    handler.setCurrentView(m_container->view());
+    handler.updateViewActions();
+    QSignalSpy requested(&handler, &DolphinViewActionHandler::viewModeChangeRequested);
+
+    actions.action(QStringLiteral("view_mode"))->trigger();
+    QCOMPARE(requested.count(), 1);
+    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::ColumnsView);
+
+    handler.updateViewActions();
+    handler.removeColumnsMode();
+    actions.action(QStringLiteral("view_mode"))->trigger();
+    QCOMPARE(requested.count(), 1);
+    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::IconsView);
+    QVERIFY(!actions.action(QStringLiteral("columns"))->isVisible());
+    QVERIFY(!actions.action(QStringLiteral("columns"))->isEnabled());
+}
+
 void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderSwitchesToItsMode()
 {
     // With view properties per folder, a folder saved with another mode opens in that mode, also
@@ -735,32 +705,62 @@ void DolphinViewContainerTest::testAFolderOpenedAsAColumnKeepsTheColumnsView()
     QCOMPARE(ViewProperties(iconsChildUrl).viewMode(), DolphinView::IconsView);
 }
 
-/**
- * A view that cannot show columns takes the Columns mode out. The view mode button then goes from
- * Details back to Icons, and the Columns action is in no menu.
- */
-void DolphinViewContainerTest::testTheViewModeButtonSkipsTheColumnsModeTakenOut()
+void DolphinViewContainerTest::testEachViewModeKeepsItsOwnZoomLevel()
 {
+    // With a common display style for all folders, every view mode shows the icon size it is
+    // configured with, so a mode shows its own size again each time it comes back.
+    GeneralSettings::setGlobalViewProps(true);
+
+    auto *icons = IconsModeSettings::self();
+    auto *details = DetailsModeSettings::self();
+    auto *columns = ColumnsModeSettings::self();
+    const int savedIconsIcon = icons->iconSize();
+    const int savedIconsPreview = icons->previewSize();
+    const int savedDetailsIcon = details->iconSize();
+    const int savedDetailsPreview = details->previewSize();
+    const int savedColumnsIcon = columns->iconSize();
+    const int savedColumnsPreview = columns->previewSize();
+    auto restore = qScopeGuard([&]() {
+        GeneralSettings::setGlobalViewProps(false);
+        icons->setIconSize(savedIconsIcon);
+        icons->setPreviewSize(savedIconsPreview);
+        details->setIconSize(savedDetailsIcon);
+        details->setPreviewSize(savedDetailsPreview);
+        columns->setIconSize(savedColumnsIcon);
+        columns->setPreviewSize(savedColumnsPreview);
+    });
+
+    const int iconsLevel = ZoomLevelInfo::minimumLevel();
+    const int detailsLevel = ZoomLevelInfo::minimumLevel() + 2;
+    const int columnsLevel = ZoomLevelInfo::minimumLevel() + 4;
+    QVERIFY(columnsLevel <= ZoomLevelInfo::maximumLevel());
+    const auto setSize = [](auto *settings, int level) {
+        const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
+        settings->setIconSize(size);
+        settings->setPreviewSize(size);
+        settings->save();
+    };
+    setSize(icons, iconsLevel);
+    setSize(details, detailsLevel);
+    setSize(columns, columnsLevel);
+
+    // The container starts in Icons mode, and a view only picks up a size that changed in the
+    // settings when it is asked to read them, so every size below is checked after a switch.
     m_container->setViewMode(DolphinView::DetailsView);
     waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), detailsLevel);
 
-    KActionCollection actions(this);
-    DolphinViewActionHandler handler(&actions, nullptr, this);
-    handler.setCurrentView(m_container->view());
-    handler.updateViewActions();
-    QSignalSpy requested(&handler, &DolphinViewActionHandler::viewModeChangeRequested);
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
 
-    actions.action(QStringLiteral("view_mode"))->trigger();
-    QCOMPARE(requested.count(), 1);
-    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::ColumnsView);
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), iconsLevel);
 
-    handler.updateViewActions();
-    handler.removeColumnsMode();
-    actions.action(QStringLiteral("view_mode"))->trigger();
-    QCOMPARE(requested.count(), 1);
-    QCOMPARE(requested.takeFirst().at(0).value<DolphinView::Mode>(), DolphinView::IconsView);
-    QVERIFY(!actions.action(QStringLiteral("columns"))->isVisible());
-    QVERIFY(!actions.action(QStringLiteral("columns"))->isEnabled());
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    QCOMPARE(m_container->view()->zoomLevel(), columnsLevel);
 }
 
 /**

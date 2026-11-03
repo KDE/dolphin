@@ -150,21 +150,21 @@ private Q_SLOTS:
     void testDeletingAnOpenFolderOpensNoOther();
     void testAFileChangeOutsideDolphinOpensNothing();
     void testClosingTheActiveColumnReportsTheSelectionLeft();
-    void testTheColumnLeftActiveAfterAClosedOneStillWorks();
-    void testAFolderCreatedBeforeAColumnClickIsNotSelectedLater();
-    void testOnlyTheShownFolderReportsItsListingDone();
     void testSeveralSelectedItemsShowNoFolder();
     void testShiftArrowExtendsTheSelection();
     void testACreatedFolderIsSelected();
     void testItemsMarkedToSelectAreSelected();
     void testDeletingSelectsTheNextItem();
     void testEnteringAColumnShowsTheFirstFolder();
+    void testTheColumnLeftActiveAfterAClosedOneStillWorks();
+    void testAFolderCreatedBeforeAColumnClickIsNotSelectedLater();
+    void testOnlyTheShownFolderReportsItsListingDone();
     void testEveryFolderOnThePathIsMarkedInItsParent();
     void testSpaceIsAShortcutWhenAColumnHasTheFocus();
     void testActivatingAnotherColumnKeepsWhatTheUserWasDoing();
-    void testClosingColumnsLeavesTheScrollPositionAlone();
     void testShiftWheelScrollsTheColumns_data();
     void testShiftWheelScrollsTheColumns();
+    void testClosingColumnsLeavesTheScrollPositionAlone();
     void testAColumnWithNoWidthYetTakesUpNothing();
     void testOpeningAColumnLeavesTheOnesBeforeItAlone();
     void testTheFirstVisibleColumnIsShownWhole();
@@ -172,13 +172,13 @@ private Q_SLOTS:
     void testWideningTheWindowShowsTheParentColumns();
     void testALongNameDoesNotPushOtherColumnsOut();
     void testShortNamesGiveANarrowColumn();
-    void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
-    void testAColumnShowsItsNamesWhileTheColumnsFit();
     void testAPlaceIsTheFirstColumn();
     void testTheViewStateReopensTheColumns();
     void testTheViewStateKeepsTheUrlBeforeTheLastColumn();
-    void testAFolderThatCannotBeListedShowsAnError();
+    void testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames();
+    void testAColumnShowsItsNamesWhileTheColumnsFit();
     void testANewFirstColumnTakesTheWidthOfItsContent();
+    void testAFolderThatCannotBeListedShowsAnError();
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftCurrent();
     void testGoingUpShowsTheColumnOfTheUrl();
@@ -2213,47 +2213,6 @@ void DolphinColumnsViewTest::testClosingTheActiveColumnReportsTheSelectionLeft()
     disconnect(m_view, nullptr, this, nullptr);
 }
 
-void DolphinColumnsViewTest::testTheColumnLeftActiveAfterAClosedOneStillWorks()
-{
-    // The folder of the active column is deleted, and the column before it becomes active. A
-    // selection in that column is reported and opens the folder it selects, as in any active column.
-    QStringList reported;
-    connect(m_view, &DolphinView::selectionChanged, this, [&reported](const KFileItemList &selection) {
-        reported.clear();
-        for (const KFileItem &item : selection) {
-            reported << item.name();
-        }
-    });
-    activateColumn(0);
-    selectItemInColumn(0, QStringLiteral("beta"));
-    navigateRight();
-    QCOMPARE(m_view->activeColumnIndex(), 1);
-
-    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/beta")).removeRecursively());
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
-    QCOMPARE(m_view->activeColumnIndex(), 0);
-
-    selectItemInColumn(0, QStringLiteral("alpha"));
-    QTRY_COMPARE(reported, QStringList{QStringLiteral("alpha")});
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
-    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
-    disconnect(m_view, nullptr, this, nullptr);
-}
-
-void DolphinColumnsViewTest::testOnlyTheShownFolderReportsItsListingDone()
-{
-    // The status bar and the Stop action follow the listing of the folder that the view shows. A
-    // parent column that finishes listing first does not end the progress of that folder.
-    QSignalSpy viewDone(m_view, &DolphinView::directoryLoadingCompleted);
-    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
-    QCOMPARE(m_view->columnCount(), 3);
-    QSignalSpy parentDone(m_view->columnAt(1), &DolphinColumnPane::directoryLoadingCompleted);
-    QSignalSpy shownDone(m_view->columnAt(2), &DolphinColumnPane::directoryLoadingCompleted);
-
-    QTRY_VERIFY_WITH_TIMEOUT(parentDone.count() >= 1 && shownDone.count() >= 1, 5000);
-    QCOMPARE(viewDone.count(), 1);
-}
-
 void DolphinColumnsViewTest::testSeveralSelectedItemsShowNoFolder()
 {
     // A column with several selected items shows none of them, so the columns after
@@ -2355,34 +2314,6 @@ void DolphinColumnsViewTest::testACreatedFolderIsSelected()
     QTRY_COMPARE_WITH_TIMEOUT(m_view->columnAt(m_view->columnCount() - 1)->dirUrl(), createdUrl, 5000);
 }
 
-void DolphinColumnsViewTest::testAFolderCreatedBeforeAColumnClickIsNotSelectedLater()
-{
-    // A click in another column before the created folder is listed: the folder is not selected,
-    // neither then nor when an item of the same name appears in that column later.
-    m_view->setUrl(urlOf(QStringLiteral("alpha")));
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
-    selectItemInColumn(1, QStringLiteral("alpha-child"));
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
-
-    const QUrl createdUrl = urlOf(QStringLiteral("alpha/alpha-child/created"));
-    m_testDir->createDir("alpha/alpha-child/created");
-    QMetaObject::invokeMethod(m_view, "observeCreatedDirectory", Q_ARG(QUrl, createdUrl));
-    QCOMPARE(m_view->activeColumnIndex(), 2);
-    activateColumn(1);
-
-    auto *childPane = m_view->columnAt(2);
-    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
-    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
-
-    QVERIFY(QDir(createdUrl.toLocalFile()).removeRecursively());
-    QTRY_COMPARE_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")), -1, 10000);
-    activateColumn(2);
-    m_testDir->createDir("alpha/alpha-child/created");
-    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
-    QTest::qWait(100); // UNAVOIDABLE: checks that no selection is made after the insertion
-    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
-}
-
 void DolphinColumnsViewTest::testItemsMarkedToSelectAreSelected()
 {
     // "Show in folder" and dolphin --select mark the item before they set the url.
@@ -2422,6 +2353,75 @@ void DolphinColumnsViewTest::testDeletingSelectsTheNextItem()
     QTRY_VERIFY_WITH_TIMEOUT(indexOfName(alphaPane, deletedName) < 0, 10000);
     QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, nextName)), 5000);
     confirmations.deleteEntry("ConfirmDelete");
+}
+
+void DolphinColumnsViewTest::testTheColumnLeftActiveAfterAClosedOneStillWorks()
+{
+    // The folder of the active column is deleted, and the column before it becomes active. A
+    // selection in that column is reported and opens the folder it selects, as in any active column.
+    QStringList reported;
+    connect(m_view, &DolphinView::selectionChanged, this, [&reported](const KFileItemList &selection) {
+        reported.clear();
+        for (const KFileItem &item : selection) {
+            reported << item.name();
+        }
+    });
+    activateColumn(0);
+    selectItemInColumn(0, QStringLiteral("beta"));
+    navigateRight();
+    QCOMPARE(m_view->activeColumnIndex(), 1);
+
+    QVERIFY(QDir(m_testDir->path() + QStringLiteral("/beta")).removeRecursively());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 10000);
+    QCOMPARE(m_view->activeColumnIndex(), 0);
+
+    selectItemInColumn(0, QStringLiteral("alpha"));
+    QTRY_COMPARE(reported, QStringList{QStringLiteral("alpha")});
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->columnAt(1)->dirUrl(), urlOf(QStringLiteral("alpha")));
+    disconnect(m_view, nullptr, this, nullptr);
+}
+
+void DolphinColumnsViewTest::testOnlyTheShownFolderReportsItsListingDone()
+{
+    // The status bar and the Stop action follow the listing of the folder that the view shows. A
+    // parent column that finishes listing first does not end the progress of that folder.
+    QSignalSpy viewDone(m_view, &DolphinView::directoryLoadingCompleted);
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QCOMPARE(m_view->columnCount(), 3);
+    QSignalSpy parentDone(m_view->columnAt(1), &DolphinColumnPane::directoryLoadingCompleted);
+    QSignalSpy shownDone(m_view->columnAt(2), &DolphinColumnPane::directoryLoadingCompleted);
+
+    QTRY_VERIFY_WITH_TIMEOUT(parentDone.count() >= 1 && shownDone.count() >= 1, 5000);
+    QCOMPARE(viewDone.count(), 1);
+}
+
+void DolphinColumnsViewTest::testAFolderCreatedBeforeAColumnClickIsNotSelectedLater()
+{
+    // A click in another column before the created folder is listed: the folder is not selected,
+    // neither then nor when an item of the same name appears in that column later.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    selectItemInColumn(1, QStringLiteral("alpha-child"));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+
+    const QUrl createdUrl = urlOf(QStringLiteral("alpha/alpha-child/created"));
+    m_testDir->createDir("alpha/alpha-child/created");
+    QMetaObject::invokeMethod(m_view, "observeCreatedDirectory", Q_ARG(QUrl, createdUrl));
+    QCOMPARE(m_view->activeColumnIndex(), 2);
+    activateColumn(1);
+
+    auto *childPane = m_view->columnAt(2);
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
+    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
+
+    QVERIFY(QDir(createdUrl.toLocalFile()).removeRecursively());
+    QTRY_COMPARE_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")), -1, 10000);
+    activateColumn(2);
+    m_testDir->createDir("alpha/alpha-child/created");
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(childPane, QStringLiteral("created")) >= 0, 10000);
+    QTest::qWait(100); // UNAVOIDABLE: checks that no selection is made after the insertion
+    QVERIFY(childPane->controller()->selectionManager()->selectedItems().isEmpty());
 }
 
 void DolphinColumnsViewTest::testOpeningAColumnLeavesTheOnesBeforeItAlone()
@@ -2653,6 +2653,76 @@ void DolphinColumnsViewTest::testANewFirstColumnTakesTheWidthOfItsContent()
     QTRY_COMPARE_WITH_TIMEOUT(view.m_splitter->sizes().at(0), qMax(150, column->calculateOptimalWidth()), 5000);
 }
 
+void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames()
+{
+    // When the columns do not fit, a new column adjusted to its content stops at a quarter of the
+    // view, but not below the width of a fixed column. Below that, names that a fixed column shows in
+    // full were elided. The columns that had room for their names when they opened keep it.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    const QString longName = QStringLiteral("a-fairly-long-document-name-with-a-version-v3-final.odt");
+    m_testDir->createFile(QStringLiteral("names/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/") + longName);
+    m_testDir->createFile(QStringLiteral("names/more/deeper/") + longName);
+
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+
+    m_view->openChild(0, urlOf(QStringLiteral("names")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+
+    // The width of the long name depends on the font. The view holds the first column and two
+    // columns of the long name, and not a third.
+    const int nameWidth = m_view->columnAt(1)->calculateOptimalWidth();
+    const int viewportWidth = m_view->m_splitter->sizes().at(0) + 2 * nameWidth + nameWidth / 2;
+    m_view->resize(m_view->width() - m_view->m_scrollArea->viewport()->width() + viewportWidth, 400);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width(), viewportWidth, 5000);
+    QVERIFY(viewportWidth / settings->maxVisibleColumns() < settings->minColumnWidth());
+
+    m_view->openChild(1, urlOf(QStringLiteral("names/more")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("names/more/deeper")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+
+    for (int i = 1; i < 3; ++i) {
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(i), m_view->columnAt(i)->calculateOptimalWidth(), 5000);
+    }
+    QVERIFY(m_view->columnAt(3)->calculateOptimalWidth() > settings->minColumnWidth());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3), settings->minColumnWidth(), 5000);
+}
+
+void DolphinColumnsViewTest::testAColumnShowsItsNamesWhileTheColumnsFit()
+{
+    // A column takes the width of its longest name while there is room for it in the view, and keeps
+    // it when more columns open. A new column that finds no room stops at the cap.
+    auto *settings = ColumnsModeSettings::self();
+    QVERIFY(settings->dynamicColumnWidth());
+    const QString longName = QStringLiteral("A Material Analysis of Earthbag Housing - Nikul Vadgama - revised edition.pdf");
+    m_testDir->createFile(QStringLiteral("books/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/") + longName);
+    m_testDir->createFile(QStringLiteral("books/sub/deep/") + longName);
+
+    m_view->resize(1600, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
+    const int maxVisible = settings->maxVisibleColumns();
+    const int cap = qMax(settings->minColumnWidth(), (viewportWidth - (maxVisible - 1) * m_view->m_splitter->handleWidth()) / maxVisible);
+
+    m_view->openChild(0, urlOf(QStringLiteral("books")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    DolphinColumnPane *books = m_view->columnAt(1);
+    QVERIFY(books->calculateOptimalWidth() > cap);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth(), 5000);
+
+    m_view->openChild(1, urlOf(QStringLiteral("books/sub")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("books/sub/deep")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
+    QCOMPARE(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3), cap, 5000);
+}
+
 void DolphinColumnsViewTest::testAFolderThatCannotBeListedShowsAnError()
 {
     // Like the other view modes, the view reports the error of the folder it shows, for the
@@ -2756,76 +2826,6 @@ void DolphinColumnsViewTest::testAPlaceIsTheFirstColumn()
     QCOMPARE(m_view->columnCount(), 1);
     QCOMPARE(m_view->columnAt(0)->dirUrl(), alphaChild);
     QCOMPARE(m_view->url(), alphaChild);
-}
-
-void DolphinColumnsViewTest::testASmallWindowKeepsTheWidthOfAFixedColumnForLongNames()
-{
-    // When the columns do not fit, a new column adjusted to its content stops at a quarter of the
-    // view, but not below the width of a fixed column. Below that, names that a fixed column shows in
-    // full were elided. The columns that had room for their names when they opened keep it.
-    auto *settings = ColumnsModeSettings::self();
-    QVERIFY(settings->dynamicColumnWidth());
-    const QString longName = QStringLiteral("a-fairly-long-document-name-with-a-version-v3-final.odt");
-    m_testDir->createFile(QStringLiteral("names/") + longName);
-    m_testDir->createFile(QStringLiteral("names/more/") + longName);
-    m_testDir->createFile(QStringLiteral("names/more/deeper/") + longName);
-
-    m_view->resize(1000, 400);
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
-
-    m_view->openChild(0, urlOf(QStringLiteral("names")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
-
-    // The width of the long name depends on the font. The view holds the first column and two
-    // columns of the long name, and not a third.
-    const int nameWidth = m_view->columnAt(1)->calculateOptimalWidth();
-    const int viewportWidth = m_view->m_splitter->sizes().at(0) + 2 * nameWidth + nameWidth / 2;
-    m_view->resize(m_view->width() - m_view->m_scrollArea->viewport()->width() + viewportWidth, 400);
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width(), viewportWidth, 5000);
-    QVERIFY(viewportWidth / settings->maxVisibleColumns() < settings->minColumnWidth());
-
-    m_view->openChild(1, urlOf(QStringLiteral("names/more")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
-    m_view->openChild(2, urlOf(QStringLiteral("names/more/deeper")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
-
-    for (int i = 1; i < 3; ++i) {
-        QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(i), m_view->columnAt(i)->calculateOptimalWidth(), 5000);
-    }
-    QVERIFY(m_view->columnAt(3)->calculateOptimalWidth() > settings->minColumnWidth());
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3), settings->minColumnWidth(), 5000);
-}
-
-void DolphinColumnsViewTest::testAColumnShowsItsNamesWhileTheColumnsFit()
-{
-    // A column takes the width of its longest name while there is room for it in the view, and keeps
-    // it when more columns open. A new column that finds no room stops at the cap.
-    auto *settings = ColumnsModeSettings::self();
-    QVERIFY(settings->dynamicColumnWidth());
-    const QString longName = QStringLiteral("A Material Analysis of Earthbag Housing - Nikul Vadgama - revised edition.pdf");
-    m_testDir->createFile(QStringLiteral("books/") + longName);
-    m_testDir->createFile(QStringLiteral("books/sub/") + longName);
-    m_testDir->createFile(QStringLiteral("books/sub/deep/") + longName);
-
-    m_view->resize(1600, 400);
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
-    const int viewportWidth = m_view->m_scrollArea->viewport()->width();
-    const int maxVisible = settings->maxVisibleColumns();
-    const int cap = qMax(settings->minColumnWidth(), (viewportWidth - (maxVisible - 1) * m_view->m_splitter->handleWidth()) / maxVisible);
-
-    m_view->openChild(0, urlOf(QStringLiteral("books")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
-    DolphinColumnPane *books = m_view->columnAt(1);
-    QVERIFY(books->calculateOptimalWidth() > cap);
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth(), 5000);
-
-    m_view->openChild(1, urlOf(QStringLiteral("books/sub")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
-    m_view->openChild(2, urlOf(QStringLiteral("books/sub/deep")));
-    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
-    QTest::qWait(200); // UNAVOIDABLE: the relayout is posted with a zero timer and emits no signal
-    QCOMPARE(m_view->m_splitter->sizes().at(1), books->calculateOptimalWidth());
-    QTRY_COMPARE_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3), cap, 5000);
 }
 
 void DolphinColumnsViewTest::testChangingTheUrlLeavesTheFocusOutsideTheView()
