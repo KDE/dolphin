@@ -300,7 +300,8 @@ private:
 
     QHash<QByteArray, KToggleAction *> m_sortByActions;
     QHash<QByteArray, KToggleAction *> m_visibleRoles;
-    QHash<QByteArray, KToggleAction *> m_groupByActions;
+    // A role can appear in multiple submenus
+    QMultiHash<QByteArray, KToggleAction *> m_groupByActions;
     /// The sort, group and visible role actions of the roles with requiresIndexer set.
     QList<QAction *> m_indexerRoleActions;
 };
