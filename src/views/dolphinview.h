@@ -810,6 +810,9 @@ protected:
     /** Updates the url without loading it, for a subclass that loads its own folders. */
     void updateUrl(const QUrl &url);
 
+    /** Emits errorMessage() for an empty or invalid @p url, and returns whether @p url is valid. */
+    bool reportInvalidUrl(const QUrl &url);
+
     /**
      * Changes the view mode for the current directory to \a mode. If the view
      * properties should be remembered for each directory

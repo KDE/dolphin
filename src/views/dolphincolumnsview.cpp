@@ -137,6 +137,11 @@ void DolphinColumnsView::setUrl(const QUrl &url)
     if (url == this->url()) {
         return;
     }
+    // The columns stay as they are, with the error message of the other view modes.
+    if (!reportInvalidUrl(url)) {
+        return;
+    }
+    hideToolTip();
 
     updateUrl(url);
     {
