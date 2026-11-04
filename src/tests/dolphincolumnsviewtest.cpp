@@ -186,6 +186,9 @@ private Q_SLOTS:
     void testGroupingAndSortingApplyToEveryColumn();
     void testClickingEmptySpaceClosesTheColumnsAfterIt();
     void testAColumnThatWaitedForItsWidthKeepsItsMinimum();
+    void testAnotherFolderOpensWithTheSettingsChangedInAColumn();
+    void testTheSortSettingsReachEveryColumn();
+    void testTheItemCountFollowsTheActiveColumn();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
 
@@ -3234,6 +3237,77 @@ void DolphinColumnsViewTest::testDoubleClickRightOfTheLastColumnKeepsItInView()
     QWidget *viewport = m_view->m_scrollArea->viewport();
     QTRY_COMPARE_WITH_TIMEOUT(splitter->sizes().at(2), last->calculateOptimalWidth(), 5000);
     QTRY_COMPARE_WITH_TIMEOUT(last->mapTo(viewport, QPoint(last->width(), 0)).x(), viewport->width(), 5000);
+}
+
+void DolphinColumnsViewTest::testAnotherFolderOpensWithTheSettingsChangedInAColumn()
+{
+    // The settings changed while a column is active apply to a folder outside the open columns
+    // opened after, which replaces every column.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    m_view->setHiddenFilesShown(true);
+    m_view->setSortOrder(Qt::DescendingOrder);
+    m_view->setGroupedSorting(true);
+
+    TestDir otherDir;
+    otherDir.createFile("other-file.txt");
+    m_view->setUrl(otherDir.url());
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+    QCOMPARE(m_view->columnAt(0)->dirUrl().adjusted(QUrl::StripTrailingSlash), otherDir.url().adjusted(QUrl::StripTrailingSlash));
+
+    KFileItemModel *model = m_view->columnAt(0)->model();
+    QVERIFY(model->showHiddenFiles());
+    QCOMPARE(model->sortOrder(), Qt::DescendingOrder);
+    QVERIFY(model->groupedSorting());
+    QVERIFY(m_view->hiddenFilesShown());
+    QCOMPARE(m_view->sortOrder(), Qt::DescendingOrder);
+    QVERIFY(m_view->groupedSorting());
+}
+
+void DolphinColumnsViewTest::testTheSortSettingsReachEveryColumn()
+{
+    // Folders first and hidden files last sort every column the same way, the columns open and
+    // the columns opened after the change.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    QVERIFY(m_view->sortFoldersFirst());
+    QVERIFY(!m_view->sortHiddenLast());
+
+    m_view->setSortFoldersFirst(false);
+    m_view->setSortHiddenLast(true);
+    for (int i = 0; i < m_view->columnCount(); ++i) {
+        QVERIFY2(!m_view->columnAt(i)->model()->sortDirectoriesFirst(), qPrintable(QString::number(i)));
+        QVERIFY2(m_view->columnAt(i)->model()->sortHiddenLast(), qPrintable(QString::number(i)));
+    }
+
+    m_view->setUrl(urlOf(QStringLiteral("alpha/alpha-child")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 3, 5000);
+    QVERIFY(!m_view->columnAt(2)->model()->sortDirectoriesFirst());
+    QVERIFY(m_view->columnAt(2)->model()->sortHiddenLast());
+}
+
+void DolphinColumnsViewTest::testTheItemCountFollowsTheActiveColumn()
+{
+    // The status bar counts the items of the active column. A file that appears in its folder, or
+    // leaves it, updates the count. A change in another column does not.
+    m_view->setUrl(urlOf(QStringLiteral("alpha")));
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    activateColumn(1);
+    QSignalSpy itemCountChanged(m_view, &DolphinView::itemCountChanged);
+
+    m_testDir->createFile("alpha/new-file.txt");
+    QTRY_VERIFY_WITH_TIMEOUT(itemCountChanged.count() > 0, 5000);
+
+    itemCountChanged.clear();
+    m_testDir->removeFile(QStringLiteral("alpha/new-file.txt"));
+    QTRY_VERIFY_WITH_TIMEOUT(itemCountChanged.count() > 0, 5000);
+
+    itemCountChanged.clear();
+    m_testDir->createFile("beta/another-file.txt");
+    QTest::qWait(500); // UNAVOIDABLE: nothing is expected to happen
+    QCOMPARE(itemCountChanged.count(), 0);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
