@@ -105,7 +105,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
             secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
         }
         m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
-        connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
         m_navigatorsWidget->setSecondaryNavigatorVisible(true);
         m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, m_secondaryViewContainer);
 
@@ -124,7 +123,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
     } else {
         m_navigatorsWidget->setSecondaryNavigatorVisible(false);
         m_secondaryViewContainer->disconnectUrlNavigator();
-        disconnect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
 
         DolphinViewContainer *view;
 
