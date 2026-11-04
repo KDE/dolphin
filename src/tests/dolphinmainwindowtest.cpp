@@ -1420,6 +1420,8 @@ void DolphinMainWindowTest::testOpenFilesInColumns()
 void DolphinMainWindowTest::testAccessibilityTree()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    // Wide enough for every button of the main toolbar, whatever the size of the screen.
+    m_mainWindow->resize(1200, 600);
     m_mainWindow->show();
 #ifdef Q_OS_WIN
     if (!QTest::qWaitForWindowExposed(m_mainWindow.data())) {
@@ -1481,8 +1483,14 @@ void DolphinMainWindowTest::testAccessibilityTree()
             QAccessibleInterface *accessibleInterface = QAccessible::queryAccessibleInterface(currentlyFocusedObject);
             // The accessibleInterfaces of focused objects might themselves have children.
             // We go down that hierarchy as far as possible and then test the ancestor tree from there.
+            // The menu of a tool button is a window of its own, with the application as its parent.
             while (accessibleInterface->childCount() > 0) {
-                accessibleInterface = accessibleInterface->child(0);
+                QAccessibleInterface *child = accessibleInterface->child(0);
+                const auto *childWidget = qobject_cast<const QWidget *>(child->object());
+                if (childWidget && childWidget->isWindow()) {
+                    break;
+                }
+                accessibleInterface = child;
             }
             while (accessibleInterface != accessibleInterfaceOfMainWindow) {
                 QVERIFY2(accessibleInterface,
