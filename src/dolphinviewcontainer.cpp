@@ -213,6 +213,11 @@ void DolphinViewContainer::connectViewSignals()
     connect(m_view, &DolphinView::directoryLoadingCanceled, this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
     connect(m_view, &DolphinView::itemCountChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
     connect(m_view, &DolphinView::selectionChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
+        if (m_selectionModeBottomBar) {
+            m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
+        }
+    });
     connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::slotErrorMessageFromView);
     connect(m_view, &DolphinView::urlIsFileError, this, &DolphinViewContainer::slotUrlIsFileError);
     connect(m_view, &DolphinView::activated, this, &DolphinViewContainer::activate);
@@ -244,6 +249,7 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     // A swap while navigating has the navigator on the new folder, and the old view still on the last one.
     const QUrl savedUrl = m_urlNavigator->locationUrl();
     const bool wasActive = oldView->isActive();
+    const bool hadFocus = wasActive && oldView->isAncestorOf(QApplication::focusWidget());
 
     // The url navigator is connected to the view, so it is connected again to the new one.
     DolphinUrlNavigator *connectedNavigator = m_urlNavigatorConnected;
@@ -279,6 +285,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
 
     // A new view starts active, which is wrong in an inactive split pane.
     m_view->setActive(wasActive);
+    // A new view starts active, so setActive() does not move the focus to it.
+    if (hadFocus) {
+        m_view->setFocus();
+    }
 
     // The old view lives on until its drag ends; blocking its signals cuts the connections
     // made by this container, the main window, the tab page and the admin bar.
@@ -533,9 +543,6 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
 
     if (!m_selectionModeBottomBar) {
         m_selectionModeBottomBar = new SelectionMode::BottomBar(actionCollection, this);
-        connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
-            m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
-        });
         connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::error, this, &DolphinViewContainer::showErrorMessage);
         connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::selectionModeLeavingRequested, this, [this]() {
             setSelectionModeEnabled(false);
