@@ -269,6 +269,8 @@ void DolphinColumnsViewTest::resetSettings()
         settings->setDefaults();
         settings->save();
     }
+    // A sort or group role set on the view is saved to the global view properties.
+    QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties")).removeRecursively();
 }
 
 int DolphinColumnsViewTest::indexOfName(const DolphinColumnPane *pane, const QString &name)
