@@ -2471,6 +2471,8 @@ QString KFileItemModel::groupKeyForItem(const ItemData *item, const QByteArray &
         return QDateTime::fromSecsSinceEpoch(item->values.value(role).toLongLong()).date().toString(Qt::ISODate);
     case DeletionTimeRole:
         return item->values.value("deletiontime").toDateTime().date().toString(Qt::ISODate);
+    case PermissionsRole:
+        return item->item.permissionsString();
     case RatingRole:
         return QString::number(item->values.value(role, 0).toInt());
     default:
@@ -2680,6 +2682,10 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         }
         break;
     }
+
+    case PermissionsRole:
+        result = QString::compare(itemA.permissionsString(), itemB.permissionsString());
+        break;
 
     case RatingRole:
     case WidthRole:
@@ -3116,7 +3122,7 @@ QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
         }
 
         const ItemData *itemData = m_itemData.at(i);
-        const QString newPermissionsString = itemData->values.value("permissions").toString();
+        const QString newPermissionsString = itemData->item.permissionsString();
         if (newPermissionsString == permissionsString) {
             continue;
         }
