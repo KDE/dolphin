@@ -819,6 +819,22 @@ DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
             Q_EMIT errorMessage(message, kioErrorCode);
         }
     });
+    connect(model, &KFileItemModel::urlIsFileError, this, [this, showsTheViewUrl](const QUrl &fileUrl) {
+        if (showsTheViewUrl()) {
+            Q_EMIT urlIsFileError(fileUrl);
+        }
+    });
+    connect(model, &KFileItemModel::currentDirectoryRemoved, this, [this, showsTheViewUrl]() {
+        if (showsTheViewUrl()) {
+            Q_EMIT currentDirectoryRemoved();
+        }
+    });
+    connect(model, &KFileItemModel::directoryRedirection, this, [this](const QUrl &oldUrl, const QUrl &newUrl) {
+        if (oldUrl.matches(url(), QUrl::StripTrailingSlash)) {
+            updateUrl(newUrl);
+            Q_EMIT redirection(oldUrl, newUrl);
+        }
+    });
     model->loadDirectory(dirUrl);
 
     connect(pane, &DolphinColumnPane::fileActivated, this, &DolphinColumnsView::slotFileActivated);
