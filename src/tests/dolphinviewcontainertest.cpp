@@ -76,6 +76,7 @@ private Q_SLOTS:
     void testTheViewModeButtonSkipsTheColumnsModeTakenOut();
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
+    void testSwapKeepsTheKeyboardFocusInTheView();
     void testSwapCarriesTheViewPropertiesContext();
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
@@ -465,6 +466,23 @@ void DolphinViewContainerTest::testSwapCarriesTheSelectionMode()
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()) != nullptr);
 
     QCOMPARE(m_container->view()->selectionMode(), true);
+}
+
+void DolphinViewContainerTest::testSwapKeepsTheKeyboardFocusInTheView()
+{
+    // The keys go to the view after a switch to and from the columns view, as they do after a
+    // switch between the other modes.
+    m_container->activateWindow();
+    QVERIFY(QTest::qWaitForWindowActive(m_container));
+
+    for (const DolphinView::Mode mode : {DolphinView::ColumnsView, DolphinView::IconsView, DolphinView::ColumnsView, DolphinView::DetailsView}) {
+        m_container->view()->setFocus();
+        QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->isAncestorOf(QApplication::focusWidget()), 5000);
+
+        m_container->setViewMode(mode);
+        waitForViewReady();
+        QTRY_VERIFY2_WITH_TIMEOUT(m_container->view()->isAncestorOf(QApplication::focusWidget()), qPrintable(QString::number(mode)), 5000);
+    }
 }
 
 void DolphinViewContainerTest::testSwapCarriesTheViewPropertiesContext()
