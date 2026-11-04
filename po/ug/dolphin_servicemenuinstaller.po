@@ -8,97 +8,97 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-09 00:48+0000\n"
-"PO-Revision-Date: 2026-09-23 06:56+0900\n"
+"PO-Revision-Date: 2026-11-02 09:27-0500\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.10\n"
 
 #: servicemenuinstaller.cpp:46
 #, kde-format
 msgid "Dolphin service menu installation failed"
-msgstr ""
+msgstr "Dolphin مۇلازىمەت تىزىملىكىنى ئورنىتالمىدى"
 
 #: servicemenuinstaller.cpp:73
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "«%1» نى ئورنىتالمىدى، چېكىنىش ھالىتى «%2»"
 
 #: servicemenuinstaller.cpp:102
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "«%1» نى سۆكەلمىدى، چېكىنىش ھالىتى «%2»"
 
 #: servicemenuinstaller.cpp:114
 #, kde-format
 msgid "The file does not exist!"
-msgstr ""
+msgstr "ھۆججەت مەۋجۇت ئەمەس!"
 
 #: servicemenuinstaller.cpp:123
 #, kde-format
 msgid "Unknown error when installing package"
-msgstr ""
+msgstr "بوغچا ئورنىتىۋاتقاندا يوچۇن خاتالىق كۆرۈلدى"
 
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Unsupported archive type %1: %2"
-msgstr ""
+msgstr "قوللىمايدىغان ئارخىپ تۈرى %1: %2"
 
 #: servicemenuinstaller.cpp:195
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr ""
+msgstr "%1 نىڭ ئۈچۈن يېشىش بۇيرۇقىنى ئىجرا قىلالمىدى"
 
 #: servicemenuinstaller.cpp:199
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
-msgstr ""
+msgstr "جەريان مۇۋاپىق ۋاقىتتا تاماملانمىدى: %1 %2"
 
 #: servicemenuinstaller.cpp:203
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr ""
+msgstr "%1‎‏ نى يېشەلمىدى"
 
 #: servicemenuinstaller.cpp:240
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr ""
+msgstr "ئورناتقۇچ قوليازمىسى %1 نى ئىجرا قىلالمىدى"
 
 #: servicemenuinstaller.cpp:263
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr ""
+msgstr "%1 نىڭ ئىجازىتىنى تەڭشىيەلمىدى: %2"
 
 #: servicemenuinstaller.cpp:279
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
-msgstr ""
+msgstr "%1 ئورناتقۇچ قوليازمىسى مەغلۇپ بولدى، سىنىغان ئۆزگەرگۈچى «%2»."
 
 #: servicemenuinstaller.cpp:281
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
-msgstr ""
+msgstr "«، »"
 
 #: servicemenuinstaller.cpp:295
 #, kde-format
 msgid "Failed to create path %1"
-msgstr ""
+msgstr "%1 يولنى قۇرالمىدى"
 
 #: servicemenuinstaller.cpp:309
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr ""
+msgstr "مەزكۇر .desktop ھۆججىتى %1 نى %2 غا كۆچۈرەلمىدى: %3"
 
 #: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr ""
+msgstr "%1 مۇندەرىجىنى چىقىرىۋېتەلمىدى"
 
 #: servicemenuinstaller.cpp:327
 #, kde-format
@@ -108,41 +108,41 @@ msgstr "%1 مۇندەرىجە قۇرالمىدى"
 #: servicemenuinstaller.cpp:366
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr ""
+msgstr "%1 دىكى ئورنىتىش قوليازمىسىنى ئىزدىيەلمىدى"
 
 #: servicemenuinstaller.cpp:380
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr ""
+msgstr "مەزكۇر .desktop ھۆججىتى %1 نى چىقىرىۋېتەلمىدى:%2"
 
 #: servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr ""
+msgstr "%1 دىكى سۆكۈش قوليازمىسىنى ئىزدىيەلمىدى"
 
 #: servicemenuinstaller.cpp:442
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
-msgstr ""
+msgstr "ئىجرا قىلىدىغان بۇيرۇق: ئورنات ياكى سۆك."
 
 #: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
-msgstr ""
+msgstr "ئارخىپلاش يولى."
 
 #: servicemenuinstaller.cpp:448
 #, kde-format
 msgid "Command is required."
-msgstr ""
+msgstr "بۇيرۇق زۆرۈر."
 
 #: servicemenuinstaller.cpp:451
 #, kde-format
 msgid "Path to archive is required."
-msgstr ""
+msgstr "ئارخىپلاش يولىنى تولدۇرۇش زۆرۈر."
 
 #: servicemenuinstaller.cpp:467
 #, kde-format
 msgid "Unsupported command %1"
-msgstr ""
+msgstr "قوللىمايدىغان بۇيرۇق %1"

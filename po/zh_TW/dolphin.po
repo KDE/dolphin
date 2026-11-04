@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-02 00:58+0000\n"
-"PO-Revision-Date: 2026-10-01 01:04+0900\n"
+"POT-Creation-Date: 2026-11-04 01:06+0000\n"
+"PO-Revision-Date: 2026-11-03 20:52+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -711,24 +711,18 @@ msgstr ""
 "擊此按鈕來關閉其中一個檢視。"
 
 #: dolphinmainwindow.cpp:2062
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "分割檢視"
+msgstr "分割檢視為分頁"
 
 #: dolphinmainwindow.cpp:2063
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
-msgstr "如果處於分割檢視模式，這會將聚焦的檢視彈出成為新視窗。"
+msgstr "如果處於分割檢視模式，這會將兩側檢視移為個別分頁並結束分割檢視。"
 
 #: dolphinmainwindow.cpp:2070
 #, kde-kuit-format
@@ -1902,15 +1896,13 @@ msgstr "分離分頁"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "取消釘選分頁"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "前一分頁"
+msgstr "釘選分頁"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2534,7 +2526,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
-msgstr ""
+msgstr "檔案搜尋已停用。請在系統設定開啟檔案搜尋功能來檢視此資訊。"
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2542,15 +2534,13 @@ msgctxt "@info:tooltip"
 msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
-msgstr ""
+msgstr "檔案搜尋只有索引檔案名稱。請在系統設定啟用檔案內容索引來檢視此資訊。"
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "您無法寫入此資料夾。"
+msgstr "這個資料夾沒有被檔案搜尋功能所索引。"
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2559,6 +2549,7 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"此資訊來自檔案搜尋功能，但目前執行的 Dolphin 版本編譯時沒有包含此功能。"
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
@@ -3249,7 +3240,7 @@ msgstr "文件"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -3413,13 +3404,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "簡明日期"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "選擇哪些資料要被顯示出來："
 
-#: panels/information/informationpanelcontent.cpp:319
+#: panels/information/informationpanelcontent.cpp:316
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -4849,7 +4840,7 @@ msgstr "文字寬度索引"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "將項目放得更靠近"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5246,11 +5237,10 @@ msgid "Information Panel:"
 msgstr "資訊面板："
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "若位於家目錄內，則資料夾面板只顯示到家目錄"
+msgstr "在家目錄裡時限制於家目錄內"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5258,7 +5248,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
-msgstr ""
+msgstr "您位於家資料夾當中時讓資料夾面板的資料夾樹從家目錄開始。"
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5270,14 +5260,15 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>啟用此選項而目前資料夾位於家資料夾內時，資料夾面板只會顯示您的家資料夾"
+"與其中的資料夾。根資料夾與其他磁碟則不會顯示在資料夾面板。</para><para>當您在"
+"家資料夾外面時，資料夾面板則會從根資料夾開始顯示所有資料夾。</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "資料夾："
+msgstr "資料夾面板："
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5844,26 +5835,22 @@ msgid "Maximum lines:"
 msgstr "最大行數："
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
-msgstr "簡潔模式"
+msgstr "簡潔"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "將項目放得更靠近，讓一列能有更多項目。"
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "搜尋使用："
+msgstr "間距："
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format

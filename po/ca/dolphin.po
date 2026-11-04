@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-02 00:58+0000\n"
-"PO-Revision-Date: 2026-10-31 10:04+0100\n"
+"POT-Creation-Date: 2026-11-04 01:06+0000\n"
+"PO-Revision-Date: 2026-11-03 13:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2010,15 +2010,13 @@ msgstr "Separa la pestanya"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Deixa de fixar la pestanya"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Pestanya anterior"
+msgstr "Fixa la pestanya"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -3563,13 +3561,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Data condensada"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Seleccioneu les dades que s'han de mostrar:"
 
-#: panels/information/informationpanelcontent.cpp:319
+#: panels/information/informationpanelcontent.cpp:316
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -4592,7 +4590,7 @@ msgstr "Ressalta la fila sencera"
 #: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Expandable folders"
-msgstr "Carpetes expansibles"
+msgstr "Carpetes ampliables"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
