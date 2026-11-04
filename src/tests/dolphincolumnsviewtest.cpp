@@ -191,6 +191,7 @@ private Q_SLOTS:
     void testTheItemCountFollowsTheActiveColumn();
     void testReadingSettingsKeepsTheColumnsMode();
     void testTheDetailsSettingsDoNotReachTheColumns();
+    void testAnInvalidUrlKeepsTheColumnsWithAnError();
 
     void testAnArchiveOpensAsAFolder();
     void testEscape_clearsSelection();
@@ -3308,6 +3309,22 @@ void DolphinColumnsViewTest::testTheItemCountFollowsTheActiveColumn()
     m_testDir->createFile("beta/another-file.txt");
     QTest::qWait(500); // UNAVOIDABLE: nothing is expected to happen
     QCOMPARE(itemCountChanged.count(), 0);
+}
+
+void DolphinColumnsViewTest::testAnInvalidUrlKeepsTheColumnsWithAnError()
+{
+    // An empty location reports the error of the other view modes, and the columns stay.
+    const QUrl alpha = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/alpha"));
+    m_view->setUrl(alpha);
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QSignalSpy errorMessage(m_view, &DolphinView::errorMessage);
+
+    m_view->setUrl(QUrl());
+
+    QCOMPARE(errorMessage.count(), 1);
+    QCOMPARE(errorMessage.first().first().toString(), QStringLiteral("The location is empty."));
+    QCOMPARE(m_view->columnCount(), 2);
+    QCOMPARE(m_view->url(), alpha);
 }
 
 QTEST_MAIN(DolphinColumnsViewTest)
