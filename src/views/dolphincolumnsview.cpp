@@ -109,6 +109,12 @@ void DolphinColumnsView::initColumnsUi()
     connect(this, &DolphinView::sortOrderChanged, this, [this] {
         syncColumnsFromViewProperties();
     });
+    connect(this, &DolphinView::sortFoldersFirstChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
+    connect(this, &DolphinView::sortHiddenLastChanged, this, [this] {
+        syncColumnsFromViewProperties();
+    });
     connect(this, &DolphinView::groupedSortingChanged, this, [this] {
         syncColumnsFromViewProperties();
     });
@@ -372,6 +378,8 @@ void DolphinColumnsView::syncColumnsFromViewProperties()
         pane->setPreviewsShown(previewsShown());
         applyViewProperties(pane->model());
     }
+    // The getters read the base model while no column is active, and a new column starts from them.
+    applyViewProperties(m_baseModel);
 }
 
 void DolphinColumnsView::applyViewProperties(KFileItemModel *model) const
@@ -379,6 +387,8 @@ void DolphinColumnsView::applyViewProperties(KFileItemModel *model) const
     model->setShowHiddenFiles(hiddenFilesShown());
     model->setSortRole(sortRole());
     model->setSortOrder(sortOrder());
+    model->setSortDirectoriesFirst(sortFoldersFirst());
+    model->setSortHiddenLast(sortHiddenLast());
     model->setGroupedSorting(groupedSorting());
     model->setGroupRole(rawGroupRole());
 }
@@ -1606,6 +1616,9 @@ void DolphinColumnsView::connectActivePane(DolphinColumnPane *newPane)
                                            &KItemListSelectionManager::selectionChanged,
                                            this,
                                            &DolphinColumnsView::slotActiveSelectionChanged));
+    // The status bar counts the items of the active column.
+    m_activePaneConnections.append(connect(newPane->model(), &KFileItemModel::itemsInserted, this, &DolphinView::itemCountChanged));
+    m_activePaneConnections.append(connect(newPane->model(), &KFileItemModel::itemsRemoved, this, &DolphinView::itemCountChanged));
 }
 
 void DolphinColumnsView::slotActiveSelectionChanged(const KItemSet &current)
