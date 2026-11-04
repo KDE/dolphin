@@ -87,6 +87,7 @@ private Q_SLOTS:
     void testEachViewModeKeepsItsOwnZoomLevel();
     void testOnlyAnExternalUrlChangeClosesColumns();
     void testGoingUpInColumnsStaysUp();
+    void testADragRunsWhenItsStartIsReported();
     void testAViewReplacedDuringItsDragStaysUntilTheDragEnds();
     void testAColumnClosedDuringItsDragStaysUntilTheDragEnds();
     void testAFileTypedAsTheLocationOpensItsFolder_data();
@@ -897,6 +898,41 @@ void DolphinViewContainerTest::testTheViewPropertiesDialogFollowsASwappedView()
     QCOMPARE(ViewProperties(m_testDir->url()).sortOrder(), Qt::DescendingOrder);
 }
 
+void DolphinViewContainerTest::testADragRunsWhenItsStartIsReported()
+{
+    // A view that is replaced while its drag starts has to live until the drag ends, so the drag
+    // already runs for whoever receives the start of the drag.
+    m_container->setViewMode(DolphinView::IconsView);
+    waitForViewReady();
+    m_container->view()->setPreviewsShown(false);
+    auto *itemContainer = m_container->view()->findChild<KItemListContainer *>();
+    QVERIFY(itemContainer);
+    auto *graphicsView = qobject_cast<QGraphicsView *>(itemContainer->viewport());
+    QVERIFY(graphicsView);
+    const QPoint itemPos = graphicsView->mapFromScene(itemContainer->controller()->view()->itemRect(0).center());
+
+    KItemListController *controller = itemContainer->controller();
+    int starts = 0;
+    bool draggingAtTheStart = false;
+    connect(controller, &KItemListController::draggingStarted, this, [&] {
+        ++starts;
+        draggingAtTheStart = controller->isDragging();
+    });
+    QTimer endTheDrag;
+    endTheDrag.setSingleShot(true);
+    connect(&endTheDrag, &QTimer::timeout, this, [&] {
+        QTest::keyClick(m_container->view(), Qt::Key_Escape);
+    });
+    endTheDrag.start(0);
+    QTest::mousePress(graphicsView->viewport(), Qt::LeftButton, Qt::NoModifier, itemPos);
+    QTest::mouseMove(graphicsView->viewport(), itemPos + QPoint(QApplication::startDragDistance() * 2, 0));
+    QTest::mouseRelease(m_container->view(), Qt::LeftButton);
+
+    QCOMPARE(starts, 1);
+    QVERIFY(draggingAtTheStart);
+    QVERIFY(!controller->isDragging());
+}
+
 void DolphinViewContainerTest::testAViewReplacedDuringItsDragStaysUntilTheDragEnds()
 {
     // A drag runs an event loop until it ends, and a folder opened under the drag can replace the view
@@ -944,6 +980,12 @@ void DolphinViewContainerTest::testAColumnClosedDuringItsDragStaysUntilTheDragEn
 {
     // A place opened under a drag from a column can close the columns after its folder, among them
     // the column that started the drag.
+    // The sibling below has no display style of its own, and it stays in the columns view with a
+    // common display style for all folders.
+    GeneralSettings::setGlobalViewProps(true);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setGlobalViewProps(false);
+    });
     m_container->setViewMode(DolphinView::ColumnsView);
     waitForViewReady();
     auto *columns = qobject_cast<DolphinColumnsView *>(m_container->view());
