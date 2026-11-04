@@ -1490,9 +1490,9 @@ void KItemListController::startDragging()
     const QPoint hotSpot((pixmap.width() / pixmap.devicePixelRatio()) / 2, 0);
     drag->setHotSpot(hotSpot);
 
+    m_dragging = true;
     Q_EMIT draggingStarted();
 
-    m_dragging = true;
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
     m_dragging = false;
 
