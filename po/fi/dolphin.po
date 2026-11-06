@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-04 01:06+0000\n"
-"PO-Revision-Date: 2026-08-26 13:29+0300\n"
+"PO-Revision-Date: 2026-10-30 12:15+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -779,18 +779,18 @@ msgstr ""
 "Jos kansionäkymä on jaettu, tämä ponnauttaa kohdistetun kansionäkymän uuteen "
 "ikkunaan."
 
-# ”kätkö” lienee Lasse Liehun ehdotus?
+# Aikaisemmin ”kätkö”, merkitty mahdollisesti Lasse Liehun ehdotukseksi. Minulle kävisi sekin, mutta ”jemma” näytti ylivoimaisesti yleisemmältä, joten yhdenmukaistin.
 #: dolphinmainwindow.cpp:2078
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
-msgstr "Kätkö"
+msgstr "Jemma"
 
 #: dolphinmainwindow.cpp:2079
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr "Avaa kätkön virtuaalikansion jaettuun ikkunaan"
+msgstr "Avaa jemman virtuaalikansion jaettuun ikkunaan"
 
 #: dolphinmainwindow.cpp:2088
 #, kde-format
@@ -1450,11 +1450,10 @@ msgid "Close"
 msgstr "Sulje"
 
 #: dolphinmainwindow.cpp:2890 dolphinmainwindow.cpp:2911
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Jaa näkymä kahtia"
+msgstr "Jaa näkymä: sulje vasen paneeli"
 
 #: dolphinmainwindow.cpp:2891 dolphinmainwindow.cpp:2912
 #, kde-format
@@ -1492,7 +1491,7 @@ msgstr "Sulje"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Jaa näkymä: sulje oikea paneeli"
 
 #: dolphinmainwindow.cpp:2900 dolphinmainwindow.cpp:2921
 #: dolphinmainwindow.cpp:2932
@@ -1529,12 +1528,10 @@ msgid "Split"
 msgstr "Puolita"
 
 #: dolphinmainwindow.cpp:2953
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr "Puolita näkymä"
+msgstr "Jaa näkymä"
 
 #: dolphinmainwindow.cpp:2955
 #, kde-format
@@ -2051,12 +2048,10 @@ msgid "New tab name:"
 msgstr "Välilehden uusi nimi:"
 
 #: dolphintabbar.cpp:472
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open new tabs: "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Open a new tab"
-msgstr "Avaa uusiin välilehtiin:"
+msgstr "Avaa uusi välilehti"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -3230,12 +3225,10 @@ msgid "File Manager"
 msgstr "Tiedostonhallinta"
 
 #: main.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 Dolphinin kehittäjät"
+msgstr "© 2006–%1 Dolphinin kehittäjät"
 
 #: main.cpp:139
 #, kde-format
@@ -5110,20 +5103,16 @@ msgid "Deleting files or folders"
 msgstr "tiedostoja tai kansioita poistetaan"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
-msgstr "tiedoston nimen muuttaminen muuttaa sen tyyppiä"
+msgstr "Tiedoston nimen muuttaminen muuttaa sen tyyppiä"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "tiedoston nimen muuttaminen muuttaa sen tyyppiä"
+msgstr "Tiedoston tai kansion nimen muuttaminen piilottaa sen"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -6963,12 +6952,10 @@ msgstr ""
 "kuvasta."
 
 #: views/dolphinviewactionhandler.cpp:282
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "Lajittelu:"
+msgstr "Lajittelu"
 
 #: views/dolphinviewactionhandler.cpp:285
 #, kde-format
@@ -7002,12 +6989,10 @@ msgid "Show Additional Information"
 msgstr "Näytä lisätiedot"
 
 #: views/dolphinviewactionhandler.cpp:344
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Additional information"
-#| msgid "Group"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "Ryhmä"
+msgstr "Ryhmittely"
 
 #: views/dolphinviewactionhandler.cpp:349
 #, kde-format

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-04 01:06+0000\n"
-"PO-Revision-Date: 2026-10-09 09:55+0300\n"
+"PO-Revision-Date: 2026-11-05 13:55+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1935,15 +1935,13 @@ msgstr "ניתוק לשונית"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "שחרור נעיצת לשונית"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "הלשונית הקודמת"
+msgstr "נעיצת לשונית"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2602,6 +2600,7 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"חיפוש קבצים מושבת. יש להפעיל אותו בהגדרות המערכת כדי לראות את המידע הזה."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2610,14 +2609,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"חיפוש קבצים מתעד במפתח רק את שמות הקבצים. אפשר להפעיל את תיעוד תוכן הקבצים "
+"במפתח דרך הגדרות המערכת כדי לראות את המידע הזה."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "אין לך הרשאה לכתוב לתיקייה הזאת."
+msgstr "התיקייה לא מסודרת במפתח על ידי חיפוש הקבצים."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2625,7 +2624,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
-msgstr ""
+msgstr "המידע הזה מגיע מחיפוש קבצים, שהגרסה הזאת של Dolphin נבנתה בלעדיו."
 
 #: kitemviews/kfileitemmodel.cpp:2839
 #, kde-format
@@ -3324,7 +3323,7 @@ msgstr "תיעוד"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "יומה קאקיי"
 
 #: main.cpp:176
 #, kde-format
@@ -4960,7 +4959,7 @@ msgstr "רוחב טקסט"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "הצבת הפריטים קרוב יותר זה לזה"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5357,11 +5356,10 @@ msgid "Information Panel:"
 msgstr "לוח מידע:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "להגביל את תיקיות הלוח לתיקיית הבית אם בתוך תיקיית הבית"
+msgstr "להגביל לתיקיית הבית כאשר בתוכה"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5369,7 +5367,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
-msgstr ""
+msgstr "הפעלת עץ התיקיות של סרגל התיקיות בתיקיית הבית שלך כל עוד בחרת לבקר בה."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5381,14 +5379,16 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>כשהאפשרות הזאת פעילה והתיקייה הנוכחית היא בתיקיית הבית שלך, לוח "
+"התיקיות מציג רק את תיקיית הבית שלך ואת התיקיות שבתוכה. תיקיית העל והכוננים "
+"האחרים לא מופיעים אז בלוח.</para><para>מחוץ לתיקיית הביתה, הלוח מציג את כל "
+"התיקיות, החל מתיקיית העל.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "תיקיות:"
+msgstr "לוח תיקיות:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5962,9 +5962,7 @@ msgid "Maximum lines:"
 msgstr "כמות שורות מרבית:"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "חסכונית"
@@ -5973,15 +5971,13 @@ msgstr "חסכונית"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "הצבת בפריטים קרוב יותר זה לזה כדי שיופיעו יותר מהם בשורה."
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "חיפוש באמצעות:"
+msgstr "ריווח:"
 
 #: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format

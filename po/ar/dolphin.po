@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-04 01:06+0000\n"
-"PO-Revision-Date: 2026-10-31 19:43+0400\n"
+"PO-Revision-Date: 2026-11-05 09:01+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1958,15 +1958,13 @@ msgstr "افصل اللسان"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "ألغِ تثبيت اللسان"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "اللسان السابق"
+msgstr "ثَبِّت اللسان"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -3375,7 +3373,7 @@ msgstr "التوثيق"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "يوما كاكي"
 
 #: main.cpp:176
 #, kde-format
