@@ -27,6 +27,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
+include(ECMEnableSanitizers)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMGenerateDBusServiceFile)

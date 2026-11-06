@@ -47,3 +47,4 @@ Options:
  per-test-timeout: 300
  require-passing-tests-on: ['Linux/Qt6', 'FreeBSD/Qt6']
  commit-checks: ['bug-links', 'missing-since', 'since-version']
+ enable-lsan: True
