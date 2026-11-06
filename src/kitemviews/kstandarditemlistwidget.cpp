@@ -415,7 +415,9 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         return;
     }
 
-    painter->drawStaticText(textInfo->pos, textInfo->staticText);
+    if (!m_roleEditor) {
+        painter->drawStaticText(textInfo->pos, textInfo->staticText);
+    }
 
     bool clipAdditionalInfoBounds = false;
     if (m_supportsItemExpanding && m_sortedVisibleRoles.count() > 1) {
@@ -1753,6 +1755,7 @@ void KStandardItemListWidget::closeRoleEditor()
     m_oldRoleEditor = m_roleEditor;
     m_roleEditor->hide();
     m_roleEditor = nullptr;
+    update();
 }
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QSize &size, QIcon::Mode mode) const
