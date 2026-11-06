@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-23 02:59+0000\n"
-"PO-Revision-Date: 2026-08-26 13:29+0300\n"
+"PO-Revision-Date: 2026-10-30 12:15+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -757,18 +757,18 @@ msgstr ""
 "Jos kansionäkymä on jaettu, tämä ponnauttaa kohdistetun kansionäkymän uuteen "
 "ikkunaan."
 
-# ”kätkö” lienee Lasse Liehun ehdotus?
+# Aikaisemmin ”kätkö”, merkitty mahdollisesti Lasse Liehun ehdotukseksi. Minulle kävisi sekin, mutta ”jemma” näytti ylivoimaisesti yleisemmältä, joten yhdenmukaistin.
 #: dolphinmainwindow.cpp:2044
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
-msgstr "Kätkö"
+msgstr "Jemma"
 
 #: dolphinmainwindow.cpp:2045
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr "Avaa kätkön virtuaalikansion jaettuun ikkunaan"
+msgstr "Avaa jemman virtuaalikansion jaettuun ikkunaan"
 
 #: dolphinmainwindow.cpp:2054
 #, kde-format
