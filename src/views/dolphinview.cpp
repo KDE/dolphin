@@ -1950,7 +1950,8 @@ void DolphinView::resetZoomLevel()
 void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition)
 {
     // need to wait for the item to be added to the model
-    QMetaObject::Connection *connection = new QMetaObject::Connection;
+    // Owned by the slot, so that it goes with it when the view is destroyed before the item arrives.
+    auto connection = std::make_shared<QMetaObject::Connection>();
     *connection = connect(m_model, &KFileItemModel::itemsInserted, this, [this, url, connection, condition](const KItemRangeList &ranges) {
         bool found = false;
         for (const KItemRange &it : ranges) {
@@ -1971,7 +1972,6 @@ void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<b
         }
         if (found) {
             disconnect(*connection);
-            delete connection;
         }
     });
 }
