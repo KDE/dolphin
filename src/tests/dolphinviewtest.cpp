@@ -91,8 +91,9 @@ void DolphinViewTest::selectionIsAnnouncedBeforeTheBackgroundContextMenu()
 {
     QSignalSpy selectionChanged(m_view, &DolphinView::selectionChanged);
     m_view->selectAll();
-    QTRY_COMPARE(selectionChanged.count(), 1);
-    QCOMPARE(selectionChanged.first().first().value<KFileItemList>().count(), 2);
+    // A role update of the selected items that lands after selectAll() announces the selection again.
+    QTRY_VERIFY(!selectionChanged.isEmpty());
+    QCOMPARE(selectionChanged.last().first().value<KFileItemList>().count(), 2);
 
     QStringList signalsInOrder;
     connect(m_view, &DolphinView::selectionChanged, this, [&signalsInOrder] {
