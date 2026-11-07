@@ -140,6 +140,11 @@ private:
     void refreshPixmapView();
 
     /**
+     * Cancels any still-running preview job so it cannot leak while the panel is being destroyed or reset.
+     */
+    void killPreviewJob();
+
+    /**
      * Asks for a preview of the size the viewer has, when it has room for a bigger one than the preview it
      * holds was made for, and no preview is being made already.
      */
