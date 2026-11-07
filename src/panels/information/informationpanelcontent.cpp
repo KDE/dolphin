@@ -144,7 +144,20 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
 
 InformationPanelContent::~InformationPanelContent()
 {
+    killPreviewJob();
     InformationPanelSettings::self()->save();
+}
+
+void InformationPanelContent::killPreviewJob()
+{
+    if (!m_previewJob) {
+        return;
+    }
+
+    m_previewJob->disconnect(this);
+    m_previewJob->kill();
+    m_previewJob->deleteLater();
+    m_previewJob = nullptr;
 }
 
 void InformationPanelContent::showItem(const KFileItem &item)
@@ -163,9 +176,7 @@ void InformationPanelContent::refreshPixmapView()
 {
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
-    if (m_previewJob) {
-        m_previewJob->kill();
-    }
+    killPreviewJob();
 
     // try to get a preview pixmap from the item...
 
@@ -221,9 +232,7 @@ void InformationPanelContent::refreshPreview()
 {
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
-    if (m_previewJob) {
-        m_previewJob->kill();
-    }
+    killPreviewJob();
 
     m_preview->setCursor(Qt::ArrowCursor);
     setNameLabelText(m_item.text());
@@ -306,9 +315,7 @@ void InformationPanelContent::showItems(const KFileItemList &items)
 {
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
-    if (m_previewJob) {
-        m_previewJob->kill();
-    }
+    killPreviewJob();
 
     m_preview->stopAnimatedImage();
 
