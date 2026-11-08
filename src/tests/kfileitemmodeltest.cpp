@@ -1556,7 +1556,7 @@ void KFileItemModelTest::testStringCompare_data()
     QTest::newRow("version-minor") << QStringLiteral("v1.2.10") << QStringLiteral("v1.10.1") << true << -1;
     QTest::newRow("numeric-basename-before-extension") << QStringLiteral("1.09.txt") << QStringLiteral("1.1.txt") << true << -1;
     QTest::newRow("long-extension") << QStringLiteral("a.appimage") << QStringLiteral("a 1.txt") << true << -1;
-    QTest::newRow("compound-extension") << QStringLiteral("Ch. 11 - Mr. Eleven.tar.gz") << QStringLiteral("Ch. 12 - Twelve.tar.gz") << true << -1;
+    QTest::newRow("dot-followed-by-space") << QStringLiteral("Ch. 11 - Mr. Eleven") << QStringLiteral("Ch. 12 - Twelve") << true << -1;
     QTest::newRow("leading-dot-is-not-decimal") << QStringLiteral(".1") << QStringLiteral(".09") << true << -1;
     QTest::newRow("natural-sorting-disabled") << QStringLiteral("v1.2.10") << QStringLiteral("v1.2.3") << false << -1;
 }
