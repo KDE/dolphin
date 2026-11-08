@@ -2497,12 +2497,12 @@ void KFileItemModelTest::testLoadingDirectoryWithRatings()
     m_testDir->createFiles({"a.txt", "b.txt", "c.txt", "d.txt", "e.txt", "f.txt"});
 
     // Set ratings via UserMetaData directly on files:
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/a.txt").setRating(2);
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/b.txt").setRating(8);
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/c.txt").setRating(2);
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/d.txt").setRating(0);
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/e.txt").setRating(8);
-    KFileMetaData::UserMetaData(m_testDir->url().path() + "/f.txt").setRating(2);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/a.txt").setRating(2);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/b.txt").setRating(8);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/c.txt").setRating(2);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/d.txt").setRating(0);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/e.txt").setRating(8);
+    KFileMetaData::UserMetaData(m_testDir->path() + "/f.txt").setRating(2);
 
     m_model->setGroupedSorting(true);
     m_model->setSortRole("rating");
