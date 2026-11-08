@@ -11,6 +11,7 @@
 #include <KMountPoint>
 #include <kio_version.h>
 
+#include <QStorageInfo>
 #include <QTimer>
 
 class MountPointObserverCacheSingleton
@@ -48,6 +49,9 @@ MountPointObserver *MountPointObserverCache::observerForUrl(const QUrl &url)
 #endif
         if (mountPoint) {
             cachedObserverUrl = QUrl::fromLocalFile(mountPoint->mountPoint());
+        } else if (const QStorageInfo storage(url.toLocalFile()); storage.isValid()) {
+            // KMountPoint finds no mount point on Windows, but QStorageInfo knows the drive.
+            cachedObserverUrl = QUrl::fromLocalFile(storage.rootPath());
         } else {
             // Even if determining the mount point failed, the observer might still
             // be able to retrieve information about the url.
