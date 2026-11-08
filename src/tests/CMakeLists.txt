@@ -205,3 +205,9 @@ endif()
 ecm_add_test(movetonewfolderitemactiontest.cpp ../itemactions/movetonewfolderitemaction.cpp
 TEST_NAME movetonewfolderitemactiontest
 LINK_LIBRARIES Qt6::Test KF6::I18n KF6::KIOCore KF6::KIOWidgets KF6::KIOFileWidgets)
+
+# The Windows CI has no desktop, so a window of the windows platform is never exposed there.
+if(WIN32)
+    set_property(TEST dolphinitemlistviewtest dolphinviewtest kitemlistroleeditortest folderspaneltest dolphincolumnsviewtest
+        APPEND PROPERTY ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
+endif()
