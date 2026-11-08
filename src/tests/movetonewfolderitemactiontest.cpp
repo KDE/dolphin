@@ -64,6 +64,9 @@ void MoveToNewFolderItemActionTest::offeredForFilesInAWritableFolder()
 
 void MoveToNewFolderItemActionTest::notOfferedInAReadOnlyFolder()
 {
+#ifdef Q_OS_WIN
+    QSKIP("The permissions of a folder do not make it read-only on Windows.");
+#endif
     QTemporaryDir dir;
     const KFileItemList items = createFiles(dir.path());
     QFile::setPermissions(dir.path(), QFileDevice::ReadOwner | QFileDevice::ExeOwner);
