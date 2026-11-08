@@ -1135,6 +1135,9 @@ void DolphinViewContainerTest::testALocationThatRedirectsShowsItsTarget_data()
  */
 void DolphinViewContainerTest::testALocationThatRedirectsShowsItsTarget()
 {
+#ifdef Q_OS_WIN
+    QSKIP("Only the file worker on Unix redirects file://localhost/ to file:///.");
+#endif
     QFETCH(DolphinView::Mode, mode);
     QFETCH(bool, globalViewProps);
     GeneralSettings::setGlobalViewProps(globalViewProps);
