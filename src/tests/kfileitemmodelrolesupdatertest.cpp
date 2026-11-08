@@ -65,6 +65,9 @@ void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
 
 void KFileItemModelRolesUpdaterTest::testAFileThatKeepsChangingGetsItsPreviewOnceItIsQuiet()
 {
+#ifdef Q_OS_WIN
+    QSKIP("QFileSystemWatcher cannot watch temp directories on Windows CI (access denied).");
+#endif
     // A file that is being downloaded changes about every 500 ms. Its preview used to be
     // generated again for each change, which kept a worker busy for the whole download. Another
     // file that changes once in the meantime still gets its preview at once.
