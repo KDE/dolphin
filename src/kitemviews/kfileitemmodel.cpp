@@ -238,6 +238,11 @@ Qt::strong_ordering compareNumericChains(QStringView a, int startA, int endA, in
 int findExtensionSeparator(QStringView text)
 {
     for (int i = text.length() - 1; i > 0; --i) {
+        // A suffix containing whitespace, such as ". Eleven", is part of the name.
+        if (text.at(i).isSpace()) {
+            return -1;
+        }
+
         if (text.at(i) != QLatin1Char('.')) {
             continue;
         }

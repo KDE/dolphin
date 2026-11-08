@@ -77,6 +77,8 @@ private Q_SLOTS:
     void testRemoveFilteredExpandedItems();
     void testSorting();
     void testNaturalSorting();
+    void testNaturalSortingOfNamesWithDots_data();
+    void testNaturalSortingOfNamesWithDots();
     void testStringCompare_data();
     void testStringCompare();
     void testIndexForKeyboardSearch();
@@ -1503,6 +1505,44 @@ void KFileItemModelTest::testNaturalSorting()
     QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 4 << 6 << 1 << 2 << 3 << 5);
 }
 
+void KFileItemModelTest::testNaturalSortingOfNamesWithDots_data()
+{
+    QTest::addColumn<bool>("asDirectories");
+    QTest::newRow("directories") << true;
+    QTest::newRow("extensionless-files") << false;
+}
+
+void KFileItemModelTest::testNaturalSortingOfNamesWithDots()
+{
+    QFETCH(bool, asDirectories);
+    const QStringList names{"Ch. 9 - Nine", "Ch. 10 - Ten", "Ch. 11 - Mr. Eleven", "Ch. 12 - Twelve"};
+    const QString notes = QStringLiteral("Ch. 11 - Notes.txt");
+    const QString archive = QStringLiteral("Ch. 12 - Twelve.zip");
+    m_testDir->createFiles({archive});
+    if (asDirectories) {
+        for (const auto &name : names) {
+            m_testDir->createDir(name);
+        }
+        m_testDir->createFiles({notes});
+    } else {
+        m_testDir->createFiles(names);
+    }
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QStringList expected = names;
+    expected.append(archive);
+    if (asDirectories) {
+        QCOMPARE(itemsInModel(), (names + QStringList{notes, archive}));
+        m_model->setSortDirectoriesFirst(false);
+        expected.insert(3, notes);
+    }
+
+    QCOMPARE(itemsInModel(), expected);
+}
+
 void KFileItemModelTest::testStringCompare_data()
 {
     QTest::addColumn<QString>("left");
@@ -1515,6 +1555,8 @@ void KFileItemModelTest::testStringCompare_data()
     QTest::newRow("version-patch-reversed") << QStringLiteral("v1.2.10") << QStringLiteral("v1.2.3") << true << 1;
     QTest::newRow("version-minor") << QStringLiteral("v1.2.10") << QStringLiteral("v1.10.1") << true << -1;
     QTest::newRow("numeric-basename-before-extension") << QStringLiteral("1.09.txt") << QStringLiteral("1.1.txt") << true << -1;
+    QTest::newRow("long-extension") << QStringLiteral("a.appimage") << QStringLiteral("a 1.txt") << true << -1;
+    QTest::newRow("compound-extension") << QStringLiteral("Ch. 11 - Mr. Eleven.tar.gz") << QStringLiteral("Ch. 12 - Twelve.tar.gz") << true << -1;
     QTest::newRow("leading-dot-is-not-decimal") << QStringLiteral(".1") << QStringLiteral(".09") << true << -1;
     QTest::newRow("natural-sorting-disabled") << QStringLiteral("v1.2.10") << QStringLiteral("v1.2.3") << false << -1;
 }
