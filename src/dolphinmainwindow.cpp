@@ -3278,6 +3278,10 @@ void DolphinMainWindow::slotDoubleClickViewBackground(Qt::MouseButton button)
     if (clickAction == customCommand) {
         // run custom command set by the user
         QString clickCustomAction = settings->doubleClickViewCustomAction();
+        if (clickCustomAction.isEmpty()) {
+            qCDebug(DolphinDebug) << "Double-click view: custom action is empty";
+            return;
+        }
         // {path} becomes one quoted shell word, also when the command already has it in quotes.
         clickCustomAction.replace(QLatin1String("\"{path}\""), QLatin1String("{path}"));
         clickCustomAction.replace(QLatin1String("'{path}'"), QLatin1String("{path}"));
