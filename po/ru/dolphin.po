@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 00:16+0000\n"
-"PO-Revision-Date: 2026-11-02 07:45+0200\n"
+"PO-Revision-Date: 2026-11-09 04:34+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -5741,7 +5741,7 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:48
 #: settings/viewmodes/viewsettingspage.cpp:53
@@ -6281,7 +6281,7 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: settings/viewpropertiesdialog.cpp:69
 #, kde-format
@@ -7278,13 +7278,13 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: views/dolphinviewactionhandler.cpp:802
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: views/dolphinviewactionhandler.cpp:812
 #, kde-format
