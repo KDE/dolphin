@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 03:00+0000\n"
+"POT-Creation-Date: 2026-11-09 00:58+0000\n"
 "PO-Revision-Date: 2025-09-15 16:33+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -58,13 +58,13 @@ msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr ""
 
-#: admin/bar.cpp:140
+#: admin/bar.cpp:146
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
 msgstr ""
 
-#: admin/bar.cpp:148
+#: admin/bar.cpp:154
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
@@ -176,7 +176,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Pilih Lokasi Beranda"
 msgstr[1] "Pilih Lokasi Beranda"
 
-#: dolphincontextmenu.cpp:250 dolphinmainwindow.cpp:1819
+#: dolphincontextmenu.cpp:250 dolphinmainwindow.cpp:1829
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -215,48 +215,48 @@ msgctxt ""
 msgid "Shift+Middle Click"
 msgstr ""
 
-#: dolphinmainwindow.cpp:438
+#: dolphinmainwindow.cpp:443
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Mundur"
 
-#: dolphinmainwindow.cpp:439
+#: dolphinmainwindow.cpp:444
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Kembali ke folder yang ditampilkan sebelumnya."
 
-#: dolphinmainwindow.cpp:445
+#: dolphinmainwindow.cpp:450
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Maju"
 
-#: dolphinmainwindow.cpp:446
+#: dolphinmainwindow.cpp:451
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Ini mengurungkan aksi <interface>Menuju|Mundur</interface>."
 
-#: dolphinmainwindow.cpp:642 dolphinmainwindow.cpp:688
+#: dolphinmainwindow.cpp:647 dolphinmainwindow.cpp:693
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Konfirmasi"
 
-#: dolphinmainwindow.cpp:646
+#: dolphinmainwindow.cpp:651
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Berhentikan %1"
 
-#: dolphinmainwindow.cpp:648
+#: dolphinmainwindow.cpp:653
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "T&utup Tab Saat Ini"
 
-#: dolphinmainwindow.cpp:657
+#: dolphinmainwindow.cpp:662
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
@@ -264,18 +264,18 @@ msgstr ""
 "Anda memiliki banyak tab yang terbuka di jendela ini, apakah Anda tetap "
 "ingin memberhentikan?"
 
-#: dolphinmainwindow.cpp:659 dolphinmainwindow.cpp:709
-#: views/dolphinview.cpp:2473
+#: dolphinmainwindow.cpp:664 dolphinmainwindow.cpp:714
+#: views/dolphinview.cpp:2533
 #, kde-format
 msgid "Do not ask again"
 msgstr "Jangan tanyakan lagi"
 
-#: dolphinmainwindow.cpp:697
+#: dolphinmainwindow.cpp:702
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Tampilkan Panel &Terminal"
 
-#: dolphinmainwindow.cpp:707
+#: dolphinmainwindow.cpp:712
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -284,13 +284,13 @@ msgstr ""
 "Program '%1' masih berjalan di dalam panel Terminal. Apakah Anda yakin ingin "
 "memberhentikan?"
 
-#: dolphinmainwindow.cpp:954
+#: dolphinmainwindow.cpp:959
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Tidak dapat menempel: Papan klip kosong."
 
-#: dolphinmainwindow.cpp:955
+#: dolphinmainwindow.cpp:960
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
@@ -298,26 +298,26 @@ msgstr ""
 "Tidak dapat menempel: Kamu tidak memiliki perizinan untuk menulis dalam "
 "folder ini."
 
-#: dolphinmainwindow.cpp:1378
+#: dolphinmainwindow.cpp:1383
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Buka %1"
 
-#: dolphinmainwindow.cpp:1387 dolphinmainwindow.cpp:2216
+#: dolphinmainwindow.cpp:1392 dolphinmainwindow.cpp:2226
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Buka Alat Pencarian Yang Disukai"
 
-#: dolphinmainwindow.cpp:1427
+#: dolphinmainwindow.cpp:1432
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Apakah Anda yakin ingin membuka 1 jendela terminal?"
 msgstr[1] "Apakah Anda yakin ingin membuka %1 jendela terminal?"
 
-#: dolphinmainwindow.cpp:1432
+#: dolphinmainwindow.cpp:1437
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -325,7 +325,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Buka %1 Terminal"
 msgstr[1] "Buka %1 Terminal"
 
-#: dolphinmainwindow.cpp:1529
+#: dolphinmainwindow.cpp:1534
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -335,7 +335,7 @@ msgstr ""
 "Tidak dapat membuat file baru: Kamu tidak memiliki perizinan untuk "
 "menciptakan item di folder ini."
 
-#: dolphinmainwindow.cpp:1531
+#: dolphinmainwindow.cpp:1536
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -343,31 +343,31 @@ msgid ""
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:1533
+#: dolphinmainwindow.cpp:1538
 #, kde-format
 msgctxt "@info"
 msgid "Cannot create new subfolder: Select a single folder you can write to."
 msgstr ""
 
-#: dolphinmainwindow.cpp:1644
+#: dolphinmainwindow.cpp:1649
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Konfigurasikan"
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1838
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Jendela &Baru"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1839
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Buka jendela baru Dolphin"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1841
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -381,13 +381,13 @@ msgstr ""
 "Ini akan membuka jendela baru seperti ini dengan lokasi dan tampilan saat "
 "ini.<nl/>Anda dapat menarik dan melepas butir di antara jendela."
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1848
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Tab Baru"
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1850
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -404,25 +404,25 @@ msgstr ""
 "saat ini.<nl/>Tab adalah tampilan tambahan dalam jendela ini. Anda dapat "
 "menarik dan melepaskan butir antar tab."
 
-#: dolphinmainwindow.cpp:1849
+#: dolphinmainwindow.cpp:1859
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Tambah ke Tempat"
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1861
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Ini akan menambahkan folder yang dipilih ke panel Tempat."
 
-#: dolphinmainwindow.cpp:1857
+#: dolphinmainwindow.cpp:1867
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Tutup Tab"
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1868
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Close Tab"
@@ -430,7 +430,7 @@ msgctxt "@info"
 msgid "Close Tab"
 msgstr "Tutup Tab"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1870
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -444,13 +444,13 @@ msgstr ""
 "Ini akan menutup tab yang sedang dilihat. Jika tidak ada lagi tab yang "
 "tersisa, jendela ini akan ditutup."
 
-#: dolphinmainwindow.cpp:1865
+#: dolphinmainwindow.cpp:1875
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Ini akan menutup jendela ini"
 
-#: dolphinmainwindow.cpp:1874
+#: dolphinmainwindow.cpp:1884
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -467,13 +467,13 @@ msgstr ""
 "keyboard: <shortcut>Ctrl+X</shortcut>,  <shortcut>Ctrl+C</shortcut>, dan "
 "<shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1881
+#: dolphinmainwindow.cpp:1891
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Potong..."
 
-#: dolphinmainwindow.cpp:1883
+#: dolphinmainwindow.cpp:1893
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -487,13 +487,13 @@ msgstr ""
 "emphasis> setelahnya untuk menyalinnya dari papan klip ke lokasi baru. Butir "
 "akan dihapus dari lokasi awalnya."
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1900
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Salin..."
 
-#: dolphinmainwindow.cpp:1892
+#: dolphinmainwindow.cpp:1902
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -505,13 +505,13 @@ msgstr ""
 "<emphasis>papan klip</emphasis><nl/>Gunakan tindakan <emphasis>Tempel</"
 "emphasis> setelahnya untuk menyalinnya dari clip board ke lokasi baru."
 
-#: dolphinmainwindow.cpp:1901
+#: dolphinmainwindow.cpp:1911
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Tempel"
 
-#: dolphinmainwindow.cpp:1903
+#: dolphinmainwindow.cpp:1913
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -524,19 +524,19 @@ msgstr ""
 "dengan tindakan <emphasis>Potong</emphasis>, butir tersebut akan dihapus "
 "dari lokasi lama."
 
-#: dolphinmainwindow.cpp:1910
+#: dolphinmainwindow.cpp:1920
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Salin ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1921
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Salin ke Tampilan Lainnya..."
 
-#: dolphinmainwindow.cpp:1913
+#: dolphinmainwindow.cpp:1923
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Copy"
 #| msgid ""
@@ -550,7 +550,7 @@ msgstr ""
 "Ini akan menyalin butir yang dipilih dari tampilan <emphasis>aktif</"
 "emphasis> ke tampilan belah yang tidak aktif."
 
-#: dolphinmainwindow.cpp:1917
+#: dolphinmainwindow.cpp:1927
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -558,19 +558,19 @@ msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Salin ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:1922
+#: dolphinmainwindow.cpp:1932
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Pindahkan ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1933
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Pindahkan ke Tampilan Lainnya..."
 
-#: dolphinmainwindow.cpp:1925
+#: dolphinmainwindow.cpp:1935
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Move"
 #| msgid ""
@@ -584,7 +584,7 @@ msgstr ""
 "Ini akan memindahkan butir yang dipilih dari tampilan <emphasis>aktif</"
 "emphasis> ke tampilan belah yang tidak aktif."
 
-#: dolphinmainwindow.cpp:1929
+#: dolphinmainwindow.cpp:1939
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Other View"
@@ -592,7 +592,7 @@ msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Pindahkan ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:1934
+#: dolphinmainwindow.cpp:1944
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -600,7 +600,7 @@ msgctxt "@action:inmenu"
 msgid "Focus Other View"
 msgstr "Salin ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1945
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "This adds the selected folder to the Places panel."
@@ -608,7 +608,7 @@ msgctxt "@info:tooltip"
 msgid "Move keyboard focus to the inactive view."
 msgstr "Ini akan menambahkan folder yang dipilih ke panel Tempat."
 
-#: dolphinmainwindow.cpp:1941
+#: dolphinmainwindow.cpp:1951
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Filter"
@@ -616,13 +616,13 @@ msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Filter"
 
-#: dolphinmainwindow.cpp:1942
+#: dolphinmainwindow.cpp:1952
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Tampilkan Bilah Filter"
 
-#: dolphinmainwindow.cpp:1944
+#: dolphinmainwindow.cpp:1954
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -642,31 +642,31 @@ msgstr ""
 "yang sedang ditampilkan. Hanya mereka yang berisi teks dalam nama mereka "
 "yang akan tetap terlihat."
 
-#: dolphinmainwindow.cpp:1956
+#: dolphinmainwindow.cpp:1966
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Jungkit Bilah Filter "
 
-#: dolphinmainwindow.cpp:1957
+#: dolphinmainwindow.cpp:1967
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filter"
 
-#: dolphinmainwindow.cpp:1965 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1975 search/bar.cpp:216
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "Cari"
 
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Cari file dan folder"
 
-#: dolphinmainwindow.cpp:1968
+#: dolphinmainwindow.cpp:1978
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -687,20 +687,20 @@ msgstr ""
 "para><para>Gunakan bantuan ini lagi di bilah pencarian sehingga kami dapat "
 "melihatnya sementara setelannya dijelaskan.</para>"
 
-#: dolphinmainwindow.cpp:1977
+#: dolphinmainwindow.cpp:1987
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Jungkit Bilah Pencarian"
 
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1988
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Cari"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1993
+#: dolphinmainwindow.cpp:2003
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -708,13 +708,13 @@ msgstr "Pilih File dan Folder"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1996
+#: dolphinmainwindow.cpp:2006
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Pilih"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2009
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -732,19 +732,19 @@ msgstr ""
 "sekali.</para><para>Saat dalam mode ini, bilah akses cepat di bagian bawah "
 "menunjukkan tindakan yang tersedia untuk item yang saat ini dipilih.</para>"
 
-#: dolphinmainwindow.cpp:2022
+#: dolphinmainwindow.cpp:2032
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Ini akan memilih semua file dan folder di lokasi saat ini."
 
-#: dolphinmainwindow.cpp:2026 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:2036 dolphinpart.cpp:178
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Balikkan Pilihan"
 
-#: dolphinmainwindow.cpp:2028
+#: dolphinmainwindow.cpp:2038
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis invert"
 #| msgid ""
@@ -758,7 +758,7 @@ msgstr ""
 "Ini akan memilih semua objek yang saat ini Anda <emphasis>tidak</emphasis> "
 "pilih."
 
-#: dolphinmainwindow.cpp:2048
+#: dolphinmainwindow.cpp:2058
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -768,7 +768,7 @@ msgid ""
 "para>Click this button again to close one of the views."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2062
+#: dolphinmainwindow.cpp:2072
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -776,7 +776,7 @@ msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
 msgstr "Tampilan belah"
 
-#: dolphinmainwindow.cpp:2063
+#: dolphinmainwindow.cpp:2073
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -784,7 +784,7 @@ msgid ""
 "split view."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2070
+#: dolphinmainwindow.cpp:2080
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -792,19 +792,19 @@ msgid ""
 "window."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2078
+#: dolphinmainwindow.cpp:2088
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Stash"
 
-#: dolphinmainwindow.cpp:2079
+#: dolphinmainwindow.cpp:2089
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Buka direktori virtual stash di jendela belah"
 
-#: dolphinmainwindow.cpp:2088
+#: dolphinmainwindow.cpp:2098
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Preview"
@@ -812,7 +812,7 @@ msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Pratinjau"
 
-#: dolphinmainwindow.cpp:2090
+#: dolphinmainwindow.cpp:2100
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -822,31 +822,31 @@ msgid ""
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2097
+#: dolphinmainwindow.cpp:2107
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Hentikan"
 
-#: dolphinmainwindow.cpp:2098
+#: dolphinmainwindow.cpp:2108
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Hentikan pemuatan"
 
-#: dolphinmainwindow.cpp:2099
+#: dolphinmainwindow.cpp:2109
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Ini akan menghentikan pemuatan konten folder saat ini."
 
-#: dolphinmainwindow.cpp:2104
+#: dolphinmainwindow.cpp:2114
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Lokasi Dapat Diedit"
 
-#: dolphinmainwindow.cpp:2106
+#: dolphinmainwindow.cpp:2116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -860,13 +860,13 @@ msgstr ""
 ">Anda juga dapat beralih ke pengeditan dengan mengeklik di sebelah kanan "
 "lokasi dan beralih kembali dengan mengonfirmasi lokasi yang diedit."
 
-#: dolphinmainwindow.cpp:2114
+#: dolphinmainwindow.cpp:2124
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Ganti Lokasi"
 
-#: dolphinmainwindow.cpp:2119
+#: dolphinmainwindow.cpp:2129
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -876,19 +876,19 @@ msgstr ""
 "ini berfungsi untuk mengedit lokasi dan memilihnya sehingga Anda dapat "
 "dengan cepat memasuki lokasi lain."
 
-#: dolphinmainwindow.cpp:2149
+#: dolphinmainwindow.cpp:2159
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Urung penutupan tab"
 
-#: dolphinmainwindow.cpp:2150
+#: dolphinmainwindow.cpp:2160
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Ini akan mengembalikanmu ke tab yang sebelumnya ditutup."
 
-#: dolphinmainwindow.cpp:2158
+#: dolphinmainwindow.cpp:2168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -905,7 +905,7 @@ msgstr ""
 ">Perubahan yang tidak dapat diurungkan akan meminta konfirmasi Anda "
 "sebelumnya."
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2178
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -928,7 +928,7 @@ msgstr ""
 "atau ke <filename>Tong Sampah</filename>. <nl/>Perubahan yang tidak dapat "
 "diurungkan akan meminta konfirmasi Anda."
 
-#: dolphinmainwindow.cpp:2197
+#: dolphinmainwindow.cpp:2207
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -945,19 +945,19 @@ msgstr ""
 "memiliki <filename>Beranda</filename> mereka sendiri yang berisi data mereka "
 "termasuk folder yang berisi data aplikasi pribadi."
 
-#: dolphinmainwindow.cpp:2204
+#: dolphinmainwindow.cpp:2214
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Bandingkan File"
 
-#: dolphinmainwindow.cpp:2210
+#: dolphinmainwindow.cpp:2220
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "Kelola Penggunaan Ruang Disk"
 
-#: dolphinmainwindow.cpp:2218
+#: dolphinmainwindow.cpp:2228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -969,13 +969,13 @@ msgstr ""
 "para><para>Gunakan menu <emphasis>Alat Pencarian Lainnya</emphasis> untuk "
 "mengkonfigurasinya.</para>"
 
-#: dolphinmainwindow.cpp:2232
+#: dolphinmainwindow.cpp:2242
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Buka Terminal"
 
-#: dolphinmainwindow.cpp:2234
+#: dolphinmainwindow.cpp:2244
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -993,13 +993,13 @@ msgstr ""
 "terminal, gunakan bantuan di aplikasi terminal.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2242
+#: dolphinmainwindow.cpp:2252
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Buka Terminal Disini"
 
-#: dolphinmainwindow.cpp:2244
+#: dolphinmainwindow.cpp:2254
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1016,13 +1016,13 @@ msgstr ""
 "butir yang dipilih.</para><para>Untuk mempelajari lebih lanjut tentang "
 "terminal, gunakan bantuan di aplikasi terminal.</para>"
 
-#: dolphinmainwindow.cpp:2252
+#: dolphinmainwindow.cpp:2262
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Bookmark"
 
-#: dolphinmainwindow.cpp:2262
+#: dolphinmainwindow.cpp:2272
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1050,13 +1050,13 @@ msgstr ""
 "interface> lebih sederhana dan kecil yang memicu tindakan lanjutan yang "
 "lebih memakan waktu.</para>"
 
-#: dolphinmainwindow.cpp:2287
+#: dolphinmainwindow.cpp:2297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Menuju Ke Tab %1"
 
-#: dolphinmainwindow.cpp:2300
+#: dolphinmainwindow.cpp:2310
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -1064,7 +1064,7 @@ msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Aktifkan Tab Terakhir"
 
-#: dolphinmainwindow.cpp:2301
+#: dolphinmainwindow.cpp:2311
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -1072,13 +1072,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Aktifkan Tab Terakhir"
 
-#: dolphinmainwindow.cpp:2307
+#: dolphinmainwindow.cpp:2317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Tab Selanjutnya"
 
-#: dolphinmainwindow.cpp:2308
+#: dolphinmainwindow.cpp:2318
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Next Tab"
@@ -1086,13 +1086,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Tab Selanjutnya"
 
-#: dolphinmainwindow.cpp:2314
+#: dolphinmainwindow.cpp:2324
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Tab Sebelumnya"
 
-#: dolphinmainwindow.cpp:2315
+#: dolphinmainwindow.cpp:2325
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Previous Tab"
@@ -1100,31 +1100,31 @@ msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Tab Sebelumnya"
 
-#: dolphinmainwindow.cpp:2322
+#: dolphinmainwindow.cpp:2332
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Tampilkan Sasaran"
 
-#: dolphinmainwindow.cpp:2328
+#: dolphinmainwindow.cpp:2338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Buka di Tab Baru"
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2343
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Buka di Tab Baru"
 
-#: dolphinmainwindow.cpp:2338
+#: dolphinmainwindow.cpp:2348
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Buka di Jendela Baru"
 
-#: dolphinmainwindow.cpp:2343 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2353 panels/places/placespanel.cpp:45
 #: tests/placespaneltest.cpp:125 tests/placespaneltest.cpp:147
 #: tests/placespaneltest.cpp:169
 #, fuzzy, kde-format
@@ -1133,24 +1133,24 @@ msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Buka di aplikasi"
 
-#: dolphinmainwindow.cpp:2355
+#: dolphinmainwindow.cpp:2365
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2368
+#: dolphinmainwindow.cpp:2378
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Lepas-kunci Panel"
 
-#: dolphinmainwindow.cpp:2370
+#: dolphinmainwindow.cpp:2380
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Kunci Panel"
 
-#: dolphinmainwindow.cpp:2373
+#: dolphinmainwindow.cpp:2383
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1164,13 +1164,13 @@ msgstr ""
 "dapat diseret ke sisi jendela lain dan memiliki tombol untuk menutupnya.<nl/"
 ">Panel yang terkunci tersemat lebih bersih."
 
-#: dolphinmainwindow.cpp:2382
+#: dolphinmainwindow.cpp:2392
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informasi"
 
-#: dolphinmainwindow.cpp:2405
+#: dolphinmainwindow.cpp:2415
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1181,7 +1181,7 @@ msgstr ""
 "<interface>Menu|Panel</interface> atau <interface>Tampilan|Panel</interface>."
 "</para>"
 
-#: dolphinmainwindow.cpp:2412
+#: dolphinmainwindow.cpp:2422
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1197,7 +1197,7 @@ msgstr ""
 "tidak, ini akan memberi tahu Anda tentang folder yang sedang dilihat.<nl/"
 ">Untuk butir tunggal, pratinjau kontennya disediakan.</para>"
 
-#: dolphinmainwindow.cpp:2420
+#: dolphinmainwindow.cpp:2430
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1214,13 +1214,13 @@ msgstr ""
 "mengkonfigurasi yang mana dan bagaimana detail yang akan diberikan di sini "
 "dengan klik kanan.</para>"
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Folder"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2460
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1232,7 +1232,7 @@ msgstr ""
 "<nl/><nl/>Itu akan menunjukkan folder <emphasis>file system</emphasis> dalam "
 "<emphasis>tampilan pohon</emphasis>."
 
-#: dolphinmainwindow.cpp:2455
+#: dolphinmainwindow.cpp:2465
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1246,13 +1246,13 @@ msgstr ""
 "membukanya. Klik panah di sebelah kiri folder untuk melihat subfoldernya. "
 "Ini memungkinkan peralihan cepat di antara folder mana pun.</para>"
 
-#: dolphinmainwindow.cpp:2465
+#: dolphinmainwindow.cpp:2475
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2491
+#: dolphinmainwindow.cpp:2501
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1279,7 +1279,7 @@ msgstr ""
 "lanjut tentang terminal, gunakan bantuan dalam aplikasi terminal mandiri "
 "seperti Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2499
+#: dolphinmainwindow.cpp:2509
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1306,25 +1306,25 @@ msgstr ""
 "terminal, gunakan bantuan dalam aplikasi terminal mandiri seperti Konsole.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2509 dolphinmainwindow.cpp:3192
+#: dolphinmainwindow.cpp:2519 dolphinmainwindow.cpp:3209
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Panel Terminal Fokus"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2520
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2516
+#: dolphinmainwindow.cpp:2526
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2518
+#: dolphinmainwindow.cpp:2528
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1332,19 +1332,19 @@ msgid ""
 "whenever directory is changed."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2534
+#: dolphinmainwindow.cpp:2544
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Tempat"
 
-#: dolphinmainwindow.cpp:2562
+#: dolphinmainwindow.cpp:2572
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Tampilkan Tempat Tersembunyi"
 
-#: dolphinmainwindow.cpp:2566
+#: dolphinmainwindow.cpp:2576
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1360,7 +1360,7 @@ msgstr ""
 "akan tampak semi-transparan kecuali Anda menghapus centang pada properti "
 "sembunyikan mereka."
 
-#: dolphinmainwindow.cpp:2578
+#: dolphinmainwindow.cpp:2588
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1376,7 +1376,7 @@ msgstr ""
 "atau jaringan. Ini juga berisi bagian untuk menemukan file yang baru saja "
 "disimpan atau file dari jenis tertentu.</para>"
 
-#: dolphinmainwindow.cpp:2585
+#: dolphinmainwindow.cpp:2595
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1401,7 +1401,7 @@ msgstr ""
 "ruang kosong pada panel ini dan pilih <interface>Tampilkan Tempat "
 "Tersembunyi</interface> untuk menampilkannya lagi.</para>"
 
-#: dolphinmainwindow.cpp:2599 dolphinmainwindow.cpp:3210
+#: dolphinmainwindow.cpp:2609 dolphinmainwindow.cpp:3227
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Focus Terminal Panel"
@@ -1409,7 +1409,7 @@ msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Panel Terminal Fokus"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2610
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "This adds the selected folder to the Places panel."
@@ -1417,13 +1417,13 @@ msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Ini akan menambahkan folder yang dipilih ke panel Tempat."
 
-#: dolphinmainwindow.cpp:2606
+#: dolphinmainwindow.cpp:2616
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Tampilkan Panel"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2707
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1432,7 +1432,7 @@ msgstr ""
 "Tidak dapat mengganti nama: Kamu tidak memiliki izin untuk mengganti nama "
 "item di folder ini."
 
-#: dolphinmainwindow.cpp:2700 dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2710 dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1441,7 +1441,7 @@ msgstr ""
 "Tidak dapat menghapus: Kamu tidak memiliki perizinan untuk menghapus item di "
 "folder ini."
 
-#: dolphinmainwindow.cpp:2702
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
@@ -1449,7 +1449,7 @@ msgstr ""
 "Tidak dapat memotong: Kamu tidak memiliki perizinan untuk memindahkan item "
 "di folder ini."
 
-#: dolphinmainwindow.cpp:2707
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1459,20 +1459,20 @@ msgstr ""
 "Tidak dapat menduplikasi disini: Kamu tidak memiliki perizinan untuk "
 "menciptakan item di folder ini."
 
-#: dolphinmainwindow.cpp:2729
+#: dolphinmainwindow.cpp:2739
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Tidak dapat menyalin ke tampilan lainnya: Tidak ada file yang dipilih."
 
-#: dolphinmainwindow.cpp:2731
+#: dolphinmainwindow.cpp:2741
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
 "Tidak dapat memindahkan ke tampilan lainnya: Tidak ada file yang dipilih."
 
-#: dolphinmainwindow.cpp:2750
+#: dolphinmainwindow.cpp:2760
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1480,7 +1480,7 @@ msgstr ""
 "Tidak dapat menyalin ke tampilan lainnya: Tampilan lain sudah berisi item-"
 "item ini."
 
-#: dolphinmainwindow.cpp:2753
+#: dolphinmainwindow.cpp:2763
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1488,7 +1488,7 @@ msgstr ""
 "Tidak dapat memindahkan ke tampilan lainnya: Tampilan lain sudah berisi item-"
 "item ini."
 
-#: dolphinmainwindow.cpp:2758
+#: dolphinmainwindow.cpp:2768
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1498,7 +1498,7 @@ msgstr ""
 "Tidak dapat menyalin ke tampilan lainnya: Kamu tidak memiliki perizinan "
 "untuk menulis ke folder tujuan."
 
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2772
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1508,7 +1508,7 @@ msgstr ""
 "Tidak dapat memindahkan ke tampilan lainnya: Kamu tidak memiliki perizinan "
 "untuk menulis ke folder tujuan."
 
-#: dolphinmainwindow.cpp:2768
+#: dolphinmainwindow.cpp:2778
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1518,7 +1518,7 @@ msgstr ""
 "Tidak dapat memindahkan ke tampilan lainnya: Kamu tidak memiliki perizinan "
 "untuk memindahkan item di folder ini."
 
-#: dolphinmainwindow.cpp:2795
+#: dolphinmainwindow.cpp:2805
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1534,20 +1534,20 @@ msgstr ""
 "data yang terhubung ke komputer ini—<emphasis>direktori root</emphasis>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2889 dolphinmainwindow.cpp:2910
+#: dolphinmainwindow.cpp:2906 dolphinmainwindow.cpp:2927
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Tutup"
 
-#: dolphinmainwindow.cpp:2890 dolphinmainwindow.cpp:2911
+#: dolphinmainwindow.cpp:2907 dolphinmainwindow.cpp:2928
 #, fuzzy, kde-format
 #| msgid "Split the view into two panes"
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
 msgstr "Belahkan tampilan menjadi dua bagian"
 
-#: dolphinmainwindow.cpp:2891 dolphinmainwindow.cpp:2912
+#: dolphinmainwindow.cpp:2908 dolphinmainwindow.cpp:2929
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -1555,7 +1555,7 @@ msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Tutup tampilan kiri"
 
-#: dolphinmainwindow.cpp:2893 dolphinmainwindow.cpp:2914
+#: dolphinmainwindow.cpp:2910 dolphinmainwindow.cpp:2931
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -1563,7 +1563,7 @@ msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Tutup tampilan kiri"
 
-#: dolphinmainwindow.cpp:2895 dolphinmainwindow.cpp:2916
+#: dolphinmainwindow.cpp:2912 dolphinmainwindow.cpp:2933
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1571,28 +1571,28 @@ msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Salin ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:2896 dolphinmainwindow.cpp:2917
+#: dolphinmainwindow.cpp:2913 dolphinmainwindow.cpp:2934
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2898 dolphinmainwindow.cpp:2919
-#: dolphinmainwindow.cpp:2930
+#: dolphinmainwindow.cpp:2915 dolphinmainwindow.cpp:2936
+#: dolphinmainwindow.cpp:2947
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Tutup"
 
-#: dolphinmainwindow.cpp:2899 dolphinmainwindow.cpp:2920
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2916 dolphinmainwindow.cpp:2937
+#: dolphinmainwindow.cpp:2948
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2900 dolphinmainwindow.cpp:2921
-#: dolphinmainwindow.cpp:2932
+#: dolphinmainwindow.cpp:2917 dolphinmainwindow.cpp:2938
+#: dolphinmainwindow.cpp:2949
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1600,8 +1600,8 @@ msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Tutup tampilan kanan"
 
-#: dolphinmainwindow.cpp:2902 dolphinmainwindow.cpp:2923
-#: dolphinmainwindow.cpp:2934
+#: dolphinmainwindow.cpp:2919 dolphinmainwindow.cpp:2940
+#: dolphinmainwindow.cpp:2951
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1609,8 +1609,8 @@ msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Tutup tampilan kanan"
 
-#: dolphinmainwindow.cpp:2904 dolphinmainwindow.cpp:2925
-#: dolphinmainwindow.cpp:2936
+#: dolphinmainwindow.cpp:2921 dolphinmainwindow.cpp:2942
+#: dolphinmainwindow.cpp:2953
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1618,20 +1618,20 @@ msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Salin ke Tampilan Lainnya"
 
-#: dolphinmainwindow.cpp:2905 dolphinmainwindow.cpp:2926
-#: dolphinmainwindow.cpp:2937
+#: dolphinmainwindow.cpp:2922 dolphinmainwindow.cpp:2943
+#: dolphinmainwindow.cpp:2954
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2952
+#: dolphinmainwindow.cpp:2969
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Belah"
 
-#: dolphinmainwindow.cpp:2953
+#: dolphinmainwindow.cpp:2970
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -1639,19 +1639,19 @@ msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
 msgstr "Tampilan belah"
 
-#: dolphinmainwindow.cpp:2955
+#: dolphinmainwindow.cpp:2972
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Tampilan belah"
 
-#: dolphinmainwindow.cpp:2957
+#: dolphinmainwindow.cpp:2974
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:3018
+#: dolphinmainwindow.cpp:3035
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1669,7 +1669,7 @@ msgstr ""
 "interface>. Kemudian sebagian besar kontennya tersedia melalui tombol "
 "<interface>Menu</interface> pada <emphasis>Bilah Alat</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:3025
+#: dolphinmainwindow.cpp:3042
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1692,7 +1692,7 @@ msgstr ""
 "tombolnya juga dapat diubah di menu klik kanan. Klik kanan tombol jika Anda "
 "ingin menampilkan atau menyembunyikan teksnya.</para>"
 
-#: dolphinmainwindow.cpp:3037
+#: dolphinmainwindow.cpp:3054
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1721,7 +1721,7 @@ msgstr ""
 "sebagai gantinya. Ini akan membuka halaman dari <emphasis>Buku Petunjuk</"
 "emphasis> yang membahas dasar-dasarnya.</para>"
 
-#: dolphinmainwindow.cpp:3053
+#: dolphinmainwindow.cpp:3070
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1735,7 +1735,7 @@ msgstr ""
 "memicu suatu aksi ketika ditekan secara bersamaan. Semua perintah dalam "
 "aplikasi ini dapat dipicu dengan cara ini.</para>"
 
-#: dolphinmainwindow.cpp:3059
+#: dolphinmainwindow.cpp:3076
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1748,7 +1748,7 @@ msgstr ""
 "lihat di <interface>Menu</interface> juga dapat diletakkan di Bilah Alat.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3063
+#: dolphinmainwindow.cpp:3080
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1767,7 +1767,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3083
+#: dolphinmainwindow.cpp:3100
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1784,7 +1784,7 @@ msgstr ""
 "di sini</link>. Ini akan membuka halaman khusus dalam KDE UserBase Wiki.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:3105
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1807,7 +1807,7 @@ msgstr ""
 "\"Apakah ini?\" tidak ada di sebagian besar jendela lain, jadi jangan "
 "terlalu terbiasa dengan ini.</para>"
 
-#: dolphinmainwindow.cpp:3099
+#: dolphinmainwindow.cpp:3116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1824,7 +1824,7 @@ msgstr ""
 "<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>klik di "
 "sini</link>.</para>"
 
-#: dolphinmainwindow.cpp:3108
+#: dolphinmainwindow.cpp:3125
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1846,7 +1846,7 @@ msgstr ""
 "rapat kontributor, dll.</para><para><emphasis>KDE e.V.</emphasis> adalah "
 "organisasi nonprofit di balik komunitas KDE.</para>"
 
-#: dolphinmainwindow.cpp:3121
+#: dolphinmainwindow.cpp:3138
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1858,7 +1858,7 @@ msgstr ""
 ">Anda bahkan dapat mengatur bahasa sekunder yang akan digunakan jika teks "
 "tidak tersedia dalam bahasa yang Anda pilih."
 
-#: dolphinmainwindow.cpp:3126
+#: dolphinmainwindow.cpp:3143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1868,7 +1868,7 @@ msgstr ""
 "Ini akan membuka jendela yang memberi tahu Anda tentang versi, lisensi, "
 "pustaka yang digunakan, dan pemelihara aplikasi ini."
 
-#: dolphinmainwindow.cpp:3131
+#: dolphinmainwindow.cpp:3148
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1882,13 +1882,13 @@ msgstr ""
 "ini.<nl/>Jika Anda suka menggunakan aplikasi ini tetapi tidak tahu tentang "
 "KDE atau ingin melihat naga lucu, lihatlah!"
 
-#: dolphinmainwindow.cpp:3186 dolphinmainwindow.cpp:3197
+#: dolphinmainwindow.cpp:3203 dolphinmainwindow.cpp:3214
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Panel Terminal Defokus"
 
-#: dolphinmainwindow.cpp:3204
+#: dolphinmainwindow.cpp:3221
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
@@ -1896,7 +1896,7 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Panel Terminal Defokus"
 
-#: dolphinmainwindow.cpp:3215
+#: dolphinmainwindow.cpp:3232
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
@@ -1962,7 +1962,7 @@ msgid ""
 "installing <application>%1</application> manually instead."
 msgstr ""
 
-#: dolphinpart.cpp:150
+#: dolphinpart.cpp:159
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -1970,7 +1970,7 @@ msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&Edit Tipe File..."
 
-#: dolphinpart.cpp:154
+#: dolphinpart.cpp:163
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Select Items Matching..."
@@ -1978,7 +1978,7 @@ msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Pilih Butir Yang Cocok..."
 
-#: dolphinpart.cpp:159
+#: dolphinpart.cpp:168
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Unselect Items Matching..."
@@ -1986,37 +1986,37 @@ msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Tak Pilih Butir Yang Cocok..."
 
-#: dolphinpart.cpp:165
+#: dolphinpart.cpp:174
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "Tak Pilih Semua"
 
-#: dolphinpart.cpp:180
+#: dolphinpart.cpp:189
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "Ap&likasi"
 
-#: dolphinpart.cpp:181
+#: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "&Folder Jaringan"
 
-#: dolphinpart.cpp:182
+#: dolphinpart.cpp:191
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "Tong Sampah"
 
-#: dolphinpart.cpp:185
+#: dolphinpart.cpp:194
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "Automulai"
 
-#: dolphinpart.cpp:191
+#: dolphinpart.cpp:200
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Find File..."
@@ -2024,30 +2024,30 @@ msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Temukan File..."
 
-#: dolphinpart.cpp:197
+#: dolphinpart.cpp:206
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "Buka &Terminal"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:458
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "Pilih"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:458
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "Pilih semua butir yang cocok dengan pola ini:"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:463
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "Batal Pilih"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:463
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "Batal pilih semua butir yang cocok dengan pola ini:"
@@ -2196,7 +2196,7 @@ msgstr "Lokasi"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:636
+#: dolphintabwidget.cpp:638
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -2204,7 +2204,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:640
+#: dolphintabwidget.cpp:642
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -2254,12 +2254,12 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Folder ini tidak dapat ditulis bagimu."
 
-#: dolphinviewcontainer.cpp:104
+#: dolphinviewcontainer.cpp:107
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Menjalankan Dolphin sebagai root bisa berbahaya. Mohon berhati-hati."
 
-#: dolphinviewcontainer.cpp:157
+#: dolphinviewcontainer.cpp:236
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -2267,7 +2267,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Memuat folder..."
 
-#: dolphinviewcontainer.cpp:160
+#: dolphinviewcontainer.cpp:239
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2275,7 +2275,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Pengurutan:"
 
-#: dolphinviewcontainer.cpp:688
+#: dolphinviewcontainer.cpp:795
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -2283,13 +2283,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Mencari..."
 
-#: dolphinviewcontainer.cpp:708
+#: dolphinviewcontainer.cpp:815
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Item-item tidak ditemukan."
 
-#: dolphinviewcontainer.cpp:742
+#: dolphinviewcontainer.cpp:849
 #, fuzzy, kde-format
 #| msgctxt "Textual representation of files. %1 is the number of files."
 #| msgid "One File"
@@ -2298,7 +2298,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "1 File"
 
-#: dolphinviewcontainer.cpp:759
+#: dolphinviewcontainer.cpp:866
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Could not access <filename>%1</filename>."
@@ -2306,20 +2306,20 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Tidak bisa mengakses <filename>%1</filename>."
 
-#: dolphinviewcontainer.cpp:971
+#: dolphinviewcontainer.cpp:1108
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin tidak mendukung halaman web, penelusur web telah dijalankan"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:1111
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Protokol tidak didukung oleh Dolphin, aplikasi baku telah dijalankan"
 
-#: dolphinviewcontainer.cpp:981
+#: dolphinviewcontainer.cpp:1118
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2327,19 +2327,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokol tidak absah"
 
-#: dolphinviewcontainer.cpp:983
+#: dolphinviewcontainer.cpp:1120
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokol tidak absah"
 
-#: dolphinviewcontainer.cpp:1087
+#: dolphinviewcontainer.cpp:1227
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Diperlukan otorisasi untuk memasuki folder ini."
 
-#: dolphinviewcontainer.cpp:1092
+#: dolphinviewcontainer.cpp:1232
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2347,19 +2347,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Menciptakan folder."
 
-#: dolphinviewcontainer.cpp:1109
+#: dolphinviewcontainer.cpp:1249
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1112
+#: dolphinviewcontainer.cpp:1252
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1136
+#: dolphinviewcontainer.cpp:1276
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
@@ -2367,7 +2367,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Buka %1"
 
-#: dolphinviewcontainer.cpp:1182 dolphinviewcontainer.cpp:1185
+#: dolphinviewcontainer.cpp:1322 dolphinviewcontainer.cpp:1325
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4578,8 +4578,10 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #. i18n: ectx: label, entry (UseSystemFont), group (IconsMode)
+#. i18n: ectx: label, entry (UseSystemFont), group (ColumnsMode)
 #. i18n: ectx: label, entry (UseSystemFont), group (DetailsMode)
 #. i18n: ectx: label, entry (UseSystemFont), group (CompactMode)
+#: settings/dolphin_columnsmodesettings.kcfg:15
 #: settings/dolphin_compactmodesettings.kcfg:12
 #: settings/dolphin_detailsmodesettings.kcfg:15
 #: settings/dolphin_iconsmodesettings.kcfg:12
@@ -4588,8 +4590,10 @@ msgid "Use system font"
 msgstr "Gunakan font sistem"
 
 #. i18n: ectx: label, entry (IconSize), group (IconsMode)
+#. i18n: ectx: label, entry (IconSize), group (ColumnsMode)
 #. i18n: ectx: label, entry (IconSize), group (DetailsMode)
 #. i18n: ectx: label, entry (IconSize), group (CompactMode)
+#: settings/dolphin_columnsmodesettings.kcfg:19
 #: settings/dolphin_compactmodesettings.kcfg:19
 #: settings/dolphin_detailsmodesettings.kcfg:19
 #: settings/dolphin_iconsmodesettings.kcfg:19
@@ -4598,14 +4602,40 @@ msgid "Icon size"
 msgstr "Ukuran ikon"
 
 #. i18n: ectx: label, entry (PreviewSize), group (IconsMode)
+#. i18n: ectx: label, entry (PreviewSize), group (ColumnsMode)
 #. i18n: ectx: label, entry (PreviewSize), group (DetailsMode)
 #. i18n: ectx: label, entry (PreviewSize), group (CompactMode)
+#: settings/dolphin_columnsmodesettings.kcfg:23
 #: settings/dolphin_compactmodesettings.kcfg:23
 #: settings/dolphin_detailsmodesettings.kcfg:23
 #: settings/dolphin_iconsmodesettings.kcfg:23
 #, kde-format
 msgid "Preview size"
 msgstr "Ukuran pratinjau"
+
+#. i18n: ectx: label, entry (MinColumnWidth), group (ColumnsMode)
+#: settings/dolphin_columnsmodesettings.kcfg:27
+#, kde-format
+msgid "Minimum column width in pixels"
+msgstr ""
+
+#. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
+#: settings/dolphin_columnsmodesettings.kcfg:31
+#, kde-format
+msgid "Minimum width in pixels of a column adjusted to its content"
+msgstr ""
+
+#. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
+#: settings/dolphin_columnsmodesettings.kcfg:35
+#, kde-format
+msgid "Maximum number of visible columns before scrolling"
+msgstr ""
+
+#. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
+#: settings/dolphin_columnsmodesettings.kcfg:40
+#, kde-format
+msgid "Adjust column width to its content"
+msgstr ""
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4812,11 +4842,15 @@ msgstr "Mode Tampilan"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "This option controls the style of the view. Currently supported values "
+#| "include icons (0), details (1) and column (2) views."
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
-"include icons (0), details (1) and column (2) views."
+"include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Opsi ini mengendalikan gaya tampilan. Saat ini mendukung nilai termasuk "
 "tampilan ikon (0), perincian (1) dan kolom (2)."
@@ -6238,103 +6272,109 @@ msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
 msgstr "Konten"
 
-#: settings/viewmodes/viewsettingstab.cpp:53
+#: settings/viewmodes/viewsettingspage.cpp:58
+#, kde-format
+msgctxt "@title:tab"
+msgid "Columns"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "Ukuran ikon baku:"
 
-#: settings/viewmodes/viewsettingstab.cpp:60
+#: settings/viewmodes/viewsettingstab.cpp:62
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "Ukuran ikon pratinjau:"
 
-#: settings/viewmodes/viewsettingstab.cpp:66
+#: settings/viewmodes/viewsettingstab.cpp:68
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr "Font label:"
 
-#: settings/viewmodes/viewsettingstab.cpp:72
+#: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:82
+#: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "Kecil"
 
-#: settings/viewmodes/viewsettingstab.cpp:83
+#: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "Sedang"
 
-#: settings/viewmodes/viewsettingstab.cpp:84
+#: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "Besar"
 
-#: settings/viewmodes/viewsettingstab.cpp:85
+#: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "Sangat Besar"
 
-#: settings/viewmodes/viewsettingstab.cpp:86
+#: settings/viewmodes/viewsettingstab.cpp:88
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "Lebar label:"
 
-#: settings/viewmodes/viewsettingstab.cpp:89
+#: settings/viewmodes/viewsettingstab.cpp:91
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr "Tak Terbatas"
 
-#: settings/viewmodes/viewsettingstab.cpp:90
+#: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr "1"
 
-#: settings/viewmodes/viewsettingstab.cpp:91
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr "2"
 
-#: settings/viewmodes/viewsettingstab.cpp:92
+#: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr "3"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:95
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr "4"
 
-#: settings/viewmodes/viewsettingstab.cpp:94
+#: settings/viewmodes/viewsettingstab.cpp:96
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr "5"
 
-#: settings/viewmodes/viewsettingstab.cpp:95
+#: settings/viewmodes/viewsettingstab.cpp:97
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Garis maksimal:"
 
-#: settings/viewmodes/viewsettingstab.cpp:97
+#: settings/viewmodes/viewsettingstab.cpp:99
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Compact"
@@ -6342,13 +6382,13 @@ msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "Ringkas"
 
-#: settings/viewmodes/viewsettingstab.cpp:98
+#: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:99
+#: settings/viewmodes/viewsettingstab.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -6356,68 +6396,88 @@ msgctxt "@label:checkbox"
 msgid "Spacing:"
 msgstr "Mencari..."
 
-#: settings/viewmodes/viewsettingstab.cpp:104
+#: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Tak Terbatas"
 
-#: settings/viewmodes/viewsettingstab.cpp:105
+#: settings/viewmodes/viewsettingstab.cpp:107
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Kecil"
 
-#: settings/viewmodes/viewsettingstab.cpp:106
+#: settings/viewmodes/viewsettingstab.cpp:108
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Sedang"
 
-#: settings/viewmodes/viewsettingstab.cpp:107
+#: settings/viewmodes/viewsettingstab.cpp:109
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Besar"
 
-#: settings/viewmodes/viewsettingstab.cpp:108
+#: settings/viewmodes/viewsettingstab.cpp:110
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Lebar maksimal:"
 
-#: settings/viewmodes/viewsettingstab.cpp:112
+#: settings/viewmodes/viewsettingstab.cpp:114
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Dapat dibentangkan"
 
-#: settings/viewmodes/viewsettingstab.cpp:113
+#: settings/viewmodes/viewsettingstab.cpp:115
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Folder:"
 
-#: settings/viewmodes/viewsettingstab.cpp:116
+#: settings/viewmodes/viewsettingstab.cpp:118
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr "Dengan mengeklik di mana saja pada baris"
 
-#: settings/viewmodes/viewsettingstab.cpp:117
+#: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr "Dengan mengeklik pada ikon atau nama"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:125
+#: settings/viewmodes/viewsettingstab.cpp:127
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Buka file dan folder:"
 
-#: settings/viewmodes/viewsettingstab.cpp:285
+#: settings/viewmodes/viewsettingstab.cpp:134
+#, kde-format
+msgctxt "@item:inlistbox Column width"
+msgid "Fixed"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:135
+#, kde-format
+msgctxt "@item:inlistbox Column width"
+msgid "Adjust to content"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:136
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Maximum width:"
+msgctxt "@label:listbox"
+msgid "Column width:"
+msgstr "Lebar maksimal:"
+
+#: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
 #, kde-format
 msgctxt "@info:tooltip"
@@ -6426,131 +6486,137 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "Ukuran: 1 pixel"
 msgstr[1] "Ukuran: %1 pixel"
 
-#: settings/viewpropertiesdialog.cpp:55
+#: settings/viewpropertiesdialog.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "Lihat Gaya Tampilan"
 
-#: settings/viewpropertiesdialog.cpp:67
+#: settings/viewpropertiesdialog.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "Ikon"
 
-#: settings/viewpropertiesdialog.cpp:68
+#: settings/viewpropertiesdialog.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "Ringkas"
 
-#: settings/viewpropertiesdialog.cpp:69
+#: settings/viewpropertiesdialog.cpp:70
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "Perincian"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Columns"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "Menaik"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:75
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "Menurun"
 
-#: settings/viewpropertiesdialog.cpp:81
+#: settings/viewpropertiesdialog.cpp:83
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "Tampilkan folder dulu"
 
-#: settings/viewpropertiesdialog.cpp:82
+#: settings/viewpropertiesdialog.cpp:84
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "Tampilkan file tersembunyi terakhir"
 
-#: settings/viewpropertiesdialog.cpp:83
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "Tampilkan pratinjau"
 
-#: settings/viewpropertiesdialog.cpp:84
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "Tampilkan dalam kelompok"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "Tampilkan file tersembunyi"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Informasi Tambahan"
 
-#: settings/viewpropertiesdialog.cpp:123
+#: settings/viewpropertiesdialog.cpp:125
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Pilihlah apa yang terlihat pada setiap file atau folder:"
 
-#: settings/viewpropertiesdialog.cpp:133
+#: settings/viewpropertiesdialog.cpp:135
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Mode tampilan:"
 
-#: settings/viewpropertiesdialog.cpp:134
+#: settings/viewpropertiesdialog.cpp:136
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Pengurutan:"
 
-#: settings/viewpropertiesdialog.cpp:138
+#: settings/viewpropertiesdialog.cpp:140
 #, kde-format
 msgid "View options:"
 msgstr "Opsi tampilan:"
 
-#: settings/viewpropertiesdialog.cpp:157
+#: settings/viewpropertiesdialog.cpp:159
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Folder Saat Ini"
 
-#: settings/viewpropertiesdialog.cpp:159
+#: settings/viewpropertiesdialog.cpp:161
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Folder dan sub-folder saat ini"
 
-#: settings/viewpropertiesdialog.cpp:160
+#: settings/viewpropertiesdialog.cpp:162
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Semua Folder"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:171
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Terapkan untuk:"
 
-#: settings/viewpropertiesdialog.cpp:174
+#: settings/viewpropertiesdialog.cpp:176
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Gunakan sebagai pengaturan tampilan baku"
 
-#: settings/viewpropertiesdialog.cpp:323
+#: settings/viewpropertiesdialog.cpp:335
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6559,7 +6625,7 @@ msgid ""
 msgstr ""
 "Properti tampilan semua sub-folder akan diubah. Apa Anda ingin melanjutkan?"
 
-#: settings/viewpropertiesdialog.cpp:349
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6750,6 +6816,17 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr "Sekumpulan pengaturan Dolphin"
 
+#: views/dolphincolumnpane.cpp:71 views/dolphinview.cpp:3009
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
+msgstr "Memuat..."
+
+#: views/dolphincolumnpane.cpp:242 views/dolphinview.cpp:3101
+#, kde-format
+msgid "Loading canceled"
+msgstr "Memuat yang dibatalkan"
+
 #: views/dolphinremoteencoding.cpp:39
 #, kde-format
 msgid "Select Remote Charset"
@@ -6765,7 +6842,7 @@ msgstr "Baku"
 msgid "Reload"
 msgstr "Muat Ulang"
 
-#: views/dolphinview.cpp:807
+#: views/dolphinview.cpp:790
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6776,7 +6853,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 Folder dipilih"
 msgstr[1] "%1 Folder dipilih"
 
-#: views/dolphinview.cpp:808
+#: views/dolphinview.cpp:791
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6787,7 +6864,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 File dipilih"
 msgstr[1] "%1 File dipilih"
 
-#: views/dolphinview.cpp:810
+#: views/dolphinview.cpp:793
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -6798,7 +6875,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 Folder"
 msgstr[1] "%1 Folder"
 
-#: views/dolphinview.cpp:811
+#: views/dolphinview.cpp:794
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Your files"
@@ -6808,19 +6885,19 @@ msgid_plural "%1 files"
 msgstr[0] "Berkas Anda"
 msgstr[1] "Berkas Anda"
 
-#: views/dolphinview.cpp:815
+#: views/dolphinview.cpp:798
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:817
+#: views/dolphinview.cpp:800
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:821
+#: views/dolphinview.cpp:804
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -6828,20 +6905,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 Folders, 0 File"
 
-#: views/dolphinview.cpp:1089 views/dolphinview.cpp:1098
+#: views/dolphinview.cpp:1072 views/dolphinview.cpp:1081
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 salinan"
 
-#: views/dolphinview.cpp:1301
+#: views/dolphinview.cpp:1299
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Apakah Anda yakin ingin membuka 1 butir?"
 msgstr[1] "Apakah Anda yakin ingin membuka %1 butir?"
 
-#: views/dolphinview.cpp:1306
+#: views/dolphinview.cpp:1304
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6849,43 +6926,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Buka %1 Butir"
 msgstr[1] "Buka %1 Butir"
 
-#: views/dolphinview.cpp:1447
+#: views/dolphinview.cpp:1445
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Padding Sisi"
 
-#: views/dolphinview.cpp:1451
+#: views/dolphinview.cpp:1449
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Lebar Kolom Otomatis"
 
-#: views/dolphinview.cpp:1456
+#: views/dolphinview.cpp:1454
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Lebar Kolom Kustom"
 
-#: views/dolphinview.cpp:2210
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operasi pembuangan selesai."
 
-#: views/dolphinview.cpp:2220
+#: views/dolphinview.cpp:2280
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operasi penghapusan selesai."
 
-#: views/dolphinview.cpp:2421
+#: views/dolphinview.cpp:2481
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Ubah Nama dan Sembunyikan"
 
-#: views/dolphinview.cpp:2425
+#: views/dolphinview.cpp:2485
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6895,7 +6972,7 @@ msgstr ""
 "tampilan.\n"
 "Apakah Anda masih ingin mengubah namanya?"
 
-#: views/dolphinview.cpp:2427
+#: views/dolphinview.cpp:2487
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6905,17 +6982,17 @@ msgstr ""
 "tampilan.\n"
 "Apakah Anda masih ingin mengubah namanya?"
 
-#: views/dolphinview.cpp:2429
+#: views/dolphinview.cpp:2489
 #, kde-format
 msgid "Hide this File?"
 msgstr "Sembunyikan File ini?"
 
-#: views/dolphinview.cpp:2429
+#: views/dolphinview.cpp:2489
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Sebunyikan Folder ini?"
 
-#: views/dolphinview.cpp:2450
+#: views/dolphinview.cpp:2510
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6923,7 +7000,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Ubah Nama..."
 
-#: views/dolphinview.cpp:2460
+#: views/dolphinview.cpp:2520
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6932,7 +7009,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2464
+#: views/dolphinview.cpp:2524
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6941,7 +7018,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2470
+#: views/dolphinview.cpp:2530
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -6949,96 +7026,85 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "&Edit Tipe File..."
 
-#: views/dolphinview.cpp:2518
+#: views/dolphinview.cpp:2581
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokasi kosong."
 
-#: views/dolphinview.cpp:2520
+#: views/dolphinview.cpp:2583
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokasi '%1' tidak absah."
 
-#: views/dolphinview.cpp:2910
-#, fuzzy, kde-format
-#| msgid "Loading..."
-msgid "Loading…"
-msgstr "Memuat..."
-
-#: views/dolphinview.cpp:2939
-#, kde-format
-msgid "Loading canceled"
-msgstr "Memuat yang dibatalkan"
-
-#: views/dolphinview.cpp:2941
+#: views/dolphinview.cpp:3046
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Tidak ada butir yang cocok dengan penyaringan"
 
-#: views/dolphinview.cpp:2943
+#: views/dolphinview.cpp:3048
 #, kde-format
 msgid "No items matching the search"
 msgstr "Tidak ada butir yang cocok dengan pencarian"
 
-#: views/dolphinview.cpp:2945
+#: views/dolphinview.cpp:3050
 #, kde-format
 msgid "Trash is empty"
 msgstr "Tong Sampah kosong"
 
-#: views/dolphinview.cpp:2948
+#: views/dolphinview.cpp:3053
 #, kde-format
 msgid "No tags"
 msgstr "Tidak ada tag"
 
-#: views/dolphinview.cpp:2951
+#: views/dolphinview.cpp:3056
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Tidak ada file yang di tag dengan \"%1\""
 
-#: views/dolphinview.cpp:2955
+#: views/dolphinview.cpp:3059
 #, kde-format
 msgid "No recently used items"
 msgstr "Tidak ada butir yang barusan digunakan"
 
-#: views/dolphinview.cpp:2957
+#: views/dolphinview.cpp:3061
 #, kde-format
 msgid "No shared folders found"
 msgstr "Tidak ditemukan folder yang dibagikan"
 
-#: views/dolphinview.cpp:2959
+#: views/dolphinview.cpp:3063
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Tidak ditemukan sumber daya jaringan yang relevan"
 
-#: views/dolphinview.cpp:2961
+#: views/dolphinview.cpp:3065
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Tidak ditemukan peranti yang kompatibel dengan MTP"
 
-#: views/dolphinview.cpp:2963
+#: views/dolphinview.cpp:3067
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Tidak ditemukan peranti Apple"
 
-#: views/dolphinview.cpp:2966
+#: views/dolphinview.cpp:3070
 #, fuzzy, kde-format
 #| msgid "No Apple devices found"
 msgid "No KDE Connect devices found"
 msgstr "Tidak ditemukan peranti Apple"
 
-#: views/dolphinview.cpp:2968
+#: views/dolphinview.cpp:3072
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:2971
+#: views/dolphinview.cpp:3075
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Tidak ditemukan peranti Bluetooth"
 
-#: views/dolphinview.cpp:2973
+#: views/dolphinview.cpp:3077
 #, kde-format
 msgid "Folder is empty"
 msgstr "Folder ini kosong"
@@ -7176,7 +7242,7 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Salin Lokasi..."
 
-#: views/dolphinviewactionhandler.cpp:212
+#: views/dolphinviewactionhandler.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -7192,7 +7258,7 @@ msgstr ""
 "ini berguna untuk menelusuri gambar saat opsi <interface>Pratinjau</"
 "interface> diaktifkan.</para>"
 
-#: views/dolphinviewactionhandler.cpp:219
+#: views/dolphinviewactionhandler.cpp:220
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Compact view mode"
 #| msgid ""
@@ -7209,7 +7275,7 @@ msgstr ""
 "file dalam kolom dengan nama di samping ikon.</para><para>Ini membantu "
 "menjaga ikhtisar dalam folder dengan banyak butir.</para>"
 
-#: views/dolphinviewactionhandler.cpp:223
+#: views/dolphinviewactionhandler.cpp:224
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Details view mode"
 #| msgid ""
@@ -7239,6 +7305,16 @@ msgstr ""
 "dapat melihat konten beberapa folder dalam daftar yang sama.</para>"
 
 #: views/dolphinviewactionhandler.cpp:233
+#, kde-kuit-format
+msgctxt "@info:whatsthis Columns view mode"
+msgid ""
+"<para>This switches to a columns view mode (Miller Columns). Each directory "
+"level is shown in its own column, cascading horizontally from left to right."
+"</para><para>Selecting a folder opens its contents in the next column to the "
+"right.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:239
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "View Mode"
@@ -7246,54 +7322,54 @@ msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Mode Tampilan"
 
-#: views/dolphinviewactionhandler.cpp:234
+#: views/dolphinviewactionhandler.cpp:240
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:254
+#: views/dolphinviewactionhandler.cpp:258
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Ini akan memperbesar ukuran ikon."
 
-#: views/dolphinviewactionhandler.cpp:257
+#: views/dolphinviewactionhandler.cpp:261
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Set ulang level zoom"
 
-#: views/dolphinviewactionhandler.cpp:258
+#: views/dolphinviewactionhandler.cpp:262
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Zoom Ke Baku"
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Ini akan mengatur ulang ukuran ikon ke ukuran baku."
 
-#: views/dolphinviewactionhandler.cpp:265
+#: views/dolphinviewactionhandler.cpp:269
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Ini akan memperkecil ukuran ikon."
 
-#: views/dolphinviewactionhandler.cpp:271
+#: views/dolphinviewactionhandler.cpp:275
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Tampilkan Pratinjau"
 
-#: views/dolphinviewactionhandler.cpp:272
+#: views/dolphinviewactionhandler.cpp:276
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Tampilkan pratinjau file dan folder"
 
-#: views/dolphinviewactionhandler.cpp:274
+#: views/dolphinviewactionhandler.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7304,7 +7380,7 @@ msgstr ""
 "Jika ini diaktifkan, ikon akan didasarkan pada konten file atau folder yang "
 "sebenarnya.<nl/>Misalnya ikon gambar menjadi versi gambar yang diperkecil."
 
-#: views/dolphinviewactionhandler.cpp:282
+#: views/dolphinviewactionhandler.cpp:286
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -7312,25 +7388,25 @@ msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
 msgstr "Pengurutan:"
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:289
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Folder Dulu"
 
-#: views/dolphinviewactionhandler.cpp:289
+#: views/dolphinviewactionhandler.cpp:293
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "File Tersembunyi Terakhir"
 
-#: views/dolphinviewactionhandler.cpp:297
+#: views/dolphinviewactionhandler.cpp:301
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Urutkan Berdasarkan"
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:334
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -7338,13 +7414,13 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Tampilkan Bilah Filter"
 
-#: views/dolphinviewactionhandler.cpp:334
+#: views/dolphinviewactionhandler.cpp:338
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Tampilkan Informasi Tambahan"
 
-#: views/dolphinviewactionhandler.cpp:344
+#: views/dolphinviewactionhandler.cpp:348
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Grouped Sorting"
@@ -7352,13 +7428,13 @@ msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
 msgstr "Pengurutan Dikelompokkan"
 
-#: views/dolphinviewactionhandler.cpp:349
+#: views/dolphinviewactionhandler.cpp:353
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Group By"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:351
+#: views/dolphinviewactionhandler.cpp:355
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7366,25 +7442,25 @@ msgid ""
 "grouping. \"Same as Sort\" groups by the active sort criterion."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:362
+#: views/dolphinviewactionhandler.cpp:366
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "None"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:369
+#: views/dolphinviewactionhandler.cpp:373
 #, kde-format
 msgctxt "@action:inmenu Group By"
 msgid "Same as Sort"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:384
+#: views/dolphinviewactionhandler.cpp:388
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Tampilkan File Tersembunyi"
 
-#: views/dolphinviewactionhandler.cpp:386
+#: views/dolphinviewactionhandler.cpp:390
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -7410,7 +7486,7 @@ msgstr ""
 "\".\". Secara umum, tidak perlu bagi pengguna untuk mengaksesnya, itulah "
 "sebabnya mereka disembunyikan.</para>"
 
-#: views/dolphinviewactionhandler.cpp:400
+#: views/dolphinviewactionhandler.cpp:404
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Display Style..."
@@ -7418,7 +7494,7 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Sesuaikan Gaya Display Tampilan..."
 
-#: views/dolphinviewactionhandler.cpp:403
+#: views/dolphinviewactionhandler.cpp:407
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7427,21 +7503,21 @@ msgstr ""
 "Ini akan membuka jendela di mana semua properti tampilan folder dapat "
 "disesuaikan."
 
-#: views/dolphinviewactionhandler.cpp:409
+#: views/dolphinviewactionhandler.cpp:413
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
 msgstr "Zoom Ke Baku"
 
-#: views/dolphinviewactionhandler.cpp:410
+#: views/dolphinviewactionhandler.cpp:414
 #, fuzzy, kde-format
 #| msgid "Zoom To Default"
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
 msgstr "Zoom Ke Baku"
 
-#: views/dolphinviewactionhandler.cpp:415
+#: views/dolphinviewactionhandler.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "name of kuserfeedback data source provided by dolphin"
 #| msgid "Settings"
@@ -7449,7 +7525,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Peng&aturan"
 
-#: views/dolphinviewactionhandler.cpp:417
+#: views/dolphinviewactionhandler.cpp:421
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -7457,103 +7533,117 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:790
+#: views/dolphinviewactionhandler.cpp:807
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Ikon"
 
-#: views/dolphinviewactionhandler.cpp:791
+#: views/dolphinviewactionhandler.cpp:808
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Mode tampilan ikon"
 
-#: views/dolphinviewactionhandler.cpp:801
+#: views/dolphinviewactionhandler.cpp:818
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Ringkas"
 
-#: views/dolphinviewactionhandler.cpp:802
+#: views/dolphinviewactionhandler.cpp:819
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Mode tampilan ringkas"
 
-#: views/dolphinviewactionhandler.cpp:812
+#: views/dolphinviewactionhandler.cpp:829
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Perincian"
 
-#: views/dolphinviewactionhandler.cpp:813
+#: views/dolphinviewactionhandler.cpp:830
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Mode tampilan perincian"
 
-#: views/dolphinviewactionhandler.cpp:836
+#: views/dolphinviewactionhandler.cpp:840
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Columns"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:841
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Icons view mode"
+msgctxt "@info"
+msgid "Columns view mode"
+msgstr "Mode tampilan ikon"
+
+#: views/dolphinviewactionhandler.cpp:864
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:837
+#: views/dolphinviewactionhandler.cpp:865
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:839
+#: views/dolphinviewactionhandler.cpp:867
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Yang terbesar dulu"
 
-#: views/dolphinviewactionhandler.cpp:840
+#: views/dolphinviewactionhandler.cpp:868
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Yang terkecil dulu"
 
-#: views/dolphinviewactionhandler.cpp:842
+#: views/dolphinviewactionhandler.cpp:870
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Yang terbaru dulu"
 
-#: views/dolphinviewactionhandler.cpp:843
+#: views/dolphinviewactionhandler.cpp:871
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Yang terlawas dulu"
 
-#: views/dolphinviewactionhandler.cpp:845
+#: views/dolphinviewactionhandler.cpp:873
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Yang tertinggi dulu"
 
-#: views/dolphinviewactionhandler.cpp:846
+#: views/dolphinviewactionhandler.cpp:874
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Yang terendah dulu"
 
-#: views/dolphinviewactionhandler.cpp:848
+#: views/dolphinviewactionhandler.cpp:876
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Menurun"
 
-#: views/dolphinviewactionhandler.cpp:849
+#: views/dolphinviewactionhandler.cpp:877
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Menaik"
 
-#: views/dolphinviewactionhandler.cpp:947
+#: views/dolphinviewactionhandler.cpp:980
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7566,12 +7656,12 @@ msgstr "Aksi untuk Tampilan Saat Ini"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:956
+#: views/dolphinviewactionhandler.cpp:989
 #, kde-format
 msgid "Actions for %1"
 msgstr "Aksi untuk %1"
 
-#: views/dolphinviewactionhandler.cpp:963
+#: views/dolphinviewactionhandler.cpp:996
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
