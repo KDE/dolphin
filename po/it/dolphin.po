@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 00:16+0000\n"
-"PO-Revision-Date: 2026-10-21 15:47+0200\n"
+"PO-Revision-Date: 2026-11-09 15:46+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.10\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2010,15 +2010,13 @@ msgstr "Sgancia scheda"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Libera scheda"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Scheda precedente"
+msgstr "Fissa precedente"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2669,6 +2667,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"La ricerca file è disabilitata. Abilitala in Impostazioni di sistema per "
+"visualizzare queste informazioni."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2677,14 +2677,15 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"La ricerca file indicizza solo i nomi dei file. Per visualizzare anche "
+"queste informazioni, abilita l'indicizzazione del contenuto dei file in "
+"Impostazioni di sistema."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Non puoi scrivere su questa cartella."
+msgstr "Questa cartella non è indicizzata da Ricerca file."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2693,6 +2694,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Queste informazioni provengono da «Ricerca file», una funzionalità che in "
+"questa versione di Dolphin non è inclusa."
 
 #: kitemviews/kfileitemmodel.cpp:2845
 #, kde-format
@@ -3387,7 +3390,7 @@ msgstr "Documentazione"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4929,7 +4932,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:107
 #, kde-format
 msgid "Rename single items inline"
-msgstr "Rinomina in linea il singolo elemento"
+msgstr "Rinomina in linea i singoli elementi"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5342,7 +5345,7 @@ msgstr "Alla fine della barra delle schede"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Apri in nuove schede: "
+msgstr "Apri nuove schede: "
 
 #: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
@@ -5468,6 +5471,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Fai in modo che l'albero delle cartelle nel pannello Cartelle abbia inizio "
+"dalla tua cartella home, mentre ti trovi al suo interno."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5479,6 +5484,12 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Quando questa opzione è attivata e la cartella attuale si trova "
+"all'interno della tua cartella home, il pannello Cartelle mostra solo la tua "
+"cartella home e le cartelle in essa contenute. In questo caso, la cartella "
+"radice e le altre unità non sono visualizzate nel pannello.</para><para>Al "
+"di fuori della tua cartella home, il pannello mostra tutte le cartelle, a "
+"partire dalla cartella radice.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format
