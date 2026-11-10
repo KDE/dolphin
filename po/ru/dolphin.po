@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-02 07:45+0200\n"
+"PO-Revision-Date: 2026-11-09 04:34+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -4538,25 +4538,25 @@ msgstr "Размер миниатюр"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Минимальная ширина столбца в пикселах"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Минимальная ширина столбца, подстраиваемого под содержимое, в пикселах"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Максимальное число видимых столбцов до появления прокрутки"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Подстраивать ширину столбца под содержимое"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4759,18 +4759,14 @@ msgstr "Режим просмотра"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Этот параметр определяет режим просмотра. В настоящее время может принимать "
-"значения: значки (0), таблица (1), столбцы (2)."
+"значения: значки (0), таблица (1), список (2), столбцы (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5775,7 +5771,7 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:48
 #: settings/viewmodes/viewsettingspage.cpp:53
@@ -6112,9 +6108,7 @@ msgid "Content Display"
 msgstr "Содержимое"
 
 #: settings/viewmodes/viewsettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
 msgstr "Столбцы"
@@ -6300,21 +6294,19 @@ msgstr "Открывать файлы и папки:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Фиксированная"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "По содержимому"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Максимальная ширина:"
+msgstr "Ширина столбца:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6343,7 +6335,7 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: settings/viewpropertiesdialog.cpp:70
 #, kde-format
@@ -6352,9 +6344,7 @@ msgid "Details"
 msgstr "Таблица"
 
 #: settings/viewpropertiesdialog.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
 msgstr "Столбцы"
@@ -7134,6 +7124,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Это действие служит для выбора режима просмотра «Столбцы» (столбцы "
+"Миллера): каждый уровень вложенности папок показывается в отдельном столбце, "
+"столбцы идут слева направо.</para><para>При выборе папки её содержимое "
+"открывается в следующем столбце справа.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7358,13 +7352,13 @@ msgstr "Значки"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: views/dolphinviewactionhandler.cpp:819
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
-msgstr "Столбцы"
+msgstr "Список"
 
 #: views/dolphinviewactionhandler.cpp:829
 #, kde-format
@@ -7385,12 +7379,10 @@ msgid "Columns"
 msgstr "Столбцы"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Значки"
+msgstr "Столбцы"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

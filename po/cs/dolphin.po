@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-02 23:53+0100\n"
+"PO-Revision-Date: 2026-11-09 12:04+0100\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 26.08.2\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4417,25 +4417,25 @@ msgstr "Velikost náhledu"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Minimální šířka sloupce v pixelech"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Minimální šířka sloupce v pixelech přizpůsobená jeho obsahu"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Maximální počet viditelných sloupců před posouváním"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Přizpůsobit šířku sloupce jeho obsahu"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4640,18 +4640,14 @@ msgstr "Režim zobrazení"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"Tato volba kontroluje styl náhledu. Současné podporované hodnoty jsou ikony "
-"(0), podrobnosti (1) a sloupcová (2) zobrazení."
+"Tato volba určuje styl náhledu. Mezi aktuálně podporované hodnoty patří "
+"zobrazení ikon (0), podrobností (1), kompaktní (2) a sloupcové (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5981,7 +5977,7 @@ msgstr "Zobrazení obsahu"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Sloupce"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6162,21 +6158,19 @@ msgstr "Otevřít soubory a složky:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Pevné"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Přizpůsobit obsahu"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Maximální šířka:"
+msgstr "Šířka sloupce:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6216,7 +6210,7 @@ msgstr "Podrobnosti"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Sloupce"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -6978,6 +6972,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Tímto se přepnete do režimu zobrazení ve sloupcích (Milerovy sloupce). "
+"Každá úroveň adresářů se zobrazuje ve vlastním sloupci, které se kaskádovitě "
+"řadí vodorovně zleva doprava.</para><para>Výběrem složky se její obsah "
+"otevře v dalším sloupci vpravo.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7227,15 +7225,13 @@ msgstr "Režim zobrazení podrobností"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Sloupce"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Režim zobrazení ikon"
+msgstr "Režim zobrazení sloupců"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

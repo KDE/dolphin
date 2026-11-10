@@ -544,7 +544,7 @@
 <listitem
 ><para
 >В режиме просмотра <guilabel
->Столбцы</guilabel
+>Список</guilabel
 > содержимое папки показывается в виде значков с указанными рядом с ними именами объектов, а сведения, выбранные в пункте меню <menuchoice
 ><guimenu
 >Вид</guimenu
@@ -1698,7 +1698,7 @@ context menu Icon Size? No different entries ?-->
 >В этом разделе собраны параметры, которые определяют поведение панели просмотра &dolphin;. Параметры разбиты на пять вкладок, переключаемых панелью вкладок вверху. На вкладках <guilabel
 >Значки</guilabel
 >, <guilabel
->Столбцы</guilabel
+>Список</guilabel
 > и <guilabel
 >Таблица</guilabel
 > собраны параметры трёх режимов просмотра. <screenshot>
@@ -1938,7 +1938,7 @@ context menu Icon Size? No different entries ?-->
 >У вкладок <guilabel
 >Значки</guilabel
 >, <guilabel
->Столбцы</guilabel
+>Список</guilabel
 > и <guilabel
 >Таблица</guilabel
 > есть несколько общих параметров: </para>
@@ -2005,7 +2005,7 @@ context menu Icon Size? No different entries ?-->
 
 <sect3 id="preferences-dialog-view-compact">
 <title
->Вкладка «Столбцы»</title>
+>Вкладка «Список»</title>
 <para>
 <itemizedlist>
 <listitem
@@ -2218,7 +2218,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Режим просмотра («Значки», «Столбцы», «Таблица») </para
+>Режим просмотра («Значки», «Список», «Таблица») </para
 ></listitem>
 
 <listitem
@@ -3134,7 +3134,7 @@ context menu Icon Size? No different entries ?-->
 >1</keycap
 ></keycombo
 >), <guimenuitem
->Столбцы</guimenuitem
+>Список</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >2</keycap

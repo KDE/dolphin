@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-03 13:20+0100\n"
+"PO-Revision-Date: 2026-11-09 10:06+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4444,25 +4444,25 @@ msgstr "Mida de la vista prèvia"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Amplada mínima de les columnes en píxels"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Amplada mínima en píxels d'una columna ajustada al seu contingut"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Nombre màxim de columnes visibles abans del desplaçament"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Ajusta l'amplada de les columnes al seu contingut"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4664,18 +4664,14 @@ msgstr "Mode de vista"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Aquesta opció controla l'estil de la vista. Els valors permesos actualment "
-"són: inclou vistes d'icones (0), detalls (1) i columnes (2)."
+"són: inclou vistes d'icones (0), detalls (1), compacta (2) i columnes (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -6020,7 +6016,7 @@ msgstr "Visualització del contingut"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Columnes"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6203,21 +6199,19 @@ msgstr "Obre fitxers i carpetes:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Fixa"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Ajusta al contingut"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Amplada màxima:"
+msgstr "Amplada de les columnes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6256,7 +6250,7 @@ msgstr "Detalls"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Columnes"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -7019,6 +7013,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Això canvia a un mode de vista de columnes (columnes de Miller). Cada "
+"nivell de directori es mostra en la seva pròpia columna, en cascada "
+"horitzontal d'esquerra a dreta.</para><para>Seleccionant una carpeta s'obre "
+"el seu contingut a la columna següent a la dreta.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7268,15 +7266,13 @@ msgstr "Mode de vista de detalls"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Columnes"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Mode de vista d'icones"
+msgstr "Mode de vista de columnes"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

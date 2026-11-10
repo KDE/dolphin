@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-10-21 15:47+0200\n"
+"PO-Revision-Date: 2026-11-09 15:46+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.10\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2010,15 +2010,13 @@ msgstr "Sgancia scheda"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Libera scheda"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Scheda precedente"
+msgstr "Fissa precedente"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2669,6 +2667,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"La ricerca file è disabilitata. Abilitala in Impostazioni di sistema per "
+"visualizzare queste informazioni."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2677,14 +2677,15 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"La ricerca file indicizza solo i nomi dei file. Per visualizzare anche "
+"queste informazioni, abilita l'indicizzazione del contenuto dei file in "
+"Impostazioni di sistema."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Non puoi scrivere su questa cartella."
+msgstr "Questa cartella non è indicizzata da Ricerca file."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2693,6 +2694,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Queste informazioni provengono da «Ricerca file», una funzionalità che in "
+"questa versione di Dolphin non è inclusa."
 
 #: kitemviews/kfileitemmodel.cpp:2845
 #, kde-format
@@ -3387,7 +3390,7 @@ msgstr "Documentazione"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4431,25 +4434,25 @@ msgstr "Dimensione delle anteprime"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Larghezza minima della colonna in pixel"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Larghezza minima in pixel di una colonna adattata al suo contenuto"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Numero massimo di colonne visibili prima dello scorrimento"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Adatta la larghezza della colonna al suo contenuto"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4652,18 +4655,15 @@ msgstr "Modalità di visualizzazione"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Questa opzione controlla lo stile della vista. I valori supportati "
-"attualmente includono viste per icone (0), dettagli (1) e colonne (2)."
+"attualmente includono viste per icone (0), dettagli (1), compatta (2) e "
+"colonne (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4963,7 +4963,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:107
 #, kde-format
 msgid "Rename single items inline"
-msgstr "Rinomina in linea il singolo elemento"
+msgstr "Rinomina in linea i singoli elementi"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5376,7 +5376,7 @@ msgstr "Alla fine della barra delle schede"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Apri in nuove schede: "
+msgstr "Apri nuove schede: "
 
 #: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
@@ -5502,6 +5502,8 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Fai in modo che l'albero delle cartelle nel pannello Cartelle abbia inizio "
+"dalla tua cartella home, mentre ti trovi al suo interno."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5513,6 +5515,12 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Quando questa opzione è attivata e la cartella attuale si trova "
+"all'interno della tua cartella home, il pannello Cartelle mostra solo la tua "
+"cartella home e le cartelle in essa contenute. In questo caso, la cartella "
+"radice e le altre unità non sono visualizzate nel pannello.</para><para>Al "
+"di fuori della tua cartella home, il pannello mostra tutte le cartelle, a "
+"partire dalla cartella radice.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
 #, kde-format
@@ -6005,9 +6013,7 @@ msgid "Content Display"
 msgstr "Visualizzazione del contenuto"
 
 #: settings/viewmodes/viewsettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
 msgstr "Colonne"
@@ -6194,21 +6200,19 @@ msgstr "Apri file e cartelle:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Fissa"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Adatta al contenuto"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Larghezza massima:"
+msgstr "Larghezza della colonna:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6244,9 +6248,7 @@ msgid "Details"
 msgstr "Dettagli"
 
 #: settings/viewpropertiesdialog.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
 msgstr "Colonne"
@@ -7021,6 +7023,11 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Questa modalità passa alla visualizzazione a colonne (colonne di "
+"Miller). Ogni livello di cartelle viene mostrato in una colonna dedicata, "
+"disponendosi in sequenza orizzontale da sinistra verso destra.</"
+"para><para>Selezionando una cartella, il suo contenuto viene visualizzato "
+"nella colonna immediatamente successiva, verso destra.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7274,12 +7281,10 @@ msgid "Columns"
 msgstr "Colonne"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Modalità vista a icone"
+msgstr "Modalità di visualizzazione delle colonne"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

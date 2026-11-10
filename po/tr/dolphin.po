@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-03 21:42+0300\n"
+"PO-Revision-Date: 2026-11-09 22:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4389,25 +4389,26 @@ msgstr "Önizleme boyutu"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Piksel türünden en küçük sütun genişliği"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
 msgstr ""
+"İçeriğine göre ayarlanmış bir sütunun piksel türünden en küçük genişliği"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Sarma öncesinde görülebilecek en çok sütun sayısı"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Sütun genişliğini içeriğine göre ayarla"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4607,18 +4608,15 @@ msgstr "Görünüm Kipi"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"Bu seçenek görünüm biçimini kontrol eder. Şu anda desteklenen değerler "
-"simgeleri içer (0), ayrıntılar (1) ve sütun (2) görünümleridir."
+"Bu seçenek görünümün stilini denetler. Şu anda desteklenen değerler arasında "
+"simgeler (0), ayrıntılar (1), sıkışık (2) ve sütunlar (3) görünümleri "
+"bulunmaktadır."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5955,7 +5953,7 @@ msgstr "İçerik Görüntüleme"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Sütunlar"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6140,21 +6138,19 @@ msgstr "Dosyaları ve klasörleri aç:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Sabit"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "İçeriğe göre ayarla"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "En büyük genişlik:"
+msgstr "Sütun genişliği:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6193,7 +6189,7 @@ msgstr "Ayrıntılar"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Sütunlar"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -6952,6 +6948,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Bu, sütun görüntüleme kipine (Miller Sütunları) geçiş yapar. Her dizin "
+"düzeyi, soldan sağa yatay olarak basamaklı olarak kendi sütununda gösterilir."
+"</para><para>Bir klasör seçildiğinde, içeriği sağdaki sonraki sütunda açılır."
+"</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7147,7 +7147,7 @@ msgstr "Görünüm ayarlarını öntanımlı değerlere sıfırla"
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Ayarları Görüntüle"
+msgstr "Görünüm Ayarları"
 
 #: views/dolphinviewactionhandler.cpp:421
 #, kde-kuit-format
@@ -7199,15 +7199,13 @@ msgstr "Ayrıntılı görünüm kipi"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Sütunlar"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Simge görünüm kipi"
+msgstr "Sütunlar görünüm kipi"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

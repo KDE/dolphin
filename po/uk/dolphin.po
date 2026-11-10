@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-02 09:00+0200\n"
+"PO-Revision-Date: 2026-11-09 08:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4495,25 +4495,25 @@ msgstr "Розмір перегляду"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Мінімальна ширина колонки у пікселях"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Мінімальна ширина колонки у пікселях коригується за вмістом"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Максимальна видима кількість колонок до вмикання гортання"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Коригувати ширину колонок за вмістом"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4723,18 +4723,15 @@ msgstr "Режим перегляду"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Цей параметр керує стилем вигляду. У поточній версії програми підтримуються "
-"значення перегляду піктограмами (0), з подробицями (1) і з колонками (2)."
+"значення перегляду піктограмами (0), з подробицями (1), компактний (2) і з "
+"колонками (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -6077,7 +6074,7 @@ msgstr "Показ вмісту"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Колонки"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6259,21 +6256,19 @@ msgstr "Відкривати файли і теки:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Фіксований"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Коригувати за вмістом"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Максимальна ширина:"
+msgstr "Ширина стовпчика:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6314,7 +6309,7 @@ msgstr "Подробиці"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Колонки"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -7086,6 +7081,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Цей режим перемикає показу з колонками (колонки Міллера). Кожен рівень "
+"каталогу буде показано в окремій колонці; колонки розташовуються каскадом по "
+"горизонталі — зліва направо.</para><para>Вибір теки призводить до того, що "
+"її вміст відкривається у наступній колонці праворуч.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7333,15 +7332,13 @@ msgstr "Режим докладного перегляду"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Колонки"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Режим перегляду піктограм"
+msgstr "Режим перегляду з колонками"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format

@@ -7302,7 +7302,9 @@ msgid "Details view mode"
 msgstr "Detailansicht"
 
 #: views/dolphinviewactionhandler.cpp:840
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View Mode"
+#| msgid "Columns"
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
 msgstr "Spalten"

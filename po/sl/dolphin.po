@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 00:58+0000\n"
-"PO-Revision-Date: 2026-11-02 10:06+0100\n"
+"PO-Revision-Date: 2026-11-09 07:10+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4450,25 +4450,26 @@ msgstr "Velikost predogledov"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Najmanjša širina stolpca v slikovnih pikah"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
 msgstr ""
+"Najmanjša širina stolpca v slikovnih pikah, prilagojena njegovi vsebini"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Največje število vidnih stolpcev pred pomikanjem"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Prilagodi širino stolpca njegovi vsebini"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4667,18 +4668,15 @@ msgstr "Način prikaza"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"Ta možnost nadzira slog prikaza. Trenutno podprte vrednosti vključujejo "
-"ikone (0), podrobnosti (1) in stolpce (2)."
+"Ta možnost določa slog prikaza. Trenutno podprte vrednosti vključujejo "
+"prikaze z ikonami (0), s podrobnostmi (1), kompaktni prikaz (2) in prikaz v "
+"stolpcih (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -6013,7 +6011,7 @@ msgstr "Vsebina zaslona"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Stolpci"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6196,21 +6194,19 @@ msgstr "Odpri datoteke in mape:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Fiksno"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Prilagodi vsebini"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Največja širina:"
+msgstr "Širina stolpca:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6251,7 +6247,7 @@ msgstr "Podrobnosti"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Stolpci"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -7021,6 +7017,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>To preklopi na način prikaza v stolpcih (Millerjevi stolpci). Vsaka "
+"raven imenikov je prikazana v svojem stolpcu, ki se razvrščajo vodoravno od "
+"leve proti desni.</para><para>Z izbiro mape se njena vsebina odpre v "
+"naslednjem stolpcu na desni.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7267,15 +7267,13 @@ msgstr "Način prikaza podrobnosti"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Stolpci"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Način prikaza ikon"
+msgstr "Način prikaza stolpcev"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
