@@ -56,6 +56,7 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
 
     m_controller = new KItemListController(m_model, m_view, this);
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
+    m_controller->setAutoActivationEnabled(GeneralSettings::autoExpandFolders());
 
     m_container = new KItemListContainer(m_controller, this);
     m_container->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -401,4 +402,5 @@ void DolphinColumnPane::reloadSettings()
     // readSettings() takes both from the details layout. A column never expands a folder.
     view->setSupportsItemExpanding(false);
     view->setHighlightEntireRow(true);
+    m_controller->setAutoActivationEnabled(GeneralSettings::autoExpandFolders());
 }

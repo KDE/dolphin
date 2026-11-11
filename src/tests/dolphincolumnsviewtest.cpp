@@ -26,6 +26,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QCursor>
 #include <QDBusConnection>
 #include <QDir>
 #include <QElapsedTimer>
@@ -137,6 +138,7 @@ private Q_SLOTS:
     void testPressingAFolderLeavesTheColumnsOpen();
     void testDroppingAFolderIntoTheNextColumnSelectsIt();
     void testDroppingIntoAnEarlierColumnKeepsTheColumnsOpen();
+    void testAFolderOpensUnderADrag();
     void testTheUrlIsTheSelectedFolder();
     void testSetUrlActivatesAnOpenColumn();
     void testSetUrlOpensTheColumnsDownToADescendant();
@@ -1615,6 +1617,47 @@ void DolphinColumnsViewTest::testDroppingAFolderIntoTheNextColumnSelectsIt()
     // The column that received beta is active, with beta selected in it.
     QCOMPARE(m_view->activeColumnIndex(), 1);
     QTRY_VERIFY_WITH_TIMEOUT(alphaPane->controller()->selectionManager()->isSelected(indexOfName(alphaPane, QStringLiteral("beta"))), 5000);
+}
+
+void DolphinColumnsViewTest::testAFolderOpensUnderADrag()
+{
+    // With "Open folders during drag operations", a folder that a drag stays over opens in the
+    // next column, as it opens in the other view modes. The setting applies to the open columns.
+    GeneralSettings::setAutoExpandFolders(true);
+    GeneralSettings::self()->save();
+    m_view->readSettings();
+    QCOMPARE(m_view->columnCount(), 1);
+
+    DolphinColumnPane *rootPane = m_view->columnAt(0);
+    const int alphaIndex = indexOfName(rootPane, QStringLiteral("alpha"));
+    QVERIFY(alphaIndex >= 0);
+    KItemListView *itemView = rootPane->itemListView();
+    const QPointF alphaCenter = itemView->itemRect(alphaIndex).center();
+
+    // The folder opens only while the mouse is still over the column.
+    auto *graphicsView = rootPane->findChild<QGraphicsView *>();
+    QVERIFY(graphicsView);
+    const QPoint alphaPos = graphicsView->mapFromScene(itemView->mapToScene(alphaCenter));
+    QCursor::setPos(graphicsView->viewport()->mapToGlobal(alphaPos));
+    QTest::mouseMove(graphicsView->viewport(), alphaPos);
+
+    QMimeData mimeData;
+    mimeData.setUrls({urlOf(QStringLiteral("single-file.txt"))});
+    for (const QEvent::Type type : {QEvent::GraphicsSceneDragEnter, QEvent::GraphicsSceneDragMove}) {
+        QGraphicsSceneDragDropEvent event(type);
+        event.setPos(alphaCenter);
+        event.setMimeData(&mimeData);
+        event.setPossibleActions(Qt::CopyAction | Qt::MoveAction);
+        event.setProposedAction(Qt::MoveAction);
+        QCoreApplication::sendEvent(itemView, &event);
+    }
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+    QCOMPARE(m_view->url().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("alpha")));
+
+    QGraphicsSceneDragDropEvent leave(QEvent::GraphicsSceneDragLeave);
+    leave.setMimeData(&mimeData);
+    QCoreApplication::sendEvent(itemView, &leave);
 }
 
 void DolphinColumnsViewTest::testDroppingIntoAnEarlierColumnKeepsTheColumnsOpen()
