@@ -102,8 +102,9 @@ private Q_SLOTS:
 
 private:
     void waitForViewReady();
-    /// Waits until a listing of the parent folder that includes @p url has finished. A listing that
-    /// started before @p url was created would otherwise report it deleted, and the view would leave it.
+    /// Reads the parent folder of @p url again, and waits until that listing includes @p url. A listing
+    /// that started before @p url was created would otherwise report it deleted, and the view would
+    /// leave it. A cached listing only sees @p url after the delayed update of the folder watcher.
     void waitForItemListed(const QUrl &url);
 
     DolphinViewContainer *m_container = nullptr;
@@ -155,7 +156,7 @@ void DolphinViewContainerTest::waitForViewReady()
 void DolphinViewContainerTest::waitForItemListed(const QUrl &url)
 {
     KCoreDirLister lister;
-    lister.openUrl(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
+    lister.openUrl(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash), KCoreDirLister::Reload);
     QTRY_VERIFY_WITH_TIMEOUT(lister.isFinished() && !lister.findByUrl(url).isNull(), 5000);
 }
 
