@@ -35,6 +35,7 @@
 #include <KCoreDirLister>
 #include <KMessageWidget>
 #include <KSharedConfig>
+#include <KUrlComboBox>
 
 #include <QApplication>
 #include <QComboBox>
@@ -42,6 +43,7 @@
 #include <QDialogButtonBox>
 #include <QDir>
 #include <QGraphicsView>
+#include <QLineEdit>
 #include <QPointer>
 #include <QPushButton>
 #include <QScopeGuard>
@@ -82,6 +84,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
+    void testTheEditableLocationFollowsASwitchToAndFromColumns();
     void testAFolderOpenedAsAColumnKeepsTheColumnsView();
     void testBackAndForwardInColumnsKeepTheColumnsView();
     void testEachViewModeKeepsItsOwnZoomLevel();
@@ -722,6 +725,55 @@ void DolphinViewContainerTest::testBrowsingOutOfAColumnsFolderSwitchesToItsMode(
     QCOMPARE(m_container->view()->viewMode(), DolphinView::IconsView);
     QCOMPARE(m_container->view()->url().adjusted(QUrl::StripTrailingSlash), iconsFolderUrl.adjusted(QUrl::StripTrailingSlash));
     QCOMPARE(ViewProperties(iconsFolderUrl).viewMode(), DolphinView::IconsView);
+}
+
+void DolphinViewContainerTest::testTheEditableLocationFollowsASwitchToAndFromColumns()
+{
+    // The location bar shows the folder that the view shows, also when it is editable and the
+    // folder opens in another view than the one before (bug 528676).
+    m_testDir->createDir("detailsfolder/columnsfolder");
+    m_testDir->createFile("detailsfolder/columnsfolder/a-file.txt");
+    const QUrl detailsUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/detailsfolder"));
+    const QUrl columnsUrl = QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/detailsfolder/columnsfolder"));
+    {
+        ViewProperties props(detailsUrl);
+        props.setViewMode(DolphinView::DetailsView);
+        props.save();
+    }
+    {
+        ViewProperties props(columnsUrl);
+        props.setViewMode(DolphinView::ColumnsView);
+        props.save();
+    }
+    waitForItemListed(columnsUrl);
+
+    // Attach an editable url navigator the way the toolbar does.
+    GeneralSettings::setEditableUrl(true);
+    auto restore = qScopeGuard([]() {
+        GeneralSettings::setEditableUrl(false);
+    });
+    DolphinUrlNavigator navigator(m_testDir->url(), nullptr);
+    m_container->connectUrlNavigator(&navigator);
+    QVERIFY(navigator.isUrlEditable());
+    const auto editedUrl = [&navigator]() {
+        return QUrl::fromUserInput(navigator.editor()->lineEdit()->text()).adjusted(QUrl::StripTrailingSlash);
+    };
+
+    m_container->setUrl(columnsUrl);
+    QTRY_VERIFY_WITH_TIMEOUT(qobject_cast<DolphinColumnsView *>(m_container->view()), 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(editedUrl(), columnsUrl, 5000);
+
+    m_container->urlNavigatorInternalWithHistory()->goUp();
+    QTRY_VERIFY_WITH_TIMEOUT(!qobject_cast<DolphinColumnsView *>(m_container->view()), 5000);
+    QCOMPARE(m_container->view()->viewMode(), DolphinView::DetailsView);
+    QTRY_COMPARE_WITH_TIMEOUT(editedUrl(), detailsUrl, 5000);
+
+    m_container->setUrl(columnsUrl);
+    QTRY_VERIFY_WITH_TIMEOUT(qobject_cast<DolphinColumnsView *>(m_container->view()), 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(editedUrl(), columnsUrl, 5000);
+    QCOMPARE(navigator.isUrlEditable(), true);
+
+    m_container->disconnectUrlNavigator();
 }
 
 void DolphinViewContainerTest::testAFolderOpenedAsAColumnKeepsTheColumnsView()

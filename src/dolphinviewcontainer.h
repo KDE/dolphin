@@ -483,6 +483,11 @@ private:
     /** Connects m_view, again after each swapView(). */
     void connectViewSignals();
 
+    /** Connects m_view and \a urlNavigator to each other, and shows the folder of m_view in it. */
+    void connectViewToUrlNavigator(DolphinUrlNavigator *urlNavigator);
+    /** Reverses connectViewToUrlNavigator(). */
+    void disconnectViewFromUrlNavigator(DolphinUrlNavigator *urlNavigator);
+
     /** Replaces m_view with the view class that draws \a mode. */
     void swapView(DolphinView::Mode mode);
 

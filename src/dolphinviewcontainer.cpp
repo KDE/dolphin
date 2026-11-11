@@ -251,10 +251,10 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     const bool wasActive = oldView->isActive();
     const bool hadFocus = wasActive && oldView->isAncestorOf(QApplication::focusWidget());
 
-    // The url navigator is connected to the view, so it is connected again to the new one.
-    DolphinUrlNavigator *connectedNavigator = m_urlNavigatorConnected;
-    if (connectedNavigator) {
-        disconnectUrlNavigator();
+    // The url navigator stays connected to this container. Only its connections to the view move to
+    // the new view.
+    if (m_urlNavigatorConnected) {
+        disconnectViewFromUrlNavigator(m_urlNavigatorConnected);
     }
 
     m_topLayout->removeWidget(oldView);
@@ -279,8 +279,8 @@ void DolphinViewContainer::swapView(DolphinView::Mode mode)
     m_view->setNameFilter(oldView->nameFilter());
     m_view->setSelectionModeEnabled(oldView->selectionMode());
 
-    if (connectedNavigator) {
-        connectUrlNavigator(connectedNavigator);
+    if (m_urlNavigatorConnected) {
+        connectViewToUrlNavigator(m_urlNavigatorConnected);
     }
 
     // A new view starts active, which is wrong in an inactive split pane.
@@ -385,9 +385,7 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     Q_ASSERT(m_urlNavigator.get() != urlNavigator);
     Q_ASSERT(m_view);
 
-    urlNavigator->setLocationUrl(m_view->url());
-    urlNavigator->setShowHiddenFolders(m_view->hiddenFilesShown());
-    urlNavigator->setSortHiddenFoldersLast(m_view->sortHiddenLast());
+    connectViewToUrlNavigator(urlNavigator);
     if (m_urlNavigatorVisualState) {
         urlNavigator->setVisualState(*m_urlNavigatorVisualState.get());
         m_urlNavigatorVisualState.reset();
@@ -400,15 +398,28 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
         m_view->dropUrls(destination, event, urlNavigator->dropWidget());
     });
     // Aside from these, only visual things need to be connected.
-    connect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
     connect(urlNavigator, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
+
+    m_urlNavigatorConnected = urlNavigator;
+}
+
+void DolphinViewContainer::connectViewToUrlNavigator(DolphinUrlNavigator *urlNavigator)
+{
+    urlNavigator->setLocationUrl(m_view->url());
+    urlNavigator->setShowHiddenFolders(m_view->hiddenFilesShown());
+    urlNavigator->setSortHiddenFoldersLast(m_view->sortHiddenLast());
+    urlNavigator->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
+
+    connect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
     connect(urlNavigator, &DolphinUrlNavigator::requestToLoseFocus, m_view, [this]() {
         m_view->setFocus();
     });
+}
 
-    urlNavigator->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
-
-    m_urlNavigatorConnected = urlNavigator;
+void DolphinViewContainer::disconnectViewFromUrlNavigator(DolphinUrlNavigator *urlNavigator)
+{
+    disconnect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
+    disconnect(urlNavigator, &DolphinUrlNavigator::requestToLoseFocus, m_view, nullptr);
 }
 
 void DolphinViewContainer::disconnectUrlNavigator()
@@ -419,9 +430,8 @@ void DolphinViewContainer::disconnectUrlNavigator()
 
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped, this, nullptr);
-    disconnect(m_view, &DolphinView::urlChanged, m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::requestToLoseFocus, m_view, nullptr);
+    disconnectViewFromUrlNavigator(m_urlNavigatorConnected);
 
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
