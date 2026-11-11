@@ -78,6 +78,18 @@
 ></address>
 </affiliation>
 </author>
+<author
+><firstname
+>Yuma</firstname
+> <surname
+>Kakei</surname
+> <affiliation
+> <address
+><email
+>yumasansansan@gmail.com</email
+></address>
+</affiliation>
+</author>
 
 <othercredit role="translator"
 ><firstname
@@ -144,14 +156,20 @@
 <holder
 >Frank Reininghaus</holder>
 </copyright>
+<copyright>
+<year
+>2026</year>
+<holder
+>Yuma Kakei</holder>
+</copyright>
 
 <legalnotice
 >&FDLNotice;</legalnotice>
 
 <date
->17-01-2022</date>
+>24/10/2026</date>
 <releaseinfo
->KDE Gear 22.04</releaseinfo>
+>KDE Gear 26.12</releaseinfo>
 
 <abstract>
 <para
@@ -184,15 +202,23 @@
 >Essa abordagem de projeto permite que os desenvolvedores se concentrem em otimizar a interface com o usuário para a tarefa específica de gerenciamento de arquivos. </para>
 
 <para
->Por favor, informe quaisquer problemas ou pedidos de novas funcionalidades para o autor do &dolphin;, na caixa de diálogo de comunicação de erros. Ela pode ser acessada através do botão <guibutton
->Controle</guibutton
->, localizado à direita da barra de ferramentas (se a barra de menus estiver desativada) ou através do menu <menuchoice
+>Por favor, relate quaisquer problemas ou sugestões de funcionalidades ao autor do &dolphin; por meio da janela de relato de bugs. Ela pode ser acessada em <menuchoice
+><guibutton
+>Abrir menu</guibutton
+><guisubmenu
+>Ajuda</guisubmenu
+> <guimenuitem
+>Relatar bug...</guimenuitem
+></menuchoice
+> (o botão representado por três linhas horizontais na extremidade direita da barra de ferramentas, que também pode ser aberto com a tecla <keycap
+>F10</keycap
+>), no modo padrão sem a barra de menus, ou em <menuchoice
 ><guimenu
 >Ajuda</guimenu
 ><guimenuitem
->Relatar erro...</guimenuitem
+>Relatar bug...</guimenuitem
 ></menuchoice
-> do aplicativo. </para>
+>, caso a barra de menus esteja visível. </para>
 
 </chapter>
 
@@ -228,23 +254,29 @@
 <para
 >Os elementos da interface padrão são: <itemizedlist>
 
-<listitem
+<listitem id="toolbar"
 ><para
->A barra de ferramentas, que pode ser usada para acessar rapidamente as ações mais frequentes. Essa barra pode ser personalizada, se clicar sobre ela com o &RMB; e depois selecionar a opção <menuchoice
+>A barra de ferramentas pode ser usada para acesso rápido a ações frequentemente utilizadas. Na sua extremidade direita, encontra-se o botão <guibutton
+>Abrir menu</guibutton
+>, representado por três linhas horizontais — que também pode ser acessado pressionando a tecla <keycap
+>F10</keycap
+>. Ele permite acessar todos os comandos do aplicativo quando a barra de menus está oculta. A barra de ferramentas pode ser personalizada clicando nela com o botão direito do mouse e selecionando <guimenuitem
+>Configurar barras de ferramentas...</guimenuitem
+> no menu de contexto; alternativamente, é possível acessá-la por meio de <menuchoice
+><guibutton
+>Abrir menu</guibutton
+><guisubmenu
+>Configurar</guisubmenu
 ><guimenuitem
 >Configurar barras de ferramentas...</guimenuitem
 ></menuchoice
-> do menu de contexto; a opção <guimenuitem
->Configurar barras de ferramentas...</guimenuitem
-> a partir do botão <guibutton
->Controle</guibutton
->, localizado à direita da barra de ferramentas; ou então o item <menuchoice
+>, ou ainda através de <menuchoice
 ><guimenu
 >Configurações</guimenu
 ><guimenuitem
 >Configurar barras de ferramentas...</guimenuitem
 ></menuchoice
-> a partir do menu principal. </para>
+> na barra de menus. </para>
 <screenshot>
 <screeninfo
 >Imagem da barra de ferramentas do &dolphin;</screeninfo>
@@ -261,8 +293,8 @@
 >Os itens da barra de ferramentas, cujos ícones são suficientes para reconhecer o comando, não possuem texto descritivo ao seu lado. Isso pode ser alterado se clicar com o &RMB; e selecionar o item abaixo de <guilabel
 >Mostrar texto</guilabel
 >. O botão <guibutton
->Controle</guibutton
->, localizado à direita na barra de ferramentas, só aparece se o menu estiver oculto. </para>
+>Abrir menu</guibutton
+>, na extremidade direita da barra de ferramentas, só é exibido se a barra de menus estiver oculta. </para>
 </caption>
 </mediaobject>
 </screenshot>
@@ -270,7 +302,7 @@
 
 <listitem
 ><para
->A barra de localização, que mostra sempre o caminho até a pasta atual. Pode ser alternada entre dois modos diferentes. Consulte a <link linkend="location-bar"
+>A barra de localização, que mostra sempre o caminho até a pasta atual. Por padrão, ela é posicionada no meio da barra de ferramentas. Pode ser alternada entre dois modos diferentes. Consulte a <link linkend="location-bar"
 >seção sobre a barra de localização</link
 > para obter mais detalhes. </para
 ></listitem>
@@ -290,24 +322,18 @@
 ></link
 >, que fornece acesso rápido aos locais marcados como favoritos e aos outros discos e dispositivos. </para>
 <para
->Se a pesquisa no desktop e a indexação de arquivos estiverem ativadas no módulo de <guilabel
->Pesquisa no Desktop</guilabel
-> das &systemsettings;, o painel também irá apresentar os itens <guilabel
->Recentes</guilabel
-> e permitirá pesquisar por <guilabel
->Documentos</guilabel
->, <guilabel
->Imagens</guilabel
->, <guilabel
->Arquivos de áudio</guilabel
+>O painel também disponibiliza as opções <guilabel
+>Arquivos recentes</guilabel
 > e <guilabel
->Vídeo</guilabel
->. </para
+>Locais recentes</guilabel
+>, que listam os arquivos e pastas que você utilizou recentemente. </para
 ></listitem>
 
 <listitem
 ><para
->A barra de status, que mostra o nome, tamanho e tipo do arquivo sob o ponteiro do mouse ou, então, a quantidade e tamanho dos arquivos selecionados. À direita, existe uma barra de zoom que possibilita ajustar o tamanho dos ícones na área de exibição. </para
+>A barra de status, que por padrão é exibida na parte inferior esquerda da visualização, mostra o nome, o tamanho e o tipo do arquivo sobre o qual o cursor do mouse está posicionado, ou a quantidade e o tamanho dos arquivos selecionados. Se a barra de status estiver configurada para ocupar toda a largura nas <link linkend="preferences-dialog-interface-bars"
+>configurações</link
+>, um controle deslizante de zoom — que permite ajustar o tamanho dos ícones na visualização — pode ser exibido em sua extremidade direita. </para
 ></listitem>
 
 <listitem
@@ -320,14 +346,14 @@
 >&Ctrl;<keycap
 >M</keycap
 ></keycombo
->) do menu <guimenu
+>), disponível no menu <guimenu
 >Configurações</guimenu
-> ou com o botão <guibutton
->Controle</guibutton
->. </para>
+> ou no botão <guibutton
+>Abrir menu</guibutton
+> na barra de ferramentas. </para>
 <para
 >Se a barra de menus estiver oculta, todas as ações estarão disponíveis a partir do botão <guibutton
->Controle</guibutton
+>Abrir menu</guibutton
 >. </para
 ></listitem>
 
@@ -366,15 +392,19 @@
 
 <listitem
 ><para
->Arquivos e pastas podem ser abertos clicando sobre eles com o &LMB; (ou com um clique duplo, caso a opção <guilabel
->Clique duplo para abrir</guilabel
-> esteja habilitada nas &systemsettings;, através do módulo <menuchoice
+>Um arquivo ou pasta pode ser aberto com um clique duplo do &LMB; (ou com um clique simples, caso a opção <guilabel
+>Um clique em arquivos e pastas</guilabel
+> — encontrada na seção <guilabel
+>Clique</guilabel
+> do módulo <menuchoice
 ><guimenu
->Dispositivos de entrada</guimenu
+>Espaço de trabalho</guimenu
 > <guimenuitem
->Mouse</guimenuitem
+>Comportamento geral</guimenuitem
 ></menuchoice
->. </para
+> nas &systemsettings; — esteja definida como <guilabel
+>Faz com que abra</guilabel
+>). </para
 ></listitem>
 
 <listitem
@@ -422,43 +452,73 @@
 >Aparência da área de exibição do &dolphin;</title>
 
 <para
->A barra de ferramentas contém botões para controlar a aparência da área de exibição: </para>
+>O botão <guibutton
+>Configurações de visualização</guibutton
+> na barra de ferramentas controla a aparência da visualização. Clicar no botão alterna entre os modos de visualização. Clicar na seta ao lado dele abre um menu que contém os modos de visualização, botões de <guilabel
+>Zoom</guilabel
+> para alterar o tamanho dos ícones, além das opções <guisubmenu
+>Ordenar por</guisubmenu
+>, <guisubmenu
+>Agrupar por</guisubmenu
+>, <guisubmenu
+>Mostrar informações adicionais</guisubmenu
+>, <guimenuitem
+>Mostrar prévias</guimenuitem
+>, <guimenuitem
+>Mostrar arquivos ocultos</guimenuitem
+>, <guimenuitem
+>Restaurar para os padrões</guimenuitem
+> e <guimenuitem
+>Ajustar o estilo de exibição...</guimenuitem
+>: </para>
 
 <screenshot>
 <screeninfo
->Imagem da barra de ferramentas do &dolphin;</screeninfo>
+>Captura de tela do menu de configurações de visualização do &dolphin;</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+<imagedata fileref="toolbar-view-settings.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Botões na barra de ferramentas que controlam a aparência da área de exibição.</phrase>
+>O botão de configurações de visualização na barra de ferramentas, que controla a aparência da visualização.</phrase>
 </textobject>
 <caption
 ><para
->Botões na barra de ferramentas que controlam a aparência da área de exibição. </para
+>O botão <guibutton
+>Configurações de visualização</guibutton
+> na barra de ferramentas, que controla a aparência da visualização. </para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
->Todas as configurações discutidas abaixo e as outras opções relacionadas, &eg;, à ordenação dos arquivos na pasta atual, também podem ser modificadas no menu <guimenu
+>Todas as configurações discutidas abaixo também podem ser alteradas no menu <guimenu
 >Exibir</guimenu
 > e na <link linkend="view-properties-dialog"
->caixa de diálogo de estilo de exibição</link
->. Por padrão, essas opções serão definidas separadamente para cada pasta. Esse comportamento pode ser alterado na seção <link linkend="preferences-dialog-general"
-><quote
->Geral</quote
+>janela de diálogo de estilo de exibição</link
+>. Por padrão, todas as pastas compartilham o mesmo estilo de exibição. Se você desejar que cada pasta memorize seu próprio estilo de exibição, altere essa opção na <link linkend="preferences-dialog-view-general"
+>aba <guilabel
+>Geral</guilabel
+> das configurações de <guilabel
+>Exibir</guilabel
 ></link
-> das configurações do programa. </para>
+>. </para>
 
 <sect3 id="dolphin-view-modes">
 <title
 >Modos de exibição</title>
 
 <para
->Os três primeiros botões da imagem acima permitem alternar entre os modos de exibição do &dolphin;. <itemizedlist>
+>O &dolphin; possui três modos de visualização, que podem ser selecionados por meio do botão <guibutton
+>Configurações de visualização</guibutton
+> ou em <menuchoice
+><guimenu
+>Exibir</guimenu
+><guisubmenu
+>Alterar modo de exibição</guisubmenu
+></menuchoice
+>. <itemizedlist>
 
 <listitem
 ><para
@@ -468,7 +528,7 @@
 ><guimenu
 >Exibir</guimenu
 ><guisubmenu
->Informações adicionais</guisubmenu
+>Mostrar informações adicionais</guisubmenu
 ></menuchoice
 > são exibidos abaixo dos ícones. </para
 ></listitem>
@@ -481,7 +541,7 @@
 ><guimenu
 >Exibir</guimenu
 ><guisubmenu
->Informações adicionais</guisubmenu
+>Mostrar informações adicionais</guisubmenu
 ></menuchoice
 >, abaixo do nome. Os itens são agrupados em colunas de modo semelhante a <guilabel
 >Exibição resumida</guilabel
@@ -504,9 +564,9 @@
 >Nome</guilabel
 >, que sempre será a primeira coluna neste modo de exibição. </para>
 <para
->O modo de exibição em detalhes permite-lhe ver a pasta atual como uma estrutura em árvore, se a opção <link linkend="preferences-dialog-viewmodes-details"
-> <guilabel
->Pastas expansíveis</guilabel
+>O modo de exibição em detalhes permite-lhe ver a pasta atual como uma estrutura em árvore, se a opção <link linkend="preferences-dialog-view-details"
+> Pastas <guilabel
+>Expansíveis</guilabel
 ></link
 > estiver ativa. Cada subpasta da pasta atual poderá ser <quote
 >expandida</quote
@@ -535,13 +595,13 @@
 </textobject>
 <caption
 ><para
->Todos os modos de exibição tem suporte a agrupamento pelo tipo de ordenação selecionado em <menuchoice
+>Todos os modos de exibição oferecem suporte ao agrupamento. O atributo utilizado para o agrupamento pode ser selecionado em <menuchoice
 ><guimenu
 >Exibir</guimenu
 ><guisubmenu
->Ordenar por</guisubmenu
+>Agrupar por</guisubmenu
 ></menuchoice
-></para
+>.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -554,7 +614,7 @@
 >Informações na área de exibição</title>
 <para
 >Em todos os modos de exibição, o &dolphin; mostra pelo menos um ícone e um nome para cada item. Se usar a opção <guisubmenu
->Informações adicionais</guisubmenu
+>Mostrar informações adicionais</guisubmenu
 > do menu <guimenu
 >Exibir</guimenu
 > ou o menu de contexto do cabeçalho no modo de <guilabel
@@ -562,52 +622,66 @@
 >, poderá selecionar mais informações a serem apresentadas para cada item: </para>
 
 <para
-><guimenuitem
->Tamanho</guimenuitem
->, <guimenuitem
->Data</guimenuitem
->, <guimenuitem
->Tipo</guimenuitem
->, <guimenuitem
->Avaliação</guimenuitem
->, <guimenuitem
->Etiquetas</guimenuitem
-> ou <guimenuitem
->Comentário</guimenuitem
+><guimenuitem 
+>Tamanho</guimenuitem 
+>, <guimenuitem 
+>Modificado</guimenuitem 
+>, <guimenuitem 
+>Criado em</guimenuitem 
+>, <guimenuitem 
+>Acessado</guimenuitem 
+>, <guimenuitem 
+>Tipo</guimenuitem 
+>, <guimenuitem 
+>Classificação</guimenuitem 
+>, <guimenuitem 
+>Etiquetas</guimenuitem 
+> ou <guimenuitem 
+>Comentário</guimenuitem 
 >. </para>
 
 <para
->Dependendo do tipo de arquivo, outros critérios de ordenação adicionais podem ser selecionados: <simplelist>
-  <member
-><guimenuitem
->Documento</guimenuitem
->: Número de palavras e linhas</member>
-  <member
-><guimenuitem
->Imagem</guimenuitem
->: Tamanho e orientação</member>
-  <member
-><guimenuitem
->Áudio</guimenuitem
->: Artista, álbum, duração e faixa</member>
+>Se a indexação de arquivos estiver ativada, informações adicionais — que variam conforme o tipo de arquivo — podem ser selecionadas nos submenus a seguir: <simplelist>
+<member
+><guisubmenu
+>Documento</guisubmenu
+>: Título, autor, editora, número de páginas, número de palavras e número de linhas</member>
+<member
+><guisubmenu
+>Imagem</guisubmenu
+>: Data da fotografia, dimensões, altura, largura e orientação</member>
+<member
+><guisubmenu
+>Áudio</guisubmenu
+>: Álbum, artista, codec de áudio, taxa de bits, duração, gênero, ano de lançamento e faixa</member>
+<member
+><guisubmenu
+>Vídeo</guisubmenu
+>: Proporção de aspecto, codec de áudio, taxa de bits, espaço de cor, dimensões, duração, taxa de quadros, altura, largura, formato de pixel e codec de vídeo</member>
 </simplelist>
 </para>
 
 <para
->O submenu <guisubmenu
+>O submenu <guisubmenu 
 >Outros</guisubmenu
-> permite-lhe selecionar <guimenuitem
->Caminho</guimenuitem
->, <guimenuitem
->Destino do link</guimenuitem
->, <guimenuitem
->Copiado de</guimenuitem
->, <guimenuitem
->Permissões</guimenuitem
->, <guimenuitem
->Proprietário</guimenuitem
-> ou <guimenuitem
->Grupo do usuário</guimenuitem
+> permite selecionar <guimenuitem 
+>Caminho</guimenuitem 
+>, <guimenuitem 
+>Nome da pasta</guimenuitem 
+>, <guimenuitem 
+>Extensão do arquivo</guimenuitem 
+>, <guimenuitem 
+>Data de exclusão</guimenuitem 
+>, <guimenuitem 
+>Destino do link</guimenuitem 
+>, <guimenuitem 
+>Baixado de</guimenuitem 
+>, <guimenuitem 
+>Permissões</guimenuitem 
+>, <guimenuitem 
+>Proprietário</guimenuitem 
+> ou <guimenuitem 
+>Grupo de usuários</guimenuitem 
 >. </para>
 
 </sect3>
@@ -618,7 +692,7 @@
 
 <para
 >Se a opção <guibutton
->Visualizar</guibutton
+>Mostrar prévias</guibutton
 > estiver ativa, os ícones serão baseados no arquivo atual ou no conteúdo da pasta. Por exemplo, para as imagens será apresentada uma prévia reduzida. </para>
 
 </sect3>
@@ -628,9 +702,11 @@
 >Dividir</title>
 
 <para
->Se clicar na opção <guibutton
+>Ao clicar no botão <guibutton
 >Dividir</guibutton
->, serão apresentadas duas áreas de exibição que mostram o conteúdo das diferentes pastas. Isso pode ser conveniente para mover ou copiar arquivos. </para>
+> na barra de ferramentas, são exibidas duas visualizações que podem mostrar o conteúdo de pastas diferentes. Isso pode ser útil para mover ou copiar arquivos. Enquanto a visualização estiver dividida, o botão passa a ser identificado como <guibutton
+>Fechar</guibutton
+> e serve para encerrar uma das duas visualizações. </para>
 
 </sect3>
 
@@ -680,17 +756,32 @@
 ><para
 >Se a opção <guilabel
 >Mostrar marcador de seleção</guilabel
-> estiver ativa na aba <link linkend="preferences-dialog-general-behavior"
-><quote
->Comportamento</quote
-></link
-> da seção <guilabel
+> estiver ativa na aba <link linkend="preferences-dialog-view-general"
+><guilabel
 >Geral</guilabel
-> das configurações do programa, irá aparecer um pequeno botão <guiicon
+> das configurações de<guilabel
+>Exibir</guilabel
+></link
+>, irá aparecer um pequeno botão <guiicon
 >+</guiicon
 > ou <guiicon
 >-</guiicon
 > no canto superior esquerdo do item imediatamente sob o ponteiro do mouse. Clicar nesse símbolo irá marcar ou desmarcar o item, respectivamente. </para
+></listitem>
+
+<listitem
+><para
+>No modo de seleção, que pode ser ativado por meio de <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Selecionar arquivos e pastas</guimenuitem
+></menuchoice
+> ou pressionando a tecla <keycap
+>Espaço</keycap
+>, clicar em um item com o &LMB; faz com que ele seja selecionado ou desmarcado. Uma barra com ações para os itens selecionados é exibida na parte inferior da visualização. Clique em <guibutton
+>Sair do modo de seleção</guibutton
+> ou pressione a tecla &Esc; para sair deste modo. </para
 ></listitem>
 
 </itemizedlist>
@@ -773,7 +864,11 @@ has all features from dolphin ?-->
 >Barra de localização</title>
 
 <para
->A barra de localização, que pode ser encontrada na parte superior da área de exibição do &dolphin;, mostra a localização da pasta atual. A barra de localização possui dois modos. </para>
+>A barra de localização exibe o caminho para a pasta atual. Por padrão, ela faz parte da barra de ferramentas. Se você remover o item <guilabel
+>Barra de localização</guilabel
+> da barra de ferramentas, por meio da janela <guilabel
+>Configurar barras de ferramentas</guilabel
+>, ela passará a ser exibida acima da área de visualização do &dolphin;. Se a área de visualização estiver dividida, cada parte terá sua própria barra de localização. A barra de localização possui dois modos. </para>
 
 <sect2 id="location-bar-bread-crumb">
 <title
@@ -833,16 +928,15 @@ has all features from dolphin ?-->
 </mediaobject>
 </screenshot>
 
-<sect3 id="location-bar-editable-kioslaves">
+<sect3 id="location-bar-editable-kio-workers">
 <title
->Uso de kioslaves</title>
+>Usando workers KIO</title>
 
 <para
->Se a barra de localização estiver vazia no modo de edição, irá aparecer uma lista em frente à barra com todos os kioslaves disponíveis no seu sistema. Kioslaves são programas incorporados ao &kde;, que adicionam suporte a diversos protocolos, tanto no &dolphin; quanto em outros aplicativos do &kde;.</para
-> 
+>Se a barra de localização estiver vazia no modo de edição, irá aparecer uma lista em frente à barra com todos os workers KIO disponíveis no seu sistema. Workers KIO são programas incorporados ao &kde;, que adicionam suporte a diversos protocolos, tanto no &dolphin; quanto em outros aplicativos do &kde;.</para>
 
 <para
->Por exemplo, com o kioslave <quote
+>Por exemplo, com o worker KIO <quote
 >fish</quote
 >, o &dolphin; pode ser usado para gerenciar arquivos e pastas em uma máquina remota que esteja acessível por <acronym
 >SSH</acronym
@@ -851,21 +945,21 @@ has all features from dolphin ?-->
 > na barra de localização. Pode ser feito um gerenciamento de arquivos remotos semelhantes em máquinas que estejam acessíveis pelos protocolos  &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) ou WebDAV.</para>
 
 <para
->Também é possível usar o menu suspenso de kioslaves para acessar as &systemsettings;, fontes, Lixeira e outros programas e dispositivos conectados ao seu computador. Veja o menu suspenso a seguir para conhecer todos os recursos disponíveis pelos kioslaves no seu sistema. </para>
+>Também é possível usar o menu suspenso de workers KIO para acessar a pasta da área de trabalho, fontes, programas instalados, Lixeira e dispositivos conectados ao seu computador. Veja o menu suspenso a seguir para conhecer todos os recursos disponíveis pelos workers KIO no seu sistema. </para>
 <screenshot>
 <screeninfo
->Imagem da lista de kioslaves</screeninfo>
+>Captura de tela da lista de workers KIO</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+<imagedata fileref="locationbar-kio-workers-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Barra de localização mostrando a lista de kioslaves disponíveis.</phrase>
+>Barra de localização mostrando a lista de workers KIO disponíveis.</phrase>
 </textobject>
 <caption
 ><para
->Lista de kioslaves disponíveis.</para
+>Lista de workers KIO disponíveis.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -901,7 +995,13 @@ has all features from dolphin ?-->
 </screenshot>
 
 <para
->O menu de contexto da barra de localização oferece ações para mudar o modo e para copiar e colar a localização usando a área de transferência. Assinale a última opção neste menu de contexto para mostrar a localização completa, iniciando pela pasta raiz do sistema de arquivos ou para mostrar o caminho, iniciando no item de locais atual. </para>
+>O menu de contexto da barra de localização oferece ações para copiar e colar o caminho usando a área de transferência, abrir a pasta atual em uma nova aba ou janela e alternar entre os modos (<guimenuitem
+>Editar</guimenuitem
+> e <guimenuitem
+>Navegar</guimenuitem
+>). Marque a opção <guimenuitem
+>Mostrar caminho completo</guimenuitem
+> para exibir o caminho completo, começando pela pasta raiz do sistema de arquivos, em vez do caminho que tem início no item atual de locais. </para>
 
 <screenshot>
 <screeninfo
@@ -939,11 +1039,12 @@ has all features from dolphin ?-->
 >Locais</title>
 <!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
 context menu Icon Size? No different entries ?-->
-<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
 <para
->Por padrão, o painel <guilabel
+>O painel <guilabel
 >Locais</guilabel
-> aparece à esquerda da janela. Ele mostra todos os locais que estiverem marcados como favoritos, os dispositivos de armazenamento conectados ao computador, os itens acessados recentemente e permite-lhe pesquisar por certos tipos de arquivos. A ordem desses elementos poderá ser alterada com a ação arrastar e soltar. </para>
+> fica, por padrão, no lado esquerdo da janela. O painel <guilabel
+>Locais</guilabel
+> exibe os locais que você marcou como favoritos. Ele também mostra locais remotos, itens acessados ​​recentemente e quaisquer discos ou mídias conectados ao computador. A ordem desses itens pode ser alterada por meio de arrastar e soltar. </para>
 
 <para
 >A forma mais simples de adicionar uma pasta ao painel <guilabel
@@ -980,11 +1081,11 @@ context menu Icon Size? No different entries ?-->
 >Pastas</guilabel
 > mostra uma estrutura de exibição em árvore do sistema de arquivos. Ele só apresenta as pastas. Ao selecionar uma pasta com o &LMB;, a área de exibição do &dolphin; muda para apresentar o conteúdo da pasta selecionada. </para>
 <para
->Use <guilabel
->Limitar à pasta pessoal</guilabel
-> para ocultar todas as pastas da árvore de visualização com exceção da sua pasta <guilabel
+>Use <guimenuitem
+>Limitar ao diretório pessoal</guimenuitem
+> no menu de contexto do painel para ocultar, na visualização em árvore, todas as pastas, exceto a sua pasta <guilabel
 >Pessoal</guilabel
->. </para>
+> (Home), enquanto você estiver dentro dela. </para>
 </sect2>
 
 <sect2 id="terminal-panel">
@@ -1053,6 +1154,21 @@ context menu Icon Size? No different entries ?-->
 >Ocultar a barra de filtragem</guiicon
 >. </para>
 
+<para
+>A caixa de seleção na barra de filtros define como o texto inserido é interpretado: <guilabel
+>Texto simples</guilabel
+>, <guilabel
+>Padrão Glob</guilabel
+> (p. ex., <userinput
+>*.mp3</userinput
+>) ou <guilabel
+>Expressão regular</guilabel
+>. O botão <guilabel
+>Corresponder maiúsculas e minúsculas</guilabel
+> faz com que o filtro leve em conta a diferença entre letras maiúsculas e minúsculas, e o botão <guilabel
+>Manter filtro ao mudar de pasta</guilabel
+> mantém o filtro ativo ao abrir outra pasta. </para>
+
 </sect2>
 
 <sect2 id="finding-searching-in-file">
@@ -1061,24 +1177,24 @@ context menu Icon Size? No different entries ?-->
 <!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
 <!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
 <para
->O &dolphin; é capaz de procurar pelo nome e também pelo conteúdo dos arquivos. Se pressionar <keycombo action="simul"
->&Ctrl;<keycap
+>O &dolphin; é capaz de pesquisar arquivos e o conteúdo dos arquivos. Ao pressionar <keycombo action="simul"
+> &Ctrl;<keycap
 >F</keycap
 ></keycombo
-> ou usar a opção <menuchoice
+>, selecionar <menuchoice
 > <guimenu
 >Editar</guimenu
 > <guimenuitem
 >Pesquisar...</guimenuitem
 > </menuchoice
->, a barra de <guilabel
->Pesquisa</guilabel
-> irá abrir já configurada com a pesquisa dentro da pasta atual e das suas subpastas. <screenshot>
+> ou clicar no botão <guibutton
+>Pesquisar</guibutton
+> na barra de ferramentas, a barra de pesquisa será aberta, já configurada para buscar arquivos na pasta atual e em suas subpastas. Basta começar a digitar no campo de entrada para que a pesquisa seja iniciada imediatamente. <screenshot>
 <screeninfo
 >Pesquisar por nome dos arquivos e pelo seu conteúdo</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="baloo-search.png" format="PNG"/>
+<imagedata fileref="search-bar.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -1091,86 +1207,104 @@ context menu Icon Size? No different entries ?-->
 </mediaobject>
 </screenshot>
 </para>
+
 <para
->A pesquisa não faz distinção entre maiúsculas e minúsculas, nem necessita de caracteres especiais no início ou no fim do termo (<userinput
->*nome*</userinput
-> e <userinput
->nome</userinput
-> são equivalentes), mas você poderá usar caracteres especiais dentro do termo a pesquisar. O <userinput
+>Na <guilabel
+>Pesquisa simples</guilabel
+>, a busca não diferencia maiúsculas de minúsculas, e o termo pesquisado é interpretado como uma expressão regular, e não como um padrão com caracteres curinga. Por exemplo, utilize <userinput
+>.*</userinput
+> em vez de <userinput
 >*</userinput
-> irá corresponder a zero ou mais caracteres, enquanto o <userinput
->?</userinput
-> só corresponde a um caractere.</para>
+> para corresponder a qualquer quantidade de caracteres: <userinput
+>relatório.*2026</userinput
+> localiza arquivos cujos nomes contenham <quote
+>relatório</quote
+> seguido de <quote
+>2026</quote
+>.</para>
+
 <para
->Esta funcionalidade pode ser usada com os serviços do Baloo que estiverem em execução. Sem esses serviços, um KIOSlave será executado para fornecer os resultados da pesquisa.</para>
-<para
->Com os serviços do Baloo ativos, a opção <guilabel
->Em todos os lugares</guilabel
-> irá pesquisar em todas as pastas indexadas; sem o Baloo, esta opção inicia a pesquisa a partir da <replaceable
->Pasta Pessoal</replaceable
-> do usuário.</para>
+>Os botões abaixo da caixa de entrada definem onde realizar a pesquisa. A opção <guibutton
+>Aqui</guibutton
+> pesquisa na pasta que estava aberta no momento em que a busca foi iniciada, bem como em suas subpastas. A opção <guibutton
+>Em qualquer lugar</guibutton
+> pesquisa em todos os locais indexados (caso a indexação de arquivos esteja em uso) ou, na ausência desta, em todas as pastas a partir da pasta raiz.</para>
+
 <screenshot>
 <screeninfo
->Pesquisa com mais opções</screeninfo>
+>Pesquisa com opções de filtragem</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+<imagedata fileref="search-filter.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Pesquisa com mais opções</phrase>
+>Pesquisa com opções de filtragem</phrase>
 </textobject>
 <caption
 ><para
->O &dolphin; em pesquisa com mais opções.</para
+>&dolphin; pesquisando com as opções de <guibutton
+>Filtrar</guibutton
+>.</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
->Use o botão <guilabel
->Mais opções</guilabel
-> para expandir a barra <guilabel
->Pesquisar</guilabel
->. Isto oferece uma forma muito confortável para o usuário reduzir o número de resultados da pesquisa.</para>
-<para
->Para iniciar uma pesquisa, selecione um ou mais tipos de arquivo (<guilabel
->Documentos</guilabel
+>Use o botão <guibutton
+>Filtrar</guibutton
+> ao lado da caixa de entrada para refinar a forma de pesquisa: </para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Pesquisar em</guilabel
+> define se a busca deve ser realizada apenas nos <guilabel
+>Nomes de arquivo</guilabel
+> ou também no <guilabel
+>Conteúdo do arquivo</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Pesquisar usando</guilabel
+> seleciona a ferramenta de pesquisa. A <guilabel
+>Pesquisa simples</guilabel
+> busca nos arquivos diretamente e funciona sem necessidade de preparação. A <guilabel
+>Indexação de arquivos</guilabel
+> utiliza o banco de dados do indexador de arquivos (Baloo), que fornece resultados muito rapidamente, mas encontra apenas arquivos presentes em pastas indexadas. As pastas que são indexadas podem ser configuradas nas &systemsettings;. </para
+></listitem>
+
+<listitem
+><para
+>Se a <guilabel
+>Indexação de arquivos</guilabel
+> for utilizada, os resultados poderão ser ainda mais refinados por <guilabel
+>Tipo de arquivo</guilabel
 >, <guilabel
->Áudio</guilabel
+>Modificado desde</guilabel
 >, <guilabel
->Vídeo</guilabel
->, <guilabel
->Imagens</guilabel
->), um período de tempo, classificação e tag, se você tiver definido alguma via <userinput
->tag:<replaceable
->foo</replaceable
-></userinput
-> na caixa de entrada.</para>
- 
- <para
->É possível limpar a seleção usando o botão <guibutton
->Limpar seleção</guibutton
->.</para>
+>Avaliação</guilabel
+> e <guilabel
+>Etiquetas</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Para buscas mais avançadas, o botão na parte inferior instala ou abre o <application
+>KFind</application
+>. </para
+></listitem>
+</itemizedlist>
 
 <para
->Alternativamente, você poderá usar estas opções no painel <guilabel
+>Use o ícone Salvar, na extremidade direita da caixa de entrada, para salvar uma pesquisa no painel <guilabel
 >Locais</guilabel
->, em conjunto com a barra de <guilabel
->Filtro</guilabel
-> para localizar arquivos com o Baloo ou limitar a pesquisa aos arquivos que corresponderem à expressão do filtro.</para>
-
-<para
->Use o ícone Salvar para salvar uma busca da seção <guilabel
->Pesquisar por</guilabel
-> no painel <guilabel
->Locais</guilabel
-> para acessá-la rapidamente no futuro. </para>
-
-<para
->Use a lista suspensa <guilabel
->Mais ferramentas de pesquisa</guilabel
-> para selecionar outras ferramentas de pesquisa além do Baloo. </para>
+> e, assim, poder acessá-la rapidamente no futuro. </para>
 </sect2>
 
 <sect2 id="mounting-storage-media">
@@ -1279,11 +1413,13 @@ context menu Icon Size? No different entries ?-->
 >Exibir</guimenu
 > e com a <link linkend="view-properties-dialog"
 >caixa de diálogo do estilo de exibição</link
->. Na configuração padrão, todas as pastas usam o mesmo estilo de exibição, mas o &dolphin; também pode ser configurado para lembrar o estilo de exibição de cada pastas separadamente na seção <link linkend="preferences-dialog-general-behavior"
-><quote
->Geral</quote
+>. Na configuração padrão, todas as pastas usam o mesmo estilo de exibição, mas o &dolphin; também pode ser configurado para lembrar o estilo de exibição de cada pastas separadamente na aba <link linkend="preferences-dialog-view-general"
+><guilabel
+>Geral</guilabel
+> das configurações de <guilabel
+>Exibir</guilabel
 ></link
-> das configurações do programa. </para
+>. </para
 ></listitem>
 
 </itemizedlist>
@@ -1294,86 +1430,438 @@ context menu Icon Size? No different entries ?-->
 <title
 >Caixa de diálogo Preferências do &dolphin;</title>
 <para
->A caixa de diálogo de Preferências pode ser aberta com a opção <menuchoice
+>A janela de preferências é aberta por meio de <menuchoice
+><guibutton
+>Abrir menu</guibutton
+><guisubmenu
+>Configurar</guisubmenu
+> <guimenuitem
+>Configurar &dolphin;...</guimenuitem
+></menuchoice
+>, ou por meio de <menuchoice
 ><guimenu
 >Configurações</guimenu
-> <guimenuitem
->Configurar o &dolphin;...</guimenuitem
+><guimenuitem
+>Configurar &dolphin;...</guimenuitem
 ></menuchoice
-> do menu da janela principal do &dolphin;. As configurações estão divididas em vários grupos, que poderão ser acessados clicando-se no ícone correspondente, situado à esquerda da caixa de diálogo. </para>
+>, caso a barra de menus esteja visível. As configurações estão divididas em vários grupos, que podem ser acessados ​​clicando no ícone correspondente à esquerda da janela. O campo de pesquisa, localizado acima dos ícones, pode ser utilizado para encontrar uma configuração rapidamente. </para>
 
 <para
->Todas as configurações, exceto as da página <guilabel
->Inicialização</guilabel
-> e a aba <guilabel
->Barra de status</guilabel
-> da página <guilabel
->Geral</guilabel
->, são compartilhadas com o &konqueror; no modo de gerenciamento de arquivos. </para>
+>Partes das configurações de <guilabel
+>Interface</guilabel
+> e <guilabel
+>Exibir</guilabel
+> são compartilhadas com o &konqueror; no modo de gerenciador de arquivos. </para>
 
-<sect2 id="preferences-dialog-general">
+<sect2 id="preferences-dialog-interface">
 <title
->Geral</title>
+>Interface</title>
 
 <para
->Este grupo contém as opções que controlam o comportamento geral do &dolphin;. O grupo está ainda dividido em quatro subgrupos que poderão ser acessados usando a barra de abas. <screenshot>
+>Este grupo contém as opções que controlam o comportamento geral e aparência da janela do &dolphin;. O grupo está ainda dividido em cinco subgrupos que poderão ser acessados usando a barra de abas no topo. <screenshot>
 <screeninfo
->Imagem das configurações da página Geral, na caixa de diálogo de preferências do &dolphin;</screeninfo>
+>Imagem das configurações da página Interface, na caixa de diálogo de preferências do &dolphin;</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+<imagedata fileref="preferences-interface-folders-and-tabs.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Configurações gerais.</phrase>
+>Configurações da interface.</phrase>
 </textobject>
 <caption
 ><para
->Configuração da página Geral na caixa de diálogo Preferências do &dolphin;.</para
+>Configurações da Interface na janela de preferências do &dolphin;.</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 </para>
 
-<sect3 id="preferences-dialog-general-behavior">
+<sect3 id="preferences-dialog-interface-folders-tabs">
 <title
->Aba Comportamento</title>
-
-<para>
+>Aba Pastas e abas</title>
 
 <itemizedlist>
 
 <listitem
 ><para
->Na seção <guilabel
->Exibir</guilabel
->, você poderá configurar se os mesmos <link linkend="view-properties"
->estilos de exibição</link
-> são compartilhados entre todas as pastas ou as pastas se lembram de seus estilos de exibição individuais. </para
+>A opção <guilabel
+>Mostrar ao iniciar</guilabel
+> permite escolher o que é exibido quando o &dolphin; é iniciado. </para>
+<para
+>Se o item <guilabel
+>Pastas, abas e estado da janela da última vez</guilabel
+> estiver selecionado, então </para>
+<itemizedlist>
+<listitem>
+<para
+>Quando iniciado a partir do &GUI; ou CLI sem nenhum &URL;s, o &dolphin; restaura a sessão</para>
+</listitem>
+<listitem>
+<para
+>Ao reiniciar com o &dolphin; aberto, ele restaura a sessão normalmente depois que o sistema volta</para>
+</listitem>
+<listitem>
+<para
+>Quando iniciado com &URL;s, &dolphin; é aberta uma janela que mostra esses &URL;s em vez de restaurar a sessão</para>
+</listitem>
+<listitem>
+<para
+>Quando o &dolphin; já está em execução e uma nova janela é aberta, essa nova janela mostra uma única aba com o mesmo &URL; como era visível na instância &dolphin; previamente aberta</para>
+</listitem>
+</itemizedlist>
+<para
+>Alternativamente, selecione o segundo item para abrir sempre uma pasta específica ao iniciar. O local da pasta pode ser inserido diretamente ou escolhido por meio de uma janela de diálogo, que pode ser aberta clicando no botão que exibe um ícone de "pasta". Além disso, é possível definir o local atual ou o local padrão (que corresponde à pasta pessoal do usuário) como a pasta de inicialização, clicando nos botões <guibutton
+>Usar localização atual</guibutton
+> ou <guibutton
+>Usar localização padrão</guibutton
+>. </para
 ></listitem>
 
 <listitem
 ><para
 ><guilabel
+>Manter uma janela única do Dolphin, abrindo as pastas novas em abas</guilabel
+> controla se o &dolphin; deve abrir uma nova pasta em uma nova aba da instância atual quando chamada externamente. Se esta opção estiver desabilitada, as novas pastas serão abertas em novas instâncias do &dolphin;. Por padrão, esta opção está desabilitada. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Exibir caminho completo na barra de título</guilabel
+> torna mais fácil a distinção entre arquivos ou pastas com o mesmo nome em diferentes diretórios. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostrar a barra de filtragem</guilabel
+> controla se a barra de filtragem é exibida ou não em novas janelas. Consulte a <link linkend="filter-files"
+>seção sobre a barra de filtragem</link
+> para obter mais detalhes. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sempre mostrar a barra de abas</guilabel
+> exibe a barra de abas mesmo quando apenas uma aba está aberta, e <guilabel
+>Mostrar botão de fechar nas abas</guilabel
+> adiciona um botão a cada aba para fechá-la. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Estilo da aba</guilabel
+> controla a largura das abas: a largura de cada aba se adapta ao nome da pasta, todas as abas têm a mesma largura fixa, ou as abas abrangem toda a largura disponível. </para
+></listitem>
+
+<listitem
+><para
+><guilabel 
+>Abrir novas abas</guilabel 
+> controla se uma nova aba é aberta <guilabel 
+>Após a aba atual</guilabel 
+> ou <guilabel 
+>No fim da barra de abas</guilabel 
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Ao fechar uma exibição dividida</guilabel
+> define qual exibição é fechada quando você desativa o modo de exibição dividida — por exemplo, ao pressionar <keycap
+>F3</keycap
+>: <guilabel
+>Fechar painel ativo</guilabel
+>, <guilabel
+>Fechar painel inativo</guilabel
+> ou <guilabel
+>Fechar painel à direita</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Abrir novas janelas no modo de exibição dividida</guilabel
+> controla se a <link linkend="split-view"
+>exibição do &dolphin;</link
+> é dividida em novas janelas ou não. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="preferences-dialog-interface-previews">
+<title
+>Aba Prévias</title>
+
+<para
+>Nesta aba, você pode configurar para quais tipos de arquivo as prévias serão exibidas. Além disso, é possível definir o tamanho máximo dos arquivos — em armazenamento local ou remoto — para os quais as prévias serão geradas. </para>
+<para
+>Se a opção <guilabel
+>Mostrar prévias das pastas</guilabel
+> estiver ativada, prévias de alguns arquivos contidos em uma pasta em um armazenamento remoto serão exibidas dentro do ícone da pasta. Isso pode ser lento e consumir muitos recursos de rede; por isso, talvez seja recomendável desativar essa opção caso você utilize conexões lentas ou com limite de dados. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-confirmations">
+<title
+>Aba Confirmações</title>
+<para
+>Nesta aba, você pode ativar caixas de diálogo de aviso que são exibidas antes de ações potencialmente prejudiciais, como mover arquivos ou pastas para a lixeira, excluí-los, esvaziar a lixeira ou fechar janelas com várias abas. </para>
+<para
+>Também é possível escolher a ação padrão <guilabel
+>Ao abrir um arquivo executável</guilabel
+>. Há três opções: <guilabel
+>Sempre perguntar</guilabel
+>, <guilabel
+>Abrir no aplicativo</guilabel
+> e <guilabel
+>Executar script</guilabel
+>. </para>
+<warning
+><para
+>As configurações na seção <guilabel
+>Solicitar confirmação em aplicativos do KDE quando</guilabel
+> afetam as operações de arquivo no &dolphin;, &konqueror;, &gwenview; e em todos os aplicativos do &kde; que utilizam a janela de diálogo de arquivos padrão do &kde;, enquanto as configurações na seção <guilabel
+>Solicitar confirmação no Dolphin quando</guilabel
+> são específicas do &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-panels">
+<title
+>Aba Painéis</title>
+<para
+>Nesta aba, você pode configurar o painel de <link linkend="information-panel"
+><guilabel
+>Informações</guilabel
+></link
+>: se ele exibe prévias, reproduz arquivos de mídia automaticamente, mostra o item sobre o qual o cursor do mouse está posicionado, e se as datas são exibidas em formato longo ou condensado. Você também pode limitar o painel <link linkend="folders-panel"
+><guilabel
+>Pastas</guilabel
+></link
+> à pasta pessoal (home) enquanto estiver dentro dela. </para>
+<para
+>Essas configurações também estão disponíveis no menu de contexto de cada painel. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-bars">
+<title
+>Aba Barras de localização e status</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>A opção <guilabel
+>Barra de status</guilabel
+> controla a aparência da barra de status. A barra de status <guilabel
+>Pequena</guilabel
+>, que é a padrão, é exibida na parte inferior esquerda da visualização. A barra de status de <guilabel
+>Largura total</guilabel
+> estende-se por toda a largura da visualização, e a opção <guilabel
+>Mostrar barra de zoom</guilabel
+> adiciona um controle deslizante a ela para alterar o tamanho dos ícones. A barra de status também pode ser <guilabel
+>Desabilitada</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Tornar a barra de localização editável</guilabel
+> controla se a barra de localização ficará no modo de edição ao iniciar. Caso contrário, será utilizado o modo de navegação da barra de localização. Consulte a <link linkend="location-bar"
+>seção sobre a barra de localização</link
+> para aprender mais sobre os dois modos. </para
+></listitem>
+
+<listitem
+><para
+>Se a opção <guilabel
+>Mostrar o caminho completo na barra de localização</guilabel
+> estiver selecionada, o caminho completo será exibido no modo de navegação da barra de localização. Caso contrário, uma versão reduzida do caminho será exibida, se ele iniciar com o caminho de um dos itens do painel <guilabel
+>Locais</guilabel
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-view">
+<title
+>Exibir</title>
+
+<para
+>Este grupo contém configurações que controlam o comportamento da exibição do &dolphin;. O grupo está subdividido em cinco subgrupos, que podem ser acessados ​​por meio da barra de abas na parte superior. As abas <guilabel
+>Ícones</guilabel
+>, <guilabel
+>Compacto</guilabel
+> e <guilabel
+>Detalhes</guilabel
+> contêm as configurações dos três modos de exibição. <screenshot>
+<screeninfo
+>Captura de tela das configurações de exibição na janela de preferências do &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-view-general.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configurações de exibição.</phrase>
+</textobject>
+<caption
+><para
+>Configurações de exibição na janela de preferências do &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-view-general">
+<title
+>Aba Geral</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>A opção <guilabel
+>Estilo de exibição</guilabel
+> controla se o mesmo <link linkend="view-properties"
+>estilo de exibição</link
+> é utilizado para todas as pastas (<guilabel
+>Usar estilo de exibição comum para todas as pastas</guilabel
+>, a opção padrão) ou se cada pasta memoriza seu próprio estilo de exibição (<guilabel
+>Memorizar o estilo de exibição de cada pasta</guilabel
+>). Alguns tipos de exibição especiais, como resultados de pesquisa, arquivos recentes ou a lixeira, utilizam sempre seu próprio estilo de exibição. </para
+></listitem>
+
+<listitem
+><para
+>Se a opção <guilabel
+>Usar modo de exibição em ícones para locais que mostram arquivos de mídia</guilabel
+> estiver ativada, as pastas que contêm, em sua maioria, imagens ou vídeos serão exibidas no modo de exibição <guilabel
+>Ícones</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Arquivos compactados (por exemplo, formato .zip ou .tar) serão abertos dentro do &dolphin;, e não em um aplicativo externo, caso a opção <guilabel
+>Navegar pelos arquivos compactados como pastas</guilabel
+> esteja ativada. </para
+></listitem>
+
+<listitem
+><para
+>Se a opção <guilabel
+>Abrir as pastas durante as operações de arrastar</guilabel
+> estiver assinalada, arrastar um item com o mouse sobre uma pasta e aguardar alguns segundos irá abrir essa pasta. Isso facilita a cópia ou movimentação de itens para pastas que estejam alguns níveis abaixo na hierarquia de pastas. </para
+></listitem>
+
+<listitem
+><para
+>Ao passar o ponteiro do mouse sobre um arquivo ou pasta, uma pequena janela com informações relevantes será apresentada, caso a opção <guilabel
+>Mostrar informações do item ao passar o ponteiro do mouse</guilabel
+> estiver assinalada. </para
+></listitem>
+
+<listitem
+><para
+>A opção <guilabel
+>Mostrar marcador de seleção</guilabel
+> apresenta um pequeno botão <guibutton
+>+</guibutton
+> ou <guibutton
+>-</guibutton
+> acima do ícone de um item, caso o ponteiro do mouse passe sobre esse item. Esses botões poderão ser usados para marcar ou desmarcar o item. </para
+></listitem>
+
+<listitem
+><para
+>Ative <guilabel
+>Renomear itens individuais de forma integrada</guilabel
+> para renomear um item diretamente na exibição, caso apenas um item esteja selecionado. Se esta opção estiver desativada ou se vários itens estiverem selecionados, uma janela de diálogo será exibida para a renomeação. </para
+></listitem>
+
+<listitem
+><para
+>Se a opção <guilabel
+>Também ocultar arquivos de backup ao ocultar arquivos ocultos</guilabel
+> estiver ativada, os arquivos de backup (&eg; arquivos cujos nomes terminam em <literal
+>~</literal
+>) serão ocultados juntamente com os arquivos ocultos. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Clique duplo aciona</guilabel
+> define a ação que é executada ao clicar duas vezes no fundo vazio da exibição; &eg; <guilabel
+>Selecionar tudo</guilabel
+>, <guilabel
+>Nada</guilabel
+> ou um <guilabel
+>Comando personalizado</guilabel
+>. </para
+></listitem>
+
+</itemizedlist>
+
+<para
+>A opção de abrir itens com um clique simples ou duplo do mouse é uma configuração que se aplica a todo o sistema e pode ser alterada por meio da opção <guilabel
+>Um clique em arquivos ou pastas</guilabel
+>, nas &systemsettings;, dentro do módulo <menuchoice
+><guimenu
+>Espaço de trabalho</guimenu
+><guimenuitem
+>Comportamento geral</guimenuitem
+></menuchoice
+>. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-view-content-display">
+<title
+>Aba Exibição de conteúdo</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>O <guilabel
 >Modo de ordenação</guilabel
-> controla a forma como os itens são ordenados na área de exibição. Se a opção de ordenação <guilabel
-> Natural</guilabel
->estiver assinalada, a ordenação dos três arquivos de exemplo será: <orderedlist
+> controla como os itens são organizados na exibição. Se <guilabel
+>Natural</guilabel
+> estiver selecionado, a ordem de classificação de três arquivos de exemplo será: <orderedlist
 > <listitem
 ><para
 >Arquivo1,</para
 ></listitem
-><listitem
+> <listitem
 ><para
 >Arquivo2,</para
-> </listitem
+></listitem
 > <listitem
 ><para
 >Arquivo10.</para
 ></listitem
 > </orderedlist
-> Caso esta opção esteja desmarcada, será usada a ordenação alfabética normal sem distinção entre maiúsculas e minúsculas, o que leva à seguinte ordenação <orderedlist>
+> Se <guilabel
+>Alfabética, sem distinção entre maiúsculas e minúsculas</guilabel
+> ou <guilabel
+>Alfabética, com distinção entre maiúsculas e minúsculas</guilabel
+> estiver selecionado, será utilizada a ordenação alfabética padrão, o que resulta na seguinte ordem: <orderedlist>
 <listitem
 ><para
 >Arquivo1;</para
@@ -1392,306 +1880,117 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Ao passar o ponteiro do mouse sobre um arquivo ou pasta, uma pequena janela com informações relevantes será apresentada, caso a opção <guilabel
->Mostrar dicas</guilabel
-> estiver assinalada. </para
+><guilabel
+>Tamanho da pasta</guilabel
+> permite definir a propriedade a ser usada para classificar pastas por tamanho. É possível classificar pastas pelo número de itens, escolhendo <guilabel
+>Mostrar número de itens</guilabel
+>, ou pelo tamanho do conteúdo, escolhendo <guilabel
+>Mostrar tamanho do conteúdo</guilabel
+>. O nível de recursão pode ser limitado, o que pode ser útil para restringir iterações desnecessárias em estruturas de pastas complexas ou em sistemas de arquivos lentos. Também é possível desativar a exibição do tamanho da pasta, escolhendo <guilabel
+>Não mostrar tamanho</guilabel
+> (o que pode melhorar o desempenho em casos raros, porém afeta outros recursos, como a classificação). </para
 ></listitem>
 
 <listitem
 ><para
 >A opção <guilabel
->Mostrar marcador de seleção</guilabel
-> apresenta um pequeno botão <guibutton
->+</guibutton
-> ou <guibutton
->-</guibutton
-> acima do ícone de um item, caso o ponteiro do mouse passe sobre esse item. Esses botões poderão ser usados para marcar ou desmarcar o item. </para
-></listitem>
-
-<listitem
-><para
->Assinale a opção <guilabel
->Renomear de forma integrada</guilabel
-> para usar esse modo, quando apenas um item estiver selecionado. Se esta opção estiver desmarcada ou se vários itens estiverem selecionados, será apresentada uma caixa de diálogo para alterar o(s) nome(s). </para
-></listitem>
-
-<listitem
-><para
->Habilitando <guilabel
->Alternar entre os painéis de exibições divididas com a tecla TAB</guilabel
-> permite alternar visualizações divididas com a tecla &Tab;. </para
-></listitem>
-
-<listitem
-><para
->Desabilite <guilabel
->Desativar a exibição dividida fecha o painel ativo</guilabel
-> para fechar o painel inativo ao desativar o modo de exibição dividida, &eg; pressionando <keycap
->F3</keycap
->. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect3>
-
-<sect3 id="preferences-dialog-general-previews">
-<title
->Aba de Prévias</title>
-
-<para
->Nesta aba, você poderá configurar para quais tipos de arquivo as miniaturas serão apresentadas. Além disso, poderá também definir o tamanho máximo dos arquivos locais e remotos para geração de miniaturas. </para>
-<para
->Se a opção de geração de miniaturas para pastas estiver assinalada, os ícones das pastas mostrarão pequenas imagens que representam as miniaturas de alguns de seus arquivos. </para>
-</sect3>
-
-<sect3 id="preferences-dialog-general-confirmations">
-<title
->Aba Confirmações</title>
-<para
->Na seção para confirmar as solicitações, você poderá ativar as caixas de diálogo de aviso que aparecem antes de efetuar determinadas ações que possam ser consideradas perigosas. </para>
-<para
->Isto também permite escolher uma ação padrão para <guilabel
->Ao abrir um arquivo executável</guilabel
->. Há três opções denominadas, respectivamente, <guimenuitem
->Perguntar sempre</guimenuitem
->, <guimenuitem
->Abrir no aplicativo</guimenuitem
-> e <guimenuitem
->Executar script</guimenuitem
->. </para>
-<warning
-><para
->As configurações de confirmação para <guilabel
->Mover arquivos ou pastas para a Lixeira</guilabel
-> e <guilabel
->Excluir arquivos ou pastas</guilabel
-> afetam as operações com arquivos no &dolphin;, &konqueror;, &gwenview; e todos os outros aplicativos do &kde; que usam a caixa de diálogo de arquivos padrão do &kde;, enquanto que <guilabel
->Fechar janelas do Dolphin com várias abas</guilabel
-> é uma opção exclusiva do &dolphin;.</para
-></warning>
-</sect3>
-
-<sect3 id="preferences-dialog-general-statusbar">
-<title
->Aba Barra de status</title>
-
-<para
->Nesta aba, alguns itens adicionais podem ser incluídos na barra de status, desde que a mesma tenha espaço suficiente: <itemizedlist>
-
-<listitem
-><para
->O item <guilabel
->Mostrar barra de status</guilabel
-> pode ser usado para alternar a visibilidade da barra de status. </para
-></listitem>
-
-<listitem
-><para
->O item <guilabel
->Mostrar barra de zoom</guilabel
-> permite alternar a visibilidade do widget de tamanho do ícone. </para
-></listitem>
-
-<listitem
-><para
->O item <guilabel 
->Mostrar informação de espaço</guilabel 
-> pode ser usado para ativar e desativar uma barra que mostra quanto espaço está livre no drive atual. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect3>
-
-</sect2>
-
-<sect2 id="preferences-dialog-startup">
-<title
->Inicialização</title>
-
-<para
->Este grupo contém as opções que controlam a aparência do &dolphin; ao iniciar. <screenshot>
-<screeninfo
->Imagem das configurações da página Inicialização na caixa de diálogo de preferências do &dolphin;</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-startup.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Configurações da página Inicialização.</phrase>
-</textobject>
-<caption
-><para
->Configuração da página Inicialização na caixa de diálogo Preferências do &dolphin;.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-<itemizedlist>
-
-<listitem
-><para
->A opção <guilabel 
->Mostrar ao iniciar</guilabel 
-> permite escolher a pasta que é aberta ao iniciar. </para>
-<para
->Se o item <guimenuitem
->Pastas, abas e estado da janela usados da última vez</guimenuitem
-> estiver selecionado, então </para>
-<itemizedlist>
-    <listitem>
-        <para
->Quando iniciado a partir do &GUI; ou CLI sem nenhum &URL;s, &dolphin; restaura a sessão</para>
-    </listitem>
-    <listitem>
-        <para
->Ao reiniciar com o &dolphin; aberto, ele restaura a sessão normalmente depois que o sistema volta</para>
-    </listitem>
-    <listitem>
-        <para
->Quando iniciado com &URL;s, &dolphin; é aberta uma janela que mostra esses &URL;s em vez de restaurar a sessão</para>
-    </listitem>
-    <listitem>
-        <para
->Quando o &dolphin; já está em execução e uma nova janela é aberta, essa nova janela mostra uma única aba com o mesmo &URL; como era visível na instância &dolphin; previamente aberta</para>
-    </listitem>
-</itemizedlist>
-<para
->A localização da pasta também pode ser inserida diretamente ou escolhida na caixa de diálogo que é aberta ao clicar no botão com ícone em forma de <quote
->pasta</quote
->. Além disso, a localização atual ou a localização padrão (que é a pasta do usuário) poderá ser usada como a pasta de inicialização ao clicar no botão correspondente. </para
-></listitem>
-
-<listitem
-><para
->O <guilabel
->Iniciar no modo de exibição dividida</guilabel
-> controla se a <link linkend="dolphin-view"
-> área de exibição do &dolphin;</link
-> ficará ou não dividida ao iniciar para novas janelas. </para
+>Estilo de data</guilabel
+> pode ser usada para configurar o modo de exibição de datas no &dolphin;. É possível escolher entre <guilabel
+>Relativo</guilabel
+> (&eg;, <quote
+>Ontem, 15:00</quote
+>) ou <guilabel
+>Absoluto</guilabel
+> (&eg;, <quote
+>2020-12-23 15:00</quote
+>). </para
 ></listitem>
 
 <listitem
 ><para
 >A opção <guilabel
->Mostrar a barra de filtragem</guilabel
-> controla se a barra de filtragem será apresentada ao iniciar. Consulte mais detalhes na <link linkend="filter-files"
->seção sobre a barra de filtragem</link
->. </para
+>Estilo de permissões</guilabel
+> controla como as permissões são exibidas: <guilabel
+>Simbólico</guilabel
+> (&eg; <quote
+>drwxr-xr-x</quote
+>), <guilabel
+>Numérico (octal)</guilabel
+> (&eg; <quote
+>755</quote
+>) ou <guilabel
+>Combinado</guilabel
+> (&eg; <quote
+>drwxr-xr-x (755)</quote
+>). </para
 ></listitem>
 
 <listitem
 ><para
-><guilabel
->Tornar a barra de localização editável</guilabel
-> controla se a barra de localização ficará no modo de edição ao iniciar. Caso contrário, será utilizado o modo de navegação da barra de localização. Consulte a <link linkend="location-bar"
->seção sobre a barra de localização</link
-> para aprender mais sobre os dois modos. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Abrir pastas em novas abas</guilabel
-> controla se o &dolphin; deve abrir uma nova pasta em uma nova aba da instância atual quando chamada externamente. Se esta opção estiver desabilitada, as novas pastas serão abertas em novas instâncias do &dolphin;. Por padrão, esta opção está habilitada. </para
-></listitem>
-
-<listitem
-><para
->Se a opção <guilabel
->Mostrar o caminho completo na barra de localização</guilabel
-> estiver selecionada, o caminho completo será exibido no modo de navegação da barra de localização. Caso contrário, uma versão reduzida do caminho será exibida, se ele iniciar com o caminho de um dos itens do painel <guilabel
->Locais</guilabel
->. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Exibir caminho completo na barra de título</guilabel
-> torna mais fácil a distinção entre arquivos ou pastas com o mesmo nome em diferentes diretórios. </para
+>A opção <guilabel
+>Nomes longos de arquivos</guilabel
+> controla se nomes longos de arquivos são encurtados no meio ou no final. </para
 ></listitem>
 
 </itemizedlist>
 
-</para>
+</sect3>
 
-</sect2>
-
-<sect2 id="preferences-dialog-viewmodes">
-<title
->Modos de exibição</title>
-
-<para
->Este grupo contém opções que controlam o comportamento dos modos de exibição do &dolphin;. Os três modos de exibição (Ícones, Compacto e Detalhes) estão acessíveis através da barra de abas. <screenshot>
-<screeninfo
->Imagem das configurações do modo exibição em Ícones, na caixa de diálogo de preferências do &dolphin;</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Configuração dos modos de exibição.</phrase>
-</textobject>
-<caption
-><para
->Configuração dos modos de exibição na caixa de diálogo Preferências do &dolphin;.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-</para>
-
-<sect3 id="preferences-dialog-viewmodes-common">
+<sect3 id="preferences-dialog-view-common">
 <title
 >Opções comuns a todos os modos de exibição</title>
 
 <para
->Todos os três modos de exibição possuem algumas opções em comum: </para>
+>As abas <guilabel
+>Ícones</guilabel
+>, <guilabel
+>Compacto</guilabel
+> e<guilabel
+>Detalhes</guilabel
+> possuem algumas configurações em comum: </para>
 <itemizedlist>
 
 <listitem
 ><para
->Barras que controlam o tamanho dos ícones. Os tamanhos <guilabel
->Padrão</guilabel
-> ou <guilabel
->Prévia</guilabel
-> são usados se as prévias estiverem desativadas ou ativadas, respectivamente. Lembre-se de que o tamanho dos ícones poderá ser facilmente alterado com a barra deslizante, localizada na barra de status, caso a opção correspondente estiver ativada na seção <link linkend="preferences-dialog-general-statusbar"
-><quote
->Geral</quote
-></link
-> das configurações do programa. </para
+>Controles deslizantes que definem o tamanho dos ícones. O <guilabel
+>Tamanho padrão dos ícones</guilabel
+> ou o <guilabel
+>Tamanho dos ícones de prévias</guilabel
+> é utilizado, respectivamente, quando as prévias estão desativadas ou ativadas. Observe que o tamanho dos ícones pode ser facilmente alterado por meio dos botões de <guilabel
+>Zoom</guilabel
+> no menu <guibutton
+>Configurações de exibição</guibutton
+>, ou pelo controle deslizante de zoom na barra de status, caso a opção correspondente esteja ativada na aba <guilabel
+>Barras de localização e status</guilabel
+>, dentro das configurações de <guilabel
+>Interface</guilabel
+> <link linkend="preferences-dialog-interface-bars"
+>(consulte aqui)</link
+>. </para
 ></listitem>
 
 <listitem
 ><para
->Uma opção para a fonte usada no modo de exibição: pode ser selecionada a fonte do sistema ou uma personalizada. </para
+>Uma opção para a <guilabel
+>Fonte da legenda</guilabel
+> usada no modo de exibição: pode ser selecionada a fonte do sistema ou uma personalizada. </para
 ></listitem>
 
 </itemizedlist>
 <para
->As outras opções da seção <guilabel
->Texto</guilabel
->, que se aplicam exclusivamente a cada um dos modos de exibição, são apresentadas a seguir. </para>
+>As outras opções que se aplicam exclusivamente a cada um dos modos de exibição são apresentadas a seguir. </para>
 
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-icons">
+<sect3 id="preferences-dialog-view-icons">
 <title
->Ícones</title>
+>Aba Ícones</title>
 <para>
 <itemizedlist>
 <listitem
 ><para
 ><guilabel
->Largura</guilabel
+>Largura da legenda</guilabel
 > - controla a largura mínima que está reservada para o texto de um item de arquivo. </para
 ></listitem>
 <listitem
@@ -1700,13 +1999,19 @@ context menu Icon Size? No different entries ?-->
 >Máximo de linhas</guilabel
 > - corresponde ao número máximo de linhas de texto abaixo do ícone. </para
 ></listitem>
+<listitem
+><para
+>Se o espaçamento <guilabel
+>Compacto</guilabel
+> estiver ativado, os itens são posicionados mais próximos uns dos outros, de modo que um número maior deles caiba em uma mesma linha. </para
+></listitem>
 </itemizedlist>
 </para>
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-compact">
+<sect3 id="preferences-dialog-view-compact">
 <title
->Compacto</title>
+>Aba Compacto</title>
 <para>
 <itemizedlist>
 <listitem
@@ -1719,135 +2024,65 @@ context menu Icon Size? No different entries ?-->
 </para>
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-details">
+<sect3 id="preferences-dialog-view-details">
 <title
->Detalhes</title>
+>Aba Detalhes</title>
 <para>
 <itemizedlist>
 <listitem
 ><para
-><guilabel
->Pastas expansíveis</guilabel
-> - determina se as pastas que possuírem subpastas serão apresentadas em árvore, onde os subitens podem ser expandidos clicando com o &LMB; no ícone <guiicon
+>Pastas <guilabel
+>Expansíveis</guilabel
+> determina se as pastas que possuírem subpastas serão apresentadas em árvore, onde os subitens podem ser expandidos clicando com o &LMB; no ícone <guiicon
 >&gt;</guiicon
 > e fechados ao clicar no ícone <guiicon
 >v</guiicon
->. </para>
-<para
+>. </para
+></listitem>
+<listitem
+><para
 ><guilabel
->Tamanho da pasta</guilabel
-> permite definir a propriedade a ser usada para classificar pastas por tamanho. É possível classificar pastas pelo número de itens, escolhendo <guilabel
->Mostrar número de itens</guilabel
->, ou pelo tamanho do conteúdo, escolhendo <guilabel
->Mostrar tamanho do conteúdo</guilabel
->. O nível de recursão pode ser limitado, o que pode ser útil para restringir iterações desnecessárias em estruturas de pastas complexas ou em sistemas de arquivos lentos. Também é possível desativar a exibição do tamanho da pasta, escolhendo <guilabel
->Não mostrar tamanho</guilabel
-> (o que pode melhorar o desempenho em casos raros, porém afeta outros recursos, como a classificação). </para>
-<para
->A opção <guilabel
->Estilo de data</guilabel
-> pode ser usada para configurar o modo de exibição de datas no &dolphin;. É possível escolher entre <guilabel
->Relativo</guilabel
-> (&eg;, <quote
->Ontem, 15:00</quote
->) ou <guilabel
->Absoluto</guilabel
-> (&eg;, <quote
->2020-12-23 15:00</quote
->). </para>
-</listitem>
+>Abrir arquivos e pastas</guilabel
+> define se os itens são abertos <guilabel
+>Ao clicar em qualquer lugar na linha</guilabel
+> ou apenas <guilabel
+>Ao clicar no ícone ou nome</guilabel
+>. </para
+></listitem>
 </itemizedlist>
 </para>
 </sect3>
 
 </sect2>
 
-<sect2 id="preferences-dialog-navigation">
-<title
->Navegação</title>
-
-<para
->Este grupo contém opções que controlam como funciona a navegação na estrutura de pastas e nos pacotes. <screenshot>
-<screeninfo
->Imagem das configurações da página Navegação, na caixa de diálogo de preferências do &dolphin;</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-navigation.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Configurações da página Navegação.</phrase>
-</textobject>
-<caption
-><para
->Configuração da página Navegação na caixa de diálogo Preferências do &dolphin;.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-<itemizedlist>
-
-<listitem
-><para
->A opção de abrir itens com um clique simples ou duplo do mouse é uma configuração de todo o sistema e pode ser alterada em &systemsettings; no módulo <menuchoice
-><guimenu
->Espaço de trabalho</guimenu
-> <guimenuitem
->Comportamento geral</guimenuitem
-></menuchoice
->.</para>
-</listitem>
-
-<listitem
-><para
->Os pacotes e arquivos compactados serão abertos dentro do &dolphin; e não em um aplicativo externo, caso a opção <guilabel
->Abrir arquivos como pastas</guilabel
-> esteja assinalada. </para
-></listitem>
-
-<listitem
-><para
->Se a opção <guilabel
->Abrir as pastas durante as operações de arrastar</guilabel
-> estiver assinalada, arrastar um item com o mouse sobre uma pasta e aguardar alguns segundos irá abrir essa pasta. Isso facilita a cópia ou movimentação de itens para pastas que estejam alguns níveis abaixo na hierarquia de pastas. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect2>
-
 <sect2 id="preferences-dialog-context-menu">
 <title
->Serviços</title>
+>Menu de contexto</title>
 
 <para
->Este grupo oferece uma seleção de serviços que poderão ser apresentados no submenu <guisubmenu
->Ações</guisubmenu
-> do menu de contexto do &dolphin;, o qual aparece ao clicar em um arquivo ou pasta com o &RMB;. </para>
+>Este grupo oferece uma seleção de serviços e ações integradas do &dolphin; que podem ser exibidas no menu de contexto do &dolphin;, o qual aparece ao clicar em um arquivo ou pasta com o botão direito do mouse. Use o campo de pesquisa na parte superior para encontrar um item na lista. </para>
 
 <screenshot>
 <screeninfo
->Imagem das configurações do menu de Serviços, na caixa de diálogo de preferências do &dolphin;</screeninfo>
+>Captura de tela das configurações do menu de contexto na janela de preferências do &dolphin;</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-context-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Configurações da página Serviços.</phrase>
+>Configurações do menu de contexto.</phrase>
 </textobject>
 <caption
 ><para
->Configurações da página Serviços na caixa de diálogo Preferências do &dolphin;.</para
+>Configurações do menu de contexto na janela de preferências do &dolphin;.</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
 >Usando o botão <guibutton
->Baixar novos serviços</guibutton
+>Baixar serviços...</guibutton
 >, você poderá obter serviços adicionais para o menu de contexto. </para>
 <para
 >Se tiver instalado os plugins do &dolphin; para o <guilabel
@@ -1858,26 +2093,36 @@ context menu Icon Size? No different entries ?-->
 >Git</guilabel
 > ou <guilabel
 >Subversion</guilabel
-> do módulo kdesdk, esses serviços também serão exibidos na lista. Se estes plugins forem ativados e você inserir uma pasta que esteja sob controle de versões, o estado da versão (modificada localmente, atualizada, &etc;) será indicado através de ícones e alguns itens adicionais serão adicionados ao menu de contexto, como o enviar, atualizar, adicionar, remover, &etc; </para>
+> do pacote dolphin-plugins, esses serviços também serão exibidos na lista. Se estes plugins forem ativados e você inserir uma pasta que esteja sob controle de versões, o estado da versão (modificada localmente, atualizada, &etc;) será indicado através de ícones e alguns itens adicionais serão adicionados ao menu de contexto, como o enviar, atualizar, adicionar, remover, &etc; </para>
 <para
->Na lista de serviços, você também pode escolher se os comandos <guimenuitem
+>Na lista, você também pode escolher se os comandos <guimenuitem
+>Excluir</guimenuitem
+>, <guimenuitem
 >Copiar para</guimenuitem
 >, <guimenuitem
 >Mover para</guimenuitem
 >, <guimenuitem
->Adicionar a locais</guimenuitem
+>Adicionar aos locais</guimenuitem
 >, <guimenuitem
 >Ordenar por</guimenuitem
 >, <guimenuitem
->Modo de visualização</guimenuitem
+>Alterar modo de exibição</guimenuitem
 >, <guimenuitem
->Abrir em nova guia</guimenuitem
+>Abrir em uma nova aba</guimenuitem
 >, <guimenuitem
->Abrir em nova janela</guimenuitem
+>Abrir em uma nova janela</guimenuitem
+>, <guimenuitem
+>Abrir em exibição dividida</guimenuitem
 >, <guimenuitem
 >Copiar local</guimenuitem
-> e <guimenuitem
+>, <guimenuitem
 >Duplicar aqui</guimenuitem
+>, <guimenuitem
+>Abrir terminal aqui</guimenuitem
+>, <guimenuitem
+>Copiar para a outra exibição</guimenuitem
+> e <guimenuitem
+>Mover para outra exibição</guimenuitem
 > serão exibidos no menu de contexto. </para>
 <para
 >O &dolphin; deverá ser reiniciado para ativar as algumas das alterações nesta configuração. </para>
@@ -1968,7 +2213,13 @@ context menu Icon Size? No different entries ?-->
 >Estilo de exibição das pastas</title>
 
 <para
->As seguintes opções controlam como o conteúdo de uma pasta é apresentado na área de exibição do &dolphin;, sendo armazenadas em cada pasta por padrão: </para>
+>As configurações a seguir controlam como o conteúdo de uma pasta é exibido na exibição do &dolphin;. Por padrão, elas são compartilhadas por todas as pastas, mas também podem ser definidas individualmente para cada pasta, caso essa opção esteja ativada na aba <guilabel
+>Geral</guilabel
+> das configurações de <guilabel
+>Exibir</guilabel
+> <link linkend="preferences-dialog-view-general"
+>(consulte aqui)</link
+>: </para>
 <itemizedlist>
 
 <listitem
@@ -1983,21 +2234,21 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Ordenação das pastas e arquivos &ndash; as pastas são ou não apresentadas primeiro? </para
+>Ordenação de pastas e arquivos &ndash; as pastas são exibidas primeiro ou não? Os arquivos ocultos são exibidos por último ou não? </para
 ></listitem>
 
 <listitem
 ><para
->Prévias &ndash; são apresentadas em vez dos ícones (com base nas opções escolhidas na aba <link linkend="preferences-dialog-general-previews"
+>Prévias &ndash; são apresentadas em vez dos ícones (com base nas opções escolhidas na aba <link linkend="preferences-dialog-interface-previews"
 ><guilabel
 >Prévias</guilabel
-> das configurações gerais do &dolphin;</link
+> das configurações da interface do &dolphin;</link
 >) ou não? </para
 ></listitem>
 
 <listitem
 ><para
->Os itens são mostrados em grupos nas áreas de exibição? </para
+>Os itens são exibidos em grupos nas exibições e por qual atributo eles são agrupados? </para
 ></listitem>
 
 <listitem
@@ -2012,11 +2263,11 @@ context menu Icon Size? No different entries ?-->
 
 </itemizedlist>
 <para
->Os estilos de exibição podem ser configuradas a partir do menu <menuchoice
-><guimenu
+>O estilo de exibição da visualização pode ser configurado no menu <guimenu
 >Exibir</guimenu
-></menuchoice
->, podendo algumas delas (como o modo de exibição) também ser alteradas com os botões da barra de ferramentas. </para>
+> ou por meio do botão <guibutton
+>Configurações de exibição</guibutton
+> na barra de ferramentas. </para>
 
 <sect2 id="view-properties-dialog">
 <title
@@ -2029,7 +2280,7 @@ context menu Icon Size? No different entries ?-->
 >Imagem da caixa de diálogo de estilos de exibição</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+<imagedata fileref="view-display-style.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -2042,15 +2293,27 @@ context menu Icon Size? No different entries ?-->
 </mediaobject>
 </screenshot
 >A janela <guilabel
->Exibir estilo de visualização</guilabel
-> pode ser usada para modificar rapidamente os estilos de exibição de várias pastas de uma só vez. Isso pode ser feito para a pasta atual, para a pasta atual incluindo todas as subpastas ou até mesmo para todas as pastas, dependendo da opção selecionada na seção <guilabel
->Aplicar a</guilabel
->. </para>
+>Estilo de exibição</guilabel
+>, que é aberta por meio de <menuchoice
+><guimenu
+>Exibir</guimenu
+><guimenuitem
+>Ajustar o estilo de exibição...</guimenuitem
+></menuchoice
+>, pode ser usada para modificar, de uma só vez, todas as configurações de estilo de exibição listadas acima. As informações exibidas para cada item podem ser selecionadas na seção <guilabel
+>Informações adicionais</guilabel
+>, localizada na parte inferior da janela. </para>
 
 <para
->Se a opção <guilabel
->Usar como definição de exibição padrão</guilabel
-> estiver assinalada, as propriedades de exibição escolhidas também serão usadas em todas as pastas que ainda não tenham sido personalizadas. </para>
+>Se cada pasta memorizar seu próprio estilo de exibição (consulte a aba <guilabel
+>Geral</guilabel
+> nas configurações de <guilabel
+>Exibir</guilabel
+>), a janela também apresentará uma seção <guilabel
+>Aplicar a</guilabel
+>. As alterações serão aplicadas à pasta atual, à pasta atual incluindo todas as suas subpastas, ou até mesmo a todas as pastas, dependendo da opção escolhida nesta seção. Se a opção <guilabel
+>Usar como configurações de exibição padrão</guilabel
+> estiver ativada, as propriedades de exibição selecionadas também serão aplicadas a todas as pastas que ainda não possuam propriedades de exibição personalizadas. </para>
 
 </sect2>
 
@@ -2062,9 +2325,13 @@ context menu Icon Size? No different entries ?-->
 <title
 >Referência de comandos</title>
 <para
->Por padrão, a barra de menus fica visível. Todas as ações aqui descritas podem ser acessadas com os botões da barra de ferramentas ou com os itens do menu da barra de ferramentas <guibutton
->Controle</guibutton
->.</para>
+>Por padrão, a barra de menus não é exibida. Todas as ações descritas aqui podem ser acessadas por meio de botões na barra de ferramentas ou por itens no menu do botão <guibutton
+>Abrir menu</guibutton
+> (representado por três linhas horizontais na extremidade direita da <link linkend="toolbar"
+>barra de ferramentas</link
+>, ou acessível pressionando <keycap
+>F10</keycap
+>).</para>
 
 <sect1 id="commands-menubar">
 <title
@@ -2096,17 +2363,15 @@ context menu Icon Size? No different entries ?-->
 >.</para>
 <note>
     <para
->É possível criar seus próprios itens do submenu <guisubmenu
->Criar Novo...</guisubmenu
->. Use os arquivos do <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
->repositório fonte KIO</ulink
-> como referência e coloque o arquivo<filename role="extension"
+>É possível criar seus próprios itens para o submenu <guisubmenu
+>Criar novo</guisubmenu
+>. Utilize arquivos do <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>repositório de código-fonte do KIO</ulink
+> como referência e coloque o arquivo <filename role="extension"
 >.desktop</filename
->resultante no <filename role="directory"
+> resultante na pasta <filename role="directory"
 >.local/share/templates</filename
-> em seu diretório home (o endereço pode ser determinado usando o comando<userinput
->kf5-config --path templates</userinput
-> no &konsole;), depois reinicie o &dolphin;. </para>
+>, dentro do seu diretório pessoal; em seguida, reinicie o &dolphin;. </para>
 </note>
 </listitem>
 </varlistentry>
@@ -2206,6 +2471,27 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
+><guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Adicionar aos locais</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Adiciona a pasta atual ao <link linkend="places-panel"
+>painel <guilabel
+>Locais</guilabel
+></link
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
 ><shortcut
 > <keycombo action="simul"
 ><keycap
@@ -2215,7 +2501,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Arquivo</guimenu
 > <guimenuitem
->Renomear</guimenuitem
+>Renomear...</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2224,6 +2510,31 @@ context menu Icon Size? No different entries ?-->
 >Renomeia o item selecionado, de forma integrada. Se mais de um item estiver selecionado, abre a <link linkend="batch-rename"
 >caixa de diálogo para renomear em lote</link
 >.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Duplicar aqui</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cria duplicatas dos itens selecionados anexando <replaceable
+> cópia</replaceable
+> ao final de seus nomes.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2285,32 +2596,7 @@ context menu Icon Size? No different entries ?-->
 ></term>
 <listitem
 ><para
->Esta ação destaca o link marcado em uma nova janela do &dolphin;. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
->D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Arquivo</guimenu
-> <guimenuitem
->Duplicar aqui</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Cria duplicatas dos itens selecionados anexando <replaceable
-> cópia</replaceable
-> ao final de seus nomes.</action
-></para
+>Esta ação destaca o destino do link selecionado no gerenciador de arquivos. </para
 ></listitem>
 </varlistentry>
 
@@ -2398,6 +2684,29 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Refazer</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Refaz a última ação que foi desfeita.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
 >&Ctrl;<keycap
 >X</keycap
 ></keycombo
@@ -2435,6 +2744,29 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><action
 >Copia os itens que estiverem selecionados.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Copiar localização</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia o caminho do(s) item(ns) selecionado(s) para a área de transferência.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2486,52 +2818,6 @@ context menu Icon Size? No different entries ?-->
 ><shortcut
 > <keycombo action="simul"
 >&Ctrl;<keycap
->F5</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Editar</guimenu
-> <guimenuitem
->Copiar para visualização dividida inativa</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Copia o(s) item(ns) atualmente selecionado(s) da visualização dividida ativa para a visualização dividida inativa.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
->F6</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Editar</guimenu
-> <guimenuitem
->Move para visualização dividia inativa</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Move os itens atualmente selecionados da visualização dividida ativa para a visualização dividida inativa. Está desativado se o usuário atual não tiver permissão de gravação nos itens selecionados.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
 >I</keycap
 ></keycombo
 > </shortcut
@@ -2544,13 +2830,11 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Ativa ou desativa a <link linkend="filter-files"
->barra de filtragem</link
->.</action
-> Você também pode utilizar o atalho alternativo <keycombo action="simul"
->&Shift;<keycap
+>Abre a <link linkend="filter-files"
+>barra de filtro</link
+> e move o foco do teclado para ela.</action
+> Você também pode usar o atalho alternativo <keycap
 >/</keycap
-></keycombo
 > para esta ação.</para
 ></listitem>
 </varlistentry>
@@ -2573,7 +2857,78 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Abre a barra de pesquisa. Digite o termo a pesquisar no campo de texto e selecione para procurar pelo nome do arquivo ou no seu conteúdo, a partir da pasta atual ou em todos os lugares.</action
+>Abre a <link linkend="finding-searching-in-file"
+>barra de pesquisa</link
+>. Digite o termo a pesquisar no campo de texto e selecione para procurar pelo nome do arquivo ou no seu conteúdo, a partir da pasta atual ou em todos os lugares.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>Espaço</keycap
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Selecionar arquivos e pastas</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ativa ou desativa o <link linkend="selection-mouse"
+>modo de seleção</link
+>.</action>
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Copiar para outra exibição</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia o(s) item(ns) atualmente selecionado(s) da visualização dividida ativa para a visualização dividida inativa.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Mover para outra exibição</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Move os itens atualmente selecionados da visualização dividida ativa para a visualização dividida inativa. Está desativado se o usuário atual não tiver permissão de gravação nos itens selecionados.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2662,29 +3017,6 @@ context menu Icon Size? No different entries ?-->
 ><shortcut
 > <keycombo action="simul"
 >&Ctrl;<keycap
->-</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Exibir</guimenu
-> <guimenuitem
->Reduzir</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Diminui o tamanho dos ícones na área de exibição.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
 >0</keycap
 ></keycombo
 > </shortcut
@@ -2705,10 +3037,95 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Reduzir</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Diminui o tamanho dos ícones na área de exibição.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
 ><guimenu
 >Exibir</guimenu
 > <guisubmenu
->Modo de exibição</guisubmenu
+>Ordenar por</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Indica se os itens são ordenados</action
+> por <guimenuitem
+>Nome</guimenuitem
+> ou outro critério descrito em <link linkend="dolphin-view-information"
+>Informações na área de exibição</link
+>.</para>
+<para
+>Os dois itens abaixo dos critérios definem a ordem de classificação. Seus nomes variam de acordo com o critério selecionado; por exemplo, <guimenuitem
+>A-Z</guimenuitem
+> e <guimenuitem
+>Z-A</guimenuitem
+> para <guimenuitem
+>Nome</guimenuitem
+>, ou <guimenuitem
+>Do menor para o maior</guimenuitem
+> e <guimenuitem
+>Do maior para o menor</guimenuitem
+> para <guimenuitem
+>Tamanho</guimenuitem
+>. A opção <guimenuitem
+>Primeiro as pastas </guimenuitem
+> coloca as pastas antes dos arquivos. A opção <guimenuitem
+>Arquivos ocultos por último</guimenuitem
+> coloca os arquivos ocultos após os demais itens. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Exibir</guimenu
+> <guisubmenu
+>Agrupar por</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Exibe</action
+> o conteúdo da pasta atual agrupado de acordo com o critério selecionado. <guimenuitem
+>Nenhum</guimenuitem
+> desativa o agrupamento, e <guimenuitem
+>Igual à ordenação</guimenuitem
+> agrupa os itens pelo critério selecionado em <guisubmenu
+>Ordenar por</guisubmenu
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Exibir</guimenu
+> <guisubmenu
+>Alterar modo de exibição</guisubmenu
 > </menuchoice
 ></term>
 <listitem
@@ -2743,33 +3160,6 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Exibir</guimenu
 > <guisubmenu
->Ordenar por</guisubmenu
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Indica se os itens são ordenados</action
-> por <guimenuitem
->Nome</guimenuitem
-> ou outro critério descrito em <link linkend="dolphin-view-information"
->Informações na área de exibição</link
->.</para>
-<para
-><guimenuitem
->Decrescente</guimenuitem
-> inverte a sequência de ordenação. <guimenuitem
->Primeiro as pastas</guimenuitem
-> apresenta as pastas antes dos arquivos. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Exibir</guimenu
-> <guisubmenu
 >Mostrar informações adicionais</guisubmenu
 > </menuchoice
 ></term>
@@ -2786,10 +3176,14 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
-><guimenu
+><shortcut
+> <keycap
+>F12</keycap
+> </shortcut
+> <guimenu
 >Exibir</guimenu
 > <guimenuitem
->Exibir prévias</guimenuitem
+>Mostrar prévias</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2797,25 +3191,6 @@ context menu Icon Size? No different entries ?-->
 ><action
 >Mostra uma prévia simbólica do conteúdo do arquivo</action
 > nos diferentes modos de exibição.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Exibir</guimenu
-> <guimenuitem
->Mostrar em grupos</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Mostra</action
-> o conteúdo da pasta atual agrupado pela opção selecionada em <guimenuitem
->Ordenar por</guimenuitem
->. </para
 ></listitem>
 </varlistentry>
 
@@ -2837,7 +3212,7 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Exibir todos os arquivos e subpastas ocultas no diretório atual. </action
+>Exibe todos os arquivos e subpastas ocultos na pasta atual. </action
 >Há um atalho alternativo <keycombo action="simul"
 >&Ctrl;<keycap
 >H</keycap
@@ -2849,11 +3224,66 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
+><guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Agir como administrador</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Alterna a exibição atual para operar com privilégios de administrador </action
+>, permitindo que arquivos e pastas pertencentes a outros usuários ou ao sistema sejam modificados. Um aviso sobre os riscos é exibido previamente. Esta opção só está disponível se o <application
+>kio-admin</application
+> estiver instalado. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Restaurar para os padrões</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Restaura o <link linkend="view-properties"
+>estilo de exibição</link
+> da pasta atual para os valores padrão.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Ajustar os estilos de exibição...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre a <link linkend="view-properties-dialog"
+>caixa de diálogo de estilos de exibição</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
 ><shortcut
-> <keycombo action="simul"
-><keycap
+> <keycap
 >F3</keycap
-></keycombo
 > </shortcut
 > <guimenu
 >Exibir</guimenu
@@ -2864,7 +3294,34 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Ativa ou desativa o modo de exibição dividida.</action
+>Ativa e desativa o modo de exibição dividida.</action
+> Enquanto a exibição estiver dividida, este item é identificado como <guimenuitem
+>Fechar exibição à esquerda</guimenuitem
+> ou <guimenuitem
+>Fechar exibição à direita</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Exibição dividida para abas</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Move as duas exibições da exibição dividida para abas separadas.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2874,14 +3331,81 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
-><keycap
->F5</keycap
+>&Shift;<keycap
+>F3</keycap
 ></keycombo
 > </shortcut
 > <guimenu
 >Exibir</guimenu
 > <guimenuitem
->Atualizar</guimenuitem
+>Destacar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Se a exibição tiver sido dividida, move a exibição em foco para uma nova janela.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Focar outra exibição</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Move o foco do teclado para a outra exibição da exibição dividida.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Stash</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre a pasta virtual de armazenamento (stash) em uma exibição dividida.</action
+> Este item só está disponível se o serviço de armazenamento (stash) estiver em execução.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F5</keycap
+> </shortcut
+> <guimenu
+>Exibir</guimenu
+> <guimenuitem
+>Recarregar</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2995,29 +3519,14 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Muda a barra de localização para o <link linkend="location-bar-editable"
->modo de edição</link
->, se necessário, e seleciona a localização de modo que possa ser substituída rapidamente. </action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Exibir</guimenu
-> <guimenuitem
->Ajustar os estilos de exibição...</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Abre a <link linkend="view-properties-dialog"
->caixa de diálogo de estilos de exibição</link
->.</action
-></para
+>Alterna a barra de localização para o <link linkend="location-bar-editable"
+>modo editável</link
+>, se necessário, e seleciona o endereço de modo que ele possa ser substituído rapidamente.</action
+> Existe um atalho alternativo, <keycombo action="simul"
+>&Alt;<keycap
+>D</keycap
+></keycombo
+>, para esta ação.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -3131,6 +3640,23 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Ir</guimenu
 > <guisubmenu
+>Favoritos</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Exibe um menu que permite adicionar a pasta atual aos favoritos, bem como abrir ou editar seus favoritos.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ir</guimenu
+> <guisubmenu
 >Abas fechadas recentemente</guisubmenu
 > </menuchoice
 ></term>
@@ -3156,29 +3682,6 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Shift;<keycap
->F4</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Ferramentas</guimenu
-> <guimenuitem
->Abrir o Terminal</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Abre o &konsole; dentro da pasta atual.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >F</keycap
 ></keycombo
@@ -3194,6 +3697,73 @@ context menu Icon Size? No different entries ?-->
 ><action
 >Abre a ferramenta de pesquisa preferida na da pasta atual.</action
 ></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Abrir o Terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre um aplicativo de terminal, como o &konsole;, na pasta atual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;&Alt;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Abrir terminal aqui</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre um aplicativo de terminal na localização dos itens selecionados ou, caso nada esteja selecionado, na pasta atual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ferramentas</guimenu
+> <guisubmenu
+>Gerenciar uso de espaço no disco</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Exibe estatísticas de uso de disco da pasta atual, do dispositivo atual ou de todos os dispositivos</action
+> por meio do <application
+>Filelight</application
+>. Se o <application
+>Filelight</application
+> não estiver instalado, o sistema oferece a opção de instalá-lo.</para
 ></listitem>
 </varlistentry>
 
@@ -3353,6 +3923,12 @@ context menu Icon Size? No different entries ?-->
 ><para
 >&Orville.Bennett; &Orville.Bennett.mail;</para
 ></listitem>
+<listitem
+><para
+>Yuma Kakei <email
+>yumasansansan@gmail.com</email
+></para
+></listitem>
 </itemizedlist>
 </para>
 
@@ -3369,6 +3945,10 @@ context menu Icon Size? No different entries ?-->
 <para
 >Direitos autorais da documentação 2009 Frank Reininghaus <email
 >frank78ac@googlemail.com</email
+> </para>
+<para
+>Direitos autorais da documentação 2026 Yuma Kakei <email
+>yumasansansan@gmail.com</email
 > </para>
 
 <para

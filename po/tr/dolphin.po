@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 00:16+0000\n"
-"PO-Revision-Date: 2026-11-09 22:54+0300\n"
+"PO-Revision-Date: 2026-11-10 21:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1556,12 +1556,12 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 "<para>Bu, <emphasis>Araç Çubuğu</emphasis>’dur. Sık kullanılan eylemlere tez "
-"erişim sağlar.</para><para>Oldukça özelleştirilebilirdir.<interface>Menü</"
+"erişim sağlar.</para><para>Oldukça özelleştirilebilirdir. <interface>Menü</"
 "interface>’de veya <interface>Menü Çubuğu</interface>’nda gördüğünüz tüm "
 "ögeler, Araç Çubuğu’na yerleştirilebilir. Yalnızca üzerine sağ tıklayın ve "
 "<interface>Araç Çubuklarını Yapılandır…</interface> seçeneğini seçin veya bu "
 "eylemi <interface>Menü</interface>’de bulun.</para><para>Çubuğun konumu ve "
-"düğmelerinin biçemi, sağ tık menüsünden değiştirilebilir. Metnini göstermek "
+"düğmelerinin stili, sağ tık menüsünden değiştirilebilir. Metnini göstermek "
 "veya gizlemek için bir düğmenin üzerine sağ tıklayın.</para>"
 
 #: dolphinmainwindow.cpp:3037
@@ -4425,7 +4425,7 @@ msgstr "doğruysa kısa göreceli tarihler kullanırız, değilse kısa tarihler
 #: settings/dolphin_contentdisplaysettings.kcfg:33
 #, kde-format
 msgid "Permissions style format"
-msgstr "İzin görünümü biçemi"
+msgstr "İzin stili biçimi"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
@@ -4798,7 +4798,7 @@ msgstr "Sekmelerde kapat düğmesi olmalı mı?"
 #: settings/dolphin_generalsettings.kcfg:56
 #, kde-format
 msgid "Tab style"
-msgstr "Sekme biçemi"
+msgstr "Sekme stili"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -5271,7 +5271,7 @@ msgstr "Sekmeler kullanılabilir alana yayılır"
 #, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Sekme biçemi:"
+msgstr "Sekme stili:"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5669,7 +5669,7 @@ msgstr "Mutlak (örneğin, “%1”)"
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
-msgstr "Tarih biçemi:"
+msgstr "Tarih stili:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
@@ -5693,7 +5693,7 @@ msgstr "Birleşik (örneğin, “drwxr-xr-x (755)”)"
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "İzinler biçemi:"
+msgstr "İzinler stili:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
@@ -5735,7 +5735,7 @@ msgstr "Seç…"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "Tüm klasörler için ortak görüntüleme biçemi kullan"
+msgstr "Tüm klasörler için ortak görüntüleme stili kullan"
 
 #. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
 #. The previous sentence is "Use common display style for all folders".
@@ -5746,14 +5746,14 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
-"Arama, son kullanılan dosyalar veya çöp kutusu gibi özel görünümler yine de "
-"özel bir görüntüleme biçemi kullanırlar."
+"Arama, son kullanılan dosyalar veya çöp kutusu gibi özel görünümler, yine de "
+"özel bir görünüm stili kullanırlar."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:43
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "Her klasörün kendi görüntüleme biçemini anımsa"
+msgstr "Her klasörün kendi görüntüleme stilini anımsa"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:45
 #, kde-format
@@ -5777,7 +5777,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Görüntüleme biçemi: "
+msgstr "Görünüm stili: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -5940,7 +5940,7 @@ msgstr "Etiket yazıtipi:"
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
-"Bazı yazıtipi biçemleri Dolphin tarafından ayrılmışlardır ve geçersiz "
+"Bazı yazıtipi stilleri Dolphin tarafından ayrılmışlardır ve geçersiz "
 "kılınabilirler."
 
 #: settings/viewmodes/viewsettingstab.cpp:82
@@ -6109,7 +6109,7 @@ msgstr[1] "Boyut: %1 piksel"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Görünüm Özellikleri"
+msgstr "Görünüm Stili"
 
 #: settings/viewpropertiesdialog.cpp:67
 #, kde-format
@@ -7045,7 +7045,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Görünüm Özelliklerini Ayarla…"
+msgstr "Görünüm Stilini Ayarla…"
 
 #: views/dolphinviewactionhandler.cpp:403
 #, kde-format

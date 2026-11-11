@@ -4323,7 +4323,7 @@ msgstr ""
 "på elementene inni markeringen.</item><item>Flytting med "
 "<shortcut>piltastene</shortcut> endrer <emphasis>ikke</emphasis> "
 "markeringene.</item><item>Trykke <shortcut>%1</shortcut>, <shortcut>%2</"
-"shortcut>  eller <shortcut>%3</shortcut> slår av/på markeringen.</item></"
+"shortcut>  eller <shortcut>%3</shortcut> slår på/av markeringen.</item></"
 "list></para><para> De tilgjengelige handlingsknappene ved bunnen endres "
 "avhengig av gjeldende markering.</para>"
 
