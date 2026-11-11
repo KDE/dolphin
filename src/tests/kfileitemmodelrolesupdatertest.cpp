@@ -18,6 +18,10 @@
 #include <QSignalSpy>
 #include <QTest>
 
+#ifndef Q_OS_WIN
+#include <sys/stat.h>
+#endif
+
 #include "kitemviews/private/kdirectorycontentscounterworker.h"
 
 class KFileItemModelRolesUpdaterTest : public QObject
@@ -27,6 +31,9 @@ class KFileItemModelRolesUpdaterTest : public QObject
 private Q_SLOTS:
     void testSharesChangedUpdatesOverlays();
     void testDirectoryContentsCounterWorkerDoesNotChangeCwd();
+    void testDirectoryContentsCounterWorkerTotals_data();
+    void testDirectoryContentsCounterWorkerTotals();
+    void testDirectoryContentsCounterWorkerMissingFolder();
     void testAFileThatKeepsChangingGetsItsPreviewOnceItIsQuiet();
     void testFolderItemCountFollowsHiddenFiles_data();
     void testFolderItemCountFollowsHiddenFiles();
@@ -170,7 +177,7 @@ void KFileItemModelRolesUpdaterTest::testFolderItemCountFollowsHiddenFiles()
 void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerDoesNotChangeCwd()
 {
 #ifdef Q_OS_WIN
-    QSKIP("fts is not used on Windows");
+    QSKIP("the walker is not used on Windows");
 #endif
     TestDir testDir;
     testDir.createDir(QStringLiteral("dir1/dir2/dir3"));
@@ -197,6 +204,86 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerDoesNotCh
         QCOMPARE(intermediateCwd, initialCwd);
     }
     QCOMPARE(QDir::currentPath(), initialCwd);
+}
+
+void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals_data()
+{
+    QTest::addColumn<bool>("countHiddenFiles");
+    QTest::addColumn<int>("maxRecursiveLevel");
+    QTest::addColumn<int>("expectedCount");
+    QTest::addColumn<QStringList>("sizedFiles");
+
+    // a, .git, link, top.txt and empty are visible, .hidden and .hiddenfile are not
+    const QStringList visible{QStringLiteral("a/f1"),
+                              QStringLiteral("a/b/f2"),
+                              QStringLiteral("a/b/c/f3"),
+                              QStringLiteral(".git/f5"),
+                              QStringLiteral("top.txt")};
+    QTest::newRow("visible only") << false << 10 << 5 << visible;
+    QTest::newRow("hidden too") << true << 10 << 7 << (visible + QStringList{QStringLiteral(".hidden/f4"), QStringLiteral(".hiddenfile")});
+    // a and .git are entered, a/b is not
+    QTest::newRow("one level") << false << 1 << 5 << QStringList{QStringLiteral("a/f1"), QStringLiteral(".git/f5"), QStringLiteral("top.txt")};
+}
+
+void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals()
+{
+#ifdef Q_OS_WIN
+    QSKIP("the walker is not used on Windows");
+#else
+    QFETCH(bool, countHiddenFiles);
+    QFETCH(int, maxRecursiveLevel);
+    QFETCH(int, expectedCount);
+    QFETCH(QStringList, sizedFiles);
+
+    TestDir testDir;
+    testDir.createFile(QStringLiteral("a/f1"), QByteArray(100, 'x'));
+    testDir.createFile(QStringLiteral("a/b/f2"), QByteArray(200, 'x'));
+    testDir.createFile(QStringLiteral("a/b/c/f3"), QByteArray(300, 'x'));
+    testDir.createFile(QStringLiteral(".hidden/f4"), QByteArray(400, 'x'));
+    testDir.createFile(QStringLiteral(".hiddenfile"), QByteArray(50, 'x'));
+    testDir.createFile(QStringLiteral(".git/f5"), QByteArray(60, 'x'));
+    testDir.createFile(QStringLiteral("top.txt"), QByteArray(10, 'x'));
+    testDir.createFile(QStringLiteral("empty"), QByteArray());
+    // a symlink is counted, its target is not added to the size
+    QVERIFY(QFile::link(testDir.path() + QStringLiteral("/a/f1"), testDir.path() + QStringLiteral("/link")));
+
+    // The size adds the files that use disk blocks. Some file systems, such as ZFS, report no
+    // blocks for a file that was just written, so the expected size follows what lstat reports.
+    long long expectedSize = 0;
+    for (const QString &file : std::as_const(sizedFiles)) {
+        struct stat st;
+        QCOMPARE(::lstat(QFile::encodeName(testDir.path() + QLatin1Char('/') + file).constData(), &st), 0);
+        if (st.st_blocks > 0) {
+            expectedSize += st.st_size;
+        }
+    }
+
+    KDirectoryContentsCounterWorker worker;
+    QSignalSpy resultSpy(&worker, &KDirectoryContentsCounterWorker::result);
+    const auto options = countHiddenFiles ? KDirectoryContentsCounterWorker::CountHiddenFiles : KDirectoryContentsCounterWorker::NoOptions;
+    worker.countDirectoryContents(testDir.path(), options, maxRecursiveLevel);
+
+    QCOMPARE(resultSpy.count(), 1);
+    const QList<QVariant> arguments = resultSpy.takeFirst();
+    QCOMPARE(arguments.at(1).toInt(), expectedCount);
+    QCOMPARE(arguments.at(2).toLongLong(), expectedSize);
+#endif
+}
+
+void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerMissingFolder()
+{
+#ifdef Q_OS_WIN
+    QSKIP("the walker is not used on Windows");
+#endif
+    TestDir testDir;
+    KDirectoryContentsCounterWorker worker;
+    QSignalSpy resultSpy(&worker, &KDirectoryContentsCounterWorker::result);
+    worker.countDirectoryContents(testDir.path() + QStringLiteral("/missing"), KDirectoryContentsCounterWorker::NoOptions, 10);
+
+    QCOMPARE(resultSpy.count(), 1);
+    const QList<QVariant> arguments = resultSpy.takeFirst();
+    QCOMPARE(arguments.at(1).toInt(), -1);
+    QCOMPARE(arguments.at(2).toLongLong(), -1LL);
 }
 
 QTEST_MAIN(KFileItemModelRolesUpdaterTest)
