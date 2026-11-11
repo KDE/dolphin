@@ -86,6 +86,7 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel *model, QObj
     , m_model(model)
     , m_priorityQueue()
     , m_queue()
+    , m_queuedPaths()
     , m_workerIsBusy(false)
     , m_dirWatcher(nullptr)
     , m_watchedDirs()
@@ -193,9 +194,11 @@ void KDirectoryContentsCounter::scheduleNext()
     if (!m_priorityQueue.empty()) {
         m_currentPath = m_priorityQueue.front();
         m_priorityQueue.pop_front();
+        m_queuedPaths.remove(m_currentPath);
     } else if (!m_queue.empty()) {
         m_currentPath = m_queue.front();
         m_queue.pop_front();
+        m_queuedPaths.remove(m_currentPath);
     } else {
         m_currentPath.clear();
         m_workerIsBusy = false;
@@ -229,28 +232,26 @@ void KDirectoryContentsCounter::scheduleNext()
 
 void KDirectoryContentsCounter::enqueuePathScanning(const QString &path, bool alreadyInCache, PathCountPriority priority)
 {
-    // ensure to update the entry in the queue
-    auto it = std::find(m_queue.begin(), m_queue.end(), path);
-    if (it != m_queue.end()) {
-        m_queue.erase(it);
-    } else {
-        it = std::find(m_priorityQueue.begin(), m_priorityQueue.end(), path);
-        if (it != m_priorityQueue.end()) {
-            m_priorityQueue.erase(it);
-        }
-    }
-
+    std::list<QString> *queue;
+    std::list<QString>::iterator position;
     if (priority == PathCountPriority::Normal) {
-        if (alreadyInCache) {
-            // we already knew the dir size
-            // otherwise it gets lower priority
-            m_queue.push_back(path);
-        } else {
-            m_queue.push_front(path);
-        }
+        queue = &m_queue;
+        // we already knew the dir size
+        // otherwise it gets lower priority
+        position = alreadyInCache ? m_queue.end() : m_queue.begin();
     } else {
         // append to priority queue
-        m_priorityQueue.push_front(path);
+        queue = &m_priorityQueue;
+        position = m_priorityQueue.begin();
+    }
+
+    // a path already in a queue moves to its new place
+    const auto queued = m_queuedPaths.find(path);
+    if (queued != m_queuedPaths.end()) {
+        queue->splice(position, *queued->queue, queued->it);
+        queued->queue = queue;
+    } else {
+        m_queuedPaths.insert(path, {queue, queue->insert(position, path)});
     }
 }
 
@@ -286,6 +287,7 @@ void KDirectoryContentsCounter::stopWorker()
 {
     m_queue.clear();
     m_priorityQueue.clear();
+    m_queuedPaths.clear();
 
     if (m_workerIsBusy && m_currentPath == s_worker->scannedPath()) {
         s_worker->stop();

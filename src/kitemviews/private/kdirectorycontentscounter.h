@@ -10,7 +10,10 @@
 
 #include "kdirectorycontentscounterworker.h"
 
+#include <QHash>
 #include <QSet>
+
+#include <list>
 
 class KDirWatch;
 class KFileItemModel;
@@ -71,6 +74,12 @@ private:
     // Used as FIFO queues.
     std::list<QString> m_priorityQueue;
     std::list<QString> m_queue;
+    // Where each queued path sits, so a path is found without walking the lists.
+    struct QueuePosition {
+        std::list<QString> *queue;
+        std::list<QString>::iterator it;
+    };
+    QHash<QString, QueuePosition> m_queuedPaths;
 
     bool m_workerIsBusy;
 
