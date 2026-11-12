@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-09 00:58+0000\n"
+"POT-Creation-Date: 2026-11-12 01:05+0000\n"
 "PO-Revision-Date: 2026-10-05 00:20+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -2060,86 +2060,86 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "정렬 중…"
 
-#: dolphinviewcontainer.cpp:795
+#: dolphinviewcontainer.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "찾는 중…"
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "항목이 없습니다."
 
-#: dolphinviewcontainer.cpp:849
+#: dolphinviewcontainer.cpp:859
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "파일로 열기"
 
-#: dolphinviewcontainer.cpp:866
+#: dolphinviewcontainer.cpp:876
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "파일을 폴더로 열려고 하는 중: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:1108
+#: dolphinviewcontainer.cpp:1118
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin은 웹 페이지를 지원하지 않으므로 웹 브라우저가 실행되었습니다"
 
-#: dolphinviewcontainer.cpp:1111
+#: dolphinviewcontainer.cpp:1121
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin이 지원하지 않는 프로토콜이므로 기본 앱이 실행되었습니다"
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1128
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "잘못된 프로토콜 '%1'"
 
-#: dolphinviewcontainer.cpp:1120
+#: dolphinviewcontainer.cpp:1130
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "잘못된 프로토콜"
 
-#: dolphinviewcontainer.cpp:1227
+#: dolphinviewcontainer.cpp:1237
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "이 폴더에 들어가려면 인증이 필요합니다."
 
-#: dolphinviewcontainer.cpp:1232
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "빠진 폴더 만들기"
 
-#: dolphinviewcontainer.cpp:1249
+#: dolphinviewcontainer.cpp:1259
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "이 경로에 폴더를 만들고 열기"
 
-#: dolphinviewcontainer.cpp:1252
+#: dolphinviewcontainer.cpp:1262
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "폴더를 만들 수 있는 권한이 없음"
 
-#: dolphinviewcontainer.cpp:1276
+#: dolphinviewcontainer.cpp:1286
 #, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "%1(으)로 열기|/|%1$[으 %1]로 열기"
 
-#: dolphinviewcontainer.cpp:1322 dolphinviewcontainer.cpp:1325
+#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2546,7 +2546,7 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:1315
+#: kitemviews/kfileitemmodel.cpp:1320
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2554,7 +2554,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:1318
+#: kitemviews/kfileitemmodel.cpp:1323
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2562,7 +2562,7 @@ msgid ""
 "System Settings to see this information."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:1321
+#: kitemviews/kfileitemmodel.cpp:1326
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 #| msgid "This folder is not writable for you."
@@ -2570,7 +2570,7 @@ msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
 msgstr "이 폴더에 쓰기 권한이 없습니다."
 
-#: kitemviews/kfileitemmodel.cpp:1326
+#: kitemviews/kfileitemmodel.cpp:1331
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2578,92 +2578,92 @@ msgid ""
 "built without."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "기타"
 
-#: kitemviews/kfileitemmodel.cpp:2879
+#: kitemviews/kfileitemmodel.cpp:2884
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "폴더"
 
-#: kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2892
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "작음"
 
-#: kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2894
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "중간"
 
-#: kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2896
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "큼"
 
-#: kitemviews/kfileitemmodel.cpp:2937
+#: kitemviews/kfileitemmodel.cpp:2942
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "오늘"
 
-#: kitemviews/kfileitemmodel.cpp:2940
+#: kitemviews/kfileitemmodel.cpp:2945
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "어제"
 
-#: kitemviews/kfileitemmodel.cpp:2943
+#: kitemviews/kfileitemmodel.cpp:2948
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2952
+#: kitemviews/kfileitemmodel.cpp:2957
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "1주 전"
 
-#: kitemviews/kfileitemmodel.cpp:2955
+#: kitemviews/kfileitemmodel.cpp:2960
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "2주 전"
 
-#: kitemviews/kfileitemmodel.cpp:2958
+#: kitemviews/kfileitemmodel.cpp:2963
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "3주 전"
 
-#: kitemviews/kfileitemmodel.cpp:2962
+#: kitemviews/kfileitemmodel.cpp:2967
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "이번 달 초"
 
-#: kitemviews/kfileitemmodel.cpp:2976
+#: kitemviews/kfileitemmodel.cpp:2981
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2673,7 +2673,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'어제'(yyyy년 MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2983
+#: kitemviews/kfileitemmodel.cpp:2988
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2681,7 +2681,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2996
+#: kitemviews/kfileitemmodel.cpp:3001
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2689,7 +2689,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd(yyyy년 MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3000
+#: kitemviews/kfileitemmodel.cpp:3005
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2697,7 +2697,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3008
+#: kitemviews/kfileitemmodel.cpp:3013
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2707,7 +2707,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'1주 전'(yyyy년 MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3015
+#: kitemviews/kfileitemmodel.cpp:3020
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2715,7 +2715,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3029
+#: kitemviews/kfileitemmodel.cpp:3034
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2725,7 +2725,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'2주 전'(yyyy년 MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3036
+#: kitemviews/kfileitemmodel.cpp:3041
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2733,7 +2733,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3050
+#: kitemviews/kfileitemmodel.cpp:3055
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2743,7 +2743,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'3주 전'(yyyy년 MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3057
+#: kitemviews/kfileitemmodel.cpp:3062
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2751,7 +2751,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3071
+#: kitemviews/kfileitemmodel.cpp:3076
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2761,7 +2761,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "yyyy년 MMMM '초'"
 
-#: kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3083
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2769,7 +2769,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3092
+#: kitemviews/kfileitemmodel.cpp:3097
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2777,7 +2777,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "yyyy년 MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:3096
+#: kitemviews/kfileitemmodel.cpp:3101
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2785,288 +2785,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3149
-#: kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3141 kitemviews/kfileitemmodel.cpp:3154
+#: kitemviews/kfileitemmodel.cpp:3167
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "읽기, "
 
-#: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3152
-#: kitemviews/kfileitemmodel.cpp:3165
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3170
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "쓰기, "
 
-#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3155
-#: kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3147 kitemviews/kfileitemmodel.cpp:3160
+#: kitemviews/kfileitemmodel.cpp:3173
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "실행, "
 
-#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3157
-#: kitemviews/kfileitemmodel.cpp:3170
+#: kitemviews/kfileitemmodel.cpp:3149 kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3175
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "거부됨"
 
-#: kitemviews/kfileitemmodel.cpp:3172
+#: kitemviews/kfileitemmodel.cpp:3177
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "사용자: %1 | 그룹: %2 | 기타: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3265
+#: kitemviews/kfileitemmodel.cpp:3270
 msgctxt "@label"
 msgid "Name"
 msgstr "이름"
 
-#: kitemviews/kfileitemmodel.cpp:3266
+#: kitemviews/kfileitemmodel.cpp:3271
 msgctxt "@label"
 msgid "Size"
 msgstr "크기"
 
-#: kitemviews/kfileitemmodel.cpp:3267
+#: kitemviews/kfileitemmodel.cpp:3272
 msgctxt "@label"
 msgid "Modified"
 msgstr "수정한 날짜"
 
-#: kitemviews/kfileitemmodel.cpp:3267 kitemviews/kfileitemmodel.cpp:3268
-#: kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3272 kitemviews/kfileitemmodel.cpp:3273
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "날짜 형식은 설정에서 변경할 수 있습니다."
 
-#: kitemviews/kfileitemmodel.cpp:3268
+#: kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Created"
 msgstr "만든 날짜"
 
-#: kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@label"
 msgid "Accessed"
 msgstr "접근한 날짜"
 
-#: kitemviews/kfileitemmodel.cpp:3270
+#: kitemviews/kfileitemmodel.cpp:3275
 msgctxt "@label"
 msgid "Type"
 msgstr "형식"
 
-#: kitemviews/kfileitemmodel.cpp:3271
+#: kitemviews/kfileitemmodel.cpp:3276
 msgctxt "@label"
 msgid "Rating"
 msgstr "별점"
 
-#: kitemviews/kfileitemmodel.cpp:3272
+#: kitemviews/kfileitemmodel.cpp:3277
 msgctxt "@label"
 msgid "Tags"
 msgstr "태그"
 
-#: kitemviews/kfileitemmodel.cpp:3273
+#: kitemviews/kfileitemmodel.cpp:3278
 msgctxt "@label"
 msgid "Comment"
 msgstr "주석"
 
-#: kitemviews/kfileitemmodel.cpp:3274
+#: kitemviews/kfileitemmodel.cpp:3279
 msgctxt "@label"
 msgid "Title"
 msgstr "제목"
 
-#: kitemviews/kfileitemmodel.cpp:3274 kitemviews/kfileitemmodel.cpp:3275
-#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3277
-#: kitemviews/kfileitemmodel.cpp:3278 kitemviews/kfileitemmodel.cpp:3279
+#: kitemviews/kfileitemmodel.cpp:3279 kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3282
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Document"
 msgstr "문서"
 
-#: kitemviews/kfileitemmodel.cpp:3275
+#: kitemviews/kfileitemmodel.cpp:3280
 msgctxt "@label"
 msgid "Author"
 msgstr "작성자"
 
-#: kitemviews/kfileitemmodel.cpp:3276
+#: kitemviews/kfileitemmodel.cpp:3281
 msgctxt "@label"
 msgid "Publisher"
 msgstr "출판사"
 
-#: kitemviews/kfileitemmodel.cpp:3277
+#: kitemviews/kfileitemmodel.cpp:3282
 msgctxt "@label"
 msgid "Page Count"
 msgstr "쪽 수"
 
-#: kitemviews/kfileitemmodel.cpp:3278
+#: kitemviews/kfileitemmodel.cpp:3283
 msgctxt "@label"
 msgid "Word Count"
 msgstr "단어 수"
 
-#: kitemviews/kfileitemmodel.cpp:3279
+#: kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Line Count"
 msgstr "줄 수"
 
-#: kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3285
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "사진 찍은 날짜"
 
-#: kitemviews/kfileitemmodel.cpp:3280 kitemviews/kfileitemmodel.cpp:3281
-#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3283
-#: kitemviews/kfileitemmodel.cpp:3284
+#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
+#: kitemviews/kfileitemmodel.cpp:3289
 msgctxt "@label"
 msgid "Image"
 msgstr "그림"
 
-#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3297
+#: kitemviews/kfileitemmodel.cpp:3286 kitemviews/kfileitemmodel.cpp:3302
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "크기"
 
-#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3300
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3305
 msgctxt "@label"
 msgid "Height"
 msgstr "높이"
 
-#: kitemviews/kfileitemmodel.cpp:3283
+#: kitemviews/kfileitemmodel.cpp:3288
 msgctxt "@label"
 msgid "Orientation"
 msgstr "방향"
 
-#: kitemviews/kfileitemmodel.cpp:3284 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3308
 msgctxt "@label"
 msgid "Width"
 msgstr "너비"
 
-#: kitemviews/kfileitemmodel.cpp:3285
+#: kitemviews/kfileitemmodel.cpp:3290
 msgctxt "@label"
 msgid "Album"
 msgstr "앨범"
 
-#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
-#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
-#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3290
-#: kitemviews/kfileitemmodel.cpp:3291 kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3290 kitemviews/kfileitemmodel.cpp:3291
+#: kitemviews/kfileitemmodel.cpp:3292 kitemviews/kfileitemmodel.cpp:3293
+#: kitemviews/kfileitemmodel.cpp:3294 kitemviews/kfileitemmodel.cpp:3295
+#: kitemviews/kfileitemmodel.cpp:3296 kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Audio"
 msgstr "오디오"
 
-#: kitemviews/kfileitemmodel.cpp:3286
+#: kitemviews/kfileitemmodel.cpp:3291
 msgctxt "@label"
 msgid "Artist"
 msgstr "아티스트"
 
-#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3294
+#: kitemviews/kfileitemmodel.cpp:3292 kitemviews/kfileitemmodel.cpp:3299
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "오디오 코덱"
 
-#: kitemviews/kfileitemmodel.cpp:3288 kitemviews/kfileitemmodel.cpp:3295
+#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3300
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "비트 전송률"
 
-#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3298
+#: kitemviews/kfileitemmodel.cpp:3294 kitemviews/kfileitemmodel.cpp:3303
 msgctxt "@label"
 msgid "Duration"
 msgstr "시간"
 
-#: kitemviews/kfileitemmodel.cpp:3290
+#: kitemviews/kfileitemmodel.cpp:3295
 msgctxt "@label"
 msgid "Genre"
 msgstr "장르"
 
-#: kitemviews/kfileitemmodel.cpp:3291
+#: kitemviews/kfileitemmodel.cpp:3296
 msgctxt "@label"
 msgid "Release Year"
 msgstr "발매 연도"
 
-#: kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Track"
 msgstr "트랙"
 
-#: kitemviews/kfileitemmodel.cpp:3293
+#: kitemviews/kfileitemmodel.cpp:3298
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "종횡 비율"
 
-#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3294
-#: kitemviews/kfileitemmodel.cpp:3295 kitemviews/kfileitemmodel.cpp:3296
-#: kitemviews/kfileitemmodel.cpp:3297 kitemviews/kfileitemmodel.cpp:3298
-#: kitemviews/kfileitemmodel.cpp:3299 kitemviews/kfileitemmodel.cpp:3300
-#: kitemviews/kfileitemmodel.cpp:3301 kitemviews/kfileitemmodel.cpp:3302
-#: kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3298 kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3300 kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3302 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3306 kitemviews/kfileitemmodel.cpp:3307
+#: kitemviews/kfileitemmodel.cpp:3308
 msgctxt "@label"
 msgid "Video"
 msgstr "동영상"
 
-#: kitemviews/kfileitemmodel.cpp:3296
+#: kitemviews/kfileitemmodel.cpp:3301
 msgctxt "@label"
 msgid "Color Space"
 msgstr "색 공간"
 
-#: kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "초당 프레임 수"
 
-#: kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "픽셀 형식"
 
-#: kitemviews/kfileitemmodel.cpp:3302
+#: kitemviews/kfileitemmodel.cpp:3307
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "비디오 코덱"
 
-#: kitemviews/kfileitemmodel.cpp:3304
+#: kitemviews/kfileitemmodel.cpp:3309
 msgctxt "@label"
 msgid "Path"
 msgstr "경로"
 
-#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
-#: kitemviews/kfileitemmodel.cpp:3306 kitemviews/kfileitemmodel.cpp:3307
-#: kitemviews/kfileitemmodel.cpp:3308 kitemviews/kfileitemmodel.cpp:3309
-#: kitemviews/kfileitemmodel.cpp:3310 kitemviews/kfileitemmodel.cpp:3311
-#: kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3309 kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3311 kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3313 kitemviews/kfileitemmodel.cpp:3314
+#: kitemviews/kfileitemmodel.cpp:3315 kitemviews/kfileitemmodel.cpp:3316
+#: kitemviews/kfileitemmodel.cpp:3317
 msgctxt "@label"
 msgid "Other"
 msgstr "기타"
 
-#: kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3310
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "폴더 이름"
 
-#: kitemviews/kfileitemmodel.cpp:3306
+#: kitemviews/kfileitemmodel.cpp:3311
 msgctxt "@label"
 msgid "File Extension"
 msgstr "파일 확장자"
 
-#: kitemviews/kfileitemmodel.cpp:3307
+#: kitemviews/kfileitemmodel.cpp:3312
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "삭제 시간"
 
-#: kitemviews/kfileitemmodel.cpp:3308
+#: kitemviews/kfileitemmodel.cpp:3313
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "링크 대상"
 
-#: kitemviews/kfileitemmodel.cpp:3309
+#: kitemviews/kfileitemmodel.cpp:3314
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "다운로드한 위치"
 
-#: kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3315
 msgctxt "@label"
 msgid "Permissions"
 msgstr "권한"
 
-#: kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3315
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3075,17 +3075,17 @@ msgstr ""
 "권한 형식은 설정에서 변경할 수 있습니다. 기호, 숫자(8진수), 혼합 형식에서 선"
 "택할 수 있습니다"
 
-#: kitemviews/kfileitemmodel.cpp:3311
+#: kitemviews/kfileitemmodel.cpp:3316
 msgctxt "@label"
 msgid "Owner"
 msgstr "소유자"
 
-#: kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3317
 msgctxt "@label"
 msgid "User Group"
 msgstr "사용자 그룹"
 
-#: kitemviews/kfileitemmodel.cpp:3413
+#: kitemviews/kfileitemmodel.cpp:3418
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6365,12 +6365,12 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr "Dolphin 설정의 서브셋입니다."
 
-#: views/dolphincolumnpane.cpp:71 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
 #, kde-format
 msgid "Loading…"
 msgstr "불러오는 중…"
 
-#: views/dolphincolumnpane.cpp:242 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "불러오기 취소됨"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-09 00:58+0000\n"
+"POT-Creation-Date: 2026-11-12 01:05+0000\n"
 "PO-Revision-Date: 2026-11-02 09:27-0500\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -2118,86 +2118,86 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "تەرتىپلەۋاتىدۇ…"
 
-#: dolphinviewcontainer.cpp:795
+#: dolphinviewcontainer.cpp:805
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "ئىزدەۋاتىدۇ…"
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "تۈر تېپىلمىدى."
 
-#: dolphinviewcontainer.cpp:849
+#: dolphinviewcontainer.cpp:859
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "ھۆججەتتەك ئاچ"
 
-#: dolphinviewcontainer.cpp:866
+#: dolphinviewcontainer.cpp:876
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "ھۆججەتنى قىسقۇچتەك ئېچىشنى سىنايدۇ: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:1108
+#: dolphinviewcontainer.cpp:1118
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin تور بەتنى قوللىمايدۇ، ھازىر توركۆرگۈ قوزغىتىلدى"
 
-#: dolphinviewcontainer.cpp:1111
+#: dolphinviewcontainer.cpp:1121
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin بۇ كېلىشىمنى قوللىمايدۇ، كۆڭۈلدىكى پىروگرامما قوزغىتىلدى"
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1128
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "«%1» ئىناۋەتسىز كېلىشىم"
 
-#: dolphinviewcontainer.cpp:1120
+#: dolphinviewcontainer.cpp:1130
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ئىناۋەتسىز كېلىشىم"
 
-#: dolphinviewcontainer.cpp:1227
+#: dolphinviewcontainer.cpp:1237
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "بۇ قىسقۇچقا كىرىشتە كىملىك دەلىللەش زۆرۈر."
 
-#: dolphinviewcontainer.cpp:1232
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "كەم قىسقۇچنى قۇر"
 
-#: dolphinviewcontainer.cpp:1249
+#: dolphinviewcontainer.cpp:1259
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "بۇ يولغا قىسقۇچ قۇرۇپ ئۇنى ئاچىدۇ"
 
-#: dolphinviewcontainer.cpp:1252
+#: dolphinviewcontainer.cpp:1262
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "قىسقۇچ قۇرۇش ئىجازىتىڭىز يوق"
 
-#: dolphinviewcontainer.cpp:1276
+#: dolphinviewcontainer.cpp:1286
 #, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "%1 غا ئاچقۇز"
 
-#: dolphinviewcontainer.cpp:1322 dolphinviewcontainer.cpp:1325
+#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2606,7 +2606,7 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:1315
+#: kitemviews/kfileitemmodel.cpp:1320
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2616,7 +2616,7 @@ msgstr ""
 "ھۆججەت ئىزدەش چەكلەنگەن. بۇ ئۇچۇرنى كۆرۈش ئۈچۈن سىستېما تەڭشىكىدە ئۇنى "
 "قوزغىتىش كېرەك."
 
-#: kitemviews/kfileitemmodel.cpp:1318
+#: kitemviews/kfileitemmodel.cpp:1323
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2626,13 +2626,13 @@ msgstr ""
 "ھۆججەت ئىزدەش پەقەت ھۆججەت ئاتىنىلا ئىندېكسلايدۇ.  بۇ ئۇچۇرنى كۆرۈش ئۈچۈن "
 "سىستېما تەڭشىكىدە ھۆججەت مەزمۇنىنى ئىندېكسلاشنى قوزغىتىش كېرەك."
 
-#: kitemviews/kfileitemmodel.cpp:1321
+#: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
 msgstr "ھۆججەت ئىزدەش بۇ قىسقۇچنى ئىندېكسلىمىغان."
 
-#: kitemviews/kfileitemmodel.cpp:1326
+#: kitemviews/kfileitemmodel.cpp:1331
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -2640,92 +2640,92 @@ msgid ""
 "built without."
 msgstr "بۇ ئۇچۇر ئىلگىرىكى نەشرىدىكى Dolphin نىڭ ھۆججەت ئىزدەشتىن كەلگەن."
 
-#: kitemviews/kfileitemmodel.cpp:2845
+#: kitemviews/kfileitemmodel.cpp:2850
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2847
+#: kitemviews/kfileitemmodel.cpp:2852
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "باشقا"
 
-#: kitemviews/kfileitemmodel.cpp:2879
+#: kitemviews/kfileitemmodel.cpp:2884
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "قىسقۇچ"
 
-#: kitemviews/kfileitemmodel.cpp:2887
+#: kitemviews/kfileitemmodel.cpp:2892
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "كىچىك"
 
-#: kitemviews/kfileitemmodel.cpp:2889
+#: kitemviews/kfileitemmodel.cpp:2894
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "ئوتتۇرا ھال"
 
-#: kitemviews/kfileitemmodel.cpp:2891
+#: kitemviews/kfileitemmodel.cpp:2896
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "چوڭ"
 
-#: kitemviews/kfileitemmodel.cpp:2937
+#: kitemviews/kfileitemmodel.cpp:2942
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "بۈگۈن"
 
-#: kitemviews/kfileitemmodel.cpp:2940
+#: kitemviews/kfileitemmodel.cpp:2945
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "تۈنۈگۈن"
 
-#: kitemviews/kfileitemmodel.cpp:2943
+#: kitemviews/kfileitemmodel.cpp:2948
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2947
+#: kitemviews/kfileitemmodel.cpp:2952
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2952
+#: kitemviews/kfileitemmodel.cpp:2957
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "بىر ھەپتە ئىلگىرى"
 
-#: kitemviews/kfileitemmodel.cpp:2955
+#: kitemviews/kfileitemmodel.cpp:2960
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "ئىككى ھەپتە ئىلگىرى"
 
-#: kitemviews/kfileitemmodel.cpp:2958
+#: kitemviews/kfileitemmodel.cpp:2963
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "ئۈچ ھەپتە ئىلگىرى"
 
-#: kitemviews/kfileitemmodel.cpp:2962
+#: kitemviews/kfileitemmodel.cpp:2967
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "بۇ ئايدىن ئىلگىرى"
 
-#: kitemviews/kfileitemmodel.cpp:2976
+#: kitemviews/kfileitemmodel.cpp:2981
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2735,7 +2735,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "«تۈنۈگۈن» (yyyy-يىلى MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2983
+#: kitemviews/kfileitemmodel.cpp:2988
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2743,7 +2743,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2996
+#: kitemviews/kfileitemmodel.cpp:3001
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2751,7 +2751,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (yyyy-يىلى MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3000
+#: kitemviews/kfileitemmodel.cpp:3005
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2759,7 +2759,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3008
+#: kitemviews/kfileitemmodel.cpp:3013
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2769,7 +2769,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "«بىر ھەپتە ئىلگىرى» (yyyy-يىلى MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3015
+#: kitemviews/kfileitemmodel.cpp:3020
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2777,7 +2777,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3029
+#: kitemviews/kfileitemmodel.cpp:3034
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2787,7 +2787,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "«ئىككى ھەپتە ئىلگىرى» (yyyy-يىلى MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3036
+#: kitemviews/kfileitemmodel.cpp:3041
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2795,7 +2795,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3050
+#: kitemviews/kfileitemmodel.cpp:3055
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2805,7 +2805,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "«ئۈچ ھەپتە ئىلگىرى» (yyyy-يىلى MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:3057
+#: kitemviews/kfileitemmodel.cpp:3062
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2813,7 +2813,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3071
+#: kitemviews/kfileitemmodel.cpp:3076
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2823,7 +2823,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "yyyy-يىلى MMMM «دىن ئىلگىرى»"
 
-#: kitemviews/kfileitemmodel.cpp:3078
+#: kitemviews/kfileitemmodel.cpp:3083
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2831,7 +2831,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3092
+#: kitemviews/kfileitemmodel.cpp:3097
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2839,7 +2839,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "yyyy-يىلى MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:3096
+#: kitemviews/kfileitemmodel.cpp:3101
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2847,288 +2847,288 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:3136 kitemviews/kfileitemmodel.cpp:3149
-#: kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3141 kitemviews/kfileitemmodel.cpp:3154
+#: kitemviews/kfileitemmodel.cpp:3167
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "ئوقۇ، "
 
-#: kitemviews/kfileitemmodel.cpp:3139 kitemviews/kfileitemmodel.cpp:3152
-#: kitemviews/kfileitemmodel.cpp:3165
+#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3157
+#: kitemviews/kfileitemmodel.cpp:3170
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "ياز، "
 
-#: kitemviews/kfileitemmodel.cpp:3142 kitemviews/kfileitemmodel.cpp:3155
-#: kitemviews/kfileitemmodel.cpp:3168
+#: kitemviews/kfileitemmodel.cpp:3147 kitemviews/kfileitemmodel.cpp:3160
+#: kitemviews/kfileitemmodel.cpp:3173
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "ئىجرا قىل، "
 
-#: kitemviews/kfileitemmodel.cpp:3144 kitemviews/kfileitemmodel.cpp:3157
-#: kitemviews/kfileitemmodel.cpp:3170
+#: kitemviews/kfileitemmodel.cpp:3149 kitemviews/kfileitemmodel.cpp:3162
+#: kitemviews/kfileitemmodel.cpp:3175
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "چەكلەنگەن"
 
-#: kitemviews/kfileitemmodel.cpp:3172
+#: kitemviews/kfileitemmodel.cpp:3177
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "ئىشلەتكۈچى: %1 | گۇرۇپپا: %2 | باشقىلار: %3"
 
-#: kitemviews/kfileitemmodel.cpp:3265
+#: kitemviews/kfileitemmodel.cpp:3270
 msgctxt "@label"
 msgid "Name"
 msgstr "ئاتى"
 
-#: kitemviews/kfileitemmodel.cpp:3266
+#: kitemviews/kfileitemmodel.cpp:3271
 msgctxt "@label"
 msgid "Size"
 msgstr "چوڭلۇقى"
 
-#: kitemviews/kfileitemmodel.cpp:3267
+#: kitemviews/kfileitemmodel.cpp:3272
 msgctxt "@label"
 msgid "Modified"
 msgstr "ئۆزگەرتىلگەن ۋاقتى"
 
-#: kitemviews/kfileitemmodel.cpp:3267 kitemviews/kfileitemmodel.cpp:3268
-#: kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3272 kitemviews/kfileitemmodel.cpp:3273
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "چېسلا پىچىمىنى تەڭشەكتىن تاللىغىلى بولىدۇ."
 
-#: kitemviews/kfileitemmodel.cpp:3268
+#: kitemviews/kfileitemmodel.cpp:3273
 msgctxt "@label"
 msgid "Created"
 msgstr "قۇرغان ۋاقتى"
 
-#: kitemviews/kfileitemmodel.cpp:3269
+#: kitemviews/kfileitemmodel.cpp:3274
 msgctxt "@label"
 msgid "Accessed"
 msgstr "ﺯﯨﻴﺎﺭﻩﺕ ﯞﺍﻗﺘﻰ"
 
-#: kitemviews/kfileitemmodel.cpp:3270
+#: kitemviews/kfileitemmodel.cpp:3275
 msgctxt "@label"
 msgid "Type"
 msgstr "تۈرى"
 
-#: kitemviews/kfileitemmodel.cpp:3271
+#: kitemviews/kfileitemmodel.cpp:3276
 msgctxt "@label"
 msgid "Rating"
 msgstr "باھالاش"
 
-#: kitemviews/kfileitemmodel.cpp:3272
+#: kitemviews/kfileitemmodel.cpp:3277
 msgctxt "@label"
 msgid "Tags"
 msgstr "بەلگە"
 
-#: kitemviews/kfileitemmodel.cpp:3273
+#: kitemviews/kfileitemmodel.cpp:3278
 msgctxt "@label"
 msgid "Comment"
 msgstr "ئىزاھات"
 
-#: kitemviews/kfileitemmodel.cpp:3274
+#: kitemviews/kfileitemmodel.cpp:3279
 msgctxt "@label"
 msgid "Title"
 msgstr "ماۋزۇ"
 
-#: kitemviews/kfileitemmodel.cpp:3274 kitemviews/kfileitemmodel.cpp:3275
-#: kitemviews/kfileitemmodel.cpp:3276 kitemviews/kfileitemmodel.cpp:3277
-#: kitemviews/kfileitemmodel.cpp:3278 kitemviews/kfileitemmodel.cpp:3279
+#: kitemviews/kfileitemmodel.cpp:3279 kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3282
+#: kitemviews/kfileitemmodel.cpp:3283 kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Document"
 msgstr "پۈتۈك"
 
-#: kitemviews/kfileitemmodel.cpp:3275
+#: kitemviews/kfileitemmodel.cpp:3280
 msgctxt "@label"
 msgid "Author"
 msgstr "يازغۇچى"
 
-#: kitemviews/kfileitemmodel.cpp:3276
+#: kitemviews/kfileitemmodel.cpp:3281
 msgctxt "@label"
 msgid "Publisher"
 msgstr "تارقاتقۇچى"
 
-#: kitemviews/kfileitemmodel.cpp:3277
+#: kitemviews/kfileitemmodel.cpp:3282
 msgctxt "@label"
 msgid "Page Count"
 msgstr "بەت سانى"
 
-#: kitemviews/kfileitemmodel.cpp:3278
+#: kitemviews/kfileitemmodel.cpp:3283
 msgctxt "@label"
 msgid "Word Count"
 msgstr "سۆز سانى"
 
-#: kitemviews/kfileitemmodel.cpp:3279
+#: kitemviews/kfileitemmodel.cpp:3284
 msgctxt "@label"
 msgid "Line Count"
 msgstr "قۇر سانى"
 
-#: kitemviews/kfileitemmodel.cpp:3280
+#: kitemviews/kfileitemmodel.cpp:3285
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "سۈرەتكە تارتىلغان ۋاقىت"
 
-#: kitemviews/kfileitemmodel.cpp:3280 kitemviews/kfileitemmodel.cpp:3281
-#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3283
-#: kitemviews/kfileitemmodel.cpp:3284
+#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
+#: kitemviews/kfileitemmodel.cpp:3289
 msgctxt "@label"
 msgid "Image"
 msgstr "سۈرەت"
 
-#: kitemviews/kfileitemmodel.cpp:3281 kitemviews/kfileitemmodel.cpp:3297
+#: kitemviews/kfileitemmodel.cpp:3286 kitemviews/kfileitemmodel.cpp:3302
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "ئۆلچەم"
 
-#: kitemviews/kfileitemmodel.cpp:3282 kitemviews/kfileitemmodel.cpp:3300
+#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3305
 msgctxt "@label"
 msgid "Height"
 msgstr "ئېگىزلىك"
 
-#: kitemviews/kfileitemmodel.cpp:3283
+#: kitemviews/kfileitemmodel.cpp:3288
 msgctxt "@label"
 msgid "Orientation"
 msgstr "يۆنىلىش"
 
-#: kitemviews/kfileitemmodel.cpp:3284 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3308
 msgctxt "@label"
 msgid "Width"
 msgstr "كەڭلىك"
 
-#: kitemviews/kfileitemmodel.cpp:3285
+#: kitemviews/kfileitemmodel.cpp:3290
 msgctxt "@label"
 msgid "Album"
 msgstr "ناخشا توپلىمى"
 
-#: kitemviews/kfileitemmodel.cpp:3285 kitemviews/kfileitemmodel.cpp:3286
-#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3288
-#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3290
-#: kitemviews/kfileitemmodel.cpp:3291 kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3290 kitemviews/kfileitemmodel.cpp:3291
+#: kitemviews/kfileitemmodel.cpp:3292 kitemviews/kfileitemmodel.cpp:3293
+#: kitemviews/kfileitemmodel.cpp:3294 kitemviews/kfileitemmodel.cpp:3295
+#: kitemviews/kfileitemmodel.cpp:3296 kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Audio"
 msgstr "ئۈن"
 
-#: kitemviews/kfileitemmodel.cpp:3286
+#: kitemviews/kfileitemmodel.cpp:3291
 msgctxt "@label"
 msgid "Artist"
 msgstr "ئورۇنلىغۇچى"
 
-#: kitemviews/kfileitemmodel.cpp:3287 kitemviews/kfileitemmodel.cpp:3294
+#: kitemviews/kfileitemmodel.cpp:3292 kitemviews/kfileitemmodel.cpp:3299
 msgctxt "@label"
 msgid "Audio Codec"
 msgstr "ئۈن كودلىغۇچ"
 
-#: kitemviews/kfileitemmodel.cpp:3288 kitemviews/kfileitemmodel.cpp:3295
+#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3300
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "بايت نىسبىتى"
 
-#: kitemviews/kfileitemmodel.cpp:3289 kitemviews/kfileitemmodel.cpp:3298
+#: kitemviews/kfileitemmodel.cpp:3294 kitemviews/kfileitemmodel.cpp:3303
 msgctxt "@label"
 msgid "Duration"
 msgstr "ۋاقتى"
 
-#: kitemviews/kfileitemmodel.cpp:3290
+#: kitemviews/kfileitemmodel.cpp:3295
 msgctxt "@label"
 msgid "Genre"
 msgstr "ئېقىم"
 
-#: kitemviews/kfileitemmodel.cpp:3291
+#: kitemviews/kfileitemmodel.cpp:3296
 msgctxt "@label"
 msgid "Release Year"
 msgstr "تارقىتىلغان يىل"
 
-#: kitemviews/kfileitemmodel.cpp:3292
+#: kitemviews/kfileitemmodel.cpp:3297
 msgctxt "@label"
 msgid "Track"
 msgstr "نەغمە"
 
-#: kitemviews/kfileitemmodel.cpp:3293
+#: kitemviews/kfileitemmodel.cpp:3298
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "تەرەپ نىسبىتى"
 
-#: kitemviews/kfileitemmodel.cpp:3293 kitemviews/kfileitemmodel.cpp:3294
-#: kitemviews/kfileitemmodel.cpp:3295 kitemviews/kfileitemmodel.cpp:3296
-#: kitemviews/kfileitemmodel.cpp:3297 kitemviews/kfileitemmodel.cpp:3298
-#: kitemviews/kfileitemmodel.cpp:3299 kitemviews/kfileitemmodel.cpp:3300
-#: kitemviews/kfileitemmodel.cpp:3301 kitemviews/kfileitemmodel.cpp:3302
-#: kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3298 kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3300 kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3302 kitemviews/kfileitemmodel.cpp:3303
+#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3306 kitemviews/kfileitemmodel.cpp:3307
+#: kitemviews/kfileitemmodel.cpp:3308
 msgctxt "@label"
 msgid "Video"
 msgstr "سىن"
 
-#: kitemviews/kfileitemmodel.cpp:3296
+#: kitemviews/kfileitemmodel.cpp:3301
 msgctxt "@label"
 msgid "Color Space"
 msgstr "رەڭ بوشلۇقى"
 
-#: kitemviews/kfileitemmodel.cpp:3299
+#: kitemviews/kfileitemmodel.cpp:3304
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "كاندۇك تېزلىكى"
 
-#: kitemviews/kfileitemmodel.cpp:3301
+#: kitemviews/kfileitemmodel.cpp:3306
 msgctxt "@label"
 msgid "Pixel Format"
 msgstr "پىكسېل پىچىمى"
 
-#: kitemviews/kfileitemmodel.cpp:3302
+#: kitemviews/kfileitemmodel.cpp:3307
 msgctxt "@label"
 msgid "Video Codec"
 msgstr "سىن كودلىغۇچ"
 
-#: kitemviews/kfileitemmodel.cpp:3304
+#: kitemviews/kfileitemmodel.cpp:3309
 msgctxt "@label"
 msgid "Path"
 msgstr "يول"
 
-#: kitemviews/kfileitemmodel.cpp:3304 kitemviews/kfileitemmodel.cpp:3305
-#: kitemviews/kfileitemmodel.cpp:3306 kitemviews/kfileitemmodel.cpp:3307
-#: kitemviews/kfileitemmodel.cpp:3308 kitemviews/kfileitemmodel.cpp:3309
-#: kitemviews/kfileitemmodel.cpp:3310 kitemviews/kfileitemmodel.cpp:3311
-#: kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3309 kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3311 kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3313 kitemviews/kfileitemmodel.cpp:3314
+#: kitemviews/kfileitemmodel.cpp:3315 kitemviews/kfileitemmodel.cpp:3316
+#: kitemviews/kfileitemmodel.cpp:3317
 msgctxt "@label"
 msgid "Other"
 msgstr "باشقا"
 
-#: kitemviews/kfileitemmodel.cpp:3305
+#: kitemviews/kfileitemmodel.cpp:3310
 msgctxt "@label"
 msgid "Folder Name"
 msgstr "قىسقۇچ ئاتى"
 
-#: kitemviews/kfileitemmodel.cpp:3306
+#: kitemviews/kfileitemmodel.cpp:3311
 msgctxt "@label"
 msgid "File Extension"
 msgstr "ھۆججەت كېڭەيتىلمە ئاتى"
 
-#: kitemviews/kfileitemmodel.cpp:3307
+#: kitemviews/kfileitemmodel.cpp:3312
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "ئۆچۈرۈلگەن ۋاقتى"
 
-#: kitemviews/kfileitemmodel.cpp:3308
+#: kitemviews/kfileitemmodel.cpp:3313
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "ئۇلانما نىشانى"
 
-#: kitemviews/kfileitemmodel.cpp:3309
+#: kitemviews/kfileitemmodel.cpp:3314
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "چۈشۈرگەن ئورنى"
 
-#: kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3315
 msgctxt "@label"
 msgid "Permissions"
 msgstr "ئىجازەت"
 
-#: kitemviews/kfileitemmodel.cpp:3310
+#: kitemviews/kfileitemmodel.cpp:3315
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3137,17 +3137,17 @@ msgstr ""
 "ئىجازەت پىچىمىنى تەڭشەكتىن ئۆزگەرتكىلى بولىدۇ. تاللانمىدىن بەلگە، سان ياكى "
 "ئارىلاش پىچىم بار"
 
-#: kitemviews/kfileitemmodel.cpp:3311
+#: kitemviews/kfileitemmodel.cpp:3316
 msgctxt "@label"
 msgid "Owner"
 msgstr "ئىگىدار"
 
-#: kitemviews/kfileitemmodel.cpp:3312
+#: kitemviews/kfileitemmodel.cpp:3317
 msgctxt "@label"
 msgid "User Group"
 msgstr "ئىشلەتكۈچى گۇرۇپپىسى"
 
-#: kitemviews/kfileitemmodel.cpp:3413
+#: kitemviews/kfileitemmodel.cpp:3418
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -6466,12 +6466,12 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr "Dolphin تەڭشىكىنىڭ تارماق توپلىمى."
 
-#: views/dolphincolumnpane.cpp:71 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
 #, kde-format
 msgid "Loading…"
 msgstr "يۈكلەۋاتىدۇ…"
 
-#: views/dolphincolumnpane.cpp:242 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "يۈكلەشتىن ۋاز كەچتى"
