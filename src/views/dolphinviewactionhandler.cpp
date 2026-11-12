@@ -737,14 +737,15 @@ void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray> &
 void DolphinViewActionHandler::slotGroupByTriggered(QAction *action)
 {
     const QByteArray data = action->data().toByteArray();
+    // Set the group role before enabling the grouping, so that the items are resorted only once
     if (data.isEmpty()) {
         m_currentView->setGroupedSorting(false);
     } else if (data == "same_as_sort") {
-        m_currentView->setGroupedSorting(true);
         m_currentView->setGroupRole(QByteArray());
-    } else {
         m_currentView->setGroupedSorting(true);
+    } else {
         m_currentView->setGroupRole(data);
+        m_currentView->setGroupedSorting(true);
     }
 }
 

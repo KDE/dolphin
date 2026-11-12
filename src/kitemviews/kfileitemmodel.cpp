@@ -1336,6 +1336,11 @@ void KFileItemModel::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current)
     m_groups.clear();
+
+    // The group role is only part of the sort order while grouping is enabled
+    if (!rawGroupRole().isEmpty() && groupRole() != sortRole()) {
+        resortAllItems();
+    }
 }
 
 void KFileItemModel::onGroupRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
@@ -1351,7 +1356,7 @@ void KFileItemModel::onGroupRoleChanged(const QByteArray &current, const QByteAr
 
     m_groups.clear();
 
-    if (resortItems) {
+    if (resortItems && groupedSorting()) {
         resortAllItems();
     }
 }

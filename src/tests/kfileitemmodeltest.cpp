@@ -101,6 +101,7 @@ private Q_SLOTS:
     void testGroupRoleIndependentFromSortRole();
     void testGroupRoleNotResetBySortRoleChange();
     void testGroupRoleChangedSignal();
+    void testResortAfterChangingGroupedSorting();
     void testInconsistentModel();
     void testChangeRolesForFilteredItems();
     void testChangeSortRoleWhileFiltering();
@@ -3296,6 +3297,53 @@ void KFileItemModelTest::testGroupRoleChangedSignal()
 
     m_model->setSortRole("size");
     QCOMPARE(groupRoleChangedSpy.count(), 1);
+}
+
+void KFileItemModelTest::testResortAfterChangingGroupedSorting()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+
+    m_testDir->createFile("a", QByteArray(30, 'x'));
+    m_testDir->createFile("b", QByteArray(10, 'x'));
+    m_testDir->createFile("c", QByteArray(20, 'x'));
+    m_testDir->createFile("d", QByteArray(5, 'x'));
+
+    m_model->setSortRole("size");
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    const QStringList sortedBySize{"d", "b", "c", "a"};
+    const QStringList groupedByName{"a", "b", "c", "d"};
+    QCOMPARE(itemsInModel(), sortedBySize);
+
+    // Load the item data
+    for (int i = 0; i < m_model->count(); ++i) {
+        m_model->data(i);
+    }
+
+    m_model->setGroupedSorting(true);
+    m_model->setGroupRole("text");
+    QCOMPARE(itemsInModel(), groupedByName);
+
+    // The group role is kept, but must not affect the sort order without grouping
+    m_model->setGroupedSorting(false);
+    QCOMPARE(m_model->rawGroupRole(), QByteArray("text"));
+    QCOMPARE(itemsInModel(), sortedBySize);
+
+    // Enable the grouping again with the unchanged group role
+    m_model->setGroupedSorting(true);
+    QCOMPARE(itemsInModel(), groupedByName);
+
+    // Group by the sort role (Same as Sort)
+    m_model->setGroupRole(QByteArray());
+    QCOMPARE(itemsInModel(), sortedBySize);
+
+    // Pick another group role while the grouping is disabled (like slotGroupByTriggered)
+    m_model->setGroupedSorting(false);
+    m_model->setGroupRole("text");
+    QCOMPARE(itemsInModel(), sortedBySize);
+    m_model->setGroupedSorting(true);
+    QCOMPARE(itemsInModel(), groupedByName);
 }
 
 QTEST_MAIN(KFileItemModelTest)
