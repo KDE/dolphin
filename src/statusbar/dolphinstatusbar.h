@@ -98,11 +98,6 @@ public:
      */
     void updateWidthToContent();
 
-    /**
-     * @return The amount of clipping done to the small statusbar side and bottom.
-     */
-    int clippingAmount() const;
-
 public Q_SLOTS:
     void setUrl(const QUrl &url);
     void setZoomLevel(int zoomLevel);

@@ -175,6 +175,14 @@ int DolphinColumnsView::horizontalScrollBarHeight() const
     return DolphinView::horizontalScrollBarHeight();
 }
 
+int DolphinColumnsView::verticalScrollBarWidth() const
+{
+    if (m_scrollArea && m_scrollArea->verticalScrollBar() && m_scrollArea->verticalScrollBar()->isVisible()) {
+        return m_scrollArea->verticalScrollBar()->width();
+    }
+    return DolphinView::horizontalScrollBarHeight();
+}
+
 void DolphinColumnsView::setStatusBarOffset(int offset)
 {
     m_statusBarOffset = offset;

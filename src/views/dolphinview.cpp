@@ -2943,6 +2943,14 @@ int DolphinView::horizontalScrollBarHeight() const
     return 0;
 }
 
+int DolphinView::verticalScrollBarWidth() const
+{
+    if (m_container && m_container->verticalScrollBar() && m_container->verticalScrollBar()->isVisible()) {
+        return m_container->verticalScrollBar()->width();
+    }
+    return 0;
+}
+
 void DolphinView::setStatusBarOffset(int offset)
 {
     KItemListView *view = m_container->controller()->view();

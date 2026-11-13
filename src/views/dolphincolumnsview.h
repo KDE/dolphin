@@ -49,6 +49,7 @@ public:
     KFileItem rootItem() const override;
 
     int horizontalScrollBarHeight() const override;
+    int verticalScrollBarWidth() const override;
     void setStatusBarOffset(int offset) override;
     bool handleSpaceAsNormalKey() const override;
     /// A drag starts from the controller of one of the columns.

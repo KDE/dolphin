@@ -55,9 +55,11 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_updateLabelTextTimer(nullptr)
 {
     setProperty("_breeze_statusbar_separator", true);
+    setAttribute(Qt::WA_TranslucentBackground);
 
     QWidget *contentsContainer = prepareContentsContainer();
     contentsContainer->setContentsMargins(0, 0, 0, 0);
+    contentsContainer->setAutoFillBackground(false);
 
     // Initialize text label
     m_label = new KSqueezedTextLabel{contentsContainer};
@@ -279,17 +281,17 @@ void DolphinStatusBar::updateWidthToContent()
             ? QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText())
             : QFontMetrics(font()).size(Qt::TextSingleLine, QTextDocumentFragment::fromHtml(m_label->fullText()).toPlainText());
         // Make sure minimum height takes clipping into account.
-        setMinimumHeight(m_label->height() + clippingAmount());
+        setMinimumHeight(m_label->height());
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
-        // Make sure maximumViewWidth does not go below 0.
-        const int maximumViewWidth = qMax(0, parentWidget()->width() - scrollbarWidth);
+        // Make sure maximumViewWidth does not go below 0. The 4 is the floating amount.
+        const int maximumViewWidth = qMax(0, parentWidget()->width() - scrollbarWidth - 4);
         if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
             // Use maximum width when interactable elements are shown, to keep them
             // from "jumping around" when user tries to interact with them.
             setFixedWidth(maximumViewWidth);
         } else {
             // Make sure we have room for the text
-            const int contentWidth = labelSize.width() + QFontMetrics(font()).averageCharWidth() + (clippingAmount() * 2);
+            const int contentWidth = labelSize.width() + QFontMetrics(font()).averageCharWidth();
             setFixedWidth(qMin(contentWidth, maximumViewWidth));
         }
         Q_EMIT widthUpdated();
@@ -298,15 +300,6 @@ void DolphinStatusBar::updateWidthToContent()
         setFixedWidth(QWIDGETSIZE_MAX);
         Q_EMIT widthUpdated();
     }
-}
-
-int DolphinStatusBar::clippingAmount() const
-{
-    QStyleOption opt;
-    opt.initFrom(this);
-    // Add 2 for extra padding due to how QRect coordinates work.
-    const int val = 2 + style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this) * 2;
-    return val;
 }
 
 void DolphinStatusBar::updateMode()
@@ -429,13 +422,8 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
 
 void DolphinStatusBar::updateContentsMargins()
 {
-    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
-        // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
-        m_topLayout->setContentsMargins(6, 0, 2, 0);
-    } else {
-        // Add extra margins to toplayout to avoid clipping too early.
-        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), 0);
-    }
+    // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
+    m_topLayout->setContentsMargins(4, 0, 2, 0);
     setContentsMargins(0, 0, 0, 0);
 }
 
@@ -448,24 +436,11 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     // Draw statusbar only if there is text.
     if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
         if (m_label && !m_label->fullText().isEmpty()) {
-            opt.state = QStyle::State_Sunken;
-            QPainterPath path;
-            // Adjust the rectangle to be a bit larger, then clip the left and bottom border off.
-            QRect clipRect;
-            if (layoutDirection() == Qt::RightToLeft) {
-                opt.rect = rect().adjusted(0, 0, clippingAmount(), clippingAmount());
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
-            } else {
-                opt.rect = rect().adjusted(-clippingAmount(), 0, 0, clippingAmount());
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
-            }
-            path.addRect(clipRect);
-            p.setClipPath(path);
+            opt.palette.setColor(QPalette::ToolTipBase, palette().window().color());
+            opt.palette.setColor(QPalette::ToolTipText, palette().windowText().color());
             opt.palette.setColor(QPalette::Base, palette().window().color());
-            p.setBrush(palette().window().color());
-            p.setPen(Qt::transparent);
-            p.drawRoundedRect(opt.rect, 5, 5); // Radius is from Breeze style.
-            style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+            opt.palette.setColor(QPalette::Text, palette().windowText().color());
+            style()->drawPrimitive(QStyle::PE_PanelTipLabel, &opt, &p, this);
         }
     }
     // Draw regular statusbar.
