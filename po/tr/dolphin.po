@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-12 01:05+0000\n"
-"PO-Revision-Date: 2026-11-11 21:09+0300\n"
+"PO-Revision-Date: 2026-11-12 18:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2208,7 +2208,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "Klasörleri Değiştirirken Süzgeci Koru"
+msgstr "Klasörleri değiştirirken süzgeci koru"
 
 #: filterbar/filterbar.cpp:43
 #, kde-format
@@ -3442,7 +3442,7 @@ msgstr "Gizli Dosyaları Göster"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Limit to Home Directory"
-msgstr "Ana Dizine Sınırla"
+msgstr "Ana Klasöre Sınırla"
 
 #: panels/folders/treeviewcontextmenu.cpp:120
 #, kde-format

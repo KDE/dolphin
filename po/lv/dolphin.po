@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-12 01:05+0000\n"
-"PO-Revision-Date: 2026-10-16 14:40+0300\n"
+"PO-Revision-Date: 2026-11-11 11:41+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 26.08.1\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1977,15 +1977,13 @@ msgstr "Atdalīt cilni"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Atspraust cilni"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Iepriekšējā cilne"
+msgstr "Piespraust cilni"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2638,6 +2636,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Datņu meklēšana ir izslēgta. Lai redzētu šo informāciju, ieslēdzot to "
+"sistēmas iestatījumos."
 
 #: kitemviews/kfileitemmodel.cpp:1323
 #, kde-format
@@ -2646,14 +2646,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Datņu meklēšanā indeksē tikai datņu nosaukumus. Lai redzētu šo informāciju, "
+"ļaujiet indeksēt datņu saturu."
 
 #: kitemviews/kfileitemmodel.cpp:1326
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Jums nav tiesību rakstīt šajā datnē."
+msgstr "Datņu meklētājs nav indeksējis šo mapi."
 
 #: kitemviews/kfileitemmodel.cpp:1331
 #, kde-format
@@ -2662,6 +2662,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Šīs informācijas avots ir datņu meklētājs, bet šī „Dolphin“ versija ir "
+"būvēta bez tā."
 
 #: kitemviews/kfileitemmodel.cpp:2850
 #, kde-format
@@ -3358,7 +3360,7 @@ msgstr "Dokumentācija"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4404,25 +4406,25 @@ msgstr "Priekšskatījuma izmērs"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Minimālais kolonnas platums pikseļos"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Minimālais kolonnas platums pikseļos koriģēts pēc tās satura"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Maksimālais redzamo kolonnu skaits pirms ritināšanas"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Koriģēt kolonnas platumu, ņemot vērā tās saturu"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4622,18 +4624,14 @@ msgstr "Skata režīms"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Šī opcija nosaka skata stilu. Pašlaik atbalstītās vērtības ir ikonu (0), "
-"izvērstais (1) un kolonnu (2) skats."
+"izvērstais (1), kompaktais (2) un kolonnu (3) skats."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5050,7 +5048,7 @@ msgstr "Teksta platuma indekss"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Novietojiet vienumus tuvāk vienu otram"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5449,11 +5447,10 @@ msgid "Information Panel:"
 msgstr "Informācijas panelis:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "Ierobežot mapju paneli līdz mājas mapei, ja atrodas mājas mapē"
+msgstr "Ierobežot līdz mājas mapei, kad atrodaties tajā"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5461,7 +5458,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
-msgstr ""
+msgstr "Sākt mapju paneļa mapju koka skatu mājas mapei, kad tajā atrodaties."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5473,14 +5470,16 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Kad šis ir ieslēgts un pašreizējā mape atrodas mājas mapē, mapju "
+"panelis rāda tikai jūsu mājas mapi un mapes tajā iekšā. Saknes mape un citi "
+"diski netiek rādītas panelī.</para><para>Ārpus mājas mapes panelis rāda "
+"visas mapes, sākot no saknes mapes.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Mapes:"
+msgstr "Mapju panelis:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5967,7 +5966,7 @@ msgstr "Satur parādīšana"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Kolonnas"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -6067,9 +6066,7 @@ msgid "Maximum lines:"
 msgstr "Maksimālais rindu skaits:"
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "Kompakts"
@@ -6078,15 +6075,13 @@ msgstr "Kompakts"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "Novieto vienumus vienu otram tuvāk, lai rindā ietilpinātu vairāk."
 
 #: settings/viewmodes/viewsettingstab.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Meklēt, izmantojot:"
+msgstr "Atstarpes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
@@ -6153,21 +6148,19 @@ msgstr "Atvērt datnes un mapes:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Fiksēts"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Koriģēt pēc satura"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Maksimālais platums:"
+msgstr "Kolonnas platums:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6207,7 +6200,7 @@ msgstr "Izvērsta informācija"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Kolonnas"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -6966,6 +6959,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Šis pārslēdz uz kolonnas skata režīmu (kaskādes sarakstu). Katrs mapes "
+"līmenis tiek parādīts savā kolonnā, izkārtojoties hierarhiski no kreisās "
+"puses uz labo.</para><para>Mapes atlasīšana atver tās saturu nākamajā "
+"kolonnā pa labi.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7211,63 +7208,61 @@ msgstr "Izvērstais skata režīms"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Kolonnas"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Ikonu skata režīms"
+msgstr "Kolonnu skata režīms"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
-msgstr "Z–A"
+msgstr "Z—A"
 
 #: views/dolphinviewactionhandler.cpp:865
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
-msgstr "A–Z"
+msgstr "A—Z"
 
 #: views/dolphinviewactionhandler.cpp:867
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
-msgstr "Lielākos vispirms"
+msgstr "Lielākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:868
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
-msgstr "Mazākos vispirms"
+msgstr "Mazākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:870
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
-msgstr "Jaunākos vispirms"
+msgstr "Jaunākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:871
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
-msgstr "Vecākos vispirms"
+msgstr "Vecākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:873
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
-msgstr "Augstākos vispirms"
+msgstr "Augstākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:874
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
-msgstr "Zemākos vispirms"
+msgstr "Zemākās vispirms"
 
 #: views/dolphinviewactionhandler.cpp:876
 #, kde-format

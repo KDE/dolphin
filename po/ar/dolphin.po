@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-12 01:05+0000\n"
-"PO-Revision-Date: 2026-11-05 09:01+0400\n"
+"PO-Revision-Date: 2026-11-12 08:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4430,25 +4430,25 @@ msgstr "حجم المعاينة"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "أدنى عرض للعمود بالبكسل"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "أدنى عرض بالبكسل لعمود مضبوط على محتواه"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "أقصى عدد من الأعمدة المرئية قبل التمرير"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "اضبط عرض العمود على محتواه"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4647,18 +4647,14 @@ msgstr "وضع العرض"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"يتحكّم هذا الخيار في نوع العرض. القيم المدعومة حاليًا هي عرض أيقونات (0) "
-"وتفاصيل (1) وأعمدة (2)."
+"يتحكم هذا الخيار في نمط العرض. تشمل القيم المدعومة حاليًا عرض الأيقونات (0)، "
+"والتفاصيل (1)، والمضغوط (2)، والأعمدة (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5971,9 +5967,7 @@ msgid "Content Display"
 msgstr "عرض المحتوى"
 
 #: settings/viewmodes/viewsettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
 msgstr "الأعمدة"
@@ -6157,21 +6151,19 @@ msgstr "افتح الملفات والمجلدات:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "ثابت"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "اضبط على المحتوى"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "أقصى عرض:"
+msgstr "عرض العمود:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6211,9 +6203,7 @@ msgid "Details"
 msgstr "تفاصيل"
 
 #: settings/viewpropertiesdialog.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
 msgstr "الأعمدة"
@@ -6989,6 +6979,9 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>يبدّل هذا إلى نمط عرض الأعمدة (أعمدة ميلر). يظهر كل مستوى من الدلائل في "
+"عموده الخاص، متتاليًا أفقيًا من اليسار إلى اليمين.</para><para>يؤدي تحديد مجلد "
+"إلى فتح محتوياته في العمود التالي إلى اليمين.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7229,20 +7222,16 @@ msgid "Details view mode"
 msgstr "وضع العرض التفصيلي"
 
 #: views/dolphinviewactionhandler.cpp:840
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View Mode"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr "أعمدة"
+msgstr "الأعمدة"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "وضع عرض الأيقونات"
+msgstr "نمط عرض الأعمدة"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
