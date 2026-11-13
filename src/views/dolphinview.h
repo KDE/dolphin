@@ -426,6 +426,11 @@ public:
     virtual int horizontalScrollBarHeight() const;
 
     /**
+     * @returns the width of the scrollbar at the side of the view or zero if no such scroll bar is visible.
+     */
+    virtual int verticalScrollBarWidth() const;
+
+    /**
      * Set the offset for any view items that small statusbar would otherwise
      * cover. For example, in compact view this is used to make sure no
      * item is covered by statusbar.

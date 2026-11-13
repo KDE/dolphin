@@ -48,6 +48,7 @@
 #include <QRegularExpression>
 #include <QScrollBar>
 #include <QStyle>
+#include <QStyleOption>
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
@@ -1394,14 +1395,9 @@ void DolphinViewContainer::updateStatusBarGeometry()
     }
     if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
         QRect statusBarRect(preferredSmallStatusBarGeometry());
-        if (view()->layoutDirection() == Qt::RightToLeft) {
-            const int splitterWidth = m_statusBar->clippingAmount();
-            statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount.
-        }
-        // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout.
         m_statusBar->setGeometry(statusBarRect);
         // Add 1 due to how qrect coordinates work.
-        m_view->setStatusBarOffset(m_statusBar->geometry().height() - m_statusBar->clippingAmount() + 1);
+        m_view->setStatusBarOffset(m_statusBar->geometry().height() + 1);
     } else {
         m_view->setStatusBarOffset(0);
     }
@@ -1429,10 +1425,29 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar or filterbar is visible, we need to add 1 due to how QRect coordinates work.
+    QStyleOptionFrame opt;
+    opt.initFrom(this);
     const int scrollBarHeight = m_view->horizontalScrollBarHeight();
     const int yPos = m_view->geometry().bottom() - scrollBarHeight - m_statusBar->minimumHeight() + 1;
+    const int scrollbarWidth = m_view->verticalScrollBarWidth();
     // The bottom rises with the top, or the bar would be as tall as the scrollbar as well.
     QRect statusBarRect = rect().adjusted(0, yPos, 0, -scrollBarHeight);
+    // Move to bottomRight in LTR layout
+    if (view()->layoutDirection() == Qt::LeftToRight) {
+        statusBarRect.setLeft(rect().width() - m_statusBar->width() - scrollbarWidth);
+    } else {
+        statusBarRect.setLeft(statusBarRect.left() + scrollbarWidth);
+    }
+
+    // Make the statusbar "float"
+    // Sadly there is no semantic "float amount" so use nice divisible number like 4.
+    auto floatAmount = 4;
+    statusBarRect = statusBarRect.adjusted(0, -floatAmount, 0, 0);
+    // For RTL this value needs to be positive, LTR negative
+    if (view()->layoutDirection() == Qt::LeftToRight) {
+        floatAmount = floatAmount * -1;
+    }
+    statusBarRect = statusBarRect.adjusted(floatAmount, 0, 0, 0);
     return statusBarRect;
 }
 

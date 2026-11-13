@@ -41,6 +41,7 @@ AnimatedHeightWidget::AnimatedHeightWidget(QWidget *parent)
     // Disables manual scrolling, for example with mouse scrollwheel.
     m_contentsContainerParent->verticalScrollBar()->setEnabled(false);
     m_contentsContainerParent->horizontalScrollBar()->setEnabled(false);
+    m_contentsContainerParent->viewport()->setAutoFillBackground(false);
 
     setMinimumWidth(0);
 }
