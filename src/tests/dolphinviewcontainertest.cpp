@@ -85,6 +85,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testTheSmallStatusBarStaysLeftOfTheColumnScrollBar();
+    void testTheSmallStatusBarMovesDownWhenTheScrollbarHides();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
     void testTheEditableLocationFollowsASwitchToAndFromColumns();
@@ -609,6 +610,32 @@ void DolphinViewContainerTest::testTheSmallStatusBarStaysLeftOfTheColumnScrollBa
     const int rightBeforeScrolling = statusBar->geometry().right();
     columnsView->m_scrollArea->horizontalScrollBar()->setValue(0);
     QTRY_VERIFY_WITH_TIMEOUT(statusBar->geometry().right() > rightBeforeScrolling, 5000);
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarMovesDownWhenTheScrollbarHides()
+{
+    // Widening the window can remove the horizontal scrollbar of the columns without a resize of the
+    // view's own height. The bar then goes down to the bottom of the view.
+    QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    m_container->resize(250, 600);
+    m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->horizontalScrollBarHeight() > 0, 5000);
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+    QTRY_COMPARE_WITH_TIMEOUT(statusBar->geometry().bottom(), m_container->preferredSmallStatusBarGeometry().bottom(), 5000);
+    const int scrollBarHeight = m_container->view()->horizontalScrollBarHeight();
+    const int bottomAboveTheScrollBar = statusBar->geometry().bottom();
+
+    // Nothing else moves the bar in a running window, so the check does not wait.
+    m_container->resize(1200, 600);
+    QCoreApplication::processEvents();
+    QCOMPARE(m_container->view()->horizontalScrollBarHeight(), 0);
+    QCOMPARE(statusBar->geometry().bottom(), bottomAboveTheScrollBar + scrollBarHeight);
 }
 
 void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()
