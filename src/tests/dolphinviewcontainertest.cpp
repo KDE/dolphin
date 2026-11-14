@@ -82,6 +82,7 @@ private Q_SLOTS:
     void testSwapCarriesTheViewPropertiesContext();
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
+    void testTheSmallStatusBarMovesDownWhenTheScrollbarHides();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
     void testTheEditableLocationFollowsASwitchToAndFromColumns();
@@ -548,6 +549,32 @@ void DolphinViewContainerTest::testTheSmallStatusBarDrawsAboveAReplacementView()
 
     const QObjectList siblings = m_container->children();
     QVERIFY(siblings.indexOf(statusBar) > siblings.indexOf(m_container->view()));
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarMovesDownWhenTheScrollbarHides()
+{
+    // Widening the window can remove the horizontal scrollbar of the columns without a resize of the
+    // view's own height. The bar then goes down to the bottom of the view.
+    QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+
+    m_container->resize(250, 600);
+    m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->horizontalScrollBarHeight() > 0, 5000);
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+    QTRY_COMPARE_WITH_TIMEOUT(statusBar->geometry().bottom(),
+                              m_container->view()->geometry().bottom() - m_container->view()->horizontalScrollBarHeight(),
+                              5000);
+
+    // Nothing else moves the bar in a running window, so the check does not wait.
+    m_container->resize(1200, 600);
+    QCoreApplication::processEvents();
+    QCOMPARE(m_container->view()->horizontalScrollBarHeight(), 0);
+    QCOMPARE(statusBar->geometry().bottom(), m_container->view()->geometry().bottom());
 }
 
 void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()

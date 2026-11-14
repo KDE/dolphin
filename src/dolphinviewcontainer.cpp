@@ -1409,7 +1409,18 @@ void DolphinViewContainer::updateStatusBarGeometry()
 
 bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 {
-    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small && object == m_view) {
+    if (GeneralSettings::showStatusBar() != GeneralSettings::EnumShowStatusBar::Small) {
+        return false;
+    }
+    // The bar sits on the horizontal scrollbar of the view, which can show or hide after a resize.
+    if (event->type() == QEvent::Show || event->type() == QEvent::Hide) {
+        auto *scrollBar = qobject_cast<QScrollBar *>(object);
+        if (scrollBar && scrollBar->orientation() == Qt::Horizontal && m_view->isAncestorOf(scrollBar)) {
+            updateStatusBarGeometry();
+        }
+        return false;
+    }
+    if (object == m_view) {
         switch (event->type()) {
         case QEvent::Resize: {
             m_statusBar->updateWidthToContent();
