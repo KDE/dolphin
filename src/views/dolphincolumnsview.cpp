@@ -180,28 +180,28 @@ int DolphinColumnsView::horizontalScrollBarHeight() const
 int DolphinColumnsView::verticalScrollBarWidth() const
 {
     // Each column has its own scroll bar. This is the room from the right edge, or the left edge
-    // in a right-to-left layout, to the far side of the scroll bar of the column nearest to it.
+    // in a right-to-left layout, to the far side of the scroll bar of the last column on screen,
+    // which is the column at that edge.
     if (!m_scrollArea || m_scrollArea->isHidden()) {
         return DolphinView::verticalScrollBarWidth();
     }
     const QWidget *viewport = m_scrollArea->viewport();
-    const bool rightToLeft = layoutDirection() == Qt::RightToLeft;
-    int room = -1;
-    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+    for (auto it = m_columns.crbegin(); it != m_columns.crend(); ++it) {
+        const DolphinColumnPane *pane = *it;
+        if (QRect(pane->mapTo(viewport, QPoint(0, 0)), pane->size()).intersected(viewport->rect()).isEmpty()) {
+            continue;
+        }
         const QScrollBar *scrollBar = pane->container()->verticalScrollBar();
         if (!scrollBar->isVisible()) {
-            continue;
+            return 0;
         }
         const QRect shownRect = QRect(scrollBar->mapTo(viewport, QPoint(0, 0)), scrollBar->size()).intersected(viewport->rect());
         if (shownRect.isEmpty()) {
-            continue;
+            return 0;
         }
-        const int roomToEdge = rightToLeft ? shownRect.right() + 1 : viewport->width() - shownRect.left();
-        if (room < 0 || roomToEdge < room) {
-            room = roomToEdge;
-        }
+        return layoutDirection() == Qt::RightToLeft ? shownRect.right() + 1 : viewport->width() - shownRect.left();
     }
-    return qMax(0, room);
+    return 0;
 }
 
 void DolphinColumnsView::setStatusBarOffset(int offset)

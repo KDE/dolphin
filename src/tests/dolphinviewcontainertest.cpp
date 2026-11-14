@@ -85,6 +85,7 @@ private Q_SLOTS:
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
     void testTheSmallStatusBarStaysLeftOfTheColumnScrollBar();
+    void testTheSmallStatusBarIgnoresTheScrollBarOfAnEarlierColumn();
     void testTheSmallStatusBarMovesDownWhenTheScrollbarHides();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
@@ -610,6 +611,36 @@ void DolphinViewContainerTest::testTheSmallStatusBarStaysLeftOfTheColumnScrollBa
     const int rightBeforeScrolling = statusBar->geometry().right();
     columnsView->m_scrollArea->horizontalScrollBar()->setValue(0);
     QTRY_VERIFY_WITH_TIMEOUT(statusBar->geometry().right() > rightBeforeScrolling, 5000);
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarIgnoresTheScrollBarOfAnEarlierColumn()
+{
+    // The bar sits over the column at the right edge. When only an earlier column needs a vertical
+    // scrollbar, the bar stays at the right edge, right of that scrollbar.
+    QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
+
+    // Enough files for the first column to need a vertical scrollbar, while subdir stays short.
+    for (int i = 0; i < 100; ++i) {
+        m_testDir->createFile(QStringLiteral("file-%1.txt").arg(i));
+    }
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
+
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->m_columns.size(), 2, 5000);
+    const QScrollBar *firstScrollBar = columnsView->m_columns.first()->container()->verticalScrollBar();
+    const QScrollBar *lastScrollBar = columnsView->m_columns.last()->container()->verticalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(firstScrollBar->isVisible(), 5000);
+    QVERIFY(!lastScrollBar->isVisible());
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+    const int firstScrollBarRight = firstScrollBar->mapTo(m_container, QPoint(firstScrollBar->width(), 0)).x();
+    QTRY_VERIFY_WITH_TIMEOUT(statusBar->geometry().left() > firstScrollBarRight, 5000);
+    QCOMPARE(columnsView->verticalScrollBarWidth(), 0);
 }
 
 void DolphinViewContainerTest::testTheSmallStatusBarMovesDownWhenTheScrollbarHides()
