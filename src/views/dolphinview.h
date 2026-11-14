@@ -1121,6 +1121,12 @@ private:
     void updatePalette();
     void showLoadingPlaceholder();
 
+    /**
+     * Removes the frame of the view where it lies between a scroll bar and the edge of the screen,
+     * in a maximized or full screen window. Elsewhere the view keeps the frame of its style.
+     */
+    void updateContainerFrame(bool styleChanged = false);
+
     bool m_active;
     const bool m_canDisplayColumns;
     bool m_tabsForFiles;
@@ -1144,6 +1150,8 @@ private:
     QList<QByteArray> m_visibleRoles;
 
     QPointer<KIO::StatJob> m_statJobForStatusBarText;
+    QPointer<QWidget> m_windowOfContainer;
+    bool m_updatingContainerFrame = false;
 
     QVBoxLayout *m_topLayout;
 

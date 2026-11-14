@@ -20,9 +20,12 @@
 #include <QApplication>
 #include <QContextMenuEvent>
 #include <QDir>
+#include <QHBoxLayout>
 #include <QScopeGuard>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QStyle>
+#include <QStyleFactory>
 #include <QTest>
 
 class DolphinViewTest : public QObject
@@ -43,6 +46,9 @@ private Q_SLOTS:
     void aFreshViewUsesTheConfiguredSizeOfItsOwnViewMode();
     void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState_data();
     void navigatingToAFolderUsesTheSizeOfItsOwnPreviewState();
+    void theViewHasNoFrameOnlyBesideTheScreenEdge_data();
+    void theViewHasNoFrameOnlyBesideTheScreenEdge();
+    void aMaximizedViewKeepsTheFrameShapeOfBreeze();
     void aRefreshedFolderStaysWritable();
     void aNewFolderIsWritableOnceListed();
 
@@ -393,6 +399,84 @@ void DolphinViewTest::navigatingToAFolderUsesTheSizeOfItsOwnPreviewState()
     QCOMPARE(m_view->zoomLevel(), previews ? previewLevel : iconLevel);
     // Nothing was stored along the way, so this really was the fallback.
     QCOMPARE(ViewProperties(entered).zoomLevel(), -1);
+}
+
+void DolphinViewTest::theViewHasNoFrameOnlyBesideTheScreenEdge_data()
+{
+    QTest::addColumn<bool>("panelOnTheRight");
+
+    QTest::newRow("view at the right edge") << false;
+    QTest::newRow("panel at the right edge") << true;
+}
+
+/**
+ * The view shows the frame of the style, except in a maximized window where the frame would lie
+ * between the scroll bar and the edge of the screen.
+ */
+void DolphinViewTest::theViewHasNoFrameOnlyBesideTheScreenEdge()
+{
+    QFETCH(bool, panelOnTheRight);
+    // Fusion gives the frame a width, Breeze gives it none where the view fills its place.
+    if (!QStyleFactory::keys().contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
+        QSKIP("The Fusion style is not installed");
+    }
+    const QString previousStyle = QApplication::style()->name();
+    const auto restoreStyle = qScopeGuard([&previousStyle] {
+        QApplication::setStyle(previousStyle);
+    });
+    QApplication::setStyle(QStringLiteral("fusion"));
+
+    // A bar below the view, as the status bar, so only the right side of the view can reach the
+    // edge of the window.
+    QWidget window;
+    auto layout = new QVBoxLayout(&window);
+    layout->setContentsMargins(0, 0, 0, 0);
+    auto row = new QHBoxLayout;
+    layout->addLayout(row);
+    auto view = new DolphinView(m_testDir->url(), &window);
+    row->addWidget(view);
+    if (panelOnTheRight) {
+        row->addWidget(new QWidget(&window));
+    }
+    auto bar = new QWidget(&window);
+    bar->setFixedHeight(20);
+    layout->addWidget(bar);
+    window.resize(400, 300);
+    window.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&window));
+    auto *container = view->findChild<KItemListContainer *>();
+    QVERIFY(container);
+    QVERIFY(container->frameWidth() > 0);
+
+    window.showMaximized();
+    QTRY_VERIFY(window.width() > 400);
+    QCOMPARE(container->frameWidth() > 0, panelOnTheRight);
+
+    window.showNormal();
+    QTRY_COMPARE(window.width(), 400);
+    QVERIFY(container->frameWidth() > 0);
+}
+
+/**
+ * Breeze draws no frame around a view that fills its place and chooses the background of the view
+ * by the frame shape, so a maximized view keeps that shape.
+ */
+void DolphinViewTest::aMaximizedViewKeepsTheFrameShapeOfBreeze()
+{
+    if (!QStyleFactory::keys().contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
+        QSKIP("The Breeze style is not installed");
+    }
+    const QString previousStyle = QApplication::style()->name();
+    const auto restoreStyle = qScopeGuard([&previousStyle] {
+        QApplication::setStyle(previousStyle);
+    });
+    QApplication::setStyle(QStringLiteral("breeze"));
+
+    auto *container = m_view->findChild<KItemListContainer *>();
+    QVERIFY(container);
+    m_view->showMaximized();
+    QTRY_VERIFY(m_view->width() > 400);
+    QCOMPARE(container->frameShape(), QFrame::StyledPanel);
 }
 
 void DolphinViewTest::writeViewProperties(const QUrl &folder, DolphinView::Mode mode, bool previewsShown)

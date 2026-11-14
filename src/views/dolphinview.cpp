@@ -79,6 +79,7 @@
 #include <QMenu>
 #include <QMimeDatabase>
 #include <QPixmapCache>
+#include <QScopedValueRollback>
 #include <QScrollBar>
 #include <QSize>
 #include <QTimer>
@@ -283,6 +284,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent, std::optional<Mode> i
         applyViewProperties();
     }
     m_topLayout->addWidget(m_container);
+    updateContainerFrame();
 
     // The columns view lists each folder in the model of its column.
     if (!(m_canDisplayColumns && m_mode == ColumnsView)) {
@@ -1099,6 +1101,36 @@ void DolphinView::stopLoading()
     m_model->cancelDirectoryLoading();
 }
 
+void DolphinView::updateContainerFrame(bool styleChanged)
+{
+    // A new frame shape changes the contents rect of the container, which sends it the events that
+    // call this function.
+    if (m_updatingContainerFrame) {
+        return;
+    }
+    const QScopedValueRollback<bool> updating(m_updatingContainerFrame, true);
+
+    const QWidget *window = m_container->window();
+    bool besideScreenEdge = false;
+    if (window->windowState() & (Qt::WindowMaximized | Qt::WindowFullScreen)) {
+        // The vertical scroll bar is on the trailing side of the view, the horizontal one at the bottom.
+        const QRect rect(m_container->mapTo(window, QPoint(0, 0)), m_container->size());
+        const bool trailingSideAtEdge = m_container->isLeftToRight() ? rect.right() >= window->width() - 1 : rect.left() <= 0;
+        besideScreenEdge = trailingSideAtEdge || rect.bottom() >= window->height() - 1;
+    }
+    if (besideScreenEdge && m_container->frameShape() == QFrame::NoFrame && !styleChanged) {
+        return;
+    }
+    // The width of the frame is known once it has a shape. Breeze gives the frame no width and
+    // chooses the background of the view by its shape, so the shape stays.
+    if (m_container->frameShape() != QFrame::StyledPanel) {
+        m_container->setFrameShape(QFrame::StyledPanel);
+    }
+    if (besideScreenEdge && m_container->frameWidth() > 0) {
+        m_container->setFrameShape(QFrame::NoFrame);
+    }
+}
+
 QVBoxLayout *DolphinView::topLayout() const
 {
     return m_topLayout;
@@ -1139,6 +1171,13 @@ void DolphinView::abortTwoClicksRenaming()
 
 bool DolphinView::eventFilter(QObject *watched, QEvent *event)
 {
+    if (watched == m_windowOfContainer) {
+        if (event->type() == QEvent::WindowStateChange) {
+            updateContainerFrame();
+        }
+        return QWidget::eventFilter(watched, event);
+    }
+
     switch (event->type()) {
     case QEvent::PaletteChange:
         updatePalette();
@@ -1161,6 +1200,33 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
     case QEvent::FocusIn:
         if (watched == m_container) {
             setActive(true);
+        }
+        break;
+
+    case QEvent::Show:
+        if (watched == m_container) {
+            // The state of the window decides the frame, and the view can move to another window.
+            if (m_windowOfContainer != m_container->window()) {
+                if (m_windowOfContainer) {
+                    m_windowOfContainer->removeEventFilter(this);
+                }
+                m_windowOfContainer = m_container->window();
+                m_windowOfContainer->installEventFilter(this);
+            }
+            updateContainerFrame();
+        }
+        break;
+
+    case QEvent::Resize:
+    case QEvent::Move:
+        if (watched == m_container) {
+            updateContainerFrame();
+        }
+        break;
+
+    case QEvent::StyleChange:
+        if (watched == m_container) {
+            updateContainerFrame(true);
         }
         break;
 
