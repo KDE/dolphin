@@ -207,6 +207,7 @@ private Q_SLOTS:
     void testResizingKeepsTheWidthOfTheLastColumn();
     void testALastColumnOfACustomWidthKeepsIt();
     void testDoubleClickRightOfTheLastColumnKeepsItInView();
+    void testResizingSlidesTheColumnsAPixelAtATime();
 
 private:
     void waitForStableState();
@@ -2623,12 +2624,8 @@ void DolphinColumnsViewTest::testWideningTheWindowShowsTheParentColumns()
     };
     QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() < narrowScrollValue, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(lastRight() <= viewport->width(), 5000);
-    // No whole column fits in the room left after the last one.
-    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() == 0 || viewport->width() - lastRight() < m_view->columnAt(0)->width(), 5000);
-    for (int i = 0; i < m_view->columnCount(); ++i) {
-        const int left = m_view->columnAt(i)->mapTo(viewport, QPoint(0, 0)).x();
-        QVERIFY(left >= 0 || left + m_view->columnAt(i)->width() <= 0);
-    }
+    // No room is left after the last column while columns are scrolled out on the left.
+    QTRY_VERIFY_WITH_TIMEOUT(scrollBar->value() == 0 || viewport->width() - lastRight() <= m_view->m_splitter->handleWidth(), 5000);
 }
 
 void DolphinColumnsViewTest::testTheLastColumnShowsALongNameInFull()
@@ -3281,6 +3278,59 @@ void DolphinColumnsViewTest::testDoubleClickRightOfTheLastColumnKeepsItInView()
     QWidget *viewport = m_view->m_scrollArea->viewport();
     QTRY_COMPARE_WITH_TIMEOUT(splitter->sizes().at(2), last->calculateOptimalWidth(), 5000);
     QTRY_COMPARE_WITH_TIMEOUT(last->mapTo(viewport, QPoint(last->width(), 0)).x(), viewport->width(), 5000);
+}
+
+void DolphinColumnsViewTest::testResizingSlidesTheColumnsAPixelAtATime()
+{
+    // A pixel of width moves the columns by about a pixel, so a drag of the window edge never
+    // makes a whole column appear or disappear at once. The last column stays at the right edge.
+    m_testDir->createDir(QStringLiteral("boot/efi/EFI/opensuse"));
+    m_testDir->createDir(QStringLiteral("boot/grub2"));
+    m_testDir->createFile(QStringLiteral("boot/System.map-6.18.54-1-longterm"));
+
+    m_view->resize(1000, 400);
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_scrollArea->viewport()->width() > 0, 5000);
+    m_view->openChild(0, urlOf(QStringLiteral("boot")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(1) > 0, 5000);
+    m_view->openChild(1, urlOf(QStringLiteral("boot/efi")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(2) > 0, 5000);
+    m_view->openChild(2, urlOf(QStringLiteral("boot/efi/EFI")));
+    QTRY_VERIFY_WITH_TIMEOUT(m_view->m_splitter->sizes().at(3) > 0, 5000);
+    m_view->setActiveColumn(2);
+
+    QWidget *viewport = m_view->m_scrollArea->viewport();
+    auto lefts = [this, viewport]() {
+        QList<int> result;
+        for (int i = 0; i < m_view->columnCount(); ++i) {
+            result.append(m_view->columnAt(i)->mapTo(viewport, QPoint(0, 0)).x());
+        }
+        return result;
+    };
+    DolphinColumnPane *last = m_view->columnAt(3);
+    DolphinColumnPane *active = m_view->columnAt(2);
+    QList<int> previous = lefts();
+    auto step = [&](int width) {
+        m_view->resize(width, 400);
+        QCoreApplication::processEvents();
+        const QList<int> current = lefts();
+        for (int i = 0; i < current.size(); ++i) {
+            QVERIFY2(qAbs(current.at(i) - previous.at(i)) <= 2,
+                     qPrintable(QStringLiteral("width %1 column %2: %3 -> %4").arg(width).arg(i).arg(previous.at(i)).arg(current.at(i))));
+        }
+        previous = current;
+        // While the active column fits, the columns end at the right edge, before the handle of the
+        // filler, without a gap.
+        if (active->width() + last->width() < viewport->width() && current.first() < 0) {
+            const int gap = viewport->width() - last->mapTo(viewport, QPoint(last->width(), 0)).x();
+            QVERIFY2(gap >= 0 && gap <= m_view->m_splitter->handleWidth(), qPrintable(QStringLiteral("width %1: gap %2").arg(width).arg(gap)));
+        }
+    };
+    for (int width = 1000; width >= 300 && !QTest::currentTestFailed(); --width) {
+        step(width);
+    }
+    for (int width = 300; width <= 1000 && !QTest::currentTestFailed(); ++width) {
+        step(width);
+    }
 }
 
 void DolphinColumnsViewTest::testAnotherFolderOpensWithTheSettingsChangedInAColumn()

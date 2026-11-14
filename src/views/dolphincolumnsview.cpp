@@ -1049,7 +1049,7 @@ void DolphinColumnsView::resizeEvent(QResizeEvent *event)
 void DolphinColumnsView::layoutToTheRightEdge(QList<int> sizes)
 {
     // The same width always gives the same layout, whichever way the view was resized: the last
-    // column ends at the right edge, and the first column shown starts at its left edge.
+    // column ends at the right edge, and the first columns slide out on the left a pixel at a time.
     const int numColumns = m_columns.size();
     if (!m_scrollArea || numColumns == 0 || sizes.size() != numColumns) {
         return;
@@ -1061,27 +1061,8 @@ void DolphinColumnsView::layoutToTheRightEdge(QList<int> sizes)
     };
     const int totalWidth = leftOf(numColumns);
 
-    int scrollValue = qMax(0, totalWidth - viewportWidth);
+    const int scrollValue = qMax(0, totalWidth - viewportWidth);
     int filler = qMax(0, viewportWidth - totalWidth);
-    if (scrollValue > 0) {
-        int firstShown = 0;
-        while (firstShown < numColumns - 1 && leftOf(firstShown) < scrollValue) {
-            ++firstShown;
-        }
-        int room = leftOf(firstShown) - scrollValue;
-        scrollValue = leftOf(firstShown);
-        // The columns shown that elide their names take the room, from the last one.
-        for (int column = numColumns - 1; column >= firstShown && room > 0; --column) {
-            if (!ColumnsModeSettings::self()->dynamicColumnWidth() || m_customColumnWidths.contains(column) || m_columns.at(column)->isWidthPending()) {
-                continue;
-            }
-            const int content = qMin(viewportWidth, m_columns.at(column)->calculateOptimalWidth());
-            const int growth = qMin(room, qMax(0, content - sizes.at(column)));
-            sizes[column] += growth;
-            room -= growth;
-        }
-        filler = room;
-    }
     // A gap narrower than a scrollbar would only show a sliver of the window background.
     if (filler > 0 && filler < style()->pixelMetric(QStyle::PM_ScrollBarExtent, nullptr, this)) {
         sizes[numColumns - 1] += filler;
