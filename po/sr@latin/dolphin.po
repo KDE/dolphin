@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-14 01:07+0000\n"
-"PO-Revision-Date: 2026-10-09 10:30+0200\n"
+"PO-Revision-Date: 2026-11-14 16:15+0100\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -1997,15 +1997,13 @@ msgstr "Otkači jezičak"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "Oslobodi jezičak"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "Prethodni jezičak"
+msgstr "Prikači jezičak"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2675,6 +2673,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Pretraga fajlova je isključena. Uključite je u Sistemskim postavkama da "
+"biste videli ovaj podatak."
 
 #: kitemviews/kfileitemmodel.cpp:1323
 #, kde-format
@@ -2683,14 +2683,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Pretraga fajlova indeksira samo imena fajlova. Uključite indeksiranje "
+"sadržaja fajlova u Sistemskim postavkama da biste videli ovaj podatak."
 
 #: kitemviews/kfileitemmodel.cpp:1326
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Ova fascikla vam nije dostupna za pisanje."
+msgstr "Ova fascikla nije indeksirana u pretrazi fajlova."
 
 #: kitemviews/kfileitemmodel.cpp:1331
 #, kde-format
@@ -2699,6 +2699,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Ovaj podatak dolazi iz pretrage fajlova, bez koje je ova verzija Dolphina "
+"izgrađena."
 
 #: kitemviews/kfileitemmodel.cpp:2855
 #, kde-format
@@ -3498,7 +3500,7 @@ msgstr "Dokumentacija"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4570,25 +4572,25 @@ msgstr "Veličina pregleda"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Najmanja širina kolone u pikselima"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Najmanja širina u pikselima za kolonu podešenu prema sadržaju"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Najveći broj vidljivih kolona pre klizanja"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Podesi širinu kolone prema sadržaju"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4790,18 +4792,14 @@ msgstr "Režim prikaza"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"Ova opcija određuje stil prikaza. Trenutno su podržani prikazi ikonica (0), "
-"detalja (1) i kolona (2)."
+"Ova opcija određuje stil prikaza. Trenutno su podržani prikaz ikonica (0), "
+"prikaz detalja (1), sažeti prikaz (2) i prikaz kolona (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -5218,7 +5216,7 @@ msgstr "Indeks širine teksta"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Postavi stavke bliže jednu drugoj"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5617,11 +5615,10 @@ msgid "Information Panel:"
 msgstr "Panel sa podacima:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "Ograniči panel fascikli na domaće kada unutar domaćeg"
+msgstr "Ograniči na domaću fasciklu dok ste u njoj"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5630,6 +5627,7 @@ msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
 msgstr ""
+"Stablo fascikli u panelu fascikli počinje od domaće fascikle dok ste u njoj."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5641,14 +5639,17 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>Kada je ovo uključeno i trenutna fascikla je u vašoj domaćoj fascikli, "
+"panel fascikli prikazuje samo vašu domaću fasciklu i fascikle u njoj. Korena "
+"fascikla i ostale jedinice se tada ne prikazuju u panelu.</para><para>Van "
+"domaće fascikle panel prikazuje sve fascikle, počev od korene fascikle.</"
+"para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Fascikle:"
+msgstr "Panel fascikli:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -6137,7 +6138,7 @@ msgstr "Prikaz sadržaja"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "Kolone"
 
 # >> @label:listbox Default icon size
 #: settings/viewmodes/viewsettingstab.cpp:55
@@ -6237,27 +6238,23 @@ msgid "Maximum lines:"
 msgstr "Najviše redova:"
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
-msgstr "Sažeto"
+msgstr "Sažet"
 
 #: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "Postavlja stavke bliže jednu drugoj, tako da ih više stane u red."
 
 # >! @info:progress
 #: settings/viewmodes/viewsettingstab.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Način pretrage:"
+msgstr "Razmak:"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
@@ -6324,21 +6321,19 @@ msgstr "Otvaranje fajlova i fascikli:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "fiksna"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "prema sadržaju"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Najveća širina:"
+msgstr "Širina kolone:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6379,7 +6374,7 @@ msgstr "detalji"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "kolone"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -7151,6 +7146,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Ovim se prebacuje na režim prikaza u kolonama (Milerove kolone). Svaki "
+"nivo fascikli prikazuje se u sopstvenoj koloni, kaskadno vodoravno sleva "
+"udesno.</para><para>Izborom fascikle njen sadržaj se otvara u sledećoj "
+"koloni desno.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7400,15 +7399,13 @@ msgstr "Režim prikaza detalja"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Kolone"
 
 #: views/dolphinviewactionhandler.cpp:842
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Režim prikaza ikonica"
+msgstr "Režim prikaza kolona"
 
 #: views/dolphinviewactionhandler.cpp:865
 #, kde-format
