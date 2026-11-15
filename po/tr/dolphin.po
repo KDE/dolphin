@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:42+0000\n"
-"PO-Revision-Date: 2026-11-12 18:52+0300\n"
+"PO-Revision-Date: 2026-11-14 18:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5245,7 +5245,7 @@ msgstr "Klasörleri aç:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "Yeni klasörleri sekmelerde açarak tek bir Dolphin penceresi açık tut"
+msgstr "Yeni klasörleri sekmelerde açarak tek bir Dolphin penceresini açık tut"
 
 #: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
@@ -5323,7 +5323,7 @@ msgstr "Sekme çubuğunun sonunda"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Yeni sekmeleri aç: "
+msgstr "Yeni sekmeleri şurada aç: "
 
 #: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
@@ -5530,7 +5530,7 @@ msgstr "hiçbir dosya"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Klasörler için önizlemeleri göster"
+msgstr "Klasörlerde önizlemeleri göster"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
