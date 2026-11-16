@@ -198,6 +198,7 @@ DolphinViewContainer::~DolphinViewContainer() = default;
 
 void DolphinViewContainer::connectViewSignals()
 {
+    connect(m_view, &DolphinView::scrollBarsChanged, this, &DolphinViewContainer::updateStatusBarGeometry);
     connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
     connect(m_view, &DolphinView::urlChanged, m_messageWidget, &KMessageWidget::hide);
     // m_urlNavigator stays in sync with m_view's location changes and

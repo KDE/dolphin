@@ -94,6 +94,8 @@ void DolphinColumnsView::initColumnsUi()
 
     m_scrollArea->setWidget(m_splitter);
     topLayout()->addWidget(m_scrollArea);
+    m_scrollArea->horizontalScrollBar()->installEventFilter(this);
+    connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::scrollBarsChanged);
 
     m_scrollArea->hide();
 
@@ -177,10 +179,29 @@ int DolphinColumnsView::horizontalScrollBarHeight() const
 
 int DolphinColumnsView::verticalScrollBarWidth() const
 {
-    if (m_scrollArea && m_scrollArea->verticalScrollBar() && m_scrollArea->verticalScrollBar()->isVisible()) {
-        return m_scrollArea->verticalScrollBar()->width();
+    // Each column has its own scroll bar. This is the room from the right edge, or the left edge
+    // in a right-to-left layout, to the far side of the scroll bar of the column nearest to it.
+    if (!m_scrollArea || m_scrollArea->isHidden()) {
+        return DolphinView::verticalScrollBarWidth();
     }
-    return DolphinView::horizontalScrollBarHeight();
+    const QWidget *viewport = m_scrollArea->viewport();
+    const bool rightToLeft = layoutDirection() == Qt::RightToLeft;
+    int room = -1;
+    for (DolphinColumnPane *pane : std::as_const(m_columns)) {
+        const QScrollBar *scrollBar = pane->container()->verticalScrollBar();
+        if (!scrollBar->isVisible()) {
+            continue;
+        }
+        const QRect shownRect = QRect(scrollBar->mapTo(viewport, QPoint(0, 0)), scrollBar->size()).intersected(viewport->rect());
+        if (shownRect.isEmpty()) {
+            continue;
+        }
+        const int roomToEdge = rightToLeft ? shownRect.right() + 1 : viewport->width() - shownRect.left();
+        if (room < 0 || roomToEdge < room) {
+            room = roomToEdge;
+        }
+    }
+    return qMax(0, room);
 }
 
 void DolphinColumnsView::setStatusBarOffset(int offset)
@@ -895,6 +916,7 @@ DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
 
     pane->container()->installEventFilter(this);
     pane->container()->viewport()->installEventFilter(this);
+    pane->container()->verticalScrollBar()->installEventFilter(this);
 
     m_columns.insert(index, pane);
     m_splitter->insertWidget(index, pane);
@@ -941,6 +963,19 @@ DolphinColumnPane *DolphinColumnsView::insertPane(int index, const QUrl &dirUrl)
 
 bool DolphinColumnsView::eventFilter(QObject *watched, QEvent *event)
 {
+    // The scroll bar of a column moves with the column, and shows or hides with its content. A view
+    // that is not visible, or is being destroyed with its window, has no scroll bar to show.
+    if (isVisible() && (event->type() == QEvent::Show || event->type() == QEvent::Hide || event->type() == QEvent::Move || event->type() == QEvent::Resize)) {
+        bool isScrollBarOrColumn = m_scrollArea && watched == m_scrollArea->horizontalScrollBar();
+        for (int i = 0; i < m_columns.size() && !isScrollBarOrColumn; ++i) {
+            const KItemListContainer *container = m_columns.at(i)->container();
+            isScrollBarOrColumn = watched == container || watched == container->verticalScrollBar();
+        }
+        if (isScrollBarOrColumn) {
+            Q_EMIT scrollBarsChanged();
+        }
+    }
+
     // A handle drag resizes the column on its left only, which QSplitter cannot do because it moves
     // the room between the two neighbours. A double click on a handle fits the columns.
     if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonRelease

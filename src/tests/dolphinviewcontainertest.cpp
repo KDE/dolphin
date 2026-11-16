@@ -47,6 +47,8 @@
 #include <QPointer>
 #include <QPushButton>
 #include <QScopeGuard>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -82,6 +84,7 @@ private Q_SLOTS:
     void testSwapCarriesTheViewPropertiesContext();
     void testTheSmallStatusBarStaysOffTheScrollbars();
     void testTheSmallStatusBarDrawsAboveAReplacementView();
+    void testTheSmallStatusBarStaysLeftOfTheColumnScrollBar();
     void testNavigatingIntoAColumnsFolderSwapsTheView();
     void testBrowsingOutOfAColumnsFolderSwitchesToItsMode();
     void testTheEditableLocationFollowsASwitchToAndFromColumns();
@@ -549,6 +552,43 @@ void DolphinViewContainerTest::testTheSmallStatusBarDrawsAboveAReplacementView()
 
     const QObjectList siblings = m_container->children();
     QVERIFY(siblings.indexOf(statusBar) > siblings.indexOf(m_container->view()));
+}
+
+void DolphinViewContainerTest::testTheSmallStatusBarStaysLeftOfTheColumnScrollBar()
+{
+    // Each column has its own vertical scrollbar. The small status bar ends where the scrollbar of
+    // the column at the right edge begins, and follows it when the columns scroll sideways.
+    QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
+
+    // Enough files for the column of subdir to need a vertical scrollbar.
+    for (int i = 0; i < 100; ++i) {
+        m_testDir->createFile(QStringLiteral("subdir/file%1.txt").arg(i));
+    }
+
+    m_container->setViewMode(DolphinView::ColumnsView);
+    waitForViewReady();
+    // Two columns do not fit, so the column of subdir is at the right edge and the first column is
+    // out of sight on the left.
+    m_container->resize(250, 300);
+    m_container->view()->setUrl(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/subdir")));
+
+    auto *columnsView = qobject_cast<DolphinColumnsView *>(m_container->view());
+    QVERIFY(columnsView);
+    QTRY_COMPARE_WITH_TIMEOUT(columnsView->m_columns.size(), 2, 5000);
+    const QScrollBar *columnScrollBar = columnsView->m_columns.last()->container()->verticalScrollBar();
+    QTRY_VERIFY_WITH_TIMEOUT(columnScrollBar->isVisible(), 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(columnsView->horizontalScrollBarHeight() > 0, 5000);
+
+    auto *statusBar = m_container->findChild<DolphinStatusBar *>();
+    QVERIFY(statusBar);
+    const int scrollBarLeft = columnScrollBar->mapTo(m_container, QPoint(0, 0)).x();
+    QTRY_VERIFY_WITH_TIMEOUT(statusBar->geometry().right() < scrollBarLeft, 5000);
+
+    // With the first column shown, the scrollbar of subdir is out of sight on the right, and the
+    // bar moves back to the right edge.
+    const int rightBeforeScrolling = statusBar->geometry().right();
+    columnsView->m_scrollArea->horizontalScrollBar()->setValue(0);
+    QTRY_VERIFY_WITH_TIMEOUT(statusBar->geometry().right() > rightBeforeScrolling, 5000);
 }
 
 void DolphinViewContainerTest::testNavigatingIntoAColumnsFolderSwapsTheView()

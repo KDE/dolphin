@@ -581,6 +581,11 @@ Q_SIGNALS:
     void itemCountChanged();
 
     /**
+     * Is emitted when a scroll bar of the view is shown, hidden or moved.
+     */
+    void scrollBarsChanged();
+
+    /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
     void tabRequested(const QUrl &url);
