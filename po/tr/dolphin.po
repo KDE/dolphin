@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-14 01:07+0000\n"
-"PO-Revision-Date: 2026-11-14 18:49+0300\n"
+"PO-Revision-Date: 2026-11-15 18:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4359,7 +4359,7 @@ msgstr "%1: %2"
 #: settings/dolphin_iconsmodesettings.kcfg:12
 #, kde-format
 msgid "Use system font"
-msgstr "Sistem yazıtipini kullan"
+msgstr "Sistem yazı tipini kullan"
 
 #. i18n: ectx: label, entry (IconSize), group (IconsMode)
 #. i18n: ectx: label, entry (IconSize), group (ColumnsMode)
@@ -5749,13 +5749,13 @@ msgstr "Uzun dosya adları:"
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "System Font"
-msgstr "Sistem yazıtipi"
+msgstr "Sistem yazı tipi"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:29
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "Custom Font"
-msgstr "Özel yazıtipi"
+msgstr "Özel yazı tipi"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
@@ -5971,14 +5971,14 @@ msgstr "Önizleme simgesi boyutu:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
-msgstr "Etiket yazıtipi:"
+msgstr "Etiket yazı tipi:"
 
 #: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
-"Bazı yazıtipi stilleri Dolphin tarafından ayrılmışlardır ve geçersiz "
+"Bazı yazı tipi stilleri Dolphin tarafından ayrılmışlardır ve geçersiz "
 "kılınabilirler."
 
 #: settings/viewmodes/viewsettingstab.cpp:84
