@@ -382,10 +382,11 @@ QAccessibleInterface *KItemListViewAccessible::selectedItem(int selectionIndex) 
 {
     const auto selectedItems = selectionManager()->selectedItems();
     int i = 0;
-    for (auto it = selectedItems.rbegin(); it != selectedItems.rend(); ++it) {
+    for (const int index : selectedItems) {
         if (i == selectionIndex) {
-            return child(*it);
+            return child(index);
         }
+        ++i;
     }
     return nullptr;
 }
@@ -399,8 +400,9 @@ QList<QAccessibleInterface *> KItemListViewAccessible::selectedItems() const
 {
     const auto selectedItems = selectionManager()->selectedItems();
     QList<QAccessibleInterface *> selectedItemsInterfaces;
-    for (auto it = selectedItems.rbegin(); it != selectedItems.rend(); ++it) {
-        selectedItemsInterfaces.append(child(*it));
+    selectedItemsInterfaces.reserve(selectedItems.count());
+    for (const int index : selectedItems) {
+        selectedItemsInterfaces.append(child(index));
     }
     return selectedItemsInterfaces;
 }
