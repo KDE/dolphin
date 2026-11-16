@@ -18,6 +18,8 @@
 #include <QString>
 #include <QUrl>
 
+#include <utility>
+
 class KFileItemList;
 class KFileItemModel;
 class KItemRangeList;
@@ -100,7 +102,7 @@ private Q_SLOTS:
     void slotThreadFinished();
 
 private:
-    using ItemState = QPair<KFileItem, KVersionControlPlugin::ItemVersion>;
+    using ItemState = std::pair<KFileItem, KVersionControlPlugin::ItemVersion>;
 
     void updateItemStates();
 

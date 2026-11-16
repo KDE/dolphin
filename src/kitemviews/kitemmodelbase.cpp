@@ -105,9 +105,9 @@ QString KItemModelBase::roleDescription(const QByteArray &role) const
     return QString::fromLatin1(role);
 }
 
-QList<QPair<int, QVariant>> KItemModelBase::groups() const
+QList<std::pair<int, QVariant>> KItemModelBase::groups() const
 {
-    return QList<QPair<int, QVariant>>();
+    return QList<std::pair<int, QVariant>>();
 }
 
 bool KItemModelBase::setExpanded(int index, bool expanded)

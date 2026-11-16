@@ -193,7 +193,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     }
     const short s_numberOfEntriesVisible = 5;
 
-    using StringPair = QPair<KLocalizedString, QString>;
+    using StringPair = std::pair<KLocalizedString, QString>;
     // keep in sync with kio/src/filewidgets/knewfilemenu.cpp
     // default folder icon goes here.
     const QList<StringPair> icons = {// colors.

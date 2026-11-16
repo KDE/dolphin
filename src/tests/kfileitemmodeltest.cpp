@@ -518,7 +518,7 @@ void KFileItemModelTest::testResortAfterChangingName()
     urlA.setPath(urlA.path() + "a.txt");
     fileItemA.setUrl(urlA);
 
-    m_model->slotRefreshItems({qMakePair(fileItemD, fileItemA)});
+    m_model->slotRefreshItems({std::make_pair(fileItemD, fileItemA)});
 
     QVERIFY(itemsMovedSpy.wait());
     QCOMPARE(itemsInModel(),
@@ -553,7 +553,7 @@ void KFileItemModelTest::testRefreshAfterSetDataRename()
 
     itemsChangedSpy.clear();
     const KFileItem newItem(QUrl::fromLocalFile(newPath));
-    m_model->slotRefreshItems({qMakePair(oldItem, newItem)});
+    m_model->slotRefreshItems({std::make_pair(oldItem, newItem)});
 
     QCOMPARE(itemsInModel(), QStringList() << "test.py");
     QVERIFY(newItem.mimetype() != QLatin1String("text/plain"));
@@ -1731,7 +1731,7 @@ void KFileItemModelTest::testRefreshExpandedItem()
     QVERIFY(m_model->isExpanded(0));
 
     const KFileItem item = m_model->fileItem(0);
-    m_model->slotRefreshItems({qMakePair(item, item)});
+    m_model->slotRefreshItems({std::make_pair(item, item)});
     QVERIFY(!itemsChangedSpy.isEmpty());
 
     QCOMPARE(m_model->count(), 5); // "a/", "a/1", "a/2", "3", "4"
@@ -1874,7 +1874,7 @@ void KFileItemModelTest::testRefreshItemsWithFilter()
     // Rename "c.txt" to "c.cfg"; and rename "d.txt" to "a.txt"
     QCOMPARE(itemsRemovedSpy.count(), 0);
     QCOMPARE(itemsChangedSpy.count(), 0);
-    m_model->slotRefreshItems({qMakePair(fileItemC_txt, fileItemC_cfg), qMakePair(fileItemD_txt, fileItemA_txt)});
+    m_model->slotRefreshItems({std::make_pair(fileItemC_txt, fileItemC_cfg), std::make_pair(fileItemD_txt, fileItemA_txt)});
     QCOMPARE(itemsRemovedSpy.count(), 1);
     QCOMPARE(itemsChangedSpy.count(), 1);
     QCOMPARE(m_model->count(), 2); // Only "a.txt" and "b.txt". "c.cfg" got filtered out
@@ -1949,7 +1949,7 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter()
 
     // Rename "a" to "a_renamed"
     // This way we test if the algorithm is sane as to NOT hide "a_renamed" since it will have visible children
-    m_model->slotRefreshItems({qMakePair(fileItemA, fileItemARenamed)});
+    m_model->slotRefreshItems({std::make_pair(fileItemA, fileItemARenamed)});
     QCOMPARE(m_model->count(), 3); // Entire parental chain must still be shown
     QCOMPARE(itemsInModel(),
              QStringList() << "a_renamed"
@@ -1957,11 +1957,11 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter()
                            << "someFolder");
 
     // Rename "a_renamed" back to "a"; and "someFolder" to "renamedFolder"
-    m_model->slotRefreshItems({qMakePair(fileItemARenamed, fileItemA), qMakePair(fileItemSomeFolder, fileItemRenamedFolder)});
+    m_model->slotRefreshItems({std::make_pair(fileItemARenamed, fileItemA), std::make_pair(fileItemSomeFolder, fileItemRenamedFolder)});
     QCOMPARE(m_model->count(), 0); // Entire parental chain became hidden
 
     // Rename "renamedFolder" back to "someFolder". Filter is passing again
-    m_model->slotRefreshItems({qMakePair(fileItemRenamedFolder, fileItemSomeFolder)});
+    m_model->slotRefreshItems({std::make_pair(fileItemRenamedFolder, fileItemSomeFolder)});
     QCOMPARE(m_model->count(), 3); // Entire parental chain is shown again
     QCOMPARE(itemsInModel(),
              QStringList() << "a"
@@ -2340,11 +2340,11 @@ void KFileItemModelTest::testNameRoleGroups()
                            << "d.txt"
                            << "e.txt");
 
-    QList<QPair<int, QVariant>> expectedGroups;
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("B"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("C"));
-    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QList<std::pair<int, QVariant>> expectedGroups;
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("B"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("C"));
+    expectedGroups << std::pair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Rename d.txt to a.txt.
@@ -2359,10 +2359,10 @@ void KFileItemModelTest::testNameRoleGroups()
                            << "e.txt");
 
     expectedGroups.clear();
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
-    expectedGroups << QPair<int, QVariant>(2, QLatin1String("C"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << std::pair<int, QVariant>(2, QLatin1String("C"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Rename c.txt to d.txt.
@@ -2376,10 +2376,10 @@ void KFileItemModelTest::testNameRoleGroups()
                            << "e.txt");
 
     expectedGroups.clear();
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
-    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << std::pair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Change d.txt back to c.txt, but this time using the dir lister's refreshItems() signal.
@@ -2389,7 +2389,7 @@ void KFileItemModelTest::testNameRoleGroups()
     urlC.setPath(urlC.path() + "c.txt");
     fileItemC.setUrl(urlC);
 
-    m_model->slotRefreshItems({qMakePair(fileItemD, fileItemC)});
+    m_model->slotRefreshItems({std::make_pair(fileItemD, fileItemC)});
     QVERIFY(groupsChangedSpy.wait());
     QCOMPARE(itemsInModel(),
              QStringList() << "a.txt"
@@ -2398,10 +2398,10 @@ void KFileItemModelTest::testNameRoleGroups()
                            << "e.txt");
 
     expectedGroups.clear();
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
-    expectedGroups << QPair<int, QVariant>(2, QLatin1String("C"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << std::pair<int, QVariant>(2, QLatin1String("C"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
 }
 
@@ -2424,15 +2424,15 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
              QStringList() << "a"
                            << "d");
 
-    QList<QPair<int, QVariant>> expectedGroups;
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("D"));
+    QList<std::pair<int, QVariant>> expectedGroups;
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("D"));
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Verify that expanding "a" and "d" will not change the groups (except for the index of "D").
     expectedGroups.clear();
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("D"));
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("D"));
 
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
@@ -2470,8 +2470,8 @@ void KFileItemModelTest::testRatingRoleGroups()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
 
-    QList<QPair<int, QVariant>> expectedGroups;
-    expectedGroups << QPair<int, QVariant>(0, 0);
+    QList<std::pair<int, QVariant>> expectedGroups;
+    expectedGroups << std::pair<int, QVariant>(0, 0);
     QCOMPARE(m_model->groups(), expectedGroups);
 
     // Assign ratings:
@@ -2812,7 +2812,7 @@ void KFileItemModelTest::testRefreshFilteredItems()
     urlE.setPath(urlE.path() + "/e.jpg");
     fileItemE.setUrl(urlE);
 
-    m_model->slotRefreshItems({qMakePair(fileItemC, fileItemE)});
+    m_model->slotRefreshItems({std::make_pair(fileItemC, fileItemE)});
 
     // Show all files again, and verify that the model has updated the file name.
     m_model->setNameFilter(QString());
@@ -3265,11 +3265,11 @@ void KFileItemModelTest::testGroupRoleIndependentFromSortRole()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
 
-    QList<QPair<int, QVariant>> expectedGroups;
-    expectedGroups << QPair<int, QVariant>(0, QLatin1String("B"));
-    expectedGroups << QPair<int, QVariant>(1, QLatin1String("C"));
-    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
-    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QList<std::pair<int, QVariant>> expectedGroups;
+    expectedGroups << std::pair<int, QVariant>(0, QLatin1String("B"));
+    expectedGroups << std::pair<int, QVariant>(1, QLatin1String("C"));
+    expectedGroups << std::pair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << std::pair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
 
     m_model->setSortRole("size");

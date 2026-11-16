@@ -19,6 +19,8 @@
 #include <QUrl>
 #include <QVariant>
 
+#include <utility>
+
 class QMimeData;
 
 /**
@@ -101,7 +103,7 @@ public:
      *         as QVariant. The value is shown by an instance of KItemListGroupHeader.
      *         Per default an empty list is returned.
      */
-    virtual QList<QPair<int, QVariant>> groups() const;
+    virtual QList<std::pair<int, QVariant>> groups() const;
 
     /**
      * Expands the item with the index \a index if \a expanded is true.

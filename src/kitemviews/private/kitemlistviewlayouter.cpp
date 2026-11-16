@@ -691,7 +691,7 @@ bool KItemListViewLayouter::createGroupHeaders()
         return false;
     }
 
-    const QList<QPair<int, QVariant>> groups = m_model->groups();
+    const QList<std::pair<int, QVariant>> groups = m_model->groups();
     if (groups.isEmpty()) {
         return false;
     }

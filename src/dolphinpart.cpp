@@ -264,7 +264,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList &selection)
 
 void DolphinPart::updatePasteAction()
 {
-    QPair<bool, QString> pasteInfo = m_view->pasteInfo();
+    const std::pair<bool, QString> pasteInfo = m_view->pasteInfo();
     Q_EMIT m_extension->enableAction("paste", pasteInfo.first);
     Q_EMIT m_extension->setActionText("paste", pasteInfo.second);
 }

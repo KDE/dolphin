@@ -1830,10 +1830,10 @@ void DolphinView::updateSortHiddenLast(bool hiddenLast)
     Q_EMIT viewSettingsChanged(props.isDefaults());
 }
 
-QPair<bool, QString> DolphinView::pasteInfo() const
+std::pair<bool, QString> DolphinView::pasteInfo() const
 {
     const QMimeData *mimeData = QApplication::clipboard()->mimeData();
-    QPair<bool, QString> info;
+    std::pair<bool, QString> info;
     info.second = KIO::pasteActionText(mimeData, &info.first, rootItem());
     return info;
 }

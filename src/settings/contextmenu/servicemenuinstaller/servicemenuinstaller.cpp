@@ -141,7 +141,7 @@ enum ScriptExecution {
 
 static void runUncompress(const QString &inputPath, const QString &outputPath)
 {
-    QVector<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
+    QVector<std::pair<QStringList, UncompressCommand>> mimeTypeToCommand;
     mimeTypeToCommand.append({{"application/x-tar", "application/tar", "application/x-gtar", "multipart/x-tar"}, UncompressCommand({"tar", {"-xf"}, {"-C"}})});
     mimeTypeToCommand.append({{"application/x-gzip",
                                "application/gzip",

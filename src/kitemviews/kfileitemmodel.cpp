@@ -718,7 +718,7 @@ QString KFileItemModel::roleDescription(const QByteArray &role) const
     return description.value(role);
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::groups() const
+QList<std::pair<int, QVariant>> KFileItemModel::groups() const
 {
     if (!m_itemData.isEmpty() && m_groups.isEmpty()) {
 #ifdef KFILEITEMMODEL_DEBUG
@@ -1473,7 +1473,7 @@ void KFileItemModel::resortAllItems()
         Q_EMIT itemsMoved(KItemRange(firstMovedIndex, movedItemsCount), movedToIndexes);
     } else if (groupedSorting()) {
         // The groups might have changed even if the order of the items has not.
-        const QList<QPair<int, QVariant>> oldGroups = m_groups;
+        const QList<std::pair<int, QVariant>> oldGroups = m_groups;
         m_groups.clear();
         if (groups() != oldGroups) {
             Q_EMIT groupsChanged();
@@ -1708,7 +1708,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList &items)
     Q_EMIT fileItemsChanged(dirsChanged);
 }
 
-void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &items)
+void KFileItemModel::slotRefreshItems(const QList<std::pair<KFileItem, KFileItem>> &items)
 {
     Q_ASSERT(!items.isEmpty());
 #ifdef KFILEITEMMODEL_DEBUG
@@ -1730,10 +1730,10 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &
     // get visible and hence removed from m_filteredItems
     QList<ItemData *> newVisibleItems;
 
-    QListIterator<QPair<KFileItem, KFileItem>> it(items);
+    QListIterator<std::pair<KFileItem, KFileItem>> it(items);
 
     while (it.hasNext()) {
-        const QPair<KFileItem, KFileItem> &itemPair = it.next();
+        const std::pair<KFileItem, KFileItem> &itemPair = it.next();
         const KFileItem &oldItem = itemPair.first;
         const KFileItem &newItem = itemPair.second;
         int indexForItem = index(oldItem);
@@ -2795,12 +2795,12 @@ int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCol
     return QString::compare(a, b, Qt::CaseSensitive);
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::nameRoleGroups() const
+QList<std::pair<int, QVariant>> KFileItemModel::nameRoleGroups() const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     QString groupValue;
     QChar firstChar;
@@ -2859,7 +2859,7 @@ QList<QPair<int, QVariant>> KFileItemModel::nameRoleGroups() const
 
             if (newGroupValue != groupValue) {
                 groupValue = newGroupValue;
-                groups.append(QPair<int, QVariant>(i, newGroupValue));
+                groups.append(std::pair<int, QVariant>(i, newGroupValue));
             }
 
             firstChar = newFirstChar;
@@ -2868,12 +2868,12 @@ QList<QPair<int, QVariant>> KFileItemModel::nameRoleGroups() const
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
+QList<std::pair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     QString groupValue;
     for (int i = 0; i <= maxIndex; ++i) {
@@ -2904,19 +2904,19 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
 
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
-            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            groups.append(std::pair<int, QVariant>(i, newGroupValue));
         }
     }
 
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const
+QList<std::pair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     const QDate currentDate = QDate::currentDate();
 
@@ -3110,19 +3110,19 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
 
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
-            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            groups.append(std::pair<int, QVariant>(i, newGroupValue));
         }
     }
 
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
+QList<std::pair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     QString permissionsString;
     QString groupValue;
@@ -3182,19 +3182,19 @@ QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
         const QString newGroupValue = i18nc("@title:group Files and folders by permissions", "User: %1 | Group: %2 | Others: %3", user, group, others);
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
-            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            groups.append(std::pair<int, QVariant>(i, newGroupValue));
         }
     }
 
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::ratingRoleGroups() const
+QList<std::pair<int, QVariant>> KFileItemModel::ratingRoleGroups() const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     int groupValue = -1;
     for (int i = 0; i <= maxIndex; ++i) {
@@ -3207,19 +3207,19 @@ QList<QPair<int, QVariant>> KFileItemModel::ratingRoleGroups() const
         const int newGroupValue = m_itemData.at(i)->values.value("rating", 0).toInt();
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
-            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            groups.append(std::pair<int, QVariant>(i, newGroupValue));
         }
     }
 
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::genericStringRoleGroups(const QByteArray &role) const
+QList<std::pair<int, QVariant>> KFileItemModel::genericStringRoleGroups(const QByteArray &role) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    QList<std::pair<int, QVariant>> groups;
 
     bool isFirstGroupValue = true;
     QString groupValue;
@@ -3230,7 +3230,7 @@ QList<QPair<int, QVariant>> KFileItemModel::genericStringRoleGroups(const QByteA
         const QString newGroupValue = m_itemData.at(i)->values.value(role).toString();
         if (newGroupValue != groupValue || isFirstGroupValue) {
             groupValue = newGroupValue;
-            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            groups.append(std::pair<int, QVariant>(i, newGroupValue));
             isFirstGroupValue = false;
         }
     }

@@ -952,7 +952,7 @@ void DolphinMainWindow::updateSearchAction()
 void DolphinMainWindow::updatePasteAction()
 {
     QAction *pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
-    QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
+    const std::pair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
     m_disabledActionNotifier->setDisabledReason(pasteAction,
                                                 m_activeViewContainer->rootItem().isWritable()

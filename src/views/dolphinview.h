@@ -26,6 +26,7 @@
 
 #include <memory>
 #include <optional>
+#include <utility>
 
 using CommandType = KIO::FileUndoManager::CommandType;
 class QVBoxLayout;
@@ -326,7 +327,7 @@ public:
      * first is whether the action should be enabled
      * second is the text for the action
      */
-    QPair<bool, QString> pasteInfo() const;
+    std::pair<bool, QString> pasteInfo() const;
 
     /**
      * If \a tabsForFiles is true, the signal tabRequested() will also

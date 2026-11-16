@@ -116,7 +116,7 @@ public:
 
     QString roleDescription(const QByteArray &role) const override;
 
-    QList<QPair<int, QVariant>> groups() const override;
+    QList<std::pair<int, QVariant>> groups() const override;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -324,7 +324,7 @@ private Q_SLOTS:
     void slotCanceled();
     void slotItemsAdded(const QUrl &directoryUrl, const KFileItemList &items);
     void slotItemsDeleted(const KFileItemList &items);
-    void slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &items);
+    void slotRefreshItems(const QList<std::pair<KFileItem, KFileItem>> &items);
     void slotClear();
     void slotSortingChoiceChanged();
     void slotListerError(KIO::Job *job);
@@ -483,12 +483,12 @@ private:
 
     int stringCompare(const QString &a, const QString &b, const QCollator &collator) const;
 
-    QList<QPair<int, QVariant>> nameRoleGroups() const;
-    QList<QPair<int, QVariant>> sizeRoleGroups() const;
-    QList<QPair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
-    QList<QPair<int, QVariant>> permissionRoleGroups() const;
-    QList<QPair<int, QVariant>> ratingRoleGroups() const;
-    QList<QPair<int, QVariant>> genericStringRoleGroups(const QByteArray &typeForRole) const;
+    QList<std::pair<int, QVariant>> nameRoleGroups() const;
+    QList<std::pair<int, QVariant>> sizeRoleGroups() const;
+    QList<std::pair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
+    QList<std::pair<int, QVariant>> permissionRoleGroups() const;
+    QList<std::pair<int, QVariant>> ratingRoleGroups() const;
+    QList<std::pair<int, QVariant>> genericStringRoleGroups(const QByteArray &typeForRole) const;
 
     /**
      * Helper method for all xxxRoleGroups() methods to check whether the
@@ -599,7 +599,7 @@ private:
     QList<ItemData *> m_pendingItemsToInsert;
 
     // Cache for KFileItemModel::groups()
-    mutable QList<QPair<int, QVariant>> m_groups;
+    mutable QList<std::pair<int, QVariant>> m_groups;
 
     // Stores the URLs (key: target url, value: url) of the expanded directories.
     QHash<QUrl, QUrl> m_expandedDirs;
