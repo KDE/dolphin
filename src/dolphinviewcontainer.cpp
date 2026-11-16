@@ -71,6 +71,9 @@ struct LayoutStructure {
 };
 constexpr LayoutStructure positionFor;
 
+// The gap between the small status bar and the edges of the view, so that the bar floats.
+constexpr int smallStatusBarFloat = 4;
+
 DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     : QWidget(parent)
     , m_topLayout(nullptr)
@@ -1398,7 +1401,7 @@ void DolphinViewContainer::updateStatusBarGeometry()
         QRect statusBarRect(preferredSmallStatusBarGeometry());
         m_statusBar->setGeometry(statusBarRect);
         // Add 1 due to how qrect coordinates work.
-        m_view->setStatusBarOffset(m_statusBar->geometry().height() + 1);
+        m_view->setStatusBarOffset(m_statusBar->geometry().height() + smallStatusBarFloat + 1);
     } else {
         m_view->setStatusBarOffset(0);
     }
@@ -1438,10 +1441,9 @@ QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
         statusBarRect.setLeft(statusBarRect.left() + scrollbarWidth);
     }
 
-    // Make the statusbar "float"
-    // Sadly there is no semantic "float amount" so use nice divisible number like 4.
-    auto floatAmount = 4;
-    statusBarRect = statusBarRect.adjusted(0, -floatAmount, 0, 0);
+    // Make the statusbar "float". Move the whole rect up: raising only its top makes the bar taller.
+    auto floatAmount = smallStatusBarFloat;
+    statusBarRect.translate(0, -floatAmount);
     // For RTL this value needs to be positive, LTR negative
     if (m_view->layoutDirection() == Qt::LeftToRight) {
         floatAmount = floatAmount * -1;

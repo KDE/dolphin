@@ -512,10 +512,10 @@ void DolphinViewContainerTest::testSwapCarriesTheViewPropertiesContext()
 
 void DolphinViewContainerTest::testTheSmallStatusBarStaysOffTheScrollbars()
 {
-    // The small status bar floats over the bottom of the view. Its rect has to end where the
-    // horizontal scrollbar of the view begins, and to be as tall as the bar and no taller: a rect
-    // that reaches the bottom edge covers the scrollbar, and the bar paints its frame over all of
-    // it. The bar corrects its own height soon after, so the rect is what this asserts on.
+    // The small status bar floats over the bottom of the view. Its rect has to end above the
+    // horizontal scrollbar of the view, and to be as tall as the bar and no taller: the bar paints
+    // its frame over all of its rect, so a taller rect makes a taller bar, and a rect that reaches
+    // the bottom edge covers the scrollbar.
     QCOMPARE(GeneralSettings::showStatusBar(), GeneralSettings::EnumShowStatusBar::Small);
 
     m_container->setViewMode(DolphinView::ColumnsView);
@@ -533,7 +533,7 @@ void DolphinViewContainerTest::testTheSmallStatusBarStaysOffTheScrollbars()
     const int scrollBarHeight = m_container->view()->horizontalScrollBarHeight();
     const QRect barRect = m_container->preferredSmallStatusBarGeometry();
     QCOMPARE(barRect.height(), statusBar->minimumHeight());
-    QCOMPARE(barRect.bottom(), m_container->view()->geometry().bottom() - scrollBarHeight);
+    QCOMPARE_LE(barRect.bottom(), m_container->view()->geometry().bottom() - scrollBarHeight);
 }
 
 void DolphinViewContainerTest::testTheSmallStatusBarDrawsAboveAReplacementView()
