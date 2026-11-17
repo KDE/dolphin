@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:42+0000\n"
-"PO-Revision-Date: 2026-11-14 18:49+0300\n"
+"PO-Revision-Date: 2026-11-16 19:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3460,7 +3460,7 @@ msgstr "Özellikler"
 #: panels/information/dolphin_informationpanelsettings.kcfg:10
 #, kde-format
 msgid "Previews shown"
-msgstr "Önizlemeleri göster"
+msgstr "Ön izlemeleri göster"
 
 #. i18n: ectx: label, entry (previewsAutoPlay), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
@@ -3484,7 +3484,7 @@ msgstr "Tarih görüntüleme biçimi"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
-msgstr "Önizle"
+msgstr "Ön İzle"
 
 #: panels/information/informationpanel.cpp:160
 #, kde-format
@@ -4383,7 +4383,7 @@ msgstr "Simge boyutu"
 #: settings/dolphin_iconsmodesettings.kcfg:23
 #, kde-format
 msgid "Preview size"
-msgstr "Önizleme boyutu"
+msgstr "Ön izleme boyutu"
 
 #. i18n: ectx: label, entry (MinColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:27
@@ -4639,7 +4639,7 @@ msgstr "Klasörün yakınlaştırma düzeyini belirtir."
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
-msgstr "Önizlemeleri göster"
+msgstr "Ön izlemeleri göster"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:38
@@ -5377,7 +5377,7 @@ msgstr "Klasörler ve Sekmeler"
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
-msgstr "Önizlemeler"
+msgstr "Ön İzlemeler"
 
 #: settings/interface/interfacesettingspage.cpp:44
 #: settings/kcm/kcmdolphingeneral.cpp:49
@@ -5402,7 +5402,7 @@ msgstr "Durum ve Konum Çubukları"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Önizlemeleri göster"
+msgstr "Ön izlemeleri göster"
 
 #: settings/interface/panelsettingspage.cpp:46
 #, kde-format
@@ -5496,7 +5496,7 @@ msgstr "Görünümde önizlemeleri göster:"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Önizlemeleri göster:"
+msgstr "Ön izlemeleri göster:"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -5967,7 +5967,7 @@ msgstr "Öntanımlı simge boyutu:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
-msgstr "Önizleme simgesi boyutu:"
+msgstr "Ön izleme simgesi boyutu:"
 
 #: settings/viewmodes/viewsettingstab.cpp:68
 #, kde-format
@@ -6223,7 +6223,7 @@ msgstr "Gizli dosyaları en son göster"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr "Önizleme göster"
+msgstr "Ön izlemeleri göster"
 
 #: settings/viewpropertiesdialog.cpp:86
 #, kde-format
@@ -6907,7 +6907,7 @@ msgstr ""
 "<para>Bu, klasör ve dosya simgelerine odaklanan bir görünüm kipine geçer. Bu "
 "kip, klasörleri dosyalardan ayırt etmeyi ve farklı <emphasis>dosya "
 "türlerine</emphasis> sahip ögeleri tespit etmeyi kolaylaştırır.</"
-"para><para>Bu kip, <interface>Önizleme</interface> seçeneği etkin olduğunda "
+"para><para>Bu kip, <interface>Ön İzleme</interface> seçeneği etkin olduğunda "
 "resimlere göz atmak için kullanışlıdır.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
@@ -6998,7 +6998,7 @@ msgstr "Bu, simge boyutunu küçültür."
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
-msgstr "Önizlemeleri Göster"
+msgstr "Ön İzlemeleri Göster"
 
 #: views/dolphinviewactionhandler.cpp:276
 #, kde-format
