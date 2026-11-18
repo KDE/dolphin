@@ -536,6 +536,7 @@ ecm_add_app_icon(dolphin
 )
 
 install(FILES icons/org.kde.dolphin.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
+install(FILES icons/dolphin-settings-interface.svg icons/dolphin-settings-view.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/categories)
 
 target_link_libraries(dolphin
     PRIVATE
