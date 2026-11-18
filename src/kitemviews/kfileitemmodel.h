@@ -103,6 +103,12 @@ public:
     static KIO::filesize_t sizeToShow(const KFileItem &item);
 
     /**
+     * Returns \a size as text. A size on disk that is a whole number of the unit has no fraction,
+     * as in "4 KiB".
+     */
+    static QString formatSize(KIO::filesize_t size);
+
+    /**
      * Asks the listing for the room each file takes up on its storage, or stops asking, following
      * the current content display settings. Returns true when the setting changed, in which case the
      * directory has to be listed again for the new numbers to arrive.

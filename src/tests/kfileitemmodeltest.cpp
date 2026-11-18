@@ -11,6 +11,7 @@
 #include <QStandardPaths>
 #include <QTest>
 #include <QTimer>
+#include <kcoreaddons_version.h>
 #include <kio_version.h>
 #include <qplatformdefs.h>
 
@@ -268,6 +269,10 @@ void KFileItemModelTest::testSizeOnDisk()
     const KIO::filesize_t expected = KIO::filesize_t(buf.st_blocks) * 512;
     QVERIFY(expected > 5);
     QCOMPARE(m_model->data(0).value("size").toULongLong(), expected);
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    // A whole number of blocks is shown without a fraction.
+    QCOMPARE(KFileItemModel::formatSize(4096), QStringLiteral("4 KiB"));
+#endif
 
     // Turned off again, the column is back to the bytes of data the file holds.
     ContentDisplaySettings::self()->setShowSizeOnDisk(false);
@@ -277,6 +282,7 @@ void KFileItemModelTest::testSizeOnDisk()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->data(0).value("size").toULongLong(), KIO::filesize_t(5));
+    QCOMPARE(KFileItemModel::formatSize(4096), QStringLiteral("4.0 KiB"));
 #endif
 }
 

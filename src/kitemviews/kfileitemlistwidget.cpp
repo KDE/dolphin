@@ -75,12 +75,12 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const Sma
                 } else {
                     // if we have directory size available
                     const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-                    text = formatter.formatByteSize(size);
+                    text = KFileItemModel::formatSize(size);
                 }
             }
         } else {
             const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-            text = formatter.formatByteSize(size);
+            text = KFileItemModel::formatSize(size);
         }
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
         bool ok;

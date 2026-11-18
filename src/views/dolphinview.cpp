@@ -36,7 +36,6 @@
 #include <KDirModel>
 #include <KFileItemListProperties>
 #include <KFilePlacesView>
-#include <KFormat>
 #include <KIO/CopyJob>
 #include <KIO/DeleteOrTrashJob>
 #include <KIO/DropJob>
@@ -820,9 +819,9 @@ void DolphinView::emitStatusBarText(const int folderCount, const int fileCount, 
     }
 
     if (fileCount > 0 && folderCount > 0) {
-        summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)", foldersText, filesText, KFormat().formatByteSize(totalFileSize));
+        summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)", foldersText, filesText, KFileItemModel::formatSize(totalFileSize));
     } else if (fileCount > 0) {
-        summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, KFormat().formatByteSize(totalFileSize));
+        summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, KFileItemModel::formatSize(totalFileSize));
     } else if (folderCount > 0) {
         summary = foldersText;
     } else {

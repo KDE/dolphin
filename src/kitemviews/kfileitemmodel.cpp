@@ -15,10 +15,12 @@
 #include "dolphindebug.h"
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "views/draganddrophelper.h"
+#include <kcoreaddons_version.h>
 #include <kio_version.h>
 
 #include <KDirLister>
 #include <KFileMetaData/UserMetaData>
+#include <KFormat>
 #include <KIO/Job>
 #include <KIO/ListJob>
 #include <KLocalizedString>
@@ -584,6 +586,16 @@ KIO::filesize_t KFileItemModel::sizeToShow(const KFileItem &item)
     }
 #endif
     return item.size();
+}
+
+QString KFileItemModel::formatSize(KIO::filesize_t size)
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0) && KCOREADDONS_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    if (showSizeOnDisk()) {
+        return KFormat().formatByteSize(size, 1, KFormat::DefaultBinaryDialect, KFormat::DefaultBinaryUnits, KFormat::OmitZeroFraction);
+    }
+#endif
+    return KFormat().formatByteSize(size);
 }
 
 bool KFileItemModel::updateSizeOnDiskRequest()
