@@ -44,13 +44,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     // Interface
     InterfaceSettingsPage *interfaceSettingsPage = new InterfaceSettingsPage(this);
     KPageWidgetItem *interfaceSettingsFrame = addPage(interfaceSettingsPage, i18nc("@title:group Interface settings", "Interface"));
-    interfaceSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("org.kde.dolphin")));
+    interfaceSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("dolphin-settings-interface"), QIcon::fromTheme(QStringLiteral("org.kde.dolphin"))));
     connect(interfaceSettingsPage, &InterfaceSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // View
     ViewSettingsPage *viewSettingsPage = new ViewSettingsPage(url, this);
     KPageWidgetItem *viewSettingsFrame = addPage(viewSettingsPage, i18nc("@title:group", "View"));
-    viewSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-icons")));
+    viewSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("dolphin-settings-view"), QIcon::fromTheme(QStringLiteral("preferences-desktop-icons"))));
     connect(viewSettingsPage, &ViewSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Context Menu
