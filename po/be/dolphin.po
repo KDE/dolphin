@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2661,7 +2661,7 @@ msgstr[1] "%1 абраныя элементы"
 msgstr[2] "%1 абраных элементаў"
 msgstr[3] "%1 абраныя элементы"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@info label above the view explaining the state"
 #| msgid "Selection Mode"
@@ -2669,7 +2669,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Рэжым вылучэння"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@info label above the view explaining the state"
 #| msgid "Selection Mode"
@@ -3712,7 +3712,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Абраць даныя, якія будуць паказвацца:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

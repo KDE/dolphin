@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2026-11-11 11:41+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2507,13 +2507,13 @@ msgstr[0] "%1 atlasīts vienums vietā „%2“"
 msgstr[1] "%1 atlasīti vienumi vietā „%2“"
 msgstr[2] "%1 atlasītu vienumu vietā „%2“"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Atlases režīms ir ieslēgts"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
@@ -3530,7 +3530,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Izvēlieties parādāmos datus:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

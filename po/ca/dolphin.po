@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2026-11-09 10:06+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2544,13 +2544,13 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "%1 element seleccionat a la ubicació %2"
 msgstr[1] "%1 elements seleccionats a la ubicació %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Mode de selecció activat"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
@@ -3567,7 +3567,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Seleccioneu les dades que s'han de mostrar:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

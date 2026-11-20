@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2026-10-27 23:21+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -2531,13 +2531,13 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "elementu %1 hautatuta, %2 kokalekuan"
 msgstr[1] "%1 elementu hautatuta, %2 kokalekuan"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Hautapen modua gaituta"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
@@ -3542,7 +3542,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Hautatu datuak erakusteko:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

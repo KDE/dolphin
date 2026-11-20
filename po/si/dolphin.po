@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -2403,7 +2403,7 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "තෝරාගත් අයිතම %1 ක නම වෙනස් කරන්න:"
 msgstr[1] "තෝරාගත් අයිතම %1 ක නම වෙනස් කරන්න"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2411,7 +2411,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "තේරිම"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3533,7 +3533,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Configure which services should be shown in the context menu."
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"

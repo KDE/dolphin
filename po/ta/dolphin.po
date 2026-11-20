@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -2421,13 +2421,13 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, %2 எனும் இடத்தில்"
 msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், %2 எனும் இடத்தில்"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "தேர்வு பயன்முறை இயக்கப்பட்டுள்ளது"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
@@ -3431,7 +3431,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "காட்ட வேண்டிய விவரங்களை தேர்வு செய்யுங்கள்:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

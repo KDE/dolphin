@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2626,7 +2626,7 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "A(z) %1 kijelölt elem átnevezése erre:"
 msgstr[1] "A(z) %1 kijelölt elem átnevezése erre:"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@info label above the view explaining the state"
 #| msgid "Selection Mode"
@@ -2634,7 +2634,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Kiválasztó mód"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@info label above the view explaining the state"
 #| msgid "Selection Mode"
@@ -3656,7 +3656,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "A megjelenítendő adatok kiválasztása:"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

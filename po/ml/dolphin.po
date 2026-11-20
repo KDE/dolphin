@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -2528,7 +2528,7 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "%1 എന്ന ഇനത്തിന്റെ പേരു് മാറ്റുക:"
 msgstr[1] "തെരഞ്ഞെടുത്ത %1 ഇനങ്ങളുടെ പേരു് മാറ്റേണ്ടതു്:"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2536,7 +2536,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "തെരഞ്ഞെടുക്കല്‍"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3598,7 +3598,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "ഏതു് ഡേറ്റ കാണിയ്ക്കണമെന്നു് തിരഞെടുക്കുക"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

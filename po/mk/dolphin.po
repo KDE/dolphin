@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2010-01-28 23:53+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -2424,7 +2424,7 @@ msgstr[0] "Преименувај го овој %1 избран елемент �
 msgstr[1] "Преименувај ги овие %1 избрани елементи во:"
 msgstr[2] "Преименувај ги овие %1 избрани елементи во:"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2432,7 +2432,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Избор"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3582,7 +3582,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Конфигурирајте кои податоци да бидат прикажани"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"

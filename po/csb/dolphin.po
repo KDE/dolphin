@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-14 01:07+0000\n"
+"POT-Creation-Date: 2026-11-20 01:16+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -2421,7 +2421,7 @@ msgstr[0] "Zmieni miono %1 wëbrónemù elementowi:"
 msgstr[1] "Zmieni miono %1 wëbrónym elementom:"
 msgstr[2] "Zmieni miono %1 wëbrónym elementom:"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:521
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2429,7 +2429,7 @@ msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Wëbiérk"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:522
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3597,7 +3597,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Kònfigurëje pòdôwczi chtërné mają bëc wëskrzënioné"
 
-#: panels/information/informationpanelcontent.cpp:316
+#: panels/information/informationpanelcontent.cpp:323
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"
