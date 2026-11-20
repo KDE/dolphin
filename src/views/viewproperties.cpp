@@ -691,7 +691,8 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     for (const QString &visibleRole : visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
-            if (role != "text") {
+            // don't store twice the same column
+            if (role != "text" && !roles.contains(role)) {
                 roles.append(role);
             }
         }

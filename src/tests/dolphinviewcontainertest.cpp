@@ -44,6 +44,7 @@
 #include <QDir>
 #include <QGraphicsView>
 #include <QLineEdit>
+#include <QListWidget>
 #include <QPointer>
 #include <QPushButton>
 #include <QScopeGuard>
@@ -77,6 +78,7 @@ private Q_SLOTS:
     void testSwapAdoptsContainerActiveState();
     void testSwapCarriesTheNameFilter();
     void testTheViewPropertiesDialogFollowsASwappedView();
+    void testARoleListedTwiceInTheViewPropertiesDialogIsOneColumn();
     void testTheViewModeButtonSkipsTheColumnsModeTakenOut();
     void testSwapCarriesTheFilterModeAndCaseSensitivity();
     void testSwapCarriesTheSelectionMode();
@@ -989,6 +991,56 @@ void DolphinViewContainerTest::testTheViewPropertiesDialogFollowsASwappedView()
     QVERIFY(qobject_cast<DolphinColumnsView *>(m_container->view()));
     QCOMPARE(m_container->view()->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(ViewProperties(m_testDir->url()).sortOrder(), Qt::DescendingOrder);
+}
+
+/**
+ * Duration is listed under Audio and under Video, and both entries are the same column. Checking
+ * one has to check the other and add one column, not two.
+ */
+void DolphinViewContainerTest::testARoleListedTwiceInTheViewPropertiesDialogIsOneColumn()
+{
+    m_container->setViewMode(DolphinView::DetailsView);
+    waitForViewReady();
+
+    QList<int> durationRows;
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    for (int i = 0; i < rolesInfo.count(); ++i) {
+        if (rolesInfo[i].role == "duration") {
+            durationRows.append(i);
+        }
+    }
+    QCOMPARE(durationRows.count(), 2);
+
+    KActionCollection actions(this);
+    DolphinViewActionHandler handler(&actions, nullptr, this);
+    handler.setCurrentView(m_container->view());
+
+    bool dialogDriven = false;
+    QTimer::singleShot(0, this, [&dialogDriven, &durationRows] {
+        auto *dialog = qobject_cast<ViewPropertiesDialog *>(QApplication::activeModalWidget());
+        QVERIFY(dialog);
+        // A failed check returns early; close the dialog so that the test does not hang.
+        auto closeDialog = qScopeGuard([dialog] {
+            dialog->reject();
+        });
+        auto *list = dialog->findChild<QListWidget *>();
+        QVERIFY(list);
+        auto *buttons = dialog->findChild<QDialogButtonBox *>();
+        QVERIFY(buttons);
+
+        QCOMPARE(list->item(durationRows[0])->checkState(), Qt::Unchecked);
+        list->item(durationRows[1])->setCheckState(Qt::Checked);
+        QCOMPARE(list->item(durationRows[0])->checkState(), Qt::Checked);
+
+        closeDialog.dismiss();
+        buttons->button(QDialogButtonBox::Ok)->click();
+        dialogDriven = true;
+    });
+    actions.action(QStringLiteral("view_properties"))->trigger();
+    QVERIFY(dialogDriven);
+
+    QCOMPARE(m_container->view()->visibleRoles().count("duration"), 1);
+    QCOMPARE(ViewProperties(m_testDir->url()).visibleRoles().count("duration"), 1);
 }
 
 void DolphinViewContainerTest::testADragRunsWhenItsStartIsReported()

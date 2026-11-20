@@ -290,7 +290,15 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 
 void ViewPropertiesDialog::slotItemChanged(QListWidgetItem *item)
 {
-    Q_UNUSED(item)
+    // A role listed under two groups, such as Duration for Audio and Video, is one column.
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    const QByteArray role = rolesInfo.value(m_listWidget->row(item)).role;
+    for (int i = 0; i < m_listWidget->count(); ++i) {
+        QListWidgetItem *other = m_listWidget->item(i);
+        if (other != item && rolesInfo.value(i).role == role && other->checkState() != item->checkState()) {
+            other->setCheckState(item->checkState());
+        }
+    }
     markAsDirty(true);
 }
 
@@ -316,7 +324,7 @@ void ViewPropertiesDialog::applyViewProperties()
         const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
         for (const KFileItemModel::RoleInfo &info : rolesInfo) {
             const QListWidgetItem *item = m_listWidget->item(index);
-            if (item->checkState() == Qt::Checked) {
+            if (item->checkState() == Qt::Checked && !visibleRoles.contains(info.role)) {
                 visibleRoles.append(info.role);
             }
             ++index;

@@ -53,6 +53,7 @@ private Q_SLOTS:
     void testRestoreViewProps();
     void testColumnsModeIsStoredAndReadBack();
     void testColumnsModeKeepsItsOwnVisibleRoles();
+    void testVisibleRoleStoredTwiceIsReadOnce();
     void testRemotePropsPerFolder();
     void testLocalFallbackMigration();
     void testSymlinkSharesProperties();
@@ -839,6 +840,18 @@ void ViewPropertiesTest::testColumnsModeKeepsItsOwnVisibleRoles()
     props.setViewMode(DolphinView::ColumnsView);
     QCOMPARE(props.visibleRoles().count(), 2);
     QVERIFY(props.visibleRoles().contains(QByteArrayLiteral("size")));
+}
+
+void ViewPropertiesTest::testVisibleRoleStoredTwiceIsReadOnce()
+{
+    // Older versions stored "duration" twice when it was checked under both Audio and Video,
+    // and the view showed two Duration columns.
+    ViewProperties props(m_testDir->url());
+    props.setViewMode(DolphinView::DetailsView);
+    props.setVisibleRoles({QByteArrayLiteral("text"), QByteArrayLiteral("duration"), QByteArrayLiteral("duration")});
+
+    const QList<QByteArray> expected{QByteArrayLiteral("text"), QByteArrayLiteral("duration")};
+    QCOMPARE(props.visibleRoles(), expected);
 }
 
 /**
