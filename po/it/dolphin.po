@@ -4434,25 +4434,25 @@ msgstr "Dimensione delle anteprime"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Larghezza minima della colonna in pixel"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Larghezza minima in pixel di una colonna adattata al suo contenuto"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Numero massimo di colonne visibili prima dello scorrimento"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Adatta la larghezza della colonna al suo contenuto"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4655,18 +4655,15 @@ msgstr "Modalità di visualizzazione"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
 "Questa opzione controlla lo stile della vista. I valori supportati "
-"attualmente includono viste per icone (0), dettagli (1) e colonne (2)."
+"attualmente includono viste per icone (0), dettagli (1), compatta (2) e "
+"colonne (3)."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -6016,9 +6013,7 @@ msgid "Content Display"
 msgstr "Visualizzazione del contenuto"
 
 #: settings/viewmodes/viewsettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
 msgstr "Colonne"
@@ -6205,21 +6200,19 @@ msgstr "Apri file e cartelle:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Fissa"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Adatta al contenuto"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Larghezza massima:"
+msgstr "Larghezza della colonna:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6255,9 +6248,7 @@ msgid "Details"
 msgstr "Dettagli"
 
 #: settings/viewpropertiesdialog.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Arrangement"
-#| msgid "Columns"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
 msgstr "Colonne"
@@ -7032,6 +7023,11 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>Questa modalità passa alla visualizzazione a colonne (colonne di "
+"Miller). Ogni livello di cartelle viene mostrato in una colonna dedicata, "
+"disponendosi in sequenza orizzontale da sinistra verso destra.</"
+"para><para>Selezionando una cartella, il suo contenuto viene visualizzato "
+"nella colonna immediatamente successiva, verso destra.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7285,12 +7281,10 @@ msgid "Columns"
 msgstr "Colonne"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Modalità vista a icone"
+msgstr "Modalità di visualizzazione delle colonne"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
