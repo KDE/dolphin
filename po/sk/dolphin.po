@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-20 01:16+0000\n"
+"POT-Creation-Date: 2026-11-21 01:14+0000\n"
 "PO-Revision-Date: 2026-09-14 20:10+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
@@ -2110,54 +2110,54 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "This folder is not writable for you."
 
-#: dolphinviewcontainer.cpp:107
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Používanie Dolphin-u ako root môže byť nebezpečné. Budťe opatrný."
 
-#: dolphinviewcontainer.cpp:236
+#: dolphinviewcontainer.cpp:241
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Načítava sa priečinok..."
 
-#: dolphinviewcontainer.cpp:239
+#: dolphinviewcontainer.cpp:244
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Zoraďuje sa..."
 
-#: dolphinviewcontainer.cpp:805
+#: dolphinviewcontainer.cpp:810
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Hľadá sa..."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Neboli nájdené žiadne položky."
 
-#: dolphinviewcontainer.cpp:859
+#: dolphinviewcontainer.cpp:864
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Jeden súbor"
 
-#: dolphinviewcontainer.cpp:876
+#: dolphinviewcontainer.cpp:881
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Nepodarilo sa pristúpiť k <filename>%1</filename>."
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1123
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nepodporuje webové stránky, bol spustený webový prehliadač"
 
-#: dolphinviewcontainer.cpp:1121
+#: dolphinviewcontainer.cpp:1126
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2166,49 +2166,49 @@ msgstr ""
 "Protokol nie je podporovaný aplikáciou Dolphin. Bola spustená predvolená "
 "aplikácia."
 
-#: dolphinviewcontainer.cpp:1128
+#: dolphinviewcontainer.cpp:1133
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Neplatný protokol '%1'"
 
-#: dolphinviewcontainer.cpp:1130
+#: dolphinviewcontainer.cpp:1135
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Neplatný protokol"
 
-#: dolphinviewcontainer.cpp:1237
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Authorization required to enter this folder."
 
-#: dolphinviewcontainer.cpp:1242
+#: dolphinviewcontainer.cpp:1247
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Priečinok vytvorený."
 
-#: dolphinviewcontainer.cpp:1259
+#: dolphinviewcontainer.cpp:1264
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Create the folder at this path and open it"
 
-#: dolphinviewcontainer.cpp:1262
+#: dolphinviewcontainer.cpp:1267
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "You do not have permission to create the folder"
 
-#: dolphinviewcontainer.cpp:1286
+#: dolphinviewcontainer.cpp:1291
 #, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Otvoriť pomocou %1"
 
-#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
+#: dolphinviewcontainer.cpp:1337 dolphinviewcontainer.cpp:1340
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6168,7 +6168,7 @@ msgid "Column width:"
 msgstr "Šírka stĺpca:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
-#: statusbar/dolphinstatusbar.cpp:415
+#: statusbar/dolphinstatusbar.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -6397,35 +6397,35 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr "Install Filelight…"
 
-#: statusbar/dolphinstatusbar.cpp:68
+#: statusbar/dolphinstatusbar.cpp:70
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Priblíženie:"
 
-#: statusbar/dolphinstatusbar.cpp:72
+#: statusbar/dolphinstatusbar.cpp:74
 #, kde-format
 msgid "Zoom"
 msgstr "Lupa"
 
-#: statusbar/dolphinstatusbar.cpp:73
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Nastaví veľkosť ikon súborov."
 
-#: statusbar/dolphinstatusbar.cpp:94
+#: statusbar/dolphinstatusbar.cpp:96
 #, kde-format
 msgid "Stop"
 msgstr "Zastaviť"
 
-#: statusbar/dolphinstatusbar.cpp:96
+#: statusbar/dolphinstatusbar.cpp:98
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Zastaviť načítanie"
 
-#: statusbar/dolphinstatusbar.cpp:155
+#: statusbar/dolphinstatusbar.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -6445,7 +6445,7 @@ msgstr ""
 "item><item><emphasis>Informácie o mieste</emphasis> o aktuálnom zariadení "
 "úložiska.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:347
+#: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
@@ -6507,12 +6507,12 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr "Podmnožina nastavení Dolphin."
 
-#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3017
 #, kde-format
 msgid "Loading…"
 msgstr "Načítava sa..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
 #, kde-format
 msgid "Loading canceled"
 msgstr "Načítanie bolo zrušené"
@@ -6723,72 +6723,72 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Umiestnenie '%1' nie je platné."
 
-#: views/dolphinview.cpp:3046
+#: views/dolphinview.cpp:3054
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Filtru nezodpovedajú žiadne položky"
 
-#: views/dolphinview.cpp:3048
+#: views/dolphinview.cpp:3056
 #, kde-format
 msgid "No items matching the search"
 msgstr "Vyhľadávaniu nezodpovedajú žiadne položky"
 
-#: views/dolphinview.cpp:3050
+#: views/dolphinview.cpp:3058
 #, kde-format
 msgid "Trash is empty"
 msgstr "Kôš je prázdny"
 
-#: views/dolphinview.cpp:3053
+#: views/dolphinview.cpp:3061
 #, kde-format
 msgid "No tags"
 msgstr "Žiadne značky"
 
-#: views/dolphinview.cpp:3056
+#: views/dolphinview.cpp:3064
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Žiadne súbory označené \"%1\""
 
-#: views/dolphinview.cpp:3059
+#: views/dolphinview.cpp:3067
 #, kde-format
 msgid "No recently used items"
 msgstr "Žiadne naposledy použité položky"
 
-#: views/dolphinview.cpp:3061
+#: views/dolphinview.cpp:3069
 #, kde-format
 msgid "No shared folders found"
 msgstr "Žiadne zdieľané priečinky neboli nájdené"
 
-#: views/dolphinview.cpp:3063
+#: views/dolphinview.cpp:3071
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nenašli sa žiadne relevantné sieťové zdroje"
 
-#: views/dolphinview.cpp:3065
+#: views/dolphinview.cpp:3073
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nenašli sa žiadne zariadenia kompatibilné s MTP"
 
-#: views/dolphinview.cpp:3067
+#: views/dolphinview.cpp:3075
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nenašli sa žiadne zariadenia Apple"
 
-#: views/dolphinview.cpp:3070
+#: views/dolphinview.cpp:3078
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Nenašli sa žiadne zariadenia KDE Connect"
 
-#: views/dolphinview.cpp:3072
+#: views/dolphinview.cpp:3080
 #, kde-format
 msgid "No storage found on this device"
 msgstr "Na tomto zariadení nebolo nájdené žiadne úložisko"
 
-#: views/dolphinview.cpp:3075
+#: views/dolphinview.cpp:3083
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nenašli sa žiadne zariadenia Bluetooth"
 
-#: views/dolphinview.cpp:3077
+#: views/dolphinview.cpp:3085
 #, kde-format
 msgid "Folder is empty"
 msgstr "Priečinok je prázdny"

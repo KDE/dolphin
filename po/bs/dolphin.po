@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-20 01:16+0000\n"
+"POT-Creation-Date: 2026-11-21 01:14+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -1960,12 +1960,12 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:107
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:236
+#: dolphinviewcontainer.cpp:241
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1973,7 +1973,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Učitavanje direktorija..."
 
-#: dolphinviewcontainer.cpp:239
+#: dolphinviewcontainer.cpp:244
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1981,7 +1981,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sortiranje:"
 
-#: dolphinviewcontainer.cpp:805
+#: dolphinviewcontainer.cpp:810
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1989,13 +1989,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pretražujem..."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nema pronađenih stavki."
 
-#: dolphinviewcontainer.cpp:859
+#: dolphinviewcontainer.cpp:864
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File"
@@ -2004,7 +2004,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "%1 datoteka"
 
-#: dolphinviewcontainer.cpp:876
+#: dolphinviewcontainer.cpp:881
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:status"
 #| msgid "Access denied. Could not write to <filename>%1</filename>"
@@ -2012,13 +2012,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Pristup zabranjen. Ne mogu pisati u <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1123
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ne podržava web stranice, pokrenut je web preglednik."
 
-#: dolphinviewcontainer.cpp:1121
+#: dolphinviewcontainer.cpp:1126
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -2027,7 +2027,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podržava protokol, pokrenut je Konqueror."
 
-#: dolphinviewcontainer.cpp:1128
+#: dolphinviewcontainer.cpp:1133
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2035,19 +2035,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:1130
+#: dolphinviewcontainer.cpp:1135
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:1237
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1242
+#: dolphinviewcontainer.cpp:1247
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2055,19 +2055,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Direktorij napravljen,."
 
-#: dolphinviewcontainer.cpp:1259
+#: dolphinviewcontainer.cpp:1264
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1262
+#: dolphinviewcontainer.cpp:1267
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1286
+#: dolphinviewcontainer.cpp:1291
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path in New Tab"
@@ -2075,7 +2075,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Otvori stazu u novoj kartici"
 
-#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
+#: dolphinviewcontainer.cpp:1337 dolphinviewcontainer.cpp:1340
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6348,7 +6348,7 @@ msgid "Column width:"
 msgstr "Najveća širina:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
-#: statusbar/dolphinstatusbar.cpp:415
+#: statusbar/dolphinstatusbar.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -6585,36 +6585,36 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:68
+#: statusbar/dolphinstatusbar.cpp:70
 #, fuzzy, kde-format
 #| msgid "Zoom"
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Uvećaj"
 
-#: statusbar/dolphinstatusbar.cpp:72
+#: statusbar/dolphinstatusbar.cpp:74
 #, kde-format
 msgid "Zoom"
 msgstr "Uvećaj"
 
-#: statusbar/dolphinstatusbar.cpp:73
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Postavlja veličinu datotečnih ikona."
 
-#: statusbar/dolphinstatusbar.cpp:94
+#: statusbar/dolphinstatusbar.cpp:96
 #, kde-format
 msgid "Stop"
 msgstr "Zaustavi"
 
-#: statusbar/dolphinstatusbar.cpp:96
+#: statusbar/dolphinstatusbar.cpp:98
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Zaustavi učitavanje"
 
-#: statusbar/dolphinstatusbar.cpp:155
+#: statusbar/dolphinstatusbar.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -6627,7 +6627,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:347
+#: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
@@ -6691,14 +6691,14 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr ""
 
-#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3017
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -6932,81 +6932,81 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacija '%1' nije valjana."
 
-#: views/dolphinview.cpp:3046
+#: views/dolphinview.cpp:3054
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:3048
+#: views/dolphinview.cpp:3056
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:3050
+#: views/dolphinview.cpp:3058
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:3053
+#: views/dolphinview.cpp:3061
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:3056
+#: views/dolphinview.cpp:3064
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:3059
+#: views/dolphinview.cpp:3067
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Nedavno zatvorene kartice"
 
-#: views/dolphinview.cpp:3061
+#: views/dolphinview.cpp:3069
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:3063
+#: views/dolphinview.cpp:3071
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:3065
+#: views/dolphinview.cpp:3073
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:3067
+#: views/dolphinview.cpp:3075
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nema pronađenih stavki."
 
-#: views/dolphinview.cpp:3070
+#: views/dolphinview.cpp:3078
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No KDE Connect devices found"
 msgstr "Nema pronađenih stavki."
 
-#: views/dolphinview.cpp:3072
+#: views/dolphinview.cpp:3080
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:3075
+#: views/dolphinview.cpp:3083
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:3077
+#: views/dolphinview.cpp:3085
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

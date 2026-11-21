@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-20 01:16+0000\n"
+"POT-Creation-Date: 2026-11-21 01:14+0000\n"
 "PO-Revision-Date: 2026-09-27 14:28+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2115,104 +2115,104 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Katalogen är inte skrivbar för dig."
 
-#: dolphinviewcontainer.cpp:107
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Att köra Dolphin som systemadministratör kan vara farligt. Var försiktig."
 
-#: dolphinviewcontainer.cpp:236
+#: dolphinviewcontainer.cpp:241
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Läser in katalog…"
 
-#: dolphinviewcontainer.cpp:239
+#: dolphinviewcontainer.cpp:244
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sorterar…"
 
-#: dolphinviewcontainer.cpp:805
+#: dolphinviewcontainer.cpp:810
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Söker…"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Inga objekt hittades."
 
-#: dolphinviewcontainer.cpp:859
+#: dolphinviewcontainer.cpp:864
 #, kde-format
 msgctxt "@action"
 msgid "Open as File"
 msgstr "Öppna som fil"
 
-#: dolphinviewcontainer.cpp:876
+#: dolphinviewcontainer.cpp:881
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "Försöker öppna en fil som en katalog: <filename>%1</filename>"
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1123
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin stöder inte webbsidor, webbläsaren har startats"
 
-#: dolphinviewcontainer.cpp:1121
+#: dolphinviewcontainer.cpp:1126
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Protokollet stöds inte av Dolphin, standardprogram har startats"
 
-#: dolphinviewcontainer.cpp:1128
+#: dolphinviewcontainer.cpp:1133
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ogiltigt protokoll '%1'"
 
-#: dolphinviewcontainer.cpp:1130
+#: dolphinviewcontainer.cpp:1135
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Felaktigt protokoll"
 
-#: dolphinviewcontainer.cpp:1237
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Behörighet krävs för att gå in i katalogen."
 
-#: dolphinviewcontainer.cpp:1242
+#: dolphinviewcontainer.cpp:1247
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Skapa saknad katalog"
 
-#: dolphinviewcontainer.cpp:1259
+#: dolphinviewcontainer.cpp:1264
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Skapa katalogen i den här sökvägen och öppna den"
 
-#: dolphinviewcontainer.cpp:1262
+#: dolphinviewcontainer.cpp:1267
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Du har inte rättighet att skapa katalogen"
 
-#: dolphinviewcontainer.cpp:1286
+#: dolphinviewcontainer.cpp:1291
 #, kde-format
 msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "Öppna med %1"
 
-#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
+#: dolphinviewcontainer.cpp:1337 dolphinviewcontainer.cpp:1340
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6160,7 +6160,7 @@ msgid "Column width:"
 msgstr "Maximal bredd:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
-#: statusbar/dolphinstatusbar.cpp:415
+#: statusbar/dolphinstatusbar.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -6391,35 +6391,35 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr "Installera Filelight…"
 
-#: statusbar/dolphinstatusbar.cpp:68
+#: statusbar/dolphinstatusbar.cpp:70
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Zoom:"
 
-#: statusbar/dolphinstatusbar.cpp:72
+#: statusbar/dolphinstatusbar.cpp:74
 #, kde-format
 msgid "Zoom"
 msgstr "Zooma"
 
-#: statusbar/dolphinstatusbar.cpp:73
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Ställer in filikonernas storlek."
 
-#: statusbar/dolphinstatusbar.cpp:94
+#: statusbar/dolphinstatusbar.cpp:96
 #, kde-format
 msgid "Stop"
 msgstr "Stoppa"
 
-#: statusbar/dolphinstatusbar.cpp:96
+#: statusbar/dolphinstatusbar.cpp:98
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Stoppa inläsning"
 
-#: statusbar/dolphinstatusbar.cpp:155
+#: statusbar/dolphinstatusbar.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -6439,7 +6439,7 @@ msgstr ""
 "item><item><emphasis>Utrymmesinformation</emphasis> om den nuvarande "
 "lagringsenheten.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:347
+#: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
@@ -6501,12 +6501,12 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr "En delmängd av inställningarna i Dolphin."
 
-#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3017
 #, kde-format
 msgid "Loading…"
 msgstr "Läser in…"
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
 #, kde-format
 msgid "Loading canceled"
 msgstr "Inläsning avbruten"
@@ -6713,72 +6713,72 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Platsen '%1' är inte giltig."
 
-#: views/dolphinview.cpp:3046
+#: views/dolphinview.cpp:3054
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Inga objekt matchar filtret"
 
-#: views/dolphinview.cpp:3048
+#: views/dolphinview.cpp:3056
 #, kde-format
 msgid "No items matching the search"
 msgstr "Inga objekt matchar sökningen"
 
-#: views/dolphinview.cpp:3050
+#: views/dolphinview.cpp:3058
 #, kde-format
 msgid "Trash is empty"
 msgstr "Papperskorgen är tom"
 
-#: views/dolphinview.cpp:3053
+#: views/dolphinview.cpp:3061
 #, kde-format
 msgid "No tags"
 msgstr "Inga etiketter"
 
-#: views/dolphinview.cpp:3056
+#: views/dolphinview.cpp:3064
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Inga filer med etiketten \"%1\""
 
-#: views/dolphinview.cpp:3059
+#: views/dolphinview.cpp:3067
 #, kde-format
 msgid "No recently used items"
 msgstr "Inga senast använda objekt"
 
-#: views/dolphinview.cpp:3061
+#: views/dolphinview.cpp:3069
 #, kde-format
 msgid "No shared folders found"
 msgstr "Inga delade kataloger hittades"
 
-#: views/dolphinview.cpp:3063
+#: views/dolphinview.cpp:3071
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Inga relevanta nätverksresurser hittades"
 
-#: views/dolphinview.cpp:3065
+#: views/dolphinview.cpp:3073
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Inga MTP-kompatibla enheter hittades"
 
-#: views/dolphinview.cpp:3067
+#: views/dolphinview.cpp:3075
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Inga Apple-enheter hittades"
 
-#: views/dolphinview.cpp:3070
+#: views/dolphinview.cpp:3078
 #, kde-format
 msgid "No KDE Connect devices found"
 msgstr "Inga apparater med KDE-anslut hittades"
 
-#: views/dolphinview.cpp:3072
+#: views/dolphinview.cpp:3080
 #, kde-format
 msgid "No storage found on this device"
 msgstr "Ingen lagring hittades på den här enheten"
 
-#: views/dolphinview.cpp:3075
+#: views/dolphinview.cpp:3083
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Inga Blåtandsenheter hittades"
 
-#: views/dolphinview.cpp:3077
+#: views/dolphinview.cpp:3085
 #, kde-format
 msgid "Folder is empty"
 msgstr "Katalogen är tom"

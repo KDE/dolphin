@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-20 01:16+0000\n"
+"POT-Creation-Date: 2026-11-21 01:14+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1959,12 +1959,12 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:107
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:236
+#: dolphinviewcontainer.cpp:241
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1972,7 +1972,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "กำลังโหลดโฟลเดอร์..."
 
-#: dolphinviewcontainer.cpp:239
+#: dolphinviewcontainer.cpp:244
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1980,7 +1980,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "การเรียงลำดับ:"
 
-#: dolphinviewcontainer.cpp:805
+#: dolphinviewcontainer.cpp:810
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1988,13 +1988,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "กำลังค้นหา..."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ไม่พบรายการใด ๆ"
 
-#: dolphinviewcontainer.cpp:859
+#: dolphinviewcontainer.cpp:864
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste One File"
@@ -2002,7 +2002,7 @@ msgctxt "@action"
 msgid "Open as File"
 msgstr "วาง 1 แฟ้ม"
 
-#: dolphinviewcontainer.cpp:876
+#: dolphinviewcontainer.cpp:881
 #, fuzzy, kde-kuit-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the item <filename>%1</filename> to:"
@@ -2010,13 +2010,13 @@ msgctxt "@info"
 msgid "Trying to open a file as a folder: <filename>%1</filename>"
 msgstr "เปลี่ยนชื่อรายการ <filename>%1</filename> ไปเป็น:"
 
-#: dolphinviewcontainer.cpp:1118
+#: dolphinviewcontainer.cpp:1123
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ดอลฟินยังไม่รองรับหน้าเว็บ จะทำการเรียกเว็บเบราว์เซอร์แทน"
 
-#: dolphinviewcontainer.cpp:1121
+#: dolphinviewcontainer.cpp:1126
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -2025,7 +2025,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ดอลฟินยังไม่รองรับโพรโทคอลนี้ จะทำการเรียกคอนเควอร์เรอร์แทน"
 
-#: dolphinviewcontainer.cpp:1128
+#: dolphinviewcontainer.cpp:1133
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2033,19 +2033,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:1130
+#: dolphinviewcontainer.cpp:1135
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:1237
+#: dolphinviewcontainer.cpp:1242
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1242
+#: dolphinviewcontainer.cpp:1247
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2053,19 +2053,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "โฟลเดอร์ที่สร้าง"
 
-#: dolphinviewcontainer.cpp:1259
+#: dolphinviewcontainer.cpp:1264
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1262
+#: dolphinviewcontainer.cpp:1267
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1286
+#: dolphinviewcontainer.cpp:1291
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -2073,7 +2073,7 @@ msgctxt "@action:button"
 msgid "Open with %1"
 msgstr "ตำแหน่ง"
 
-#: dolphinviewcontainer.cpp:1332 dolphinviewcontainer.cpp:1335
+#: dolphinviewcontainer.cpp:1337 dolphinviewcontainer.cpp:1340
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6370,7 +6370,7 @@ msgid "Column width:"
 msgstr "ความกว้างข้อความ:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
-#: statusbar/dolphinstatusbar.cpp:415
+#: statusbar/dolphinstatusbar.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -6605,31 +6605,31 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:68
+#: statusbar/dolphinstatusbar.cpp:70
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:72
+#: statusbar/dolphinstatusbar.cpp:74
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:73
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:94
+#: statusbar/dolphinstatusbar.cpp:96
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "หยุด"
 
-#: statusbar/dolphinstatusbar.cpp:96
+#: statusbar/dolphinstatusbar.cpp:98
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Stop loading"
@@ -6637,7 +6637,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "หยุดการโหลด"
 
-#: statusbar/dolphinstatusbar.cpp:155
+#: statusbar/dolphinstatusbar.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -6650,7 +6650,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:347
+#: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
@@ -6714,14 +6714,14 @@ msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
 msgstr ""
 
-#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3009
+#: views/dolphincolumnpane.cpp:72 views/dolphinview.cpp:3017
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "กำลังโหลดโฟลเดอร์..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -6937,81 +6937,81 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "ตำแหน่ง '%1' ไม่ถูกต้อง"
 
-#: views/dolphinview.cpp:3046
+#: views/dolphinview.cpp:3054
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "เลือกรายการทั้งหมดที่เข้าเงื่อนไขต่อไปนี้:"
 
-#: views/dolphinview.cpp:3048
+#: views/dolphinview.cpp:3056
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "เลือกรายการทั้งหมดที่เข้าเงื่อนไขต่อไปนี้:"
 
-#: views/dolphinview.cpp:3050
+#: views/dolphinview.cpp:3058
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "ตำแหน่งว่างเปล่า"
 
-#: views/dolphinview.cpp:3053
+#: views/dolphinview.cpp:3061
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:3056
+#: views/dolphinview.cpp:3064
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:3059
+#: views/dolphinview.cpp:3067
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "แท็บที่ถูกปิดไปล่าสุด"
 
-#: views/dolphinview.cpp:3061
+#: views/dolphinview.cpp:3069
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:3063
+#: views/dolphinview.cpp:3071
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:3065
+#: views/dolphinview.cpp:3073
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:3067
+#: views/dolphinview.cpp:3075
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "ไม่พบรายการใด ๆ"
 
-#: views/dolphinview.cpp:3070
+#: views/dolphinview.cpp:3078
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No KDE Connect devices found"
 msgstr "ไม่พบรายการใด ๆ"
 
-#: views/dolphinview.cpp:3072
+#: views/dolphinview.cpp:3080
 #, kde-format
 msgid "No storage found on this device"
 msgstr ""
 
-#: views/dolphinview.cpp:3075
+#: views/dolphinview.cpp:3083
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:3077
+#: views/dolphinview.cpp:3085
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
