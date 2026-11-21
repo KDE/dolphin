@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:42+0000\n"
-"PO-Revision-Date: 2026-11-13 13:50+0200\n"
+"PO-Revision-Date: 2026-11-17 08:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <kde-l10n-he@kde.org>\n"
 "Language: he\n"
@@ -6892,6 +6892,9 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>מחליף למצב תצוגת עמודות (עמודות מילר). כל רתמ תיקיות מופיעה בעמודה "
+"משלה, מתפרסת אופקית מימין לשמאל.</para><para>בחירת תיקייה פותחת את תוכנה "
+"בעמודה הבאה משמאל.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
