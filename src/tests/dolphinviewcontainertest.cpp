@@ -128,11 +128,21 @@ void DolphinViewContainerTest::init()
     // folder without properties of its own would open in that mode.
     QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/view_properties")).removeRecursively();
 
+    // QtTest skips cleanup() after a failed init(), so init() runs it itself.
+    auto cleanupOnFailure = qScopeGuard([this]() {
+        if (QTest::currentTestFailed()) {
+            cleanup();
+        }
+    });
+
     m_testDir = new TestDir();
     m_testDir->createDir("subdir");
     m_testDir->createFile("file1.txt");
     m_testDir->createFile("file2.txt");
     waitForItemListed(m_testDir->url());
+    if (QTest::currentTestFailed()) {
+        return;
+    }
 
     m_container = new DolphinViewContainer(m_testDir->url(), nullptr);
     m_container->resize(800, 600);
@@ -153,14 +163,22 @@ void DolphinViewContainerTest::cleanup()
 
 void DolphinViewContainerTest::waitForViewReady()
 {
-    QTRY_VERIFY_WITH_TIMEOUT(m_container->view()->itemsCount() > 0, 5000);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_container->view()->itemsCount() > 0,
+                              qPrintable(QStringLiteral("The view of %1 shows no items").arg(m_container->view()->url().toString())),
+                              5000);
 }
 
 void DolphinViewContainerTest::waitForItemListed(const QUrl &url)
 {
     KCoreDirLister lister;
     lister.openUrl(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash), KCoreDirLister::Reload);
-    QTRY_VERIFY_WITH_TIMEOUT(lister.isFinished() && !lister.findByUrl(url).isNull(), 5000);
+    QTRY_VERIFY2_WITH_TIMEOUT(lister.isFinished() && !lister.findByUrl(url).isNull(),
+                              qPrintable(QStringLiteral("Listing of %1: finished %2, %3 items, %4 missing")
+                                             .arg(lister.url().toString())
+                                             .arg(lister.isFinished())
+                                             .arg(lister.items().count())
+                                             .arg(url.fileName())),
+                              5000);
 }
 
 void DolphinViewContainerTest::testSetViewMode_iconsToDetails()
