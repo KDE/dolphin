@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:42+0000\n"
-"PO-Revision-Date: 2026-10-05 00:20+0200\n"
+"PO-Revision-Date: 2026-11-21 23:42+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -709,24 +709,18 @@ msgstr ""
 "게 표시됩니다.</para>이 단추를 다시 클릭하면 보기 중 하나를 닫습니다."
 
 #: dolphinmainwindow.cpp:2072
-#, fuzzy, kde-format
-#| msgctxt "@action Split view name in configuration dialogs"
-#| msgid "Split View"
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "보기 나누기"
+msgstr "보기를 탭으로 떼내기"
 
 #: dolphinmainwindow.cpp:2073
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
-msgstr "보기를 나눴을 때 현재 활성 보기를 새 창으로 떼냅니다."
+msgstr "이 보기가 나뉘면 양쪽 보기를 탭으로 전환하고 분할 보기를 닫습니다."
 
 #: dolphinmainwindow.cpp:2080
 #, kde-kuit-format
@@ -1918,15 +1912,13 @@ msgstr "탭 떼내기"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "탭 고정 해제"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "이전 탭"
+msgstr "탭 고정"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2553,6 +2545,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"파일 검색이 비활성화되었습니다. 이 정보를 보려면 시스템 설정에서 활성화하십시"
+"오."
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2561,14 +2555,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"파일 검색에서 파일 이름만의 색인을 생성합니다. 이 정보를 보려면 시스템 설정에"
+"서 파일 내용 색인을 활성화하십시오."
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "이 폴더에 쓰기 권한이 없습니다."
+msgstr "이 폴더는 파일 검색에서 색인을 생성하지 않았습니다."
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2577,6 +2571,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"이 정보는 파일 검색에서 오지만, 현재 Dolphin 버전에서 지원하도록 빌드되지 않"
+"았습니다."
 
 #: kitemviews/kfileitemmodel.cpp:2845
 #, kde-format
@@ -3269,7 +3265,7 @@ msgstr "문서화"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4289,25 +4285,25 @@ msgstr "미리 보기 크기"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "픽셀 단위의 열 최소 너비"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "내용에 맞게 조절된 픽셀 단위의 열 최소 너비"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "스크롤하기 전에 표시된 최대 행 개수"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "열 너비를 내용에 맞게 조정"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4506,18 +4502,14 @@ msgstr "보기 모드"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"이 옵션은 보기의 스타일을 결정합니다. 지원하는 값은 아이콘(0), 자세히(1)와 "
-"열 보기(2)입니다."
+"이 옵션은 보기의 스타일을 결정합니다. 지원하는 값은 아이콘(0), 자세히(1), 축"
+"소됨(2)과 열 보기(3)입니다."
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4924,7 +4916,7 @@ msgstr "텍스트 너비 인덱스"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "항목을 더 가깝게 배치"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5322,11 +5314,10 @@ msgid "Information Panel:"
 msgstr "정보 패널:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "홈 디렉터리 안에 있을 때 폴더 패널에 홈 디렉터리만 표시"
+msgstr "홈 디렉터리 내에 있을 때 홈 디렉터리로 제한"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5334,7 +5325,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
-msgstr ""
+msgstr "홈 폴더 내에 있을 때 폴더 패널의 폴더 트리를 홈 폴더에서 시작합니다."
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5346,14 +5337,16 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>이 옵션이 활성화되었고 현재 폴더가 홈 폴더 내에 있다면 폴더 패널에서는 "
+"현재 홈 폴더와 그 하위 폴더만 표시합니다. 루트 폴더나 다른 드라이브는 패널에 "
+"표시되지 않습니다.</para><para>홈 폴더 외부에서는 폴더 패널에 루트 폴더에서 "
+"시작한 전체 폴더를 표시합니다.</para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "폴더:"
+msgstr "폴더 패널:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5829,7 +5822,7 @@ msgstr "내용 표시"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "열"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -5928,9 +5921,7 @@ msgid "Maximum lines:"
 msgstr "최대 줄 수:"
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "축소됨"
@@ -5939,15 +5930,13 @@ msgstr "축소됨"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "항목을 더 가깝게 배치하여 한 줄에 더 많은 항목을 배치합니다."
 
 #: settings/viewmodes/viewsettingstab.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "다음으로 검색:"
+msgstr "간격:"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
@@ -6014,21 +6003,19 @@ msgstr "파일이나 폴더 열기:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "고정"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "내용에 맞게 조정"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "최대 너비:"
+msgstr "열 너비:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6066,7 +6053,7 @@ msgstr "자세히"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "열"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -6809,6 +6796,10 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>이 옵션은 열 보기 모드(Miller 열)로 전환합니다. 각 디렉터리 수준은 개"
+"별 열로 표시되며, 왼쪽에서 오른쪽으로 갈 수록 더 낮은 계층 구조를 표시합니다."
+"</para><para>폴더를 선택하면 해당 폴더의 내용을 오른쪽에 있는 열에 표시합니"
+"다.</para>"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -7053,15 +7044,13 @@ msgstr "자세히 보기 모드"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "열"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "아이콘 보기 모드"
+msgstr "열 보기 모드"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
