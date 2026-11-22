@@ -37,6 +37,7 @@ private Q_SLOTS:
     void testAFileThatKeepsChangingGetsItsPreviewOnceItIsQuiet();
     void testFolderItemCountFollowsHiddenFiles_data();
     void testFolderItemCountFollowsHiddenFiles();
+    void testFolderSizeOnDisk();
 };
 
 void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
@@ -177,6 +178,41 @@ void KFileItemModelRolesUpdaterTest::testFolderItemCountFollowsHiddenFiles()
     QTRY_COMPARE(model.data(0).value("count").toInt(), expectedCount);
 }
 
+void KFileItemModelRolesUpdaterTest::testFolderSizeOnDisk()
+{
+#ifdef Q_OS_WIN
+    QSKIP("the walker is not used on Windows");
+#else
+    // With "Show size of contents", a folder shows the size on disk of the folder and what it holds.
+    const auto previousMode = ContentDisplaySettings::directorySizeMode();
+    ContentDisplaySettings::setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::ContentSize);
+    const auto restoreMode = qScopeGuard([previousMode] {
+        ContentDisplaySettings::setDirectorySizeMode(previousMode);
+    });
+
+    TestDir testDir;
+    testDir.createFile(QStringLiteral("folder/file.txt"), QByteArray(10000, 'x'));
+
+    long long expected = 0;
+    for (const QString &path : {QStringLiteral("folder"), QStringLiteral("folder/file.txt")}) {
+        struct stat st;
+        QCOMPARE(::lstat(QFile::encodeName(testDir.path() + QLatin1Char('/') + path).constData(), &st), 0);
+        expected += st.st_blocks * 512LL;
+    }
+
+    KFileItemModel model;
+    KFileItemModelRolesUpdater updater(&model);
+    updater.setRoles({"text", "sizeOnDisk"});
+    QSignalSpy loadingCompletedSpy(&model, &KFileItemModel::directoryLoadingCompleted);
+    model.loadDirectory(testDir.url());
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(model.count(), 1);
+    updater.setVisibleIndexRange(0, 1);
+
+    QTRY_COMPARE(model.data(0).value("sizeOnDisk").toLongLong(), expected);
+#endif
+}
+
 void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerDoesNotChangeCwd()
 {
 #ifdef Q_OS_WIN
@@ -215,6 +251,7 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals_da
     QTest::addColumn<int>("maxRecursiveLevel");
     QTest::addColumn<int>("expectedCount");
     QTest::addColumn<QStringList>("sizedFiles");
+    QTest::addColumn<QStringList>("enteredDirs");
 
     // a, .git, link, top.txt and empty are visible, .hidden and .hiddenfile are not
     const QStringList visible{QStringLiteral("a/f1"),
@@ -222,10 +259,13 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals_da
                               QStringLiteral("a/b/c/f3"),
                               QStringLiteral(".git/f5"),
                               QStringLiteral("top.txt")};
-    QTest::newRow("visible only") << false << 10 << 5 << visible;
-    QTest::newRow("hidden too") << true << 10 << 7 << (visible + QStringList{QStringLiteral(".hidden/f4"), QStringLiteral(".hiddenfile")});
+    const QStringList visibleDirs{QStringLiteral("."), QStringLiteral("a"), QStringLiteral("a/b"), QStringLiteral("a/b/c"), QStringLiteral(".git")};
+    QTest::newRow("visible only") << false << 10 << 5 << visible << visibleDirs;
+    QTest::newRow("hidden too") << true << 10 << 7 << (visible + QStringList{QStringLiteral(".hidden/f4"), QStringLiteral(".hiddenfile")})
+                                << (visibleDirs + QStringList{QStringLiteral(".hidden")});
     // a and .git are entered, a/b is not
-    QTest::newRow("one level") << false << 1 << 5 << QStringList{QStringLiteral("a/f1"), QStringLiteral(".git/f5"), QStringLiteral("top.txt")};
+    QTest::newRow("one level") << false << 1 << 5 << QStringList{QStringLiteral("a/f1"), QStringLiteral(".git/f5"), QStringLiteral("top.txt")}
+                               << QStringList{QStringLiteral("."), QStringLiteral("a"), QStringLiteral(".git")};
 }
 
 void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals()
@@ -237,6 +277,7 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals()
     QFETCH(int, maxRecursiveLevel);
     QFETCH(int, expectedCount);
     QFETCH(QStringList, sizedFiles);
+    QFETCH(QStringList, enteredDirs);
 
     TestDir testDir;
     testDir.createFile(QStringLiteral("a/f1"), QByteArray(100, 'x'));
@@ -253,12 +294,20 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals()
     // The size adds the files that use disk blocks. Some file systems, such as ZFS, report no
     // blocks for a file that was just written, so the expected size follows what lstat reports.
     long long expectedSize = 0;
+    long long expectedSizeOnDisk = 0;
     for (const QString &file : std::as_const(sizedFiles)) {
         struct stat st;
         QCOMPARE(::lstat(QFile::encodeName(testDir.path() + QLatin1Char('/') + file).constData(), &st), 0);
         if (st.st_blocks > 0) {
             expectedSize += st.st_size;
         }
+        expectedSizeOnDisk += st.st_blocks * 512LL;
+    }
+    // the size on disk adds the blocks of the folders the walk enters
+    for (const QString &dir : std::as_const(enteredDirs)) {
+        struct stat st;
+        QCOMPARE(::lstat(QFile::encodeName(testDir.path() + QLatin1Char('/') + dir).constData(), &st), 0);
+        expectedSizeOnDisk += st.st_blocks * 512LL;
     }
 
     KDirectoryContentsCounterWorker worker;
@@ -270,6 +319,7 @@ void KFileItemModelRolesUpdaterTest::testDirectoryContentsCounterWorkerTotals()
     const QList<QVariant> arguments = resultSpy.takeFirst();
     QCOMPARE(arguments.at(1).toInt(), expectedCount);
     QCOMPARE(arguments.at(2).toLongLong(), expectedSize);
+    QCOMPARE(arguments.at(3).toLongLong(), expectedSizeOnDisk);
 #endif
 }
 

@@ -2011,6 +2011,7 @@ Qt::SortOrder DolphinView::defaultSortOrderForRole(const QByteArray &role)
                                                      "releaseYear",
                                                      // Size/dimension roles
                                                      "size",
+                                                     "sizeOnDisk",
                                                      "width",
                                                      "height",
                                                      "pageCount",

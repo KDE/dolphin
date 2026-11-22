@@ -1377,6 +1377,12 @@ sorting will be used, which leads to the sort order
 It is possible to sort folders by number of items by choosing <guilabel>Show number of items</guilabel> or by the size of the contents by choosing <guilabel>Show size of contents</guilabel>.
 The recursion level can be limited, which can be useful to constrain unneeded iterations in deep folder structures or on slow file systems.
 It is also possible to disable displaying folder size by choosing <guilabel>Show no size</guilabel> (which might improve performance in rare cases, however impacts other features like sorting).
+</para>
+<para>
+The <guilabel>Size on Disk</guilabel> column shows the space the file system allocated to a file, rather
+than the size of its data: more for a file whose last block is partly unused, less for a sparse or a
+compressed one. With <guilabel>Show size of contents</guilabel>, a folder shows the space allocated to
+it and to everything inside it, within the same recursion level. It is only known for local files.
 </para></listitem>
 
 <listitem><para>

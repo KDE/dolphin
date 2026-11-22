@@ -15,6 +15,8 @@
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "views/draganddrophelper.h"
 
+#include <kio_version.h>
+
 #include <KDirLister>
 #include <KFileMetaData/UserMetaData>
 #include <KIO/Job>
@@ -316,6 +318,28 @@ Qt::strong_ordering decimalAwareNaturalCompare(QStringView a, QStringView b, con
 
     return orderingFromInt(a.compare(b, Qt::CaseSensitive));
 }
+}
+
+// The size on disk of a file, which the listing carries when it was asked for it.
+static std::optional<KIO::filesize_t> fileSizeOnDisk(const KFileItem &item)
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    return item.sizeOnDisk();
+#else
+    Q_UNUSED(item)
+    return std::nullopt;
+#endif
+}
+
+// The size on disk of a file or folder, or -1 when it is not known.
+static long long itemSizeOnDisk(const KFileItem &item, const SmallHash &values)
+{
+    if (item.isDir()) {
+        const QVariant value = values.value("sizeOnDisk");
+        return value.isNull() ? -1 : value.toLongLong();
+    }
+    const std::optional<KIO::filesize_t> sizeOnDisk = fileSizeOnDisk(item);
+    return sizeOnDisk ? static_cast<long long>(*sizeOnDisk) : -1;
 }
 
 KFileItemModel::KFileItemModel(QObject *parent)
@@ -730,7 +754,8 @@ QList<std::pair<int, QVariant>> KFileItemModel::groups() const
             m_groups = nameRoleGroups();
             break;
         case SizeRole:
-            m_groups = sizeRoleGroups();
+        case SizeOnDiskRole:
+            m_groups = sizeRoleGroups(typeForRole(groupRole()));
             break;
         case ModificationTimeRole:
             m_groups = timeRoleGroups([](const ItemData *item) {
@@ -902,6 +927,24 @@ void KFileItemModel::setRoles(const QSet<QByteArray> &roles)
         const QByteArray &role = it.next();
         m_requestRole[typeForRole(role)] = true;
     }
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    if (m_dirLister->requestSizeOnDiskWhileListing() != m_requestRole[SizeOnDiskRole]) {
+        m_dirLister->setRequestSizeOnDiskWhileListing(m_requestRole[SizeOnDiskRole]);
+        if (m_requestRole[SizeOnDiskRole]) {
+            // The files listed so far carry no size on disk. Queued, because a view that changes
+            // folder sets its roles before it loads the new one.
+            QMetaObject::invokeMethod(
+                this,
+                [this, url = directory()] {
+                    if (!url.isEmpty() && directory() == url) {
+                        refreshDirectory(url);
+                    }
+                },
+                Qt::QueuedConnection);
+        }
+    }
+#endif
 
     if (count() > 0) {
         // Update m_data with the changed requested roles
@@ -2357,6 +2400,12 @@ SmallHash KFileItemModel::retrieveData(const KFileItem &item, const ItemData *pa
         data.insert(sharedValue("size"), item.size());
     }
 
+    if (m_requestRole[SizeOnDiskRole] && !isDir) {
+        if (const std::optional<KIO::filesize_t> sizeOnDisk = fileSizeOnDisk(item)) {
+            data.insert(sharedValue("sizeOnDisk"), *sizeOnDisk);
+        }
+    }
+
     if (m_requestRole[ModificationTimeRole]) {
         // Don't use KFileItem::timeString() or KFileItem::time() as this is too expensive when
         // having several thousands of items. Instead read the raw number from UDSEntry directly
@@ -2649,6 +2698,17 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         break;
     }
 
+    case SizeOnDiskRole: {
+        const long long sizeA = itemSizeOnDisk(itemA, a->values);
+        const long long sizeB = itemSizeOnDisk(itemB, b->values);
+        if (sizeA < sizeB) {
+            return -1;
+        } else if (sizeA > sizeB) {
+            return +1;
+        }
+        break;
+    }
+
     case ModificationTimeRole: {
         const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
         const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
@@ -2868,7 +2928,7 @@ QList<std::pair<int, QVariant>> KFileItemModel::nameRoleGroups() const
     return groups;
 }
 
-QList<std::pair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
+QList<std::pair<int, QVariant>> KFileItemModel::sizeRoleGroups(RoleType role) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
@@ -2882,13 +2942,16 @@ QList<std::pair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
         }
 
         const KFileItem &item = m_itemData.at(i)->item;
-        KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
+        KIO::filesize_t fileSize = ~0U;
+        if (!item.isNull()) {
+            fileSize = role == SizeOnDiskRole ? fileSizeOnDisk(item).value_or(0) : item.size();
+        }
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
             if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount || m_sortDirsFirst) {
                 newGroupValue = i18nc("@title:group Size", "Folders");
             } else {
-                fileSize = m_itemData.at(i)->values.value("size").toULongLong();
+                fileSize = m_itemData.at(i)->values.value(roleForType(role)).toULongLong();
             }
         }
 
@@ -3274,6 +3337,9 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { nullptr,               NoRole,                  KLazyLocalizedString(),                    KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
         { "text",                NameRole,                kli18nc("@label", "Name"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
         { "size",                SizeRole,                kli18nc("@label", "Size"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+        { "sizeOnDisk",          SizeOnDiskRole,          kli18nc("@label", "Size on Disk"),         KLazyLocalizedString(),        kli18nc("@tooltip", "The space the file system allocated, rather than the size of the data. Folders show it when their size is the size of their contents."), false, false },
+#endif
         { "modificationtime",    ModificationTimeRole,    kli18nc("@label", "Modified"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
         { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
         { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },

@@ -121,6 +121,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     connect(m_recentlyChangedItemsTimer, &QTimer::timeout, this, &KFileItemModelRolesUpdater::resolveRecentlyChangedItems);
 
     m_resolvableRoles.insert("size");
+    m_resolvableRoles.insert("sizeOnDisk");
     m_resolvableRoles.insert("type");
     m_resolvableRoles.insert("isExpandable");
 #if HAVE_BALOO
@@ -913,12 +914,13 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long long size)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long long size, long long sizeOnDisk)
 {
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
     const bool getSizeRole = m_roles.contains("size");
+    const bool getSizeOnDiskRole = m_roles.contains("sizeOnDisk");
 
-    if (getSizeRole || getIsExpandableRole) {
+    if (getSizeRole || getSizeOnDiskRole || getIsExpandableRole) {
         const int index = m_model->index(QUrl::fromLocalFile(path));
         if (index >= 0) {
             SmallHash data;
@@ -926,6 +928,9 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
             if (getSizeRole) {
                 data.insert("count", count);
                 data.insert("size", QVariant::fromValue(size));
+            }
+            if (getSizeOnDiskRole) {
+                data.insert("sizeOnDisk", QVariant::fromValue(sizeOnDisk));
             }
             if (getIsExpandableRole) {
                 data.insert("isExpandable", count > 0);
@@ -1252,7 +1257,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         }
 
         data.insert("type", item.mimeComment());
-    } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
+    } else if ((m_model->sortRole() == "size" || m_model->sortRole() == "sizeOnDisk") && item.isLocalFile() && item.isDir()) {
         startDirectorySizeCounting(item, index);
         return;
     } else {
@@ -1420,8 +1425,11 @@ SmallHash KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index
 
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
+    // only the walk that sums the contents of a folder finds its size on disk
+    const bool getSizeOnDiskRole =
+        m_roles.contains("sizeOnDisk") && ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentSize;
 
-    if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
+    if ((getSizeRole || getSizeOnDiskRole || getIsExpandableRole) && item.isDir()) {
         startDirectorySizeCounting(item, index);
     }
 

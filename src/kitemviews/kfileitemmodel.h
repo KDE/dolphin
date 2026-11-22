@@ -337,6 +337,7 @@ private:
         NoRole,
         NameRole,
         SizeRole,
+        SizeOnDiskRole,
         ModificationTimeRole,
         CreationTimeRole,
         AccessTimeRole,
@@ -484,7 +485,7 @@ private:
     int stringCompare(const QString &a, const QString &b, const QCollator &collator) const;
 
     QList<std::pair<int, QVariant>> nameRoleGroups() const;
-    QList<std::pair<int, QVariant>> sizeRoleGroups() const;
+    QList<std::pair<int, QVariant>> sizeRoleGroups(RoleType role) const;
     QList<std::pair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
     QList<std::pair<int, QVariant>> permissionRoleGroups() const;
     QList<std::pair<int, QVariant>> ratingRoleGroups() const;

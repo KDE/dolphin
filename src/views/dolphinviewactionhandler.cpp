@@ -864,7 +864,8 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray &role)
     if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
         descending->setText(i18nc("Sort descending", "Z-A"));
         ascending->setText(i18nc("Sort ascending", "A-Z"));
-    } else if (role == "size" || role == "width" || role == "height" || role == "pageCount" || role == "wordCount" || role == "lineCount") {
+    } else if (role == "size" || role == "sizeOnDisk" || role == "width" || role == "height" || role == "pageCount" || role == "wordCount"
+               || role == "lineCount") {
         descending->setText(i18nc("Sort descending", "Largest First"));
         ascending->setText(i18nc("Sort ascending", "Smallest First"));
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime" || role == "imageDateTime" || role == "releaseYear") {

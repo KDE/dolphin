@@ -11,6 +11,8 @@
 #include <QStandardPaths>
 #include <QTest>
 #include <QTimer>
+#include <kio_version.h>
+#include <qplatformdefs.h>
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -59,6 +61,7 @@ private Q_SLOTS:
     void testBackupFilesAreHidden();
     void testDefaultSortRole();
     void testDefaultGroupedSorting();
+    void testSizeOnDiskRole();
     void testNewItems();
     void testRemoveItems();
     void testDirLoadingCompleted();
@@ -241,6 +244,39 @@ void KFileItemModelTest::testDefaultSortRole()
     QCOMPARE(m_model->data(0).value("text").toString(), QStringLiteral("a.txt"));
     QCOMPARE(m_model->data(1).value("text").toString(), QStringLiteral("b.txt"));
     QCOMPARE(m_model->data(2).value("text").toString(), QStringLiteral("c.txt"));
+}
+
+void KFileItemModelTest::testSizeOnDiskRole()
+{
+#if defined(Q_OS_WIN) || KIO_VERSION < QT_VERSION_CHECK(6, 33, 0)
+    QSKIP("The size on disk needs a Unix system and KIO 6.33");
+#else
+    m_testDir->createFile(QStringLiteral("small.txt"), "hello");
+    m_testDir->createFile(QStringLiteral("big.txt"), QByteArray(100000, 'x'));
+
+    const auto sizeOnDisk = [this](const QString &name) {
+        QT_STATBUF buf;
+        if (QT_LSTAT(QFile::encodeName(m_testDir->path() + QLatin1Char('/') + name).constData(), &buf) != 0) {
+            return KIO::filesize_t(0);
+        }
+        return KIO::filesize_t(buf.st_blocks) * 512;
+    };
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    m_model->setRoles({"text"});
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 2);
+
+    // the folder was listed without the size on disk, so adding the role lists it again
+    m_model->setRoles({"text", "sizeOnDisk"});
+    m_model->setSortRole("sizeOnDisk");
+    QTRY_COMPARE(m_model->data(0).value("sizeOnDisk").toULongLong(), sizeOnDisk(QStringLiteral("small.txt")));
+    QCOMPARE(m_model->count(), 2);
+    QCOMPARE(m_model->data(0).value("text").toString(), QStringLiteral("small.txt"));
+    QCOMPARE(m_model->data(1).value("text").toString(), QStringLiteral("big.txt"));
+    QCOMPARE(m_model->data(1).value("sizeOnDisk").toULongLong(), sizeOnDisk(QStringLiteral("big.txt")));
+#endif
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()

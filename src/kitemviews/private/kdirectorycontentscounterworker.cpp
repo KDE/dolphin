@@ -34,6 +34,16 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject *parent
 #if !defined(Q_OS_WIN) && !defined(Q_OS_HAIKU)
 namespace
 {
+// POSIX leaves the unit of st_blocks open, S_BLKSIZE names it where the system defines it.
+long long blocksToBytes(blkcnt_t blocks)
+{
+#ifdef S_BLKSIZE
+    return static_cast<long long>(blocks) * S_BLKSIZE;
+#else
+    return static_cast<long long>(blocks) * 512;
+#endif
+}
+
 // Walks a folder with openat() and fstatat() relative to the parent folder, so the kernel resolves
 // one name per entry and the process working directory stays the same. When the file system fills
 // d_type, only regular files get a stat call, and hidden entries are skipped by name first.
@@ -67,6 +77,8 @@ public:
             return false;
         }
         m_ancestors.append(st.st_ino);
+        // some file systems, ext4 and FAT among them, allocate blocks for the entries of a folder
+        totalSizeOnDisk += blocksToBytes(st.st_blocks);
         return true;
     }
 
@@ -125,6 +137,7 @@ public:
                     if (st.st_blocks > 0) {
                         totalSize += st.st_size;
                     }
+                    totalSizeOnDisk += blocksToBytes(st.st_blocks);
                 } else {
                     isDir = S_ISDIR(st.st_mode);
                 }
@@ -149,7 +162,7 @@ public:
 
             // delay intermediate results
             if (m_timer.hasExpired(200)) {
-                Q_EMIT m_worker->intermediateResult(m_rootPath, totalCount, totalSize);
+                Q_EMIT m_worker->intermediateResult(m_rootPath, totalCount, totalSize, totalSizeOnDisk);
                 m_timer.restart();
             }
         }
@@ -158,6 +171,7 @@ public:
     }
 
     long long totalSize = 0;
+    long long totalSizeOnDisk = 0;
     int totalCount = 0;
     // true when a read failed, so the totals miss part of the tree
     bool incomplete = false;
@@ -183,9 +197,9 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
         const int openError = errno;
         // a folder that cannot be listed counts as empty, a missing one as unknown
         if (openError == EACCES) {
-            Q_EMIT result(dirPath, 0, 0);
+            Q_EMIT result(dirPath, 0, 0, 0);
         } else {
-            Q_EMIT result(dirPath, -1, -1);
+            Q_EMIT result(dirPath, -1, -1, -1);
         }
         return;
     }
@@ -193,14 +207,14 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
     SizeWalker walker(this, dirPath, m_stopping, countHiddenFiles, allowedRecursiveLevel);
     if (!walker.enter(rootFd)) {
         ::close(rootFd);
-        Q_EMIT result(dirPath, -1, -1);
+        Q_EMIT result(dirPath, -1, -1, -1);
         return;
     }
-    Q_EMIT intermediateResult(dirPath, 0, 0);
+    Q_EMIT intermediateResult(dirPath, 0, 0, 0);
     walker.walk(rootFd, 0);
 
     if (!m_stopping && !walker.incomplete) {
-        Q_EMIT result(dirPath, walker.totalCount, walker.totalSize);
+        Q_EMIT result(dirPath, walker.totalCount, walker.totalSize, walker.totalSizeOnDisk);
     }
 }
 #endif
@@ -231,7 +245,7 @@ void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path
         filters |= QDir::Hidden;
     }
 
-    Q_EMIT result(path, static_cast<int>(dir.entryList(filters).count()), 0);
+    Q_EMIT result(path, static_cast<int>(dir.entryList(filters).count()), 0, 0);
 #else
 
     m_scannedPath = path;

@@ -13,6 +13,7 @@
 
 #include <KFormat>
 #include <KLocalizedString>
+#include <kcoreaddons_version.h>
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -82,6 +83,18 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const Sma
             const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
             text = formatter.formatByteSize(size);
         }
+    } else if (role == "sizeOnDisk") {
+        // a folder holds -1 while its size is unknown
+        bool ok = false;
+        const long long size = roleValue.toLongLong(&ok);
+        if (ok && size >= 0) {
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+            // a whole number of blocks, so "4 KiB" rather than "4.0 KiB"
+            text = formatter.formatByteSize(size, 1, KFormat::DefaultBinaryDialect, KFormat::DefaultBinaryUnits, KFormat::OmitZeroFraction);
+#else
+            text = formatter.formatByteSize(size);
+#endif
+        }
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
         bool ok;
         const long long time = roleValue.toLongLong(&ok);
@@ -142,7 +155,7 @@ KItemListWidgetInformant *KFileItemListWidget::createInformant()
 
 bool KFileItemListWidget::isRoleRightAligned(const QByteArray &role) const
 {
-    return role == "size" || role == "permissions";
+    return role == "size" || role == "sizeOnDisk" || role == "permissions";
 }
 
 bool KFileItemListWidget::isHidden() const
