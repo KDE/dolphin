@@ -43,15 +43,16 @@ RuntimeDependencies:
     'sdk/selenium-webdriver-at-spi': '@latest-kf6'
 
 Options:
- use-ccache: True
+ use-ccache: true
  per-test-timeout: 300
  require-passing-tests-on: ['Linux/Qt6', 'FreeBSD/Qt6']
  commit-checks: ['bug-links', 'missing-since', 'since-version']
- enable-lsan: True
- cppcheck-arguments: '--library=qt --library=kde --check-level=exhaustive --enable=warning,style,performance --inline-suppr'
+ enable-lsan: true
+ cppcheck-arguments: >-
+  --library=qt --library=kde --check-level=exhaustive
+  --enable=warning,style,performance --inline-suppr
  cppcheck-ignore-files:
   - src/tests/
   - appiumtests/
  # Set to True once all existing findings are resolved
- require-cppcheck-clean: False
-
+ require-cppcheck-clean: false
