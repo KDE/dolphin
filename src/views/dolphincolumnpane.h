@@ -97,6 +97,8 @@ private Q_SLOTS:
 
 private:
     void checkActiveChildSelected();
+    /// Scrolls to the marked child when none of it is in view, once the column has a height.
+    void scrollToActiveChild();
     void measureInsertedNames(const KItemRangeList &ranges);
     qreal nameWidth(int index) const;
 
@@ -118,6 +120,7 @@ private:
     int m_appliedWidth = 0;
     bool m_selectionCheckPending = false;
     bool m_itemsRemoved = false;
+    bool m_scrollToActiveChildPending = false;
     /// The width of the longest name, measured only for the items inserted since the last full
     /// measure. A removal or a rename makes the next calculateOptimalWidth() measure all names.
     mutable bool m_widestNameValid = false;

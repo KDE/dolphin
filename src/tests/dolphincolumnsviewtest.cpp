@@ -184,6 +184,8 @@ private Q_SLOTS:
     void testChangingTheUrlLeavesTheFocusOutsideTheView();
     void testGoingUpKeepsTheFolderLeftCurrent();
     void testGoingUpShowsTheColumnOfTheUrl();
+    void testAColumnShowsItsOpenFolder_data();
+    void testAColumnShowsItsOpenFolder();
     void testAClickedItemTakesTheHighlightFromTheActiveOne();
     void testGroupingAndSortingApplyToEveryColumn();
     void testClickingEmptySpaceClosesTheColumnsAfterIt();
@@ -2992,6 +2994,46 @@ void DolphinColumnsViewTest::testGoingUpShowsTheColumnOfTheUrl()
         return left >= 0 && left + column->width() <= viewport->width();
     };
     QTRY_VERIFY_WITH_TIMEOUT(isShownWhole(m_view->columnAt(1)), 5000);
+}
+
+void DolphinColumnsViewTest::testAColumnShowsItsOpenFolder_data()
+{
+    QTest::addColumn<bool>("goingUp");
+
+    QTest::newRow("url of a deeper folder") << false;
+    QTest::newRow("going up from a folder") << true;
+}
+
+void DolphinColumnsViewTest::testAColumnShowsItsOpenFolder()
+{
+    // A column that opens with a folder of its own already open is scrolled to that folder, which
+    // otherwise can be below the part of the column in view.
+    QFETCH(bool, goingUp);
+    for (int i = 0; i < 100; ++i) {
+        m_testDir->createDir(QStringLiteral("beta/d%1").arg(i, 3, 10, QLatin1Char('0')));
+    }
+    m_testDir->createDir(QStringLiteral("beta/d090/inner"));
+
+    int betaColumn = 1;
+    if (goingUp) {
+        m_view->rebuildColumnsForUrl(urlOf(QStringLiteral("beta/d090")));
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 1, 5000);
+        m_view->prependColumnsUpTo(urlOf(QStringLiteral("beta")));
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 2, 5000);
+        betaColumn = 0;
+    } else {
+        m_view->setUrl(urlOf(QStringLiteral("beta/d090/inner")));
+        QTRY_COMPARE_WITH_TIMEOUT(m_view->columnCount(), 4, 5000);
+    }
+
+    DolphinColumnPane *betaPane = m_view->columnAt(betaColumn);
+    QCOMPARE(betaPane->dirUrl().adjusted(QUrl::StripTrailingSlash), urlOf(QStringLiteral("beta")));
+    QTRY_VERIFY_WITH_TIMEOUT(indexOfName(betaPane, QStringLiteral("d090")) >= 0, 5000);
+    const int index = indexOfName(betaPane, QStringLiteral("d090"));
+    // The folder is out of view unless the column scrolls to it.
+    QVERIFY(index > 40);
+    KItemListView *view = betaPane->itemListView();
+    QTRY_VERIFY_WITH_TIMEOUT(view->firstVisibleIndex() <= index && index <= view->lastVisibleIndex(), 5000);
 }
 
 void DolphinColumnsViewTest::testAClickedItemTakesTheHighlightFromTheActiveOne()

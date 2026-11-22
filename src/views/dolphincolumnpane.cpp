@@ -90,6 +90,8 @@ DolphinColumnPane::DolphinColumnPane(KFileItemModel *model, QWidget *parent)
     connect(m_controller->selectionManager(), &KItemListSelectionManager::currentChanged, this, &DolphinColumnPane::slotCurrentChanged);
     connect(m_controller->selectionManager(), &KItemListSelectionManager::selectionChanged, this, &DolphinColumnPane::slotSelectionChanged);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &DolphinColumnPane::slotItemsRemoved);
+    // Queued, so that the layout follows the new geometry first.
+    connect(m_view, &QGraphicsWidget::geometryChanged, this, &DolphinColumnPane::scrollToActiveChild, Qt::QueuedConnection);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinColumnPane::directoryLoadingCompleted);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted, this, [this]() {
@@ -149,7 +151,22 @@ void DolphinColumnPane::setActiveChildUrl(const QUrl &childUrl)
             m_controller->selectionManager()->clearSelection();
             m_controller->selectionManager()->setCurrentItem(index);
             m_controller->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Select);
+            m_scrollToActiveChildPending = true;
+            scrollToActiveChild();
         }
+    }
+}
+
+void DolphinColumnPane::scrollToActiveChild()
+{
+    if (!m_scrollToActiveChildPending || m_view->geometry().height() <= 0) {
+        return;
+    }
+    m_scrollToActiveChildPending = false;
+    const int index = m_model->index(m_model->fileItem(m_activeChildUrl));
+    // A clicked item is in view, and scrolling it would move it under the pointer.
+    if (index >= 0 && (index < m_view->firstVisibleIndex() || index > m_view->lastVisibleIndex())) {
+        m_view->scrollToItem(index);
     }
 }
 
