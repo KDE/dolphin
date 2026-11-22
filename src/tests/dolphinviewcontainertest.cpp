@@ -139,7 +139,9 @@ void DolphinViewContainerTest::init()
     m_testDir->createDir("subdir");
     m_testDir->createFile("file1.txt");
     m_testDir->createFile("file2.txt");
-    waitForItemListed(m_testDir->url());
+    // Lists the test folder, not its parent: other tests keep changing the temporary folder, and
+    // each change starts its listing again.
+    waitForItemListed(QUrl::fromLocalFile(m_testDir->path() + QStringLiteral("/file2.txt")));
     if (QTest::currentTestFailed()) {
         return;
     }
