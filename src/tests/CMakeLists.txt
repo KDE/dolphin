@@ -7,8 +7,6 @@ set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 find_package(Qt6Test CONFIG REQUIRED)
 include(ECMAddTests)
 
-include(FindGem)  # For servicemenutest, see bottom of this file
-
 # KItemSetTest
 ecm_add_test(kitemsettest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
@@ -192,13 +190,14 @@ if(HAVE_BALOO)
         LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 endif()
 
-find_gem(test-unit)
-set_package_properties(Gem_test-unit PROPERTIES
-    TYPE RECOMMENDED
-    DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
-if (Gem_test-unit_FOUND)
-    add_test(NAME servicemenutest
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/contextmenu/test/test_run.rb)
+# The test uses XDG_DATA_HOME, while Qt uses the native data directory on macOS.
+if(TARGET servicemenuinstaller AND NOT APPLE)
+    ecm_add_test(servicemenuinstallertest.cpp LINK_LIBRARIES Qt6::Test)
+    target_compile_definitions(servicemenuinstallertest PRIVATE
+        CMAKE_COMMAND_PATH="${CMAKE_COMMAND}"
+        SERVICEMENUINSTALLER_PATH="$<TARGET_FILE:servicemenuinstaller>"
+    )
+    add_dependencies(servicemenuinstallertest servicemenuinstaller)
 endif()
 
 # MoveToNewFolderItemActionTest
