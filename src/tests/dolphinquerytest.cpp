@@ -84,7 +84,6 @@ void DolphinQueryTest::testBalooSearchParsing_data()
 
     const QString tag = QStringLiteral("tag:tagA");
     const QString tagS = QStringLiteral("tag:\"tagB with spaces\""); // in search url
-    const QString tagR = QStringLiteral("tag:tagB with spaces"); // in result term
 
     const QLatin1String tagA{"tagA"};
     const QLatin1String tagBWithSpaces{"tagB with spaces"};

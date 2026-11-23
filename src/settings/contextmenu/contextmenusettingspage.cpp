@@ -313,13 +313,10 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
     const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
     // Create a checkbox for each available version control plugin
-    QSet<QString> loadedPlugins;
-
     const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
     for (const auto &plugin : plugins) {
         const QString pluginName = plugin.name();
         addRow(QStringLiteral("code-class"), pluginName, VersionControlServicePrefix + pluginName, enabledPlugins.contains(pluginName), plugin.fileName());
-        loadedPlugins += pluginName;
     }
 
     m_sortModel->sort(Qt::DisplayRole);
