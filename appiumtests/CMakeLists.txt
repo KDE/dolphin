@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2026 Sebastian Englbrecht
 
 if(NOT BUILD_TESTING OR NOT CMAKE_SYSTEM_NAME MATCHES "Linux")
     return()
@@ -16,14 +17,19 @@ if(NOT SeleniumWebDriverATSPI_FOUND AND NOT DEFINED ENV{KDECI_BUILD})
     return()
 endif()
 
-add_test(
-    NAME dolphintest
-    COMMAND selenium-webdriver-at-spi-run ${CMAKE_CURRENT_SOURCE_DIR}/dolphintest.py
-)
-set_tests_properties(dolphintest PROPERTIES TIMEOUT 300 ENVIRONMENT "CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}/bin")
+function(add_dolphin_appium_test name)
+    add_test(
+        NAME ${name}
+        COMMAND selenium-webdriver-at-spi-run ${CMAKE_CURRENT_SOURCE_DIR}/${name}.py
+    )
+    set_tests_properties(${name} PROPERTIES
+        TIMEOUT 180
+        RESOURCE_LOCK appium
+        ENVIRONMENT "CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}/bin;TEST_WITH_VIDEO_RECORDER=0;PYTHONDONTWRITEBYTECODE=1"
+    )
+endfunction()
 
-add_test(
-    NAME columnsviewtest
-    COMMAND selenium-webdriver-at-spi-run ${CMAKE_CURRENT_SOURCE_DIR}/columnsviewtest.py
-)
-set_tests_properties(columnsviewtest PROPERTIES TIMEOUT 300 ENVIRONMENT "CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}/bin")
+add_dolphin_appium_test(locationbartest)
+add_dolphin_appium_test(filterbartest)
+add_dolphin_appium_test(searchbartest)
+add_dolphin_appium_test(columnsviewtest)

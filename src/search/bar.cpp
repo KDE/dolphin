@@ -52,6 +52,7 @@ Bar::Bar(const std::shared_ptr<const DolphinQuery> &dolphinQuery, QWidget *paren
 
     // Create search box
     m_searchTermEditor = new QLineEdit(contentsContainer);
+    m_searchTermEditor->setObjectName(QStringLiteral("searchTermEditor"));
     m_searchTermEditor->setClearButtonEnabled(true);
     connect(m_searchTermEditor, &QLineEdit::returnPressed, this, &Bar::slotReturnPressed);
     connect(m_searchTermEditor, &QLineEdit::textEdited, this, &Bar::slotSearchTermEdited);
@@ -83,6 +84,7 @@ Bar::Bar(const std::shared_ptr<const DolphinQuery> &dolphinQuery, QWidget *paren
 
     // Create close button
     QToolButton *closeButton = new QToolButton(contentsContainer);
+    closeButton->setObjectName(QStringLiteral("searchCloseButton"));
     closeButton->setAutoRaise(true);
     closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));

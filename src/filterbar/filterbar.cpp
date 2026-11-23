@@ -38,6 +38,7 @@ FilterBar::FilterBar(QWidget *parent)
 
     // Create filter editor
     m_filterInput = new QLineEdit(contentsContainer);
+    m_filterInput->setObjectName(QStringLiteral("filterInput"));
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonEnabled(true);
     m_filterInput->setPlaceholderText(i18n("Filter…"));
@@ -73,6 +74,7 @@ FilterBar::FilterBar(QWidget *parent)
 
     // Create close button
     QToolButton *closeButton = new QToolButton(contentsContainer);
+    closeButton->setObjectName(QStringLiteral("filterCloseButton"));
     closeButton->setAutoRaise(true);
     closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
