@@ -2087,7 +2087,7 @@ QList<KFileItemModel::ItemData *> KFileItemModel::createItemDataList(const QUrl 
     return itemDataList;
 }
 
-void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
+void KFileItemModel::prepareItemsForSorting(const QList<ItemData *> &itemDataList)
 {
     switch (m_sortRole) {
     case ExtensionRole:

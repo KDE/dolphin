@@ -417,7 +417,7 @@ private:
      * lazily to save time and memory, but for some sort roles, it is expected that the
      * sort role data is stored in 'values'.
      */
-    void prepareItemsForSorting(QList<ItemData *> &itemDataList);
+    void prepareItemsForSorting(const QList<ItemData *> &itemDataList);
 
     static int expandedParentsCount(const ItemData *data);
 

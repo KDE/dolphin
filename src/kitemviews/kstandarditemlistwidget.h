@@ -165,7 +165,7 @@ protected:
     void setTextColor(const QColor &color);
     QColor textColor(const QWidget &widget) const;
 
-    void setOverlays(QHash<Qt::Corner, QString> &overlay);
+    void setOverlays(const QHash<Qt::Corner, QString> &overlay);
     QHash<Qt::Corner, QString> overlays() const;
 
     /**

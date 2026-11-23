@@ -734,7 +734,7 @@ QColor KStandardItemListWidget::textColor(const QWidget &widget) const
     return styleOption().palette.color(group, role);
 }
 
-void KStandardItemListWidget::setOverlays(QHash<Qt::Corner, QString> &overlays)
+void KStandardItemListWidget::setOverlays(const QHash<Qt::Corner, QString> &overlays)
 {
     if (overlays == m_overlays) {
         return;
