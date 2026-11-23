@@ -389,6 +389,7 @@ void KItemListViewLayouter::setStatusBarOffset(int offset)
 {
     if (m_statusBarOffset != offset) {
         m_statusBarOffset = offset;
+        m_dirty = true;
     }
 }
 
