@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 01:14+0000\n"
+"POT-Creation-Date: 2026-11-23 01:07+0000\n"
 "PO-Revision-Date: 2026-10-04 12:04+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -6351,7 +6351,7 @@ msgstr "உங்கள் டால்பின் விருப்பத்�
 msgid "Loading…"
 msgstr "ஏற்றுகிறது…"
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3109
 #, kde-format
 msgid "Loading canceled"
 msgstr "ஏற்றுவது ரத்து செய்யப்பட்டது"

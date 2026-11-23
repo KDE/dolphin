@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 01:14+0000\n"
+"POT-Creation-Date: 2026-11-23 01:07+0000\n"
 "PO-Revision-Date: 2025-12-22 16:19-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -6469,7 +6469,7 @@ msgstr ""
 msgid "Loading…"
 msgstr "Duke ngarkuar..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3109
 #, kde-format
 msgid "Loading canceled"
 msgstr "Ngarkimi u anulua"

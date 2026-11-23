@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 01:14+0000\n"
+"POT-Creation-Date: 2026-11-23 01:07+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -6813,7 +6813,7 @@ msgstr "Osa Dolphini seadistusi"
 msgid "Loading…"
 msgstr "Laadimine ..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3109
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3109
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
