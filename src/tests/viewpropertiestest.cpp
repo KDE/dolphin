@@ -58,8 +58,8 @@ private Q_SLOTS:
     void testSymlinkSharesProperties();
 
 private:
-    bool m_globalViewProps;
-    TestDir *m_testDir;
+    bool m_globalViewProps = false;
+    TestDir *m_testDir = nullptr;
     // These tests write to the downloads folder, which is read from the home directory, so they are
     // given a home directory of their own rather than the one of whoever runs them. It sits in that
     // one, so that the tests keep the file system they would have run on.

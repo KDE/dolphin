@@ -20,7 +20,7 @@ Q_DECLARE_METATYPE(EditResultDirection)
 
 struct EditResult {
     QString newName;
-    EditResultDirection direction;
+    EditResultDirection direction = EditDone;
 };
 Q_DECLARE_METATYPE(EditResult)
 

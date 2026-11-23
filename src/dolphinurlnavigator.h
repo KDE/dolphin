@@ -46,12 +46,12 @@ public:
      * This notably doesn't involve the locationUrl or history.
      */
     struct VisualState {
-        bool isUrlEditable;
-        bool hasFocus;
+        bool isUrlEditable = false;
+        bool hasFocus = false;
         QString text;
-        int cursorPosition;
-        int selectionStart;
-        int selectionLength;
+        int cursorPosition = 0;
+        int selectionStart = -1;
+        int selectionLength = 0;
     };
     /**
      * Retrieve the visual state of this DolphinUrlNavigator.

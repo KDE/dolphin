@@ -1392,8 +1392,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
 {
     ViewProperties props(viewPropertiesUrl());
 
-    QPointer<QMenu> menu = new QMenu(this);
-    QMenu *const rawMenu = menu;
+    QMenu *const rawMenu = new QMenu(this);
+    QPointer<QMenu> menu = rawMenu;
     rawMenu->setToolTipsVisible(true);
 
     KItemListView *view = m_container->controller()->view();

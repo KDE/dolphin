@@ -171,9 +171,9 @@ private:
 
     struct MovingRole {
         QPixmap pixmap;
-        int x;
-        int xDec;
-        int index;
+        int x = 0;
+        int xDec = 0;
+        int index = -1;
     };
     MovingRole m_movingRole;
 };

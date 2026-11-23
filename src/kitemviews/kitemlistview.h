@@ -803,8 +803,8 @@ private:
             End,
         };
 
-        int index;
-        qreal distance;
+        int index = -1;
+        qreal distance = 0;
         Edge edge = Edge::None;
         bool keepVisible = false; // Selected, so it must stay fully visible.
         qreal restoredOffset = -1;

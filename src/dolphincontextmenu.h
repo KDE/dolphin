@@ -99,15 +99,6 @@ private:
     void addOpenParentFolderActions();
     void configureTrash();
 
-    struct Entry {
-        int type;
-        QString name;
-        QString filePath; // empty for separator
-        QString templatePath; // same as filePath for template
-        QString icon;
-        QString comment;
-    };
-
     enum ContextType {
         NoContext = 0,
         ItemContext = 1,

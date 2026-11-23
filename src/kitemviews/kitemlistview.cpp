@@ -1685,7 +1685,7 @@ void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int>
 
     /// Represents an item that was moved while being edited.
     struct MovedEditedItem {
-        int movedToIndex;
+        int movedToIndex = -1;
         QByteArray editedRole;
     };
     std::optional<MovedEditedItem> movedEditedItem;

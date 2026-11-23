@@ -201,8 +201,8 @@ public:
         QString translation;
         QString group;
         QString tooltip;
-        bool requiresBaloo;
-        bool requiresIndexer;
+        bool requiresBaloo = false;
+        bool requiresIndexer = false;
     };
 
     /**
@@ -392,7 +392,7 @@ private:
     struct ItemData {
         KFileItem item;
         SmallHash values;
-        ItemData *parent;
+        ItemData *parent = nullptr;
     };
 
     enum RemoveItemsBehavior {
@@ -529,13 +529,13 @@ private:
      * group-contexts.
      */
     struct RoleInfoMap {
-        const char *const role;
-        const RoleType roleType;
+        const char *const role = nullptr;
+        const RoleType roleType = NoRole;
         const KLazyLocalizedString roleTranslation;
         const KLazyLocalizedString groupTranslation;
         const KLazyLocalizedString tooltipTranslation;
-        const bool requiresBaloo;
-        const bool requiresIndexer;
+        const bool requiresBaloo = false;
+        const bool requiresIndexer = false;
     };
 
     /**
