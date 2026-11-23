@@ -4,13 +4,13 @@
 # Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022.
 # Keld Simonsen <keld@dkuug.dk>, 2008.
 # scootergrisen, 2017, 2019.
-# SPDX-FileCopyrightText: 2024, 2025, 2026 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
+# SPDX-FileCopyrightText: 2024-2026 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:42+0000\n"
-"PO-Revision-Date: 2026-03-20 10:39+0100\n"
+"PO-Revision-Date: 2026-11-22 12:00+0100\n"
 "Last-Translator: Rasmus Rosendahl-Kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2602,7 +2602,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "\"I går\" (MMMM, åååå)"
+msgstr "'I går' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2983
 #, kde-format
@@ -2618,7 +2618,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "dddd (MMMM, åååå)"
+msgstr "dddd (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3000
 #, kde-format
@@ -2636,7 +2636,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr "\"En uge siden\" (MMMM, åååå)"
+msgstr "'En uge siden' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3015
 #, kde-format
@@ -2654,7 +2654,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
-msgstr "\"To uger siden\" (MMMM, åååå)"
+msgstr "'To uger siden' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3036
 #, kde-format
@@ -2672,7 +2672,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "\"Tre uger siden\" (MMMM, åååå)"
+msgstr "'Tre uger siden' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3057
 #, kde-format
@@ -2690,7 +2690,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "\"Tidligere i\" MMMM, yyyy"
+msgstr "'Tidligere' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:3078
 #, kde-format
@@ -2706,7 +2706,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr "MMMM, åååå"
+msgstr "MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:3096
 #, kde-format
