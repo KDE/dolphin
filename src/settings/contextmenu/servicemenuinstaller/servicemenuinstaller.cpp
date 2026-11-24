@@ -323,8 +323,9 @@ static bool cmdInstall(const QString &archive, QString &errorText)
             }
         }
 
-        if (QDir().mkdir(dir)) {
+        if (!QDir().mkdir(dir)) {
             errorText = i18n("Failed to create directory %1", dir);
+            return false;
         }
 
         runUncompress(archive, dir);
