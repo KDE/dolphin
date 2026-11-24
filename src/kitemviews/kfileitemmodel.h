@@ -14,9 +14,11 @@
 
 #include <KFileItem>
 #include <KLazyLocalizedString>
+#include <kio_version.h>
 
 #include <QCollator>
 #include <QHash>
+#include <QMimeType>
 #include <QSet>
 #include <QUrl>
 #include <QVariant>
@@ -124,6 +126,11 @@ public:
      *         complexity of this call is O(1).
      */
     KFileItem fileItem(int index) const;
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    // Sets the MIME type of the file-item at \a index, found by content on another thread.
+    void setDeterminedMimeType(int index, const QMimeType &mimeType);
+#endif
 
     /**
      * @return The file-item for the url \a url. If no file-item with the given

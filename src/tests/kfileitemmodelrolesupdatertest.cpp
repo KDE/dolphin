@@ -12,6 +12,7 @@
 #include <KIO/PreviewJob>
 #include <KSambaShare>
 
+#include <QMimeDatabase>
 #include <QScopeGuard>
 #include <QTimer>
 
@@ -37,7 +38,30 @@ private Q_SLOTS:
     void testAFileThatKeepsChangingGetsItsPreviewOnceItIsQuiet();
     void testFolderItemCountFollowsHiddenFiles_data();
     void testFolderItemCountFollowsHiddenFiles();
+    void testTypeFromContentReachesTheItem();
 };
+
+void KFileItemModelRolesUpdaterTest::testTypeFromContentReachesTheItem()
+{
+    // A file whose name gives no type gets the type of its content, its icon and its "type" role.
+    TestDir testDir;
+    testDir.createFile(QStringLiteral("noExtension"), QByteArray("%PDF-1.4\n"));
+
+    KFileItemModel model;
+    KFileItemModelRolesUpdater updater(&model);
+    updater.setRoles({"text", "type"});
+    QSignalSpy loadingCompletedSpy(&model, &KFileItemModel::directoryLoadingCompleted);
+    model.loadDirectory(testDir.url());
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(model.count(), 1);
+    updater.setVisibleIndexRange(0, 1);
+
+    QTRY_VERIFY(model.fileItem(0).isMimeTypeKnown());
+    QCOMPARE(model.fileItem(0).currentMimeType().name(), QStringLiteral("application/pdf"));
+    const QMimeType pdf = QMimeDatabase().mimeTypeForName(QStringLiteral("application/pdf"));
+    QTRY_COMPARE(model.data(0).value("iconName").toString(), pdf.iconName());
+    QTRY_COMPARE(model.data(0).value("type").toString(), pdf.comment());
+}
 
 void KFileItemModelRolesUpdaterTest::testSharesChangedUpdatesOverlays()
 {

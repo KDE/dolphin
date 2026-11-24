@@ -780,6 +780,15 @@ KFileItem KFileItemModel::fileItem(int index) const
     return KFileItem();
 }
 
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+void KFileItemModel::setDeterminedMimeType(int index, const QMimeType &mimeType)
+{
+    if (index >= 0 && index < count()) {
+        m_itemData.at(index)->item.setDeterminedMimeType(mimeType);
+    }
+}
+#endif
+
 KFileItem KFileItemModel::fileItem(const QUrl &url) const
 {
     const int indexForUrl = index(url);

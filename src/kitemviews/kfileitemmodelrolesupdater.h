@@ -331,6 +331,11 @@ private:
     bool applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem = KFileItem());
     SmallHash rolesData(const KFileItem &item, int index);
 
+    // Finds the MIME type of a local file by content on another thread, and returns true if so,
+    // so a slow device never blocks the GUI thread on the read.
+    bool requestContentMimeType(const KFileItem &item);
+    void applyContentMimeType(const QUrl &url, const QString &mimeTypeName);
+
     QStringList itemOverlays(const KFileItem &item) const;
 
     /**
@@ -410,6 +415,9 @@ private:
 
     // Items for which the sort role still has to be determined.
     QSet<KFileItem> m_pendingSortRoleItems;
+
+    // Files whose MIME type another thread is finding by content.
+    QSet<QUrl> m_pendingContentMimeTypes;
 
     // Indexes of items which still have to be handled by
     // resolveNextPendingRoles().

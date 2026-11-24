@@ -33,13 +33,18 @@
 
 #include <QApplication>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QFileInfo>
+#include <QFuture>
 #include <QImage>
+#include <QMimeDatabase>
 #include <QPainter>
 #include <QPluginLoader>
 #include <QPointer>
 #include <QScopedValueRollback>
+#include <QThreadPool>
 #include <QTimer>
+#include <QtConcurrentRun>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -50,6 +55,20 @@ namespace
 // has not changed for that long. The directory lister reports a file that is being written
 // about every 500 ms.
 constexpr auto ChangedItemQuietTime = 2s;
+
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+// Two threads read file contents to find MIME types, shared by every view, so a slow device gets
+// few concurrent reads. It outlives the views, since a read on a busy device cannot be interrupted.
+QThreadPool *contentMimeTypePool()
+{
+    static QThreadPool *pool = [] {
+        auto *p = new QThreadPool;
+        p->setMaxThreadCount(2);
+        return p;
+    }();
+    return pool;
+}
+#endif
 }
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
@@ -1247,7 +1266,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
     const KFileItem item = m_model->fileItem(index);
 
     if (m_model->sortRole() == "type") {
-        if (!item.isMimeTypeKnown()) {
+        if (!item.isMimeTypeKnown() && !requestContentMimeType(item)) {
             item.determineMimeType();
         }
 
@@ -1261,6 +1280,55 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
     }
 
     setModelData(index, data);
+}
+
+bool KFileItemModelRolesUpdater::requestContentMimeType(const KFileItem &item)
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    // determineMimeType() reads only regular local files, and types remote ones by name.
+    const QString path = item.localPath();
+    if (item.isMimeTypeKnown() || !item.isRegularFile() || path.isEmpty() || item.isOnRemoteStorage()) {
+        return false;
+    }
+    const QUrl url = item.url();
+    if (m_pendingContentMimeTypes.contains(url)) {
+        return true;
+    }
+    m_pendingContentMimeTypes.insert(url);
+    // The thread reads the 16 KiB that QMimeDatabase uses, so its lock is held only for the match.
+    QtConcurrent::run(contentMimeTypePool(), [path] {
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly)) {
+            return QMimeDatabase().mimeTypeForFile(path, QMimeDatabase::MatchExtension).name();
+        }
+        return QMimeDatabase().mimeTypeForFileNameAndData(path, file.read(16384)).name();
+    }).then(this, [this, url](const QString &mimeTypeName) {
+        applyContentMimeType(url, mimeTypeName);
+    });
+    return true;
+#else
+    Q_UNUSED(item)
+    return false;
+#endif
+}
+
+void KFileItemModelRolesUpdater::applyContentMimeType(const QUrl &url, const QString &mimeTypeName)
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 33, 0)
+    m_pendingContentMimeTypes.remove(url);
+    const int index = m_model->index(url);
+    if (index < 0) {
+        return;
+    }
+    m_model->setDeterminedMimeType(index, QMimeDatabase().mimeTypeForName(mimeTypeName));
+    applyResolvedRoles(index, ResolveAll);
+    if (m_model->sortRole() == "type") {
+        applySortRole(index);
+    }
+#else
+    Q_UNUSED(url)
+    Q_UNUSED(mimeTypeName)
+#endif
 }
 
 void KFileItemModelRolesUpdater::applySortProgressToModel()
@@ -1278,7 +1346,9 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
 
     bool iconChanged = false;
     if (resolveAll && (!item.isMimeTypeKnown() || !item.isFinalIconKnown())) {
-        item.determineMimeType();
+        if (!requestContentMimeType(item)) {
+            item.determineMimeType();
+        }
         iconChanged = true;
     } else if (!m_model->data(index).contains("iconName")) {
         iconChanged = true;
