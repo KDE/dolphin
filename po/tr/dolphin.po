@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 01:07+0000\n"
-"PO-Revision-Date: 2026-11-18 18:56+0300\n"
+"PO-Revision-Date: 2026-11-23 18:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -117,7 +117,7 @@ msgstr ""
 "<numberedlist><numbereditem>Değiştirmek istediğiniz dosyaya veya klasöre "
 "gidin.</numbereditem><numbereditem>“%1” eylemini ya <interface>Menü Düğmesi|"
 "Daha Fazla|Görünüm</interface> ya da <interface>Menü Çubuğu|Görünüm</"
-"interface> içinden etkinleştirin.<nl/>Öntanımlı kısayol: <shortcut>%2</"
+"interface> içinden etkinleştirin.<nl/>Varsayılan kısayol: <shortcut>%2</"
 "shortcut></numbereditem><numbereditem>Yetkilendirme sonrası dosyalarınızı/"
 "klasörlerinizi yönetici olarak düzenleyebilirsiniz.</numbereditem></"
 "numberedlist></para>"
@@ -2153,7 +2153,7 @@ msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
-"Protokol Dolphin tarafından desteklenmiyor, öntanımlı uygulama başlatıldı"
+"Protokol Dolphin tarafından desteklenmiyor, varsayılan uygulama başlatıldı"
 
 #: dolphinviewcontainer.cpp:1133
 #, kde-format
@@ -2314,7 +2314,7 @@ msgstr "Camgöbeği"
 #, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr "Varsayılan"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
@@ -5225,7 +5225,7 @@ msgstr "Geçerli Konumu Kullan"
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
-msgstr "Öntanımlı Konumu Kullan"
+msgstr "Varsayılan Konumu Kullan"
 
 #: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
@@ -5959,7 +5959,7 @@ msgstr "Sütunlar"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
-msgstr "Öntanımlı simge boyutu:"
+msgstr "Varsayılan simge boyutu:"
 
 #: settings/viewmodes/viewsettingstab.cpp:62
 #, kde-format
@@ -6289,7 +6289,7 @@ msgstr "Şuna uygula:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
-msgstr "Öntanımlı görünüm ayarları olarak kullan"
+msgstr "Varsayılan görünüm ayarları olarak kullan"
 
 #: settings/viewpropertiesdialog.cpp:335
 #, kde-format
@@ -6423,7 +6423,7 @@ msgid ""
 "item><item><emphasis>Space information</emphasis> about the current storage "
 "device.</item></list></para>"
 msgstr ""
-"<para>Bu, <emphasis>Durum Çubuğudur</emphasis>. Öntanımlı olarak (soldan "
+"<para>Bu, <emphasis>Durum Çubuğudur</emphasis>. Varsayılan olarak (soldan "
 "sağa) üç öge içerir: <list> <item>Seçili ögelerin boyutunu görüntüleyen "
 "<emphasis>metin alanı</emphasis>. Yalnızca bir öge seçilirse ad ve tür de "
 "gösterilir. </item> <item>Görünümdeki simgelerin boyutunu ayarlamanıza "
@@ -6511,7 +6511,7 @@ msgstr "Uzak Karakter Kodlamasını Seç"
 #: views/dolphinremoteencoding.cpp:89
 #, kde-format
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr "Varsayılan"
 
 #: views/dolphinremoteencoding.cpp:98
 #, kde-format
@@ -6980,13 +6980,13 @@ msgstr "Yakınlaştırma Düzeyini Sıfırla"
 #: views/dolphinviewactionhandler.cpp:262
 #, kde-format
 msgid "Zoom To Default"
-msgstr "Öntanımlıya Yakınlaştır"
+msgstr "Varsayılana Yakınlaştır"
 
 #: views/dolphinviewactionhandler.cpp:263
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr "Bu, simge boyutunu öntanımlı değere sıfırlar."
+msgstr "Bu, simge boyutunu varsayılan değere sıfırlar."
 
 #: views/dolphinviewactionhandler.cpp:269
 #, kde-format
@@ -7135,13 +7135,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore to Defaults"
-msgstr "Öntanımlılara Sıfırla"
+msgstr "Varsayılanlara Sıfırla"
 
 #: views/dolphinviewactionhandler.cpp:414
 #, kde-format
 msgctxt "info:tooltip"
 msgid "Restore View Settings to Default Values"
-msgstr "Görünüm ayarlarını öntanımlı değerlere sıfırla"
+msgstr "Görünüm ayarlarını varsayılan değerlere sıfırla"
 
 #: views/dolphinviewactionhandler.cpp:419
 #, kde-format

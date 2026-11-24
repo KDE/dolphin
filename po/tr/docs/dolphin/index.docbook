@@ -78,6 +78,18 @@
 ></address>
 </affiliation>
 </author>
+<author
+><firstname
+>Yuma</firstname
+> <surname
+>Kakei</surname
+> <affiliation
+> <address
+><email
+>yumasansansan@gmail.com</email
+></address>
+</affiliation>
+</author>
 
 <othercredit role="translator"
 ><firstname
@@ -144,18 +156,24 @@
 <holder
 >Frank Reininghaus</holder>
 </copyright>
+<copyright>
+<year
+>2026</year>
+<holder
+>Yuma Kakei</holder>
+</copyright>
 
 <legalnotice
 >&FDLNotice;</legalnotice>
 
 <date
->2022‒01‒17</date>
+>2026‒10‒24</date>
 <releaseinfo
->KDE Gear 22.04</releaseinfo>
+>KDE Gear 26.12</releaseinfo>
 
 <abstract>
 <para
->&dolphin;, &kde; için kullanışlılığa odaklanan, öntanımlı dosya yöneticisidir. </para>
+>&dolphin;, &kde; için kullanışlılığa odaklanan, varsayılan dosya yöneticisidir. </para>
 </abstract>
 
 <keywordset>
@@ -178,21 +196,29 @@
 >Giriş</title>
 
 <para
->&dolphin;, &plasma;’nın öntanımlı dosya yöneticisidir ve kullanıcı arayüzünde kullanışlılığı geliştirmeyi amaçlar. &dolphin;, &kde; 3 sürümündeki &konqueror; gibi bir dosya yöneticisi olmaya odaklanmıştır. Konqueror, hâlâ bir dosya yöneticisi olarak ve birçok dosya türü için genel bir görüntüleyici olarak kullanılmaktadır. </para>
+>&dolphin;, &plasma;’nın varsayılan dosya yöneticisidir ve kullanıcı arayüzünde kullanışlılığı geliştirmeyi amaçlar. &dolphin;, &kde; 3 sürümündeki &konqueror; gibi bir dosya yöneticisi olmaya odaklanmıştır. Konqueror, hâlâ bir dosya yöneticisi olarak ve birçok dosya türü için genel bir görüntüleyici olarak kullanılmaktadır. </para>
 
 <para
 >Bu tasarım yaklaşımı, geliştiricilerin dosya yönetiminin özel görevi için kullanıcı arabirimini en iyi duruma getirmeye odaklanmalarına olanak tanır. </para>
 
 <para
->Lütfen &dolphin; ile ilgili sorunları ve özellik isteklerinizi hata raporlama penceresini kullanarak gönderin. Bu pencereye, menü çubuğu bulunmayan öntanımlı kipte araç çubuğunun en sağında bulunan <guibutton
->Denetle</guibutton
-> düğmesiyle veya etkinleştirilmiş durumdaki menü çubuğunda bulunan <menuchoice
+>Lütfen, karşılaşabileceğiniz tüm sorunları veya özellik isteklerini &dolphin; ekibine hata bildirme iletişim kutusu aracılığıyla bildirin. Bu özelliğe, menü çubuğunun kapalı olduğu varsayılan kipte <menuchoice
+><guibutton
+>Menüyü Aç</guibutton
+><guisubmenu
+>Yardım</guisubmenu
+> <guimenuitem
+>Hata Bildir…</guimenuitem
+></menuchoice
+> (araç çubuğunun sonunda, üç yatay çizgi ile belirtilen düğmeden; açmak için <keycap
+>F10</keycap
+> düğmesini de kullanabilirsiniz) yolunu izleyerek veya menü çubuğu gösteriliyorsa <menuchoice
 ><guimenu
 >Yardım</guimenu
 ><guimenuitem
 >Hata Bildir…</guimenuitem
 ></menuchoice
-> ögesinden erişilebilir. </para>
+> yaparak ulaşabilirsiniz. </para>
 
 </chapter>
 
@@ -205,46 +231,52 @@
 >&dolphin; Kullanıcı Arayüzü</title>
 
 <para
->Aşağıdaki ekran görüntüleri, &dolphin;’in öntanımlı görünümünü gösterir. </para>
+>Aşağıdaki ekran görüntüleri, &dolphin;’in varsayılan görünümünü gösterir. </para>
 
 <screenshot>
 <screeninfo
->&dolphin;’in öntanımlı kullanıcı arayüzü</screeninfo>
+>&dolphin;’in varsayılan kullanıcı arayüzü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="default-ui.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->&dolphin;’in öntanımlı kullanıcı arayüzü.</phrase>
+>&dolphin;’in varsayılan kullanıcı arayüzü</phrase>
 </textobject>
 <caption
 ><para
->&dolphin;’in öntanımlı kullanıcı arayüzü.</para
+>&dolphin;’in varsayılan kullanıcı arayüzü</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
->Öntanımlı kullanıcı arayüzü ögeleri: <itemizedlist>
+>Varsayılan kullanıcı arayüzü ögeleri: <itemizedlist>
 
-<listitem
+<listitem id="toolbar"
 ><para
->Araç çubuğu, sık kullanılan eylemlere tez erişim için kullanılır. Araç çubuğu, üzerinde &RMB; ile sağ tıklanarak ve bağlam menüsünden <menuchoice
-><guimenuitem
+>Araç çubuğu, sık kullanılan eylemlere tez erişim için kullanılabilir. Araç çubuğunun sonunda, üç adet yatay çizgiyle gösterilen ve <keycap
+>F10</keycap
+> düğmesi ile de açılabilen <guibutton
+>Menüyü Aç</guibutton
+> düğmesi bulunur. Bu düğme, menü çubuğu gizli ise tüm uygulama komutlarına erişim sağlar. Araç çubuğunu özelleştirmek için &RMB; ile tıklayıp bağlam menüsünden <guimenuitem
+>Araç Çubuklarını Yapılandır…</guimenuitem
+> seçeneğini seçin veya <menuchoice
+><guibutton
+>Menüyü Aç</guibutton
+><guisubmenu
+>Yapılandır</guisubmenu
+> <guimenuitem
 >Araç Çubuklarını Yapılandır…</guimenuitem
 ></menuchoice
-> seçeneğiyle, <guimenuitem
->Araç Çubuklarını Yapılandır…</guimenuitem
-> (araç çubuğunun sağındaki <guibutton
->Denetle</guibutton
-> üzerinden) ile veya ana menüden <menuchoice
+> veya menü çubuğundan <menuchoice
 ><guimenu
 >Ayarlar</guimenu
 > <guimenuitem
 >Araç Çubuklarını Yapılandır…</guimenuitem
 ></menuchoice
-> ile özelleştirilebilir. </para>
+> seçeneğini kullanın. </para>
 <screenshot>
 <screeninfo
 >&dolphin;’in araç çubuğunun ekran görüntüsü</screeninfo>
@@ -254,15 +286,15 @@
 </imageobject>
 <textobject>
 <phrase
->Öntanımlı araç çubuğu.</phrase>
+>Varsayılan araç çubuğu.</phrase>
 </textobject>
 <caption>
 <para
 >Araç çubuğu ögelerinden uygulayacakları komutu anlamaya yeterli bir simgeye sahip olanlarda simgelerin yanında metin bulunmaz. Bu, &RMB; ile tıklayıp <guilabel
 >Metni Göster</guilabel
-> ögesi seçilerek değiştirilebilir. Araç çubuğunun sağındaki  <guibutton
->Denetle</guibutton
-> düğmesi yalnızca menü çubuğu gizlenmiş ise gösterilir. </para>
+> ögesi seçilerek değiştirilebilir. Araç çubuğunun sonundaki <guibutton
+>Menüyü Aç</guibutton
+> düğmesi, yalnızca menü çubuğu gizlenmiş ise gösterilir. </para>
 </caption>
 </mediaobject>
 </screenshot>
@@ -270,7 +302,7 @@
 
 <listitem
 ><para
->Konum çubuğu her zaman geçerli klasörün adresini gösterir ve iki farklı kipte kullanılabilir, ayrıntılı bilgi için <link linkend="location-bar"
+>Konum çubuğu her zaman geçerli klasöre olan yolu gösterir. Varsayılan olarak, araç çubuğunun ortasında bulunur. İki farklı kipte kullanılabilir, ayrıntılı bilgi için <link linkend="location-bar"
 >konum çubuğu</link
 > bölümüne bakabilirsiniz. </para
 ></listitem>
@@ -290,36 +322,30 @@
 > paneli</link
 >, yer imlerine eklenmiş konumlara, disklere ve diğer ortamlara tez erişim sağlar. </para>
 <para
->Masaüstü arama ve dosya indeksleme, &systemsettings;’nın <guilabel
->Dosya Arama</guilabel
-> modülünde etkinleştirilmişse panel, <guilabel
->Son Kullanılan</guilabel
-> ögeleri gösterir ve <guilabel
->Belgeleri</guilabel
->, <guilabel
->Görselleri</guilabel
->, <guilabel
->Ses Dosyalarını</guilabel
+>Panel ayrıca, en son kullandığınız dosyaları ve klasörleri listeleyen <guilabel
+>Son Kullanılan Dosyalar</guilabel
 > ve <guilabel
->Videoları</guilabel
-> aramanıza izin verir. </para
+>Son Gidilen Konumlar</guilabel
+> girdilerine de ev sahipliği yapar. </para
 ></listitem>
 
 <listitem
 ><para
->Durum çubuğu. Fare imlecinin o anda üzerinde olduğu dosyanın adını, boyutunu ve türünü veya seçili dosyaların sayısını ve boyutunu görüntüler. Sağda, görünümdeki simgelerin boyutunu ayarlamanıza olanak tanıyan bir yakınlaştırma sürgüsü vardır. </para
+>Varsayılan olarak görünümün sol alt kısmında gösterilen durum çubuğu. Fareyle üzerine gelinen dosyanın adını, boyutunu ve türünü veya seçilen dosyaların sayısını ve boyutunu görüntüler. <link linkend="preferences-dialog-interface-bars"
+>Ayarlarda</link
+>, durum çubuğu tam genişliğe ayarlanmışsa sağ ucunda görünümdeki simgelerin boyutunu ayarlamanıza olanak tanıyan bir yakınlaştırma sürgüsü gösterilebilir. </para
 ></listitem>
 
 <listitem
 ><para
->Menü çubuğu (öntanımlı olarak gizlidir), tüm komutlara ve yapılandırma seçeneklerine erişimi sağlar. Tüm menü komutları için <link linkend="commands-menubar"
+>Menü çubuğu (varsayılan olarak gizlidir), tüm komutlara ve yapılandırma seçeneklerine erişimi sağlar. Tüm menü komutları için <link linkend="commands-menubar"
 >Komut Kılavuzu</link
 > bağlantısına bakabilirsiniz. Menü çubuğunun görünüp görünmeyeceğini <guimenu
 >Ayarlar</guimenu
 > menüsündeki <guimenuitem
 >Menü Çubuğunu Göster</guimenuitem
-> seçeneğinden, <guibutton
->Denetle</guibutton
+> seçeneğinden, araç çubuğundaki <guibutton
+>Menüyü Aç</guibutton
 > düğmesinden veya (<keycombo action="simul"
 >&Ctrl;<keycap
 >M</keycap
@@ -327,7 +353,7 @@
 >) kısayolu ile belirleyebilirsiniz. </para>
 <para
 >Menü çubuğu gizliyse kullanılabilir tüm eylemleri <guibutton
->Denetim</guibutton
+>Menüyü Aç</guibutton
 > düğmesiyle görebilirsiniz. </para
 ></listitem>
 
@@ -339,7 +365,7 @@
 >Klasörler</guilabel
 > ve <guilabel
 >Uçbirim</guilabel
-> panelleri öntanımlı olarak gizlidir, daha fazla bilgi için <link linkend="panels"
+> panelleri varsayılan olarak gizlidir, daha fazla bilgi için <link linkend="panels"
 ><guilabel
 >Paneller</guilabel
 > bölümüne göz atın.</link
@@ -366,15 +392,19 @@
 
 <listitem
 ><para
->Bir dosya veya klasör, üzerine &LMB; ile tıklanarak açılabilir (veya &systemsettings;’nın <menuchoice
+>Bir dosya veya klasör, üzerindeyken &LMB; ile çift tıklanarak (veya &systemsettings; uygulamasındaki <menuchoice
 ><guimenu
 >Çalışma Alanı</guimenu
 > <guimenuitem
 >Genel Davranış</guimenuitem
 ></menuchoice
-> modülünde <guilabel
->Dosya veya klasörlere tıklamak onları seçer</guilabel
-> etkinleştirilmişse çift tıklanarak. </para
+> modülünün <guilabel
+>Tıklama</guilabel
+> bölümündeki <guilabel
+>Dosyalara veya klasörlere tıklamak</guilabel
+> <guilabel
+>Onları açar</guilabel
+> olarak ayarlanmışsa tek tıklanarak) açılabilir. </para
 ></listitem>
 
 <listitem
@@ -422,47 +452,77 @@
 >&dolphin; Görünüşü</title>
 
 <para
->Araç çubuğu, görünümün görünüşünü denetlemek için düğmeler içerir: </para>
+>Araç çubuğundaki <guibutton
+>Görünüm Ayarları</guibutton
+> düğmesi, görünümün genel görünüşünü denetler. Düğmenin kendisine basmak, görünüm kipleri arasında sırasıyla geçiş yapar. Düğmenin yanındaki oka tıklamak; görünüm kiplerini, simgelerin boyutunu değiştirmek için kullanılan <guilabel
+>Yakınlaştırma</guilabel
+> düğmelerini ve <guisubmenu
+>Şuna Göre Sırala</guisubmenu
+>, <guisubmenu
+>Şuna Göre Grupla</guisubmenu
+>, <guisubmenu
+>Ek Bilgileri Göster</guisubmenu
+>, <guimenuitem
+>Ön İzlemeleri Göster</guimenuitem
+>, <guimenuitem
+>Gizli Dosyaları Göster</guimenuitem
+>, <guimenuitem
+>Varsayılanlara Sıfırla</guimenuitem
+> ve <guimenuitem
+>Görünüm Stilini Ayarla…</guimenuitem
+> ögelerini içeren bir menü açar: </para>
 
 <screenshot>
 <screeninfo
->&dolphin;’in araç çubuğunun ekran görüntüsü</screeninfo>
+>&dolphin;’in Görünüm Ayarları menüsünün ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+<imagedata fileref="toolbar-view-settings.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Görünümün görünüşünü denetleyen araç çubuğundaki düğmeler.</phrase>
+>Araç çubuğunda, görünümün genel görünüşünü denetleyen Görüntü Ayarları düğmesi</phrase>
 </textobject>
 <caption
 ><para
->Görünümün görünüşünü denetleyen araç çubuğundaki düğmeler. </para
+>Araç çubuğunda, görünümün genel görünüşünü denetleyen <guibutton
+>Görüntü Ayarları</guibutton
+> düğmesi </para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
->Aşağıda belirtilen tüm ayarlar ve geçerli klasördeki dosyaların sıralanması ile ilgili tüm seçenekler ayrıca <guimenu
+>Aşağıda açıklanan tüm ayarlar, ayrıca <guimenu
 >Görünüm</guimenu
 > menüsünden ve <link linkend="view-properties-dialog"
->Görünüm Özellikleri iletişim kutusundan </link
-> değiştirilebilir. Öntanımlı olarak, bu ayarlar her bir klasör için ayrı ayrı anımsanırlar. Bu davranış, ayarların <link linkend="preferences-dialog-general"
-><quote
->Genel</quote
-></link
-> bölümünden değiştirilebilir. </para>
+>Görünüm Stili</link
+> iletişim kutusundan değiştirilebilir. Varsayılan olarak, tüm klasörler aynı görüntüleme stili taşırlar. Her bir klasörün kendi görüntüleme stilini anımsamasını istiyorsanız bunu, <guilabel
+>Görünüm</guilabel
+> ayarlarının <link linkend="preferences-dialog-view-general"
+><guilabel
+>Genel</guilabel
+> sekmesinden</link
+> değiştirebilirsiniz. </para>
 
 <sect3 id="dolphin-view-modes">
 <title
 >Görünüm Kipleri</title>
 
 <para
->Yukarıdaki ekran görüntüsünde bulunan ilk üç düğme &dolphin;’in görünüm kipini değiştirir. <itemizedlist>
+>&dolphin;’in, <guibutton
+>Görüntü Ayarları</guibutton
+> düğmesi ile veya <menuchoice
+><guimenu
+>Görünüm</guimenu
+><guisubmenu
+>Görüntü Kipini Değiştir</guisubmenu
+></menuchoice
+> aracılığıyla seçilebilen üç adet görünüm kipi vardır. <itemizedlist>
 
 <listitem
 ><para
->Öntanımlı olan <guibutton
+>Varsayılan olan <guibutton
 >Simge</guibutton
 > görünümünde, dosyalar dosya türünü de görselleştiren bir simge ile, klasörler de alt klasörleri göstermek için klasör simgesiyle gösterilir. Klasör ve dosya adları ve <menuchoice
 ><guimenu
@@ -504,10 +564,10 @@
 >Ad</guilabel
 > başlığı dışında, sütun başlıklarını sürükleyip bırakarak değiştirilebilir. </para>
 <para
->Eğer <link linkend="preferences-dialog-viewmodes-details"
+>Eğer <link linkend="preferences-dialog-view-details"
 > <guilabel
->Genişletilebilir klasörler</guilabel
-></link
+>Genişletilebilir</guilabel
+> klasörler</link
 > seçeneği etkinleştirilmişse Ayrıntılar görünümü, geçerli klasör için ağaç görünümü sağlar: Geçerli klasörün her alt klasörü <guiicon
 >+</guiicon
 > veya <guiicon
@@ -534,13 +594,13 @@
 </textobject>
 <caption
 ><para
->Tüm görünüm kipleri, <menuchoice
+>Tüm görünüm kipleri, gruplamayı destekler. Gruplamak için kullanılan öznitelik, <menuchoice
 ><guimenu
 >Görünüm</guimenu
 ><guisubmenu
->Şuna Göre Sırala</guisubmenu
+>Şuna Göre Grupla</guisubmenu
 ></menuchoice
-> menüsünde bulunan türe göre sıralayarak gruplandırma özelliğini destekler</para
+> ile seçilebilir.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -552,13 +612,23 @@
 <title
 >Görünümdeki Bilgiler</title>
 <para
->Tüm görünüm kiplerinde &dolphin;, her öge için en az bir simge ve bir ad gösterir. </para>
+>Tüm görünüm kiplerinde &dolphin;, her bir öge için en az bir simge ve ad gösterir. <guimenu
+>Görünüm</guimenu
+> menüsünün <guisubmenu
+>Ek Bilgileri Göster</guisubmenu
+> seçeneğinde veya <guilabel
+>Ayrıntılar</guilabel
+> kipinde sütun başlığının bağlam menüsünde, her bir öge için gösterilmek üzere daha fazla bilgi seçebilirsiniz: </para>
 
 <para
 ><guimenuitem
 >Boyut</guimenuitem
 >, <guimenuitem
->Tarih</guimenuitem
+>Değiştirilme</guimenuitem
+>, <guimenuitem
+>Oluşturulma</guimenuitem
+>, <guimenuitem
+>Erişim</guimenuitem
 >, <guimenuitem
 >Tür</guimenuitem
 >, <guimenuitem
@@ -570,49 +640,59 @@
 >. </para>
 
 <para
->Dosya türüne bağlı olarak ayrıca sıralama kriterleri seçilebilir: <simplelist>
-  <member
+>Dosya indeksleme etkinleştirilirse dosya türüne bağlı olarak ek bilgiler aşağıdaki alt menülerden seçilebilir: <simplelist>
+<member
 ><guimenuitem
 >Belge</guimenuitem
->: Sözcüklerin ve satırların sayısı</member>
-  <member
+>: Başlık, yazar, yayımevi, sayfa sayısı, sözcük sayısı ve satır sayısı</member>
+<member
 ><guimenuitem
 >Görsel</guimenuitem
->: Boyut ve yönelim</member>
-  <member
+>: Fotoğrafın çekildiği tarih, boyutlar, yükseklik, genişlik ve yönelim</member>
+<member
 ><guimenuitem
 >Ses</guimenuitem
->: Sanatçı, albüm, süre ve parça</member>
+>: Albüm, sanatçı, ses kodlayıcısı, bit hızı, süre, tür, yayımlanma yılı ve parça</member>
+<member
+><guisubmenu
+>Video</guisubmenu
+>: En–boy oranı, ses kodlayıcısı, bit hızı, renk uzayı, boyutlar, süre, kare hızı, yükseklik, genişlik, piksel biçimi ve video kodlayıcısı</member>
 </simplelist>
 </para>
 
 <para
 ><guisubmenu
 >Diğer</guisubmenu
-> alt menüsü, size <guimenuitem
+> alt menüsü; <guimenuitem
 >Yol</guimenuitem
->,<guimenuitem
+>, <guimenuitem
+>Klasör Adı</guimenuitem
+>, <guimenuitem
+>Dosya Uzantısı</guimenuitem
+>, <guimenuitem
+>Silinme Zamanı</guimenuitem
+>, <guimenuitem
 >Bağlantı Hedefi</guimenuitem
->,<guimenuitem
->Kopyalanan Yer</guimenuitem
->,<guimenuitem
+>, <guimenuitem
+>İndirildiği Konum</guimenuitem
+>, <guimenuitem
 >İzinler</guimenuitem
->,<guimenuitem
+>, <guimenuitem
 >Sahibi</guimenuitem
 > veya <guimenuitem
 >Kullanıcı Grubu</guimenuitem
-> bilgilerini seçmenize izin verir. </para>
+> özniteliklerinden birini seçmenize olanak tanır. </para>
 
 </sect3>
 
 <sect3 id="preview">
 <title
->Önizleme</title>
+>Ön İzleme</title>
 
 <para
->Eğer <guibutton
->Önizleme</guibutton
-> düğmesi etkinleştirilmişse simgeler dosya veya klasör simgeleri içeriğine göre gösterilir. Örneğin, görsel dosyaları için görselin yeniden boyutlandırılmış bir önizlemesi gösterilir. </para>
+>Eğer <guimenuitem
+>Ön İzlemeleri Göster</guimenuitem
+> düğmesi etkinleştirilmişse simgeler dosya veya klasör simgeleri içeriğine göre gösterilir. Örneğin, görsel dosyaları için görselin yeniden boyutlandırılmış bir ön izlemesi gösterilir. </para>
 
 </sect3>
 
@@ -621,9 +701,11 @@
 >Böl</title>
 
 <para
->Eğer <guibutton
+>Araç çubuğundaki <guibutton
 >Böl</guibutton
-> düğmesi tıklanmışsa farklı iki klasörün içeriğini gösteren iki görünüm oluşturulur. Bu görünüm, dosyaları kopyalamak veya taşımak için oldukça uygundur. </para>
+> düğmesine tıklanırsa farklı klasörlerin içeriğini görüntüleyebilen iki görünüm gösterilir. Bu, dosyaları taşımak veya kopyalamak için uygun olabilir. Görünüm bölünürken düğme <guibutton
+>Kapat</guibutton
+> olarak etiketlenir ve iki görünümden birini kapatır. </para>
 
 </sect3>
 
@@ -671,19 +753,34 @@
 
 <listitem
 ><para
+><link linkend="preferences-dialog-view-general"
 ><guilabel
+>Görünüm</guilabel
+> ayarlarının <guilabel
+>General</guilabel
+> sekmesinde</link
+> <guilabel
 >Seçim işaretçisini göster</guilabel
->, ayarların <guilabel
->Genel</guilabel
-> bölümünün <link linkend="preferences-dialog-general-behavior"
-><quote
->Davranış</quote
-> sekmesinde etkinleştirildiyse</link
->, ögenin sol üst köşesine fareyle gelindiğinde küçük bir <guiicon
+> seçeneği etkinleştirilmişse fareyle üzerine gelinmiş ögenin sol üst köşesinde küçük bir <guiicon
 >+</guiicon
 > veya <guiicon
->-</guiicon
-> düğmesi görünür. Bu işarete tıklamak, sırasıyla ögeyi seçer veya seçimini kaldırır. </para
+>−</guiicon
+> düğmesi görünür. Sırasıyla bu işarete tıklamak, ögeyi seçer veya seçimini kaldırır. </para
+></listitem>
+
+<listitem
+><para
+><menuchoice
+><guimenu
+>Düzen</guimenu
+><guimenuitem
+>Dosyalar ve Klasörler Seç</guimenuitem
+></menuchoice
+> ile veya <keycap
+>Boşluk</keycap
+> düğmesine basılarak etkinleştirilebilen seçim kipinde, &LMB; ile tıklamak ögeyi seçer veya seçimini kaldırır. Seçili ögelere uygulanabilecek çeşitli eylemleri gösteren bir çubuk, görünümün alt kısmında görünür olur. Bu kipten çıkmak için <guibutton
+>Seçim Kipinden Çık</guibutton
+> düğmesine tıklayın veya &Esc; düğmesine basın. </para
 ></listitem>
 
 </itemizedlist>
@@ -766,14 +863,18 @@ has all features from dolphin ?-->
 >Konum Çubuğu</title>
 
 <para
->Konum çubuğu, &dolphin; görünümünün üst kısmında bulunur ve geçerli klasörün adresini gösterir. Konum çubuğunun iki kipi vardır. </para>
+>Konum çubuğu, geçerli klasörün yolunu görüntüler. Varsayılan olarak, araç çubuğunun bir parçasıdır. <guilabel
+>Araç Çubuklarını Yapılandır</guilabel
+> iletişim kutusundaki <guilabel
+>Konum Çubuğu</guilabel
+> ögesini araç çubuğundan kaldırırsanız bunun yerine &dolphin;’in görünümünün üzerinde gösterilir. Görünüm bölünmüşse her görünümün kendi konum çubuğu vardır. Konum çubuğunun iki kipi bulunur. </para>
 
 <sect2 id="location-bar-bread-crumb">
 <title
 >Kırıntı Kipi</title>
 
 <para
->Öntanımlı olan <quote
+>Varsayılan olan <quote
 >kırıntı</quote
 > kipinde, geçerli klasörün yolundaki her bir klasör adı, o klasörü tez açmak için tıklanabilen bir düğmedir. Ayrıca, bir klasörün sağındaki <quote
 >&gt;</quote
@@ -826,39 +927,38 @@ has all features from dolphin ?-->
 </mediaobject>
 </screenshot>
 
-<sect3 id="location-bar-editable-kioslaves">
+<sect3 id="location-bar-editable-kio-workers">
 <title
->Kioslaves’i Kullanma</title>
+>KIO İşçilerini Kullanma</title>
 
 <para
->Düzenlenebilir kipte konum çubuğu boşsa çubuğun önünde sisteminizdeki tüm kioslaves’leri listeleyen bir açılır kutu görünür. Kioslave’ler, &dolphin;’e ve diğer &kde; uygulamalarına pek çok farklı protokol için destek ekleyen, &kde;’ye yerleşik programlardır.</para
-> 
+>Düzenlenebilir kipte konum çubuğu boşsa çubuğun önünde sisteminizdeki tüm KIO işçilerini listeleyen bir açılır kutu görünür. KIO işçileri, &dolphin;’e ve diğer &kde; uygulamalarına pek çok farklı protokol için destek ekleyen, &kde;’ye yerleşik programlardır.</para>
 
 <para
 >Örneğin <quote
 >fish</quote
-> kioslave’i ile &dolphin;, <acronym
+> KIO işçisi ile &dolphin;, <acronym
 >SSH</acronym
 > aracılığıyla erişilebilen uzak bir ana bilgisayardaki dosya ve klasörleri yönetmek için kullanılabilir. Bunu yapmak için konum çubuğuna <userinput
 >fish://kullanıcıadı@uzakmakine</userinput
 > yazarsınız. Benzer uzak dosya yönetimi; &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) veya webdav protokolleri üzerinden erişilebilen uzak ana bilgisayarlarda yapılabilir.</para>
 
 <para
->&systemsettings;’na, yazıtiplerine, çöp kutusuna, diğer programlara ve bilgisayarınıza bağlı aygıtlara erişmek için kioslave açılır kutusunu kullanmak da olanaklıdır. Sisteminizdeki kioslave’lerde bulunan yeteneklerin tam listesi için açılır kutuya bakın. </para>
+>Masaüstü klasörüne, kurulu programlara, yazı tiplerine, çöp kutusuna ve bilgisayarınıza bağlı aygıtlara erişmek için KIO işçileri açılır kutusunu kullanmak da olanaklıdır. Sisteminizdeki KIO işçilerinde bulunan yeteneklerin tam listesi için açılır kutuya bakın. </para>
 <screenshot>
 <screeninfo
->Kioslaves listesinin ekran görüntüsü</screeninfo>
+>KIO işçileri listesinin ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+<imagedata fileref="locationbar-kio-workers-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Kullanılabilir kioslaves’lerin listesini gösteren konum çubuğu.</phrase>
+>Kullanılabilir KIO işçilerinin listesini gösteren konum çubuğu</phrase>
 </textobject>
 <caption
 ><para
->Kullanılabilir kioslaves’lerin listesi.</para
+>Kullanılabilir KIO işçilerinin listesi</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -894,7 +994,13 @@ has all features from dolphin ?-->
 </screenshot>
 
 <para
->Konum çubuğunun bağlam menüsü, kipler arasında geçiş yapmak ve yolu panoyu kullanarak kopyalayıp yapıştırmak için eylemler sunar. Dosya sisteminin kök klasörden başlayarak tam yolu görüntülemek veya geçerli yer girişiyle başlayan yolu görüntülemek için bu bağlam menüsündeki son seçeneğe bakın. </para>
+>Konum çubuğunun bağlam menüsü, panoyu kullanarak yolu kopyalayıp yapıştırmak, geçerli klasörü yeni bir sekme veya pencerede açmak ve kipler (<guimenuitem
+>Düzen</guimenuitem
+> ve <guimenuitem
+>Dolaşım</guimenuitem
+>) arasında geçiş yapmak için eylemler sunar. Geçerli yerler girişiyle başlayan yol yerine, dosya sisteminin kök klasörüyle başlayan tam yolu görüntülemek için <guimenuitem
+>Tam Yolu Göster</guimenuitem
+> seçeneğini işaretleyin. </para>
 
 <screenshot>
 <screeninfo
@@ -932,13 +1038,12 @@ has all features from dolphin ?-->
 >Yerler</title>
 <!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
 context menu Icon Size? No different entries ?-->
-<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
 <para
 ><guilabel
 >Yerler</guilabel
-> paneli, öntanımlı olarak pencerenin solunda konumlanır. <guilabel
+> paneli, varsayılan olarak pencerenin solunda bulunur. <guilabel
 >Yerler</guilabel
-> paneli, yer imlerine eklediğiniz tüm yerleri gösterir. Ayrıca, bilgisayara bağlı herhangi bir disk veya ortam, yakın zamanda erişilen ögeleri de gösterir ve belirli türde dosyaları aramanıza izin verir. Bu girdilerin sırası sürükle ve bırak yöntemiyle değiştirilebilir. </para>
+> paneli, favorilerinize eklediğiniz konumları gösterir. Ayrıca uzak konumları, en son erişilen ögeleri ve bilgisayara bağlı tüm diskleri veya ortamları da gösterir. Bu girdilerin sırası sürükleyip bırakarak değiştirilebilir. </para>
 
 <para
 ><guilabel
@@ -962,7 +1067,7 @@ context menu Icon Size? No different entries ?-->
 <para
 ><guilabel
 >Bilgiler</guilabel
-> paneli, seçilen ögelerle ilgili, geçerli klasör veya şu anda fareyle üzerine getirilen dosya hakkında, son değişikliklerin boyutu, türü ve tarihi içerilmek üzere genişletilmiş bilgileri gösterir. Ayrıca, seçilen ögenin büyük bir önizlemesine sahiptir ve ona bir derecelendirme, künye ve açıklama atamanıza olanak tanır. </para>
+> paneli, seçilen ögelerle ilgili, geçerli klasör veya şu anda fareyle üzerine getirilen dosya hakkında, son değişikliklerin boyutu, türü ve tarihi içerilmek üzere genişletilmiş bilgileri gösterir. Ayrıca, seçilen ögenin büyük bir ön izlemesine sahiptir ve ona bir derecelendirme, künye ve açıklama atamanıza olanak tanır. </para>
 <!--FIXME panel context menu-->
 </sect2>
 
@@ -975,11 +1080,11 @@ context menu Icon Size? No different entries ?-->
 >Klasörler</guilabel
 > paneli, dosya sisteminin ağaç görünümü yapısını gösterir. Yalnızca klasörleri gösterir. &LMB; ile bir klasöre tıklayarak; bu klasörü &dolphin;’in görünümünde açar. </para>
 <para
-><guilabel
->Ana Dizine Sınırla</guilabel
-> seçeneğiyle, <guilabel
+>İçerisindeyken <guilabel
 >Ana Klasör</guilabel
->’ünüz dışındaki tüm klasörleri, ağaç görünümünde gizleyebilirsiniz. </para>
+> dışındaki tüm klasörleri ağaç görünümünden gizlemek için panelin içerik menüsündeki <guimenuitem
+>Ana Klasöre Sınırla</guimenuitem
+> seçeneğini kullanın. </para>
 </sect2>
 
 <sect2 id="terminal-panel">
@@ -1050,6 +1155,21 @@ context menu Icon Size? No different entries ?-->
 >Süzgeç Çubuğunu Gizle</guiicon
 > seçeneğine &LMB; ile tıklayın. </para>
 
+<para
+>Süzgeç çubuğundaki açılır menü, girilen metnin nasıl yorumlandığını seçer: <guilabel
+>Düz Metin</guilabel
+>, <guilabel
+>Global Dizgi</guilabel
+> (örneğin, <userinput
+>*.mp3</userinput
+>) veya <guilabel
+>Düzenli İfade</guilabel
+>. <guilabel
+>BÜYÜK/küçük harf eşleştir</guilabel
+> düğmesi, süzgeci BÜYÜK/küçük harfe duyarlı yapar ve <guilabel
+>Klasörleri değiştirirken süzgeci koru</guilabel
+> düğmesi ise başka bir klasör açtığınızda bile süzgeci etkin tutar. </para>
+
 </sect2>
 
 <sect2 id="finding-searching-in-file">
@@ -1062,20 +1182,20 @@ context menu Icon Size? No different entries ?-->
 > &Ctrl;<keycap
 >F</keycap
 ></keycombo
-> kısayoluna basıldığında veya <menuchoice
+> düğme ikilisine basıldığında, <menuchoice
 > <guimenu
 >Düzen</guimenu
 > <guimenuitem
 >Ara…</guimenuitem
 > </menuchoice
-> seçeneği kullanıldığında, <guilabel
->Arama</guilabel
-> çubuğu, geçerli klasörü ve onun alt klasörlerini aramak için ayarlı bir biçimde görünür. Giriş kutusuna yazmaya başladığınızda arama anında başlatılır. <screenshot>
+> kullanıldığında veya araç çubuğundaki <guibutton
+>Ara</guibutton
+> düğmesine basıldığında, arama çubuğu, geçerli klasör ve olası tüm alt klasörlerinde arama yapabilir durumda hazır olacaktır. Giriş kutusuna yazmaya başlayın ve arama kendiliğinden başlar. <screenshot>
 <screeninfo
 >Dosyaları ve dosya içeriğini ara</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="baloo-search.png" format="PNG"/>
+<imagedata fileref="search-bar.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -1088,86 +1208,104 @@ context menu Icon Size? No different entries ?-->
 </mediaobject>
 </screenshot>
 </para>
+
 <para
->Arama BÜYÜK/küçük harf duyarlı değildir ve çevreleyen joker karakterlere gereksinim duymaz (<userinput
->*foo*</userinput
-> ve <userinput
->foo</userinput
-> aynı şeydir); ancak arama teriminin içinde joker karakterleri kullanabilirsiniz. <userinput
+><guilabel
+>Basit Arama</guilabel
+> ile, arama BÜYÜK/küçük harf duyarsızdır ve arama terimi bir düzenli ifade olarak yorumlanır, joker dizgisi olarak değil. Örneğin, herhangi bir sayıdaki karakterle eşleşmek için <userinput
 >*</userinput
-> sıfır veya daha çok karakterle eşleşir, <userinput
->?</userinput
-> yalnızca tek bir karakterle.</para>
+> yerine <userinput
+>.*</userinput
+> kullanın: <userinput
+>rapor.*2026</userinput
+>, adlarında <quote
+>rapor</quote
+> ve sonrasında <quote
+>2026</quote
+> gelen dosyaları bulur.</para>
+
 <para
->Bu özellik, çalışan Baloo hizmetleriyle birlikte kullanılabilir; bu hizmetler olmadan, arama sonuçlarını sağlamak için bir KIOSlave başlatılır.</para>
-<para
->Etkinleştirilmiş Baloo hizmetleriyle <guilabel
->Her Yerde</guilabel
-> seçeneği tüm indekslenmiş klasörlerde arama yapar, Baloo olmadan bu seçenek aramayı kullanıcının <replaceable
->Ana Klasör</replaceable
->’ünden başlatır.</para>
+>Giriş kutusunun altındaki düğmeler nerede arama yapılacağını seçer. <guibutton
+>Burada</guibutton
+>, arama başlatıldığında açık olan klasörü ve onun alt klasörlerini arar. <guibutton
+>Her Yerde</guibutton
+>, eğer dosya indeksleme kullanılıyorsa indekslenmiş tüm konumları, aksi halde kök klasörden başlayan tüm klasörleri arar.</para>
+
 <screenshot>
 <screeninfo
->Daha Fazla Seçenek ile Ara</screeninfo>
+>Süzgeç seçenekleri ile arama ekranı</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+<imagedata fileref="search-filter.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Daha Fazla Seçenek ile Ara</phrase>
+>Süzgeç seçenekleri ile arama ekranı</phrase>
 </textobject>
 <caption
 ><para
->Daha Fazla Seçenek ile &dolphin;’de arama</para
+><guibutton
+>Süzgeç</guibutton
+> seçenekleri ile arama yapan &dolphin;</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
+>Arama şeklini hassaslaştırmak için giriş kutusunun yanındaki <guibutton
+>Süzgeç</guibutton
+> düğmesini kullanın: </para>
+
+<itemizedlist>
+<listitem
+><para
 ><guilabel
->Arama</guilabel
-> çubuğunu genişletmek için <guilabel
->Diğer Seçenekler</guilabel
-> düğmesini kullanın. Bu, kullanıcının arama sonuçlarının sayısını küçültmesi için çok rahat bir yol sağlar.</para>
-<para
->Bir arama başlatmak için bir veya daha fazla dosya türü (<guilabel
->Belgeler</guilabel
+>Şurada ara</guilabel
+>, yalnızca <guilabel
+>dosya adlarının</guilabel
+> mı yoksa <guilabel
+>dosya içeriklerinin</guilabel
+> de mi aranacağını belirler. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Şunu kullanarak ara</guilabel
+>, arama aracını seçer. <guilabel
+>Basit Arama</guilabel
+>, dosyaları doğrudan arar ve herhangi bir hazırlık gerektirmeden çalışır. <guilabel
+>Dosya İndeksleme</guilabel
+>, sonuçları çok hızlı sağlayan, ancak yalnızca indekslenmiş klasörlerdeki dosyaları bulan dosya indeksleyicinin (Baloo) veri tabanını kullanır. Hangi klasörlerin dizine ekleneceği &systemsettings; bünyesinden yapılandırılabilir. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Dosya İndeksleme</guilabel
+> kullanılıyorsa sonuçlar <guilabel
+>Dosya Türü</guilabel
 >, <guilabel
->Ses</guilabel
+>Değiştirilme Tarihi</guilabel
 >, <guilabel
->Video</guilabel
->, <guilabel
->Görseller</guilabel
->), bir zaman aralığı, derecelendirme ve eğer <userinput
->tag:<replaceable
->foo</replaceable
-></userinput
-> aracılığıyla giriş kutusunda herhangi bir etiket tanımladıysanız etiket seçin.</para>
- 
- <para
-><guibutton
->Seçimi Temizle</guibutton
-> düğmesini kullanarak seçimi temizlemek olanaklıdır.</para>
+>Derecelendirme</guilabel
+> ve <guilabel
+>Künyeler</guilabel
+> kullanılarak daraltılabilir. </para
+></listitem>
+
+<listitem
+><para
+>Daha gelişmiş aramalar için aşağıdaki düğme, <application
+>KFind</application
+> uygulamasını kurar veya açar. </para
+></listitem>
+</itemizedlist>
 
 <para
->Alternatif olarak, <guilabel
+>Gelecekte tekrar hızlı bir şekilde erişmek üzere bir aramayı <guilabel
 >Yerler</guilabel
-> panelindeki bu seçenekleri Baloo kullanarak dosyaları bulmak için <guilabel
->Süzgeç</guilabel
-> çubuğuyla birlikte kullanabilir veya aramayı süzgeç ifadesiyle eşleşen dosyalarla sınırlandırabilirsiniz.</para>
-
-<para
->Bir aramaya gelecekte yeniden tez erişmek üzere <guilabel
->Yerler</guilabel
-> panelindeki <guilabel
->Ara</guilabel
-> bölümüne kaydetmek için Kaydet simgesini kullanın. </para>
-
-<para
->Baloo dışındaki diğer arama araçlarını seçmek için <guilabel
->Diğer Arama Araçları</guilabel
-> açılır listesini kullanın. </para>
+> paneline kaydetmek için giriş kutusunun sağ ucundaki “Kaydet” simgesini kullanın. </para>
 </sect2>
 
 <sect2 id="mounting-storage-media">
@@ -1229,7 +1367,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Seçiminizdeki tüm dosya uzantıları farklıysa dosya uzantıları korunurken tüm dosyaların adı <userinput
 >#</userinput
-> yer tutucusu kullanılmadan değiştirilebilir. Bu; örneğin, aynı dosya adına; ancak farklı uzantılara sahip olan bir video dosyasını ve ilişkili tüm altyazı dosyalarını yeniden adlandırmak için kullanışlıdır. </para>
+> yer tutucusu kullanılmadan değiştirilebilir. Bu; örneğin, aynı dosya adına; ancak farklı uzantılara sahip olan bir video dosyasını ve ilişkili tüm alt yazı dosyalarını yeniden adlandırmak için kullanışlıdır. </para>
 </sect2>
 
 <sect2 id="compare-files">
@@ -1271,16 +1409,18 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 >&dolphin; içinde klasör içeriğinin nasıl görüntülendiğini belirleyen ayarlar. Bu ayarlar, <link linkend="view-properties"
->Görünüm Gösterim Biçemi</link
+>Görünüm Stilleri</link
 > olarak adlandırılırlar ve araç çubuğu düğmeleriyle, <guimenu
 >Görünüm</guimenu
 > menüsüyle ve <link linkend="view-properties-dialog"
->Görünüm Özellikleri iletişim kutusuyla</link
-> değiştirilebilirler. Öntanımlı yapılandırmada tüm klasörler aynı gösterim biçemini kullanır; ancak &dolphin; her bir klasörün gösterim biçemini ayrı ayrı anımsaması için ayarların <link linkend="preferences-dialog-general-behavior"
-><quote
->Genel</quote
-></link
-> bölümünden yapılandırılabilir. </para
+>Görünüm Stili</link
+> iletişim kutusundan değiştirilebilirler. Varsayılan yapılandırmada tüm klasörler aynı görüntüleme stilini kullanır; ancak &dolphin; her bir klasörün görünüm özelliğini ayrı ayrı anımsaması için <guilabel
+>Görünüm</guilabel
+> ayarlarının <link linkend="preferences-dialog-view-general"
+><guilabel
+>Genel</guilabel
+> sekmesinden</link
+> yapılandırılabilir. </para
 ></listitem>
 
 </itemizedlist>
@@ -1291,72 +1431,422 @@ context menu Icon Size? No different entries ?-->
 <title
 >&dolphin; Tercihleri Penceresi</title>
 <para
->Tercihler iletişim kutusuna, &dolphin;’in ana penceresindeki <menuchoice
-><guimenu
->Ayarlar</guimenu
+>Tercihler iletişim kutusu, <menuchoice
+><guibutton
+>Menüyü Aç</guibutton
+><guisubmenu
+>Yapılandır</guisubmenu
 > <guimenuitem
 >&dolphin; Uygulamasını Yapılandır…</guimenuitem
 ></menuchoice
->menü ögesinden erişilebilir. Ayarlar, pencerenin sol tarafındaki ilgili simgeye tıklanarak erişilebilen birden çok bölüme ayrılmıştır. </para>
+> veya menü çubuğu gösteriliyorsa <menuchoice
+><guimenu
+>Ayarlar</guimenu
+><guimenuitem
+>&dolphin; Uygulamasını Yapılandır…</guimenuitem
+></menuchoice
+> ile açılabilir. Ayarlar, iletişim kutusunun solundaki ilgili simgeye tıklanarak erişilebilen birkaç gruba bölünmüştür. Bir ayarı tez bulmak için simgelerin üzerindeki arama alanı kullanılabilir. </para>
 
 <para
 ><guilabel
->Genel</guilabel
-> sayfasındaki <guilabel
->Başlangıç</guilabel
-> sayfası ve <guilabel
->Durum Çubuğu</guilabel
-> sekmesi dışındaki tüm ayarlar, &konqueror;’ın dosya yöneticisi kipi ile paylaşılır. </para>
+>Arayüz</guilabel
+> ve <guilabel
+>Görünüm</guilabel
+> ayarları aynı zamanda, &konqueror;’un dosya yöneticisi kipi ile paylaşılır. </para>
 
-<sect2 id="preferences-dialog-general">
+<sect2 id="preferences-dialog-interface">
 <title
->Genel</title>
+>Arayüz</title>
 
 <para
->Bu grup, &dolphin;’in genel davranışını denetleyen ayarları içerir. Grup daha üstte sekme çubuğunu kullanarak erişilebilen dört alt gruba ayrılmıştır. <screenshot>
+>Bu grup, &dolphin; penceresinin genel davranışını ve görünüşünü denetleyen ayarları içerir. Grup ayrıca üstteki sekme çubuğunu kullanarak erişilebilen beş alt gruba bölünmüştür. <screenshot>
 <screeninfo
->&dolphin; tercihleri penceresindeki Genel ayarların ekran görüntüsü</screeninfo>
+>&dolphin; tercihleri iletişim kutusundaki Arayüz ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+<imagedata fileref="preferences-interface-folders-and-tabs.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Genel Ayarlar.</phrase>
+>Arayüz ayarları</phrase>
 </textobject>
 <caption
 ><para
->&dolphin; Tercihleri Penceresindeki Genel Ayarlar.</para
+>&dolphin; tercihleri iletişim kutusundaki Arayüz ayarlarının ekran görüntüsü</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 </para>
 
-<sect3 id="preferences-dialog-general-behavior">
+<sect3 id="preferences-dialog-interface-folders-tabs">
 <title
->Davranış Sekmesi</title>
-
-<para>
+>Klasörler ve Sekmeler sekmesi</title>
 
 <itemizedlist>
 
 <listitem
 ><para
 ><guilabel
->Görünüm</guilabel
-> bölümünde, aynı <link linkend="view-properties"
->görünüm özelliklerinin</link
-> tüm pencereler arasında paylaşılıp paylaşılmayacağını belirtebilirsiniz. </para
+>Başlangıçta göster</guilabel
+> seçeneği, &dolphin; başlatılırken neyin gösterileceğini seçmenize olanak tanır. </para>
+<para
+><guilabel
+>Son kullanılan klasörler, sekmeler ve pencere durumu</guilabel
+> ögesi seçiliyse o zaman </para>
+<itemizedlist>
+<listitem>
+<para
+>Grafik arayüzden veya komut satırından herhangi bir &URL; olmadan başlatıldıysa &dolphin; oturumu geri yükler</para>
+</listitem>
+<listitem>
+<para
+>&dolphin; açıkken sistem yeniden başlatılırsa sistem geri geldiğinde olağan durumu geri yükler</para>
+</listitem>
+<listitem>
+<para
+>&URL;’ler ile başlatıldığında &dolphin;,oturumu geri yüklemek yerine o &URL;’leri gösteren pencereler açılır</para>
+</listitem>
+<listitem>
+<para
+>&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;’yi gösteren tek bir sekme ile açılır.</para>
+</listitem>
+</itemizedlist>
+<para
+>Aksi halde, başlangıçta her zaman belirli bir klasörü açmak için ikinci ögeyi seçin. Klasörün konumu doğrudan girilebilir veya <quote
+>klasör</quote
+> simgesini gösteren düğmeyi tıklanarak açılabilen bir iletişim kutusundan seçilebilir. Ayrıca, <guibutton
+>Geçerli Konumu Kullan</guibutton
+> veya <guibutton
+>Varsayılan Konumu Kullan</guibutton
+> düğmesine tıklanarak geçerli konum veya varsayılan konum (kullanıcının ana klasörüdür) başlangıç klasörü olarak kullanılabilir. </para
 ></listitem>
 
 <listitem
 ><para
 ><guilabel
->Sıralama Kipi</guilabel
-> ögelerin, görünüm içinde nasıl sıralanacağını denetler. <guilabel
->Doğal sıralama</guilabel
-> etkinse üç örnek dosya için sıralama <orderedlist
+>Yeni klasörleri sekmelerde açarak tek bir Dolphin penceresini açık tut</guilabel
+> seçeneği, &dolphin; dışarıdan çağrıldığında geçerli örneğin yeni bir sekmesinde yeni bir klasör açmalıdır. Etkinleştirilmezse yeni klasörler yeni &dolphin; örneklerinde açılacaktır. Varsayılan olarak bu seçenek devre dışıdır. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Başlık çubuğunda tam yolu göster</guilabel
+>, farklı klasörlerdeki aynı ada sahip dosyalar veya klasörler arasında ayrım yapmayı kolaylaştırır. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Süzgeç çubuğunu göster</guilabel
+>, süzgecin yeni pencerelerde görünüp görünmeyeceğini denetler. Daha fazla bilgi için <link linkend="filter-files"
+>süzgeç çubuğu hakkındaki bölüme</link
+> göz atın. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sekme çubuğunu her zaman göster</guilabel
+>, yalnızca bir sekme açık olsa bile sekme çubuğunu gösterir ve <guilabel
+>Sekmelerde kapat düğmesini göster</guilabel
+> her sekmeye kapatma için bir düğme ekler. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sekme stili</guilabel
+>, sekmelerin genişliğini denetler: Her bir sekmenin genişliği, klasör adına uyumlanabilir; tüm sekmeler aynı sabit genişliğe iye olabilir veya sekmeler var olan tüm alanı kullanabilir. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Yeni sekmeleri şurada aç</guilabel
+>, yeni bir sekmenin <guilabel
+>Geçerli sekmeden sonra</guilabel
+> veya <guilabel
+>Sekme çubuğunun sonunda</guilabel
+> açılıp açılmayacağını denetler. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Bölünmüş görünümü kapatırken</guilabel
+>, bölünmüş görünüm kipini kapatırken hangi görünümün kapatılacağını denetler; örneğin <keycap
+>F3</keycap
+> düğmesine basarak: <guilabel
+>Etkin bölmeyi kapat</guilabel
+>, <guilabel
+>Etkin olmayan bölmeyi kapat</guilabel
+> veya <guilabel
+>Sağ bölmeyi kapat</guilabel
+> seçeneklerinden birini seçin. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Yeni pencereleri bölünmüş görünüm kipinde aç</guilabel
+>, <link linkend="split-view"
+>&dolphin; görünümünün</link
+> yeni pencerelerde bölünüp bölünmeyeceğini denetler. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="preferences-dialog-interface-previews">
+<title
+>Ön İzlemeler Sekmesi</title>
+
+<para
+>Bu sekmede, hangi dosya türleri ön izlemelerinin gösterileceğini yapılandırabilirsiniz. Ayrıca, ön izlemelerin oluşturulduğu yerel ve uzak depolamadaki dosyaların en büyük boyutu seçilebilir. </para>
+<para
+><guilabel
+>Klasörlerde ön izlemeleri göster</guilabel
+> etkinleştirilirse uzak depolama birimindeki bir klasörde bulunan bazı dosyaların ön izlemeleri, klasörün simgesinin içinde gösterilecektir. Bu yavaş olabilir ve çok fazla ağ özkaynağı kullanabilir; bu nedenle, yavaş veya ölçülü bağlantılarda bunu devre dışı bırakmak isteyebilirsiniz. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-confirmations">
+<title
+>Onaylar Sekmesi</title>
+<para
+>Bu sekmede; dosya veya klasörleri çöp kutusuna taşımak, silmek, çöp kutusunu boşaltmak veya birden çok sekmeli pencereleri kapatmak gibi potansiyel olarak zararlı eylemlerden önce gösterilen uyarı iletişim kutularını etkinleştirebilirsiniz. </para>
+<para
+>Ayrıca, <guilabel
+>Yürütülebilir bir dosyayı açarken</guilabel
+> gerçekleştirilecek eylemi seçmek de olanaklıdır. Üç adet seçenek bulunur: <guilabel
+>Her zaman sor</guilabel
+>, <guilabel
+>Uygulamada aç</guilabel
+> ve <guilabel
+>Betiği çalıştır</guilabel
+>. </para>
+<warning
+><para
+><guilabel
+>Şunlar yapılırken KDE uygulamalarında onay iste:</guilabel
+> bölümü; &dolphin;, &konqueror;, &gwenview; ve varsayılan &kde; dosya iletişim kutusunu kullanan tüm &kde; uygulamalarını etkilerken; <guilabel
+>Şunlar yapılırken Dolphin’de onay iste:</guilabel
+> bölümü ise &dolphin;’e özel ayarlardır.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-panels">
+<title
+>Paneller Sekmesi</title>
+<para
+>Bu sekmede, <link linkend="information-panel"
+><guilabel
+>Bilgi</guilabel
+></link
+> panelini yapılandırabilirsiniz: Ön izlemeleri gösterip göstermeyeceğini, ortam dosyalarını kendiliğinden oynatılıp oynatılmayacağını/çalınıp çalınmayacağını, fare ile üzerine gelinen ögeleri ve tarihlerin uzun mu yoksa kısa biçim ile mi gösterilip gösterilmeyeceği gibi ayarları yapılabilir. Ayrıca, hazır buradayken, <link linkend="folders-panel"
+><guilabel
+>Klasörler</guilabel
+></link
+> panelini ise ana klasörünüze sınırlayabilirsiniz. </para>
+<para
+>Bu ayarları aynı zamanda, her bir panelin bağlam menüsünde de bulabilirsiniz. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-interface-bars">
+<title
+>Durum ve Konum Çubukları Sekmesi</title>
+
+<itemizedlist>
+
+<listitem
+><para
+><guilabel
+>Durum Çubuğu</guilabel
+> seçeneği, durum çubuğunun görünüşünü denetler. <guilabel
+>Küçük</guilabel
+> durum çubuğu, varsayılan ayardır, görünümün sol alt köşesinde görüntülenir. <guilabel
+>Tam genişlik</guilabel
+> seçeneği ise görünümün tüm genişliğini alır ve görünen simgelerin boyutunu değiştirebileceğiniz bir <guilabel
+>Yakınlaştırma sürgüsünü göster</guilabel
+> seçeneği ekler. Durum çubuğunu ayrıca <guilabel
+>Devre dışı</guilabel
+> bırakabilirsiniz. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Konum çubuğunu düzenlenebilir yap</guilabel
+>, başlangıçta konum çubuğunun düzenlenebilir kipte olup olmadığını denetler. Aksi takdirde, konum çubuğunun kırıntı kipi kullanılır. İki kip hakkında ayrıntılar için <link linkend="location-bar"
+>konum çubuğuyla ilgili bölüme</link
+> bakın. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Konum çubuğunda tam yolu göster</guilabel
+> etkinse geçerli konumun tam yolu, konum çubuğunun kırıntı kipinde gösterilir. Aksi takdirde, yolun <guilabel
+>Yerler</guilabel
+> panelindeki yerlerden biriyle başlayan yolun kısaltılmış hali gösterilir. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-view">
+<title
+>Görünüm</title>
+
+<para
+>Bu grup, &dolphin;’in görünümünün genel davranışını denetleyen ayarları içerir. Grup daha üstte sekme çubuğunu kullanarak erişilebilen beş alt gruba ayrılmıştır. <guilabel
+>Simgeler</guilabel
+>, <guilabel
+>Sıkışık</guilabel
+> ve <guilabel
+>Ayrıntılar</guilabel
+> sekmeleri, üç görünüm kipinin ayarlarını saklar. <screenshot>
+<screeninfo
+>&dolphin; tercihleri iletişim kutusundaki görünüm ayarlarının ekran görüntüsü</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-view-general.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Görünüm Ayarları</phrase>
+</textobject>
+<caption
+><para
+>&dolphin; tercihleri iletişim kutusundaki görünüm ayarları</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-view-general">
+<title
+>Genel Sekmesi</title>
+
+<itemizedlist>
+
+<listitem
+><para
+><guilabel
+>Görünüm Stili</guilabel
+> seçeneği, tüm klasörler için aynı <link linkend="view-properties"
+>görüntüleme stilinin</link
+> kullanılıp kullanılmadığını (varsayılan ayar, <guilabel
+>Tüm klasörler için ortak görüntüleme stili kullan</guilabel
+>) veya her bir klasörün kendi görüntüleme stilini anımsayıp anımsamadığını (<guilabel
+>Her klasörün kendi görüntüleme stilini anımsa</guilabel
+>) denetler. Arama sonuçları, son kullanılan dosyalar veya çöp kutusu; her zaman kendi özel görüntüleme stilini kullanır. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Genelde ortam dosyaları içeren konumlar için simgeler görümününü kullan</guilabel
+> etkinleştirilmişse içeriğinin büyük bir kısmı görseller veya videolar olan klasörler, <guilabel
+>Simgeler</guilabel
+> görünüm kipinde görüntülenirler. </para
+></listitem>
+
+<listitem
+><para
+>Sıkıştırılmış dosyalar (arşivler), <guilabel
+>Sıkıştırılmış dosyalara klasörmüş gibi göz at</guilabel
+> seçeneği etkinse dış bir uygulamada değil de, &dolphin;’in içinde açılırlar. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sürükleme işlemleri sırasında klasörleri aç</guilabel
+> etkinleştirilmişse fareyle bir ögeyi sürükleyip bir klasörün üzerine getirdikten sonra kısa bir süre beklemek o klasörü açar. Bu, ögeleri klasör hiyerarşisinde birkaç düzeyde daha derin olan klasörlere tez taşımanıza veya kopyalamanıza olanak tanır. </para
+></listitem>
+
+<listitem
+><para
+>Fareyle bir dosya veya klasörün üzerine geldiğinizde, <guilabel
+>Üzerine gelindiğinde öge bilgisini göster</guilabel
+> etkinleştirilmişse ilgili bilgileri içeren küçük bir pencere gösterilir. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Seçim işaretçisini göster</guilabel
+>, ögenin fareyle üzerine gelindiğinde ögenin simgesinin üzerinde küçük bir <guibutton
+>+</guibutton
+> veya <guibutton
+>−</guibutton
+> düğmesini gösterir. Bunlar ögeyi seçmek veya seçimini kaldırmak için kullanılabilir. </para
+></listitem>
+
+<listitem
+><para
+>Yalnızca bir öge seçiliyse ögeyi doğrudan görünümün içinde yeniden adlandırmak için <guilabel
+>Tekil ögeleri yerinde yeniden adlandır</guilabel
+> seçeneğini etkinleştirin. Bu seçenek devre dışıysa veya birden çok öge seçiliyse yeniden adlandırma için bir iletişim kutusu görüntülenir. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Gizli dosyaları gizlerken onların yedek kopyalarını da gizle</guilabel
+> seçeneği etkinleştirilmişse yedek dosyaları (örneğin, adları <literal
+>~</literal
+> ile biten dosyalar), gizli dosyalarla birlikte gizlenirler. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Çift tık eylemi:</guilabel
+>, görünümdeki boş bir alanda çift tıkladığınıdza gerçekleştirilecek eylemi seçer: <guilabel
+>Tümünü Seç</guilabel
+>, <guilabel
+>Hiçbir Şey</guilabel
+> veya bir <guilabel
+>Özel Komut</guilabel
+>. </para
+></listitem>
+
+</itemizedlist>
+
+<para
+>Ögeleri tek veya çift tıklama ile açma seçeneği sistem genelinde kullanılan bir ayardır ve &systemsettings; uygulamasının <menuchoice
+><guimenu
+>Çalışma Alanı</guimenu
+><guimenuitem
+>Genel Davranış</guimenuitem
+></menuchoice
+> modülündeki <guilabel
+>Dosyalara veya klasörlere tıklamak</guilabel
+> seçeneği ile değiştirilebilir. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-view-content-display">
+<title
+>İçerik Görüntüleme Sekmesi</title>
+
+<itemizedlist>
+
+<listitem
+><para
+><guilabel
+>Sıralama kipi</guilabel
+>, görünümdeki ögelerin nice sıralandığını denetler. Eğer <guilabel
+>Doğal</guilabel
+> seçiliyse örnek üç dosyanın sıralaması şu şekilde olur: <orderedlist
 > <listitem
 ><para
 >Dosya1,</para
@@ -1367,10 +1857,14 @@ context menu Icon Size? No different entries ?-->
 ></listitem
 > <listitem
 ><para
->Dosya10</para
+>Dosya10.</para
 ></listitem
 > </orderedlist
-> biçiminde olur. Bu seçenek devre dışı bırakılırsa normal abecesel sıralama, BÜYÜK/küçük harf uyumlu ve uyumsuz olacaktır ki bu sıralamayı etkiler. <orderedlist>
+> Eğer <guilabel
+>Abecesel, BÜYÜK/küçük harf duyarsız</guilabel
+> veya <guilabel
+>Abecesel, BÜYÜK/küçük harf duyarlı</guilabel
+> seçilirse normal abecesel sıralama kullanılır ve sıralama şu şekilde olur: <orderedlist>
 <listitem
 ><para
 >Dosya1,</para
@@ -1389,306 +1883,117 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Fareyle bir dosya veya klasörün üzerine geldiğinizde, <guilabel
->Araç ipuçlarını göster</guilabel
-> etkinleştirilmişse ilgili bilgileri içeren küçük bir pencere gösterilir. </para
+><guilabel
+>Klasör boyutu</guilabel
+>, özelliği klasörleri boyutlarına göre sıralamak için tanımlamaya olanak tanır. Klasörleri, içlerindeki öge sayılarına göre sıralamak için <guilabel
+>Öge sayısını göster</guilabel
+>’i veya içeriğinin boyutuna göre sıralamak için <guilabel
+>İçeriğin boyutunu göster</guilabel
+>’i kullanın. Özyineleme düzeyi sınırlı olabilir; bu da derin klasör yapılarındaki gereksiz yinelemeleri veya yavaş dosya sistemlerinin yaratacağı kötü etkiyi sınırlamak için yararlıdır. <guilabel
+>Boyutu gösterme</guilabel
+> seçeneğini kullanarak klasör boyutunu görüntülemeyi devre dışı bırakabilirsiniz (bazı nadir görülen durumlarda başarımı artırır; ancak sıralama gibi özellikleri etkiler). </para
 ></listitem>
 
 <listitem
 ><para
 ><guilabel
->Seçim işaretçisini göster</guilabel
->, ögenin fareyle üzerine gelindiğinde ögenin simgesinin üzerinde küçük bir <guibutton
->+</guibutton
-> veya <guibutton
->-</guibutton
-> düğmesini gösterir. Bunlar ögeyi seçmek veya seçimini kaldırmak için kullanılabilir. </para
-></listitem>
-
-<listitem
-><para
->Yalnızca bir öge seçilmişse bu kipi kullanmak için <guilabel
->Yerinde yeniden adlandır</guilabel
-> seçeneğini etkinleştirin. Bu seçenek devre dışı bırakılırsa veya birkaç öge birden seçilirse yeniden adlandırma için bir iletişim kutusu görüntülenecektir. </para
+>Tarih stili</guilabel
+> seçeneği, &dolphin;’de tarihleri gösterme biçimi kipini yapılandırmak için kullanılabilir. <guilabel
+>Göreceli</guilabel
+> (&eg;, <quote
+>Dün, 15:00</quote
+>) veya <guilabel
+>Mutlak</guilabel
+> (&eg;, <quote
+>2020-12-23 15:00) arasında seçim yapmak olanaklıdır.</quote
+>). </para
 ></listitem>
 
 <listitem
 ><para
 ><guilabel
->Sekme düğmesiyle bölünmüş görünüm bölmeleri arasında geçiş yap</guilabel
-> seçeneğini etkinleştirmek, bölünmüş görünümler arasında &Tab; düğmesiyle geçiş yapılabilmesine izin verir. </para
+>İzinler stili</guilabel
+> seçeneği, izinlerin nice görüntülendiğini denetler: <guilabel
+>Sembolik</guilabel
+> (örneğin, <quote
+>drwxr-xr-x</quote
+>), <guilabel
+>Sayısal (Sekizlik)</guilabel
+> (örneğin, <quote
+>755</quote
+>) veya <guilabel
+>Birleşik</guilabel
+> (örneğin, <quote
+>drwxr-xr-x (755)</quote
+>). </para
 ></listitem>
 
 <listitem
 ><para
->Bölünmüş görünüm kipini kapatırken etkin olmayan bölmeyi kapatmak için <guilabel
->Bölünmüş görünümü kapatmak etkin bölmeyi kapatır</guilabel
-> seçeneğini devre dışı bırakın; örneğin, <keycap
->F3</keycap
->’e basarak. </para
+><guilabel
+>Uzun dosya adları</guilabel
+> seçeneği, uzun dosya adlarının ortada mı yoksa sondan mı kısaltıldığını denetlemenize olanak tanır. </para
 ></listitem>
 
 </itemizedlist>
 
-</para>
-
 </sect3>
 
-<sect3 id="preferences-dialog-general-previews">
-<title
->Önizlemeler Sekmesi</title>
-
-<para
->Bu sekmede, hangi dosya türü önizlemelerinin gösterileceğini yapılandırabilirsiniz. Ayrıca, önizlemelerin oluşturulduğu yerel ve uzak dosyaların en büyük boyutu seçilebilir. </para>
-<para
->Klasörler için önizlemeler etkinleştirildiyse klasördeki bazı dosyaların önizlemeleri bir klasör simgesinin içinde gösterilir. </para>
-</sect3>
-
-<sect3 id="preferences-dialog-general-confirmations">
-<title
->Onaylar Sekmesi</title>
-<para
->Onay iste bölümünde, potansiyel olarak zararlı eylemlerden önce gösterilen uyarı iletişim kutularını etkinleştirebilirsiniz. </para>
-<para
-><guilabel
->Yürütülebilir bir dosyayı açarken</guilabel
-> öntanımlı eylemi seçmek de olanaklıdır. <guimenuitem
->Her zaman sor</guimenuitem
->, <guimenuitem
->Uygulamada aç</guimenuitem
-> ve <guimenuitem
->Betiği çalıştır</guimenuitem
-> olmak üzere üç seçenek vardır. </para>
-<warning
-><para
-><guilabel
->Dosya veya klasörleri çöp kutusuna taşıma</guilabel
-> ve <guilabel
->Dosyaları veya klasörleri silme</guilabel
-> için olan onay ayarları, &dolphin;, &konqueror;, &gwenview; ve öntanımlı &kde; dosya iletişim kutusunu kullanan tüm &kde; uygulamalarını etkilerken, <guilabel
->Birden çok sekmeli Dolphin pencerelerini kapatma</guilabel
->, &dolphin;’e özel bir ayardır.</para
-></warning>
-</sect3>
-
-<sect3 id="preferences-dialog-general-statusbar">
-<title
->Durum Çubuğu Sekmesi</title>
-
-<para
->Durum çubuğunun yeterince geniş olması koşuluyla, bu sekmedeki durum çubuğu için bazı ek ögeler etkinleştirilebilir: <itemizedlist>
-
-<listitem
-><para
-><guilabel
->Durum çubuğunu göster</guilabel
-> ögesi, durum çubuğu görünürlüğünü değiştirmek için kullanılabilir. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Yakınlaştırma sürgüsünü göster</guilabel
-> ögesi, simge boyutu araç takımının görünürlüğünü değiştirmeye izin verir. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Depolama alanı bilgisini göster</guilabel
-> ögesi, geçerli sürücüde ne kadar boş alan olduğunu gösteren bir çubuğu açıp kapatmak için kullanılabilir. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect3>
-
-</sect2>
-
-<sect2 id="preferences-dialog-startup">
-<title
->Başlangıç</title>
-
-<para
->Bu grup, &dolphin;’in başlangıç görünümünü belirleyen ayarları içerir. <screenshot>
-<screeninfo
->&dolphin; tercihleri penceresindeki Başlangıç ayarlarının ekran görüntüsü</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-startup.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Başlangıç Ayarları.</phrase>
-</textobject>
-<caption
-><para
->&dolphin; Tercihleri Penceresindeki Başlangıç Ayarları.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-<itemizedlist>
-
-<listitem
-><para
-><guilabel
->Başlangıçta göster</guilabel
-> seçeneği, başlangıçta açılan klasörün seçilmesini sağlar. </para>
-<para
-><guimenuitem
->Son kullanılan klasörler, sekmeler ve pencere durumu</guimenuitem
-> ögesi seçiliyse o zaman </para>
-<itemizedlist>
-    <listitem>
-        <para
->&GUI;’den veya komut satırından herhangi bir &URL; olmadan başlatıldıysa &dolphin; oturumu geri yükler</para>
-    </listitem>
-    <listitem>
-        <para
->&dolphin; açıkken sistem yeniden başlatılırsa sistem geri geldiğinde olağan durumu geri yükler</para>
-    </listitem>
-    <listitem>
-        <para
->&URL;’ler ile başlatıldığında &dolphin;,oturumu geri yüklemek yerine o &URL;’leri gösteren pencereler açılır</para>
-    </listitem>
-    <listitem>
-        <para
->&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;’yi gösteren tek bir sekme ile açılır.</para>
-    </listitem>
-</itemizedlist>
-<para
->Klasörün konumu ayrıca doğrudan girilebilir veya bir <quote
->klasör</quote
-> simgesini gösteren düğme tıklanarak açılabilen bir iletişim kutusundan seçilebilir. Ayrıca, geçerli konum veya öntanımlı konum (kullanıcının ana klasörüdür), ilgili düğme tıklanarak başlangıç klasörü olarak kullanılabilir. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Bölünmüş görünüm kipinde başla</guilabel
->, <link linkend="dolphin-view"
->&dolphin; görünümünün</link
-> başlangıçta yeni pencereler için bölünüp bölünmeyeceğini denetler. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Süzgeç çubuğunu göster</guilabel
->, süzgecin başlangıçta görünüp görünmeyeceğini denetler. Daha fazla bilgi için <link linkend="filter-files"
->süzgeç çubuğu hakkındaki bölüme</link
-> göz atın. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Konum çubuğunu düzenlenebilir yap</guilabel
->, başlangıçta konum çubuğunun düzenlenebilir kipte olup olmadığını denetler. Aksi takdirde, konum çubuğunun kırıntı kipi kullanılır. İki kip hakkında ayrıntılar için <link linkend="location-bar"
->konum çubuğuyla ilgili bölüme</link
-> bakın. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Yeni klasörleri sekmelerde aç</guilabel
->, &dolphin; dışarıdan çağrıldığında var olan örneğin yeni bir sekmesinde yeni bir klasör açmalıdır. Etkinleştirilmemişse yeni klasörler yeni &dolphin; örneklerinde açılacaktır. Öntanımlı olarak bu seçenek etkindir. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Konum çubuğunda tam yolu göster</guilabel
-> etkinse geçerli konumun tam yolu, konum çubuğunun kırıntı kipinde gösterilir. Aksi takdirde, yolun <guilabel
->Yerler</guilabel
-> panelindeki yerlerden biriyle başlayan yolun kısaltılmış hali gösterilir. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Başlık çubuğunda tam yolu göster</guilabel
->, farklı klasörlerdeki aynı ada sahip dosyalar veya klasörler arasında ayrım yapmayı kolaylaştırır. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect2>
-
-<sect2 id="preferences-dialog-viewmodes">
-<title
->Görünüm Kipleri</title>
-
-<para
->Bu grup, &dolphin;’in görüntüleme kiplerinin davranışını denetleyen ayarları içerir. Üç görünüm kipine (Simgeler, Sıkışık ve Ayrıntılar) üstteki sekme çubuğundan erişilebilir. <screenshot>
-<screeninfo
->&dolphin; tercihleri penceresindeki Simge Görünümü ayarlarının ekran görüntüsü</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Görünüm Kipi Ayarları.</phrase>
-</textobject>
-<caption
-><para
->&dolphin; Tercihleri Penceresindeki Görünüm Kipi Ayarları.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-</para>
-
-<sect3 id="preferences-dialog-viewmodes-common">
+<sect3 id="preferences-dialog-view-common">
 <title
 >Tüm görünüm kipleri için genel ayarlar</title>
 
 <para
->Her üç görünüm kipinde de bazı ortak ayarlar bulunur: </para>
+><guilabel
+>Simgeler</guilabel
+>, <guilabel
+>Sıkışık</guilabel
+> ve <guilabel
+>Ayrıntılar</guilabel
+> sekmelerindeki bazı ayarlar ortaktır: </para>
 <itemizedlist>
 
 <listitem
 ><para
->Simgelerin boyutlarını denetleyen sürgüler. <guilabel
->Öntanımlı</guilabel
+>Simgelerin büyüklüklerini denetleyen sürgüler. Ön izlemeler devre dışıysa veya etkinse sırasıyla <guilabel
+>Varsayılan simge boyutu</guilabel
 > veya <guilabel
->Önizleme</guilabel
-> boyutları, önizlemeler kapatıldığında veya etkinleştirildiğinde kullanılırlar. Simge boyutunun, <link linkend="preferences-dialog-general-statusbar"
->ayarların <quote
->Genel</quote
-> bölümündeki</link
-> ilgili seçenek etkinleştirildiğinde durum çubuğundaki yakınlaştırma sürgüsüyle kolayca değiştirilebileceğini unutmayın. </para
+>Ön izleme simgesi boyutu</guilabel
+> kullanılır. Simge büyüklüklerinin <guibutton
+>Görünüm Ayarları</guibutton
+> menüsündeki <guilabel
+>Yakınlaştır</guilabel
+> düğmeleriyle veya <link linkend="preferences-dialog-interface-bars"
+><guilabel
+>Arayüz</guilabel
+> ayarlarının <guilabel
+>Durum ve Konum Çubukları</guilabel
+> sekmesindeki ilgili özellik</link
+> etkinleştirilmişse durum çubuğundaki yakınlaştırma sürgüsüyle kolaylıkla değiştirilebileceğini aklınızda tutun. </para
 ></listitem>
 
 <listitem
 ><para
->Görünüm kipinde kullanılan yazıtipi için bir ayar: Sistem yazıtipi veya özel bir yazıtipi seçilebilir. </para
+>Görüntüleme kipinde kullanılan <guilabel
+>Etiket yazı tipi</guilabel
+> için bir ayar: Sistem yazı tipi veya özel bir yazı tipi seçilebilir. </para
 ></listitem>
 
 </itemizedlist>
 <para
->Görünüm kiplerinden yalnızca biri için geçerli olan <guilabel
->Metin</guilabel
-> bölümündeki diğer ayarlar aşağıda ele alınmıştır. </para>
+>Görünüm kiplerinden yalnızca biri için geçerli olan diğer ayarlar aşağıda ele alınmıştır. </para>
 
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-icons">
+<sect3 id="preferences-dialog-view-icons">
 <title
->Simgeler</title>
+>Simgeler Sekmesi</title>
 <para>
 <itemizedlist>
 <listitem
 ><para
 ><guilabel
->Genişlik</guilabel
+>Etiket genişliği</guilabel
 >, bir dosya ögesinin metni için ayrılan en az genişliği denetler. </para
 ></listitem>
 <listitem
@@ -1697,13 +2002,19 @@ context menu Icon Size? No different entries ?-->
 >En çok satır sayısı</guilabel
 >, simgenin altındaki en çok metin satırı sayısı anlamına gelir. </para
 ></listitem>
+<listitem
+><para
+>Eğer <guilabel
+>Sıkışık</guilabel
+> aralıklandırma etkinleştirilmişse ögeler birbirlerine daha yakın olarak yerleştirilirler; böylece bir satıra daha fazla öge sığar. </para
+></listitem>
 </itemizedlist>
 </para>
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-compact">
+<sect3 id="preferences-dialog-view-compact">
 <title
->Sıkışık</title>
+>Sıkışık Sekmesi</title>
 <para>
 <itemizedlist>
 <listitem
@@ -1716,136 +2027,66 @@ context menu Icon Size? No different entries ?-->
 </para>
 </sect3>
 
-<sect3 id="preferences-dialog-viewmodes-details">
+<sect3 id="preferences-dialog-view-details">
 <title
->Ayrıntılar</title>
+>Ayrıntılar Sekmesi</title>
 <para>
 <itemizedlist>
 <listitem
 ><para
 ><guilabel
->Genişletilebilir klasörler</guilabel
->, alt klasörlere sahip herhangi bir klasörün, ağaç görünümünde gösterilip gösterilmeyeceğine karar verir. Alt ögeleri &LMB; ile <guiicon
+>Genişletilebilir</guilabel
+> klasörler, alt klasörlere sahip herhangi bir klasörün, ağaç görünümünde gösterilip gösterilmeyeceğine karar verir. Alt ögeleri &LMB; ile <guiicon
 >&gt;</guiicon
 > simgesine tıklayarak genişletebilir ve <guiicon
 >v</guiicon
-> simgesine tıklayarak küçültebilirsiniz. </para>
-<para
+> simgesine tıklayarak küçültebilirsiniz. </para
+></listitem>
+<listitem
+><para
 ><guilabel
->Klasör boyutu</guilabel
->, özelliği klasörleri boyutlarına göre sıralamak için tanımlamaya olanak tanır. Klasörleri, içlerindeki öge sayılarına göre sıralamak için <guilabel
->Öge sayısını göster</guilabel
->’i veya içeriğinin boyutuna göre sıralamak için <guilabel
->İçeriğin boyutunu göster</guilabel
->’i kullanın. Özyineleme düzeyi sınırlı olabilir; bu da derin klasör yapılarındaki gereksiz yinelemeleri veya yavaş dosya sistemlerinin yaratacağı kötü etkiyi sınırlamak için yararlıdır. <guilabel
->Boyutu gösterme</guilabel
-> seçeneğini kullanarak klasör boyutunu görüntülemeyi devre dışı bırakabilirsiniz (bazı nadir görülen durumlarda başarımı artırır; ancak sıralama gibi özellikleri etkiler). </para>
-<para
-><guilabel
->Tarih biçemi</guilabel
-> seçeneği, &dolphin;’de tarihleri gösterme biçimi kipini yapılandırmak için kullanılabilir. <guilabel
->Göreceli</guilabel
-> (&eg;, <quote
->Dün, 15:00</quote
->) veya <guilabel
->Mutlak</guilabel
-> (&eg;, <quote
->2020-12-23 15:00) arasında seçim yapmak olanaklıdır.</quote
->). </para>
-</listitem>
+>Dosyaları ve klasörleri aç:</guilabel
+>, ögelerin <guilabel
+>Satırda herhangi bir yere tıklayarak</guilabel
+> mı yoksa yalnızca <guilabel
+>Simgeye veya ada tıklayarak</guilabel
+> mı açılacağını denetler. </para
+></listitem>
 </itemizedlist>
 </para>
 </sect3>
 
 </sect2>
 
-<sect2 id="preferences-dialog-navigation">
-<title
->Dolaşım</title>
-
-<para
->Bu grup, klasör yapısında ve arşivlerde gezinmeyi denetleyen ayarları içerir. <screenshot>
-<screeninfo
->&dolphin; tercihleri penceresindeki Dolaşım ayarlarının ekran görüntüsü</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-navigation.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase
->Dolaşım Ayarları.</phrase>
-</textobject>
-<caption
-><para
->&dolphin; Tercihleri Penceresindeki Dolaşım Ayarları.</para
-></caption>
-</mediaobject>
-</screenshot>
-
-<itemizedlist>
-
-<listitem
-><para
->Ögeleri tek veya çift fare tıklamasıyla açma seçeneği sistem çapında bir ayardır ve &systemsettings; <menuchoice
-><guimenu
->Çalışma Alanı Davranışı</guimenu
-><guimenuitem
->Genel Davranış</guimenuitem
-></menuchoice
-> modülünden değiştirilebilir.</para>
-</listitem>
-
-<listitem
-><para
-><guilabel
->Arşivleri klasör gibi aç</guilabel
-> etkinse arşivler, dış bir uygulama kullanmadan, &dolphin; içinde açılabilirler. </para
-></listitem>
-
-<listitem
-><para
-><guilabel
->Sürükleme işlemleri sırasında klasörleri aç</guilabel
-> etkinleştirilmişse fareyle bir ögeyi sürükleyip bir klasörün üzerine getirdikten sonra kısa bir süre beklemek o klasörü açar. Bu, ögeleri klasör hiyerarşisinde birkaç düzeyde daha derin olan klasörlere tez taşımanıza veya kopyalamanıza olanak tanır. </para
-></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect2>
-
 <sect2 id="preferences-dialog-context-menu">
 <title
->Hizmetler</title>
+>Bağlam Menüsü</title>
 
 <para
->Bu grup, &dolphin;’in &RMB; ile bir dosya veya klasöre tıklandığında görünen bağlam menüsünün <guisubmenu
->Eylemler</guisubmenu
-> alt menüsünde gösterilebilen çeşitli hizmetler sunar. </para>
+>Bu grup, bir dosya veya klasöre &RMB; ile tıklandığında açılan &dolphin; bağlam menüsünde görüntülenebilecek çeşitli hizmetleri ve yerleşik &dolphin; eylemlerini sunar. Listedeki bir ögeyi bulmak için üst kısımdaki arama alanını kullanın. </para>
 
 <screenshot>
 <screeninfo
->&dolphin;’in tercihler iletişim kutusundaki Hizmetler Menüsü ayarlarının ekran görüntüsü</screeninfo>
+>&dolphin;’in tercihler iletişim kutusundaki bağlam menüsü ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-context-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Hizmetler Ayarları.</phrase>
+>Bağlam menüsü ayarları</phrase>
 </textobject>
 <caption
 ><para
->&dolphin; Tercihleri Penceresindeki Hizmetler Ayarları.</para
+>&dolphin; Tercihleri Penceresindeki bağlam menüsü ayarları</para
 ></caption>
 </mediaobject>
 </screenshot>
 
 <para
 ><guibutton
->Yeni Hizmetler İndir</guibutton
-> düğmesini kullanarak bağlam menüsü için ek hizmetler indirebilirsiniz. </para>
+>Hizmetler İndir…</guibutton
+> düğmesini kullanarak, bağlam menüsü için ek hizmetler indirebilirsiniz. </para>
 <para
 >&dolphin;’in <guilabel
 >Bazaar</guilabel
@@ -1855,27 +2096,37 @@ context menu Icon Size? No different entries ?-->
 >Git</guilabel
 > veya <guilabel
 >Subversion</guilabel
-> eklentilerini kdesdk modülünden kurduysanız bunlar hizmetler listesinde gösterilir. Bu eklentiler etkinleştirildiyse ve sürüm denetimi altındaki bir klasöre girerseniz sürüm durumu (yerel olarak değişti, güncel vb.) simgelerle gösterilir ve bağlam menüsünde işleme, güncelleme, ekleme, kaldırma gibi ek girdileriniz olur. </para>
+> eklentilerini dolphin-plugins paketinden kurduysanız bunlar hizmetler listesinde gösterilir. Bu eklentiler etkinleştirildiyse ve sürüm denetimi altındaki bir klasöre girerseniz sürüm durumu (yerel olarak değişti, güncel vb.) simgelerle gösterilir ve bağlam menüsünde işleme, güncelleme, ekleme, kaldırma gibi ek girdileriniz olur. </para>
 <para
->Hizmetler listesinde ayrıca <guimenuitem
->Şuraya Kopyala</guimenuitem
+>Listede ayrıca  <guimenuitem
+>Sil</guimenuitem
 >, <guimenuitem
->Şuraya Taşı</guimenuitem
+>Buraya Kopyala</guimenuitem
+> ve <guimenuitem
+>Buraya Taşı</guimenuitem
 >, <guimenuitem
 >Yerlere Ekle</guimenuitem
 >, <guimenuitem
 >Şuna Göre Sırala</guimenuitem
 >, <guimenuitem
->Görünüm Kipi</guimenuitem
+>Görünüm Kipini Değiştir</guimenuitem
 >, <guimenuitem
 >Yeni Sekmede Aç</guimenuitem
 >, <guimenuitem
 >Yeni Pencerede Aç</guimenuitem
 >, <guimenuitem
+>Bölünmüş Görünümde Aç</guimenuitem
+>, <guimenuitem
 >Konumu Kopyala</guimenuitem
-> ve <guimenuitem
+>, <guimenuitem
 >Burada Çoğalt</guimenuitem
-> komutlarının bağlam menüsünde gösterilip gösterilmeyeceğini seçebilirsiniz. </para>
+>, <guimenuitem
+>Burada Uçbirim Aç</guimenuitem
+>, <guimenuitem
+>Diğer Görünüme Kopyala</guimenuitem
+> ve <guimenuitem
+>Diğer Görünüme Taşı</guimenuitem
+> komutlarının bağlam menüsünde görünüp görünmeyeceğini de seçebilirsiniz. </para>
 <para
 >Bu ayarların etkinleştirilebilmesi için &dolphin;’in yeniden başlatılması gerekir. </para>
 
@@ -1962,10 +2213,16 @@ context menu Icon Size? No different entries ?-->
 <!-- begin copy to konqueror filemanager.docbook -->
 <sect1 id="view-properties">
 <title
->Klasör Görünümü Gösterim Biçemi</title>
+>Klasör Görünüm Stili</title>
 
 <para
->Aşağıdaki ayarlar, bir klasörün içeriğinin &dolphin;’de nasıl görüntüleneceğini denetler ve öntanımlı olarak klasör bazında saklanır: </para>
+>Aşağıdaki ayarlar, bir klasörün içeriğinin &dolphin; görünümünde nasıl görüntülendiğini denetlerler. Varsayılan olarak, bunlar tüm klasörler arasında paylaşılırlar; ancak eğer <link linkend="preferences-dialog-view-general"
+><guilabel
+>Görünüm</guilabel
+> ayarlarının <guilabel
+>General</guilabel
+></link
+> sekmesinden etkinleştirilmişlerse klasör başına özel olarak da saklanabilirler: </para>
 <itemizedlist>
 
 <listitem
@@ -1980,21 +2237,21 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Klasörlerin ve dosyaların sıralanması &ndash; klasörler önce gösteriliyor mu, gösterilmiyor mu? </para
+>Dosyaların ve klasörlerin sıralanması &mdash; klasörler önce mi gösterilir yoksa dosyalar mı? Gizli dosyalar gösterilir mi, gösterilmez mi? </para
 ></listitem>
 
 <listitem
 ><para
->Önizlemeler &mdash; simgelerin yerine mi gösteriliyorlar (&dolphin;’in <link linkend="preferences-dialog-general-previews"
+>Ön izlemeler &mdash; simgeler yerine gösterilirler mi (&dolphin;’in arayüz ayarlarının <link linkend="preferences-dialog-interface-previews"
 ><guilabel
->Önizlemeler</guilabel
+>Ön İzlemeler</guilabel
 > sekmesindeki ayarlara göre</link
->) yoksa gösterilmiyorlar mı? </para
+>), yoksa gösterilmezler mi? </para
 ></listitem>
 
 <listitem
 ><para
->Ögeler görünümlerde gruplar halinde mi gösteriliyor? </para
+>Ögeler görünümlerde gruplar halinde mi gösteriliyor ve hangi özniteliğe göre gruplanıyorlar? </para
 ></listitem>
 
 <listitem
@@ -2009,45 +2266,59 @@ context menu Icon Size? No different entries ?-->
 
 </itemizedlist>
 <para
->Görünüm özellikleri, <menuchoice
-><guimenu
+>Görüntüleme stili, <guimenu
 >Görünüm</guimenu
-></menuchoice
-> menüsünden yapılandırılabilir; bazı ayarlar ise (örn. görünüm kipi) araç çubuğu düğmelerinden erişilebilirdir. </para>
+> menüsüyle veya araç çubuğundaki <guibutton
+>Görünüm Ayarları</guibutton
+> düğmesiyle kolaylıkla değiştirilebilir. </para>
 
 <sect2 id="view-properties-dialog">
 <title
->Görünüm Özellikleri İletişim Kutusu</title>
+>Görünüm Stili İletişim Kutusu</title>
 
 <para>
 
 <screenshot>
 <screeninfo
->Görünüm Özellikleri iletişim kutusunun ekran görüntüsü</screeninfo>
+>Görünüm Stili iletişim kutusunun ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+<imagedata fileref="view-display-style.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Görünüm Özellikleri iletişim kutusu</phrase>
+>Görünüm Stili iletişim kutusu</phrase>
 </textobject>
 <caption
 ><para
->Görünüm Özellikleri iletişim kutusu.</para
+>Görünüm Stili iletişim kutusu</para
 ></caption>
 </mediaobject>
 </screenshot
-><guilabel
->Görünüm Özellikleri</guilabel
-> iletişim kutusu, aynı anda birçok klasör için görünüm biçemlerini tez değiştirmek için kullanılabilir. Bu, <guilabel
->Şuna uygula</guilabel
-> bölümünde yapılan seçime bağlı olarak geçerli klasör, tüm alt klasörler dahil geçerli klasör ve hatta tüm klasörler için yapılabilir. </para>
+><menuchoice
+><guimenu
+>Görünüm</guimenu
+><guimenuitem
+>Görünüm Stilini Ayarla…</guimenuitem
+></menuchoice
+> yolu ile açılan <guilabel
+>Görünüm Stili</guilabel
+> iletişim kutusu, yukarıda listelenen tüm görüntüleme stili ayarlarında değişiklik yapmak için kullanılabilir. Her bir öge için gösterilen bilgiler, iletişim kutusunun alt kısmındaki <guilabel
+>Ek Bilgi</guilabel
+> bölümünden seçilebilir. </para>
 
 <para
+>Eğer her bir klasör kendi görüntülenme stilini anımsıyorsa (<link linkend="preferences-dialog-view-general"
 ><guilabel
->Öntanımlı görünüm ayarları olarak kullan</guilabel
-> etkinleştirilirse seçili görünüm özellikleri, henüz özelleştirilmiş görünüm özelliklerine sahip olmayan tüm klasörler için de kullanılacaktır. </para>
+>Görünüm</guilabel
+> ayarlarının <guilabel
+>Genel</guilabel
+> sekmesine bakın</link
+>) iletişim kutusunda ayrıca bir tane <guilabel
+>Şuna uygula:</guilabel
+> bölümü bulunur. Sonrasında değişiklikler geçerli klasöre, tüm alt klasörleri içerilecek biçimde geçerli klasöre ve hatta tüm klasörlere uygulanı; bu, bu bölümde yapılan seçime bağlıdır. Eğer <guilabel
+>Varsayılan görünüm ayarları olarak kullan</guilabel
+> etkinleştirilmişse seçilen görünüm özellikleri henüz bunlarda değişiklik yapmamış/özelleştirilmemiş tüm klasörler için kullanılır. </para>
 
 </sect2>
 
@@ -2059,9 +2330,13 @@ context menu Icon Size? No different entries ?-->
 <title
 >Komut Başvurusu</title>
 <para
->Öntanımlı olarak menü çubuğu gösterilmez. Burada açıklanan tüm işlemlere araç çubuğu düğmeleriyle veya <guibutton
->Denetim</guibutton
-> araç çubuğu düğmesinin menüsündeki ögelerle erişilebilir.</para>
+>Varsayılan olarak, menü çubuğu gösterilmez. Burada açıklanan tüm eylemler hem araç çubuğu düğmelerinden hem de <guibutton
+>Menüyü Aç</guibutton
+> düğmesi ile erişilen menü ile erişilebilir (<link linkend="toolbar"
+>araç çubuğunun</link
+>en sağında üç adet yatay çizgi ile gösterilir veya <keycap
+>F10</keycap
+> düğmesi ile açılır).</para>
 
 <sect1 id="commands-menubar">
 <title
@@ -2094,16 +2369,14 @@ context menu Icon Size? No different entries ?-->
 <note>
     <para
 >Kendi <guisubmenu
->Yeni Oluştur…</guisubmenu
+>Yeni Oluştur</guisubmenu
 > alt menü ögelerinizi oluşturmanız olanaklıdır. Başvuru olarak <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
 >KIO kaynak deposu</ulink
 > dosyalarını kullanın ve sonuçta ortaya çıkan <filename role="extension"
 >.desktop</filename
 > dosyasını ana dizininizdeki <filename role="directory"
 >.local/share/templates</filename
-> içine kopyalayın (adres, &konsole;’de <userinput
->kf5-config kullanılarak belirlenebilir) --path templates</userinput
-> kullanılarak belirlenebilir), ardından &dolphin;’i yeniden başlatın. </para>
+> klasörüne kopyalayın; ardından &dolphin;’i yeniden başlatın. </para>
 </note>
 </listitem>
 </varlistentry>
@@ -2203,6 +2476,27 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
+><guimenu
+>Dosya</guimenu
+> <guimenuitem
+>Yerlere Ekle</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Geçerli klasörü <link linkend="places-panel"
+><guilabel
+>Yerler</guilabel
+> paneline</link
+> ekler.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
 ><shortcut
 > <keycombo action="simul"
 ><keycap
@@ -2212,7 +2506,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Dosya</guimenu
 > <guimenuitem
->Yeniden Adlandır</guimenuitem
+>Yeniden Adlandır…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2221,6 +2515,31 @@ context menu Icon Size? No different entries ?-->
 >Seçili bir ögeyi yerinde yeniden adlandırır. Birkaç öge seçiliyse <link linkend="batch-rename"
 >toplu yeniden adlandırma penceresini</link
 > açar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Burada Çoğalt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Adlarının sonuna bir <replaceable
+> kopyası</replaceable
+> ekleyerek seçili ögelerin bir kopyasını oluşturur.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2282,32 +2601,7 @@ context menu Icon Size? No different entries ?-->
 ></term>
 <listitem
 ><para
->Bu eylem, yeni bir &dolphin; penceresi içinde bir bağlantı hedefini vurgular. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
->D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->File</guimenu
-> <guimenuitem
->Burada Çoğalt</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Adlarının sonuna bir <replaceable
-> kopyası</replaceable
-> ekleyerek seçili ögelerin bir kopyasını oluşturur.</action
-></para
+>Bu eylem, dosya yöneticisinde, seçili bağlantının hedefini vurgular. </para
 ></listitem>
 </varlistentry>
 
@@ -2395,6 +2689,29 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Düzen</guimenu
+> <guimenuitem
+>Yinele</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Son geri alınan işlemi yineler.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
 >&Ctrl;<keycap
 >X</keycap
 ></keycombo
@@ -2432,6 +2749,29 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><action
 >O anda seçili olan ögeleri kopyalar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Düzen</guimenu
+> <guimenuitem
+>Konumu Kopyala</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Şu anda seçili olan ögelerin konumlarını panoya kopyalar.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2483,52 +2823,6 @@ context menu Icon Size? No different entries ?-->
 ><shortcut
 > <keycombo action="simul"
 >&Ctrl;<keycap
->F5</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Düzen</guimenu
-> <guimenuitem
->Etkin Olmayan Bölünmüş Görünüme Kopyala</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Şu anda seçili olan ögeleri etkin bölünmüş görünümden etkin olmayan bölünmüş görünüme kopyalar.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
->F6</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Düzen</guimenu
-> <guimenuitem
->Etkin Olmayan Bölünmüş Görünüme Taşı</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Seçili ögeleri etkin bölünmüş görünümden etkin olmayan bölünmüş görünüme taşır. Geçerli kullanıcının seçilen öge(ler) üzerinde yazma izni yoksa devre dışı bırakılır.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
 >I</keycap
 ></keycombo
 > </shortcut
@@ -2543,11 +2837,9 @@ context menu Icon Size? No different entries ?-->
 ><action
 ><link linkend="filter-files"
 >Süzgeç çubuğunu</link
-> etkinleştirir/devre dışı bırakır.</action
-> Bu eylem için alternatif olarak <keycombo action="simul"
->&Shift;<keycap
+> açar ve klavye odağını ona taşır.</action
+> Bu eylem için alternatif <keycap
 >/</keycap
-></keycombo
 > kısayolunu da kullanabilirsiniz.</para
 ></listitem>
 </varlistentry>
@@ -2570,7 +2862,76 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Bul çubuğunu açar. Düzenleme kutusuna bir arama terimi girin ve dosya klasöründe, geçerli klasörden başlayarak veya her yerden dosya içeriğinde arama yapmak için simgesini seçin.</action
+>Arama çubuğunu açar. Düzenleme kutusuna bir arama terimi girin ve dosya klasöründe, geçerli klasörden başlayarak veya her yerden dosyalar içeriğinde arama yapmak için simgesini seçin.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>Boşluk</keycap
+> </shortcut
+> <guimenu
+>Düzen</guimenu
+> <guimenuitem
+>Dosyalar ve Klasörler Seç</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+><link linkend="selection-mouse"
+>Seçim kipini</link
+> etkinleştirir veya devre dışı bırakır.</action>
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Düzen</guimenu
+> <guimenuitem
+>Diğer Görünüme Kopyala</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Şu anda seçili olan ögeleri etkin bölünmüş görünümden etkin olmayan bölünmüş görünüme kopyalar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Düzen</guimenu
+> <guimenuitem
+>Diğer Görünüme Taşı</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Seçili ögeleri etkin bölünmüş görünümden etkin olmayan bölünmüş görünüme taşır. Geçerli kullanıcının seçilen öge(ler) üzerinde yazma izni yoksa devre dışı bırakılır.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2659,6 +3020,29 @@ context menu Icon Size? No different entries ?-->
 ><shortcut
 > <keycombo action="simul"
 >&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Yakınlaştırma Düzeyini Sıfırla</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Görünümdeki simgelerin boyutunu varsayılana sıfırlar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
 >-</keycap
 ></keycombo
 > </shortcut
@@ -2679,23 +3063,39 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
->0</keycap
-></keycombo
-> </shortcut
-> <guimenu
->View</guimenu
-> <guimenuitem
->Yakınlaştırma Düzeyini Sıfırla</guimenuitem
+><guimenu
+>Görünüm</guimenu
+> <guisubmenu
+>Şuna Göre Sırala</guisubmenu
 > </menuchoice
 ></term>
 <listitem
 ><para
 ><action
->Görünümdeki simgelerin boyutunu öntanımlıya sıfırlar.</action
-></para
+>Ögelerin</action
+> <link linkend="dolphin-view-information"
+>Görünümdeki Bilgiler</link
+> içinde açıklanan <guimenuitem
+>Ad</guimenuitem
+> veya başka bir kritere göre sıralanıp sıralanmayacağını değiştirir.</para>
+<para
+>Ölçütün aşağısındaki iki öge, sıralama düzenini seçer. Bunların adları, seçili ölçütlere bağlıdır; örneğin, <guimenuitem
+>Ad</guimenuitem
+> için <guimenuitem
+>A–Z</guimenuitem
+> ve <guimenuitem
+>Z–A</guimenuitem
+> veya <guimenuitem
+>Boyut</guimenuitem
+> için <guimenuitem
+>Önce En Küçük</guimenuitem
+> ve <guimenuitem
+>Önce En Büyük</guimenuitem
+>. <guimenuitem
+>Önce Klasörler</guimenuitem
+>, dosyalardan önce klasörleri sıralar. <guimenuitem
+>Gizli Dosyalar Sonda</guimenuitem
+>, gizli dosyaları diğer ögelerden sonra sıralar ve yerleştirir. </para
 ></listitem>
 </varlistentry>
 
@@ -2705,7 +3105,30 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Görünüm</guimenu
 > <guisubmenu
->Görünüm Kipi</guisubmenu
+>Şuna Göre Grupla</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+>Geçerli klasörün içeriğini, seçili ölçütlere göre <action
+>görüntüler</action
+>. <guimenuitem
+>Yok</guimenuitem
+>, gruplamayı devre dışı bırakır ve <guimenuitem
+>Sıralama ile Ayrı</guimenuitem
+>, ögeleri, <guisubmenu
+>Şuna Göre Sırala</guisubmenu
+> ile seçilen ölçütlere göre gruplar. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Görünüm</guimenu
+> <guisubmenu
+>Görünüm Kipini Değiştir</guisubmenu
 > </menuchoice
 ></term>
 <listitem
@@ -2740,33 +3163,6 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Görünüm</guimenu
 > <guisubmenu
->Şuna Göre Sırala</guisubmenu
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Ögelerin</action
-> <link linkend="dolphin-view-information"
->Görünümdeki Bilgiler</link
-> içinde açıklanan <guimenuitem
->Ad</guimenuitem
-> veya başka bir kritere göre sıralanıp sıralanmayacağını değiştirir.</para>
-<para
-><guimenuitem
->Azalan</guimenuitem
->, sıralamayı ters çevirir. <guimenuitem
->Önce Klasörler</guimenuitem
-> klasörleri, dosyalardan önce sıralar. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Görünüm</guimenu
-> <guisubmenu
 >Ek Bilgileri Göster</guisubmenu
 > </menuchoice
 ></term>
@@ -2783,36 +3179,21 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
-><guimenu
+><shortcut
+> <keycap
+>F12</keycap
+> </shortcut
+> <guimenu
 >Görünüm</guimenu
 > <guimenuitem
->Önizlemeleri Göster</guimenuitem
+>Ön İzlemeleri Göster</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
 >Farklı görünüm kiplerinde dosya içeriğinin <action
->sembolik bir önizlemesini görüntüler</action
+>sembolik bir ön izlemesini görüntüler</action
 >.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Görünüm</guimenu
-> <guimenuitem
->Gruplayarak Göster</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
->Geçerli klasörün içeriğini <guimenuitem
->Şuna Göre Sırala</guimenuitem
-> içinde seçilen seçeneğe göre gruplandırılmış olarak <action
->görüntüler</action
->. </para
 ></listitem>
 </varlistentry>
 
@@ -2835,7 +3216,7 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><action
 >Geçerli klasördeki tüm gizli dosyaları ve alt klasörleri gösterir.</action
->Bu eylem için alternatif olarak <keycombo action="simul"
+> Bu eylem için alternatif olarak <keycombo action="simul"
 >&Ctrl;<keycap
 >H</keycap
 ></keycombo
@@ -2846,11 +3227,66 @@ context menu Icon Size? No different entries ?-->
 <varlistentry>
 <term
 ><menuchoice
+><guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Yönetici Gibi Davran</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Geçerli görünümü yönetici ayrıcalıklarıyla çalışacak şekilde değiştirir</action
+>, böylece diğer kullanıcılara veya sisteme ait dosya ve klasörler değiştirilebilir. İlk önce risklerle ilgili bir uyarı gösterilir. Bu öge yalnızca <application
+>kio-admin</application
+> kuruluysa kullanılabilir. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Varsayılanlara Sıfırla</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+><link linkend="view-properties-dialog"
+>Görünüm Stili</link
+> iletişim kutusunu açar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Görünüm Stilini Ayarla…</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+><link linkend="view-properties-dialog"
+>Görünüm Stili</link
+> iletişim kutusunu açar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
 ><shortcut
-> <keycombo action="simul"
-><keycap
+> <keycap
 >F3</keycap
-></keycombo
 > </shortcut
 > <guimenu
 >Görünüm</guimenu
@@ -2861,7 +3297,34 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><action
->Bölünmüş görünüm kipini etkinleştirir/devre dışı bırakır.</action
+>Bölünmüş görünüm kipini etkinleştirir ve devre dışı bırakır.</action
+> Görünüm bölünmüşken, bu ögenin etiketi <guimenuitem
+>Sol Görünümü Kapat</guimenuitem
+> veya <guimenuitem
+>Sağ Görünümü Kapat</guimenuitem
+> olarak değişir.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Görünümü Sekmelere Böl</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Bölünmüş görünümün iki görünümünü iki adet sekmeye çıkarır.</action
 ></para
 ></listitem>
 </varlistentry>
@@ -2871,9 +3334,76 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
-><keycap
->F5</keycap
+>&Shift;<keycap
+>F3</keycap
 ></keycombo
+> </shortcut
+> <guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Çıkar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Görünüm bölünmüşse odaktaki görünümü yeni bir pencereye çıkarır.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Diğer Görünüme Odaklan</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Klavye odağını, diğer bölünmüş görünüme taşır.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Sakla</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Saklama sanal klasörünü bölünmüş bir görünümde açar.</action
+> Bu öge yalnızca, saklama hizmeti çalışıyorsa kullanılabilirdir.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F5</keycap
 > </shortcut
 > <guimenu
 >Görünüm</guimenu
@@ -2994,27 +3524,12 @@ context menu Icon Size? No different entries ?-->
 ><action
 >Konum çubuğunu <link linkend="location-bar-editable"
 >düzenlenebilir kipe</link
-> geçirir, gerekirse de yerinin tez değiştirilebilmesi için seçer. </action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
->Görünüm</guimenu
-> <guimenuitem
->Görünüm Özelliklerini Ayarla…</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
-><link linkend="view-properties-dialog"
->Görünüm Özellikleri iletişim kutusunu</link
-> açar.</action
-></para
+> geçirir; gerekirse de yerinin tez değiştirilebilmesi için seçer.</action
+> Bu eylem için alternatif bir <keycombo action="simul"
+>&Alt;<keycap
+>D</keycap
+></keycombo
+> kısayolu da vardır.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -3126,6 +3641,23 @@ context menu Icon Size? No different entries ?-->
 <term
 ><menuchoice
 ><guimenu
+>Görünüm</guimenu
+> <guisubmenu
+>Yer İmleri</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Geçerli klasöre yer imleri koymanıza ve yer imlerinizi açmanıza veya düzenlemenize olanak tanıyan bir menü gösterir.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
 >Git</guimenu
 > <guisubmenu
 >Son Kapatılan Sekmeler</guisubmenu
@@ -3153,29 +3685,6 @@ context menu Icon Size? No different entries ?-->
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Shift;<keycap
->F4</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Araçlar</guimenu
-> <guimenuitem
->Uçbirim Aç</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Geçerli klasör içinde &konsole; uygulamasını açar.</action
-></para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >F</keycap
 ></keycombo
@@ -3191,6 +3700,73 @@ context menu Icon Size? No different entries ?-->
 ><action
 >Geçerli klasörde tercih edilen arama aracını açar.</action
 ></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Araçlar</guimenu
+> <guimenuitem
+>Uçbirim Aç</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Geçerli klasör içinde &konsole; gibi bir uçbirim uygulamasını açar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;&Alt;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Araçlar</guimenu
+> <guimenuitem
+>Burada Uçbirim Aç</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Seçilen ögelerin konumları için veya hiçbir şey seçili değilse geçerli klasör için bir uçbirim uygulaması açar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Araçlar</guimenu
+> <guisubmenu
+>Disk Alanı Kullanımını Yönet</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Geçerli klasörün, geçerli aygıtın veya tüm aygıtların disk kullanım istatistiklerini <application
+>Filelight</application
+> ile gösterir</action
+>. <application
+>Filelight</application
+> kurulu değilse kurmayı önerir.</para
 ></listitem>
 </varlistentry>
 
@@ -3350,6 +3926,12 @@ context menu Icon Size? No different entries ?-->
 ><para
 >&Orville.Bennett; &Orville.Bennett.mail;</para
 ></listitem>
+<listitem
+><para
+>Yuma Kakei <email
+>yumasansansan@gmail.com</email
+></para
+></listitem>
 </itemizedlist>
 </para>
 
@@ -3366,6 +3948,10 @@ context menu Icon Size? No different entries ?-->
 <para
 >Belgelendirme telif hakkı © 2009 Frank Reininghaus <email
 >frank78ac@googlemail.com</email
+> </para>
+<para
+>Belgelendirme telif hakkı © 2026 Yuma Kakei <email
+>yumasansansan@gmail.com</email
 > </para>
 
 <para
