@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:42+0000\n"
+"POT-Creation-Date: 2026-11-25 03:28+0000\n"
 "PO-Revision-Date: 2026-06-05 23:32+0100\n"
 "Last-Translator: César A. P. Cláudio <cesarapclaudio@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
@@ -6796,7 +6796,7 @@ msgstr "Um sub-conjunto da configuração do Dolphin."
 msgid "Loading…"
 msgstr "A carregar…"
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "Carregamento cancelado"

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:42+0000\n"
+"POT-Creation-Date: 2026-11-25 03:28+0000\n"
 "PO-Revision-Date: 2026-10-23 14:43+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -6595,7 +6595,7 @@ msgstr "Υποσύνολο των ρυθμίσεων του Dolphin."
 msgid "Loading…"
 msgstr "Φόρτωση…"
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "Η φόρτωση ακυρώθηκε"

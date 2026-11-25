@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:42+0000\n"
+"POT-Creation-Date: 2026-11-25 03:28+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -6398,7 +6398,7 @@ msgstr "လင်းပိုင်ဆက်တင်၏ အစုငယ်။"
 msgid "Loading…"
 msgstr "တွန်းတင်နေသည်..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "တွန်းတင်ခြင်းပယ်ဖျက်ခဲ့သည်"

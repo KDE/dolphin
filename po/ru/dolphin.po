@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:42+0000\n"
+"POT-Creation-Date: 2026-11-25 03:28+0000\n"
 "PO-Revision-Date: 2026-11-11 22:56+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -6656,7 +6656,7 @@ msgstr "Набор параметров Dolphin."
 msgid "Loading…"
 msgstr "Открытие…"
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "Открытие прервано"

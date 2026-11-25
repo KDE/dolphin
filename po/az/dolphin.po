@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:42+0000\n"
+"POT-Creation-Date: 2026-11-25 03:28+0000\n"
 "PO-Revision-Date: 2023-10-11 18:21+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6764,7 +6764,7 @@ msgstr "Dolphin ayarlarının alt toplusu."
 msgid "Loading…"
 msgstr "Yüklənir..."
 
-#: views/dolphincolumnpane.cpp:243 views/dolphinview.cpp:3101
+#: views/dolphincolumnpane.cpp:260 views/dolphinview.cpp:3101
 #, kde-format
 msgid "Loading canceled"
 msgstr "Yükləmə ləğv edildi"
