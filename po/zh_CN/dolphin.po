@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/dolphin/dolphin.pot\n"
-"X-Crowdin-File-ID: 48282\n"
+"X-Crowdin-File: /kf6-stable/messages/dolphin/dolphin.pot\n"
+"X-Crowdin-File-ID: 52538\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -708,24 +708,18 @@ msgstr ""
 "</para>再次点击此按钮将关闭其中一个视图。"
 
 #: dolphinmainwindow.cpp:2072
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Split view: "
+#, kde-format
 msgctxt "@action:intoolbar Splits both views into separate tabs"
 msgid "Split View To Tabs"
-msgstr "拆分视图:："
+msgstr "拆分视图到标签页"
 
 #: dolphinmainwindow.cpp:2073
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
-msgstr "如果视图已经拆分，这将把处在焦点的视图弹出到一个新窗口中。"
+msgstr "如果视图已拆分，此操作将把两个视图移至标签页并关闭拆分视图。"
 
 #: dolphinmainwindow.cpp:2080
 #, kde-kuit-format
@@ -1371,7 +1365,7 @@ msgstr "关闭"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr ""
+msgstr "拆分视图：关闭左侧面板"
 
 #: dolphinmainwindow.cpp:2908 dolphinmainwindow.cpp:2929
 #, kde-format
@@ -1409,7 +1403,7 @@ msgstr "关闭"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "拆分视图：关闭右侧面板"
 
 #: dolphinmainwindow.cpp:2917 dolphinmainwindow.cpp:2938
 #: dolphinmainwindow.cpp:2949
@@ -1449,7 +1443,7 @@ msgstr "拆分视图"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View"
-msgstr ""
+msgstr "拆分视图"
 
 #: dolphinmainwindow.cpp:2972
 #, kde-format
@@ -1896,15 +1890,13 @@ msgstr "分离标签页"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unpin Tab"
-msgstr ""
+msgstr "取消固定标签页"
 
 #: dolphintabbar.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Pin Tab"
-msgstr "上一个标签页"
+msgstr "固定标签页"
 
 #: dolphintabbar.cpp:372
 #, kde-format
@@ -2528,7 +2520,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
-msgstr ""
+msgstr "文件搜索已禁用。请在系统设置中启用它以查看此信息。"
 
 #: kitemviews/kfileitemmodel.cpp:1318
 #, kde-format
@@ -2537,14 +2529,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"文件搜索已设为仅索引文件名。请在系统设置中切换为同时索引文件名和内容以查看此"
+"信息。"
 
 #: kitemviews/kfileitemmodel.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "您无法写入此文件夹。"
+msgstr "文件搜索没有索引此文件夹。"
 
 #: kitemviews/kfileitemmodel.cpp:1326
 #, kde-format
@@ -2552,7 +2544,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
-msgstr ""
+msgstr "此信息来自文件搜索，但此版本的 Dolphin 在构建时没有包含此模块。"
 
 #: kitemviews/kfileitemmodel.cpp:2845
 #, kde-format
@@ -3101,12 +3093,10 @@ msgid "File Manager"
 msgstr "文件管理器"
 
 #: main.cpp:137
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "© 2006–2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–%1 The Dolphin Developers"
-msgstr "© 2006–2025 The Dolphin Developers"
+msgstr "© 2006–%1 The Dolphin Developers"
 
 #: main.cpp:139
 #, kde-format
@@ -3245,7 +3235,7 @@ msgstr "文档"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Yuma Kakei"
-msgstr ""
+msgstr "Yuma Kakei"
 
 #: main.cpp:176
 #, kde-format
@@ -4256,25 +4246,25 @@ msgstr "预览图大小"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "最小列宽 (像素)"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "每列根据内容调整后的最小宽度 (像素)"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "滚动前的最大可见列数"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "调整列宽以适应其内容"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4471,18 +4461,14 @@ msgstr "视图模式"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1), compact (2) and columns (3) views."
 msgstr ""
-"此选项用于控制视图的样式。当前支持的值包括图标 (0)、详情 (1) 和紧凑 (2) 视"
-"图。"
+"此选项用于控制视图的样式。当前支持的值包括图标 (0)、详情 (1)、紧凑 (2) 和层"
+"级 (3) 视图。"
 
 #. i18n: ectx: label, entry (ZoomLevel), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4880,7 +4866,7 @@ msgstr "文本宽度指标"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "缩小项目之间的距离"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -4966,20 +4952,16 @@ msgid "Deleting files or folders"
 msgstr "彻底删除文件或者文件夹"
 
 #: settings/interface/confirmationssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file will change its type"
 msgstr "重命名文件将改变其文件类型"
 
 #: settings/interface/confirmationssettingspage.cpp:62
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for confirmation in Dolphin when"
-#| msgid "Renaming a file will change its type"
+#, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Renaming a file or folder will hide it"
-msgstr "重命名文件将改变其文件类型"
+msgstr "重命名文件或文件夹将隐藏它"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -5281,11 +5263,10 @@ msgid "Information Panel:"
 msgstr "信息面板："
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "如果处于主目录中，限制文件夹面板到主目录"
+msgstr "仅限在主目录内时"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5293,7 +5274,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Start the folder tree of the Folders panel at your home folder while you are "
 "inside it."
-msgstr ""
+msgstr "当你位于主文件夹内时，从该文件夹开始显示“文件夹”面板的文件夹树。"
 
 #: settings/interface/panelsettingspage.cpp:67
 #, kde-kuit-format
@@ -5305,14 +5286,16 @@ msgid ""
 "para><para>Outside your home folder, the panel shows all folders, starting "
 "from the root folder.</para>"
 msgstr ""
+"<para>启用此选项后，在当前文件夹位于您的主文件夹内时，文件夹面板将仅显示主文"
+"件夹及其内部的子文件夹，此时根文件夹和其他驱动器不会在面板中显示。</"
+"para><para>当您处于主文件夹之外时，面板将显示所有文件夹，从根文件夹开始。</"
+"para>"
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "文件夹："
+msgstr "文件夹面板："
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -5401,19 +5384,19 @@ msgstr "远程存储："
 #, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "小"
+msgstr "紧凑"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "完整宽度"
+msgstr "全宽"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:45
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "显示缩放滑动条"
+msgstr "显示缩放条"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:46
 #, kde-format
@@ -5431,7 +5414,7 @@ msgstr "状态栏："
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "位置栏默认在可编辑状态"
+msgstr "位置栏默认处于可编辑状态"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:70
 #, kde-format
@@ -5784,7 +5767,7 @@ msgstr "内容"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Columns"
-msgstr ""
+msgstr "层级"
 
 #: settings/viewmodes/viewsettingstab.cpp:55
 #, kde-format
@@ -5883,9 +5866,7 @@ msgid "Maximum lines:"
 msgstr "最大行数："
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
 msgstr "紧凑"
@@ -5894,15 +5875,13 @@ msgstr "紧凑"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Places the items closer together, so that more of them fit in a row."
-msgstr ""
+msgstr "缩小项目之间的距离，使得每行能够容纳更多项目"
 
 #: settings/viewmodes/viewsettingstab.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "搜索工具："
+msgstr "间距："
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
@@ -5969,21 +5948,19 @@ msgstr "打开文件和文件夹："
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "固定列宽"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "自适应列宽"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "最大宽度："
+msgstr "列宽："
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:415
@@ -6021,7 +5998,7 @@ msgstr "详情"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "层级"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -6756,6 +6733,13 @@ msgid ""
 "</para><para>Selecting a folder opens its contents in the next column to the "
 "right.</para>"
 msgstr ""
+"<para>这将切换为层级视图模式 (多列层级目录浏览，也称米勒列)。每个目录层级显示"
+"为一列，从左到右水平级联排列。</para><para>选择文件夹会在其右侧的下一列中打开"
+"该文件夹的内容。</para>\n"
+"\n"
+"这会切换到列视图模式（Miller 列）。每个目录层级都会显示在各自的列中，从左到右"
+"水平级联排列。\n"
+"选择文件夹时，将在其右侧新开一列以显示它的内容。"
 
 #: views/dolphinviewactionhandler.cpp:239
 #, kde-format
@@ -6822,12 +6806,10 @@ msgstr ""
 "该图像的缩略图。"
 
 #: views/dolphinviewactionhandler.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and sorting options"
 msgid "Sorting"
-msgstr "排序方式："
+msgstr "排序"
 
 #: views/dolphinviewactionhandler.cpp:289
 #, kde-format
@@ -6860,12 +6842,10 @@ msgid "Show Additional Information"
 msgstr "显示更多信息"
 
 #: views/dolphinviewactionhandler.cpp:348
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Grouped Sorting"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields and grouping options"
 msgid "Grouping"
-msgstr "分组显示"
+msgstr "分组"
 
 #: views/dolphinviewactionhandler.cpp:353
 #, kde-format
@@ -7000,15 +6980,13 @@ msgstr "详情视图模式"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "层级"
 
 #: views/dolphinviewactionhandler.cpp:841
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "图标视图模式"
+msgstr "层级视图模式"
 
 #: views/dolphinviewactionhandler.cpp:864
 #, kde-format
@@ -7114,11 +7092,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Sort by Field"
-#~ msgstr "按字段排序"
-
-#~ msgctxt "@item:intable, Heading of a list of fields"
-#~ msgid "Group by Field"
-#~ msgstr "按字段分组"
