@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 00:48+0000\n"
+"POT-Creation-Date: 2026-11-24 16:41+0000\n"
 "PO-Revision-Date: 2020-07-14 22:58+0400\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -94,7 +94,7 @@ msgstr "%1 yolu yaradıla bilmədi"
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "%1 .desktop faylını %2 -yə kopyalamaq alınmadı: %3"
 
-#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:430
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "%1 kataloqunu silmək alınmadı"
@@ -104,44 +104,44 @@ msgstr "%1 kataloqunu silmək alınmadı"
 msgid "Failed to create directory %1"
 msgstr "%1 kataloqunu yaratmaq alınmadı"
 
-#: servicemenuinstaller.cpp:366
+#: servicemenuinstaller.cpp:367
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "%1 -də quraşdırma skriptini tapmaq mümkün olmadı"
 
-#: servicemenuinstaller.cpp:380
+#: servicemenuinstaller.cpp:381
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "%1 .desktop faylını silmək alınmadı: %2"
 
-#: servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:424
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "%1 silmə skriptini tapmaq mümkün olmadı"
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "İcra etmək üçün əmr: quraşdırmaq və ya silmək."
 
-#: servicemenuinstaller.cpp:443
+#: servicemenuinstaller.cpp:444
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Arxivə yol."
 
-#: servicemenuinstaller.cpp:448
+#: servicemenuinstaller.cpp:449
 #, kde-format
 msgid "Command is required."
 msgstr "Əmr tələb olunur."
 
-#: servicemenuinstaller.cpp:451
+#: servicemenuinstaller.cpp:452
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Arxivə yol tələb olunur."
 
-#: servicemenuinstaller.cpp:467
+#: servicemenuinstaller.cpp:468
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Dəstəklənməyən %1 əmri"

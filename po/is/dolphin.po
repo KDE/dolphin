@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 01:07+0000\n"
-"PO-Revision-Date: 2026-11-10 08:48+0000\n"
+"PO-Revision-Date: 2026-11-25 15:51+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -749,18 +749,14 @@ msgid "Split View To Tabs"
 msgstr "Skipta yfirliti í flipa"
 
 #: dolphinmainwindow.cpp:2073
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the view has been split, this will pop the view in focus out into a "
-#| "new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will move both views to tabs and close "
 "split view."
 msgstr ""
-"Ef möppuyfirlitinu hefur verið skipt upp opnar þetta virka möppuyfirlitið í "
-"nýjum glugga."
+"Ef möppuyfirlitinu hefur verið skipt upp, mun þetta færa bæði yfirlitin í "
+"flipa og loka tvískipta yfirlitinu."
 
 #: dolphinmainwindow.cpp:2080
 #, kde-kuit-format
@@ -1459,11 +1455,10 @@ msgid "Close"
 msgstr "Loka"
 
 #: dolphinmainwindow.cpp:2907 dolphinmainwindow.cpp:2928
-#, fuzzy, kde-format
-#| msgid "Split the view into two panes"
+#, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Left Pane"
-msgstr "Skipta yfirliti í tvo hluta"
+msgstr "Tvískipt yfirlit: Loka vinstra spjaldi"
 
 #: dolphinmainwindow.cpp:2908 dolphinmainwindow.cpp:2929
 #, kde-format
@@ -1501,7 +1496,7 @@ msgstr "Loka"
 #, kde-format
 msgctxt "@action Split view name in configuration dialogs"
 msgid "Split View: Close Right Pane"
-msgstr ""
+msgstr "Tvískipt yfirlit: Loka hægra spjaldi"
 
 #: dolphinmainwindow.cpp:2917 dolphinmainwindow.cpp:2938
 #: dolphinmainwindow.cpp:2949
@@ -2657,6 +2652,8 @@ msgid ""
 "File Search is disabled. Enable it in System Settings to see this "
 "information."
 msgstr ""
+"Skráaleit er óvirk. Virkjaðu hana í kerfisstillingunum til að sjá þessar "
+"upplýsingar."
 
 #: kitemviews/kfileitemmodel.cpp:1323
 #, kde-format
@@ -2665,14 +2662,14 @@ msgid ""
 "File Search indexes only file names. Enable indexing of file content in "
 "System Settings to see this information."
 msgstr ""
+"Skráaleit skráir einungis skráaheiti. Virkjaðu atriðaskráningu efnis í skrám "
+"í kerfisstillingunum til að sjá þessar upplýsingar."
 
 #: kitemviews/kfileitemmodel.cpp:1326
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
-#| msgid "This folder is not writable for you."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This folder is not indexed by File Search."
-msgstr "Þú getur ekki skrifað í þessa möppu."
+msgstr "Þessi mappa er ekki með í atriðaskráningu fyrir skráaleit."
 
 #: kitemviews/kfileitemmodel.cpp:1331
 #, kde-format
@@ -2681,6 +2678,8 @@ msgid ""
 "This information comes from File Search, which this version of Dolphin was "
 "built without."
 msgstr ""
+"Þessar upplýsingar koma úr skráaleitinni, sem þessi útgáfa af Dolphin var "
+"samsett án."
 
 #: kitemviews/kfileitemmodel.cpp:2855
 #, kde-format
@@ -4407,25 +4406,25 @@ msgstr "Stærð forskoðunar"
 #: settings/dolphin_columnsmodesettings.kcfg:27
 #, kde-format
 msgid "Minimum column width in pixels"
-msgstr ""
+msgstr "Lágmarksbreidd dálks í mynddílum"
 
 #. i18n: ectx: label, entry (MinContentColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:31
 #, kde-format
 msgid "Minimum width in pixels of a column adjusted to its content"
-msgstr ""
+msgstr "Lágmarksbreidd dálks sem aðlagaður er efni í mynddílum"
 
 #. i18n: ectx: label, entry (MaxVisibleColumns), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:35
 #, kde-format
 msgid "Maximum number of visible columns before scrolling"
-msgstr ""
+msgstr "Hámarksfjöldi sýnilegra dálka áður en skrunað er"
 
 #. i18n: ectx: label, entry (DynamicColumnWidth), group (ColumnsMode)
 #: settings/dolphin_columnsmodesettings.kcfg:40
 #, kde-format
 msgid "Adjust column width to its content"
-msgstr ""
+msgstr "Aðlaga breidd dálks að innihaldi hans"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -4627,11 +4626,7 @@ msgstr "Yfirlitssnið"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This option controls the style of the view. Currently supported values "
-#| "include icons (0), details (1) and column (2) views."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This option controls the style of the view. Currently supported values "
@@ -5049,7 +5044,7 @@ msgstr "Textabreidd"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Place the items closer together"
-msgstr ""
+msgstr "Raða atriðunum nær hverju öðru"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:35
@@ -5448,11 +5443,10 @@ msgid "Information Panel:"
 msgstr "Upplýsingastika:"
 
 #: settings/interface/panelsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Limit folders panel to home directory if inside home"
+#, kde-format
 msgctxt "@option:check"
 msgid "Limit to home directory when inside it"
-msgstr "Takmarka möppuspjald við heimamöppu ef innan heimasvæðis"
+msgstr "Takmarka við heimamöppu ef innan heimasvæðis"
 
 #: settings/interface/panelsettingspage.cpp:65
 #, kde-format
@@ -5474,12 +5468,10 @@ msgid ""
 msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders Panel:"
-msgstr "Möppur:"
+msgstr "Möppuspjald:"
 
 #: settings/interface/panelsettingspage.cpp:75
 #, kde-format
@@ -6063,12 +6055,10 @@ msgid "Maximum lines:"
 msgstr "Hámarksfjöldi lína:"
 
 #: settings/viewmodes/viewsettingstab.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Compact"
+#, kde-format
 msgctxt "@option:check Icons view item spacing"
 msgid "Compact"
-msgstr "Þétt"
+msgstr "Þjappað"
 
 #: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
@@ -6077,12 +6067,10 @@ msgid "Places the items closer together, so that more of them fit in a row."
 msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Search using:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Spacing:"
-msgstr "Leita með:"
+msgstr "Millibil:"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
@@ -6149,21 +6137,19 @@ msgstr "Opna skrár og möppur:"
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Fixed"
-msgstr ""
+msgstr "Föst"
 
 #: settings/viewmodes/viewsettingstab.cpp:135
 #, kde-format
 msgctxt "@item:inlistbox Column width"
 msgid "Adjust to content"
-msgstr ""
+msgstr "Aðlaga að innihaldi"
 
 #: settings/viewmodes/viewsettingstab.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Maximum width:"
+#, kde-format
 msgctxt "@label:listbox"
 msgid "Column width:"
-msgstr "Hámarksbreidd:"
+msgstr "Breidd dálks:"
 
 #: settings/viewmodes/viewsettingstab.cpp:302
 #: statusbar/dolphinstatusbar.cpp:408
@@ -6202,7 +6188,7 @@ msgstr "Ítarlegt"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Columns"
-msgstr ""
+msgstr "Dálkar"
 
 #: settings/viewpropertiesdialog.cpp:74
 #, kde-format
@@ -7200,15 +7186,13 @@ msgstr "Ítarlegt yfirlit"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Columns"
-msgstr ""
+msgstr "Dálkar"
 
 #: views/dolphinviewactionhandler.cpp:842
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Icons view mode"
+#, kde-format
 msgctxt "@info"
 msgid "Columns view mode"
-msgstr "Táknayfirlit"
+msgstr "Hamur dálkasýnar"
 
 #: views/dolphinviewactionhandler.cpp:865
 #, kde-format

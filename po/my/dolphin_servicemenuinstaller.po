@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 00:48+0000\n"
+"POT-Creation-Date: 2026-11-24 16:41+0000\n"
 "PO-Revision-Date: 2021-09-17 16:19+0630\n"
 "Last-Translator: \n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -95,7 +95,7 @@ msgstr "လမ်းကြောင်း %1 ကိုမတည်ဆောက�
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "%1 .desktop ဖိုင်လ်ကို %2 သို့ ကူးယူမရခဲ့ပါ - %3"
 
-#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:430
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "ဒါရိုက်ထရီ %1 ကိုမဖယ်ရှားနိုင်ခဲ့ပါ"
@@ -105,44 +105,44 @@ msgstr "ဒါရိုက်ထရီ %1 ကိုမဖယ်ရှားန�
 msgid "Failed to create directory %1"
 msgstr "ဒါရိုက်ထရီ %1 ကိုမတည်ဆောက်နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:366
+#: servicemenuinstaller.cpp:367
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "တပ်ဆင်ရေးညွှန်ကြားကုတ်ကို %1 တွင် ရှာမတွေ့ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:380
+#: servicemenuinstaller.cpp:381
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "%1 .desktop ဖိုင်လ်ကို ဖယ်ရှားမရခဲ့ပါ - %2"
 
-#: servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:424
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "ဖြုတ်ချရေးညွှန်ကြားကုတ်ကို %1 တွင် ရှာမတွေ့ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "ဆောင်ရွက်ရန်အမိန့် - တပ်ဆင်မည် သို့မဟုတ် ဖြုတ်ချမည်။"
 
-#: servicemenuinstaller.cpp:443
+#: servicemenuinstaller.cpp:444
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "ထိမ်းသိမ်းတိုက်သို့ လမ်းကြောင်း။"
 
-#: servicemenuinstaller.cpp:448
+#: servicemenuinstaller.cpp:449
 #, kde-format
 msgid "Command is required."
 msgstr "အမိန့်လိုအပ်သည်။"
 
-#: servicemenuinstaller.cpp:451
+#: servicemenuinstaller.cpp:452
 #, kde-format
 msgid "Path to archive is required."
 msgstr "ထိမ်းသိမ်းတိုက်သို့ လမ်းကြောင်းလိုအပ်သည်။"
 
-#: servicemenuinstaller.cpp:467
+#: servicemenuinstaller.cpp:468
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "ဆောင်ရွက်၍မရသော အမိန့် %1"

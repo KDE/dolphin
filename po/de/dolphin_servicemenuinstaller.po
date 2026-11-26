@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin_servicemenuinstaller\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 00:48+0000\n"
+"POT-Creation-Date: 2026-11-24 16:41+0000\n"
 "PO-Revision-Date: 2025-07-21 11:24+0200\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -95,7 +95,7 @@ msgstr "Pfad %1 kann nicht erstellt werden"
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "„.desktop“-Datei %1 kann nicht nach %2 kopiert werden: %3"
 
-#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:430
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "Ordner %1 kann nicht entfernt werden"
@@ -105,44 +105,44 @@ msgstr "Ordner %1 kann nicht entfernt werden"
 msgid "Failed to create directory %1"
 msgstr "Fehler beim Erstellen des Ordners %1"
 
-#: servicemenuinstaller.cpp:366
+#: servicemenuinstaller.cpp:367
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "Es wurde kein Installations-Skript in %1 gefunden"
 
-#: servicemenuinstaller.cpp:380
+#: servicemenuinstaller.cpp:381
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "Die „.desktop“-Datei %1 kann nicht entfernt werden: %2"
 
-#: servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:424
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "Es wurde kein Deinstallations-Skript in %1 gefunden"
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "Auszuführender Befehl: install oder uninstall."
 
-#: servicemenuinstaller.cpp:443
+#: servicemenuinstaller.cpp:444
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Pfad zum Archiv."
 
-#: servicemenuinstaller.cpp:448
+#: servicemenuinstaller.cpp:449
 #, kde-format
 msgid "Command is required."
 msgstr "Befehl ist erforderlich."
 
-#: servicemenuinstaller.cpp:451
+#: servicemenuinstaller.cpp:452
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Pfad zum Archiv ist erforderlich."
 
-#: servicemenuinstaller.cpp:467
+#: servicemenuinstaller.cpp:468
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Nicht unterstützter Befehl %1"

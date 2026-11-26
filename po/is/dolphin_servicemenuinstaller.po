@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 00:48+0000\n"
+"POT-Creation-Date: 2026-11-24 16:41+0000\n"
 "PO-Revision-Date: 2022-10-13 10:04+0000\n"
 "Last-Translator: Guðmundur Erlingsson <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
@@ -95,7 +95,7 @@ msgstr "Mistókst að búa til slóð %1"
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "Mistókst að afrita .desktop-skrá %1 í %2: %3"
 
-#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:429
+#: servicemenuinstaller.cpp:321 servicemenuinstaller.cpp:430
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "Mistókst að fjarlægja möppu %1"
@@ -105,44 +105,44 @@ msgstr "Mistókst að fjarlægja möppu %1"
 msgid "Failed to create directory %1"
 msgstr "Mistókst að búa til möppu %1"
 
-#: servicemenuinstaller.cpp:366
+#: servicemenuinstaller.cpp:367
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "Mistókst að finna uppsetningarskriftu í %1"
 
-#: servicemenuinstaller.cpp:380
+#: servicemenuinstaller.cpp:381
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "Mistókst að fjarlægja .desktop-skrá %1: %2"
 
-#: servicemenuinstaller.cpp:423
+#: servicemenuinstaller.cpp:424
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "Mistókst að finna fjarlægingarskriftu í %1"
 
-#: servicemenuinstaller.cpp:442
+#: servicemenuinstaller.cpp:443
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "Skipun sem á að keyra: setja upp eða fjarlægja"
 
-#: servicemenuinstaller.cpp:443
+#: servicemenuinstaller.cpp:444
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Slóð að safnskrá."
 
-#: servicemenuinstaller.cpp:448
+#: servicemenuinstaller.cpp:449
 #, kde-format
 msgid "Command is required."
 msgstr "Skipunar er krafist."
 
-#: servicemenuinstaller.cpp:451
+#: servicemenuinstaller.cpp:452
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Slóðar að safnskrá er krafist"
 
-#: servicemenuinstaller.cpp:467
+#: servicemenuinstaller.cpp:468
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Óstudd skipun %1"
