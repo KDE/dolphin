@@ -650,6 +650,7 @@ install( FILES settings/dolphin_detailsmodesettings.upd
                settings/dolphin_replace_view_mode_with_view_settings_in_toolbar.py
                settings/dolphin_tab_key_shortcut_for_focus_other_view.upd
                settings/dolphin_tab_key_shortcut_for_focus_other_view.py
+               settings/dolphin_placespanelsettings.upd
          DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR} )
 
 # install KF6 kconfig updater C++ scripts to kconf_update_bin
@@ -676,6 +677,19 @@ target_link_libraries(dolphin_update_splitviewsettings
 install(
     TARGETS
         dolphin_update_splitviewsettings
+    DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin
+)
+
+add_executable(
+    dolphin_update_placespanelsettings
+    "settings/dolphin_update_placespanelsettings.cpp"
+)
+target_link_libraries(dolphin_update_placespanelsettings
+    KF6::ConfigCore
+)
+install(
+    TARGETS
+        dolphin_update_placespanelsettings
     DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin
 )
 

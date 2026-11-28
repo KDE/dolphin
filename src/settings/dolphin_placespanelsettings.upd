@@ -1,0 +1,9 @@
+#SPDX-FileCopyrightText: 2026 Méven Car <meven@kde.org>
+#SPDX-License-Identifier: GPL-2.0-or-later
+
+#Configuration update for Dolphin
+Version=6
+
+#Keep the Places panel icon size of existing profiles when the default becomes automatic
+Id=28.11.2026-keep-places-panel-icon-size
+Script=dolphin_update_placespanelsettings
