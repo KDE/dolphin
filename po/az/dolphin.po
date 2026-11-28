@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-23 01:07+0000\n"
+"POT-Creation-Date: 2026-11-28 01:12+0000\n"
 "PO-Revision-Date: 2023-10-11 18:21+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -641,7 +641,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Süzgəc"
 
-#: dolphinmainwindow.cpp:1975 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1975 search/bar.cpp:218
 #, kde-format
 msgid "Search…"
 msgstr "Axtarış…"
@@ -2352,43 +2352,43 @@ msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Qovluqları dəyişərkən süzgəci saxlamaq"
 
-#: filterbar/filterbar.cpp:43
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgid "Filter…"
 msgstr "Süzgəc..."
 
-#: filterbar/filterbar.cpp:51
+#: filterbar/filterbar.cpp:52
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
 msgid "Invalid expression"
 msgstr "Pozulmuş protokol"
 
-#: filterbar/filterbar.cpp:60
+#: filterbar/filterbar.cpp:61
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
 msgstr ""
 
-#: filterbar/filterbar.cpp:66
+#: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
 msgstr ""
 
-#: filterbar/filterbar.cpp:67
+#: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
 msgstr ""
 
-#: filterbar/filterbar.cpp:68
+#: filterbar/filterbar.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
 msgstr ""
 
-#: filterbar/filterbar.cpp:78
+#: filterbar/filterbar.cpp:80
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -3755,13 +3755,13 @@ msgstr ""
 msgid "Install Konsole"
 msgstr "Konsole quraşdırmaq"
 
-#: search/bar.cpp:63
+#: search/bar.cpp:64
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Gələcəkdə cəld tapmaq üçün bu axtarışı saxlamaq"
 
-#: search/bar.cpp:70
+#: search/bar.cpp:71
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Filter"
@@ -3769,13 +3769,13 @@ msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Süzgəc"
 
-#: search/bar.cpp:88
+#: search/bar.cpp:90
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Cəld axtarış"
 
-#: search/bar.cpp:102
+#: search/bar.cpp:104
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "From Here"
@@ -3783,13 +3783,13 @@ msgctxt "action:button search from here"
 msgid "Here"
 msgstr "Buradan"
 
-#: search/bar.cpp:117
+#: search/bar.cpp:119
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr ""
 
-#: search/bar.cpp:152
+#: search/bar.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis search bar"
 msgid ""
@@ -3803,13 +3803,13 @@ msgid ""
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
 
-#: search/bar.cpp:215
+#: search/bar.cpp:217
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr ""
 
-#: search/bar.cpp:229
+#: search/bar.cpp:231
 #, fuzzy, kde-kuit-format
 #| msgctxt "action:button"
 #| msgid "Limit search to '%1' and its subfolders"
@@ -3822,7 +3822,7 @@ msgstr "Axtarışı \"%1\" qovluğu və onun alt qovluqları ilə məhudlaşdır
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:238
+#: search/bar.cpp:240
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3831,7 +3831,7 @@ msgstr ""
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:242
+#: search/bar.cpp:244
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""

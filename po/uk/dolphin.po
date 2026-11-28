@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-23 01:07+0000\n"
+"POT-Creation-Date: 2026-11-28 01:12+0000\n"
 "PO-Revision-Date: 2026-11-09 08:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -644,7 +644,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Фільтрувати"
 
-#: dolphinmainwindow.cpp:1975 search/bar.cpp:216
+#: dolphinmainwindow.cpp:1975 search/bar.cpp:218
 #, kde-format
 msgid "Search…"
 msgstr "Шукати…"
@@ -2268,41 +2268,41 @@ msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Зберігати фільтрування, якщо змінюється тека"
 
-#: filterbar/filterbar.cpp:43
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgid "Filter…"
 msgstr "Фільтрувати…"
 
-#: filterbar/filterbar.cpp:51
+#: filterbar/filterbar.cpp:52
 #, kde-format
 msgid "Invalid expression"
 msgstr "Неправильний вираз"
 
-#: filterbar/filterbar.cpp:60
+#: filterbar/filterbar.cpp:61
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Match case"
 msgstr "З урахуванням регістру"
 
-#: filterbar/filterbar.cpp:66
+#: filterbar/filterbar.cpp:67
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Plain Text"
 msgstr "Звичайний текст"
 
-#: filterbar/filterbar.cpp:67
+#: filterbar/filterbar.cpp:68
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Glob Pattern"
 msgstr "Загальний взірець"
 
-#: filterbar/filterbar.cpp:68
+#: filterbar/filterbar.cpp:69
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: filterbar/filterbar.cpp:78
+#: filterbar/filterbar.cpp:80
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -3647,38 +3647,38 @@ msgstr ""
 msgid "Install Konsole"
 msgstr "Встановіть Konsole"
 
-#: search/bar.cpp:63
+#: search/bar.cpp:64
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 "Зберегти ці критерії пошуку для пришвидшення доступу до них у майбутньому"
 
-#: search/bar.cpp:70
+#: search/bar.cpp:71
 #, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Фільтрувати"
 
-#: search/bar.cpp:88
+#: search/bar.cpp:90
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Припинити пошук"
 
-#: search/bar.cpp:102
+#: search/bar.cpp:104
 #, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "Тут"
 
-#: search/bar.cpp:117
+#: search/bar.cpp:119
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Всюди"
 
-#: search/bar.cpp:152
+#: search/bar.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis search bar"
 msgid ""
@@ -3701,13 +3701,13 @@ msgstr ""
 "«Зберегти», щоб додати поточні налаштування пошуку на <emphasis>панель "
 "«Місця»</emphasis>.</item></list></para>"
 
-#: search/bar.cpp:215
+#: search/bar.cpp:217
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr "Шукати у вмісті файла…"
 
-#: search/bar.cpp:229
+#: search/bar.cpp:231
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
@@ -3718,7 +3718,7 @@ msgstr "Обмежити пошук до <filename>%1</filename> та підте
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:238
+#: search/bar.cpp:240
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3727,7 +3727,7 @@ msgstr "Шукати у всіх каталогах, починаючи з ко�
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:242
+#: search/bar.cpp:244
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
