@@ -3179,7 +3179,9 @@ bool DolphinMainWindow::addHamburgerMenuToToolbar()
 // Set a sane initial window size
 QSize DolphinMainWindow::sizeHint() const
 {
-    return KXmlGuiWindow::sizeHint().expandedTo(QSize(760, 550));
+    // Tall enough for the Places panel to show 12 entries in 4 sections with 32 px icons, and wider
+    // than tall. Qt keeps a new window within two thirds of the screen.
+    return KXmlGuiWindow::sizeHint().expandedTo(QSize(1050, 650));
 }
 
 void DolphinMainWindow::saveNewToolbarConfig()
