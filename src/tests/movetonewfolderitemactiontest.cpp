@@ -42,7 +42,10 @@ KFileItemList MoveToNewFolderItemActionTest::createFiles(const QString &folder)
     KFileItemList items;
     for (const QString &name : {QStringLiteral("a.txt"), QStringLiteral("b.txt")}) {
         QFile file(folder + QLatin1Char('/') + name);
-        file.open(QIODevice::WriteOnly);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QTest::qFail(qPrintable(QStringLiteral("Cannot create %1").arg(file.fileName())), __FILE__, __LINE__);
+            return {};
+        }
         items << KFileItem(QUrl::fromLocalFile(file.fileName()));
     }
     return items;
